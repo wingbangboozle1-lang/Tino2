@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for Review — Tino2</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand">Tino2 <span>·</span> Inheritance Decision Dashboard</div>
+    <div class="site-tagline">Unverified items &amp; irregularities flagged for your review</div>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="../index.html">Home</a>
+    <a href="property-taxes.html">Property Taxes</a>
+    <a href="insurance.html">Insurance</a>
+    <a href="utilities.html">Utilities</a>
+    <a href="inheritance-tax.html">Estate &amp; Inheritance Tax</a>
+    <a href="basis-gains.html">Basis &amp; Capital Gains</a>
+    <a href="projections.html">Projections</a>
+    <a href="decision.html">Decision &amp; Process</a>
+    <a href="flagged-review.html" class="active">Flagged for Review</a>
+  </div>
+</nav>
+
+<main class="container">
+  <section class="card">
+    <h1>Flagged for Review</h1>
+    <p>Per the verification standard for this site, every table row carries a link to an official source. Where a value could not be confirmed from an official source, the cell is left blank and flagged <span class="badge badge-unverified">Unverified</span>. Nothing was inferred or filled in. This page aggregates those items so you can review them after the site goes live.</p>
+
+    <h2>A. User-provided figures — not independently verified against official records</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Value used</th><th>Where it appears</th><th>What to check</th></tr></thead>
+      <tbody>
+        <tr><td>Cupertino property tax bills &amp; assessments (2014–2026)</td><td class="amt">Various (e.g., 2025: $7,207 tax / $539,743 assessment)</td><td>Property Taxes page (Cupertino history table)</td><td>Pull official Santa Clara County Assessor parcel records</td></tr>
+        <tr><td>San Francisco property tax bills &amp; assessments (2016–2025)</td><td class="amt">Various (e.g., 2025: $2,439 tax / $114,248 assessment)</td><td>Property Taxes page (SF history table)</td><td>Pull official SF Assessor-Recorder / Treasurer bill</td></tr>
+        <tr><td>Cupertino market value (Nov 2026)</td><td class="amt">$3,100,000</td><td>Property Taxes, Projections</td><td>Recent appraisal or comparable sales</td></tr>
+        <tr><td>San Francisco market value (Nov 2026)</td><td class="amt">$1,800,000</td><td>Property Taxes, Projections</td><td>Recent appraisal or comparable sales</td></tr>
+        <tr><td>SF rental income</td><td class="amt">≈ $7,150/month (2 units)</td><td>Projections, Decision</td><td>Lease / rent roll</td></tr>
+        <tr><td>Inherited money amount</td><td class="blank">[DOLLAR AMOUNT] — unspecified</td><td>Inheritance tax, Decision</td><td>Estate documents / trust accounting</td></tr>
+      </tbody>
+    </table>
+
+    <h2>B. Estimates from commercial aggregators (not official government rates)</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Value used</th><th>Where it appears</th><th>Source type</th></tr></thead>
+      <tbody>
+        <tr><td>Cupertino 95014 homeowners insurance</td><td class="amt">$1,200/yr planning figure</td><td>Insurance, Projections</td><td>Quote aggregators ($676–$1,489 range); official CA data are statewide only</td></tr>
+        <tr><td>SF landlord insurance</td><td class="amt">$2,000/yr planning figure</td><td>Insurance, Projections</td><td>Quote aggregators (CA avg ≈ $1,700–$2,500)</td></tr>
+        <tr><td>Cupertino solar electricity credit</td><td class="amt">−$180/yr ($10–20/month)</td><td>Utilities, Projections</td><td>User-reported; unlikely under NEM 3.0 Net Billing (exports ≈ 3.9¢/kWh vs ≈39¢/kWh retail)</td></tr>
+        <tr><td>SF water (all 3 units)</td><td class="amt">$4,320/yr ($360/month)</td><td>Utilities, Projections</td><td>User-provided $330–$400/month; not reconcilable with SFPUC tariffs without usage data</td></tr>
+        <tr><td>SF electricity</td><td class="amt">$600/yr ($50/month)</td><td>Utilities, Projections</td><td>User-provided $30–$70/month</td></tr>
+      </tbody>
+    </table>
+
+    <h2>C. Planning assumptions (not forecasts — flagged for review before the 2040–2050 transfer)</h2>
+    <table>
+      <thead><tr><th>Assumption</th><th>Value</th><th>Where it appears</th></tr></thead>
+      <tbody>
+        <tr><td>Cupertino market appreciation</td><td class="amt">3.5%/yr</td><td>Projections</td></tr>
+        <tr><td>San Francisco market appreciation</td><td class="amt">3.0%/yr</td><td>Projections</td></tr>
+        <tr><td>Cost inflation (insurance, utilities, maintenance)</td><td class="amt">3.0%/yr</td><td>Projections</td></tr>
+        <tr><td>SF rent growth</td><td class="amt">3.0%/yr</td><td>Projections</td></tr>
+        <tr><td>Maintenance: Cupertino / San Francisco</td><td class="amt">0.75% / 1.0% of market value per year</td><td>Projections</td></tr>
+        <tr><td>Selling costs</td><td class="amt">5% of sale price</td><td>Projections</td></tr>
+        <tr><td>Investment portfolio return</td><td class="amt">6.0%/yr</td><td>Projections</td></tr>
+      </tbody>
+    </table>
+
+    <h2>D. Rule-level items to confirm at transfer time</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Detail</th><th>Official source to confirm</th></tr></thead>
+      <tbody>
+        <tr><td>Prop 19 inflation-adjusted cap</td><td>$1,044,586 applies to transfers Feb 16, 2025 – Feb 15, 2027; adjusts every 2 years. At a 2045+ transfer the figure will be different.</td><td><a href="https://www.boe.ca.gov/prop19/" target="_blank" rel="noopener">CA Board of Equalization — Proposition 19</a> (adjusted dollar figure currently from secondary sources citing BOE Letter to Assessors 2025/009)</td></tr>
+        <tr><td>Federal estate tax exclusion at death year</td><td>$15,000,000/person for 2026, indexed after 2026; permanence of the level is disputed across secondary sources</td><td><a href="https://www.irs.gov" target="_blank" rel="noopener">IRS</a> (authoritative)</td></tr>
+        <tr><td>Cupertino composite property tax rate</td><td>Planning estimate 1.25%; actual parcel rate depends on Tax Rate Area bonds/assessments</td><td><a href="https://www.sccassessor.org/" target="_blank" rel="noopener">Santa Clara County Assessor</a> / Controller-Treasurer tax rate book</td></tr>
+        <tr><td>SF actual bill vs. rate × assessment</td><td>User's 2025 bill implies ≈ 2.14% effective vs. published 1.18268325% secured rate</td><td><a href="https://www.sftreasurer.org/" target="_blank" rel="noopener">SF Treasurer &amp; Tax Collector</a></td></tr>
+      </tbody>
+    </table>
+
+    <h2>E. Irregularities noted during research</h2>
+    <ul>
+      <li>SF 2025 effective rate (user-provided ≈ 2.14%) exceeds the published SF secured rate (1.18268325%) — likely bundled special assessments/parcel charges. Unverified.</li>
+      <li>Conflict across secondary sources on whether the $15,000,000 federal estate exclusion is permanent — IRS confirms $15M for 2026 and indexing after; treat permanence as unconfirmed.</li>
+      <li>Prop 19 inflation-adjusted cap ($1,044,586) appears in secondary sources citing BOE Letter to Assessors 2025/009, not directly on the BOE page fetched — confirm with BOE at transfer.</li>
+      <li>Cupertino water estimate ($100–150/mo) is consistent with San Jose Water tariffs; SF water estimate ($330–400/mo all 3 units) is not reconcilable with SFPUC tiered tariffs without usage data.</li>
+    </ul>
+
+    <div class="privacy"><b>Privacy:</b> No personal information appears in this list. All amounts are either public research figures, planning assumptions, or [DOLLAR AMOUNT] placeholders.</div>
+    <p class="source"><em>These flags do not block the site. If you have official documents (county tax bills, utility statements, insurance quotes, trust papers), they can replace the placeholder values.</em></p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p><strong>Tino2 — Inheritance Decision Dashboard</strong> · Data as of November 2026 · Not tax or legal advice.</p>
+    <p><a href="../index.html">Back to home</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
