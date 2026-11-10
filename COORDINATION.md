@@ -15,9 +15,9 @@ Task board format: each row = task, status (unclaimed / in progress / done / nee
 | 7 | Research: step-up in basis (IRC 1014), capital gains on sale of inherited home, primary-residence exclusion, rental income tax | done | session-arena | docs/research/06-basis-capital-gains.md | Y | None |
 | 8 | Build decision model: projections of value, property tax, repairs, utilities, insurance, rent vs live vs sell | done | session-arena | docs/projections.md | — | Assumptions clearly labeled; verified items cited |
 | 9 | Build executive summary (anonymized, placeholders for personal information) | done | session-arena | docs/executive-summary.md | — | — |
-| 10 | Create GitHub Pages site: clean landing page + category subpages, dashboard-style tables, every row with source link or blank+unverified flag | in progress | session-arena | index.html, pages/*, assets/*, site config | — | — |
-| 11 | Verify every table row against official source; flag unverified items | unclaimed | session-arena | FLAGGED-FOR-REVIEW page within site | — | — |
-| 12 | Enable GitHub Pages, confirm build/deploy with no broken links | unclaimed | session-arena | GitHub Pages settings (repo) | — | — |
+| 10 | Create GitHub Pages site: clean landing page + category subpages, dashboard-style tables, every row with source link or blank+unverified flag | done | session-arena | index.html, pages/*, assets/*, site config | — | — |
+| 11 | Verify every table row against official source; flag unverified items | done | session-arena | pages/flagged-review.html | — | All unverified cells flagged; external source links included per row |
+| 12 | Enable GitHub Pages, confirm build/deploy with no broken links | in progress | session-arena | GitHub Pages settings (repo) | — | PR to main pending |
 | 13 | Create PR from integration branch to main, summarize changes/sources/irregularities; merge; record PR link and merge result | unclaimed | session-arena | (GitHub PR) | — | — |
 
 Rules followed: single session claims all tasks; scopes non-overlapping; small frequent commits; `git pull --rebase` before every push; unverified values left blank and flagged; personal information anonymized with placeholders; costs rounded to nearest $10.
