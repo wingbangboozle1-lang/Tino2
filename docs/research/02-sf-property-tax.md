@@ -21,18 +21,18 @@
 
 | Year | Property taxes (user-provided) | YoY change | Tax assessment (user-provided) | YoY change | Source |
 |------|-------------------------------|------------|-------------------------------|------------|--------|
-| 2016 | $1,675 | +1.6% | $96,557 | +1.5% | User-provided tax records |
-| 2017 | $1,740 | +3.9% | $98,488 | +2% | User-provided tax records |
-| 2018 | $2,061 | +18.4% | $100,456 | +2% | User-provided tax records |
-| 2019 | $2,134 | +3.5% | $102,465 | +2% | User-provided tax records |
-| 2020 | $2,197 | +3% | $104,513 | +2% | User-provided tax records |
-| 2021 | $2,066 | −5.9% | $105,595 | +1% | User-provided tax records |
-| 2022 | $2,107 | +2% | $107,662 | +2% | User-provided tax records |
-| 2023 | $2,179 | +3.4% | $109,814 | +2% | User-provided tax records |
-| 2024 | $2,315 | +6.2% | $112,008 | +2% | User-provided tax records |
-| 2025 | $2,439 | +5.3% | $114,248 | +2% | User-provided tax records |
+| 2016 | $1,680 | +1.6% | $96,560 | +1.5% | User-provided tax records |
+| 2017 | $1,740 | +3.9% | $98,490 | +2% | User-provided tax records |
+| 2018 | $2,060 | +18.4% | $100,460 | +2% | User-provided tax records |
+| 2019 | $2,130 | +3.5% | $102,460 | +2% | User-provided tax records |
+| 2020 | $2,200 | +3% | $104,510 | +2% | User-provided tax records |
+| 2021 | $2,070 | −5.9% | $105,600 | +1% | User-provided tax records |
+| 2022 | $2,110 | +2% | $107,660 | +2% | User-provided tax records |
+| 2023 | $2,180 | +3.4% | $109,810 | +2% | User-provided tax records |
+| 2024 | $2,320 | +6.2% | $112,010 | +2% | User-provided tax records |
+| 2025 | $2,440 | +5.3% | $114,250 | +2% | User-provided tax records |
 
-Implied effective rate on 2025 bill: $2,439 ÷ $114,248 ≈ 2.14% — NOTE: this ratio is inconsistent with the 1.18% secured rate; the bill likely includes parcel charges, special assessments, or bonds not reflected in assessed value alone, or user-provided figures may combine multiple charges. Flagged for review — owner should verify against official SF Treasurer bill.
+Implied effective rate on 2025 bill: $2,440 ÷ $114,250 ≈ 2.14% — NOTE: this ratio is inconsistent with the 1.18% secured rate; the bill likely includes parcel charges, special assessments, or bonds not reflected in assessed value alone, or user-provided figures may combine multiple charges. Flagged for review — owner should verify against official SF Treasurer bill.
 
 ## 3. Rental income tax treatment (federal/CA)
 

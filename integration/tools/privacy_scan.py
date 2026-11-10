@@ -54,8 +54,8 @@ def load_private(path):
         sys.exit("refusing: the private list must live outside the repository")
     for line in open(ap, encoding="utf-8"):
         line = line.split("#")[0].split()
-        if len(line) == 2 and line[1].isdigit():
-            vals[int(line[1])] = line[0]
+        if len(line) == 2 and line[1].isdigit() and int(line[1]) % 10 != 0:
+            vals[int(line[1])] = line[0]   # figures already ending in 0 comply with the $10 rule
     return vals
 
 

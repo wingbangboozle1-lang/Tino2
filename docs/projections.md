@@ -68,7 +68,7 @@ If reassessed to market at transfer (outright sale/rent without Prop 19 relief):
 | 2044 | $3,064,450 | $163,190 | $1,930 | Projection |
 | 2045 (transfer year, N/A — not inherited) | $3,156,300 | $166,420 | $1,970 | Projection for reference only |
 
-NOTE: User-provided actual SF bills ($2,439 in 2025) exceed rate × assessed value; the difference is likely special assessments/parcel charges. Projection uses rate × assessed value; actual bills may be higher. See docs/research/02-sf-property-tax.md.
+NOTE: User-provided actual SF bills ($2,440 in 2025) exceed rate × assessed value; the difference is likely special assessments/parcel charges. Projection uses rate × assessed value; actual bills may be higher. See docs/research/02-sf-property-tax.md.
 
 ---
 
@@ -119,7 +119,7 @@ Requires: child occupies within 1 year of transfer; files homeowner's exemption 
 | Line | Amount | Basis |
 |------|--------|-------|
 | Gross rent | $150,480/yr ($12,540/mo) | User's $7,150/mo grown 3%/yr |
-| Property tax | $4,280 | User's 2025 bill $2,439 inflated 3%/yr (UNVERIFIED method) |
+| Property tax | $4,280 | User's 2025 bill $2,440 inflated 3%/yr (UNVERIFIED method) |
 | | $1,970 | Alternative: SF rate × projected assessed value |
 | Landlord insurance (rental portion) | $3,510 | Research estimate, inflated |
 | Water (all 3 units) | $7,580 | User-provided $330–$400/mo inflated — UNVERIFIED against SFPUC tariffs |
@@ -157,7 +157,7 @@ Why:
 1. **Property tax is the dominant cost.** Even with Prop 19 partial relief (occupying as primary residence), the Cupertino house reassesses to ≈ $4,915,530 → ≈ $61,440/yr property tax at 2045 values; without Prop 19 relief (rent it or don't move in), full reassessment → ≈ $74,500/yr. Adding insurance, water, and maintenance, *living* there costs ≈ $110,450/yr; *renting* it yields only ≈ $26,120/yr net before income tax on a $5,960,120 asset (≈ 0.4% yield).
 2. **Step-up in basis makes selling nearly tax-free.** Inherited basis = date-of-death FMV (IRC § 1014). Selling promptly after inheritance produces ≈ $0 taxable gain, versus decades of untaxed appreciation that would be embedded if the parents had sold while alive.
 3. **Invested proceeds dwarf holding returns.** ≈ $5,662,110 invested at a modest 6%/yr throws off ≈ $339,730 in year 1, growing to ≈ $608,400/yr by 2055 — roughly 3–5× the net cash flow from renting the Cupertino house, with no property tax, insurance, or maintenance burden.
-4. **SF property is a keeper.** It already generates ≈ $150,480/yr gross rent (2 units) while the owners live there, with property tax ≈ $2,439/yr today. Projected net at 2045 ≈ $102,500/yr before income tax. Retain.
+4. **SF property is a keeper.** It already generates ≈ $150,480/yr gross rent (2 units) while the owners live there, with property tax ≈ $2,440/yr today. Projected net at 2045 ≈ $102,500/yr before income tax. Retain.
 5. **Estate tax:** Federal exclusion is $15,000,000/person (2026, $30M couple with portability), indexed after 2026; California has no estate/inheritance tax. Projected combined house values at 2045 ≈ $9,116,420 — below the exclusion unless the "considerable amount of money" (unspecified, placeholder) pushes the estate over $15M/person. Above that, the estate pays 40% on the excess before distribution (paid by the estate, not heirs).
 
 **Contingencies to monitor:** Prop 19 cap amount at time of transfer (adjusts every 2 years via BOE); whether the Cupertino solar system is on legacy NEM 1.0/2.0 (export credits) or NEM 3.0 Net Billing Tariff (exports ≈ 3.9¢/kWh — minimal profit); any federal/CA changes to estate tax or §121 exclusion; actual SF water/electric bills vs. user-provided estimates.
