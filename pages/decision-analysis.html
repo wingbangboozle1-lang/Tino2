@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision Analysis — Inheritance Decision Hub</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">Inheritance Decision <span>Hub</span></div></header>
+<nav class="main">
+  <a href="../index.html">Dashboard</a>
+  <a href="tax-laws.html">Tax Laws</a>
+  <a href="properties.html">Properties</a>
+  <a href="inheritance-process.html">Inheritance Process</a>
+  <a href="projections.html">Projections 2026–2050</a>
+  <a href="decision-analysis.html" class="active">Decision Analysis</a>
+  <a href="flagged.html">Flagged for Review</a>
+</nav>
+<main>
+<h1>Decision Analysis — Live vs. Rent vs. Sell &amp; Reinvest (Property A)</h1>
+<p class="lead">Scenario evaluated at the assumed inheritance year <b>2045</b> (midpoint of the 2040–2050 window). All figures rounded to the nearest $10. Property A market value 2045 ≈ <b>$6,531,230</b> (4%/yr base case). Property B (SF) is assumed kept in all scenarios: owner-occupied 3rd unit + 2 rented units, NOI ≈ <b>$71,680/yr</b> today.</p>
+
+<h2>Scenario comparison at inheritance (2045, annual figures)</h2>
+<table>
+<tr><th>Line item</th><th class="num">A. Live in Property A (Prop 19 partial exclusion)</th><th class="num">B. Rent out Property A (full reassessment)</th><th class="num">C. Sell &amp; reinvest (recommended)</th><th>Source</th></tr>
+<tr><td>Market value at transfer</td><td class="num">$6,531,230</td><td class="num">$6,531,230</td><td class="num">$6,531,230</td><td class="src">Projection @4%/yr <span class="badge b-flag">assumption</span></td></tr>
+<tr><td>New assessed value</td><td class="num">$5,486,650</td><td class="num">$6,531,230</td><td class="num">n/a (sold)</td><td class="src"><a href="https://boe.ca.gov/prop19/">BOE Prop 19</a></td></tr>
+<tr><td>Property tax @1.33%</td><td class="num">$72,970</td><td class="num">$86,870</td><td class="num">$0 after sale</td><td class="src">User bill data; BOE</td></tr>
+<tr><td>Insurance (HO-3 vs landlord)</td><td class="num">$2,280</td><td class="num">$2,280</td><td class="num">$0</td><td class="src"><a href="https://www.insurance.ca.gov/">CA DOI</a> / <a href="https://content.naic.org/">NAIC</a> (2045 inflated)</td></tr>
+<tr><td>Water</td><td class="num">$2,080</td><td class="num">$2,080</td><td class="num">$0</td><td class="src"><a href="https://www.sjwater.com/">SJWC tariff</a></td></tr>
+<tr><td>Electricity (solar credit)</td><td class="num">−$260</td><td class="num">−$260</td><td class="num">$0</td><td class="src"><a href="https://www.cpuc.ca.gov/">CPUC NEM 3.0</a>; user data</td></tr>
+<tr><td>Maintenance &amp; repairs</td><td class="num">$14,450</td><td class="num">$14,450</td><td class="num">$0</td><td class="src">User est. <span class="badge b-flag">assumption</span></td></tr>
+<tr><td>Property management (10% of rent)</td><td class="num">$0</td><td class="num">$14,400</td><td class="num">$0</td><td class="src">Market norm <span class="badge b-flag">assumption</span></td></tr>
+<tr><td>Gross rental income</td><td class="num">$0</td><td class="num">$144,000</td><td class="num">$0</td><td class="src">≈$12,000/mo <span class="badge b-flag">unverified market estimate</span></td></tr>
+<tr><td>Selling costs (6% commission + 0.11% transfer tax)</td><td class="num">$0</td><td class="num">$0</td><td class="num">$399,050</td><td class="src">Commission norm <span class="badge b-flag">assumption</span>; <a href="https://leginfo.legislature.ca.gov/">RTC §11911</a></td></tr>
+<tr><td>Capital gains tax on sale</td><td class="num">$0</td><td class="num">$0</td><td class="num"><b>$0</b> (IRC §1014 step-up = date-of-death value)</td><td class="src"><a href="https://www.irs.gov/publications/p551">IRS Pub. 551</a></td></tr>
+<tr><td>Net sale proceeds</td><td class="num">—</td><td class="num">—</td><td class="num"><b>$6,132,180</b></td><td class="src">FMV − selling costs</td></tr>
+<tr><td>Investment income on proceeds @7% nominal</td><td class="num">$0</td><td class="num">$0</td><td class="num">$429,250 pre-tax / ≈$300,480 after ~30% tax</td><td class="src">7% conservative vs ~10% S&P 500 long-run nominal <span class="src">[<a href="https://pages.stern.nyu.edu/~adamodar/">Damodaran/NYU</a>]</span> <span class="badge b-flag">assumption</span></td></tr>
+<tr><td><b>Net annual cash result (2045)</b></td><td class="num"><b>−$91,520 cost</b> (housing provided)</td><td class="num"><b>+$24,180 NOI</b> before income tax (≈$12,000–$17,000 after tax)</td><td class="num"><b>+$300,480/yr after tax</b> + no housing cost</td><td class="src">Computed</td></tr>
+</table>
+
+<h2>Reasoning &amp; recommendation</h2>
+<div class="card">
+<ol class="tight">
+<li><b>Sell &amp; reinvest wins on the numbers.</b> The §1014 step-up makes the sale essentially tax-free, and ≈$6,132,180 reinvested at a conservative 7% yields ≈$300,480/yr after tax — roughly <b>12–25×</b> the after-tax income from renting Property A, because renting triggers a <b>full Prop 19 reassessment</b> (tax ≈$86,870/yr in 2045), which consumes ≈60% of gross rent before any other expense.</li>
+<li><b>Living in Property A is a lifestyle choice, not a profit-maximizing one.</b> It costs ≈$91,520/yr (2045) after the partial Prop 19 exclusion. Moving in within 1 year still saves ≈<b>$13,890/yr</b> in property tax vs. renting (assessed $5,486,650 vs $6,531,230), so if the Heir wants to live there, do it — but it forgoes both the rental income and the investment yield.</li>
+<li><b>Property B stays.</b> It is already owned (no reassessment event), produces ≈$71,680/yr NOI, and the owner-occupied unit means no separate rent is needed — keep it in every scenario.</li>
+<li><b>Estate tax is likely a non-issue:</b> unless the total estate (both properties + the “considerable” cash/investments) exceeds <b>$15,000,000 per person in 2026 dollars</b> (indexed from 2027), no federal estate tax is due; CA adds nothing. If the estate does exceed it, the excess is taxed at 40% federal — plan gifts ($19,000/yr/recipient) or trust structures with counsel. <span class="src">[<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf">Rev. Proc. 2025-32</a>] [<a href="https://www.ftb.ca.gov/">FTB</a>]</span></li>
+<li><b>Timing lever:</b> if the Heir wants the Prop 19 benefit and to live there, the 1-year move-in and BOE-266/BOE-19-P filings are hard deadlines measured from the date of death — build them into the trust-administration checklist. <span class="src">[<a href="https://boe.ca.gov/prop19/">BOE</a>]</span></li>
+</ol>
+</div>
+
+<h2>Bottom line</h2>
+<div class="note"><b>Recommended plan:</b> At inheritance (~2040–2050), sell Property A (step-up basis ⇒ ≈$0 capital gains tax), pay ≈$399,050 selling costs, and reinvest ≈$6,132,180 (2045 base case) for ≈$300,480/yr after-tax income at a conservative 7% return. Keep Property B as the owner-occupied rental (≈$71,680/yr NOI). If living in Cupertino is desired, move in within 1 year of death and file BOE-266 + BOE-19-P to keep the partial exclusion (≈$13,890/yr tax savings vs. renting).</div>
+</main>
+<footer>Inheritance Decision Hub · Planning estimates only · Sources verified Nov 2026 · Not legal or tax advice.</footer>
+</body>
+</html>
