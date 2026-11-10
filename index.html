@@ -1,68 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inheritance Decision Hub — Property A (Cupertino) &amp; Property B (San Francisco)</title>
-<link rel="stylesheet" href="assets/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tino2 — House Inheritance Decision Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header class="top">
-  <div class="brand">Inheritance Decision <span>Hub</span></div>
-  <div style="font-size:13px;color:#94a3b8">Anonymized planning dashboard · Prepared Nov 2026 · All figures rounded to nearest $10 in analysis</div>
+<header>
+  <div class="header-inner">
+    <div class="logo">Tino2 <span>· Inheritance Decision Dashboard</span></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cupertino.html">Cupertino House</a>
+      <a href="san-francisco.html">San Francisco House</a>
+      <a href="inheritance.html">Inheritance Process</a>
+      <a href="taxes.html">Taxes &amp; Thresholds</a>
+      <a href="decision.html">Decision Analysis</a>
+      <a href="flagged.html">Flagged for Review</a>
+      <a href="sources.html">Sources</a>
+    </nav>
+  </div>
 </header>
-<nav class="main">
-  <a href="index.html" class="active">Dashboard</a>
-  <a href="pages/tax-laws.html">Tax Laws</a>
-  <a href="pages/properties.html">Properties</a>
-  <a href="pages/inheritance-process.html">Inheritance Process</a>
-  <a href="pages/projections.html">Projections 2026–2050</a>
-  <a href="pages/decision-analysis.html">Decision Analysis</a>
-  <a href="pages/flagged.html">Flagged for Review</a>
-</nav>
+
 <main>
-  <h1>Executive Summary</h1>
-  <p class="lead">Decision guide for inheriting <b>Property A</b> (Cupertino, ZIP 95014, est. value $3,100,000 as of Nov 2026) via trust around <b>2040–2050</b>, while <b>Property B</b> (San Francisco Outer Sunset, ZIP 94122, est. value $1,800,000) remains owned, partly rented. Personal information is anonymized throughout; parties are referred to as “Owner” and “Heir.”</p>
-
-  <div class="grid">
-    <div class="stat"><div class="k">Property A — Est. Value (Nov 2026)</div><div class="v">$3,100,000</div><div class="s">User-provided estimate</div></div>
-    <div class="stat"><div class="k">Property A — 2026 Assessed Value</div><div class="v">$550,540</div><div class="s">User-provided; grows ≤2%/yr under Prop 13</div></div>
-    <div class="stat"><div class="k">Property A — 2026 Property Tax (proj.)</div><div class="v">$7,320</div><div class="s">Implied effective rate ≈1.33%</div></div>
-    <div class="stat"><div class="k">Property B — Est. Value (Nov 2026)</div><div class="v">$1,800,000</div><div class="s">User-provided estimate</div></div>
-    <div class="stat"><div class="k">Property B — 2025 Property Tax</div><div class="v">$2,440</div><div class="s">User-provided; assessed $114,248</div></div>
-    <div class="stat"><div class="k">Property B — Rental Income</div><div class="v">$7,150/mo</div><div class="s">2 of 3 units rented; owner-occupied 3rd unit</div></div>
+  <div class="hero">
+    <div class="kicker">Executive summary · Cupertino (95014) &amp; San Francisco Outer Sunset (94122)</div>
+    <h1>Inheriting two homes: live in, rent, or sell?</h1>
+    <p>This site collects, organizes, and analyzes the requirements for deciding what to do with two California homes expected to be inherited through a trust around 2040–2050. All figures are rounded to the nearest $10. Every table row carries an official source link or is flagged as unverified — nothing is inferred or invented.</p>
+    <div class="privacy"><b>Privacy:</b> Personal information is the top priority. All names, addresses, and identifying details are anonymized with placeholders (e.g. [OWNER], [TRUSTEE], [DECEDENT]). No personal information appears on this website.</div>
   </div>
 
-  <div class="card">
-    <h2>Key Findings</h2>
-    <ol class="tight">
-      <li><b>No California estate or inheritance tax.</b> California imposes neither a state estate tax nor an inheritance tax; only the federal estate tax can apply, and only above the exemption. <span class="src">[<a href="https://www.ftb.ca.gov/">CA FTB</a>] [<a href="https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes">IRS estate tax FAQ</a>]</span></li>
-      <li><b>Federal exemption is $15,000,000 per person for 2026</b> ($30,000,000 married with portability), made permanent and inflation-indexed from 2027 by the Working Families Tax Cuts / One Big Beautiful Bill Act (P.L. 119-21); top rate 40% above the exemption. <span class="src">[<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf">IRS Rev. Proc. 2025-32</a>] [<a href="https://www.irs.gov/newsroom/working-families-tax-cuts-individuals-and-workers">IRS newsroom</a>]</span></li>
-      <li><b>Step-up in basis (IRC §1014)</b> resets inherited property to date-of-death fair market value — selling the inherited Cupertino house shortly after inheriting typically triggers ~$0 capital gains tax. <span class="src">[<a href="https://www.irs.gov/publications/p551">IRS Pub. 551</a>]</span></li>
-      <li><b>Prop 19 is the big property-tax trap.</b> The parent–child exclusion applies only if the Heir moves into the inherited home as a primary residence within 1 year and files BOE-19-P (within 3 years) plus the homeowners’ exemption (within 1 year); the protected amount is capped at factored base year value + $1,044,586 (2025–2027 adjustment). Rental/other property gets <i>no</i> exclusion — full reassessment to market value. <span class="src">[<a href="https://boe.ca.gov/prop19/">BOE Prop 19</a>] [<a href="https://www.boe.ca.gov/pdf/pub801.pdf">BOE Prop 19 Fact Sheet</a>]</span></li>
-      <li><b>Projection at 4%/yr appreciation:</b> Property A market value ≈ <b>$5,370,000 by 2040</b> and ≈ <b>$6,530,000 by 2045</b>; assessed value (Prop 13, 2%/yr) ≈ <b>$726,420 by 2040</b> and ≈ <b>$802,030 by 2045</b>.</li>
-      <li><b>Recommendation (see Decision Analysis):</b> at inheritance, <b>sell Property A and reinvest</b> (step-up basis makes the sale nearly tax-free; at ~2045 full reassessment would push property tax to ≈ <b>$86,870/yr</b>, which would consume most of the potential rental income). Keep Property B as owner-occupied rental (≈ <b>$71,680/yr</b> net operating income, proj.). If the Heir must live in Property A, move in within 1 year to claim the partial Prop 19 exclusion — worth ≈ <b>$13,890/yr</b> in tax savings vs. renting it out (2045 projection).</li>
-      <li><b>Insurance:</b> California average homeowners premium ≈ $1,571/yr (CDI/NAIC data, Feb 2026); landlord/dwelling-fire policies for CA rentals average ≈ $1,700/yr (NAIC 2023 data). <span class="src">[<a href="https://www.insurance.ca.gov/">CA Dept. of Insurance</a>]</span></li>
-      <li><b>Utilities:</b> Cupertino water (San Jose Water Co., CPUC-approved tiers) averages ≈ $140/mo for ~10 Ccf; solar under NEM 3.0 typically yields a small monthly credit (net ≈ −$10 to −$20/mo per user data). SF water/sewer for a multi-unit building ≈ $330–$400/mo per user data (SFPUC rates rising ~10%/yr). <span class="src">[<a href="https://www.sjwater.com/">SJWC</a>] [<a href="https://www.sfpuc.gov/">SFPUC</a>] [<a href="https://www.cpuc.ca.gov/">CPUC</a>]</span></li>
-    </ol>
+  <div class="grid-cards">
+    <div class="card">
+      <div class="big">$15,000,000</div>
+      <div class="label">Federal estate tax exclusion per person, 2026 ($30,000,000 married couple with portability). $0 federal estate tax below this threshold.</div>
+      <div class="small nowrap">Source: IRS Form 706 instructions · Rev. Proc. 2025-32 · Verified</div>
+    </div>
+    <div class="card">
+      <div class="big">$0</div>
+      <div class="label">California state estate tax and state inheritance tax. California does not tax inheritances.</div>
+      <div class="small nowrap">Source: CA Franchise Tax Board · Verified (statewide rule)</div>
+    </div>
+    <div class="card">
+      <div class="badge badge-m">MODELED — ASSUMPTION</div>
+      <div class="big" style="margin-top:0.5rem;">≈ $57,090 / yr</div>
+      <div class="label">Modeled Cupertino property tax at inheritance (~2045) if heir moves in (Prop 19 partial exclusion). Assumes 3%/yr appreciation; future Prop 19 cap unknown.</div>
+      <div class="small nowrap">See docs/cupertino-model.md · Flagged</div>
+    </div>
+    <div class="card">
+      <div class="badge badge-v">VERIFIED RULE</div>
+      <div class="big" style="margin-top:0.5rem;">Positive cash flow</div>
+      <div class="label">San Francisco 3-unit rental: ≈ $85,800/yr rent (2 units) vs ≈ $4,280/yr modeled expenses — keep as rental (owner-provided rents, unverified).</div>
+      <div class="small nowrap">See docs/sf-model.md · Flagged inputs</div>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Dashboard Navigation</h2>
-    <table>
-      <tr><th>Page</th><th>What it contains</th></tr>
-      <tr><td><a href="pages/tax-laws.html">Tax Laws</a></td><td>Federal / California / local tax rules that govern the inheritance and each decision option, each with an official source link.</td></tr>
-      <tr><td><a href="pages/properties.html">Properties</a></td><td>Full property-tax history tables for Property A (Cupertino 95014) and Property B (SF 94122), plus current cost structure.</td></tr>
-      <tr><td><a href="pages/inheritance-process.html">Inheritance Process</a></td><td>Step-by-step trust-inheritance workflow with deadlines, forms, and official sources.</td></tr>
-      <tr><td><a href="pages/projections.html">Projections 2026–2050</a></td><td>Year-by-year projected market value, assessed value, property tax, and carrying costs.</td></tr>
-      <tr><td><a href="pages/decision-analysis.html">Decision Analysis</a></td><td>Live vs. Rent vs. Sell &amp; Reinvest compared with rounded $10 figures and the reasoning behind the recommendation.</td></tr>
-      <tr><td><a href="pages/flagged.html">Flagged for Review</a></td><td>Every unverified or non-official figure, assumption, and irregularity, with sources.</td></tr>
-    </table>
+  <div class="section-title"><h2>Properties at a glance (owner estimates — unverified)</h2></div>
+  <table class="data">
+    <thead>
+      <tr>
+        <th style="width:22%">Property</th>
+        <th style="width:16%">Est. value (Nov 2026)</th>
+        <th style="width:18%">Units / use</th>
+        <th style="width:18%">Rental income</th>
+        <th style="width:26%">Key notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>[CUPERTINO_PROPERTY] — ZIP 95014, Santa Clara County</td>
+        <td class="num">$3,100,000</td>
+        <td>1 unit · owner history</td>
+        <td class="num">None</td>
+        <td>Solar installed (usually no electricity cost; ≈ $10–$20/mo credit, owner estimate). Assessment $550,500 (2026 owner record). <span class="badge badge-u">UNVERIFIED</span></td>
+      </tr>
+      <tr>
+        <td>[SF_PROPERTY] — ZIP 94122, Outer Sunset, San Francisco</td>
+        <td class="num">$1,800,000</td>
+        <td>3 livable units</td>
+        <td class="num">≈ $7,150/mo (2 units)</td>
+        <td>Owner can live there as primary residence without losing rental income. 1 unit not rented. <span class="badge badge-u">UNVERIFIED</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title"><h2>Working conclusion (modeled — revisit at inheritance with verified figures)</h2></div>
+  <ul>
+    <li><b>Keep the San Francisco house as a rental.</b> Very low Proposition 13 property tax (assessed value rises max 2%/yr with no ownership change) and strong modeled positive cash flow (≈ $77,100/yr before maintenance). Owner may live there as primary residence and still collect rent.</li>
+    <li><b>Sell the Cupertino house at inheritance</b> unless an heir needs a primary residence there. Step-up in basis (IRC §1014) minimizes capital gains tax on sale. Keeping it triggers a Proposition 19 reassessment with modeled annual property tax of ≈ $57,090 (live-in, partial exclusion) or ≈ $70,670 (rent out, full reassessment). Break-even rent ≈ $5,890/mo before other costs.</li>
+    <li><b>If an heir will live in the Cupertino home:</b> move in within 1 year of transfer and file BOE-19-P plus the homeowner's exemption to preserve the partial exclusion.</li>
+    <li><b>Federal estate tax is likely $0</b> if the total estate (houses + [INHERITANCE_ASSETS]) stays at or below $15,000,000 per person ($30,000,000 married couple with portability). Amounts above are taxed at 40% and paid by the estate.</li>
+  </ul>
+
+  <div class="callout warn">
+    <b>Projection warning.</b> All forward figures (home value growth, tax rates, insurance, maintenance, break-even rent) rely on assumptions and unverified inputs. See the <a href="flagged.html">Flagged for Review</a> page and <a href="docs/cupertino-model.md">model documentation</a>. Verify against county assessor records and obtain binding insurance quotes before acting.
   </div>
 
-  <div class="note"><b>Privacy:</b> No names, exact street addresses, or other personal identifiers appear anywhere on this site. Property values, ZIP codes, and tax histories supplied by the family are treated as internal data and published only in aggregate/placeholder form (“Property A”, “Property B”, “Owner”, “Heir”).</div>
-  <div class="note"><b>Number rule:</b> All decision-analysis and projection figures are rounded to the nearest $10 for clarity, per the project requirements.</div>
+  <div class="section-title"><h2>Recommended next steps (no personal information required)</h2></div>
+  <ul>
+    <li>Confirm both properties are titled in the trust ([TRUSTEE] to verify with the trust document).</li>
+    <li>Verify owner-provided tax/assessment records against the Santa Clara County Assessor and San Francisco Assessor-Recorder.</li>
+    <li>Obtain binding homeowners / landlord insurance quotes for ZIP 95014 and 94122.</li>
+    <li>If the estate may exceed $15,000,000 per person, consult a CA estate attorney and CPA well before the inheritance date.</li>
+    <li>At inheritance: obtain a date-of-death appraisal (stepped-up basis) and, if keeping the Cupertino home as a primary residence, file BOE-19-P within 3 years and the homeowner's exemption within 1 year.</li>
+  </ul>
+
+  <footer>
+    Tino2 · Inheritance Decision Dashboard · Prepared 2026-11-10 · All costs rounded to nearest $10 · Personal information anonymized with placeholders · See <a href="sources.html">Sources</a> and <a href="flagged.html">Flagged for Review</a>.
+  </footer>
 </main>
-<footer>Inheritance Decision Hub · Built from official sources (IRS, CA BOE, CA FTB, California Courts, CPUC, CDI, county/utility agencies) · Nov 2026 · Not legal or tax advice — consult a licensed CPA/estate attorney before acting.</footer>
 </body>
 </html>
