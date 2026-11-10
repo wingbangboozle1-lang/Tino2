@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decision Analysis — Live In, Rent, or Sell</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="logo">Tino2 <span>· Inheritance Decision Dashboard</span></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cupertino.html">Cupertino House</a>
+      <a href="san-francisco.html">San Francisco House</a>
+      <a href="inheritance.html">Inheritance Process</a>
+      <a href="taxes.html">Taxes &amp; Thresholds</a>
+      <a href="decision.html">Decision Analysis</a>
+      <a href="flagged.html">Flagged for Review</a>
+      <a href="sources.html">Sources</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="kicker">Decision framework · Cupertino house at inheritance (~2045)</div>
+    <h1>Live in, rent, or sell the Cupertino house?</h1>
+    <p>Goal: maximize profit, lower cost. Projections use an assumed 3%/yr appreciation (unverified assumption) and modeled tax rates — all projection figures are flagged. Costs rounded to nearest $10.</p>
+  </div>
+
+  <div class="section-title"><h2>Scenario comparison — Cupertino house at inheritance (~2045)</h2></div>
+  <table class="data">
+    <thead>
+      <tr>
+        <th style="width:17%">Factor</th>
+        <th class="num" style="width:26%">A — Live in (primary residence)</th>
+        <th class="num" style="width:26%">B — Rent out</th>
+        <th class="num" style="width:31%">C — Sell &amp; reinvest</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Prop 19 treatment</td><td>Partial exclusion (must move in within 1 year, file BOE-19-P)</td><td>None — rental = full reassessment</td><td>N/A (sold at stepped-up basis)</td></tr>
+      <tr><td class="num">Modeled assessed value</td><td class="num">≈ $4,391,280</td><td class="num">≈ $5,435,870</td><td class="num">$0 after sale</td></tr>
+      <tr><td class="num">Modeled annual property tax</td><td class="num">≈ $57,090</td><td class="num">≈ $70,670</td><td class="num">$0</td></tr>
+      <tr><td class="num">Water (modeled)</td><td class="num">−$1,560/yr</td><td class="num">−$1,560/yr</td><td class="num">$0</td></tr>
+      <tr><td class="num">Electricity (solar net, owner est.)</td><td class="num">−$180/yr (credit)</td><td class="num">−$180/yr (credit)</td><td class="num">$0</td></tr>
+      <tr><td class="num">Insurance (indicative)</td><td class="num">−$1,500/yr</td><td class="num">−$2,240/yr (landlord)</td><td class="num">$0</td></tr>
+      <tr><td class="num">Maintenance &amp; repairs</td><td class="num">— not estimated</td><td class="num">— not estimated</td><td class="num">$0</td></tr>
+      <tr><td><b>Modeled annual carry excl. maintenance</b></td><td class="num"><b>≈ $59,970/yr</b> ($4,997/mo)</td><td class="num"><b>≈ $74,290/yr</b> ($6,191/mo)</td><td class="num"><b>$0</b></td></tr>
+      <tr><td class="num">Rental income</td><td class="num">None</td><td class="num">Not estimated (market rent unverified)</td><td class="num">None</td></tr>
+      <tr><td class="num">Break-even rent needed</td><td class="num">N/A</td><td class="num">≈ $5,890/mo before other costs</td><td class="num">N/A</td></tr>
+      <tr><td class="num">Capital gains on sale near inheritance</td><td class="num">$0 if sold at stepped-up basis</td><td class="num">$0 if sold at stepped-up basis</td><td class="num">≈ $0 (step-up basis, IRC §1014)</td></tr>
+      <tr><td class="num">Net proceeds to reinvest</td><td class="num">N/A</td><td class="num">N/A</td><td class="num">≈ $5,136,900 after illustrative ≈ 5.5% selling costs</td></tr>
+      <tr><td class="num">Ongoing owner workload</td><td class="num">Live there (lifestyle choice)</td><td class="num">Landlord / property management</td><td class="num">One-time sale; then investing</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title"><h2>San Francisco house — keep or sell?</h2></div>
+  <table class="data">
+    <thead>
+      <tr>
+        <th style="width:34%">Factor</th>
+        <th style="width:33%">Keep as rental</th>
+        <th style="width:33%">Sell</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Property tax</td><td>Very low — assessed value rises max 2%/yr with no ownership change (modeled ≈ $1,420/yr in 2026)</td><td>$0 after sale</td></tr>
+      <tr><td>Income</td><td>≈ $85,800/yr from 2 rented units (owner-provided, unverified); 3rd unit could add rent (unestimated)</td><td>None</td></tr>
+      <tr><td>Modeled net operating income excl. maintenance</td><td>≈ $77,100/yr ($6,425/mo)</td><td>$0</td></tr>
+      <tr><td>Capital gains on sale</td><td>N/A while held</td><td>≈ $0 on sale near stepped-up basis ($1,800,000 owner est. value)</td></tr>
+      <tr><td>Use flexibility</td><td>Owner can live there as primary residence and still collect rent</td><td>Frees ≈ $1,800,000 (owner est.) for reinvestment</td></tr>
+      <tr><td><b>Working lean</b></td><td><b>Keep</b> — strong modeled positive cash flow</td><td><b>Sell only if capital is needed</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title"><h2>Working conclusion (modeled — revisit at inheritance)</h2></div>
+  <ul>
+    <li><b>1. Keep the San Francisco house as a rental.</b> Low Proposition 13 tax plus ≈ $85,800/yr rental income (modeled net ≈ $77,100/yr before maintenance). The owner can live there as primary residence without losing rental income.</li>
+    <li><b>2. Sell the Cupertino house at inheritance</b> unless an heir needs a primary residence there. Keeping it (live-in or rental) triggers a Proposition 19 reassessment with modeled annual tax of ≈ $57,090–$70,670 — a very large carrying cost, and renting it does not clearly cover that tax (break-even ≈ $5,890/mo before other costs). Selling at stepped-up basis minimizes capital gains; proceeds (≈ $5,136,900 modeled after selling costs) can be reinvested in stocks, savings, etc.</li>
+    <li><b>3. If an heir will live in the Cupertino home:</b> move in within 1 year of transfer, file BOE-19-P within 3 years, and claim the homeowner's exemption within 1 year to get the partial exclusion.</li>
+    <li><b>4. Federal estate tax is likely $0</b> if the total estate (houses + [INHERITANCE_ASSETS]) stays at or below $15,000,000 per person ($30,000,000 married couple with portability, 2026; indexed after). Amounts above are taxed at 40%.</li>
+  </ul>
+
+  <div class="callout warn">
+    <b>Unverified inputs driving this conclusion:</b> 3%/yr appreciation assumption; modeled tax rates 1.30% (Cupertino) / 1.22% (SF); future Prop 19 cap unknown; illustrative 5.5% selling costs; all insurance figures from non-official quotes; maintenance costs have no source (left blank); market rents not estimated; total inheritance amount unknown. See <a href="flagged.html">Flagged for Review</a>.
+  </div>
+
+  <div class="section-title"><h2>Potential law changes to monitor</h2></div>
+  <ul>
+    <li>Federal estate/gift exclusion — OBBBA made $15,000,000 permanent in 2026 (indexed after 2026); future legislation could change it.</li>
+    <li>California Proposition 19 — could be amended by the legislature or ballot measure.</li>
+    <li>Capital gains step-up basis — subject to periodic federal proposals; not changed as of this research.</li>
+    <li>Local property tax bond rates — reset annually; verify with the county tax collector each year.</li>
+  </ul>
+
+  <footer>
+    Tino2 · Decision Analysis · All costs rounded to nearest $10 · Flagged items on the <a href="flagged.html">Flagged for Review</a> page.
+  </footer>
+</main>
+</body>
+</html>
