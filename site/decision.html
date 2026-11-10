@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Interactive comparison of living in, renting, or selling and reinvesting an inherited Cupertino property."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Live, rent or sell">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or sell?", "Change the inheritance year, holding period, growth, rent and tax scenarios. The model carries every strategy to the same endpoint and shows the arithmetic—not just the winner.", `<button class="button" id="print">Print this scenario</button><button class="button secondary" id="download">Download annual CSV</button>`) + `<div class="container">
+<section class="section">
+<div class="section-heading"><div><div class="eyebrow">Scenario controls</div><h2>Start with the base case, then stress it</h2></div><button class="button secondary" id="reset">Reset base case</button></div>
+<div class="controls">
+<div class="control"><label for="inheritYear">Inheritance year</label><select id="inheritYear">${UI.options("inheritYear", [[2030,"2030"],[2035,"2035"],[2040,"2040 · base"],[2045,"2045"],[2050,"2050"]], 2040)}</select></div>
+<div class="control"><label for="horizon">Years held after inheritance</label><select id="horizon">${UI.options("horizon", [[5,"5 years"],[10,"10 years · base"],[15,"15 years"],[20,"20 years"]], 10)}</select></div>
+<div class="control"><label for="appreciation">Annual home-price growth</label><select id="appreciation">${UI.options("appreciation", [[0.02,"2.0%"],[0.035,"3.5% · base"],[0.05,"5.0%"]], 0.035)}</select></div>
+<div class="control"><label for="netReturn">After-tax portfolio return</label><select id="netReturn">${UI.options("netReturn", [[0.03,"3.0%"],[0.05,"5.0% · base"],[0.07,"7.0%"]], 0.05)}</select></div>
+<div class="control"><label for="rentChoice">Property A rent benchmark</label><select id="rentChoice">${UI.options("rentChoice", [["4BR","4BR · $6,390 base"],["3BR","3BR · $5,870"]], "4BR")}</select></div>
+<div class="control"><label for="capitalGainsTax">Capital-gain tax scenario</label><select id="capitalGainsTax">${UI.options("capitalGainsTax", [[0.20,"20.0%"],[0.331,"33.1% · base"],[0.40,"40.0%"]], 0.331)}</select></div>
+</div>
+<p class="tiny">Fixed assumptions: 2% assessment growth; 3% expense and Property A rent growth; 6% sale cost; 5% vacancy; 8% management; maintenance 0.5% of market value; 33.3% tax on positive rental NOI. Portfolio net return = 6% gross minus 1-point tax drag in the base case; changing net return changes gross by the same amount. These are assumptions, not official forecasts.</p>
+<div id="recommendation" class="card highlight"></div>
+</section>
+<section class="section"><div class="grid three" id="strategy-cards"></div></section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Terminal wealth bridge</div><h2 id="comparison-title"></h2><p>All amounts are nominal future dollars, rounded to the nearest $10. “Cash reserve” includes reinvested annual cash flow; negative living costs compound as an opportunity cost.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Strategy</th><th class="number">Initial net sale</th><th class="number">First-year property tax</th><th class="number">First-year after-tax cash</th><th class="number">Cash reserve at endpoint</th><th class="number">Net terminal property sale</th><th class="number">Terminal capital-gain tax</th><th class="number">Financial position</th><th>Tax rule</th></tr></thead><tbody id="comparison"></tbody></table></div>
+<p class="tiny">“Initial net sale” is invested immediately in the sell case. “Net terminal property sale” is after sale costs and capital-gain tax. The sell case assumes no further liquidation tax beyond its annual after-tax return proxy. First-year cash in the sell case is portfolio return, not rental cash flow.</p>
+</section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Annual mechanics</div><h2>Where the difference comes from</h2><p id="annual-intro"></p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Rent-case assessment</th><th class="number">Rent-case property tax</th><th class="number">Gross rent</th><th class="number">Rental NOI</th><th class="number">Rent after-tax cash</th><th class="number">Live-case property tax</th><th class="number">Live annual net cost</th><th>Rule / model</th></tr></thead><tbody id="annual"></tbody></table></div>
+</section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Worked arithmetic</div><h2>No black box</h2></div></div><div class="grid two" id="formulas"></div></section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Two-way sensitivity</div><h2>Does the financial winner change?</h2><p>Sale advantage over rent-then-sell at the selected inheritance year and holding period. Positive values favor selling; negative values favor renting. Living is excluded because its housing service is not monetized.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Home-price growth \ after-tax portfolio return</th><th class="number">3%</th><th class="number">5%</th><th class="number">7%</th></tr></thead><tbody id="sensitivity"></tbody></table></div>
+</section>
+<section class="section"><div class="grid two">
+<div class="card warning"><h3>What “live” leaves out</h3><ul class="list"><li>The value of housing received is not added as a benefit.</li><li>Property B’s third unit could potentially be rented if the household moves, but no rent, legal eligibility or moving cost is assumed.</li><li>The $250,000 main-home gain exclusion is applied only if the endpoint is at least two years after inheritance; actual ownership/use and other eligibility tests must be checked.</li><li>Future Proposition 19 exclusion amounts are assumed, not published.</li></ul><p>${UI.source("irsHomeSale", "IRS home-sale rules")} ${UI.source("boeProp19", "BOE Proposition 19")}</p></div>
+<div class="card review"><h3>Tax simplifications that require advice</h3><ul class="list"><li>Basis is date-of-death modeled value; no alternate valuation or special basis adjustment.</li><li>No depreciation, land/building allocation, depreciation recapture or passive-loss benefit.</li><li>The 33.1% scenario is not a taxpayer-specific calculation; NIIT thresholds and California brackets depend on actual income and filing status.</li><li>No mortgages, capital improvements, transaction timing, estate expenses or risk adjustment.</li></ul><p>${UI.source("irsBasis", "IRS basis")} ${UI.source("irsNIIT", "IRS NIIT")} ${UI.source("caCapGains", "FTB capital gains")}</p></div>
+</div></section>
+</div>`;
+
+const ids = ["inheritYear", "horizon", "appreciation", "netReturn", "rentChoice", "capitalGainsTax"];
+let latest;
+function value(id) { const el = document.getElementById(id); return id === "rentChoice" ? el.value : Number(el.value); }
+function config() {
+  const net = value("netReturn");
+  return {...MODEL.BASE, inheritYear: value("inheritYear"), appreciation: value("appreciation"), portfolioGross: net + 0.01, portfolioTaxDrag: 0.01, capitalGainsTax: value("capitalGainsTax")};
+}
+function moneyCell(v) { return `<td class="number ${v < 0 ? "negative" : ""}">${UI.money(v)}</td>`; }
+function render() {
+  const c = config(), h = value("horizon"), rentChoice = value("rentChoice");
+  const r = MODEL.decision(c, h, rentChoice); latest = {r,c,h,rentChoice};
+  const end = c.inheritYear + h;
+  const saleLead = r.sell.terminal - r.rent.terminal;
+  document.getElementById("comparison-title").textContent = `${c.inheritYear} inheritance → ${end} endpoint`;
+  document.getElementById("annual-intro").textContent = `First projection year is ${c.inheritYear + 1}. Rental and live cases reset to their respective post-inheritance assessments in ${c.inheritYear}; sell-and-reinvest is shown in the terminal bridge above.`;
+  document.getElementById("recommendation").innerHTML = `<div class="recommendation"><div class="icon">${saleLead >= 0 ? "↗" : "⌂"}</div><div><div class="eyebrow" style="color:var(--lime)">Selected scenario</div><h2>${saleLead >= 0 ? "Sell and reinvest leads on financial value." : "Rent, then sell leads on financial value."}</h2><p>${saleLead >= 0 ? `Selling leads renting by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.` : `Renting leads selling by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.`} Sell: ${UI.money(r.sell.terminal)} · Rent: ${UI.money(r.rent.terminal)} · Live: ${UI.money(r.live.terminal)}. The live result excludes housing service and possible Property B owner-unit income, so do not rank it as a like-for-like lifestyle choice.</p></div></div>`;
+  document.getElementById("strategy-cards").innerHTML = ["sell","rent","live"].map(key => {
+    const x = r[key], best = key === r.winner;
+    const notes = {
+      sell: "Converts the stepped-up-basis property to a diversified portfolio; preserves the existing Property B arrangement.",
+      rent: "Keeps appreciation and rental income, but full reassessment and costs consume most base-case rent.",
+      live: "Uses partial Proposition 19 relief and possible home-sale exclusion; annual costs are funded externally."
+    };
+    return `<div class="card ${best ? "soft" : ""}"><div class="meta-row" style="margin:0 0 12px">${UI.badge(x.option)}${best ? UI.badge("Highest financial total") : ""}</div><div class="metric small">${UI.money(x.terminal)}</div><p class="muted">${notes[key]}</p><div class="tiny">${key === "sell" ? `Starts with ${UI.money(x.initialNet)} invested.` : `Endpoint cash reserve: ${UI.money(x.cashReserve)}.`}</div></div>`;
+  }).join("");
+  document.getElementById("comparison").innerHTML = ["sell","rent","live"].map(key => {
+    const x = r[key];
+    return `<tr><td><strong>${x.option}</strong></td>${moneyCell(x.initialNet)}${moneyCell(x.firstYearTax)}${moneyCell(x.firstYearCash)}${moneyCell(x.cashReserve)}${moneyCell(x.finalSale)}${moneyCell(x.capitalGainsTax)}<td class="number"><strong>${UI.money(x.terminal)}</strong></td><td class="source">${UI.source(key === "live" ? "irsHomeSale" : "irsBasis", key === "live" ? "Basis + home sale" : "Stepped-up basis")}</td></tr>`;
+  }).join("");
+  document.getElementById("annual").innerHTML = r.rent.yearly.map((x, i) => {
+    const live = r.live.yearly[i];
+    return `<tr><td>${x.year}</td>${moneyCell(x.market)}${moneyCell(x.assessed)}${moneyCell(x.propertyTax)}${moneyCell(x.grossRent)}${moneyCell(x.noi)}${moneyCell(x.afterTaxCash)}${moneyCell(live.propertyTax)}${moneyCell(live.afterTaxCash)}<td class="source">${UI.source("hudA", "HUD + scenario model")}</td></tr>`;
+  }).join("");
+  const netSale = r.transfer.market * (1 - c.saleCost);
+  const gain = r.rent.amountRealized - r.transfer.market;
+  document.getElementById("formulas").innerHTML = `
+  <div class="card"><h3>1 · Immediate sale and reinvestment</h3><p><span class="code">Net proceeds = ${UI.money(r.transfer.market)} × (1 − ${UI.pct(c.saleCost)}) = ${UI.money(netSale)}</span></p><p><span class="code">Endpoint = ${UI.money(netSale)} × (1 + ${UI.pct(r.portfolioReturn)})^${h} = ${UI.money(r.sell.terminal)}</span></p><p class="tiny">Modeled sale price equals stepped-up basis, so selling costs do not create a recognized tax refund in this model.</p></div>
+  <div class="card"><h3>2 · Rent, then sell</h3><p><span class="code">Amount realized = ${UI.money(r.rent.finalMarket)} × (1 − ${UI.pct(c.saleCost)}) = ${UI.money(r.rent.amountRealized)}</span></p><p><span class="code">Gain = ${UI.money(r.rent.amountRealized)} − ${UI.money(r.transfer.market)} = ${UI.money(gain)}</span></p><p><span class="code">Capital-gain tax = ${UI.money(Math.max(0,gain))} × ${UI.pct(c.capitalGainsTax)} = ${UI.money(r.rent.capitalGainsTax)}</span></p><p><span class="code">Endpoint = ${UI.money(r.rent.finalSale)} + ${UI.money(r.rent.cashReserve)} = ${UI.money(r.rent.terminal)}</span></p></div>
+  <div class="card"><h3>3 · Live, then sell</h3><p>Initial assessed value: <strong>${UI.money(r.transfer.primaryAssessed)}</strong>, versus full reassessment of <strong>${UI.money(r.transfer.fullAssessed)}</strong>. The exclusion amount used is <strong>${UI.money(r.transfer.allowance)}</strong>.</p><p><span class="code">Endpoint = ${UI.money(r.live.finalSale)} + (${UI.money(r.live.cashReserve)}) = ${UI.money(r.live.terminal)}</span></p><p class="tiny">Home-sale exclusion applied: ${UI.money(r.live.gainExclusion)}. Negative cash reserve reflects compounded external funding of annual ownership costs.</p></div>
+  <div class="card"><h3>4 · First rental year</h3><p><span class="code">NOI = gross rent − vacancy − management − tax − insurance − utilities − maintenance</span></p><p>Gross rent ${UI.money(r.rent.yearly[0].grossRent)} · NOI ${UI.money(r.rent.yearly[0].noi)} · modeled income tax ${UI.money(r.rent.yearly[0].incomeTax)} · after-tax cash <strong>${UI.money(r.rent.firstYearCash)}</strong>.</p><p class="tiny">This is cash modeling, not a tax return. See IRS Publication 527 for actual rental treatment.</p></div>`;
+  document.getElementById("sensitivity").innerHTML = [0.02,0.035,0.05].map(growth => `<tr><td><strong>${UI.pct(growth)} home growth</strong></td>${[0.03,0.05,0.07].map(net => {
+    const test = MODEL.decision({...c, appreciation:growth, portfolioGross:net+0.01}, h, rentChoice);
+    const diff = test.sell.terminal - test.rent.terminal;
+    return `<td class="number ${diff < 0 ? "negative" : "positive"}">${diff >= 0 ? "Sell +" : "Rent +"}${UI.money(Math.abs(diff))}</td>`;
+  }).join("")}</tr>`).join("");
+}
+ids.forEach(id => document.getElementById(id).addEventListener("change", render));
+document.getElementById("reset").addEventListener("click", () => {
+  const defaults = {inheritYear:2040,horizon:10,appreciation:0.035,netReturn:0.05,rentChoice:"4BR",capitalGainsTax:0.331};
+  ids.forEach(id => document.getElementById(id).value = defaults[id]); render();
+});
+document.getElementById("print").addEventListener("click", () => window.print());
+document.getElementById("download").addEventListener("click", () => {
+  const {r} = latest;
+  const lines = [["Year","Market value","Rent assessed value","Rent property tax","Gross rent","Rental NOI","Rent after-tax cash","Live property tax","Live annual net cost"]];
+  r.rent.yearly.forEach((x,i) => lines.push([x.year,...[x.market,x.assessed,x.propertyTax,x.grossRent,x.noi,x.afterTaxCash,r.live.yearly[i].propertyTax,r.live.yearly[i].afterTaxCash].map(v => Math.round(v/10)*10)]));
+  const blob = new Blob([lines.map(line => line.join(",")).join("\n")], {type:"text/csv"});
+  const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "property-a-scenario.csv"; link.click(); URL.revokeObjectURL(link.href);
+});
+render();
+</script></body></html>
