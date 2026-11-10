@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Annual market values, assessments, property taxes, operating costs, rental economics and household history for Properties A and B."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Property projections">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const prop19Now = MODEL.inheritanceValues(2026);
+const prop192040 = MODEL.inheritanceValues(2040);
+const row = (cells) => `<tr>${cells.map((c, i) => `<td class="${i > 0 && i < cells.length - 1 ? "number" : "source"}">${c}</td>`).join("")}</tr>`;
+main.innerHTML = UI.hero("Properties · values and carrying costs", "The assessment gap is the story.", "Annual projections make the low historic tax base, future reassessment and operating drag visible. Observed household inputs are never presented as official parcel records.", `<a class="button" href="decision.html">Compare strategies →</a><a class="button secondary" href="review.html">What needs verification</a>`) + `<div class="container">
+<section class="section"><div class="grid four">
+<div class="card"><div class="metric-label">Property A · 2026 market input</div><div class="metric small">$3,100,000</div><div class="tiny">Household planning input</div></div>
+<div class="card"><div class="metric-label">Property A · 2026 assessed input</div><div class="metric small">$550,537</div><div class="tiny">Only 17.8% of household market input</div></div>
+<div class="card"><div class="metric-label">Property B · 2026 market input</div><div class="metric small">$1,800,000</div><div class="tiny">Household planning input</div></div>
+<div class="card"><div class="metric-label">Property B · 2026 modeled assessment</div><div class="metric small">${UI.money(MODEL.seriesFor("B",2026).assessed)}</div><div class="tiny">2025 household input grown 2%; not observed</div></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Verified starting records</div><h2>Inputs, official law and derived rates</h2><p>“Household input” means supplied for planning and not independently verified. “Derived” means arithmetic from those inputs. Official links support the rule or lookup route, not the unverified household amount.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th class="number">Amount / value</th><th>Classification</th><th>Official rule or verification route</th></tr></thead><tbody>
+${row(["Property A market value · Nov 2026", "$3,100,000", UI.status("input"), '<span class="badge red">No appraisal</span>'])}
+${row(["Property A 2026 assessed value", "$550,537", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
+${row(["Property A 2025 assessed value / tax", "$539,743 / $7,207", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
+${row(["Property A effective tax ratio", UI.pct(MODEL.BASE.aRate, 4), UI.status("derived"), UI.source("sccTaxBook", "TRA rate book")])}
+${row(["Property B market value · Nov 2026", "$1,800,000", UI.status("input"), '<span class="badge red">No appraisal</span>'])}
+${row(["Property B 2025 assessed value / tax", "$114,248 / $2,439", UI.status("input"), UI.source("sfAssessment", "SF assessment guide")])}
+${row(["Property B effective tax ratio", UI.pct(MODEL.BASE.bRate, 4), UI.status("derived"), UI.source("sfTaxRate", "Official ad valorem rate")])}
+${row(["SF FY2026–27 combined ad valorem rate", "1.18162182%", UI.status("official"), UI.source("sfTaxRate", "Adopted rate")])}
+${row(["Property A / B insurance · each annual", "$1,500", UI.status("input"), UI.source("insurance", "Quote guidance")])}
+${row(["Property A water / solar credit · monthly", "$100–$150 / $10–$20", UI.status("input"), UI.source("waterA", "Water tariff") + UI.source("solar", "NEM guidance")])}
+${row(["Property B water / electricity · monthly", "$330–$400 / $30–$70", UI.status("input"), UI.source("waterB", "Water & sewer")])}
+</tbody></table></div>
+<div class="callout warning"><strong>Property B’s derived 2.1348% ratio is not the city tax rate.</strong> It divides a household-reported total bill by household-reported assessed value, so it can embed direct charges, supplemental amounts or input error. The adopted FY2026–27 ad valorem rate is 1.18162182%; the parcel bill must be checked before relying on projections. Property A’s derived 1.3353% likewise is not a verified tax-rate-area rate.</div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Proposition 19</div><h2>Partial relief—not the old tax bill</h2><p>For this high-value scenario, new taxable value = market value − applicable exclusion when market value exceeds prior factored base-year value + exclusion. Qualifying primary-residence use and timely claims are required.</p></div>${UI.source("boeProp19")}</div>
+<div class="table-wrap"><table><thead><tr><th>Transfer scenario</th><th class="number">Market value</th><th class="number">Prior factored assessment</th><th class="number">Exclusion amount</th><th class="number">New primary-home assessment</th><th class="number">Primary-home tax</th><th class="number">Full-reassessment tax</th><th>Basis</th></tr></thead><tbody>
+${[prop19Now, prop192040].map(v => row([v === prop19Now ? "2026 illustration · official exclusion" : "2040 illustration · assumed indexing", UI.money(v.market), UI.money(v.carryForwardAssessed), UI.money(v.allowance), UI.money(v.primaryAssessed), UI.money(v.primaryTax), UI.money(v.fullTax), UI.source(v === prop19Now ? "boeProp19Amount" : "boeProp19", v === prop19Now ? "BOE amount" : "Rule + model")])).join("")}
+</tbody></table></div>
+<p class="tiny">The 2025–2027 exclusion is $1,044,586. Later official amounts are unknown. The model uses a 2% increase every two years solely for illustration: 2040 allowance ${UI.money(prop192040.allowance)}. Property tax uses Property A’s household-derived effective ratio, not an official future parcel rate. At 2040, primary-residence relief saves about ${UI.money(prop192040.primarySavings)} per year initially versus full reassessment; it does not preserve the ${UI.money(prop192040.carryForwardAssessed)} old assessment.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property A · annual baseline</div><h2>Before any inheritance event</h2><p>Continuation scenario only: 3.5% market growth, 2% assessment growth, and operating costs from household midpoints. This is not a post-death assessment forecast.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Assessed value</th><th class="number">Property tax</th><th class="number">Insurance</th><th class="number">Water − solar</th><th class="number">Maintenance</th><th class="number">Total carrying cost</th><th>Rule / model</th></tr></thead><tbody id="a-annual"></tbody></table></div>
+<p class="tiny">Insurance and water grow 3% annually; the solar credit stays at the household midpoint of $180/year rather than assuming tariff escalation. Maintenance is 0.5% of modeled market value. Total excludes mortgage, income tax, capital improvements, earthquake/flood coverage and major one-off repairs.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property A · rental scenario</div><h2>After a 2040 inheritance</h2><p>Full reassessment at 2040 modeled market value; four-bedroom HUD FY2026 benchmark grown 3%; 5% vacancy and 8% management reserve; positive NOI taxed at a 33.3% scenario rate.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Gross rent</th><th class="number">Vacancy</th><th class="number">Management</th><th class="number">Property tax</th><th class="number">Other operating cost</th><th class="number">NOI</th><th class="number">After-tax cash</th><th>Rent / expense basis</th></tr></thead><tbody id="a-rental"></tbody></table></div>
+<p class="tiny">HUD FMRs are gross rents including shelter and tenant-paid utilities. The model separately deducts owner-paid water at the household midpoint and does not adjust the benchmark for an actual lease’s utility allocation. Obtain a rent opinion and lease-specific utility terms before relying on NOI.</p>
+<div class="callout"><strong>NOI is not taxable income.</strong> No depreciation deduction, land/building allocation, passive-loss allowance, repair-versus-capital classification or suspended-loss benefit is imputed. The model taxes positive NOI at the selected scenario rate and gives no refund when cash flow is negative. Actual taxable rental income can differ materially. ${UI.source("irsRental", "IRS Publication 527")}</div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property B · annual baseline</div><h2>Existing rent rolls, continuing ownership</h2><p>Two rented units only. Third owner-occupiable unit contributes no rent. Household rent grows at the current SF covered-unit allowance of 1.6% as an assumption—not a guaranteed future legal cap.</p></div><a class="button secondary" href="san-francisco.html">SF compliance details</a></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Assessed value</th><th class="number">Property tax</th><th class="number">Gross rent</th><th class="number">Utilities + insurance</th><th class="number">Maintenance</th><th class="number">NOI after reserves</th><th>Rule / model</th></tr></thead><tbody id="b-annual"></tbody></table></div>
+<p class="tiny">NOI includes 5% vacancy, 8% management, maintenance at 1% of modeled market value and a two-rented-unit Rent Board fee scenario. It excludes income tax, mortgage, capital improvements and owner-unit housing value. Insurance/utilities grow 3%; rent growth beyond the published period is only an assumption.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Household history · unverified</div><h2>Property A tax and assessment record</h2><p>Year-over-year percentages are recalculated from adjacent household inputs. Blank tax cells remain blank. Use the official lookup with private records to verify each row.</p></div>${UI.source("sccBill")}</div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Tax</th><th class="number">Tax change</th><th class="number">Assessed value</th><th class="number">Assessment change</th><th>Verification</th></tr></thead><tbody id="a-history"></tbody></table></div>
+</section>
+<section class="section"><div class="section-heading"><div><h2>Property B tax and assessment record</h2><p>The same household-input limitations apply. No 2026 observed bill was supplied.</p></div>${UI.source("sfAssessment")}</div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Tax</th><th class="number">Tax change</th><th class="number">Assessed value</th><th class="number">Assessment change</th><th>Verification</th></tr></thead><tbody id="b-history"></tbody></table></div>
+<div class="callout review"><strong>Irregularities to reconcile:</strong> Property A tax is unchanged in 2018–2019 despite a 2% assessment increase; Property B tax falls in 2021 despite a 1% assessment increase and jumps in 2018. These can reflect direct charges, supplemental bills or household transcription, but no cause is inferred. <a href="review.html">See review queue</a>.</div>
+</section>
+</div>`;
+
+for (let year = 2026; year <= 2050; year++) {
+  const s = MODEL.seriesFor("A", year), n = year - 2026;
+  const insurance = 1500 * Math.pow(1.03, n);
+  const netWater = 125 * 12 * Math.pow(1.03, n) - 15 * 12;
+  const maintenance = s.market * 0.005;
+  const carrying = s.tax + insurance + netWater + maintenance;
+  document.getElementById("a-annual").insertAdjacentHTML("beforeend", row([year, UI.money(s.market), UI.money(s.assessed), UI.money(s.tax), UI.money(insurance), UI.money(netWater), UI.money(maintenance), UI.money(carrying), UI.source("boeProp13", "Prop 13 + model")]));
+  if (year >= 2040) {
+    const rent = MODEL.annualA(year, "rent", {...MODEL.BASE, inheritYear: 2040});
+    const other = rent.water + rent.insurance + rent.maintenance - rent.solarCredit;
+    document.getElementById("a-rental").insertAdjacentHTML("beforeend", row([year, UI.money(rent.grossRent), UI.money(rent.vacancyCost), UI.money(rent.managementCost), UI.money(rent.propertyTax), UI.money(other), UI.money(rent.noi), UI.money(rent.afterTaxCash), UI.source("hudA", "HUD + model")]));
+  }
+  const b = MODEL.sfAnnual(year);
+  document.getElementById("b-annual").insertAdjacentHTML("beforeend", row([year, UI.money(b.market), UI.money(b.assessed), UI.money(b.propertyTax), UI.money(b.grossRent), UI.money(b.water + b.electricity + b.insurance), UI.money(b.maintenance), UI.money(b.noi), UI.source("sfRent", "SF rent + model")]));
+}
+function historyRows(id, history, sourceKey) {
+  document.getElementById(id).innerHTML = MODEL.historyChecks(history).map(r => row([r.year, UI.exact(r.tax), r.computedTaxChange === null ? "—" : UI.pct(r.computedTaxChange), UI.exact(r.assessed), r.computedAssessmentChange === null ? "—" : UI.pct(r.computedAssessmentChange), UI.source(sourceKey, "Household input · verify")])) .join("");
+}
+historyRows("a-history", MODEL.historyA, "sccBill");
+historyRows("b-history", MODEL.historyB, "sfAssessment");
+</script></body></html>

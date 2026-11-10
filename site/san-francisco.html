@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="San Francisco Property B rental economics, local rent limits, Rent Board fees and reporting, property taxes, utilities and owner-unit opportunity."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="San Francisco property">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main"), sf = MODEL.sfAnnual(2026);
+main.innerHTML = UI.hero("Property B · San Francisco context", "Keep the existing rent engine visible.", "Property A’s sale/reinvestment case does not require selling Property B. This page isolates its current household rental inputs, operating reserves, compliance rules and the unmodeled value of the owner unit.", `<a class="button secondary" href="properties.html">See annual projections</a>`) + `<div class="container">
+<section class="section"><div class="grid four">
+<div class="card"><div class="metric-label">Market-value input</div><div class="metric small">${UI.money(sf.market)}</div><div class="tiny">Household input · not an appraisal</div></div>
+<div class="card"><div class="metric-label">Two-unit monthly rent input</div><div class="metric small">${UI.money(7150)}</div><div class="tiny">${UI.money(sf.grossRent)} annualized · leases unverified</div></div>
+<div class="card"><div class="metric-label">2026 NOI after reserves</div><div class="metric small">${UI.money(sf.noi)}</div><div class="tiny">Before income tax and capital expenditures</div></div>
+<div class="card"><div class="metric-label">NOI / market-value input</div><div class="metric small">${UI.pct(sf.noi/sf.market,2)}</div><div class="tiny">Unlevered scenario yield; not an appraisal cap rate</div></div>
+</div></section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">2026 annual cash flow</div><h2>Gross rent is not spendable income</h2><p>Household midpoints are used where ranges were supplied. Third owner-occupiable unit contributes no rent. All projections round to the nearest $10.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Cash-flow line</th><th class="number">2026 amount</th><th>Classification / assumption</th><th>Official reference or verification route</th></tr></thead><tbody>
+<tr><td>Gross scheduled rent · two units</td><td class="number positive">${UI.money(sf.grossRent)}</td><td>${UI.status("input")}</td><td class="source"><span class="badge red">Leases not supplied</span></td></tr>
+<tr><td>Vacancy reserve</td><td class="number negative">−${UI.money(sf.vacancyCost)}</td><td>${UI.badge("5% assumption","gold")}</td><td class="source">Scenario assumption · not an observed loss</td></tr>
+<tr><td>Management reserve</td><td class="number negative">−${UI.money(sf.managementCost)}</td><td>${UI.badge("8% of collected rent","gold")}</td><td class="source">Scenario assumption · quote not supplied</td></tr>
+<tr><td>Property tax</td><td class="number negative">−${UI.money(sf.propertyTax)}</td><td>${UI.status("derived")}</td><td class="source">${UI.source("sfTaxRate","Official rate vs. bill")}</td></tr>
+<tr><td>Water / wastewater midpoint</td><td class="number negative">−${UI.money(sf.water)}</td><td>${UI.status("input")}</td><td class="source">${UI.source("waterB")}</td></tr>
+<tr><td>Electricity midpoint</td><td class="number negative">−${UI.money(sf.electricity)}</td><td>${UI.status("input")}</td><td class="source"><span class="badge red">Bills not supplied</span></td></tr>
+<tr><td>Insurance input</td><td class="number negative">−${UI.money(sf.insurance)}</td><td>${UI.status("input")}</td><td class="source">${UI.source("insurance","Quote required")}</td></tr>
+<tr><td>Maintenance reserve</td><td class="number negative">−${UI.money(sf.maintenance)}</td><td>${UI.badge("1% of market input","gold")}</td><td class="source">Scenario assumption · not actual work</td></tr>
+<tr><td>Rent Board fee · two rented units</td><td class="number negative">−${UI.money(sf.fee)}</td><td>${UI.badge("$59 × 2; exemption assumed for owner unit","gold")}</td><td class="source">${UI.source("sfRentFee")}</td></tr>
+<tr><td><strong>Net operating income</strong></td><td class="number"><strong>${UI.money(sf.noi)}</strong></td><td>${UI.badge("Before income tax","gold")}</td><td class="source">Calculated from lines above</td></tr>
+</tbody></table></div>
+<p class="tiny">No income-tax deduction, depreciation, passive-loss benefit, mortgage payment or capital improvement is included. Property tax projects the 2025 household effective ratio onto a 2026 modeled assessment. Actual parcel charges and Rent Board fee exemptions must be checked; charging all three units would add $59 before any tenant recovery.</p>
+</section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Regulatory context</div><h2>Verify coverage before changing rent</h2><p>Local and statewide rules can apply differently by unit, construction date, ownership and exemption status. Current percentages are not long-term growth guarantees.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Rule / obligation</th><th class="wrap">Current official information</th><th class="wrap">Model treatment / required check</th><th>Official source</th></tr></thead><tbody>
+<tr><td><strong>SF covered-unit increase</strong></td><td class="wrap">1.6% for March 1, 2026–February 28, 2027.</td><td class="wrap">1.6% is extrapolated after the published period only as a scenario.</td><td class="source">${UI.source("sfRent")}</td></tr>
+<tr><td><strong>AB 1482 increase</strong></td><td class="wrap">8.8% maximum for covered units not subject to local rent control, August 1, 2026–July 31, 2027.</td><td class="wrap">Not stacked with the local percentage; unit coverage is unverified.</td><td class="source">${UI.source("sfAB1482")}</td></tr>
+<tr><td><strong>Statewide framework</strong></td><td class="wrap">Generally lower of 5% + CPI or 10%, subject to coverage and exemptions.</td><td class="wrap">Single-family and other exemptions need facts and required notices.</td><td class="source">${UI.source("caTenants")}</td></tr>
+<tr><td><strong>Housing Inventory</strong></td><td class="wrap">Annual reporting; rent-increase license required to impose annual allowable and banked increases.</td><td class="wrap">Compliance status and unit details are unverified.</td><td class="source">${UI.source("sfRentInventory")}</td></tr>
+<tr><td><strong>Rent Board fee</strong></td><td class="wrap">2026–27: $59 per dwelling unit / $29.50 per guest unit unless exempt; due March 1.</td><td class="wrap">Base model charges two rented units only; check owner-unit exemption.</td><td class="source">${UI.source("sfRentFee")}</td></tr>
+<tr><td><strong>Ad valorem tax rate</strong></td><td class="wrap">FY2026–27 combined rate: 1.18162182%.</td><td class="wrap">Household total-bill ratio is higher and may include other charges.</td><td class="source">${UI.source("sfTaxRate")}</td></tr>
+</tbody></table></div></section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Owner-unit option</div><h2>Potential upside is deliberately outside the base case</h2><p>If the household moves into Property A, Property B’s owner unit might become rentable—but bedroom count, legal status, condition, coverage and actual achievable rent are unverified.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>HUD FY2026 ZIP-level benchmark</th><th class="number">Monthly gross rent</th><th class="number">Annual gross rent</th><th>Status</th><th>Official source</th></tr></thead><tbody>
+<tr><td>One-bedroom</td><td class="number">${UI.exact(MODEL.BASE.bRent1BR)}</td><td class="number">${UI.money(MODEL.BASE.bRent1BR*12)}</td><td>${UI.badge("Benchmark, not a quote","gold")}</td><td class="source">${UI.source("hudB")}</td></tr>
+<tr><td>Two-bedroom</td><td class="number">${UI.exact(MODEL.BASE.bRent2BR)}</td><td class="number">${UI.money(MODEL.BASE.bRent2BR*12)}</td><td>${UI.badge("Benchmark, not a quote","gold")}</td><td class="source">${UI.source("hudB")}</td></tr>
+<tr><td>Property B owner unit</td><td class="number">—</td><td class="number">—</td><td>${UI.badge("Bedrooms and rent unverified","red")}</td><td class="source">${UI.source("hudMethod","FMR definition")}</td></tr>
+</tbody></table></div>
+<div class="callout"><strong>Do not add these amounts to the live-in-A result automatically.</strong> The correct comparison also needs moving costs, preparation work, vacancy, management, taxes, legal coverage and the value of the housing surrendered in Property B. The base model keeps all three options’ Property B treatment unchanged.</div>
+</section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Selected projection years</div><h2>A stable contributor under restrained rent growth</h2><p>NOI after vacancy and management reserves, before income tax. Full annual detail appears on the property page.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Property tax</th><th class="number">Gross rent</th><th class="number">Operating NOI</th><th class="number">NOI margin</th><th>Rule / model</th></tr></thead><tbody id="selected-years"></tbody></table></div>
+</section>
+<section class="section"><div class="card review"><h3>Before relying on Property B cash flow</h3><p>Obtain leases and rent-roll history; confirm unit count, lawful use and owner-unit status; verify Rent Board Inventory/license and fee exemptions; reconcile the property-tax bill to the adopted rate and direct charges; obtain landlord insurance and property-management quotes; check metered utility use; and model depreciation and income tax from actual records. <a href="review.html">Open the verification queue →</a></p></div></section>
+</div>`;
+for (const year of [2026,2030,2040,2050]) {
+  const x=MODEL.sfAnnual(year);
+  document.getElementById("selected-years").insertAdjacentHTML("beforeend", `<tr><td>${year}</td><td class="number">${UI.money(x.market)}</td><td class="number">${UI.money(x.propertyTax)}</td><td class="number">${UI.money(x.grossRent)}</td><td class="number"><strong>${UI.money(x.noi)}</strong></td><td class="number">${UI.pct(x.noi/x.grossRent,1)}</td><td class="source">${UI.source("sfRent","Current rule + model")}</td></tr>`);
+}
+</script></body></html>
