@@ -67,9 +67,6 @@ B_HISTORY = [
     (2021, 2_070, 105_600), (2020, 2_200, 104_510), (2019, 2_130, 102_470), (2018, 2_060, 100_460),
     (2017, 1_740, 98_490), (2016, 1_680, 96_560),
 ]
-# BOE annual inflation factors (LTA 2026/002 enclosure), keyed by lien-date year.
-BOE_FACTOR = {2015: 1.01998, 2016: 1.01525, 2017: 1.02, 2018: 1.02, 2019: 1.02, 2020: 1.02,
-              2021: 1.01036, 2022: 1.02, 2023: 1.02, 2024: 1.02, 2025: 1.02, 2026: 1.02}
 
 # ---------------------------------------------------------------- placeholders (FLAGGED)
 PLACEHOLDER = dict(
@@ -154,7 +151,7 @@ def costs_A(year: int) -> dict:
     return dict(
         insurance=infl(A["insurance"], year),
         water=infl(mid(A["water_mo"]) * 12, year),
-        electricity=infl(mid(A["elec_mo"]) * 12, year),   # negative = credit (while NEM legacy lasts)
+        electricity=mid(A["elec_mo"]) * 12,   # negative = credit; held flat (NEM legacy end date unknown)
         maintenance=infl(PLACEHOLDER["maint_A"], year),
     )
 
@@ -222,6 +219,16 @@ def breakeven(option: str, Y: int, scen: str) -> float:
         else:
             hi = m
     return (lo + hi) / 2
+
+
+def total_return(prop: str, Y: int, scen: str = "base", reassessed: bool = True) -> dict:
+    """Year-1 net income as a share of market value, plus the scenario appreciation rate."""
+    v = fmv(prop, Y, scen)
+    if prop == "A":
+        net = option_flows("rent", Y, scen)[0]["net"]
+    else:
+        net = noi_B(Y, Y if reassessed else None, scen)
+    return dict(value=v, net=net, yield_=net / v, growth=GROWTH[prop][scen], total=net / v + GROWTH[prop][scen])
 
 
 def best(Y: int, scen: str, r: float):
