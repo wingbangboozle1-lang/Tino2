@@ -1,0 +1,386 @@
+[
+ {
+  "id": "irs_2027",
+  "publisher": "IRS",
+  "title": "IR-2026-133: tax inflation adjustments for tax year 2027",
+  "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts",
+  "access": "opened",
+  "used_for": "2027 estate basic exclusion; 2027 gift annual exclusion"
+ },
+ {
+  "id": "irs_rp2635",
+  "publisher": "IRS",
+  "title": "Revenue Procedure 2026-35",
+  "url": "https://www.irs.gov/pub/irs-drop/rp-26-35.pdf",
+  "access": "excerpt",
+  "used_for": "Same 2027 figures as the news release"
+ },
+ {
+  "id": "irs_estate",
+  "publisher": "IRS",
+  "title": "Estate tax (overview and filing thresholds)",
+  "url": "https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax",
+  "access": "opened",
+  "used_for": "2026 filing threshold; portability requires a timely return"
+ },
+ {
+  "id": "irs_i706",
+  "publisher": "IRS",
+  "title": "Instructions for Form 706 (Table A, due date)",
+  "url": "https://www.irs.gov/instructions/i706",
+  "access": "excerpt",
+  "used_for": "Top rate 40% over $1,000,000 of taxable amount; due 9 months after death"
+ },
+ {
+  "id": "irs_gifts",
+  "publisher": "IRS",
+  "title": "FAQ: Gifts and inheritances (basis of inherited property)",
+  "url": "https://www.irs.gov/faqs/interest-dividends-other-types-of-income/gifts-inheritances/gifts-inheritances",
+  "access": "opened",
+  "used_for": "Basis of inherited property = fair market value at date of death (or alternate valuation date)"
+ },
+ {
+  "id": "irs_p551",
+  "publisher": "IRS",
+  "title": "Publication 551, Basis of Assets",
+  "url": "https://www.irs.gov/pub/irs-prior/p551--2022.pdf",
+  "access": "excerpt",
+  "used_for": "Community property basis; gift basis"
+ },
+ {
+  "id": "irs_tc701",
+  "publisher": "IRS",
+  "title": "Topic 701: Sale of your home",
+  "url": "https://www.irs.gov/taxtopics/tc701",
+  "access": "opened",
+  "used_for": "Home-sale exclusion: own and use 2 of 5 years"
+ },
+ {
+  "id": "irs_tc409",
+  "publisher": "IRS",
+  "title": "Topic 409: Capital gains and losses",
+  "url": "https://www.irs.gov/taxtopics/tc409",
+  "access": "opened",
+  "used_for": "Long-term rates 0% / 15% / 20%; 25% maximum on unrecaptured section 1250 gain"
+ },
+ {
+  "id": "irs_tc559",
+  "publisher": "IRS",
+  "title": "Topic 559: Net investment income tax",
+  "url": "https://www.irs.gov/taxtopics/tc559",
+  "access": "opened",
+  "used_for": "3.8% above $200,000 single / $250,000 joint modified AGI; covers rents and gains"
+ },
+ {
+  "id": "irs_p527",
+  "publisher": "IRS",
+  "title": "Publication 527, Residential Rental Property",
+  "url": "https://www.irs.gov/publications/p527",
+  "access": "not-opened",
+  "used_for": "Rental income, expenses and depreciation rules (not opened; linked for manual review)"
+ },
+ {
+  "id": "congress_hr1301",
+  "publisher": "Congress.gov",
+  "title": "H.R.1301, Death Tax Repeal Act (119th Congress)",
+  "url": "https://www.congress.gov/bill/119th-congress/house-bill/1301",
+  "access": "excerpt",
+  "used_for": "Introduced 02/13/2025; status: Introduced"
+ },
+ {
+  "id": "cbo",
+  "publisher": "Congressional Budget Office",
+  "title": "The Budget and Economic Outlook (publication 62105)",
+  "url": "https://www.cbo.gov/publication/62105",
+  "access": "excerpt",
+  "used_for": "CPI-U inflation 2.3% from 2028 onward"
+ },
+ {
+  "id": "tsp",
+  "publisher": "Federal Retirement Thrift Investment Board (TSP)",
+  "title": "Fund information sheet, returns to Dec 31, 2025",
+  "url": "https://www.tsp.gov/publications/tsplf14.pdf",
+  "access": "excerpt",
+  "used_for": "Since-inception annual returns: C Fund 11.34%, G Fund 4.65%"
+ },
+ {
+  "id": "fred_sj",
+  "publisher": "FHFA (via Federal Reserve Bank of St. Louis)",
+  "title": "All-Transactions House Price Index, San Jose-Sunnyvale-Santa Clara MSA",
+  "url": "https://fred.stlouisfed.org/data/ATNHPIUS41940Q.txt",
+  "access": "opened",
+  "used_for": "Index values for Q2 1996, 2006, 2016, 2026"
+ },
+ {
+  "id": "fred_sf",
+  "publisher": "FHFA (via Federal Reserve Bank of St. Louis)",
+  "title": "All-Transactions House Price Index, San Francisco-San Mateo-Redwood City MSAD",
+  "url": "https://fred.stlouisfed.org/data/ATNHPIUS41884Q.txt",
+  "access": "opened",
+  "used_for": "Index values for Q2 1996, 2006, 2016, 2026"
+ },
+ {
+  "id": "hud_a",
+  "publisher": "HUD",
+  "title": "FY2026 Small Area Fair Market Rents, ZIP 95014",
+  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&metro_code=METRO41940M41940&year=2026&hypo=0",
+  "access": "opened",
+  "used_for": "3-bedroom and 4-bedroom benchmark rents"
+ },
+ {
+  "id": "hud_b",
+  "publisher": "HUD",
+  "title": "FY2026 Small Area Fair Market Rents, ZIP 94122",
+  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=94122&metro_code=METRO41860MM7360&year=2026&hypo=0",
+  "access": "opened",
+  "used_for": "2-bedroom benchmark rent"
+ },
+ {
+  "id": "ftb_cg",
+  "publisher": "California Franchise Tax Board",
+  "title": "Capital gains and losses",
+  "url": "https://www.ftb.ca.gov/file/personal/income-types/capital-gains-and-losses.html",
+  "access": "excerpt",
+  "used_for": "California taxes capital gains as ordinary income"
+ },
+ {
+  "id": "ftb_5805",
+  "publisher": "California Franchise Tax Board",
+  "title": "2025 Form 5805 instructions (tax rate schedules)",
+  "url": "https://www.ftb.ca.gov/forms/2025/2025-5805-instructions.html",
+  "access": "excerpt",
+  "used_for": "Additional 1% tax on taxable income over $1,000,000"
+ },
+ {
+  "id": "sco",
+  "publisher": "California State Controller",
+  "title": "California estate tax",
+  "url": "https://www.sco.ca.gov/ardtax_estate_tax.html",
+  "access": "opened",
+  "used_for": "No California estate tax return for deaths on or after Jan 1, 2005"
+ },
+ {
+  "id": "rtc13301",
+  "publisher": "California Legislative Information",
+  "title": "Revenue and Taxation Code section 13301",
+  "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=13301",
+  "access": "opened",
+  "used_for": "Bar on gift, inheritance and estate taxes"
+ },
+ {
+  "id": "boe_p19",
+  "publisher": "California State Board of Equalization",
+  "title": "Proposition 19 overview",
+  "url": "https://www.boe.ca.gov/prop19/",
+  "access": "opened",
+  "used_for": "Parent-child exclusion rules since Feb 16, 2021"
+ },
+ {
+  "id": "lta25009",
+  "publisher": "California State Board of Equalization",
+  "title": "Letter to Assessors 2025/009",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf",
+  "access": "opened",
+  "used_for": "Exclusion amount $1,044,586 for Feb 16, 2025 to Feb 15, 2027; adjustment method"
+ },
+ {
+  "id": "lta26026",
+  "publisher": "California State Board of Equalization",
+  "title": "Letter to Assessors 2026/026 (Prop 19 questions and answers)",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf",
+  "access": "opened",
+  "used_for": "One-year move-in rule; loss of exclusion on move-out; multi-unit property; 3-year claim period (first 3 of 11 sections read)"
+ },
+ {
+  "id": "lta26002",
+  "publisher": "California State Board of Equalization",
+  "title": "Letter to Assessors 2026/002",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf",
+  "access": "opened",
+  "used_for": "2026-27 inflation factor 1.02"
+ },
+ {
+  "id": "pub800",
+  "publisher": "California State Board of Equalization",
+  "title": "Publication 800-1 (Prop 19 fact sheet)",
+  "url": "https://www.boe.ca.gov/pdf/pub800-1.pdf",
+  "access": "excerpt",
+  "used_for": "Form BOE-19-P; homeowners' exemption claim within 1 year"
+ },
+ {
+  "id": "boe_hoe",
+  "publisher": "California State Board of Equalization",
+  "title": "Homeowners' exemption",
+  "url": "https://www.boe.ca.gov/proptaxes/homeowners_exemption.htm",
+  "access": "excerpt",
+  "used_for": "$7,000 reduction in assessed value; form BOE-266"
+ },
+ {
+  "id": "boe502d",
+  "publisher": "California State Board of Equalization",
+  "title": "Form BOE-502-D (change in ownership statement, death of real property owner)",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/sample-boe502d.pdf",
+  "access": "excerpt",
+  "used_for": "File within 150 days of the date of death"
+ },
+ {
+  "id": "prob16061",
+  "publisher": "California Legislative Information",
+  "title": "Probate Code section 16061.7",
+  "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=16061.7",
+  "access": "not-opened",
+  "used_for": "Trustee notification (text reached only through search excerpts)"
+ },
+ {
+  "id": "sos_ccrov",
+  "publisher": "California Secretary of State",
+  "title": "County clerk memo 26138 (initiative failed to qualify)",
+  "url": "https://elections.cdn.sos.ca.gov/ccrov/2026/may/26138jh.pdf",
+  "access": "opened",
+  "used_for": "Proposition 19 repeal initiative failed to qualify, May 2026"
+ },
+ {
+  "id": "sos_results",
+  "publisher": "California Secretary of State",
+  "title": "Nov 3, 2026 ballot measure returns (unofficial)",
+  "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
+  "access": "opened",
+  "used_for": "Prop 3 Yes 60.6%; Prop 40 No 52.8%; Prop 42 Yes 51.6% as read on Nov 10, 2026"
+ },
+ {
+  "id": "vg3",
+  "publisher": "California Secretary of State",
+  "title": "Voter guide, Proposition 3 (2026)",
+  "url": "https://voterguide.sos.ca.gov/propositions/3/",
+  "access": "opened",
+  "used_for": "Makes existing high-income tax rates permanent"
+ },
+ {
+  "id": "vg40",
+  "publisher": "California Secretary of State",
+  "title": "Voter guide, Proposition 40 (2026) title and summary",
+  "url": "https://voterguide.sos.ca.gov/propositions/40/title-summary.htm",
+  "access": "excerpt",
+  "used_for": "One-time tax on covered assets over $1 billion; excludes real property"
+ },
+ {
+  "id": "vg42",
+  "publisher": "California Secretary of State",
+  "title": "Voter guide, Proposition 42 (2026)",
+  "url": "https://voterguide.sos.ca.gov/propositions/42/",
+  "access": "opened",
+  "used_for": "Bars new state taxes on ownership of personal property"
+ },
+ {
+  "id": "ab942",
+  "publisher": "California Legislative Information",
+  "title": "AB 942 (2025-26) bill status",
+  "url": "https://leginfo.legislature.ca.gov/faces/billStatusClient.xhtml?bill_id=202520260AB942",
+  "access": "opened",
+  "used_for": "Not enacted; net-metering-on-sale language removed"
+ },
+ {
+  "id": "cpuc_nem",
+  "publisher": "California Public Utilities Commission",
+  "title": "Net energy metering and net billing",
+  "url": "https://www.cpuc.ca.gov/industries-and-topics/electrical-energy/demand-side-management/customer-generation/net-energy-metering-and-net-billing",
+  "access": "excerpt",
+  "used_for": "NEM 2.0 customers keep the tariff 20 years from interconnection"
+ },
+ {
+  "id": "cdi_study",
+  "publisher": "California Department of Insurance",
+  "title": "Residential property insurance studies and reports",
+  "url": "https://www.insurance.ca.gov/0400-news/0200-studies-reports/0250-homeowners-study/",
+  "access": "excerpt",
+  "used_for": "ZIP-level data exists; no premium figure obtained"
+ },
+ {
+  "id": "cdi_tool",
+  "publisher": "California Department of Insurance",
+  "title": "Homeowners premium comparison tool",
+  "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:20",
+  "access": "opened",
+  "used_for": "Form-driven tool; only the introduction could be read, no premium obtained"
+ },
+ {
+  "id": "sf_tax",
+  "publisher": "City and County of San Francisco, Treasurer and Tax Collector",
+  "title": "Secured property taxes",
+  "url": "https://sftreasurer.org/property/secured-property-taxes",
+  "access": "opened",
+  "used_for": "Rate 1.18162182% (FY2026-27); 1.18268325% (FY2025-26)"
+ },
+ {
+  "id": "sf_death",
+  "publisher": "City and County of San Francisco",
+  "title": "Guide to property matters following an owner's death",
+  "url": "https://www.sf.gov/guide-property-related-matters-following-owners-death",
+  "access": "excerpt",
+  "used_for": "BOE-266 within 1 year; BOE-19-P within 3 years"
+ },
+ {
+  "id": "sf_transfer",
+  "publisher": "City and County of San Francisco",
+  "title": "Transfer tax",
+  "url": "https://www.sf.gov/transfer-tax",
+  "access": "excerpt",
+  "used_for": "0.75% of the full price for $1,000,000 to under $5,000,000"
+ },
+ {
+  "id": "sf_rent",
+  "publisher": "City and County of San Francisco, Rent Board",
+  "title": "Annual allowable rent increase, Mar 2026 to Feb 2027",
+  "url": "https://www.sf.gov/news--annual-rent-increase-3126-22827-announced",
+  "access": "excerpt",
+  "used_for": "1.6%"
+ },
+ {
+  "id": "sf_rent60",
+  "publisher": "City and County of San Francisco, Rent Board",
+  "title": "Learn about rent increases in San Francisco",
+  "url": "https://www.sf.gov/reports--march-2023--learn-about-rent-increases-san-francisco",
+  "access": "excerpt",
+  "used_for": "Annual increase = 60% of the Bay Area CPI-U rise"
+ },
+ {
+  "id": "sfpuc",
+  "publisher": "San Francisco Public Utilities Commission",
+  "title": "FY27 10-year financial plan presentation",
+  "url": "https://www.sfpuc.gov/sites/default/files/about-us/policies-reports/FY27-10-Year-Plan-Presentation.pdf",
+  "access": "excerpt",
+  "used_for": "FYE 2027: water +7.0%, wastewater +15.0%"
+ },
+ {
+  "id": "sjw",
+  "publisher": "San Jose Water (regulated utility; rates set by CPUC)",
+  "title": "2026 rates",
+  "url": "https://www.sjwater.com/2026-rates/",
+  "access": "excerpt",
+  "used_for": "About +2.8% on Jan 1, 2026 (applies only if this utility serves the property)"
+ },
+ {
+  "id": "scc_asr",
+  "publisher": "County of Santa Clara, Office of the Assessor",
+  "title": "Parent-to-child transfers (Prop 19)",
+  "url": "https://asr.santaclaracounty.gov/tax-savings/transferring-your-assessed-value/parent-to-child-2",
+  "access": "excerpt",
+  "used_for": "Principal residence within one year; value test"
+ },
+ {
+  "id": "scc_ratebook",
+  "publisher": "County of Santa Clara, Controller-Treasurer",
+  "title": "Tax Rate Book 2025-2026 (pages A-4 to A-6)",
+  "url": "https://files.santaclaracounty.gov/exjcpb1531/2025-11/tax-rate-book-2025-2026.pdf",
+  "access": "opened",
+  "used_for": "Component rates used for the Cupertino-area rate"
+ },
+ {
+  "id": "scc_archive",
+  "publisher": "County of Santa Clara, Controller-Treasurer",
+  "title": "Property tax rate book archive",
+  "url": "https://controller.santaclaracounty.gov/property-tax-distribution/property-tax-rate-book",
+  "access": "opened",
+  "used_for": "FY2026-27 book not yet posted on Nov 10, 2026"
+ }
+]

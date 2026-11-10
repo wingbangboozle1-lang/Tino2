@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projections — Tino2</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand">Tino2 <span>·</span> Inheritance Decision Dashboard</div>
+    <div class="site-tagline">Value, property tax, insurance, utility &amp; rental projections</div>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="../index.html">Home</a>
+    <a href="property-taxes.html">Property Taxes</a>
+    <a href="insurance.html">Insurance</a>
+    <a href="utilities.html">Utilities</a>
+    <a href="inheritance-tax.html">Estate &amp; Inheritance Tax</a>
+    <a href="basis-gains.html">Basis &amp; Capital Gains</a>
+    <a href="projections.html" class="active">Projections</a>
+    <a href="decision.html">Decision &amp; Process</a>
+    <a href="flagged-review.html">Flagged for Review</a>
+  </div>
+</nav>
+
+<main class="container">
+  <section class="card">
+    <h1>Projections &amp; Scenario Model</h1>
+    <p><strong>Modeling year:</strong> inheritance/transfer in 2045 (midpoint of the user's 2040–2050 window), 19 years after Nov 2026. <strong>All dollar figures rounded to nearest $10.</strong></p>
+    <div class="privacy"><b>Privacy:</b> No personal names, addresses, or account figures are used anywhere in these tables.</div>
+
+    <h2>A. Planning assumptions (assumptions — not verified facts)</h2>
+    <table>
+      <thead><tr><th>Assumption</th><th class="amt">Value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Transfer (inheritance) year</td><td class="amt">2045</td><td>Modeling choice — midpoint of user's 2040–2050 window</td></tr>
+        <tr><td>Cupertino market appreciation</td><td class="amt">3.5%/yr</td><td class="source">Illustrative assumption <span class="flag">Unverified</span> — not an official forecast</td></tr>
+        <tr><td>San Francisco market appreciation</td><td class="amt">3.0%/yr</td><td class="source">Illustrative assumption <span class="flag">Unverified</span> — not an official forecast</td></tr>
+        <tr><td>Prop 13 assessed-value growth (no transfer)</td><td class="amt">2.0%/yr maximum</td><td class="source"><a href="https://www.sccassessor.org/edocman/AnnualReport2025-2026.pdf" target="_blank" rel="noopener">Verified rule</a> — Cal. Const. art. XIII A</td></tr>
+        <tr><td>Cost inflation (insurance, utilities, maintenance)</td><td class="amt">3.0%/yr</td><td class="source">Illustrative assumption <span class="flag">Unverified</span></td></tr>
+        <tr><td>SF rent growth</td><td class="amt">3.0%/yr</td><td class="source">Illustrative assumption <span class="flag">Unverified</span></td></tr>
+        <tr><td>SCC effective property tax rate (planning)</td><td class="amt">1.25%</td><td class="source"><a href="https://files.santaclaracounty.gov/exjcpb1521/2024-11/assessment_information_booklet.pdf" target="_blank" rel="noopener">SCC typical range 1.08–1.30%</a></td></tr>
+        <tr><td>SF effective property tax rate (published)</td><td class="amt">1.18268325%</td><td class="source"><a href="https://www.sftreasurer.org/" target="_blank" rel="noopener">SF Treasurer FY 2025–26</a></td></tr>
+        <tr><td>Prop 19 inflation-adjusted cap</td><td class="amt">$1,044,586 held flat</td><td class="source">2025-02-16 to 2027-02-15 per BOE Letter 2025/009 (secondary); adjusts every 2 years — future value unknown</td></tr>
+        <tr><td>Maintenance: Cupertino</td><td class="amt">0.75% of market value/yr</td><td class="source">Industry rule of thumb <span class="flag">Unverified</span></td></tr>
+        <tr><td>Maintenance: San Francisco</td><td class="amt">1.0% of market value/yr</td><td class="source">Industry rule of thumb <span class="flag">Unverified</span> (older home)</td></tr>
+        <tr><td>Selling costs</td><td class="amt">5% of sale price</td><td class="source">Rule of thumb <span class="flag">Unverified</span></td></tr>
+        <tr><td>Investment portfolio return</td><td class="amt">6.0%/yr nominal</td><td class="source">Illustrative assumption <span class="flag">Unverified</span> — not a guarantee</td></tr>
+      </tbody>
+    </table>
+
+    <h2>B. Cupertino house projection (2026 → 2045)</h2>
+    <p>Market value at 3.5%/yr assumption · assessed value at 2.0%/yr Prop 13 cap if never transferred · estimated tax at 1.25% planning rate.</p>
+    <table>
+      <thead><tr><th>Year</th><th class="amt">Market value</th><th class="amt">Assessed value (no transfer)</th><th class="amt">Est. property tax @1.25%</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>2026</td><td class="amt">$3,100,000</td><td class="amt">$550,540</td><td class="amt">$6,880</td><td class="source">Market value: user-provided estimate · <span class="flag">Unverified</span>; assessed: user-provided record · <span class="flag">Unverified</span>; tax: planning rate</td></tr>
+        <tr><td>2028</td><td class="amt">$3,320,800</td><td class="amt">$572,780</td><td class="amt">$7,160</td><td class="source">Projection (assumptions above)</td></tr>
+        <tr><td>2030</td><td class="amt">$3,557,320</td><td class="amt">$595,920</td><td class="amt">$7,450</td><td class="source">Projection</td></tr>
+        <tr><td>2032</td><td class="amt">$3,810,690</td><td class="amt">$620,010</td><td class="amt">$7,750</td><td class="source">Projection</td></tr>
+        <tr><td>2034</td><td class="amt">$4,082,110</td><td class="amt">$645,040</td><td class="amt">$8,060</td><td class="source">Projection</td></tr>
+        <tr><td>2036</td><td class="amt">$4,372,860</td><td class="amt">$671,200</td><td class="amt">$8,390</td><td class="source">Projection</td></tr>
+        <tr><td>2038</td><td class="amt">$4,687,100</td><td class="amt">$698,230</td><td class="amt">$8,730</td><td class="source">Projection</td></tr>
+        <tr><td>2040</td><td class="amt">$5,022,960</td><td class="amt">$726,420</td><td class="amt">$9,080</td><td class="source">Projection</td></tr>
+        <tr><td>2042</td><td class="amt">$5,383,040</td><td class="amt">$755,790</td><td class="amt">$9,450</td><td class="source">Projection</td></tr>
+        <tr><td>2044</td><td class="amt">$5,771,400</td><td class="amt">$786,310</td><td class="amt">$9,830</td><td class="source">Projection</td></tr>
+        <tr><td>2045 (transfer year)</td><td class="amt">$5,960,120</td><td class="amt">$802,020</td><td class="amt">$10,030</td><td class="source">Projection — inheritance modeled this year</td></tr>
+      </tbody>
+    </table>
+    <p>If transferred with NO reassessment (Prop 13 base kept), tax continues ≈ +2%/yr: 2046 $10,230 · 2047 $10,430 · 2048 $10,640 · 2049 $10,850 · 2050 $11,070 · 2051 $11,290 · 2052 $11,520 · 2053 $11,750 · 2054 $11,980 · 2055 $12,220.</p>
+    <p>If reassessed to full market at transfer: 2045 tax ≈ $5,960,120 × 1.25% = <span class="nowrap amt">$74,500/yr</span>, growing 2%/yr on the new base.</p>
+
+    <h2>C. San Francisco house projection (2026 → 2045 — reference only; not inherited)</h2>
+    <table>
+      <thead><tr><th>Year</th><th class="amt">Market value</th><th class="amt">Assessed value (no transfer)</th><th class="amt">Est. property tax @1.18268325%</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>2026</td><td class="amt">$1,800,000</td><td class="amt">$114,250</td><td class="amt">$1,350</td><td class="source">Market: user-provided estimate · <span class="flag">Unverified</span>; assessed: user-provided record · <span class="flag">Unverified</span>; rate: SF Treasurer FY 2025–26</td></tr>
+        <tr><td>2028</td><td class="amt">$1,909,620</td><td class="amt">$118,860</td><td class="amt">$1,410</td><td class="source">Projection</td></tr>
+        <tr><td>2030</td><td class="amt">$2,025,920</td><td class="amt">$123,660</td><td class="amt">$1,460</td><td class="source">Projection</td></tr>
+        <tr><td>2032</td><td class="amt">$2,149,290</td><td class="amt">$128,660</td><td class="amt">$1,520</td><td class="source">Projection</td></tr>
+        <tr><td>2034</td><td class="amt">$2,280,190</td><td class="amt">$133,860</td><td class="amt">$1,580</td><td class="source">Projection</td></tr>
+        <tr><td>2036</td><td class="amt">$2,419,050</td><td class="amt">$139,270</td><td class="amt">$1,650</td><td class="source">Projection</td></tr>
+        <tr><td>2038</td><td class="amt">$2,566,370</td><td class="amt">$144,890</td><td class="amt">$1,710</td><td class="source">Projection</td></tr>
+        <tr><td>2040</td><td class="amt">$2,722,660</td><td class="amt">$150,740</td><td class="amt">$1,780</td><td class="source">Projection</td></tr>
+        <tr><td>2042</td><td class="amt">$2,888,470</td><td class="amt">$156,840</td><td class="amt">$1,850</td><td class="source">Projection</td></tr>
+        <tr><td>2044</td><td class="amt">$3,064,450</td><td class="amt">$163,190</td><td class="amt">$1,930</td><td class="source">Projection</td></tr>
+        <tr><td>2045</td><td class="amt">$3,156,300</td><td class="amt">$166,420</td><td class="amt">$1,970</td><td class="source">Projection (reference)</td></tr>
+      </tbody>
+    </table>
+    <p class="source">Note: user-provided actual SF bills ($2,440 in 2025) exceed rate × assessed value — likely special assessments/parcel charges. Projection uses rate × assessed value; actual bills may be higher · <span class="flag">Unverified</span>.</p>
+
+    <h2>D. Scenario analysis at 2045 (annual, rounded to nearest $10)</h2>
+
+    <h3>Scenario A — Move into Cupertino house as primary residence (Prop 19 relief)</h3>
+    <table>
+      <thead><tr><th>Line</th><th class="amt">Amount</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Market value at transfer</td><td class="amt">$5,960,120</td><td>Projection (3.5%/yr assumption)</td></tr>
+        <tr><td>Parent's factored base year value</td><td class="amt">$802,020</td><td>Projection (2.0%/yr Prop 13 cap)</td></tr>
+        <tr><td>Prop 19 cap (inflation-adjusted $1M allowance)</td><td class="amt">$1,044,590</td><td>BOE Letter 2025/009 (secondary); future value unknown</td></tr>
+        <tr><td>Excess reassessed to market</td><td class="amt">$4,113,510</td><td>Market value − base value − cap</td></tr>
+        <tr><td>New assessed value</td><td class="amt">$4,915,530</td><td>Base value + excess</td></tr>
+        <tr><td>Property tax @1.25%</td><td class="amt">$61,440/yr</td><td>Planning estimate</td></tr>
+        <tr><td>Homeowners insurance</td><td class="amt">$2,100/yr</td><td>Research estimate · <span class="flag">Unverified</span> (aggregator data)</td></tr>
+        <tr><td>Water</td><td class="amt">$2,530/yr</td><td>User estimate $100–$150/mo inflated · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Electricity (solar net credit)</td><td class="amt">−$320/yr</td><td>User-reported $10–20/mo · <span class="flag">Unverified</span> under NEM 3.0</td></tr>
+        <tr><td>Maintenance (0.75% of value)</td><td class="amt">$44,700/yr</td><td>Rule of thumb · <span class="flag">Unverified</span></td></tr>
+        <tr><td><strong>Total annual cost of living there</strong></td><td class="amt"><strong>$110,450/yr</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Scenario B — Rent out the Cupertino house (full reassessment; no Prop 19 relief)</h3>
+    <table>
+      <thead><tr><th>Line</th><th class="amt">Amount</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Assessed value (full market reassessment)</td><td class="amt">$5,960,120</td><td>Projection</td></tr>
+        <tr><td>Property tax @1.25%</td><td class="amt">$74,500/yr</td><td>Planning estimate</td></tr>
+        <tr><td>Landlord insurance</td><td class="amt">$2,630/yr</td><td>Research estimate · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Water (if owner-pays; tenants usually pay own)</td><td class="amt">$2,530/yr</td><td>User estimate · <span class="flag">Unverified</span> split</td></tr>
+        <tr><td>Maintenance (0.75%) + turnover</td><td class="amt">$44,700/yr</td><td>Rule of thumb · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Gross rent (2 units, 3%/yr growth)</td><td class="amt">$12,540/mo = $150,480/yr</td><td>User's $7,150/mo × 1.03^19 · user-provided</td></tr>
+        <tr><td><strong>Net cash flow before income tax</strong></td><td class="amt"><strong>$26,120/yr</strong></td><td>≈ 0.4% yield on $5.96M asset</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Scenario C — Sell the Cupertino house shortly after inheritance</h3>
+    <table>
+      <thead><tr><th>Line</th><th class="amt">Amount</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Sale price</td><td class="amt">$5,960,120</td><td>Projection</td></tr>
+        <tr><td>Selling costs (5%)</td><td class="amt">$298,010</td><td>Rule of thumb · <span class="flag">Unverified</span></td></tr>
+        <tr><td><strong>Net proceeds</strong></td><td class="amt"><strong>$5,662,110</strong></td><td></td></tr>
+        <tr><td>Taxable capital gain</td><td class="amt">≈ $0</td><td>Stepped-up basis = date-of-death FMV (IRC § 1014); sell promptly</td></tr>
+        <tr><td>Year-1 investment income @6% on net proceeds</td><td class="amt">$339,730</td><td>Illustrative assumption · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Ongoing property tax / insurance / maintenance</td><td class="amt">$0</td><td>Asset sold</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Reference — Keep San Francisco home (primary residence + 2 of 3 units rented) at 2045</h3>
+    <table>
+      <thead><tr><th>Line</th><th class="amt">Amount</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Gross rent</td><td class="amt">$150,480/yr ($12,540/mo)</td><td>User's $7,150/mo grown 3%/yr · user-provided</td></tr>
+        <tr><td>Property tax</td><td class="amt">$4,280/yr</td><td>User's 2025 bill $2,440 inflated 3%/yr · <span class="flag">Unverified</span> method</td></tr>
+        <tr><td>(Alternative: SF rate × projected assessed)</td><td class="amt">$1,970/yr</td><td>Rate-based estimate</td></tr>
+        <tr><td>Landlord insurance (rental portion)</td><td class="amt">$3,510/yr</td><td>Research estimate, inflated · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Water (all 3 units)</td><td class="amt">$7,580/yr</td><td>User-provided $330–$400/mo inflated · <span class="flag">Unverified</span> vs. SFPUC tariffs</td></tr>
+        <tr><td>Electricity</td><td class="amt">$1,050/yr</td><td>User-provided $30–70/mo inflated · <span class="flag">Unverified</span></td></tr>
+        <tr><td>Maintenance (1.0% of value)</td><td class="amt">$31,560/yr</td><td>Rule of thumb · <span class="flag">Unverified</span></td></tr>
+        <tr><td><strong>Net before income tax</strong></td><td class="amt"><strong>$102,500/yr</strong></td><td>Using tax $4,280</td></tr>
+      </tbody>
+    </table>
+
+    <h2>E. Recommended plan — 10-year outlook (2045 → 2055)</h2>
+    <p>Assumes: sell Cupertino in 2045, invest net proceeds at 6%/yr; keep SF home as primary residence + rental.</p>
+    <table>
+      <thead><tr><th>Year</th><th class="amt">Investment balance (6%/yr)</th><th class="amt">Approx. annual investment income @6%</th><th class="amt">SF net rental income (3%/yr growth)</th></tr></thead>
+      <tbody>
+        <tr><td>2045</td><td class="amt">$5,662,110</td><td class="amt">$339,730</td><td class="amt">$102,500</td></tr>
+        <tr><td>2046</td><td class="amt">$6,001,840</td><td class="amt">$360,110</td><td class="amt">$105,580</td></tr>
+        <tr><td>2047</td><td class="amt">$6,361,950</td><td class="amt">$381,720</td><td class="amt">$108,750</td></tr>
+        <tr><td>2048</td><td class="amt">$6,743,670</td><td class="amt">$404,620</td><td class="amt">$112,010</td></tr>
+        <tr><td>2049</td><td class="amt">$7,148,290</td><td class="amt">$428,900</td><td class="amt">$115,370</td></tr>
+        <tr><td>2050</td><td class="amt">$7,577,190</td><td class="amt">$454,630</td><td class="amt">$118,830</td></tr>
+        <tr><td>2051</td><td class="amt">$8,031,820</td><td class="amt">$481,910</td><td class="amt">$122,390</td></tr>
+        <tr><td>2052</td><td class="amt">$8,513,730</td><td class="amt">$510,820</td><td class="amt">$126,060</td></tr>
+        <tr><td>2053</td><td class="amt">$9,024,550</td><td class="amt">$541,470</td><td class="amt">$129,840</td></tr>
+        <tr><td>2054</td><td class="amt">$9,566,020</td><td class="amt">$573,960</td><td class="amt">$133,740</td></tr>
+        <tr><td>2055</td><td class="amt">$10,139,970</td><td class="amt">$608,400</td><td class="amt">$137,750</td></tr>
+      </tbody>
+    </table>
+    <p class="source">Investment return (6%/yr), appreciation rates, maintenance, and selling costs are planning assumptions — <span class="flag">Unverified</span>, not official forecasts.</p>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p><strong>Tino2 — Inheritance Decision Dashboard</strong> · Data as of November 2026 · Not financial or tax advice.</p>
+    <p><a href="../index.html">Back to home</a> · <a href="decision.html">See the recommendation</a> · <a href="flagged-review.html">Flagged for review</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
