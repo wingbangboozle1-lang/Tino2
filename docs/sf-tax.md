@@ -11,7 +11,7 @@
 ## Tax rate context
 - Proposition 13 base rate: 1% of assessed value + voter-approved bonds (verified, CA BOE — see prop13-prop19.md).
 - Third-party estimates: San Francisco County effective rate ≈ 1.18%–1.22% of market/assessed value depending on source (Ownwell 1.22%; other estimate 1.1827%) — non-official aggregators, flagged.
-- Implied rate from owner's 2025 bill (tax ÷ assessment): $2,439 ÷ $114,248 ≈ 2.13% — unusual; likely reflects direct/special assessments or fiscal-year timing; flagged, derived from owner records.
+- Implied rate from owner's 2025 bill (tax ÷ assessment): $2,440 ÷ $114,250 ≈ 2.13% — unusual; likely reflects direct/special assessments or fiscal-year timing; flagged, derived from owner records.
 - Official rate source to verify: San Francisco Assessor-Recorder / Office of the Treasurer & Tax Collector — not fetched; flagged.
 
 ## Source links

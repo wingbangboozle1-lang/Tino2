@@ -14,8 +14,8 @@
 |------|----------------|---------------------|
 | ZIP code | 95014 (Santa Clara County) | 94122 Outer Sunset (San Francisco County) |
 | Estimated market value | $3,100,000 | $1,800,000 |
-| Current tax assessment | $550,537 (2026) | $114,248 (2025) |
-| Current property tax bill | $7,207 (2025, user-provided) | $2,439 (2025, user-provided) |
+| Current tax assessment | $550,540 (2026) | $114,250 (2025) |
+| Current property tax bill | $7,210 (2025, user-provided) | $2,440 (2025, user-provided) |
 | Use | To be inherited via trust (~2040–2050) | Owner's primary residence; 2 of 3 units rented |
 | Rental income | None | ≈ $7,150/month (2 units, user-provided) |
 | Water cost | $100–$150/month (user estimate) | $330–$400/month all 3 units (user estimate — unverified) |

@@ -21,21 +21,21 @@
 
 | Year | Property taxes (user-provided) | YoY change | Tax assessment (user-provided) | YoY change | Source |
 |------|-------------------------------|------------|-------------------------------|------------|--------|
-| 2014 | $5,965 | — | $440,305 | +0.5% | User-provided tax records |
-| 2015 | $6,130 | +2.8% | $449,101 | +2% | User-provided tax records |
-| 2016 | $6,414 | +4.6% | $455,949 | +1.5% | User-provided tax records |
-| 2017 | $6,383 | −0.5% | $465,067 | +2% | User-provided tax records |
-| 2018 | $6,383 | — | $474,368 | +2% | User-provided tax records |
-| 2019 | $6,565 | +2.8% | $483,854 | +2% | User-provided tax records |
-| 2020 | $6,565 | — | $493,530 | +2% | User-provided tax records |
-| 2021 | $6,662 | +1.5% | $498,642 | +1% | User-provided tax records |
-| 2022 | $6,755 | +1.4% | $508,614 | +2% | User-provided tax records |
-| 2023 | $6,917 | +2.4% | $518,786 | +2% | User-provided tax records |
-| 2024 | $7,003 | +1.2% | $529,161 | +2% | User-provided tax records |
-| 2025 | $7,207 | +2.9% | $539,743 | +2% | User-provided tax records |
-| 2026 | — | — | $550,537 | +2% | User-provided tax records |
+| 2014 | $5,960 | — | $440,300 | +0.5% | User-provided tax records |
+| 2015 | $6,130 | +2.8% | $449,100 | +2% | User-provided tax records |
+| 2016 | $6,410 | +4.6% | $455,950 | +1.5% | User-provided tax records |
+| 2017 | $6,380 | −0.5% | $465,070 | +2% | User-provided tax records |
+| 2018 | $6,380 | — | $474,370 | +2% | User-provided tax records |
+| 2019 | $6,560 | +2.8% | $483,850 | +2% | User-provided tax records |
+| 2020 | $6,560 | — | $493,530 | +2% | User-provided tax records |
+| 2021 | $6,660 | +1.5% | $498,640 | +1% | User-provided tax records |
+| 2022 | $6,760 | +1.4% | $508,610 | +2% | User-provided tax records |
+| 2023 | $6,920 | +2.4% | $518,790 | +2% | User-provided tax records |
+| 2024 | $7,000 | +1.2% | $529,160 | +2% | User-provided tax records |
+| 2025 | $7,210 | +2.9% | $539,740 | +2% | User-provided tax records |
+| 2026 | — | — | $550,540 | +2% | User-provided tax records |
 
-Implied effective rate on 2025 bill: $7,207 ÷ $539,743 ≈ 1.34% (includes voter-approved bonds/assessments specific to this parcel's Tax Rate Area).
+Implied effective rate on 2025 bill: $7,210 ÷ $539,740 ≈ 1.34% (includes voter-approved bonds/assessments specific to this parcel's Tax Rate Area).
 
 ## 3. Proposition 19 — parent-child transfer (inheritance) rules
 
@@ -51,7 +51,7 @@ Effective for transfers on or after February 16, 2021 (Cal. Rev. & Tax. Code § 
 | If child moves out | Exclusion removed as of the January 1 lien date after move-out | Secondary analyses of RTC § 63.2 | N (secondary) |
 
 ### Illustrative Prop 19 math at inheritance (projection — assumptions, not verified)
-Assuming transfer in ~2045, projected market value ≈ $5,960,000 (3.5%/yr appreciation assumption) and factored base year value ≈ $802,000 ($550,537 compounded at 2%/yr):
+Assuming transfer in ~2045, projected market value ≈ $5,960,000 (3.5%/yr appreciation assumption) and factored base year value ≈ $802,000 ($550,540 compounded at 2%/yr):
 - Spread over FBYV: ≈ $5,158,000 — far above the ~$1,044,586 cap → partial reassessment applies.
 - New assessed value ≈ $802,000 + ($5,158,000 − $1,044,586) ≈ $4,915,410 (rounded to $4,915,410)
 - Estimated annual tax at 1.25% planning rate ≈ $61,440/yr
