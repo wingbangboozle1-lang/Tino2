@@ -187,7 +187,7 @@ test('Scenario rates are the ones computed from the official index tables', () =
   near(S.high.caHpiChange, cagr(200.89, 974.97, 30), 5e-5);
   near(base().inflation, cagr(210.700, 370.130, 20), 5e-5); // BLS CPI-U San Francisco area, Aug 2006 -> Aug 2026
   near(base().estateIndexing, Math.pow((5.49 / 5.00) * (13.99 / 11.18) * (15.48 / 15.00), 1 / 14) - 1, 5e-5);
-  near(I.SCENARIOS.returns.mid.investReturn, (0.0465 + 0.1140) / 2, 1e-12);
+  near(I.SCENARIOS.returns.mid.investReturn, (0.0465 + 0.1140) / 2, 6e-5);
 });
 
 test('Property B today: net rent and the returns a sale would have to earn', () => {

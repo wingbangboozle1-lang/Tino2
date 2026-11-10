@@ -1,0 +1,145 @@
+{
+  "note": "Model results, rounded to the nearest $10. Session 5a1bd5be.",
+  "defaults": {
+    "inheritYear": 2045,
+    "horizon": 10,
+    "houseGrowthA": 0.0429,
+    "investReturn": 0.0803,
+    "inflation": 0.0286
+  },
+  "cases": [
+    {
+      "inheritYear": 2040,
+      "horizon": 10,
+      "valueAtInheritance": 5581600,
+      "sell": 9641270,
+      "live": 7131270,
+      "rent": 7554920,
+      "best": "SELL"
+    },
+    {
+      "inheritYear": 2040,
+      "horizon": 20,
+      "valueAtInheritance": 5581600,
+      "sell": 19155180,
+      "live": 9404790,
+      "rent": 11330970,
+      "best": "SELL"
+    },
+    {
+      "inheritYear": 2045,
+      "horizon": 10,
+      "valueAtInheritance": 6886080,
+      "sell": 11894540,
+      "live": 8723430,
+      "rent": 9235150,
+      "best": "SELL"
+    },
+    {
+      "inheritYear": 2045,
+      "horizon": 20,
+      "valueAtInheritance": 6886080,
+      "sell": 23631950,
+      "live": 11442870,
+      "rent": 13680900,
+      "best": "SELL"
+    },
+    {
+      "inheritYear": 2050,
+      "horizon": 10,
+      "valueAtInheritance": 8495440,
+      "sell": 14674420,
+      "live": 10660880,
+      "rent": 11295130,
+      "best": "SELL"
+    },
+    {
+      "inheritYear": 2050,
+      "horizon": 20,
+      "valueAtInheritance": 8495440,
+      "sell": 29154990,
+      "live": 13873760,
+      "rent": 16534880,
+      "best": "SELL"
+    }
+  ],
+  "grid": [
+    {
+      "house": "low",
+      "returns": "low",
+      "sell": 7052420,
+      "live": 6155880,
+      "rent": 6623180,
+      "best": "SELL"
+    },
+    {
+      "house": "low",
+      "returns": "mid",
+      "sell": 9166910,
+      "live": 6126980,
+      "rent": 6692110,
+      "best": "SELL"
+    },
+    {
+      "house": "low",
+      "returns": "high",
+      "sell": 11959170,
+      "live": 6092720,
+      "rent": 6773730,
+      "best": "SELL"
+    },
+    {
+      "house": "mid",
+      "returns": "low",
+      "sell": 9150870,
+      "live": 8771500,
+      "rent": 9195790,
+      "best": "RENT"
+    },
+    {
+      "house": "mid",
+      "returns": "mid",
+      "sell": 11894540,
+      "live": 8723430,
+      "rent": 9235150,
+      "best": "SELL"
+    },
+    {
+      "house": "mid",
+      "returns": "high",
+      "sell": 15517640,
+      "live": 8666400,
+      "rent": 9281670,
+      "best": "SELL"
+    },
+    {
+      "house": "high",
+      "returns": "low",
+      "sell": 11917330,
+      "live": 12554490,
+      "rent": 13041250,
+      "best": "RENT"
+    },
+    {
+      "house": "high",
+      "returns": "mid",
+      "sell": 15490450,
+      "live": 12466100,
+      "rent": 13041640,
+      "best": "SELL"
+    },
+    {
+      "house": "high",
+      "returns": "high",
+      "sell": 20208880,
+      "live": 12361190,
+      "rent": 13041860,
+      "best": "SELL"
+    }
+  ],
+  "breakEven": {
+    "rentPerMonth2026Dollars": 19360,
+    "returnVersusLiving": 0.0411,
+    "returnVersusRenting": 0.0471
+  }
+}

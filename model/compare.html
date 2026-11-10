@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Why the sets of pages in this repository show different figures, and a privacy and link scan of the whole repository.">
+<title>Why pages differ · Inheritance model</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap topin">
+    <a class="brand" href="index.html"><span class="mark" aria-hidden="true">A·B</span><span>Inheritance model<small>Property A (Cupertino) · Property B (San Francisco)</small></span></a>
+    <nav aria-label="Pages"><a href="index.html">Summary</a><a href="decision.html">Decision</a><a href="projections.html">Projections</a><a href="taxes.html">Taxes</a><a href="costs.html">Running costs</a><a href="process.html">Inheritance steps</a><a href="law.html">Law watch</a><a href="compare.html" aria-current="page">Why pages differ</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged</a><a href="method.html">Method</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+<p class="crumb"><a href="../index.html">Repository home page</a> › Model › Why pages differ</p>
+<h1>Why pages differ</h1>
+<p class="lead">Nine sessions were given the same brief at the same time, and several of them published pages in this repository. The pages agree on what to do and disagree on the dollar amounts, because they assume different growth rates, tax rates and returns. This page sets the assumptions side by side and reports a scan of everything the repository publishes.</p>
+
+<section aria-labelledby="h-cmp"><h2 id="h-cmp">Assumptions side by side</h2>
+<div class="tablewrap"><table>
+<caption>Main assumptions of each set of pages, as read in the repository when these pages were built</caption>
+<thead><tr><th scope="col">Pages</th><th scope="col">House-price growth</th><th scope="col">Property tax rate</th><th scope="col">Investment return</th><th scope="col">Selling cost</th><th scope="col">Recommendation printed</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead>
+<tbody>
+<tr><th scope="row">Root pages: <code>cupertino.html</code>, <code>san-francisco.html</code>, <code>decision.html</code></th><td>3% a year</td><td>A 1.30% and B 1.22% of taxed value; the page calls the second a third-party estimate</td><td></td><td>5.5%</td><td>Sell A unless an heir needs to live there; keep B</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-COMPARE">Flagged</a></td></tr>
+<tr><th scope="row"><code>pages/</code> and <code>docs/</code></th><td>A 3.5%, B 3.0% a year</td><td>A 1.25%; B 1.18268325%</td><td>6%</td><td>5%</td><td>Sell A; keep B</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-COMPARE">Flagged</a></td></tr>
+<tr><th scope="row"><code>dashboard/</code></th><td>A 2.87%, 4.29% or 5.75% a year (index history)</td><td>A 1.1622% plus fixed charges; B 1.18162182%</td><td>4.65%, 8.00% or 11.34%</td><td>6%</td><td>Sell A; keep B</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-COMPARE">Flagged</a></td></tr>
+<tr><th scope="row"><code>site/</code> and the landing page</th><td>3.5% a year</td><td>The 2025 bill divided by taxed value: about 1.34% for A and 2.14% for B</td><td>6% less 1% for tax</td><td>6%</td><td>Sell A and reinvest</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-COMPARE">Flagged</a></td></tr>
+<tr><th scope="row"><code>model/</code> (these pages)</th><td>A 2.87%, 4.29%, 5.75% a year (index history)</td><td>A 1.1636% plus fixed charges; B 1.18162182%</td><td>4.65%, 8.03%, 11.40%</td><td>6%</td><td>Sell A unless someone will live there; keep B</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-COMPARE">Flagged</a></td></tr>
+</tbody></table></div>
+<p class="tablenote">A blank cell means the figure was not found on those pages. Only the files were read; nothing in them was changed.</p>
+<h3>What the differences do</h3>
+<ul>
+  <li><strong>Growth rate.</strong> At 3% a year Property A is worth about $5,435,870 in 2045; at 3.5%, $5,959,750; at 4.29%, $6,886,080. Every later figure scales with this.</li>
+  <li><strong>Tax rate.</strong> Dividing a bill by the taxed value counts the fixed parcel charges as if they grew with the house’s value. After a revaluation to $6,886,080 that overstates the bill: at 1.34% the tax would be $92,270, against $81,760 with the published rate plus fixed charges.</li>
+  <li><strong>Proposition 19 amount.</strong> It changes every second year by one year’s change in the state house-price index. Holding it flat understates it; these pages apply the scenario’s index change at each adjustment.</li>
+  <li><strong>Returns.</strong> A single 5% or 6% return and a range from 4.65% to 11.40% give very different end balances for “sell and invest”, though selling comes out highest at each of them in the middle house-price case.</li>
+</ul>
+<p>The <a href="decision.html#calculator">calculator</a> accepts any of these assumptions, so each set of pages can be reproduced and compared on the same footing.</p>
+</section>
+
+<section aria-labelledby="h-priv"><h2 id="h-priv">Privacy scan of everything published</h2>
+<p>GitHub Pages serves the whole repository, so the scan covers every file, not only these pages. It counts patterns; it does not store or print what it matched. 97 files were scanned.</p>
+<div class="tablewrap"><table>
+<caption>Number of matches by folder</caption>
+<thead><tr><th scope="col">Folder</th><th scope="col" class="num">Files with a match</th><th scope="col" class="num">Five-digit numbers in the Bay Area ZIP range</th><th scope="col" class="num">Numbers within $5 of a rounded brief figure</th><th scope="col" class="num">Street-address-like</th><th scope="col" class="num">Parcel-number-like</th><th scope="col" class="num">E-mail</th><th scope="col" class="num">Phone-like</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>(root)</code></th><td class="num">6</td><td class="num">18</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>dashboard/</code></th><td class="num">10</td><td class="num">75</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>docs/</code></th><td class="num">15</td><td class="num">39</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>pages/</code></th><td class="num">7</td><td class="num">20</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>scripts/</code></th><td class="num">1</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>site/</code></th><td class="num">1</td><td class="num">0</td><td class="num">11</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+<tr><th scope="row"><code>src/</code></th><td class="num">2</td><td class="num">12</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td><span class="chip chip-caution" title="A limit on how far these pages can be relied on.">Caution</span></td><td class="srccell"><a class="flaglink" href="flagged.html#F-PRIVACY">Flagged</a></td></tr>
+</tbody></table></div>
+<p class="tablenote">Folders with no match are not listed; <code>model/</code> has none. A “number within $5 of a rounded brief figure” is most likely an original figure that was not rounded to $10. Phone-like strings in other folders may be public agency lines.</p>
+<div class="callout">
+<h3>What this means</h3>
+<ul>
+  <li>The repository is public. ZIP codes narrow each property to a small area, and an exact assessed value or tax bill can be matched against public assessor records.</li>
+  <li>Earlier commits contain the brief’s figures before rounding. Rounding the current files does not remove them from the history.</li>
+  <li>These model pages use only the city names and figures rounded to $10 that were already published, and add no ZIP code, neighbourhood, year-by-year bill history or contact detail.</li>
+  <li>Only the owner can close the gap: make the repository private, or rewrite its history and republish.</li>
+</ul>
+</div>
+</section>
+
+<section aria-labelledby="h-links"><h2 id="h-links">Link check of everything published</h2>
+<p>40 HTML pages were checked for internal links and anchors that do not resolve. Broken: <strong>0</strong>. The check runs with <code>node model/check.js</code>.</p>
+</section>
+
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>No personal information.</strong> People appear only as [OWNER], [HEIR] and [TRUSTEE]; properties only as A and B. The pages contain no names, addresses, parcel numbers or contact details.</p>
+    <p><strong>Not advice.</strong> A planning model. Laws quoted were read on official pages on 10 November 2026; they change. Take the questions on the <a href="flagged.html">Flagged</a> page to an estate-planning attorney and a tax preparer before acting.</p>
+    <p class="small">Pages generated by <code>model/build.js</code> from <code>model/src/</code>; checked by <code>model/check.js</code> and <code>model/test/</code>. Session 5a1bd5be. Dollar figures in the analysis are rounded to the nearest $10.</p>
+  </div>
+</footer>
+
+</body>
+</html>
