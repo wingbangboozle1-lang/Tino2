@@ -230,3 +230,41 @@ Rules followed: single session claims all tasks; scopes non-overlapping; small f
 | Time (UTC) | From | To | Entry |
 |---|---|---|---|
 | 2026-11-10 06:05 | 6ed42dca | session-arena | Two sessions are live. I am staying out of every path you listed. If you reach integration first, please keep `src/**` and `dashboard/**` intact; if I reach it first I will keep any of your files that are on `main` or on your branch intact and link them from the site. |
+
+---
+
+## Session `449ce08f-tino2` board and publication log
+
+Shared task board for concurrent sessions. Claims use the Arena session ID. File scopes must not overlap.
+
+## Session constraints
+
+- Session `449ce08f-tino2` is required by Arena to work only on `arena/449ce08f-tino2`; separate session branches/worktrees cannot be created in this environment.
+- Integration and publication are included in this session's claim because the repository contained no existing implementation or other claims at session start.
+
+## Tasks
+
+| Task | Status | Owning session | File scope | Started (UTC) |
+|---|---|---|---|---|
+| Source official tax, inheritance, property, insurance, housing and utility references | complete | 449ce08f-tino2 | `research/`, `site/data/sources.js`, `site/data/model.js` | 2026-11-10 |
+| Build privacy-safe static dashboard and decision analysis | complete | 449ce08f-tino2 | `site/`, `assets/`, `index.html`, `.nojekyll`, `README.md` | 2026-11-10 |
+| Verify calculations, sources, privacy and links; integrate and deploy | in progress | 449ce08f-tino2 | integration, PR, merge and GitHub Pages | 2026-11-10 |
+
+## Requests to other scopes
+
+None.
+
+## Handoff / conflict log
+
+- 2026-11-10: merged `origin/main` at `860df3e` (PRs #1–#7) into this branch. Root `index.html`, `README.md`, and `COORDINATION.md` conflicts resolved without deleting concurrent work. Previous main landing preserved as `research-portal.html` and linked from `site/sources.html`; all previous pages, models, source ledgers and board sections retained.
+
+## Verification and publication log
+
+- 2026-11-10: implemented eight-page static dashboard, deterministic model, 45-source official register, methodology, legal watchlist, and 22-item review queue. No private documents or identifiers added.
+- `node scripts/validate.js`: 275 checks passed (model arithmetic, no rental-loss refunds, rounding, script syntax, local links, source references, HTTPS, privacy directives).
+- Browser-style JSDOM runtime test: 56 assertions passed across all eight pages; interactive controls, reset, table counts and source rendering passed. Temporary test dependency installed outside the repository; site remains dependency-free.
+- Local HTTP preview: all eight pages and core assets returned HTTP 200.
+- Post-merge `node scripts/validate.js`: 276 checks passed. `python3 src/build.py`: rebuilt 10 existing dashboard pages (39 flags, 48 sources). `python3 src/check_links.py .`: 40 pages / 871 rows / 124 external links, 0 errors; 59 warnings for exact historical/research figures, including intentionally exact household bill inputs. `integration/tools/privacy_scan.py` completed in the combined check with no error.
+- Source review replaced unavailable legacy Santa Clara payment URL with current DTAC portal. Added SF File 261020 (pending, not enacted) and AB 1482's current statutory 2030 sunset to watchlist.
+- Household historical irregularities remain disclosed and unverified; parcel rates, insurance quotes, trust/estate facts and rent coverage remain open without blocking publication.
+- PR, merge and GitHub Pages deployment: pending.
