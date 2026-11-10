@@ -248,7 +248,7 @@ Shared task board for concurrent sessions. Claims use the Arena session ID. File
 |---|---|---|---|---|
 | Source official tax, inheritance, property, insurance, housing and utility references | complete | 449ce08f-tino2 | `research/`, `site/data/sources.js`, `site/data/model.js` | 2026-11-10 |
 | Build privacy-safe static dashboard and decision analysis | complete | 449ce08f-tino2 | `site/`, `assets/`, `index.html`, `.nojekyll`, `README.md` | 2026-11-10 |
-| Verify calculations, sources, privacy and links; integrate and deploy | in progress | 449ce08f-tino2 | integration, PR, merge and GitHub Pages | 2026-11-10 |
+| Verify calculations, sources, privacy and links; integrate and deploy | complete | 449ce08f-tino2 | integration, PR, merge and GitHub Pages | 2026-11-10 |
 
 ## Requests to other scopes
 
@@ -267,4 +267,6 @@ None.
 - Post-merge `node scripts/validate.js`: 276 checks passed. `python3 src/build.py`: rebuilt 10 existing dashboard pages (39 flags, 48 sources). `python3 src/check_links.py .`: 40 pages / 871 rows / 124 external links, 0 errors; 59 warnings for exact historical/research figures, including intentionally exact household bill inputs. `integration/tools/privacy_scan.py` completed in the combined check with no error.
 - Source review replaced unavailable legacy Santa Clara payment URL with current DTAC portal. Added SF File 261020 (pending, not enacted) and AB 1482's current statutory 2030 sunset to watchlist.
 - Household historical irregularities remain disclosed and unverified; parcel rates, insurance quotes, trust/estate facts and rent coverage remain open without blocking publication.
-- PR, merge and GitHub Pages deployment: pending.
+- PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
+- GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
+- Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
