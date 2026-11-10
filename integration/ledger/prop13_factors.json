@@ -1,0 +1,262 @@
+{
+ "source_name": "California State Board of Equalization, Letter To Assessors No. 2026/002 (January 13, 2026), enclosure",
+ "source_url": "https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf",
+ "checked": "2026-11-10",
+ "rows": [
+  {
+   "roll_year": "1976-77",
+   "ccpi_change_pct": 6.25,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1977-78",
+   "ccpi_change_pct": 7.169,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1978-79",
+   "ccpi_change_pct": 8.233,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1979-80",
+   "ccpi_change_pct": 9.826,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1980-81",
+   "ccpi_change_pct": 17.316,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1981-82",
+   "ccpi_change_pct": 7.134,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1982-83",
+   "ccpi_change_pct": 11.137,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1983-84",
+   "ccpi_change_pct": 1.033,
+   "factor": 1.01
+  },
+  {
+   "roll_year": "1984-85",
+   "ccpi_change_pct": 5.034,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1985-86",
+   "ccpi_change_pct": 5.089,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1986-87",
+   "ccpi_change_pct": 4.374,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1987-88",
+   "ccpi_change_pct": 2.095,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1988-89",
+   "ccpi_change_pct": 5.16,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1989-90",
+   "ccpi_change_pct": 4.73,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1990-91",
+   "ccpi_change_pct": 4.758,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1991-92",
+   "ccpi_change_pct": 6.39,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1992-93",
+   "ccpi_change_pct": 3.039,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1993-94",
+   "ccpi_change_pct": 3.441,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1994-95",
+   "ccpi_change_pct": 2.308,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1995-96",
+   "ccpi_change_pct": 1.194,
+   "factor": 1.0119
+  },
+  {
+   "roll_year": "1996-97",
+   "ccpi_change_pct": 1.115,
+   "factor": 1.0111
+  },
+  {
+   "roll_year": "1997-98",
+   "ccpi_change_pct": 2.399,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1998-99",
+   "ccpi_change_pct": 2.081,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "1999-2000",
+   "ccpi_change_pct": 1.853,
+   "factor": 1.01853
+  },
+  {
+   "roll_year": "2000-01",
+   "ccpi_change_pct": 3.214,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2001-02",
+   "ccpi_change_pct": 4.172,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2002-03",
+   "ccpi_change_pct": 3.215,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2003-04",
+   "ccpi_change_pct": 2.459,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2004-05",
+   "ccpi_change_pct": 1.867,
+   "factor": 1.01867
+  },
+  {
+   "roll_year": "2005-06",
+   "ccpi_change_pct": 3.665,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2006-07",
+   "ccpi_change_pct": 4.596,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2007-08",
+   "ccpi_change_pct": 2.269,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2008-09",
+   "ccpi_change_pct": 3.38,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2009-10",
+   "ccpi_change_pct": 3.477,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2010-11",
+   "ccpi_change_pct": -0.237,
+   "factor": 0.99763
+  },
+  {
+   "roll_year": "2011-12",
+   "ccpi_change_pct": 0.753,
+   "factor": 1.00753
+  },
+  {
+   "roll_year": "2012-13",
+   "ccpi_change_pct": 2.889,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2013-14",
+   "ccpi_change_pct": 3.081,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2014-15",
+   "ccpi_change_pct": 0.454,
+   "factor": 1.00454
+  },
+  {
+   "roll_year": "2015-16",
+   "ccpi_change_pct": 1.998,
+   "factor": 1.01998
+  },
+  {
+   "roll_year": "2016-17",
+   "ccpi_change_pct": 1.525,
+   "factor": 1.01525
+  },
+  {
+   "roll_year": "2017-18",
+   "ccpi_change_pct": 2.619,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2018-19",
+   "ccpi_change_pct": 2.962,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2019-20",
+   "ccpi_change_pct": 3.847,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2020-21",
+   "ccpi_change_pct": 2.98,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2021-22",
+   "ccpi_change_pct": 1.036,
+   "factor": 1.01036
+  },
+  {
+   "roll_year": "2022-23",
+   "ccpi_change_pct": 5.561,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2023-24",
+   "ccpi_change_pct": 7.274,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2024-25",
+   "ccpi_change_pct": 3.181,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2025-26",
+   "ccpi_change_pct": 2.514,
+   "factor": 1.02
+  },
+  {
+   "roll_year": "2026-27",
+   "ccpi_change_pct": 3.307,
+   "factor": 1.02
+  }
+ ]
+}

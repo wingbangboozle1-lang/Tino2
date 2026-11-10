@@ -1,0 +1,84 @@
+# Hosts accepted as "official" sources for the ledger and the site.
+# Government bodies, courts, legislatures, public agencies / public utilities, and the
+# regulated entity itself where it is the only publisher of its own tariff or programme rules.
+# A link to any other host fails the ledger check and the site link check.
+
+# --- United States federal government ---
+irs.gov
+congress.gov
+govinfo.gov
+uscode.house.gov
+federalregister.gov
+ecfr.gov
+treasury.gov
+fiscaldata.treasury.gov
+treasurydirect.gov
+sec.gov
+investor.gov
+fdic.gov
+federalreserve.gov
+stlouisfed.org        # Federal Reserve Bank of St. Louis (FRED republishes FHFA / BLS / Treasury series)
+richmondfed.org
+kansascityfed.org
+frbsf.org
+newyorkfed.org
+bls.gov
+census.gov
+bea.gov
+cbo.gov
+fhfa.gov
+hud.gov
+huduser.gov
+ssa.gov
+tsp.gov               # Federal Retirement Thrift Investment Board
+consumerfinance.gov
+ftc.gov
+justice.gov
+gao.gov
+energy.gov
+nrel.gov
+eia.gov
+usgs.gov
+fema.gov
+uscourts.gov
+supremecourt.gov
+
+# --- State of California ---
+ca.gov                # boe.ca.gov, ftb.ca.gov, sco.ca.gov, insurance.ca.gov, cpuc.ca.gov, sos.ca.gov, leginfo.legislature.ca.gov, courts.ca.gov, lao.ca.gov, dre.ca.gov, hcd.ca.gov ...
+earthquakeauthority.com   # California Earthquake Authority (publicly managed, created by statute)
+cfpnet.com            # California FAIR Plan Association (created by statute, Ins. Code 10090 et seq.)
+
+# --- Santa Clara County / Cupertino ---
+santaclaracounty.gov
+sccgov.org
+sccassessor.org
+scctax.org
+cupertino.gov
+cupertino.org
+svcleanenergy.org     # Silicon Valley Clean Energy (public joint powers authority)
+valleywater.org       # Santa Clara Valley Water District (public agency)
+
+# --- City and County of San Francisco ---
+sf.gov
+sfgov.org
+sfassessor.org
+sftreasurer.org
+sfpuc.gov
+sfpuc.org
+sfwater.org
+cleanpowersf.org
+sfplanning.org
+sfdbi.org
+sfcontroller.org
+sfelections.org
+sfbos.org
+amlegal.com           # official publisher of the San Francisco and Cupertino municipal codes
+sfsuperiorcourt.org
+
+# --- Regulated utilities: publisher of their own CPUC-approved tariffs ---
+pge.com
+sjwater.com
+calwater.com
+
+# --- Statutorily created investor-protection body ---
+sipc.org
