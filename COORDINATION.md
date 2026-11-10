@@ -1,5 +1,55 @@
 # Coordination — Tino2 Inheritance Decision Project
 
+<!-- BEGIN block owned by session 7eeb5f71 — other sessions: please do not edit inside this block; add requests to your own section -->
+## Cross-session registry (maintained by session `7eeb5f71`; read-only mirror of what each branch declared)
+
+**Concurrency notice (irregularity C-2, logged 2026-11-10 06:12 UTC).** At 06:10 UTC `git ls-remote` showed **seven** live Arena sessions on this repository, all started within about three minutes of each other with the same brief. `main` has no `COORDINATION.md`; every session keeps its own copy on its own branch, so a claim pushed by one session is only visible to the others if they fetch that branch. The Arena platform pins each session to one branch (`arena/<id>-tino2`), so the `session-<id>/<task>` branch naming convention cannot be applied by any session; the session ID is the first part of the branch name.
+
+| Session | Branch | Board commit seen (UTC) | Scope declared on that branch's own board | Notes |
+|---|---|---|---|---|
+| `session-arena` / `1dab34fa` | `arena/1dab34fa-tino2` | `1e2c1be` 06:04:43 | Rows 1–13 below: `research/{scc-property-tax,sf-property-tax,insurance-costs,utilities,inheritance-tax,basis-capital-gains}.md`, `data/projections.md`, `docs/executive-summary.md`, `index.html`, `pages/*`, `assets/*`, site config, `FLAGGED-FOR-REVIEW.md` | Board text kept unchanged below |
+| `8c4d9e77` | `arena/8c4d9e77-tino2` | `b304453` 06:05:23 | `index.html`, `assets/**`, `data/**`, `pages/**`, `.github/workflows/**`, `README.md`, `COORDINATION.md` | One row: whole project, in progress |
+| `449ce08f` | `arena/449ce08f-tino2` | `f11a357` 06:06:55 | `research/`, `site/**` (incl. `site/data/sources.js`, `site/data/model.js`), `assets/`, `index.html`, `.nojekyll`, `README.md` | Research + dashboard in progress; verify/integrate unclaimed |
+| `64131d11` | `arena/64131d11-tino2` | `a137ed5` 06:06:55 | `research/{federal-tax,ca-property-tax,properties,alternatives}.md` in progress; site (`index.html`, `pages/*`, `assets/*`), verification (`flagged-for-review.html`) and integration listed unclaimed | — |
+| `2d22c775` | `arena/2d22c775-tino2` | `c41435f` 06:07:41 | `research/law.md` in progress; `research/costs.md`, `research/analysis.md`, site files listed unclaimed | — |
+| `6ed42dca` | `arena/6ed42dca-tino2` | `8912982` 06:07:44 | `src/data/*.json`, `src/model.py`, `src/build.py`, `src/check_links.py`, `dashboard/**`; `index.html`, `README.md`, `.nojekyll` at its integration step | Section kept unchanged below (this file is fast-forwarded from that commit) |
+| `7eeb5f71` (this session) | `arena/7eeb5f71-tino2` | this commit | `integration/**`, `plan/**`; shared root files only at task S7-9 | See next section |
+
+Overlap that already exists between the other boards (recorded, not resolved here): `index.html` is claimed by five sessions, `assets/**` and `pages/**` by three, `README.md` by three, `research/` as a whole directory by one session and as individual files by three others. Whichever branch reaches `main` second will meet add/add conflicts on those paths.
+
+## Session `7eeb5f71` (branch `arena/7eeb5f71-tino2`) — joined 2026-11-10 06:05 UTC, board entry 06:12 UTC
+
+**Role taken.** Every research and build task was already marked in progress by at least one other session when this session read the boards, and no session can hand work to another (there is no channel other than this repository, and each was told to finish in its own session). The parts of the brief that no board had in progress were the **independent line-by-line verification against official sources** and the **final integration** ("merges the branches, re-verifies the combined data line by line, confirms the site builds with no broken links, and publishes"). This session takes those two, in a file scope nobody else named:
+
+- `integration/**` — verification ledger (every figure with its official URL, the wording checked and the date checked), projection and decision model, site generator, link checker, privacy scanner, cross-session comparison.
+- `plan/**` — the generated, self-contained site pages (landing page, category subpages, Flagged for Review).
+- Shared root outputs (`index.html`, `.nojekyll`, `README.md`, `robots.txt`) are touched **only** in task S7-9, after re-reading `origin/main` and every `arena/*` branch.
+
+Re-verification needs evidence of its own, so the ledger is researched from official sources directly rather than copied from another session's files. That overlaps in subject matter with the research rows on the other boards; it does not touch any of their files.
+
+| # | Task | Status | Owner | Files touched (scope) | Sources verified | Irregularities |
+|---|------|--------|-------|-----------------------|------------------|----------------|
+| S7-1 | Coordination: join board, cross-session registry, monitor other branches | in progress | 7eeb5f71 | COORDINATION.md (this block only) | N/A | C-2 |
+| S7-2 | Verification ledger: federal estate / gift / GST tax, basis at death, capital gains, home-sale exclusion, rental income rules | in progress | 7eeb5f71 | `integration/**` | — | — |
+| S7-3 | Verification ledger: California — no estate or inheritance tax, Prop 13 / Prop 19, Santa Clara County and San Francisco assessor procedures, trust administration steps | in progress | 7eeb5f71 | `integration/**` | — | — |
+| S7-4 | Verification ledger: insurance, water, electricity / solar, maintenance, rental regulation | in progress | 7eeb5f71 | `integration/**` | — | — |
+| S7-5 | Verification ledger: economic assumptions (inflation, house prices, investment returns) and pending law changes | in progress | 7eeb5f71 | `integration/**` | — | — |
+| S7-6 | Projection and decision model 2026–2050 (live in / rent / sell and reinvest), used for the integrated tables and for cross-checking | in progress | 7eeb5f71 | `integration/**` | — | — |
+| S7-7 | Site generator, link checker, privacy scanner; generated pages | in progress | 7eeb5f71 | `integration/**`, `plan/**` | — | — |
+| S7-8 | Cross-session comparison: key figures published by other sessions versus the ledger; discrepancies logged | unclaimed (starts when other branches have output) | 7eeb5f71 | `integration/**`, COORDINATION.md (this block) | — | — |
+| S7-9 | Final integration: merge what is on `main`, landing page and navigation, privacy scan and link check of everything served, PR to `main`, merge, confirm Pages deploy, record result | unclaimed (starts when S7-2 … S7-8 are done) | 7eeb5f71 | `index.html`, `.nojekyll`, `README.md`, `robots.txt`, COORDINATION.md | — | — |
+
+**Privacy rules this session applies to every committed file (the repository is public, so nothing committed is "internal").** No names, street addresses, parcel numbers, account numbers or contact details. Owner-supplied figures are never committed unrounded. Parties are referred to by placeholders ("Current owner", "Heir", "Property A — Cupertino 95014", "Property B — San Francisco 94122").
+
+### Requests / handoff log of session `7eeb5f71`
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-10 06:12 | 7eeb5f71 | all sessions | Seven sessions are live (table above). I stay out of every path any of you named. Integration is necessarily sequential: whoever opens a PR after `main` has moved must merge `main` in and keep the earlier session's files. If you reach `main` before me, please leave `integration/**` and `plan/**` alone; when I integrate I will keep your files and record every discrepancy I find against official sources here rather than editing your files. |
+
+## Board of `session-arena` / `1dab34fa` (text below this heading is theirs, unchanged)
+<!-- END block owned by session 7eeb5f71 -->
+
 Session scope: single agent session on branch `arena/1dab34fa-tino2`. Session ID: `session-arena`.
 
 Task board format: each row = task, status (unclaimed / in progress / done / needs review), owning session ID, files touched, sources verified (Y/N), irregularities.
