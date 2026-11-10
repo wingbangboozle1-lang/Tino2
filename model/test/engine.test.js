@@ -189,3 +189,15 @@ test('Scenario rates are the ones computed from the official index tables', () =
   near(base().estateIndexing, Math.pow((5.49 / 5.00) * (13.99 / 11.18) * (15.48 / 15.00), 1 / 14) - 1, 5e-5);
   near(I.SCENARIOS.returns.mid.investReturn, (0.0465 + 0.1140) / 2, 1e-12);
 });
+
+test('Property B today: net rent and the returns a sale would have to earn', () => {
+  const p = base(), b = E.propertyB(p, I.BRIEF);
+  assert.equal(b.rent, 85800);
+  assert.equal(b.totalCosts, 2440 + 1500 + 365 * 12 + 50 * 12 + 9000);
+  assert.equal(b.net, 85800 - b.totalCosts);
+  near(b.saleNet, 1800000 * 0.94, 1e-6);
+  near(b.taxMax, (1800000 * 0.94 - 114250) * p.taxGain, 1e-6);
+  assert.ok(b.maxTax.toReplaceRent > b.noTax.toReplaceRent);
+  near(b.noTax.toMatchEverything, (b.net + 3600 * 12 + 1800000 * p.bGrowth) / b.saleNet, 1e-12);
+  near(b.taxIfReassessed, 1800000 * p.bRate + b.fixed, 1e-9);
+});

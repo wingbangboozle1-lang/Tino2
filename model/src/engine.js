@@ -266,6 +266,34 @@
     };
   }
 
+  // ---------------- Property B: keep or sell (today's figures)
+  function mid(range) { return (range[0] + range[1]) / 2; }
+  /**
+   * Property B as it stands in 2026. `b` holds the brief's monthly figures.
+   * The tax on a sale cannot be computed: purchase price, improvements and depreciation
+   * already claimed are unknown. Two bounds are returned instead: no tax at all, and tax
+   * on everything above the assessed value (a floor for the basis only if the building
+   * was bought, never inherited, and never improved).
+   */
+  function propertyB(p, b) {
+    var rent = b.bRentTwoUnits * 12;
+    var costs = { propertyTax: p.bBill2025, insurance: b.bInsurance, water: mid(b.bWaterMonthly) * 12,
+      power: mid(b.bPowerMonthly) * 12, maintenance: p.bMaintenance };
+    var totalCosts = costs.propertyTax + costs.insurance + costs.water + costs.power + costs.maintenance;
+    var net = rent - totalCosts;
+    var housing = p.bHousingRent * 12;
+    var growth = p.bValue2026 * p.bGrowth;
+    var saleNet = p.bValue2026 * (1 - p.sellCost);
+    var taxMax = Math.max(0, saleNet - p.bAv2025) * p.taxGain;
+    var fixed = fixedCharges(p.bBill2025, p.bRate, p.bAv2025);
+    function need(proceeds) { return { proceeds: proceeds, toReplaceRent: net / proceeds,
+      toReplaceRentAndHome: (net + housing) / proceeds, toMatchEverything: (net + housing + growth) / proceeds }; }
+    return { rent: rent, costs: costs, totalCosts: totalCosts, net: net, netYield: net / p.bValue2026,
+      housing: housing, growth: growth, saleNet: saleNet, saleCosts: p.bValue2026 * p.sellCost,
+      taxMax: taxMax, noTax: need(saleNet), maxTax: need(saleNet - taxMax),
+      taxIfReassessed: propertyTax(p.bValue2026, p.bRate, fixed), fixed: fixed };
+  }
+
   function zeros(n) { var a = []; for (var i = 0; i < n; i++) a.push(0); return a; }
 
   /** Equal end-of-year payment that grows to `future` after n years at rate r. */
@@ -336,7 +364,7 @@
     estateExclusion: estateExclusion, estateTax: estateTax,
     yearlySeries: yearlySeries, runAccount: runAccount, accountAfterTax: accountAfterTax,
     simulate: simulate, levelPayment: levelPayment, clone: clone, bisect: bisect,
-    breakEvenRent: breakEvenRent, breakEvenReturn: breakEvenReturn,
+    breakEvenRent: breakEvenRent, breakEvenReturn: breakEvenReturn, propertyB: propertyB,
     withScenario: withScenario, grid: grid
   };
 });
