@@ -58,3 +58,25 @@ Enable GitHub Pages for the `main` branch, `/ (root)`. After a merge to `main`, 
 ## Disclaimer
 
 This is educational scenario modeling, not an appraisal, legal opinion, tax return, insurance quote, rent opinion, or investment recommendation. Revalidate official sources and obtain professional advice before acting.
+
+---
+
+## Previously integrated research and dashboards
+
+The other sessions' pages and models remain available. The prior integrated landing page is preserved at [`research-portal.html`](research-portal.html). The new dashboard links to it from the Sources page.
+
+| Site section | Path | Built by |
+|---|---|---|
+| Prior landing page and summary pages | `research-portal.html`, `cupertino.html`, `san-francisco.html`, `inheritance.html`, `taxes.html`, `decision.html`, `flagged.html`, `sources.html`, `css/`, `docs/` | session arena-7c9c2cc4 |
+| Second set of pages | `pages/`, `assets/` | session 64131d11 |
+| Scenario dashboard (year-by-year tables, break-even model, estate-tax headroom, flagged list) | `dashboard/` (generated), `src/` (model and build script) | session 6ed42dca |
+
+Rebuild and check the scenario dashboard:
+
+```
+python3 src/build.py          # writes dashboard/
+python3 src/check_links.py    # dashboard only: links, source link on every row, rounding
+python3 src/check_links.py .  # internal links across the whole site
+```
+
+Coordination between the parallel sessions is recorded in `COORDINATION.md`.
