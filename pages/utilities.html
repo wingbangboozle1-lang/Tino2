@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Utilities — Tino2</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand">Tino2 <span>·</span> Inheritance Decision Dashboard</div>
+    <div class="site-tagline">Water &amp; electricity: Cupertino 95014 &amp; San Francisco 94122</div>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="../index.html">Home</a>
+    <a href="property-taxes.html">Property Taxes</a>
+    <a href="insurance.html">Insurance</a>
+    <a href="utilities.html" class="active">Utilities</a>
+    <a href="inheritance-tax.html">Estate &amp; Inheritance Tax</a>
+    <a href="basis-gains.html">Basis &amp; Capital Gains</a>
+    <a href="projections.html">Projections</a>
+    <a href="decision.html">Decision &amp; Process</a>
+    <a href="flagged-review.html">Flagged for Review</a>
+  </div>
+</nav>
+
+<main class="container">
+  <section class="card">
+    <h1>Utilities — Water and Electricity</h1>
+    <p>Rates are taken from published utility tariffs where available. User-provided monthly estimates are shown separately and flagged; they could not be reconciled to published tariffs without actual usage data.</p>
+
+    <h2>1. Cupertino water — San Jose Water Company (serves Cupertino)</h2>
+    <table>
+      <thead><tr><th>Item</th><th class="amt">Rate / value</th><th>Effective</th><th class="source">Source</th></tr></thead>
+      <tbody>
+        <tr><td>Quantity rate, residential, 0–6 Ccf/month</td><td class="amt">$4.7319 per Ccf</td><td>CPUC-approved AL 599 (2023)</td><td class="source"><a href="https://www.sjwater.com/media/kccm45hy/san-jose-water-company-al-599-approved_0.pdf" target="_blank" rel="noopener">San Jose Water Co. AL 599 (approved)</a></td></tr>
+        <tr><td>Quantity rate, residential, 6–12 Ccf/month</td><td class="amt">$6.5194 per Ccf</td><td>CPUC-approved AL 599 (2023)</td><td class="source"><a href="https://www.sjwater.com/media/kccm45hy/san-jose-water-company-al-599-approved_0.pdf" target="_blank" rel="noopener">San Jose Water Co. AL 599 (approved)</a></td></tr>
+        <tr><td>Quantity rate, residential, over 12 Ccf/month</td><td class="amt">$9.7503 per Ccf</td><td>CPUC-approved AL 599 (2023)</td><td class="source"><a href="https://www.sjwater.com/media/kccm45hy/san-jose-water-company-al-599-approved_0.pdf" target="_blank" rel="noopener">San Jose Water Co. AL 599 (approved)</a></td></tr>
+        <tr><td>Service charge, 5/8 x 3/4-inch meter</td><td class="amt">$55.51/month</td><td>CPUC-approved AL 610-A (2024)</td><td class="source"><a href="https://www.sjwater.com/media/c4tpmtr2/san-jose-water-company-al-610-a-approved.pdf" target="_blank" rel="noopener">San Jose Water Co. AL 610-A (approved)</a></td></tr>
+        <tr><td>Average residential bill (press-reported)</td><td class="amt">≈ $107–$120/month</td><td>2024–2025 rate proceedings</td><td class="source"><a href="https://sanjosespotlight.com/san-jose-water-company-utility-rates-keep-going-up/" target="_blank" rel="noopener">San José Spotlight</a></td></tr>
+        <tr><td>1 Ccf</td><td class="blank">748 gallons</td><td>—</td><td class="source">San Jose Water Co. tariffs</td></tr>
+      </tbody>
+    </table>
+    <p>User estimate: $100–$150/month → planning figure $120/month ($1,440/yr), consistent with published tariffs for typical usage.</p>
+
+    <h2>2. San Francisco water — SFPUC (SFPUC serves 94122)</h2>
+    <table>
+      <thead><tr><th>Item</th><th class="amt">Rate / value</th><th>Effective</th><th class="source">Source</th></tr></thead>
+      <tbody>
+        <tr><td>Single-family Tier 1 (first 4 units/month)</td><td class="amt">$11.40 per Ccf</td><td>FY 2025–26 (from July 1, 2025)</td><td class="source"><a href="https://www.sfpuc.gov/" target="_blank" rel="noopener">SFPUC rate schedules (W-1A)</a></td></tr>
+        <tr><td>Single-family Tier 2 (additional units)</td><td class="amt">$12.66 per Ccf</td><td>FY 2025–26</td><td class="source"><a href="https://www.sfpuc.gov/" target="_blank" rel="noopener">SFPUC rate schedules (W-1A)</a></td></tr>
+        <tr><td>Multi-family Tier 1 (first 3 units per dwelling unit/month)</td><td class="amt">$11.24 per Ccf</td><td>FY 2025–26</td><td class="source"><a href="https://www.sfpuc.gov/" target="_blank" rel="noopener">SFPUC rate schedules (W-1B)</a></td></tr>
+        <tr><td>Multi-family Tier 2 (additional units)</td><td class="amt">$12.07 per Ccf</td><td>FY 2025–26</td><td class="source"><a href="https://www.sfpuc.gov/" target="_blank" rel="noopener">SFPUC rate schedules (W-1B)</a></td></tr>
+        <tr><td>Monthly service charge, 5/8-inch meter</td><td class="amt">$18.36/month</td><td>FY 2025–26</td><td class="source"><a href="https://www.sfpuc.gov/" target="_blank" rel="noopener">SFPUC rate schedules</a></td></tr>
+        <tr><td>FY 2026–27 adopted rates</td><td class="amt">Service charge $19.65/mo; Tier 1 $12.20; Tier 2 $13.55 per Ccf</td><td>From July 1, 2026</td><td class="source"><a href="https://www.sfpuc.gov/accounts-services/water-power-sewer-rates/proposed-water-sewer-rates-2026/proposition-218-notice" target="_blank" rel="noopener">SFPUC Proposition 218 notice (Resolutions 26-0064/26-0066)</a></td></tr>
+        <tr><td>1 Ccf</td><td class="blank">748 gallons</td><td>—</td><td class="source">SFPUC rate schedules</td></tr>
+      </tbody>
+    </table>
+    <p class="source">User estimate: $330–$400/month for all 3 SF units → planning figure $360/month ($4,320/yr) · <span class="flag">Unverified</span> — not reconcilable with published SFPUC tariffs without usage data; obtain actual bills.</p>
+
+    <h2>3. Cupertino electricity — PG&E (solar installed)</h2>
+    <table>
+      <thead><tr><th>Item</th><th class="amt">Rate / value</th><th>Effective</th><th class="source">Source</th></tr></thead>
+      <tbody>
+        <tr><td>PG&E average bundled residential rate</td><td class="amt">≈ 39.25¢/kWh</td><td>March 2026</td><td class="source">PG&E tariff reporting</td></tr>
+        <tr><td>Net Billing Tariff (NEM 3.0) average export credit — PG&E</td><td class="amt">≈ 3.9¢/kWh</td><td>2025–2026 applicants</td><td class="source"><a href="https://www.cpuc.ca.gov" target="_blank" rel="noopener">CPUC Net Billing Tariff, D.22-12-056</a> (industry reporting)</td></tr>
+        <tr><td>NEM 3.0 legal status</td><td class="blank">Final — CA Supreme Court declined review June 10, 2026; applies to new interconnection applications on/after April 15, 2023</td><td>—</td><td class="source">Court reporting on CPUC decision</td></tr>
+        <tr><td>Legacy NEM 1.0 / 2.0 customers</td><td class="blank">Keep original terms for 20 years from interconnection date</td><td>—</td><td class="source">CPUC rules (industry reporting)</td></tr>
+        <tr><td>Net Surplus Compensation (PG&E)</td><td class="amt">≈ 2.74¢/kWh</td><td>October 2026 true-ups</td><td class="source">PG&E AB 920 rate table (industry reporting)</td></tr>
+      </tbody>
+    </table>
+    <div class="privacy">
+      <p><b>Important:</b> Under NEM 3.0, exported solar earns only a few cents/kWh versus ≈39¢/kWh to buy power — solar value comes from self-consumption, not export profit. The user-reported $10–$20/month net credit is plausible under a legacy NEM 1.0/2.0 arrangement but unlikely under NBT for a new interconnection.</p>
+      <p class="source">User estimate: $10–$20/month solar credit (−$180/yr planning figure) · <span class="flag">Unverified</span> — verify which NEM tariff the Cupertino system operates under and whether legacy status transfers with the home at inheritance.</p>
+    </div>
+
+    <h2>4. Planning figures used in this analysis (rounded to nearest $10)</h2>
+    <table>
+      <thead><tr><th>Item</th><th class="amt">Monthly</th><th class="amt">Annual</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Cupertino water (owner-occupied)</td><td class="amt">$120</td><td class="amt">$1,440</td><td>User estimate $100–$150 → midpoint; consistent with SJWC tariffs</td></tr>
+        <tr><td>Cupertino electricity (solar credit)</td><td class="amt">−$15</td><td class="amt">−$180</td><td>User-reported credit · <span class="flag">Unverified</span> under NBT</td></tr>
+        <tr><td>SF water — all 3 units</td><td class="amt">$360</td><td class="amt">$4,320</td><td>User-provided $330–$400 → midpoint · <span class="flag">Unverified</span> vs. SFPUC tariffs</td></tr>
+        <tr><td>SF electricity</td><td class="amt">$50</td><td class="amt">$600</td><td>User-provided $30–$70 → midpoint · <span class="flag">Unverified</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="privacy"><b>Privacy:</b> No utility account numbers or usage histories tied to the owner appear on this site.</div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p><strong>Tino2 — Inheritance Decision Dashboard</strong> · Data as of November 2026 · Not utility advice; confirm with your providers.</p>
+    <p><a href="../index.html">Back to home</a> · <a href="flagged-review.html">Flagged for review</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
