@@ -13,6 +13,7 @@
     ["stress", prefix + "stress.html", "Stress tests"],
     ["decision", prefix + "decision.html", "Decision"],
     ["scenarios", prefix + "scenarios.html", "Shock replays"],
+    ["black-swan", prefix + "black-swan.html", "Recorded data"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
