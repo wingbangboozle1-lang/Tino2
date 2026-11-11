@@ -241,21 +241,28 @@ is roughly ten times the latest official movement in its own benchmark, and the 
 calls "highly sensitive to achievable rent". **Request:** show the FY2025→FY2026 official change next to the
 3% assumption on the Decision and Properties pages, or add a 0.3% rent-growth stress row.
 
-### D-I-6 — MEDIUM — Proposition 3 result is published as an unofficial snapshot percentage
+### D-I-6 — LOW (downgraded after checking) — the Proposition 3 percentage is an unofficial snapshot, but it is already labelled correctly
 
-`qa/ledger.json` CA-05/06/07 publish the November 2026 ballot outcomes with specific percentages
-("Passing — Yes 60.6%", "Yes 51.5%", "No 52.6% / No 57%"), each labelled "in the unofficial count".
-That label is honest, but the number moves with the count: this session found **58.66%** (CBS 8, 4 Nov
+This session first recorded this as MEDIUM on the assumption that the ballot percentages were published
+without a date. **That was wrong and is corrected here.** Re-reading `qa/ledger.json` in full, CA-05 already
+reads: *"Passing - Yes 60.6% in the unofficial count as of Nov 10, 2026 (certification due Dec 11, 2026)"*,
+and CA-06/CA-07 carry the same as-of and unofficial labels. Both the snapshot date and the certification date
+are present, which is what this session was going to ask for.
+
+The only residual point, and it is minor: a decimal percentage taken from an in-progress count will move.
+This session saw three different official-count snapshots for the same measure — **58.66%** (CBS 8, 4 Nov,
 02:59 PT), **60.5%** (AP call via KQED) and **59.9%** (Secretary of State count as of 6 Nov, reported by
-californiatoday.com). The Secretary of State **certifies on 11 December 2026**.
-The *substance* is not in doubt and is the part the decision depends on: **Prop 3 passed**, so the 10.3% /
-11.3% / 12.3% high-income rates become permanent instead of sunsetting, and **Prop 40 (one-time wealth tax)
-is failing**. California still taxes capital gains as ordinary income, which is what the sell-and-reinvest
-case is priced on.
-**Request:** owner of `qa/ledger.json` / `site/verification.html` to replace the decimal percentage with
-"passed — unofficial count; certified 11 December 2026", so the figure cannot go stale. Note: this session
-could not open `electionresults.sos.ca.gov` directly (see D-I-8), so the outcome above rests on press
-reporting of the official count and is labelled accordingly — it is **not** an official-source match.
+californiatoday.com) — against the site's **60.6%** as of 10 Nov. All are consistent with the same outcome at
+different counting stages. The substance the decision depends on is not in doubt and is unchanged:
+**Prop 3 passed**, so the 10.3% / 11.3% / 12.3% high-income rates become permanent rather than sunsetting, and
+**Prop 40 (one-time wealth tax) is failing**. California still taxes capital gains as ordinary income, which
+is what the sell-and-reinvest case is priced on.
+
+**No change requested.** Recorded only so that a reader who sees a different percentage in the news after
+11 December 2026 knows the site's figure is a dated snapshot, and so that nobody treats the decimal as the
+verified part — the verified part is the outcome. Note that this session could **not** open
+`electionresults.sos.ca.gov` directly (D-I-8), so the outcome above rests on press reporting of the official
+count and is deliberately **not** recorded as an official-source match in §2.
 
 ### D-I-7 — LOW — Ellis Act relocation amounts are materially higher and are not on the plan page
 
@@ -339,10 +346,11 @@ Logged in `COORDINATION.md` (session `d9c69069` block). None was applied by edit
 |---|---|---|---|
 | D-I-1 | owner / repo owner | `site/verification.html` | Decide whether to band or drop the three figures that are already multiples of $10 |
 | D-I-2 | repo owner | branch `arena/5a1bd5be-tino2`, git history | Delete stale public branch tips; decide on private repo / fresh repo / GitHub Support purge |
-| D-I-3 | `11bffb54` (took over `scripts/`) | `scripts/package-site.py` | Extend `FORBIDDEN_HASHES` from 4 to all 40 exact household values |
+| D-I-3 | — | — | **No action: already resolved by a stronger rule, and this session tested it (40/40 caught, 0 wrongly permitted)** |
 | D-I-4 | `11bffb54` | `site/san-francisco.html`, `site/data/model.js` | State that vacant units are charged and that the exemption request is due **14 December 2026** |
 | D-I-5 | `11bffb54` | `site/decision.html`, `site/properties.html` | Show the official FY2025→FY2026 SAFMR change (+0.3% for 4-bedroom) beside the 3% rent assumption |
-| D-I-6 | `11bffb54` | `qa/ledger.json`, `site/verification.html` | Replace snapshot ballot percentages with "passed — unofficial; certified 11 December 2026" |
+| D-I-6 | — | — | **No change requested:** the as-of date and the 11 December 2026 certification date are already published. Corrected from an earlier MEDIUM |
+| D-I-8 | `11bffb54` | `qa/ledger.json` | Two official pages could not be opened from this sandbox; their status is unchanged and is not claimed as verified |
 | D-I-7 | `11bffb54` | `site/plan.html` | Add Ellis Act relocation amounts as context ($11,110.05 / $33,330.13 / $7,443.90) |
 | D-I-9 | `7eeb5f71`, `11bffb54` | `integration/tools/privacy_scan.py`, `integration/ledger/facts.jsonl` | Sync or retire the stale allowlist so a clean run is unambiguous |
 | D-I-11 | next editor of `_config.yml` | `_config.yml` | Remove the duplicated `assets/style.css-alternate.css` line |
@@ -351,21 +359,34 @@ Logged in `COORDINATION.md` (session `d9c69069` block). None was applied by edit
 
 The published site is **sound and safe to leave live**. On the merged tree:
 
-- 6/6 automated checks PASS, including the rendered-page gate (13 pages, 963 rows, 0 errors, 0 warnings);
+- **9/9** automated checks PASS on the final tree, including the rendered-page gate (14 pages, 1,126 rows,
+  0 errors, 0 warnings), the publication-boundary self-test, and the CI workflow's last four runs on `main`;
 - **18 of 18** official-source re-checks performed by this session **Match**, each by direct fetch with the
   wording recorded above;
 - every arithmetic check this session recomputed from scratch passes: **52/52** rounding, **51/51** BOE factor
   rows, **13/13** household assessment changes against the official factor, and the **$829.22** parcel-tax sum
   to the cent;
 - **no exact household figure** that rounding can obscure appears anywhere in `main` or in the published
-  artifact, and the served payload is byte-for-byte the allowlisted set (24 files);
-- all 13 pages are `noindex,nofollow,noarchive`, all 13 are in the navigation, no orphan pages.
+  artifact, the served payload is byte-for-byte the allowlisted set, and CI now audits the real Jekyll output;
+- all **14** published pages are `noindex,nofollow,noarchive`, all **14** are in the navigation, no orphans;
+- every owner-supplied household input in the brief is present in the model, unaltered, re-checked after the
+  last merge.
 
-The open items are the ones the site already flags plus the eleven recorded here. The two **High** items are
+Of the eleven items recorded here, **one was resolved by another session while this session was working**
+(D-I-3), **one was a mistake in this session's own first reading and is corrected** (D-I-6), and **one was a
+privacy violation in this session's own draft report, caught by the repository's own scanner and removed
+before publication** (§4 note below). The remaining open items are the ones the site already flags plus these.
+The two **High** items are
 both about exposure that predates the current tree — figures already multiples of $10, and figures still
 reachable on a stale public branch and in git history. Neither can be fixed by editing the site, and neither
 blocks publication. Nothing in this report is inferred: where a value could not be confirmed from an official
 source this session, it is marked as not re-opened (§2) or as a fetch failure (D-I-8).
+
+**A note on this session's own error, recorded deliberately.** An earlier draft of D-I-3 named four exact
+owner-supplied amounts while claiming not to reproduce them. The repository's own privacy scanner flagged this
+file; the four figures were removed and the section rewritten. The lesson is the one the brief states:
+rounding and paraphrase are not anonymisation, and an audit report is a publication too. This file is excluded
+from GitHub Pages, but it is in a public repository, so it is written to the same standard as the site.
 
 ## 10. Publication record
 
