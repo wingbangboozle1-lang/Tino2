@@ -1,4 +1,4 @@
-"""Allowlist public output: never ship legacy research or private tax histories.
+"""Allowlist public output: never ship legacy research or exact household figures (history is published rounded to $10 only).
 
 Privacy check (session f16e6e34, 2026-11-11): this script holds NO household data.
 An earlier version stored four private amounts as unsalted SHA-256 hashes. Hashes of 4- and 6-digit

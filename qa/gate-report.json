@@ -3,9 +3,9 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 3,
-   "rowsWithContextLinkOnly": 3,
-   "amounts": 22,
+   "rows": 31,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 74,
    "links": 0
   },
   {
@@ -24,9 +24,9 @@
   },
   {
    "file": "site/estate-tax.html",
-   "rows": 42,
+   "rows": 53,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 172,
+   "amounts": 187,
    "links": 0
   },
   {
@@ -45,16 +45,16 @@
   },
   {
    "file": "site/properties.html",
-   "rows": 69,
+   "rows": 105,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 447,
+   "amounts": 522,
    "links": 0
   },
   {
    "file": "site/review.html",
-   "rows": 50,
+   "rows": 57,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 8,
+   "amounts": 19,
    "links": 0
   },
   {
@@ -73,9 +73,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 130,
+   "rows": 135,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 22,
+   "amounts": 27,
    "links": 0
   },
   {
@@ -97,12 +97,12 @@
  "warnings": [],
  "totals": {
   "pages": 13,
-  "rows": 963,
-  "rowsWithOwnSource": 951,
-  "rowsWithContextLinkOnly": 12,
-  "amounts": 4194,
-  "officialExactAmounts": 54,
-  "internalLinks": 254,
-  "externalLinks": 1376
+  "rows": 1050,
+  "rowsWithOwnSource": 1041,
+  "rowsWithContextLinkOnly": 9,
+  "amounts": 4352,
+  "officialExactAmounts": 59,
+  "internalLinks": 259,
+  "externalLinks": 1459
  }
 }
