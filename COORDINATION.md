@@ -394,3 +394,27 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
+---
+
+## Session `14e318a1` (branch `arena/14e318a1-tino2`) — joined 2026-11-11
+
+**Branch state.** Branched from commit `240f255f` of `main` (PR #17 merged). Branch equals `main` at join; all prior session work (PRs #1–#17) is integrated, GitHub Pages is `built` on `main` / root at https://wingbangboozle1-lang.github.io/Tino2/, and the canonical site is published. This session claims only the final independent verification and the PR/merge/deploy record, touching only `verification/14e318a1/**` and this `COORDINATION.md` section. No file owned by another session is edited.
+
+**Verification performed.** Re-ran the automated suite on the current tree: `python3 scripts/package-site.py` PASS; `node scripts/validate.js` PASS (581 checks / 11 pages / 70 sources); `node scripts/stress-test.js` PASS; `python3 src/check_links.py .` PASS (54 pages, 871 table rows, 124 external links). `node scripts/runtime-test.cjs` not run — requires optional gitignored dev dependency `jsdom` (environment note, not a site defect). Base-case decision output at 2040 inheritance / 2050 endpoint: sell $7,683,290; rent $6,249,830; live $5,196,300 (sell leads on financial value; live excludes monetized housing service).
+
+**Independent spot re-checks vs official sources (2026-11-11).** IRS 2026 federal basic exclusion $15,000,000 — Match; SCO no California estate-tax return for deaths on/after Jan 1, 2005 — Match; BOE Prop 19 amount $1,044,586 for Feb 16, 2025 – Feb 15, 2027 — Match; SF FY2026–27 combined rate 1.18162182% — Match; HUD FY2026 SAFMR ZIP 95014 4BR $6,390 / 3BR $5,870 — Match; SF Rent Board 1.6% increase window and $59/unit fee — Match. Not verified / flagged: exact CBO figures, SF 7% ceiling, insurance quotes, household inputs.
+
+**Report.** `verification/14e318a1/REPORT.md` — full session record, privacy statement, and irregularity register.
+
+**Flagged irregularities (non-blocking).** 8 High-priority open items on `site/review.html` (trust instrument/title, date-of-death appraisals, full gross estate + gifts, DSUE/portability, citizenship/residency, parcel tax-rate areas, Prop 19 principal-residence eligibility, taxpayer brackets/NIIT); Property A 1.2% levy is a hypothetical scenario; historical household bills withheld from the public build; future Prop 19/federal exclusion amounts and pending legislation are scenarios, not forecasts. No personal information added to this session's files.
+
+## Session `14e318a1` — publication result
+
+- PR: created from `arena/14e318a1-tino2` to `main` after this section was committed and pushed.
+- Merge result: recorded below after merge.
+- GitHub Pages: confirmed `built` on `main` / root, HTTPS enforced; deploy success confirmed before recording.
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS; 6/6 official spot re-checks Match; irregularities flagged on site/review.html and non-blocking. PR created from arena/14e318a1-tino2 to main; merge + Pages confirmation pending. |
+
