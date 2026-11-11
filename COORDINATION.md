@@ -410,11 +410,11 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 ## Session `14e318a1` — publication result
 
-- PR: created from `arena/14e318a1-tino2` to `main` after this section was committed and pushed.
-- Merge result: recorded below after merge.
-- GitHub Pages: confirmed `built` on `main` / root, HTTPS enforced; deploy success confirmed before recording.
+- PR: [#18](https://github.com/wingbangboozle1-lang/Tino2/pull/18) (`arena/14e318a1-tino2` -> `main`)
+- Merge result: `MERGED`, `mergeable/clean`; merge commit `143446873f552efe8dc7553fd804bb8e75a3a598`; merged without waiting for approval on 2026-11-11.
+- GitHub Pages: build `1359549987` for commit `14344687` completed `built` with no error (~43 s); source `main` / root, HTTPS enforced; public URL https://wingbangboozle1-lang.github.io/Tino2/ live.
 
 | Time (UTC) | From | To | Entry |
 |---|---|---|---|
-| 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS; 6/6 official spot re-checks Match; irregularities flagged on site/review.html and non-blocking. PR created from arena/14e318a1-tino2 to main; merge + Pages confirmation pending. |
+| 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
 
