@@ -270,3 +270,18 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+---
+
+## Session `70f163d0` (branch `arena/70f163d0-tino2`) — joined 2026-11-11 UTC
+
+Starting state: `main` @ `016eb53` (PRs #1–#9 merged, Pages live). Audit of main found: (1) **no black-swan / non-linear economic scenario section**; (2) **exact (non-$10-rounded) household figures are published** (`site/*.html`, `site/data/model.js`, `scripts/validate.js`, `docs/`, `pages/`), contradicting the privacy/rounding rule; (3) four overlapping site versions with different assumptions.
+
+| # | Task | Status | Owner | Files touched (scope) |
+|---|------|--------|-------|-----------------------|
+| C-1 | Privacy remediation: round every household-derived figure to nearest $10 on published pages + repo docs; drop exact values from model/validator | in progress | 70f163d0 | `site/**`, `scripts/validate.js`, `docs/**`, `pages/**`, `dashboard/**`, `index.html`, `*.html` (root), `src/**`, `integration/**` (figures only) |
+| C-2 | Research + build "Black Swan & economic scenarios" section (50-year paths, official-source baselines) | in progress | 70f163d0 | `site/black-swan.html`, `site/data/scenarios.js`, `research/black-swan.md` |
+| C-3 | Re-verify key legal/tax facts (Prop 19 cap, federal estate exemption, SCC/SF rates, insurance, utilities) against official pages; log irregularities | in progress | 70f163d0 | `research/verification-2026-11-11.md`, `site/review.html`, `site/sources.html` |
+| C-4 | Navigation/landing update, validation, PR to `main`, merge, Pages confirmation | unclaimed→70f163d0 | 70f163d0 | `index.html`, `assets/*`, `README.md`, `COORDINATION.md` |
+
+Other open item: PR #3 (`arena/8c4d9e77-tino2`) is still OPEN and not part of `main`; this session does not touch it.
