@@ -597,6 +597,90 @@ Release-record integration: PR #23 (session 246f5b3b) landed while the PR #24 re
 
 ---
 
+## Session `aa1f073e` (branch `arena/aa1f073e-tino2`) — claim 2026-11-11 07:52 UTC
+
+**State read at claim.** `main` = `240f255` (PR #17 merged; Pages `built`, source `main` / root; `node scripts/validate.js` PASS 581, `node scripts/stress-test.js` PASS, `python3 scripts/package-site.py` PASS, `python3 src/check_links.py .` 0 errors). All 19 `arena/*` branches fetched before claiming.
+
+**Live claims seen on other branches at 07:50–07:52 UTC (not stale, therefore not touched):**
+
+| Session | Branch | Claim pushed (UTC) | Claimed |
+|---|---|---|---|
+| `11bffb54` | `arena/11bffb54-tino2` | 2026-11-11 07:50 | Take over stale PR #16, brief-vs-site gap review, final integration (`site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`), PR/merge/Pages |
+| `246f5b3b` | `arena/246f5b3b-tino2` | 2026-11-11 07:44 | Final integration + takeover of stale PR #16 (already merged `arena/f16e6e34-tino2` into its branch) |
+
+Irregularity **AA-C1 (coordination race):** three sessions (`246f5b3b`, `11bffb54`, this one) were started within ~8 minutes of each other with the same brief, and the first two both claimed "final integration / take over PR #16" 6 minutes apart on branches neither could see. This session therefore does **not** claim final integration, does not take over PR #16, and does not edit any file those two named. It takes the research gap that every previous session left explicitly **unverified**.
+
+**Claimed scope (new paths only; nothing owned by an active session is edited).**
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| AA-1 | Coordination: read every branch, record the race, claim a non-overlapping scope, push immediately | **done** | aa1f073e | `COORDINATION.md` (this section only) |
+| AA-2 | Operating-cost research from official/regulator sources only — insurance (CA Dept of Insurance, NAIC), water tariffs for both ZIPs, electricity/solar export tariff, maintenance benchmarks | **done** — 5 cost lines, 47 ledger entries, 41 confirmed on the official page, 6 not confirmed and left blank | aa1f073e | `research/aa1f073e/operating-cost-ledger.md` |
+| AA-3 | Verification ledger for AA-2: one row per figure with the official URL, the wording found, access date; blank + flagged when no official source confirms it | **done** — merged into the AA-2 ledger (one document, one row per figure, status column) | aa1f073e | `research/aa1f073e/operating-cost-ledger.md` |
+| AA-4 | Published cost page built from AA-2/AA-3 | **done** — `site/operating-costs.html` + `site/data/costs.js`, 15 new registered sources, every row linked or flagged | aa1f073e | `site/operating-costs.html`, `site/data/costs.js` (new) |
+| AA-5 | Line-by-line read of the published site against the brief; findings logged for the owning session | **done** — 7 new items appended to the Flagged for Review register (2 High) | aa1f073e | `site/review.html` (append only) |
+| AA-6 | Own PR to `main` (additive files only), merge, confirm Pages deploy, record result here | **done** — see result below | aa1f073e | own files + this section |
+
+**Rules this session follows:** no personal information in any committed file; every dollar figure rounded to the nearest $10; every table row carries an official source link or is left blank and flagged unverified; no value inferred; small frequent commits; `origin/main` merged before every push; conflicts resolved without discarding another session's work.
+
+### Requests / handoff log (session `aa1f073e`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:52 | aa1f073e | `246f5b3b`, `11bffb54` | You both claimed final integration minutes apart. I am staying out of `index.html`, `README.md`, `_config.yml`, `assets/**`, `scripts/**`, `qa/**`, `site/**` **except two new files** (`site/operating-costs.html`, `site/data/costs.js`) that no one has claimed. Whoever integrates last: please add one nav entry for `site/operating-costs.html`. If both of your claims pass 60 minutes with no commit, I will add the nav entry myself and log the takeover here. |
+
+### Session `aa1f073e` — results (2026-11-11)
+
+**Handoff taken, with the 60-minute rule not needed.** Both sessions named in the request log below
+finished and merged while this research ran: PR #20 and PR #22 (`11bffb54`), PR #23 (`246f5b3b`) and
+PR #24 (`81334f2c`) are all in `main`. `246f5b3b` left G-5 open and its G-4 note lists the gaps it could
+not close, including "both insurance premiums, solar tariff term, tax-rate areas". With no active
+competing claim, this session made the four shared-file edits its new page needs, each additive:
+
+| Shared file | Edit | Why it is safe |
+|---|---|---|
+| `assets/app.js` | one navigation entry, `Operating costs` | Additive; no existing entry changed |
+| `scripts/validate.js` | page count 13 → 14; `require` of `site/data/costs.js` so its source keys are registered | The count is an exact-match assertion that a new page necessarily breaks |
+| `scripts/check-publication.py` | two paths added to the reviewed manifest | The CI gate fails closed on unlisted files, by design |
+| `site/sources.html`, `site/review.html` | load `data/costs.js`; 7 appended review items | Append-only; no existing row edited |
+
+**What the new page establishes.** Operating costs are rebuilt from adopted rate schedules instead of
+recalled bill amounts. Water and wastewater for both properties now have tariff-level build-ups with
+effective dates and adopting resolutions; the solar legacy term is confirmed at 20 years from permission
+to operate and transferable with the system; the minimum delivery charge is confirmed as a floor under
+any solar credit; maintenance has a national official series. The San Jose Water build-up reproduces
+that company's own published average-bill illustration to the cent, which is the transcription check.
+
+**What it deliberately leaves blank.** Insurance, for both properties. Three official routes were tried
+and each either declines to price a specific property or publishes a state average its own publisher
+warns against reading as a price. No figure was substituted. Also open: which of three water systems
+serves Property A, both meter sizes, Property B's parcel tier and meter count, and the solar install
+year. All seven are now on the Flagged for Review register with the document that resolves each.
+
+**Irregularity AA-I1 (new).** San Francisco's adopted schedule raises the average single-family combined
+bill about 12.6% and then about 12.5% in consecutive years, while every projection on the site escalates
+operating costs at a flat 3%. The adopted increases are not forecasts. Published on the Operating costs
+page and on the review register; the base case was not re-escalated, because that model belongs to the
+integration sessions and changing it would overwrite their work.
+
+**Irregularity AA-I2 (new).** The household's supplied water range for Property B is materially below the
+tariff build-up at ordinary three-unit usage. Either consumption is lower than assumed or the billing
+basis differs (separate meters, different parcel tier, or rates recalled from before July 2026). Not
+reconciled; published as an open item.
+
+**Checks on the final tree.** `node scripts/validate.js` PASS 835 checks / 14 pages / 121 sources ·
+`node scripts/runtime-test.cjs` PASS 14 pages, 1,126 rendered rows all source-linked ·
+`node scripts/stress-test.js` PASS · `python3 scripts/package-site.py` PASS ·
+`python3 scripts/check-publication.py` PASS 26 reviewed files, and its `--self-test` PASS ·
+`node qa/tools/gate.cjs` **PASS: 0 errors, 0 warnings** (14 pages, 1,126 rows, 4,370 dollar amounts,
+1,535 external links). Base case unchanged at 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780.
+
+**Privacy.** No household figure, address, meter number, account number or parcel identifier is in the
+new page, the new data file or the research ledger. Every dollar amount of $1,000 or more that the page
+renders is a multiple of $10; tariff unit rates below $1,000 are shown exactly, because that is what
+makes the build-up checkable. `research/aa1f073e/**` is repository-only and excluded from the Pages
+artifact by the publication manifest.
+
 <!-- BEGIN block owned by session d9c69069 — other sessions: please do not edit inside this block; send requests to my log at the bottom of it -->
 ## Session `d9c69069` (branch `arena/d9c69069-tino2`) — claim 2026-11-11 07:50 UTC
 
