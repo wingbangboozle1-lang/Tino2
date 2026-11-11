@@ -31,7 +31,7 @@ ${steps.map((s,i) => `<div class="step"><div class="step-number">${i+1}</div><di
 </tbody></table></div></section>
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Income-tax basis</div><h2>Stepped-up basis is not assessed value</h2><p>Property tax assessment and federal income-tax basis are separate calculations. Inherited-property basis is generally fair market value at death, subject to exceptions and special rules.</p></div>${UI.source("irsBasis")}</div>
 <div class="grid three" id="basis-cards"></div>
-<div class="callout"><strong>Planning implication:</strong> an immediate sale near the date-of-death appraised value can have little gain before selling costs. Keeping the property exposes later appreciation above basis to capital-gain rules. Do not use the $550,537 assessed-value input as the federal basis.</div>
+<div class="callout"><strong>Planning implication:</strong> an immediate sale near the date-of-death appraised value can have little gain before selling costs. Keeping the property exposes later appreciation above basis to capital-gain rules. Do not use the $550,540 assessed-value input as the federal basis.</div>
 </section>
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Private document request</div><h2>What the professionals will need</h2><p>None of these records belongs on the public site.</p></div></div><div class="grid two">
 <div class="card"><h3>Trust, title and people</h3><ul class="check-list"><li>Complete signed trust, amendments, restatements and pour-over will</li><li>Current deed, acquisition deed, title report and legal description</li><li>Certified death certificate and trustee acceptance</li><li>Beneficiary/heir contact and relationship evidence—shared privately</li><li>Prior deeds, entity interests, cotenant or marital-property agreements</li><li>Any prior Forms 709 and DSUE/portability records</li></ul></div>
@@ -43,6 +43,6 @@ const a2040 = MODEL.seriesFor("A",2040).market;
 document.getElementById("basis-cards").innerHTML = [
   ["Assessed value · 2040 model", MODEL.seriesFor("A",2040).assessed, "Property-tax continuation only; not basis"],
   ["Date-of-death FMV · 2040 model", a2040, "General federal starting basis, subject to actual appraisal and exceptions"],
-  ["Old assessed-value input · 2026", 550537, "Do not substitute for date-of-death FMV"]
+  ["Old assessed-value input · 2026", 550540, "Do not substitute for date-of-death FMV"]
 ].map(([label,value,note]) => `<div class="card"><div class="metric-label">${label}</div><div class="metric small">${UI.money(value)}</div><p class="tiny">${note}</p></div>`).join("");
 </script></body></html>

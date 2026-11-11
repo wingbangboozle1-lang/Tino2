@@ -19,10 +19,10 @@ function near(actual, expected, tolerance, message) {
 // Core model and source data.
 near(MODEL.BASE.aValue + MODEL.BASE.bValue, 4900000, 0.001, "current real-estate total");
 near(MODEL.estateRow(2026).headroom, 10100000, 0.001, "2026 real-estate-only headroom");
-near(MODEL.seriesFor("A", 2027).assessed, 550537 * 1.02, 0.001, "Prop 13 assessment factoring");
+near(MODEL.seriesFor("A", 2027).assessed, 550540 * 1.02, 0.001, "Prop 13 assessment factoring");
 near(MODEL.inheritanceValues(2026).primaryAssessed, 3100000 - 1044586, 0.001, "Prop 19 high-value formula");
 near(MODEL.inheritanceValues(2026).allowance, 1044586, 0.001, "official current Prop 19 amount");
-near(MODEL.seriesFor("B", 2026).assessed, 114248 * 1.02, 0.001, "Property B 2026 assessment scenario");
+near(MODEL.seriesFor("B", 2026).assessed, 114250 * 1.02, 0.001, "Property B 2026 assessment scenario");
 near(MODEL.sfAnnual(2026).grossRent, 7150 * 12, 0.001, "two-unit annual rent");
 near(MODEL.sfAnnual(2026).fee, 118, 0.001, "two-unit Rent Board fee scenario");
 near(MODEL.afterTaxPortfolioReturn(), 0.05, 1e-12, "after-tax portfolio return");

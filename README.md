@@ -37,7 +37,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Model conventions
 
-Displayed projection dollars round to the nearest $10. Historical household bills retain their supplied exact amounts. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
+Displayed projection dollars round to the nearest $10. All household-derived dollar amounts—including the historical tax and assessment tables—are published rounded to the nearest $10 so they cannot be traced back to a parcel record; the unrounded source values are internal-only and are not stored in this repository. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
 
 Current law is separated from assumptions and proposed legislation. Future Proposition 19 and federal estate exclusion amounts are scenarios, not official forecasts. Unknown values remain blank.
 

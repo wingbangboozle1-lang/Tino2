@@ -12,7 +12,7 @@ const row = (cells) => `<tr>${cells.map((c, i) => `<td class="${i > 0 && i < cel
 main.innerHTML = UI.hero("Properties · values and carrying costs", "The assessment gap is the story.", "Annual projections make the low historic tax base, future reassessment and operating drag visible. Observed household inputs are never presented as official parcel records.", `<a class="button" href="decision.html">Compare strategies →</a><a class="button secondary" href="review.html">What needs verification</a>`) + `<div class="container">
 <section class="section"><div class="grid four">
 <div class="card"><div class="metric-label">Property A · 2026 market input</div><div class="metric small">$3,100,000</div><div class="tiny">Household planning input</div></div>
-<div class="card"><div class="metric-label">Property A · 2026 assessed input</div><div class="metric small">$550,537</div><div class="tiny">Only 17.8% of household market input</div></div>
+<div class="card"><div class="metric-label">Property A · 2026 assessed input</div><div class="metric small">$550,540</div><div class="tiny">Only 17.8% of household market input</div></div>
 <div class="card"><div class="metric-label">Property B · 2026 market input</div><div class="metric small">$1,800,000</div><div class="tiny">Household planning input</div></div>
 <div class="card"><div class="metric-label">Property B · 2026 modeled assessment</div><div class="metric small">${UI.money(MODEL.seriesFor("B",2026).assessed)}</div><div class="tiny">2025 household input grown 2%; not observed</div></div>
 </div></section>
@@ -20,18 +20,18 @@ main.innerHTML = UI.hero("Properties · values and carrying costs", "The assessm
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Verified starting records</div><h2>Inputs, official law and derived rates</h2><p>“Household input” means supplied for planning and not independently verified. “Derived” means arithmetic from those inputs. Official links support the rule or lookup route, not the unverified household amount.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Item</th><th class="number">Amount / value</th><th>Classification</th><th>Official rule or verification route</th></tr></thead><tbody>
 ${row(["Property A market value · Nov 2026", "$3,100,000", UI.status("input"), '<span class="badge red">No appraisal</span>'])}
-${row(["Property A 2026 assessed value", "$550,537", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
-${row(["Property A 2025 assessed value / tax", "$539,743 / $7,207", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
+${row(["Property A 2026 assessed value", "$550,540", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
+${row(["Property A 2025 assessed value / tax", "$539,740 / $7,210", UI.status("input"), UI.source("sccBill", "County bill lookup")])}
 ${row(["Property A effective tax ratio", UI.pct(MODEL.BASE.aRate, 4), UI.status("derived"), UI.source("sccTaxBook", "TRA rate book")])}
 ${row(["Property B market value · Nov 2026", "$1,800,000", UI.status("input"), '<span class="badge red">No appraisal</span>'])}
-${row(["Property B 2025 assessed value / tax", "$114,248 / $2,439", UI.status("input"), UI.source("sfAssessment", "SF assessment guide")])}
+${row(["Property B 2025 assessed value / tax", "$114,250 / $2,440", UI.status("input"), UI.source("sfAssessment", "SF assessment guide")])}
 ${row(["Property B effective tax ratio", UI.pct(MODEL.BASE.bRate, 4), UI.status("derived"), UI.source("sfTaxRate", "Official ad valorem rate")])}
 ${row(["SF FY2026–27 combined ad valorem rate", "1.18162182%", UI.status("official"), UI.source("sfTaxRate", "Adopted rate")])}
 ${row(["Property A / B insurance · each annual", "$1,500", UI.status("input"), UI.source("insurance", "Quote guidance")])}
 ${row(["Property A water / solar credit · monthly", "$100–$150 / $10–$20", UI.status("input"), UI.source("waterA", "Water tariff") + UI.source("solar", "NEM guidance")])}
 ${row(["Property B water / electricity · monthly", "$330–$400 / $30–$70", UI.status("input"), UI.source("waterB", "Water & sewer")])}
 </tbody></table></div>
-<div class="callout warning"><strong>Property B’s derived 2.1348% ratio is not the city tax rate.</strong> It divides a household-reported total bill by household-reported assessed value, so it can embed direct charges, supplemental amounts or input error. The adopted FY2026–27 ad valorem rate is 1.18162182%; the parcel bill must be checked before relying on projections. Property A’s derived 1.3353% likewise is not a verified tax-rate-area rate.</div>
+<div class="callout warning"><strong>Property B’s derived 2.1357% ratio is not the city tax rate.</strong> It divides a household-reported total bill by household-reported assessed value, so it can embed direct charges, supplemental amounts or input error. The adopted FY2026–27 ad valorem rate is 1.18162182%; the parcel bill must be checked before relying on projections. Property A’s derived 1.3358% likewise is not a verified tax-rate-area rate.</div>
 </section>
 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Proposition 19</div><h2>Partial relief—not the old tax bill</h2><p>For this high-value scenario, new taxable value = market value − applicable exclusion when market value exceeds prior factored base-year value + exclusion. Qualifying primary-residence use and timely claims are required.</p></div>${UI.source("boeProp19")}</div>
