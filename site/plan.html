@@ -122,12 +122,11 @@ function render() {
     <li>The last 49 years were unusually good for Bay Area house prices. The plan to sell is a judgment that the next decades need not repeat them, and that one diversified portfolio is safer than two houses in one region.</li></ul>`;
 
   const beHome = window.SCENARIOS.breakEvenHomeGrowth(window.SCENARIOS.DEFS[0]), bePort = window.SCENARIOS.breakEvenPortfolioReturn(window.SCENARIOS.DEFS[0]);
-  // Session 4e07c8e6: the same two thresholds with the portfolio's growth taxed at the endpoint, as the house's gain is.
-  const SCN = window.SCENARIOS, spec0 = SCN.DEFS[0];
-  const sellTaxed = x => x.sell.terminal - Math.max(0, x.sell.terminal - x.sell.initialNet) * B.capitalGainsTax;
-  const solveEqual = (make, lo, hi, rentWinsWhenHigh) => { for (let i = 0; i < 60; i += 1) { const mid = (lo + hi) / 2, x = SCN.run(make(mid)); if ((x.rent.terminal > sellTaxed(x)) === rentWinsWhenHigh) hi = mid; else lo = mid; } return (lo + hi) / 2; };
-  const beHomeEqual = solveEqual(g => ({ ...spec0, home: [[SCN.START, SCN.END, g]] }), -0.03, 0.15, true);
-  const bePortEqual = solveEqual(p => ({ ...spec0, port: [[SCN.START, SCN.END, p]] }), 0, 0.15, false);
+  // Session cf587387: the same two thresholds on equal tax terms, from the shared engine so that the
+  // Best plan page and the Black swans page cannot drift apart. Both endpoints are taxed, not just the house.
+  const SCN = window.SCENARIOS;
+  const beHomeEqual = SCN.breakEvenHomeGrowthEqualTerms(SCN.DEFS[0]);
+  const bePortEqual = SCN.breakEvenPortfolioReturnEqualTerms(SCN.DEFS[0]);
   const monthlyCarry = (first.propertyTax + first.water + first.insurance + first.maintenance - first.solarCredit) / 12;
   document.getElementById("flip").innerHTML = [
     [`Cupertino prices grow about ${pct(beHome)} a year or more after the inheritance`, `Renting Property A out overtakes selling (2045 inheritance, ten-year hold, portfolio at the base 5.0%). That figure taxes the house at the end but not the portfolio. With both taxed at the end it is about ${pct(beHomeEqual)}.`, "County prices rose 7.0% a year over 1975–2025 but 4.3% a year over 2000–2025, with a 25% fall from 2006 to 2011. The 50-year pace is above the equal-terms figure; the 25-year pace is below both. See the local record on the Verified facts page.", src("fredSccCounty", "FHFA · Santa Clara County index")],
