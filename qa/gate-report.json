@@ -87,9 +87,9 @@
   },
   {
    "file": "site/verification.html",
-   "rows": 91,
+   "rows": 104,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 92,
+   "amounts": 137,
    "links": 0
   }
  ],
@@ -97,12 +97,12 @@
  "warnings": [],
  "totals": {
   "pages": 13,
-  "rows": 1037,
-  "rowsWithOwnSource": 1028,
+  "rows": 1050,
+  "rowsWithOwnSource": 1041,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4307,
+  "amounts": 4352,
   "officialExactAmounts": 59,
   "internalLinks": 259,
-  "externalLinks": 1436
+  "externalLinks": 1459
  }
 }

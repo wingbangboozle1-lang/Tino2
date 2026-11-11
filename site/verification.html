@@ -61,6 +61,12 @@ const NOTES = {
   2024: "Property B bill rising about three times as fast as its assessment: flat parcel taxes, most of them inflation-adjusted.",
   2025: "Same pattern for Property B."
 };
+const DOLLARS = [ // household-supplied, rounded to the nearest $10 as the owner specified; not checked against county bills
+  [2026, 550540, null, null, null], [2025, 539740, 7210, 114250, 2440], [2024, 529160, 7000, 112010, 2320], [2023, 518790, 6920, 109810, 2180],
+  [2022, 508610, 6760, 107660, 2110], [2021, 498640, 6660, 105600, 2070], [2020, 493530, 6570, 104510, 2200], [2019, 483850, 6570, 102470, 2130],
+  [2018, 474370, 6380, 100460, 2060], [2017, 465070, 6380, 98490, 1740], [2016, 455950, 6410, 96560, 1680], [2015, 449100, 6130, null, null], [2014, 440310, 5970, null, null]
+];
+const usd = v => v === null ? "—" : "$" + v.toLocaleString("en-US");
 const sign = v => v === null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1).replace(/\.0$/, "") + "%";
 
 main.innerHTML = UI.hero("Verification · official sources re-opened 11 November 2026",
@@ -85,11 +91,17 @@ ${row([td("<strong>Source column on model tables</strong>"), td("Rows without a 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Ledger</div><h2>Every fact, its official page and the wording found</h2><p>“Confirmed” means the page was opened and the figure read on it. “Not confirmed” means it was seen only in a search extract or a non-official summary, or no official source publishes it; those values are blank or marked.</p></div></div>
 <div id="ledger"></div></section>
 
-<section class="section"><div class="section-heading"><div><div class="eyebrow">Household history, checked</div><h2>Assessment and tax-bill changes against the official yearly factor</h2><p>Percentages, from the household's own records. The dollar history, rounded to $10, is on the <a href="properties.html#history">Properties page</a>. The assessed-value changes match the Board of Equalization's factor in every year; the tax bills do not move with the assessment, and the notes say why.</p></div></div>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Household history, checked</div><h2>Assessment and tax-bill changes against the official yearly factor</h2><p>Percentages as supplied by the household; the dollar history, rounded to $10, is in the next table and, with links per row, on the <a href="properties.html#history">Properties page</a>. The assessed-value changes match the Board of Equalization's factor in every year; the tax bills do not move with the assessment, and the notes say why.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Official factor</th><th class="number">Property A assessment</th><th class="number">Property A tax bill</th><th class="number">Property B assessment</th><th class="number">Property B tax bill</th><th class="wrap">Note</th><th>Official source</th></tr></thead><tbody>
 ${HIST.map(([y, avA, taxA, avB, taxB]) => row([td(String(y), ""), num("+" + (factorFor(y) * 100).toFixed(3) + "%"), num(sign(avA)), num(sign(taxA)), num(sign(avB)), num(sign(taxB)), td(NOTES[y] || (y === 2014 || y === 2016 || y === 2021 ? "Below 2% because California CPI rose less than 2%." : "")), `<td class="source">${src(y === 2018 ? "sfParcelTaxes" : y === 2021 ? "sfRentBoardFee" : "boeLta2026002", y === 2018 ? "SF parcel taxes" : y === 2021 ? "SF Rent Board fee" : "BOE factor table")}</td>`])).join("")}
 </tbody></table></div>
 <p class="tiny">The household's figures are rounded to the half or whole percent. One Property B year is about $40 below the straight factor; later years continue from the lower figure. Tax-bill changes are the household's own calculation and are not verified against bills.</p></section>
+
+<section class="section" id="history-dollars"><div class="section-heading"><div><div class="eyebrow">Household history, rounded</div><h2>Assessed value and property tax by year, to the nearest $10</h2><p>Supplied by the household and rounded to $10 as the owner specified. None of these amounts was checked against a county record, because that would need the parcel's address; treat every figure as unverified until compared with the bills. A dash means no figure was supplied.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Property A assessed value</th><th class="number">Property A property tax</th><th class="number">Property B assessed value</th><th class="number">Property B property tax</th><th>Status</th><th>Where to verify (official)</th></tr></thead><tbody>
+${DOLLARS.map(([y, avA, taxA, avB, taxB]) => row([td(String(y), ""), num(usd(avA)), num(usd(taxA)), num(usd(avB)), num(usd(taxB)), td(UI.badge("Unverified household input", "gold"), ""), `<td class="source">${src("sccBill", "Santa Clara County bills")} ${avB === null ? "" : src("sfTreasurerSecured", "San Francisco bills")}</td>`])).join("")}
+</tbody></table></div>
+<p class="tiny">Latest tax as a share of assessed value: Property A about 1.34%, Property B about 2.14%. Both are above the rate on the bill because flat charges are spread over a low assessed value; see the next table. These ratios must not be applied to a reassessed value.</p></section>
 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">What the bills are made of</div><h2>Rate-based tax and flat charges</h2><p>This matters for projections: after a reassessment only the rate-based part grows with the value. Flat charges grow with inflation and with new voter measures.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Property</th><th class="wrap">Rate on assessed value (official)</th><th class="wrap">Flat charges on the bill (official list)</th><th class="wrap">Share of the latest bill (derived, rounded)</th><th class="wrap">What it means</th><th>Official source</th></tr></thead><tbody>
