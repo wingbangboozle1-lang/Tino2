@@ -112,7 +112,13 @@
     d.flags = flags; d.shockStart = path.shockStart || START;
     return d;
   }
-  function cap(d, year) { const steps = Math.max(0, Math.floor((year - START) / 2)); return B.prop19Amount * d.mA[Math.min(N, 2 * steps)] / d.mA[0]; }
+  function cap(d, year) {
+    // BOE method (LTA 2023/012, 2025/009): one calendar year's home-price change is applied at each
+    // biennial step (February 2027, 2029, ...). Step j uses the path's change over the first year of its window.
+    const steps = MODEL.prop19Steps(year); let amount = B.prop19Amount;
+    for (let j = 1; j <= steps; j++) { const i = Math.min(N, 2 * j - 1); amount *= d.mA[i] / d.mA[i - 1]; }
+    return amount;
+  }
   function follows(d, year) { return d.flags.assessFollowsMarket && year >= d.shockStart; }
 
   // ---------- strategy engine ----------

@@ -146,3 +146,11 @@ tr:hover td { background: #fafbf9; }
   .card, .table-wrap { box-shadow: none; break-inside: avoid; }
   .container { width: 100%; }
 }
+
+/* Sub-navigation shared by the three black-swan pages (session f16e6e34) */
+.subnav { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-top: 8px; padding-bottom: 10px; border-top: 1px solid var(--line); }
+.subnav a { font-size: 12.5px; font-weight: 600; text-decoration: none; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--line); background: white; color: var(--muted); }
+.subnav a:hover, .subnav a.active { color: var(--green); background: var(--green-soft); border-color: var(--green-soft); }
+details.card > summary { cursor: pointer; }
+details.card[open] > summary { margin-bottom: 8px; }
+@media print { .subnav { display: none; } }

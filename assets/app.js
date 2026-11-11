@@ -7,18 +7,21 @@
   const prefix = onHome ? "site/" : "";
   const home = onHome ? "index.html" : "../index.html";
   const current = onHome ? "home" : path.split("/").pop().replace(".html", "");
+  // One entry per category. The three black-swan pages share one entry and a sub-navigation (session f16e6e34).
+  const stressPages = [["stress", "stress.html", "50-year paths"], ["scenarios", "scenarios.html", "Shock replays"], ["black-swan", "black-swan.html", "Recorded data"]];
+  const inStress = stressPages.some(([id]) => id === current);
   const navItems = [
     ["home", home, "Overview"],
-    ["properties", prefix + "properties.html", "Properties"],
-    ["stress", prefix + "stress.html", "Stress tests"],
+    ["plan", prefix + "plan.html", "Best plan"],
     ["decision", prefix + "decision.html", "Decision"],
-    ["scenarios", prefix + "scenarios.html", "Shock replays"],
-    ["black-swan", prefix + "black-swan.html", "Recorded data"],
+    ["properties", prefix + "properties.html", "Properties"],
+    ["san-francisco", prefix + "san-francisco.html", "SF property"],
+    ["stress", prefix + "stress.html", "Black swan"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
-    ["san-francisco", prefix + "san-francisco.html", "SF property"],
     ["sources", prefix + "sources.html", "Sources"],
-    ["review", prefix + "review.html", "Review"]
+    ["verification", prefix + "verification.html", "Verified facts"],
+    ["review", prefix + "review.html", "Flagged"]
   ];
   const title = document.body.dataset.title || "Inheritance planning";
   document.title = title + " · Private-property dashboard";
@@ -27,8 +30,8 @@
   header.innerHTML = `<div class="container header-inner">
     <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Anonymized scenarios · 2026</small></span></a>
     <button class="menu-button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
-    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
-  </div>`;
+    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${(id === current || (id === "stress" && inStress)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
+  </div>${inStress ? `<div class="container subnav" aria-label="Black swan pages"><span class="tiny">Black swan and economic scenarios:</span> ${stressPages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}`;
   document.body.prepend(header);
   const menu = header.querySelector(".menu-button");
   menu.addEventListener("click", () => {
@@ -75,11 +78,11 @@ window.UI.ensureRowSources = function () {
   document.querySelectorAll('table').forEach(table => {
     const rows=[...table.querySelectorAll('tbody tr')];
     if(!rows.some(r=>!r.querySelector('a[href^="https://"]'))) return;
-    const heading=document.createElement('th'); heading.textContent='Official framework / model context';
+    const heading=document.createElement('th'); heading.textContent='Rule the model applies (not a source for the number)';
     const head=table.querySelector('thead tr'); if(head && !head.querySelector('[data-framework]')) { heading.dataset.framework='true'; head.append(heading); }
     rows.forEach(r=>{
       const cell=document.createElement('td');cell.className='source';
-      cell.innerHTML=UI.source('irsBasis','Framework only · scenario unverified');r.append(cell);
+      cell.innerHTML=UI.source('irsBasis','Calculated value · tax-basis rule shown for context');r.append(cell);
     });
   });
 };
