@@ -26,6 +26,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
+- `site/options.html` — completeness check: hold-then-sell and empty-house cases, depreciation in the rental case, the pre-2021 reassessment rule as a test, estate tax by amount of money, rules by kind of money, and filing steps missing from the checklist (engine in `site/data/options.js`, independent calculation in `verification/0d6ec51e/`)
 - `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs

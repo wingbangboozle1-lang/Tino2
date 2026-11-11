@@ -75,7 +75,7 @@ near(MODEL.estateRow(2026).exclusion, 15000000, 1e-9, "official 2026 federal bas
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 14, "fourteen dashboard pages");
+ok(htmlFiles.length === 15, "fifteen dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
@@ -128,6 +128,31 @@ ok(SCENARIOS.quakeShock(0.10).hit > SCENARIOS.quakeShock(0.05).hit, "larger dama
 ok(SCENARIOS.insuranceShock(0.12).rentDelta < SCENARIOS.insuranceShock(0.03).rentDelta, "faster premium growth costs more");
 const expectation = SCENARIOS.expectation();
 ok(expectation.sell > expectation.rent && expectation.sell > expectation.live, "weighted result favours selling");
+
+// Options page (session 0d6ec51e): the published engine must agree with the independently written
+// calculation kept in verification/0d6ec51e/, and must reproduce the Decision page at its end points.
+require(path.join(root, "site/data/options.js"));
+const optRef = JSON.parse(fs.readFileSync(path.join(root, "verification/0d6ec51e/options.json"), "utf8"));
+const r10 = v => Math.round(v / 10) * 10;
+ok(optRef.checks.every(c => c.ok), "independent calculation passes its own self-checks");
+optRef.delay.forEach(d => ["live", "rent", "empty"].forEach(mode =>
+  near(r10(OPTIONS.holdThenSell(d.inherit, d.yearsHeld, mode).terminal), d[mode], 0.001, `hold ${d.yearsHeld}y then sell (${mode}) ${d.inherit}`)));
+optRef.depreciation.forEach(d => near(r10(OPTIONS.rentWithDepreciation(d.inherit, d.buildingShare).terminal), d.rentWithDepreciation, 0.001, `rental with depreciation ${d.inherit} at ${d.buildingShare}`));
+optRef.carryForward.forEach(d => { const x = OPTIONS.oldRule(d.inherit); near(r10(x.rent), d.rentCarryForward, 0.001, `old-rule rent ${d.inherit}`); near(r10(x.live), d.liveCarryForward, 0.001, `old-rule live ${d.inherit}`); });
+optRef.estate.forEach(d => near(r10(OPTIONS.estate(d.year, d.money).tax), d.tax, 0.001, `estate tax ${d.year} at ${d.money}`));
+optRef.probate.forEach(d => near(r10(OPTIONS.probate(MODEL.seriesFor("A", d.year).market)), d.each, 0.001, `probate fee ${d.year}`));
+optRef.propertyB.forEach(d => near(r10(OPTIONS.propertyB(d.year).avoided), d.saved, 0.001, `Property B tax avoided ${d.year}`));
+for (const Y of [2040, 2045, 2050]) {
+  const lab = MODEL.decision({ ...MODEL.BASE, inheritYear: Y }, 10);
+  near(OPTIONS.holdThenSell(Y, 10, "rent").terminal, lab.rent.terminal, 0.01, `ten-year rent equals the Decision page ${Y}`);
+  near(OPTIONS.holdThenSell(Y, 10, "live").terminal, lab.live.terminal, 0.01, `ten-year live equals the Decision page ${Y}`);
+  near(OPTIONS.rentWithDepreciation(Y, 0).terminal, lab.rent.terminal, 0.01, `no depreciation equals the Decision page ${Y}`);
+  ok(OPTIONS.holdThenSell(Y, 2, "live").vsSellNow < 0 && OPTIONS.holdThenSell(Y, 1, "empty").vsSellNow < OPTIONS.holdThenSell(Y, 1, "rent").vsSellNow, `waiting costs money ${Y}`);
+  ok(OPTIONS.oldRule(Y).sellLead > 0 && OPTIONS.oldRule(Y).sellLead < OPTIONS.oldRule(Y).sellLeadNow, `old rule narrows but does not reverse the lead ${Y}`);
+}
+near(OPTIONS.probate(1000000), 23000, 1e-6, "Probate Code schedule on $1,000,000");
+near(OPTIONS.estate(2027, 0).startsAt, 15480000 - MODEL.seriesFor("A", 2027).market, 1e-6, "money at which estate tax starts in 2027");
+near(OPTIONS.estate(2027, OPTIONS.estate(2027, 0).startsAt + 1000000).tax, 400000, 1e-6, "40% on the first $1,000,000 above the exclusion");
 
 const assets = ["assets/styles.css", "assets/app.js"];
 assets.forEach(file => ok(fs.existsSync(path.join(root, file)), `${file} exists`));

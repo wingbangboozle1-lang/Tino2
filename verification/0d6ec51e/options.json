@@ -1,0 +1,801 @@
+{
+ "generated": "from site/data/model.js; no household figure typed in this script",
+ "horizonYears": 10,
+ "portfolioReturn": 0.049999999999999996,
+ "checks": [
+  {
+   "name": "2040: sell now equals published sell",
+   "mine": 7683290,
+   "published": 7683290,
+   "ok": true
+  },
+  {
+   "name": "2040: rent 10 years equals published rent",
+   "mine": 6249830,
+   "published": 6249830,
+   "ok": true
+  },
+  {
+   "name": "2040: live 10 years equals published live",
+   "mine": 5135780,
+   "published": 5135780,
+   "ok": true
+  },
+  {
+   "name": "2040: depreciation at 0% building share equals published rent",
+   "mine": 6249830,
+   "published": 6249830,
+   "ok": true
+  },
+  {
+   "name": "2045: sell now equals published sell",
+   "mine": 9125340,
+   "published": 9125340,
+   "ok": true
+  },
+  {
+   "name": "2045: rent 10 years equals published rent",
+   "mine": 7395620,
+   "published": 7395620,
+   "ok": true
+  },
+  {
+   "name": "2045: live 10 years equals published live",
+   "mine": 6068080,
+   "published": 6068080,
+   "ok": true
+  },
+  {
+   "name": "2045: depreciation at 0% building share equals published rent",
+   "mine": 7395620,
+   "published": 7395620,
+   "ok": true
+  },
+  {
+   "name": "2050: sell now equals published sell",
+   "mine": 10838040,
+   "published": 10838040,
+   "ok": true
+  },
+  {
+   "name": "2050: rent 10 years equals published rent",
+   "mine": 8752170,
+   "published": 8752170,
+   "ok": true
+  },
+  {
+   "name": "2050: live 10 years equals published live",
+   "mine": 7164510,
+   "published": 7164510,
+   "ok": true
+  },
+  {
+   "name": "2050: depreciation at 0% building share equals published rent",
+   "mine": 8752170,
+   "published": 8752170,
+   "ok": true
+  },
+  {
+   "name": "probate schedule on $1,000,000 is $23,000",
+   "mine": 23000,
+   "published": 23000,
+   "ok": true
+  },
+  {
+   "name": "probate schedule on $10,000,000 is $113,000",
+   "mine": 113000,
+   "published": 113000,
+   "ok": true
+  },
+  {
+   "name": "estate tax is zero at the exclusion",
+   "mine": 0,
+   "published": 0,
+   "ok": true
+  }
+ ],
+ "delay": [
+  {
+   "inherit": 2040,
+   "yearsHeld": 0,
+   "live": 7683290,
+   "rent": 7683290,
+   "empty": 7683290,
+   "liveVsSellNow": 0,
+   "rentVsSellNow": 0,
+   "emptyVsSellNow": 0,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 1,
+   "live": 7456230,
+   "rent": 7586500,
+   "empty": 7430990,
+   "liveVsSellNow": -227060,
+   "rentVsSellNow": -96800,
+   "emptyVsSellNow": -252300,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 2,
+   "live": 7233430,
+   "rent": 7474440,
+   "empty": 7166630,
+   "liveVsSellNow": -449860,
+   "rentVsSellNow": -208860,
+   "emptyVsSellNow": -516670,
+   "homeSaleExclusionUsed": 34880
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 3,
+   "live": 7014820,
+   "rent": 7299630,
+   "empty": 6842640,
+   "liveVsSellNow": -668470,
+   "rentVsSellNow": -383660,
+   "emptyVsSellNow": -840650,
+   "homeSaleExclusionUsed": 211730
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 5,
+   "live": 6448590,
+   "rent": 6970030,
+   "empty": 6223810,
+   "liveVsSellNow": -1234700,
+   "rentVsSellNow": -713260,
+   "emptyVsSellNow": -1459480,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 7,
+   "live": 5899480,
+   "rent": 6665210,
+   "empty": 5641480,
+   "liveVsSellNow": -1783810,
+   "rentVsSellNow": -1018090,
+   "emptyVsSellNow": -2041810,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2040,
+   "yearsHeld": 10,
+   "live": 5135780,
+   "rent": 6249830,
+   "empty": 4830770,
+   "liveVsSellNow": -2547510,
+   "rentVsSellNow": -1433470,
+   "emptyVsSellNow": -2852530,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 0,
+   "live": 9125340,
+   "rent": 9125340,
+   "empty": 9125340,
+   "liveVsSellNow": 0,
+   "rentVsSellNow": 0,
+   "emptyVsSellNow": 0,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 1,
+   "live": 8853820,
+   "rent": 9007410,
+   "empty": 8825840,
+   "liveVsSellNow": -271520,
+   "rentVsSellNow": -117930,
+   "emptyVsSellNow": -299500,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 2,
+   "live": 8587430,
+   "rent": 8871410,
+   "empty": 8512010,
+   "liveVsSellNow": -537910,
+   "rentVsSellNow": -253930,
+   "emptyVsSellNow": -613330,
+   "homeSaleExclusionUsed": 41430
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 3,
+   "live": 8325370,
+   "rent": 8660940,
+   "empty": 8127370,
+   "liveVsSellNow": -799970,
+   "rentVsSellNow": -464400,
+   "emptyVsSellNow": -997970,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 5,
+   "live": 7630430,
+   "rent": 8263940,
+   "empty": 7392690,
+   "liveVsSellNow": -1494920,
+   "rentVsSellNow": -861400,
+   "emptyVsSellNow": -1732660,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 7,
+   "live": 6976990,
+   "rent": 7896570,
+   "empty": 6701350,
+   "liveVsSellNow": -2148350,
+   "rentVsSellNow": -1228770,
+   "emptyVsSellNow": -2423990,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2045,
+   "yearsHeld": 10,
+   "live": 6068080,
+   "rent": 7395620,
+   "empty": 5738900,
+   "liveVsSellNow": -3057260,
+   "rentVsSellNow": -1729720,
+   "emptyVsSellNow": -3386440,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 0,
+   "live": 10838040,
+   "rent": 10838040,
+   "empty": 10838040,
+   "liveVsSellNow": 0,
+   "rentVsSellNow": 0,
+   "emptyVsSellNow": 0,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 1,
+   "live": 10512490,
+   "rent": 10694550,
+   "empty": 10482520,
+   "liveVsSellNow": -325550,
+   "rentVsSellNow": -143500,
+   "emptyVsSellNow": -355520,
+   "homeSaleExclusionUsed": 0
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 2,
+   "live": 10193120,
+   "rent": 10529650,
+   "empty": 10109970,
+   "liveVsSellNow": -644930,
+   "rentVsSellNow": -308390,
+   "emptyVsSellNow": -728080,
+   "homeSaleExclusionUsed": 49200
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 3,
+   "live": 9857130,
+   "rent": 10276380,
+   "empty": 9653320,
+   "liveVsSellNow": -980920,
+   "rentVsSellNow": -561670,
+   "emptyVsSellNow": -1184730,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 5,
+   "live": 9028250,
+   "rent": 9798450,
+   "empty": 8781100,
+   "liveVsSellNow": -1809790,
+   "rentVsSellNow": -1039600,
+   "emptyVsSellNow": -2056940,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 7,
+   "live": 8248810,
+   "rent": 9355960,
+   "empty": 7960360,
+   "liveVsSellNow": -2589230,
+   "rentVsSellNow": -1482080,
+   "emptyVsSellNow": -2877680,
+   "homeSaleExclusionUsed": 250000
+  },
+  {
+   "inherit": 2050,
+   "yearsHeld": 10,
+   "live": 7164510,
+   "rent": 8752170,
+   "empty": 6817790,
+   "liveVsSellNow": -3673530,
+   "rentVsSellNow": -2085880,
+   "emptyVsSellNow": -4020260,
+   "homeSaleExclusionUsed": 250000
+  }
+ ],
+ "carryForward": [
+  {
+   "inherit": 2040,
+   "sell": 7683290,
+   "sellTaxedAtEnd": 6701410,
+   "rentCurrentLaw": 6249830,
+   "rentCarryForward": 6728540,
+   "liveCurrentLaw": 5135780,
+   "liveCarryForward": 5631230,
+   "firstYearTaxCurrentLawRent": 61420,
+   "firstYearTaxCarryForward": 8890,
+   "sellMinusRent": 954750,
+   "sellTaxedMinusRent": -27130
+  },
+  {
+   "inherit": 2045,
+   "sell": 9125340,
+   "sellTaxedAtEnd": 7959170,
+   "rentCurrentLaw": 7395620,
+   "rentCarryForward": 7970960,
+   "liveCurrentLaw": 6068080,
+   "liveCarryForward": 6684230,
+   "firstYearTaxCurrentLawRent": 72950,
+   "firstYearTaxCarryForward": 9820,
+   "sellMinusRent": 1154390,
+   "sellTaxedMinusRent": -11780
+  },
+  {
+   "inherit": 2050,
+   "sell": 10838040,
+   "sellTaxedAtEnd": 9453000,
+   "rentCurrentLaw": 8752170,
+   "rentCarryForward": 9442970,
+   "liveCurrentLaw": 7164510,
+   "liveCarryForward": 7936220,
+   "firstYearTaxCurrentLawRent": 86640,
+   "firstYearTaxCarryForward": 10840,
+   "sellMinusRent": 1395080,
+   "sellTaxedMinusRent": 10030
+  }
+ ],
+ "depreciation": [
+  {
+   "inherit": 2040,
+   "buildingShare": 0.2,
+   "yearlyDeduction": 36490,
+   "incomeTaxSavedOverHold": 55950,
+   "lossesCarriedToSale": 196920,
+   "extraTaxAtSale": 139040,
+   "valueOfReleasedLosses": 65570,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 6245060,
+   "rentPublished": 6249830,
+   "change": -4760,
+   "sellStillAheadBy": 1438230
+  },
+  {
+   "inherit": 2040,
+   "buildingShare": 0.3,
+   "yearlyDeduction": 54740,
+   "incomeTaxSavedOverHold": 55950,
+   "lossesCarriedToSale": 379390,
+   "extraTaxAtSale": 208560,
+   "valueOfReleasedLosses": 126340,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 6236300,
+   "rentPublished": 6249830,
+   "change": -13520,
+   "sellStillAheadBy": 1446990
+  },
+  {
+   "inherit": 2040,
+   "buildingShare": 0.4,
+   "yearlyDeduction": 72990,
+   "incomeTaxSavedOverHold": 55950,
+   "lossesCarriedToSale": 561860,
+   "extraTaxAtSale": 278090,
+   "valueOfReleasedLosses": 187100,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 6227550,
+   "rentPublished": 6249830,
+   "change": -22280,
+   "sellStillAheadBy": 1455750
+  },
+  {
+   "inherit": 2045,
+   "buildingShare": 0.2,
+   "yearlyDeduction": 43340,
+   "incomeTaxSavedOverHold": 55520,
+   "lossesCarriedToSale": 266700,
+   "extraTaxAtSale": 165140,
+   "valueOfReleasedLosses": 88810,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 7387300,
+   "rentPublished": 7395620,
+   "change": -8320,
+   "sellStillAheadBy": 1738040
+  },
+  {
+   "inherit": 2045,
+   "buildingShare": 0.3,
+   "yearlyDeduction": 65020,
+   "incomeTaxSavedOverHold": 55520,
+   "lossesCarriedToSale": 483420,
+   "extraTaxAtSale": 247710,
+   "valueOfReleasedLosses": 160980,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 7376900,
+   "rentPublished": 7395620,
+   "change": -18720,
+   "sellStillAheadBy": 1748440
+  },
+  {
+   "inherit": 2045,
+   "buildingShare": 0.4,
+   "yearlyDeduction": 86690,
+   "incomeTaxSavedOverHold": 55520,
+   "lossesCarriedToSale": 700140,
+   "extraTaxAtSale": 330280,
+   "valueOfReleasedLosses": 233150,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 7366500,
+   "rentPublished": 7395620,
+   "change": -29120,
+   "sellStillAheadBy": 1758850
+  },
+  {
+   "inherit": 2050,
+   "buildingShare": 0.2,
+   "yearlyDeduction": 51480,
+   "incomeTaxSavedOverHold": 53290,
+   "lossesCarriedToSale": 354760,
+   "extraTaxAtSale": 196130,
+   "valueOfReleasedLosses": 118140,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 8739220,
+   "rentPublished": 8752170,
+   "change": -12950,
+   "sellStillAheadBy": 2098830
+  },
+  {
+   "inherit": 2050,
+   "buildingShare": 0.3,
+   "yearlyDeduction": 77220,
+   "incomeTaxSavedOverHold": 53290,
+   "lossesCarriedToSale": 612150,
+   "extraTaxAtSale": 294200,
+   "valueOfReleasedLosses": 203850,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 8726860,
+   "rentPublished": 8752170,
+   "change": -25310,
+   "sellStillAheadBy": 2111180
+  },
+  {
+   "inherit": 2050,
+   "buildingShare": 0.4,
+   "yearlyDeduction": 102960,
+   "incomeTaxSavedOverHold": 53290,
+   "lossesCarriedToSale": 869550,
+   "extraTaxAtSale": 392270,
+   "valueOfReleasedLosses": 289560,
+   "recaptureRate": 0.381,
+   "rentWithDepreciation": 8714510,
+   "rentPublished": 8752170,
+   "change": -37660,
+   "sellStillAheadBy": 2123540
+  }
+ ],
+ "estate": [
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 2500000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 5000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 10000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 15000000,
+   "over": 2728500,
+   "tax": 1091400,
+   "taxShareOfMoney": 7.3
+  },
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 20000000,
+   "over": 7728500,
+   "tax": 3091400,
+   "taxShareOfMoney": 15.5
+  },
+  {
+   "year": 2027,
+   "propertyA": 3208500,
+   "exclusion": 15480000,
+   "exclusionOfficial": true,
+   "money": 25000000,
+   "over": 12728500,
+   "tax": 5091400,
+   "taxShareOfMoney": 20.4
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 2500000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 5000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 10000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 15000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 20000000,
+   "over": 4992920,
+   "tax": 1997170,
+   "taxShareOfMoney": 10
+  },
+  {
+   "year": 2040,
+   "propertyA": 5017950,
+   "exclusion": 20025030,
+   "exclusionOfficial": false,
+   "money": 25000000,
+   "over": 9992920,
+   "tax": 3997170,
+   "taxShareOfMoney": 16
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 2500000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 5000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 10000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 15000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 20000000,
+   "over": 3850500,
+   "tax": 1540200,
+   "taxShareOfMoney": 7.7
+  },
+  {
+   "year": 2045,
+   "propertyA": 5959750,
+   "exclusion": 22109250,
+   "exclusionOfficial": false,
+   "money": 25000000,
+   "over": 8850500,
+   "tax": 3540200,
+   "taxShareOfMoney": 14.2
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 2500000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 5000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 10000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 15000000,
+   "over": 0,
+   "tax": 0,
+   "taxShareOfMoney": 0
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 20000000,
+   "over": 2667920,
+   "tax": 1067170,
+   "taxShareOfMoney": 5.3
+  },
+  {
+   "year": 2050,
+   "propertyA": 7078320,
+   "exclusion": 24410400,
+   "exclusionOfficial": false,
+   "money": 25000000,
+   "over": 7667920,
+   "tax": 3067170,
+   "taxShareOfMoney": 12.3
+  }
+ ],
+ "probate": [
+  {
+   "year": 2026,
+   "value": 3100000,
+   "each": 44000,
+   "both": 88000
+  },
+  {
+   "year": 2040,
+   "value": 5017950,
+   "each": 63180,
+   "both": 126360
+  },
+  {
+   "year": 2045,
+   "value": 5959750,
+   "each": 72600,
+   "both": 145200
+  },
+  {
+   "year": 2050,
+   "value": 7078320,
+   "each": 83780,
+   "both": 167570
+  }
+ ],
+ "propertyB": [
+  {
+   "year": 2026,
+   "market": 1800000,
+   "assessed": 116540,
+   "taxNow": 1380,
+   "taxIfReassessed": 21270,
+   "saved": 19890
+  },
+  {
+   "year": 2040,
+   "market": 2913650,
+   "assessed": 153770,
+   "taxNow": 1820,
+   "taxIfReassessed": 34430,
+   "saved": 32610
+  },
+  {
+   "year": 2045,
+   "market": 3460500,
+   "assessed": 169770,
+   "taxNow": 2010,
+   "taxIfReassessed": 40890,
+   "saved": 38880
+  },
+  {
+   "year": 2050,
+   "market": 4109990,
+   "assessed": 187440,
+   "taxNow": 2210,
+   "taxIfReassessed": 48560,
+   "saved": 46350
+  }
+ ]
+}

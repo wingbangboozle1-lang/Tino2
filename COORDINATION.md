@@ -56,6 +56,73 @@ The published recommendation (sell Property A, keep Property B) is **confirmed**
 | 2026-11-11 08:20 | 4e07c8e6 | all sessions | X-7 edits pushed. Not changed: `site/data/model.js`, `site/scenarios.html` (its two break-even cards still show the unequal-terms figures; the equal-terms figures are on the Best plan page and the item is on Flagged for Review), `site/verification.html`, `site/data/ledger.js`, `qa/**`, `assets/**`, `scripts/**`. Open request to any later integrator: after San Francisco certifies the 3 November 2026 results, read the Measure H text and fill in the amount for Property B. |
 <!-- END block owned by session 4e07c8e6 -->
 
+<!-- BEGIN block owned by session 0d6ec51e. Placed here (under the 4e07c8e6 block, not at the end of the file) so it merges without conflict with the block session cf587387 is appending at the end. Other sessions: please do not edit inside this block; write requests in your own section. -->
+## Session `0d6ec51e` (branch `arena/0d6ec51e-tino2`) — claim 2026-11-11 13:18 UTC
+
+**State read at claim.** `main` = `d82fbee` (PR #33). All 28 remote `arena/*` branches fetched. **One live session:** `cf587387` pushed a claim at 13:14 UTC for final integration (`site/**`, `index.html`, `assets/**`, `scripts/**`, `qa/**`, `_config.yml`, `README.md`, `verification/cf587387/**`), the takeover of PR #31 and the owner requests D-I-4, D-I-5 and D-I-7. That claim is live, so this session does not touch any of those paths and does not take over anything. Suite on `d82fbee` re-run before claiming: `validate.js` PASS 835 checks, `stress-test.js` PASS, `package-site.py` PASS, `check-publication.py --self-test` PASS, `runtime-test.cjs` PASS 14 pages / 1,127 rows.
+
+**Why this scope.** Earlier sessions verified the three choices the brief names (live in, rent, sell and reinvest) and the figures behind them. Nobody has yet checked whether the *list of choices* and the *list of process steps* are complete: mixed strategies (for example live in the house for a period and then sell), tax rules that only apply to one path, steps and forms a trustee must file that are not on the checklist, and the rules for the money part of the inheritance by type of account. This scope is new paths only.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| N-1 | Coordination: read the board and every branch, detect the live claim, claim a non-overlapping scope, push at once | done | 0d6ec51e | `COORDINATION.md` (this block only) | N/A | none: no collision |
+| N-2 | Completeness audit. Read every published page against the brief and list (a) strategies and mixed strategies that are not analysed, (b) tax rules that would change a path and are not stated, (c) process steps and forms missing from the checklist, (d) rules for inherited money by account type. Each item checked on the official page, wording and link recorded; blank and flagged when not confirmed | **done** | 0d6ec51e | `research/0d6ec51e/completeness-ledger.md` | 25 official documents opened (29 ledger rows) and 8 ledger rows read from official search extracts (IRS, FTB, FDIC, leginfo, Secretary of State, Attorney General, BOE, Dept of Insurance); wording and link per row in the ledger | N-I4, N-I7 |
+| N-3 | Numbers for the strategies found in N-2, from a separately written calculation that reads its inputs from the published `site/data/model.js` (no household figure typed), compared with the three published choices | **done** | 0d6ec51e | `verification/0d6ec51e/options.cjs`, `options.json`, `REPORT.md` | reproduces the three published choices for 2040, 2045, 2050 to the dollar (12 of 12); 110 figures of the published engine equal the independent calculation | N-I1 |
+| N-4 | Hand the findings to the live integrator as requests (log below). If `cf587387` records done, or goes 60 minutes without a commit, publish them on the site as additions only, after logging the handoff here | **done** — handoff logged 13:28 UTC; published by this session as additions only | 0d6ec51e | `site/options.html` (new), `site/data/options.js` (new), `site/data/sources.js` (25 keys appended), `site/review.html` (8 items added), `site/sources.html` (1 row added), `site/plan.html`, `site/inheritance.html`, `site/estate-tax.html`, `index.html` (pointer only), `assets/app.js` (1 menu entry), `scripts/validate.js`, `scripts/check-publication.py`, `qa/ledger.json` (N-01…N-12), `README.md` | as N-2 | N-I2, N-I3, N-I5 |
+| N-5 | Own PR (new paths and this block), merge, confirm the Pages build, record the result here | pending | 0d6ec51e | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure in new files is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push. The platform fixes the branch name to `arena/0d6ec51e-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+### Requests and handoff log (session `0d6ec51e`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 13:27 | 0d6ec51e | `cf587387` | Your integration claim is live and I am not editing any path in it. My findings will be listed in this table with the official link for each, so you can apply them if you are still integrating when they land. |
+
+### Handoff note — 2026-11-11 13:28 UTC (logged before any shared file is touched)
+
+Session `cf587387` recorded every one of its tasks **done** at 13:21 UTC: PR #34 and PR #35 are merged (`main` = `924ebb0`), PR #31 is closed, and its block states that no task is open. All remote branches were fetched again at 13:26 UTC and no other branch has moved since 08:18 UTC. There is therefore **no live owner of the shared site files**. Under the rule this session wrote into N-4 at claim time, it now takes the integration role for its own findings only.
+
+**Scope added from 13:28 UTC:** `site/**`, `assets/app.js`, `scripts/**`, `qa/**`, `.github/workflows/pages.yml` (only if a new public file needs listing). **Additions only:** no published figure, plan or recommendation written by another session is changed or removed; where a finding qualifies an existing statement, the qualification is added beside it. `origin/main` (with all of `cf587387`'s work) was merged into this branch first, with no conflict. A correction to this block: the claim above was pushed at 13:18 UTC, not 13:27 as first written.
+
+### Session `0d6ec51e` — completion record
+
+**Question asked.** Earlier sessions checked the three choices and their figures. This session checked whether the list of choices and the list of steps were complete. Nine gaps were found (G1–G9 in `research/0d6ec51e/completeness-ledger.md`). All are published on one new page, **Other options** (`site/options.html`), and nothing written by another session was changed or removed.
+
+| Finding | Result (inheritance in 2045, measured in 2055, base assumptions) | Official source |
+|---|---|---|
+| Hold first, sell later | Every year of waiting lowers the end value: rent one year first −$117,930; live in one year −$271,520; empty one year −$299,500 | [IRS FAQ, inherited property](https://www.irs.gov/faqs/interest-dividends-other-types-of-income/gifts-inheritances/gifts-inheritances) |
+| Live in two years to use the home-sale exclusion | −$537,910 against selling at once; only $41,430 of the $250,000 is used because gain restarts at death | [IRS Topic 701](https://www.irs.gov/taxtopics/tc701) |
+| Depreciation in the rental case (left out of the published model) | −$8,320 to −$29,120 at 20–40% building share; with no tax-back at all, selling is still ahead by more than $1,400,000 | [IRS Topic 425](https://www.irs.gov/taxtopics/tc425) · [Topic 409](https://www.irs.gov/taxtopics/tc409) |
+| Pre-2021 parent-child rule as a test | Lead of selling falls from $1,729,720 to $1,154,390; level (−$11,780) when both sides are taxed at the end. The initiative to restore the rule failed on 18 May 2026 | [Secretary of State, advisory 26138](https://www.sos.ca.gov/elections/advisories-county-elections-officials/2026-advisories-county-elections-officials/may) · [AG 25-0017](https://oag.ca.gov/system/files/initiatives/pdfs/Title%20and%20Summary%20%2825-0017%29.pdf) |
+| Estate tax on the money | Starts when money exceeds $12,271,500 (2027, official exclusion less Property A); 40% above. Amount of money unknown, so a table by amount is published and no figure for the family | [IRS Form 706 instructions](https://www.irs.gov/instructions/i706) |
+| Rules by kind of money | Deposits, investments, retirement accounts (ten-year rule), Roth, life insurance, income inside the trust | [IRS, beneficiary](https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-beneficiary) · [FDIC](https://www.fdic.gov/resources/deposit-insurance/brochures/insured-deposits) |
+| Steps missing from the checklist | New EIN, Form 56, Form 541, Form 593 before closing (3 1/3% withheld otherwise), Form 8971, first-death estate return, six-month deposit rule, deed check; probate fees if the house is outside the trust: $72,600 each to representative and attorney at the 2045 value | [FTB Form 593](https://www.ftb.ca.gov/forms/2026/2026-593-instructions.html) · [Probate Code 10800](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10800) |
+| Property B | Its old assessed value avoids $19,890 of tax a year (2026), lost on a sale | [BOE Publication 29](https://www.boe.ca.gov/proptaxes/pdf/pub29.pdf) |
+
+**Effect on the recommendation.** None on the ranking. Two findings support it (waiting costs money; depreciation does not rescue the rental case). One shows what it rests on (today's reassessment rule) and is flagged High.
+
+**Suite on the final tree.** `validate.js` PASS 1,086 checks / 15 pages / 151 sources · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py` PASS 28 files and `--self-test` PASS · `runtime-test.cjs` PASS 15 pages / 1,259 source-linked rows · `qa/tools/gate.cjs` PASS 0 errors, 0 warnings (4,620 dollar amounts) · `src/check_links.py` 0 errors · `integration/tools/privacy_scan.py` 0 errors (158 warnings, all in other sessions' repository-only records, unchanged) · `verification/0d6ec51e/options.cjs --check` PASS 15 self-checks.
+
+**Irregularities.**
+
+| ID | Finding | Status |
+|---|---|---|
+| N-I1 | The published rental case has no depreciation | needs review — quantified on the new page; published figures left unchanged; ranking the same |
+| N-I2 | No plan includes estate tax on the money; the amount and kind of money are not in the record | needs review — flagged High on the site |
+| N-I3 | The recommendation depends on the current reassessment rule | needs review — flagged High on the site; current law verified |
+| N-I4 | Seven documents used on the site were read from official search extracts, not opened (Pub. 527, 551, 523; Form 706 Table A; Form 1041-ES; estate FAQ five-year route; insurance fact sheet) | needs review — flagged Medium; ledger entry N-12 is `unverified` |
+| N-I5 | The source register labels those entries "Carried forward · needs revalidation"; they were read from extracts, not carried forward | cosmetic; the register rule belongs to another session and was not changed |
+| N-I6 | This block first gave the claim time as 13:27 UTC; the push was at 13:18 UTC | corrected |
+| N-I7 | No official page was opened for: affidavit of death of trustee, preliminary change of ownership report, supplemental-bill timing, long-term care, Medi-Cal recovery, instalment sale, charitable trusts, base-year transfer for owners aged 55 or over | not published; listed as open in the ledger |
+| N-I8 | The two calculations share the published model's cost and value functions, so they cross-check the new arithmetic, not the model's inputs | stated in `verification/0d6ec51e/REPORT.md` |
+
+**Conflicts.** None. `origin/main` was merged four times (PR #34, PR #35 and two no-change pulls); every merge was automatic and kept both sides.
+
+**Privacy.** No personal information added. No household figure typed in any new file: the new engine and the independent calculation read their inputs from the published model. Every dollar figure added to the site is rounded to $10 or is an amount a government body publishes.
+
+<!-- END block owned by session 0d6ec51e -->
+
 Repo: wingbangboozle1-lang/Tino2
 Integration session: `session-arena` on branch `arena/1dab34fa-tino2` (PR #4 -> main).
 Parallel sessions already merged into main: `arena/64131d11-tino2` (session 64131d11, PR #1) and `arena/7c9c2cc4-tino2` (session arena-7c9c2cc4, PR #2).
