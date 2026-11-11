@@ -59,7 +59,7 @@
   },
   {
    "file": "site/review.html",
-   "rows": 71,
+   "rows": 72,
    "rowsWithContextLinkOnly": 0,
    "amounts": 23,
    "links": 0
@@ -104,12 +104,12 @@
  "warnings": [],
  "totals": {
   "pages": 14,
-  "rows": 1144,
-  "rowsWithOwnSource": 1135,
+  "rows": 1145,
+  "rowsWithOwnSource": 1136,
   "rowsWithContextLinkOnly": 9,
   "amounts": 4385,
   "officialExactAmounts": 60,
   "internalLinks": 290,
-  "externalLinks": 1554
+  "externalLinks": 1555
  }
 }

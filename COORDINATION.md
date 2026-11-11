@@ -54,6 +54,7 @@ The published recommendation (sell Property A, keep Property B) is **confirmed**
 | 2026-11-11 08:12 | 4e07c8e6 | `aa1f073e` | Seen: your PR #28 (merged 08:05 UTC) added `site/operating-costs.html` and `site/data/costs.js` and listed them in the publication manifest, the validator and the navigation yourself. Nothing is needed from me. Your edit to `site/review.html` is kept as is; X-7 only adds rows to that file. |
 | 2026-11-11 08:09 | 4e07c8e6 | all sessions | PR [#29](https://github.com/wingbangboozle1-lang/Tino2/pull/29) (ledger, recomputation, this block, X-7 claim) **merged** 08:08:35 UTC, merge commit `b9a10f6`; PR check "Verify public Pages boundary" passed before the merge. Repository-only files; nothing on the site changed. |
 | 2026-11-11 08:20 | 4e07c8e6 | all sessions | X-7 edits pushed. Not changed: `site/data/model.js`, `site/scenarios.html` (its two break-even cards still show the unequal-terms figures; the equal-terms figures are on the Best plan page and the item is on Flagged for Review), `site/verification.html`, `site/data/ledger.js`, `qa/**`, `assets/**`, `scripts/**`. Open request to any later integrator: after San Francisco certifies the 3 November 2026 results, read the Measure H text and fill in the amount for Property B. |
+| 2026-11-11 08:22 | 4e07c8e6 | all sessions | **Conflict log.** `main` moved while X-7 was being pushed (PR #30, session `aa1f073e`: one more row in `site/review.html`, a correction in `site/operating-costs.html`, its research ledger, and a regenerated `qa/gate-report.json`). A rebase stopped on `qa/gate-report.json`; it was aborted and `origin/main` was merged instead, so no pushed commit was rewritten. `site/review.html` merged cleanly with both sessions' rows kept. `qa/gate-report.json` is a generated file: it was regenerated with `node qa/tools/gate.cjs` on the merged tree (14 pages, 1,145 rows, 0 errors, 0 warnings) rather than choosing either side. Nothing from `aa1f073e` was discarded. All six checks were re-run on the merged tree and pass. |
 <!-- END block owned by session 4e07c8e6 -->
 
 Repo: wingbangboozle1-lang/Tino2
@@ -719,6 +720,22 @@ operating costs at a flat 3%. The adopted increases are not forecasts. Published
 page and on the review register; the base case was not re-escalated, because that model belongs to the
 integration sessions and changing it would overwrite their work.
 
+**Irregularity AA-I3 (new, and a self-correction).** San Jose Water's customer notice illustrates an
+average residential bill of $141.73 a month for a 3/4-inch meter at 10 Ccf from 1 July 2026. Applying
+that same advice letter's Schedule No. 1 — service charge $78.64, tiers $4.9692 / $7.4167 / $14.1659 —
+at 10 Ccf gives **$138.12**, about $3.61 less. The schedule was re-read to test meter size as the
+explanation: the service charge is $78.64 for both the 5/8 × 3/4-inch and the 3/4-inch meter, and the
+residential tiers cover meters up to 2-inch, so meter size does not account for it. The gap is most
+plausibly authorized surcharges or balancing-account amortisation that Schedule No. 1 does not list,
+but that was **not** confirmed and is therefore not asserted.
+
+The first version of this page, merged in PR #28, stated that the build-up reproduced $141.73 exactly.
+That was an arithmetic error on this session's part. It was caught by reading the rendered live page
+after deployment, and corrected in the follow-up PR recorded below — the page now shows both figures and
+the difference, the research ledger records the failed reconciliation, and the review register carries
+it as an open item. Recording the error here as well, because a correction that is only visible in the
+corrected text is not an audit trail.
+
 **Irregularity AA-I2 (new).** The household's supplied water range for Property B is materially below the
 tariff build-up at ordinary three-unit usage. Either consumption is lower than assumed or the billing
 basis differs (separate meters, different parcel tier, or rates recalled from before July 2026). Not
@@ -728,11 +745,18 @@ reconciled; published as an open item.
 `node scripts/runtime-test.cjs` PASS 14 pages, 1,126 rendered rows all source-linked ·
 `node scripts/stress-test.js` PASS · `python3 scripts/package-site.py` PASS ·
 `python3 scripts/check-publication.py` PASS 26 reviewed files, and its `--self-test` PASS ·
-`node qa/tools/gate.cjs` **PASS: 0 errors, 0 warnings** (14 pages, 1,126 rows, 4,370 dollar amounts,
-1,535 external links). Base case unchanged at 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780.
+`node qa/tools/gate.cjs` **PASS: 0 errors, 0 warnings** (14 pages, 1,127 rows, 4,370 dollar amounts,
+1,536 external links, after the AA-I3 correction). Base case unchanged at 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780.
 
 **Privacy.** No household figure, address, meter number, account number or parcel identifier is in the
 new page, the new data file or the research ledger. Every dollar amount of $1,000 or more that the page
 renders is a multiple of $10; tariff unit rates below $1,000 are shown exactly, because that is what
 makes the build-up checkable. `research/aa1f073e/**` is repository-only and excluded from the Pages
 artifact by the publication manifest.
+
+**PR record (session `aa1f073e`).**
+
+| PR | Content | Merge commit | Pages | Result |
+|---|---|---|---|---|
+| [#28](https://github.com/wingbangboozle1-lang/Tino2/pull/28) | Operating costs page, costs data file, research ledger, 7 review items, nav + manifest + validator updates | `c429440` | run `42984292861` success; boundary check `42984293838` success; Pages API `built` | merged 2026-11-11 |
+| #29 | AA-I3 correction: the San Jose Water build-up does not reproduce the company's illustrated average bill; both figures and the difference now published, plus an eighth review item | see below | see below | see below |
