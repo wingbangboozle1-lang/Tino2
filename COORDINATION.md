@@ -285,3 +285,16 @@ Starting state: `main` @ `016eb53` (PRs #1–#9 merged, Pages live). Audit of ma
 | C-4 | Navigation/landing update, validation, PR to `main`, merge, Pages confirmation | unclaimed→70f163d0 | 70f163d0 | `index.html`, `assets/*`, `README.md`, `COORDINATION.md` |
 
 Other open item: PR #3 (`arena/8c4d9e77-tino2`) is still OPEN and not part of `main`; this session does not touch it.
+
+### Session `70f163d0` — completion log (2026-11-11)
+
+| Task | Status | Output |
+| --- | --- | --- |
+| C-1 privacy rounding | Done (tree) / **open (git history)** | All household-derived history, assessed values, derived rates rounded to $10 in `site/**`, `scripts/validate.js`, `README.md`, `docs/**`, `pages/**`, root and `dashboard/` pages. Validator now asserts $10 multiples. Remaining `privacy_scan` warnings (37) are official statewide insurance averages and public-law figures, not household data. Git history still contains earlier exact values; not rewritten (would endanger other sessions' work). Flagged High on `site/review.html` |
+| C-2 black swan | Done | `site/black-swan.html`, `site/data/scenarios.js`, `site/data/history.js`, `scripts/build-history.py`, `research/black-swan.md`, `research/data/fred_annual_2026-11-11.csv`. 12 scenarios, 2,000-path seeded Monte Carlo, year-by-year 2026–2076 paths, Property B exposure |
+| C-3 verification | Done | `research/verification-2026-11-11.md`, `site/review.html` (+11 items), `site/sources.html` (+assumptions, +CA Prop 40/42/43 watchlist), `site/data/sources.js` (+14 sources). Prop 19 amount now confirmed on BOE NR 25-02 |
+| C-4 nav/landing/PR | See PR link below | `index.html` stress-test section and cards, nav item "Stress tests" in `assets/app.js`, README |
+
+Model changes (shared output, made by the integration role of this session): Prop 19 cap now compounds at scenario home-price growth in completed two-year steps (BOE uses the FHFA California HPI); `MODEL.decision()` also returns `terminalAfterLiquidation`; decision page shows a tax-symmetric check. `scripts/validate.js`: 482 checks pass, including engine-equals-lab at 9 combinations.
+
+Irregularities: see `research/verification-2026-11-11.md` (privacy history, Prop 19 indexing, tax asymmetry, derived ratios, layer sprawl, PR #3 untouched).

@@ -12,7 +12,7 @@
   <div class="privacy-strip"><div class="container"><span aria-hidden="true">◈</span><span><strong>Privacy by design.</strong> Properties are labeled A and B. No personal names, street addresses, parcel numbers, account details, or private documents are published.</span></div></div>
   <main>
     <section class="hero"><div class="container">
-      <div class="eyebrow">Executive summary · reviewed 10 November 2026</div>
+      <div class="eyebrow">Executive summary · reviewed 11 November 2026</div>
       <h1>Two properties.<br>One long-range plan.</h1>
       <p class="lead">A source-linked decision framework for inheriting the Cupertino property around 2040–2050—compare living in it, renting it, or selling and reinvesting, while keeping the San Francisco property’s economics in view.</p>
       <div class="hero-actions"><a class="button" href="site/decision.html">Explore the decision →</a><a class="button secondary" href="site/inheritance.html">Inheritance checklist</a></div>
@@ -50,6 +50,12 @@
       </section>
 
       <section class="section">
+        <div class="section-heading"><div><div class="eyebrow">Black-swan stress test</div><h2>Does the answer survive a 50-year economy that is never smooth?</h2><p>Twelve scenarios (replays of recorded official data plus labelled assumption shocks) and 2,000 seeded random 50-year histories, all run through the same engine as the decision lab.</p></div><a class="button secondary" href="site/black-swan.html">Open stress tests</a></div>
+        <div class="grid three" id="stress-metrics"></div>
+        <p class="tiny">2045 inheritance, 10-year hold, shock beginning 2042, taxed basis = the sell portfolio is also liquidated at the endpoint with the same capital-gain scenario rate. All results are scenarios built from FRED/BLS/FHFA/OECD history, not forecasts.</p>
+      </section>
+
+      <section class="section">
         <div class="section-heading"><div><div class="eyebrow">Current law</div><h2>Four rules that shape the plan</h2></div></div>
         <div class="grid two">
           <div class="card"><h3>Federal exclusion, not a property exemption</h3><p>The 2026 federal basic exclusion is <strong>$15,000,000 per decedent</strong>. Real estate alone is not the taxable estate: other assets, adjusted taxable gifts, deductions, debts and any DSUE amount must be included.</p><p id="source-estate"></p></div>
@@ -63,6 +69,7 @@
         <div class="section-heading"><div><div class="eyebrow">Dashboard</div><h2>Go deeper by category</h2></div></div>
         <div class="grid three">
           <a class="card" href="site/properties.html" style="text-decoration:none;color:inherit"><h3>Property projections →</h3><p class="muted">Annual market values, assessments, property taxes, operating costs, historical household inputs and rental sensitivity through 2050.</p></a>
+          <a class="card" href="site/black-swan.html" style="text-decoration:none;color:inherit"><h3>Black-swan stress tests →</h3><p class="muted">Inflation spikes, housing and equity crashes, stagnation, insurance and tax-regime shocks over 50 years, with Monte Carlo and year-by-year paths.</p></a>
           <a class="card" href="site/decision.html" style="text-decoration:none;color:inherit"><h3>Live / rent / sell →</h3><p class="muted">Interactive inheritance year, holding period and return assumptions, with transparent annual cash flow and terminal wealth.</p></a>
           <a class="card" href="site/inheritance.html" style="text-decoration:none;color:inherit"><h3>Trust administration →</h3><p class="muted">Death-to-distribution checklist, notices, assessor filings, tax basis, deadlines and professional handoffs.</p></a>
           <a class="card" href="site/estate-tax.html" style="text-decoration:none;color:inherit"><h3>Estate-tax headroom →</h3><p class="muted">Real-estate-only scenarios, federal threshold mechanics, deductions, portability and an honest list of missing estate data.</p></a>
@@ -76,7 +83,9 @@
   </main>
   <div data-footer></div>
   <script src="site/data/sources.js"></script>
+  <script src="site/data/history.js"></script>
   <script src="site/data/model.js"></script>
+  <script src="site/data/scenarios.js"></script>
   <script src="assets/app.js"></script>
   <script>
     const r = MODEL.decision({...MODEL.BASE, inheritYear: 2040}, 10);
@@ -89,11 +98,20 @@
       ["2040 real-estate-only headroom", UI.money(estate2040.headroom), "Before all other estate items and DSUE"]
     ].map(([label, value, note]) => `<div class="card"><div class="metric-label">${label}</div><div class="metric small">${value}</div><div class="tiny">${note}</div></div>`).join("");
     const gap = r.sell.terminal - r.rent.terminal;
-    document.getElementById("recommendation-copy").textContent = `At a 2040 inheritance and 2050 endpoint, the base case produces ${UI.money(r.sell.terminal)} for sale/reinvestment versus ${UI.money(r.rent.terminal)} for rent-then-sell—a ${UI.money(gap)} advantage. The rental’s first-year after-tax cash is only ${UI.money(r.rent.firstYearCash)} after full reassessment, reserves and operating costs. Living in Property A is not financially comparable without valuing the housing received.`;
+    document.getElementById("recommendation-copy").textContent = `At a 2040 inheritance and 2050 endpoint, the base case produces ${UI.money(r.sell.terminal)} for sale/reinvestment versus ${UI.money(r.rent.terminal)} for rent-then-sell—a ${UI.money(gap)} advantage. The rental’s first-year after-tax cash is only ${UI.money(r.rent.firstYearCash)} after full reassessment, reserves and operating costs. If the portfolio were also liquidated and taxed at the endpoint, sale/reinvestment would be ${UI.money(r.sell.terminalAfterLiquidation)}—still ${r.sell.terminalAfterLiquidation >= r.rent.terminal ? "ahead of" : "behind"} rent-then-sell by ${UI.money(Math.abs(r.sell.terminalAfterLiquidation - r.rent.terminal))}. Living in Property A is not financially comparable without valuing the housing received; because Property B already houses the household, it is a lifestyle choice.`;
     document.getElementById("decision-preview").innerHTML = ["sell", "rent", "live"].map(key => {
       const row = r[key];
       return `<tr><td><strong>${row.option}</strong></td><td class="number">${UI.money(row.firstYearTax)}</td><td class="number ${row.firstYearCash < 0 ? "negative" : "positive"}">${UI.money(row.firstYearCash, {sign:true})}</td><td class="number"><strong>${UI.money(row.terminal)}</strong></td><td class="number">${key === r.winner ? "Best base case" : UI.money(row.terminal - r[r.winner].terminal)}</td></tr>`;
     }).join("");
+    const mc = SCEN.monteCarlo({ adjust: true, hold: 10, rentChoice: "4BR" }).summary[2045];
+    const outcomes = SCEN.SCENARIOS.map(sc => [sc, SCEN.simulate(SCEN.buildPath(sc, 2042), 2045, 10, "4BR")]);
+    const rentWins = outcomes.filter(([, x]) => x.bestLiq === "rent").map(([sc]) => sc.name);
+    const sellWins = outcomes.filter(([, x]) => x.bestLiq === "sellLiq").length;
+    document.getElementById("stress-metrics").innerHTML = [
+      ["Sell & reinvest finishes ahead of rent-then-sell", `${Math.round(mc.sellLiqBeatsRent * 100)}%–${Math.round(mc.sellBeatsRent * 100)}% of random histories`, "2,000 mean-adjusted paths; taxed to untaxed basis"],
+      ["Best financial option by scenario", `Sell in ${sellWins} of ${outcomes.length}; rent in ${rentWins.length}`, rentWins.length ? "Rent wins: " + rentWins.join("; ") : "No scenario favors renting"],
+      ["Median 2055 outcome, sell vs rent (taxed)", `${UI.money(mc.p50.sellLiq)} vs ${UI.money(mc.p50.rent)}`, "Nominal dollars; 10th-percentile sell " + UI.money(mc.p10.sellLiq)]
+    ].map(([label, value, note]) => `<div class="card"><div class="metric-label">${label}</div><div class="metric small">${value}</div><div class="tiny">${note}</div></div>`).join("");
     document.getElementById("source-estate").innerHTML = UI.source("irsEstate");
     document.getElementById("source-ca-estate").innerHTML = UI.source("caEstate");
     document.getElementById("source-prop19").innerHTML = UI.source("boeProp19");

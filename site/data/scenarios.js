@@ -106,7 +106,7 @@
       d.costI.push(d.costI[i - 1] * (1 + costG));
       d.rentI.push(d.rentI[i - 1] * (1 + costG));
       d.insI.push(d.insI[i - 1] * (1 + costG + (path.insExtra[i] || 0)));
-      d.sfg.push(Math.min(0.07, Math.max(0, 0.6 * (path.cpi[i] + 0.004)))); // SF Rent Board: 60% of CPI, max 7%
+      d.sfg.push(Math.min(0.07, Math.max(0, 0.6 * (path.cpi[i] + 0.004)))); // SF Rent Board: 60% of Bay Area CPI (official); 7% ceiling is from the Rent Ordinance and unverified here
       d.port.push(EQ_WEIGHT * path.eq[i] + (1 - EQ_WEIGHT) * path.bond[i] - DRAG);
     }
     d.flags = flags; d.shockStart = path.shockStart || START;

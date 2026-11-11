@@ -80,3 +80,7 @@ python3 src/check_links.py .  # internal links across the whole site
 ```
 
 Coordination between the parallel sessions is recorded in `COORDINATION.md`.
+
+## Black-swan stress tests (added 2026-11-11)
+
+`site/black-swan.html` runs 12 economic scenarios and 2,000 seeded random 50-year histories through the same engine as the decision lab (`site/data/scenarios.js`; with constant rates it reproduces `MODEL.decision()` to the cent, verified in `scripts/validate.js`). Historical inputs are annual FRED series (BLS CPI, FHFA house-price indexes, Treasury yields, Freddie Mac mortgage rates, OECD share prices) stored in `research/data/fred_annual_2026-11-11.csv`; regenerate `site/data/history.js` with `python3 scripts/build-history.py`. Research notes: `research/black-swan.md`; verification log: `research/verification-2026-11-11.md`. Canonical dashboard: `site/` (the other layers are earlier, independently built views).
