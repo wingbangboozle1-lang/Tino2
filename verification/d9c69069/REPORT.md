@@ -77,13 +77,14 @@ California Secretary of State ballot-measure returns. Two of these were attempte
 
 ## 3. Independent arithmetic and consistency checks
 
-These are checks this session computed from scratch, not re-runs of another session's validator.
+These are checks this session computed from scratch, not re-runs of another session's validator. Every one
+of them is reproducible with `python3 verification/d9c69069/checks.py` (see §3.1).
 
 | Check | Method | Result |
 |---|---|---|
 | Household tax/assessment history rounded to the nearest $10 | Recomputed all 52 published values from the owner-supplied exact figures using round-half-up to $10, and compared with `site/verification.html` | **52 / 52 correct.** No rounding error. Convention is half-up (e.g. `x,565 → x,570`, `x,x05 → x,x10`) and is applied consistently |
 | BOE Prop 13 factor table (51 roll years, 1976-77 … 2026-27) | Transcribed the official table from LTA 2026/002 by hand and diffed every CCPI percentage and every factor against `qa/series.json` | **51 / 51 rows match exactly.** No missing, extra or altered row |
-| Site claim: "The assessed-value changes match the Board of Equalization's factor in every year" | Compared each of the 13 household assessment changes (2014–2026) with the official factor for that roll year | **Confirmed, 13 / 13.** 2014 +0.5% vs official 0.454%; 2016 +1.5% vs 1.525%; 2021 +1% vs 1.036%; the other ten +2% vs factor 1.02 |
+| Site claim: "The assessed-value changes match the Board of Equalization's factor in every year" | Compared **every** published household assessment change for **both** properties (13 roll years × 2 properties, less the years not supplied) with the official factor for that roll year | **Confirmed, 23 / 23.** 2014 +0.5% vs official 0.454%; 2016 +1.5% vs 1.525%; 2021 +1% vs 1.036%; the rest +2% vs factor 1.02. Both properties track the statewide factor, which is what Prop 13 requires |
 | Site claim: "the tax bills do not move with the assessment" | Compared household tax-bill changes with the assessment changes | **Confirmed.** The two series diverge in most years, which is what flat direct charges and exemptions produce |
 | Site claim: 2021 Property B bill drop "consistent with the Rent Board fee leaving the tax bill" | Checked the official fee page | **Confirmed.** "While this fee was previously collected on the property tax bill, owners must pay this fee to the Rent Board directly as of 2022." The 2021 bill fell 5.9% while its assessment rose 1% |
 | Property B three-unit parcel-tax total $829.22 | Summed the five official amounts for a 3-unit multi-family parcel | **Confirmed exactly**: 334.38 + 319.34 + (3 × 21.50 = 64.50) + 99 + 12 = **829.22** |
@@ -94,6 +95,26 @@ These are checks this session computed from scratch, not re-runs of another sess
 | Navigation completeness | Cross-checked every published page against `assets/app.js` | All **14** pages are reachable from the shared navigation; no orphan page |
 
 ---
+
+### 3.1 Reproducing these checks
+
+```bash
+python3 verification/d9c69069/checks.py
+```
+
+Read-only; writes nothing; needs only Python 3 (no third-party package). Result on the final tree:
+**13 checks PASS, 0 FAIL**.
+
+The script stores **no owner-supplied figure**. Household values are parsed out of the published pages at run
+time, so a reproduction script cannot re-disclose what the site has already rounded. The three checks that
+genuinely need the brief's exact amounts — the exact-figure scan (1b), the half-up rounding comparison (2) and
+the tax-bill percentage comparison (4b) — read them from `.cache/household-inputs.json`, which is gitignored,
+and report **SKIPPED** when it is absent. Run with that file present they reproduce this report exactly:
+**0 of 119 tracked files** contain any of the 40 obscured values; **52/52** rounding; **3 of 43** figures
+cannot be obscured; **2** tenth-of-a-point differences.
+
+This design is a direct consequence of D-I-3: an unsalted hash of a small number is reversible, and so is a
+"reproduction" script that hard-codes the values it claims to be protecting.
 
 ## 4. Privacy audit
 
@@ -363,9 +384,10 @@ The published site is **sound and safe to leave live**. On the merged tree:
   0 errors, 0 warnings), the publication-boundary self-test, and the CI workflow's last four runs on `main`;
 - **18 of 18** official-source re-checks performed by this session **Match**, each by direct fetch with the
   wording recorded above;
-- every arithmetic check this session recomputed from scratch passes: **52/52** rounding, **51/51** BOE factor
-  rows, **13/13** household assessment changes against the official factor, and the **$829.22** parcel-tax sum
-  to the cent;
+- every arithmetic check this session recomputed from scratch passes and is reproducible with
+  `verification/d9c69069/checks.py` (13 PASS, 0 FAIL): **52/52** rounding, **51/51** BOE factor rows,
+  **23/23** household assessment changes against the official factor for both properties, and the **$829.22**
+  parcel-tax sum to the cent;
 - **no exact household figure** that rounding can obscure appears anywhere in `main` or in the published
   artifact, the served payload is byte-for-byte the allowlisted set, and CI now audits the real Jekyll output;
 - all **14** published pages are `noindex,nofollow,noarchive`, all **14** are in the navigation, no orphans;
@@ -388,6 +410,17 @@ file; the four figures were removed and the section rewritten. The lesson is the
 rounding and paraphrase are not anonymisation, and an audit report is a publication too. This file is excluded
 from GitHub Pages, but it is in a public repository, so it is written to the same standard as the site.
 
-## 10. Publication record
+## 10. Files this session added
+
+| File | Purpose |
+|---|---|
+| `verification/d9c69069/REPORT.md` | This report. Excluded from GitHub Pages by `_config.yml` |
+| `verification/d9c69069/checks.py` | Read-only reproduction of every check in §3. Contains no owner-supplied figure |
+| `COORDINATION.md` | This session's claim block and completion record, appended only |
+
+No other file was created, edited or deleted. `.cache/household-inputs.json` is used for the privacy-gated
+checks and is gitignored; it is **not** committed.
+
+## 11. Publication record
 
 _Filled in after the pull request is merged — see `COORDINATION.md`, session `d9c69069` block._
