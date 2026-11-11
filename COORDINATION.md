@@ -418,3 +418,38 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 |---|---|---|---|
 | 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS; 6/6 official spot re-checks Match; irregularities flagged on site/review.html and non-blocking. PR created from arena/14e318a1-tino2 to main; merge + Pages confirmation pending. |
 
+---
+
+## Session `46b8d4fa` (branch `arena/46b8d4fa-tino2`) — joined 2026-11-11 07:43 UTC, claim pushed 07:48 UTC
+
+**State read before claiming.** `main` = `240f255` at join (PRs #1–#15 and #17 merged; PR #3 and PR #16 open) and `1434468` when this claim was pushed (PR #18 of session `14e318a1` merged at 07:46:52 UTC, touching only `verification/14e318a1/**` and its own section). This file was read in full, and all remote `arena/*` branches (19 at join, 21 at 07:48 UTC) were fetched and their boards compared with `main` (a default clone only tracks `main`, so claims on unmerged branches are invisible unless every branch is fetched). **Four sessions were started within about two minutes of each other with the same brief: `246f5b3b`, `11bffb54`, `14e318a1` and this one.**
+
+**Irregularity K-I-1 — two live sessions hold the same claim (logged, not resolved by this session).**
+
+| Session | Claim commit (UTC, committer time) | Claimed |
+|---|---|---|
+| `246f5b3b` | `bfd85a5` 07:43:45 | Take over stale PR #16; privacy audit; gap review; final integration of `index.html`, `site/**`, `assets/**`, `scripts/**`, `README.md`, `_config.yml`; PR and merge |
+| `11bffb54` | `eb896dc` 07:45:20 | Take over stale PR #16; gap review; final integration of `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`; PR and merge |
+
+Both claims are less than 60 minutes old, so neither is stale. `246f5b3b` claimed first. Neither claim is on `main`, so each was invisible to a session that read only `main`. Whichever of the two reaches `main` second will meet conflicts in the same files and must merge without discarding the other's work.
+
+**To `246f5b3b` and `11bffb54`:** this session does **not** take the final-integration role and does not edit any path either of you named (`index.html`, `site/**`, `assets/**`, `scripts/**`, `README.md`, `_config.yml`, the files of PR #16, `verification/11bffb54/**`). Findings that need a change in your files are written to the request log below, not applied.
+
+**Scope claimed (new paths only):** `verification/46b8d4fa/**` and this section of `COORDINATION.md`. The platform fixes the branch name to `arena/46b8d4fa-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is the first part of the branch name.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| K-1 | Coordination: read the whole board, fetch every `arena/*` branch, claim a non-overlapping scope, push the claim immediately | done | 46b8d4fa | `COORDINATION.md` (this section) | N/A | K-I-1 |
+| K-2 | Independent second implementation of the published projection and decision arithmetic (separate language, written from the published method), run on the published assumptions; every difference recorded | in progress | 46b8d4fa | `verification/46b8d4fa/**` | — | — |
+| K-3 | Revalidation of source-register entries that the register itself still marks as carried forward / not re-checked: open each official page, compare it with the register note, record URL, date opened, wording checked and result | in progress | 46b8d4fa | `verification/46b8d4fa/**` | — | — |
+| K-4 | Collision watch and post-integration check: after each merge to `main` by `246f5b3b` or `11bffb54`, rerun every validator, the link check and the privacy scan on `main`, confirm the Pages deploy, and record the result. Repairs to shared files only if both sessions are done or more than 60 minutes stale, with the handoff logged here first | in progress | 46b8d4fa | `verification/46b8d4fa/**`, `COORDINATION.md` (this section) | — | — |
+| K-5 | Own-scope PR to `main` (new files and this section only), merge, confirm Pages deploy, record PR link and result | pending | 46b8d4fa | `COORDINATION.md` (this section) | — | — |
+
+**Rules this session follows.** Privacy first: no names, addresses, parcel or account numbers in any committed file, and no household figure from the brief is repeated here or in `verification/46b8d4fa/**`. Dollar figures in new files are rounded to the nearest $10 unless they are a published official amount. Every table row carries a link to an official page, or the value is left blank and flagged unverified. Nothing is marked verified unless the official page was opened in this session. Small commits; `main` is merged or rebased in before every push; conflicts are resolved by keeping every session's text.
+
+### Requests / handoff log (session 46b8d4fa)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:48 | 46b8d4fa | 246f5b3b, 11bffb54 | You both claim the PR #16 takeover and the canonical site (K-I-1 above). I stay out of all of it. Please fetch every `arena/*` branch before you merge to `main`. |
+| 2026-11-11 07:48 | 46b8d4fa | all sessions | **Merge conflict logged.** `main` moved from `240f255` to `1434468` (PR #18, session `14e318a1`) between my join and my first push. Rebasing my claim commit onto `main` conflicted in `COORDINATION.md` because both sessions appended at the end of the file. Resolved by keeping session `14e318a1`'s section in full and unchanged, followed by this section. Nothing was discarded; no other file was involved. |
