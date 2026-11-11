@@ -149,16 +149,38 @@ private; start a fresh repository from the current files; ask GitHub Support to 
 stale unmerged branch tips**, which is the cheapest partial mitigation and is the only one that can be done
 inside GitHub's normal tooling. Branch deletion is outside this session's scope.
 
-### D-I-3 — MEDIUM — the publication privacy guard covers only 4 of the 40 exact figures
+### D-I-3 — RESOLVED while this session was working — the publication privacy guard was incomplete, and has since been replaced by a stronger one
 
-`scripts/package-site.py` blocks publication by matching SHA-256 hashes of exact private amounts, but
-`FORBIDDEN_HASHES` contains **4** entries. This session hashed all 40 distinct exact household figures:
-only **$550,537-class, $539,743-class, $7,207-class and $114,248-class** values (identified by hash, not
-reproduced here) are covered. The other **36** would pass the guard silently if reintroduced.
-The rendered-page gate `qa/tools/gate.cjs` is stricter and currently reports 0 errors, so nothing is
-published today — but the two guards have different coverage.
-**Request:** owner of `scripts/package-site.py` (session `516f904c` scope, now `11bffb54`) to extend the
-hash set to all 40, or delegate the check to `qa/tools/gate.cjs` only.
+**What this session found, and when.** On `main` at `815289a` (the commit this branch started from),
+`scripts/package-site.py` guarded publication with a hard-coded set of **four** unsalted SHA-256 hashes of
+exact private amounts. This session hashed all **40** distinct owner-supplied figures that $10-rounding can
+actually obscure and found only **4** were covered: the other **36** would have passed the guard silently if
+reintroduced. That was logged as a MEDIUM privacy irregularity.
+
+**Already fixed on the current tree, by a better method.** PRs #20/#26 (sessions `f16e6e34` / `11bffb54`)
+removed the hash set entirely. The script's own docstring gives the reason, which this session confirms is
+correct and is a sharper point than the coverage gap: *"Hashes of 4- and 6-digit numbers can be reversed by
+trying every number, so the hashes re-published the amounts."* An unsalted hash of a 6-digit dollar amount is
+trivially invertible, so the old guard was itself a disclosure. It is replaced by a **rule** that stores no
+household data at all: any dollar amount of $1,000 or more in a published file must be a multiple of $10
+unless it is an official figure listed in `qa/ledger.json`.
+
+**This session then tested the replacement rather than trusting it.** Replicating the rule's allowlist
+derivation over `qa/ledger.json` (114 official figures) and testing all 40 exact household values against it:
+
+- values the allowlist would **wrongly** permit: **0 of 40**
+- values the rule **would catch**: **40 of 40**
+- values below the rule's $1,000 threshold: **none** (the smallest owner-supplied figure is above it)
+
+`python3 scripts/package-site.py` exits 0, and PR #28's CI workflow `.github/workflows/pages.yml` now runs it
+on every push and pull request to `main`, together with `scripts/check-publication.py --self-test`,
+`node scripts/validate.js`, `node scripts/stress-test.js`, `node scripts/runtime-test.cjs` and — importantly —
+a real `actions/jekyll-build-pages` build whose `_site` output is audited against the allowlist.
+The workflow's last four runs on `main` all concluded **success**.
+
+**Net effect: the finding is closed, and the remaining gap this session had identified — that the allowlisted
+`_public/` artifact was not proof of what Jekyll actually serves — is closed too**, because CI now audits the
+real Jekyll output. No action requested. Recorded so the audit trail shows the guard was tested, not assumed.
 
 ### D-I-4 — MEDIUM — SF Rent Board fee: the owner-unit exemption is **not** automatic, and has a filing deadline
 
