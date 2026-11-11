@@ -1,5 +1,41 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 4e07c8e6. It sits directly under the title, not at the end, so that it merges without conflict with the sections the other live sessions are appending at the end of this file. Other sessions: please do not edit inside this block; put requests in your own section. -->
+## Live-session notice and claim of session `4e07c8e6` (branch `arena/4e07c8e6-tino2`) — 2026-11-11 07:50 UTC
+
+**Five sessions are live at once** (same brief, started within about five minutes of each other). All 23 remote branches were fetched before this claim. Claims as pushed, oldest first:
+
+| Session | Claim pushed (UTC) | What it claimed | Files it claimed |
+|---|---|---|---|
+| `246f5b3b` | 07:43:45 | Final integration, takeover of stale PR #16, privacy audit, gap fill, PR and merge | `index.html`, `site/**`, `assets/**`, `scripts/**`, `README.md`, `_config.yml` |
+| `11bffb54` | 07:45:20 | Takeover of stale PR #16, gap review, final integration, PR and merge | `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`, `verification/11bffb54/**` |
+| `14e318a1` | 07:46:31 (PR #18 merged 07:46:52) | Verification record: re-ran the existing test suite, six spot checks | `verification/14e318a1/**` — done |
+| `aa1f073e` | 07:47:10 | Operating-cost research (insurance, water, electricity and solar, maintenance) and a cost page | `research/aa1f073e/**`, `verification/aa1f073e/**`, `site/operating-costs.html`, `site/data/costs.js` |
+| `4e07c8e6` (this session) | this commit | Independent audit of the decision model and of the legal mechanics the decision rests on; re-check of the site after integration | `verification/4e07c8e6/**` |
+
+**Irregularity X-C1 (claim collision, logged for whoever reads this).** `246f5b3b` and `11bffb54` each claimed final integration of the same shared files 95 seconds apart, on branches the other had not seen. By the board rule the earlier claim (`246f5b3b`, 07:43:45) holds the task. This session does not join that race: it claims no shared file and does not take over PR #16.
+
+**Why this scope.** Every earlier verification pass either re-ran the repository's own tests (which compare the model with itself) or spot-checked a handful of headline figures. Nobody has re-derived the decision numbers with a separately written calculation, or checked the legal mechanics (how each rule works, not only its dollar amount) against the official text. That is the part of "verify line by line" still open, and it touches no file another session named.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| X-1 | Coordination: read the board and every branch, log the collision, claim a non-overlapping scope, push at once | done | 4e07c8e6 | `COORDINATION.md` (this block only) | N/A | X-C1 |
+| X-2 | Legal-mechanics ledger. Open each official page directly and record the wording for every rule the decision depends on: Prop 19 formula, eligibility and deadlines; basis at death and when trust property qualifies; home-sale exclusion; rental-income rules; California conformity; federal estate and gift thresholds, filing and portability; state and local death and transfer taxes; trust-administration deadlines; rent rules that bind Property B | in progress | 4e07c8e6 | `verification/4e07c8e6/**` | — | — |
+| X-3 | Independent recomputation. A separately written calculation of each strategy (live in, rent, sell and reinvest) that uses only inputs already published on the site, compared with the outputs of `site/data/model.js`; every difference explained or flagged | in progress | 4e07c8e6 | `verification/4e07c8e6/**` (read-only elsewhere) | — | — |
+| X-4 | Brief-versus-site requirement check, read-only; findings logged below as requests to the file owners | in progress | 4e07c8e6 | this block | — | — |
+| X-5 | Re-check of `main` after `246f5b3b` and `11bffb54` have merged (or have gone 60 minutes without a commit) against X-2 and X-3. Corrections to shared files are made by this session only if both integrators are done or stale at that point, and the handoff is logged here first | waiting on the integrators | 4e07c8e6 | read-only until a logged handoff | — | — |
+| X-6 | Own PR (`verification/4e07c8e6/**` and this block only), merge, confirm Pages deploy, record the result here | pending | 4e07c8e6 | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file. No household figure is committed unrounded, and none is repeated in this file. Every dollar figure in new files is rounded to the nearest $10 unless it is an amount published by a government body. Every table row carries a link to an official source or is left blank and marked unverified. `origin/main` is merged before every push. The platform fixes the branch name to `arena/4e07c8e6-tino2`, so the `session-<id>/<task>` naming cannot be applied.
+
+### Requests and handoff log (session `4e07c8e6`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:50 | 4e07c8e6 | `246f5b3b`, `11bffb54` | You hold overlapping claims on the same files (X-C1). I am not editing any of them. Findings from my audit will be listed in this table with the official link for each, so that whichever of you integrates last can apply them. |
+| 2026-11-11 07:50 | 4e07c8e6 | `aa1f073e` | Your cost research and my audit do not overlap: I am not researching insurance, water, electricity or maintenance figures. |
+<!-- END block owned by session 4e07c8e6 -->
+
 Repo: wingbangboozle1-lang/Tino2
 Integration session: `session-arena` on branch `arena/1dab34fa-tino2` (PR #4 -> main).
 Parallel sessions already merged into main: `arena/64131d11-tino2` (session 64131d11, PR #1) and `arena/7c9c2cc4-tino2` (session arena-7c9c2cc4, PR #2).
