@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Best plan for the two properties as one household: sell, rent or live in the inherited Property A, given that Property B is already owned by the heir."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Best plan · household view">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/history.js"></script><script src="data/model.js"></script><script src="data/history-engine.js"></script><script src="data/scenarios.js"></script><script src="../assets/app.js"></script>
+<script>
+/* Session f16e6e34. Household-level view built only on the engines the other pages already use
+   (MODEL, SCEN, SCENARIOS), so every number here agrees with the Decision and stress pages. */
+const main = document.getElementById("main");
+const M = window.MODEL, S = window.SCEN, B = M.BASE;
+const money = UI.money, pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+const src = (key, label) => UI.source(key, label);
+const row = cells => "<tr>" + cells.join("") + "</tr>";
+const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+const num = html => `<td class="number">${html}</td>`;
+const HOLD = 10;
+const basePath = S.buildPath(S.SCENARIOS.find(s => s.id === "baseline"));
+const mc = S.monteCarlo({ paths: 2000 });
+
+main.innerHTML = UI.hero("Best plan · both properties as one household",
+  "On the numbers: sell the inherited house, keep San Francisco.",
+  "The heir already owns Property B (San Francisco) and can live in its third unit without giving up any rent. That makes the inherited Property A (Cupertino) a second home, not a needed one, and it changes the comparison. This page puts the whole household on one table, shows why the ranking comes out the way it does, and says what would change it.",
+  `<a class="button" href="decision.html">Change the assumptions</a><a class="button secondary" href="stress.html">Stress tests</a><a class="button secondary" href="verification.html">Verified facts</a>`) + `<div class="container">
+<section class="section">
+  <div class="controls"><label class="control">Inheritance year <select id="year">${UI.options("year", [[2040, "2040"], [2045, "2045 · middle of the window"], [2050, "2050"]], 2045)}</select></label></div>
+  <div class="grid four" id="cards"></div>
+  <div class="callout warning"><strong>A result of a model, not advice.</strong> Values, rents and bills are the household's own inputs rounded to $10; growth rates are assumptions. The ranking depends most on one thing nobody can know: whether Cupertino home prices or a diversified portfolio grows faster after the inheritance. Read the stress check below before acting, and confirm the tax and legal points with professionals.</div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">The comparison</div><h2>Four ways to use the two properties</h2><p>Every plan keeps Property B and its two rented units, so that income is the same in all four and is left out. Each plan is carried ${HOLD} years past the inheritance and ends with everything turned into money: sale costs and capital-gain tax paid on the house, yearly costs and rent reinvested. Money in future dollars is also shown in 2026 dollars.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Plan</th><th>Property A</th><th>Owner unit in Property B</th><th class="number">Result after ${HOLD} years</th><th class="number">In 2026 dollars</th><th class="number">Gap to best</th><th>Rule that drives the row</th></tr></thead><tbody id="plans"></tbody></table></div>
+<p class="tiny" id="plans-note"></p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Why</div><h2>Where the gap comes from</h2><p>First full year after the inheritance. Rent is the HUD ZIP-level benchmark for a four-bedroom home, not a lease.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Driver</th><th class="number">Amount</th><th class="wrap">What it means</th><th>Official rule or data</th></tr></thead><tbody id="drivers"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">The important distinction</div><h2>How already owning San Francisco changes the Cupertino decision</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Fact</th><th class="wrap">Effect on the decision</th><th>Official source</th></tr></thead><tbody id="distinction"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Stress check</div><h2>Does the ranking survive bad and unusual decades?</h2><p>Twelve scenarios from the Recorded data page, run for the inheritance year chosen above. Replays use official annual series (home prices, consumer prices, Treasury yields, share prices) in the order they happened; the rest are stated assumptions.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Scenario</th><th>Type</th><th class="number">Sell and reinvest</th><th class="number">Rent out</th><th class="number">Live in A</th><th class="number">Live in A, rent B unit</th><th>Best</th><th>Data or rule</th></tr></thead><tbody id="stress"></tbody></table></div>
+<div class="grid two" style="margin-top:1rem"><div class="card" id="mc-card"></div><div class="card soft" id="read-card"></div></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">When another plan is better</div><h2>What would change the answer</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>If this is true</th><th class="wrap">Then</th><th class="wrap">How to check</th><th>Source</th></tr></thead><tbody id="flip"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Remove the uncertainty</div><h2>Steps, in order</h2><p>Full checklist with deadlines: <a href="inheritance.html">Inheritance</a>. Open items: <a href="review.html">Flagged for Review</a>.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>When</th><th class="wrap">Do this</th><th class="wrap">Why it matters for the plan</th><th>Official source</th></tr></thead><tbody id="steps"></tbody></table></div>
+</section>
+</div>`;
+
+function render() {
+  const Y = Number(document.getElementById("year").value), END = Y + HOLD;
+  const r = S.simulate(basePath, Y, HOLD, "4BR");
+  const d = M.decision({ ...B, inheritYear: Y }, HOLD);
+  const first = d.rent.yearly[0], liveFirst = d.live.yearly[0];
+  const real = v => v / r.deflator;
+  const best = Math.max(r.sell, r.rent, r.live, r.liveSF);
+  const gap = v => v === best ? "<strong>Best</strong>" : money(v - best);
+  const s = mc.summary[Y];
+
+  document.getElementById("cards").innerHTML = [
+    ["Best plan in the base case", "Sell A, keep B", `${money(r.sell)} at ${END} · ${money(real(r.sell))} in 2026 dollars`],
+    ["Ahead of renting A out", money(r.sell - r.rent), `Still ${money(r.sellLiq - r.rent)} ahead if the portfolio's growth is taxed at the end too`],
+    ["Ahead of living in A", money(r.sell - r.live), `${money(r.sell - r.liveSF)} if the Property B unit is rented out instead`],
+    ["Share of 2,000 random histories where selling finished first", pct(s.bestCount.sell, 0), `Renting first in ${pct(s.bestCount.rent, 0)}; living there first in ${pct(s.bestCount.live + s.bestCount.liveSF, 0)}`]
+  ].map(([l, v, n]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+
+  document.getElementById("plans").innerHTML = [
+    ["<strong>1 · Sell A, stay in B</strong>", "Sold in the inheritance year; net proceeds invested", "Heir lives there, as now", r.sell, src("irsInherited", "Basis = value at death")],
+    ["<strong>2 · Rent A out, stay in B</strong>", "Rented; reassessed to full market value", "Heir lives there, as now", r.rent, src("boeProp19", "No exclusion for a rental")],
+    ["<strong>3 · Move into A, leave the B unit empty</strong>", "Heir's principal residence; partial Prop 19 relief", "Empty", r.live, src("boeLta2026026", "Prop 19 family-home rule")],
+    ["<strong>4 · Move into A, rent out the B unit</strong>", "Heir's principal residence; partial Prop 19 relief", "Rented at the HUD one-bedroom benchmark, then rent-controlled", r.liveSF, src("sfRentRates", "SF rent rules")]
+  ].map(([plan, a, bUnit, v, source]) => row([td(plan), td(a), td(bUnit), num(`<strong>${money(v)}</strong>`), num(money(real(v))), num(gap(v)), `<td class="source">${source}</td>`])).join("");
+  document.getElementById("plans-note").innerHTML = `Inheritance in ${Y}, endpoint ${END}. Base assumptions: home prices +${pct(B.appreciation)} a year, portfolio +${pct(M.afterTaxPortfolioReturn(B))} a year after tax, costs and Property A rent +${pct(B.expenseInflation)} a year, ${pct(B.saleCost, 0)} sale cost, ${pct(B.capitalGainsTax)} tax on gains. Plan 1 leaves the portfolio's growth untaxed at the endpoint; taxing all of it at the same rate gives ${money(r.sellLiq)} (${money(real(r.sellLiq))} in 2026 dollars), which is still the largest result. Plans 3 and 4 count the yearly cost of owning the house but put no price on the pleasure of living in it. 2026 dollars use the model's ${pct(S.BASELINE.cpi)} consumer-price path.`;
+
+  const netSale = d.sell.initialNet, saving = d.transfer.primarySavings;
+  document.getElementById("drivers").innerHTML = [
+    ["Market value of Property A at inheritance", money(d.transfer.market), `Household value of $3,100,000 in 2026 grown at ${pct(B.appreciation)} a year. Not an appraisal.`, src("irsInherited", "Value at death sets the tax basis")],
+    ["Tax on selling in the inheritance year", money(0), "The heir's basis is the value at the date of death, so a prompt sale has little or no taxable gain. Sale costs of about " + money(d.transfer.market * B.saleCost) + " still apply.", src("irsInherited", "IRS · inherited property")],
+    ["Property tax if rented (full reassessment)", money(first.propertyTax), `A rental gets no parent-child exclusion. The assessed value jumps from about ${money(d.transfer.carryForwardAssessed)} to ${money(d.transfer.fullAssessed)}. Tax then takes ${pct(first.propertyTax / first.grossRent, 0)} of the gross rent.`, src("boeProp19", "BOE · Proposition 19")],
+    ["Gross rent for the year", money(first.grossRent), `${pct(first.grossRent / first.market)} of the home's value before any cost.`, src("hudA", "HUD · ZIP-level rent benchmark")],
+    ["Left after tax, insurance, upkeep, vacancy and management", money(first.noi), `${pct(first.noi / first.market, 2)} of the home's value. Nearly all of the rental case's return has to come from the price of the house going up.`, src("irsTopic414", "IRS · rental income")],
+    ["The same money invested instead", money(netSale * M.afterTaxPortfolioReturn(B)), `Net sale proceeds of ${money(netSale)} at an assumed ${pct(M.afterTaxPortfolioReturn(B))} a year after tax. An assumption, not a promise; see the stress check.`, src("investorRisk", "SEC · investing risk")],
+    ["Yearly cost of living in Property A", money(-liveFirst.afterTaxCash), `Property tax ${money(liveFirst.propertyTax)}, upkeep, insurance and water, with no rent coming in. Paid from other money.`, src("boeLta2026026", "BOE · family-home rule")],
+    ["What Proposition 19 saves by living there", money(saving) + " a year", `The exclusion covers about ${money(d.transfer.allowance)} of value, so the home is taxed on ${money(d.transfer.primaryAssessed)} instead of ${money(d.transfer.fullAssessed)}. That is ${pct(saving / d.transfer.market, 2)} of the home's value a year: real money, but small next to the rent or investment income given up.`, src("boeLta2025009", "BOE · exclusion amount")]
+  ].map(([a, b, c, e]) => row([td(`<strong>${a}</strong>`), num(b), td(c), `<td class="source">${e}</td>`])).join("");
+
+  const e26 = M.estateRow(2026), e27 = M.estateRow(2027), eY = M.estateRow(Y);
+  document.getElementById("distinction").innerHTML = [
+    ["The heir already has a home that costs no rent", "Living in Property A is a choice, not a need. Its true cost is everything Property A could earn if sold or rented, which is why plans 3 and 4 finish last on money. Choose them for the house itself, not for savings.", src("irsTopic701", "IRS · main home")],
+    ["A person has one principal residence", "The Proposition 19 exclusion and the homeowners' exemption need the heir to actually move into Property A within one year and stay. Remaining in San Francisco and claiming the exclusion is not possible. If the heir later moves out or rents the house, the exclusion ends and the value is reset to the market value at the date of the inheritance, plus yearly factors.", src("boeLta2026026", "BOE LTA 2026/026 · Q7, Q8")],
+    ["Property B is not part of the estate", `Only what the parent owns counts toward the federal threshold. With Property A alone, room for cash and other assets is about ${money(e26.headroom)} for a death in 2026 and ${money(e27.headroom)} in 2027 (official thresholds), and about ${money(eY.headroom)} in ${Y} on the model's assumptions. Above the threshold the rate reaches 40%.`, src("irs2027", "IRS · 2027 amounts")],
+    ["Property B's rent rises slowly, its costs do not", "Covered units may be raised 1.6% this year, while San Francisco water and sewer charges were proposed to rise about 12.6% and 12.5% in the two fiscal years from July 2026 and most of the flat parcel taxes on the bill are adjusted for inflation each year. Adding a second low-yield rental (Property A after reassessment) would stack more of the household's wealth on thin, regulated rental margins.", src("sfRentRates", "SF Rent Board · current rates")],
+    ["Renting the owner unit is hard to undo", "Plan 4 adds rent, but the new tenancy is rent-controlled. Taking the unit back later for the owner requires an owner move-in eviction and relocation payments, currently $8,245 per tenant up to $24,733 per unit, plus $5,497 for each elderly or disabled tenant or household with children.", src("sfRentRates", "SF Rent Board · relocation payments")],
+    ["Both properties sit in the same region", "One earthquake, one regional downturn or one change in California property-tax law would touch both at once. Selling Property A moves part of the household's wealth out of Bay Area real estate; keeping it doubles the exposure.", src("usgsQuake", "USGS · Bay Area earthquake outlook")]
+  ].map(([a, b, c]) => row([td(`<strong>${a}</strong>`), td(b), `<td class="source">${c}</td>`])).join("");
+
+  let sellWins = 0; const flips = [];
+  document.getElementById("stress").innerHTML = S.SCENARIOS.map(sc => {
+    const q = S.simulate(S.buildPath(sc), Y, HOLD, "4BR");
+    const vals = { "Sell": q.sell, "Rent": q.rent, "Live": q.live, "Live + rent B unit": q.liveSF };
+    const winner = Object.keys(vals).sort((a, b) => vals[b] - vals[a])[0];
+    if (winner === "Sell") sellWins += 1; else flips.push(sc.name);
+    const cell = (label, v) => num(label === winner ? `<strong>${money(v)}</strong>` : money(v));
+    return row([td(`<strong>${sc.name}</strong>`), td(sc.kind), cell("Sell", q.sell), cell("Rent", q.rent), cell("Live", q.live), cell("Live + rent B unit", q.liveSF), td(winner === "Sell" ? "Sell" : `<strong>${winner}</strong>`), `<td class="source">${src(sc.source, "Series or rule used")}</td>`]);
+  }).join("");
+  document.getElementById("mc-card").innerHTML = `<h3>2,000 random 50-year histories</h3><p>Built by re-ordering blocks of recorded years, so booms, busts and inflation arrive in different orders. Inheritance ${Y}, endpoint ${END}.</p>
+    <div class="table-wrap"><table><thead><tr><th>Outcome</th><th class="number">Sell</th><th class="number">Rent</th><th class="number">Live</th><th>Method</th></tr></thead><tbody>
+    ${[["Poor decade (1 in 10)", "p10"], ["Middle", "p50"], ["Strong decade (1 in 10)", "p90"]].map(([label, k]) => row([td(label), num(money(s[k].sell)), num(money(s[k].rent)), num(money(s[k].live)), `<td class="source">${src("fredSJ", "Recorded series, re-ordered")}</td>`])).join("")}
+    </tbody></table></div><p class="tiny">Selling finished first in ${pct(s.bestCount.sell, 0)} of histories and renting in ${pct(s.bestCount.rent, 0)}. With the portfolio's growth also taxed at the end, selling still beat renting in ${pct(s.sellLiqBeatsRent, 0)}. The method and its limits are on the <a href="black-swan.html">Recorded data</a> page.</p>`;
+  document.getElementById("read-card").innerHTML = `<h3>How to read this</h3><ul class="list">
+    <li>Selling is best in <strong>${sellWins} of ${S.SCENARIOS.length}</strong> scenarios for a ${Y} inheritance.</li>
+    <li>${flips.length ? "Keeping the house wins in: <strong>" + flips.join("</strong>; <strong>") + "</strong>. These are the decades in which Bay Area home prices outran a mixed portfolio." : "No scenario favours keeping the house for this inheritance year."}</li>
+    <li>Living in Property A is never the largest result, because the heir already has a home that costs no rent.</li>
+    <li>The last 49 years were unusually good for Bay Area house prices. The plan to sell is a judgment that the next decades need not repeat them, and that one diversified portfolio is safer than two houses in one region.</li></ul>`;
+
+  const beHome = window.SCENARIOS.breakEvenHomeGrowth(window.SCENARIOS.DEFS[0]), bePort = window.SCENARIOS.breakEvenPortfolioReturn(window.SCENARIOS.DEFS[0]);
+  document.getElementById("flip").innerHTML = [
+    [`Cupertino prices grow about ${pct(beHome)} a year or more after the inheritance`, "Renting Property A out overtakes selling (2045 inheritance, ten-year hold, portfolio at the base 5.0%).", "County prices rose 7.0% a year over 1975–2025 but 4.3% a year over 2000–2025, with a 25% fall from 2006 to 2011. See the local record on the Verified facts page.", src("fredSccCounty", "FHFA · Santa Clara County index")],
+    [`The portfolio earns less than about ${pct(bePort)} a year after tax`, "Renting overtakes selling at the base 3.5% home growth.", "Decide in advance what the sale proceeds would be invested in. Deposits are insured only to $250,000 per depositor, per bank, per ownership category.", src("fdic", "FDIC · deposit insurance")],
+    ["The heir wants to live in Property A", "Plan 3 or 4. Move in within one year, claim the homeowners' exemption within one year and the exclusion within three years. After two years of ownership and use, up to $250,000 of later gain ($500,000 on a joint return) is tax-free on sale.", "Budget the yearly cost shown above, in future dollars, from other money.", src("irsTopic701", "IRS · sale of your home")],
+    ["The step-up in basis is repealed or limited before the inheritance", "Selling at inheritance would be taxed on the gain since the parents bought. Every plan is hit when the house is finally sold; selling early loses its main advantage.", "No such law is enacted. Estate-tax repeal bills were introduced in 2025 and have not moved.", src("hr1301", "Congress.gov · bill status")],
+    ["California changes Proposition 13 or 19", "A higher exclusion would help plan 3; taxing rentals at market value every year would hurt plan 2 and Property B.", "The November 2026 measures did not change the 1% rate or the 2% cap. Watch each February for the new exclusion amount.", src("sosResults2026", "Secretary of State · 2026 results")],
+    ["More than one child inherits", "The house can go to one child without reassessment only if the trust allows uneven distribution and the home is not worth more than that child's share. A later buy-out between siblings is reassessed.", "Read the trust's distribution clause with the attorney now, while it can still be changed.", src("boeLta2026026", "BOE LTA 2026/026 · Q41, Q42")]
+  ].map(([a, b, c, e]) => row([td(`<strong>${a}</strong>`), td(b), td(c), `<td class="source">${e}</td>`])).join("");
+
+  document.getElementById("steps").innerHTML = [
+    ["Now", "Confirm the trust holds title to Property A, who the successor trustee is, and whether the trustee may sell and may distribute unevenly.", "A sale soon after death is only possible if the trustee has clear authority.", src("probate160617", "Probate Code §16061.7")],
+    ["Now", "Find Property A's tax-rate area on the bill, get one landlord quote and one homeowner quote for it, and one landlord quote for Property B.", "Replaces the three largest guesses in the model: the tax rate after reassessment and both insurance premiums.", src("cdiResidentialReport", "CDI · residential insurance")],
+    ["Now", "Find the solar system's interconnection date and tariff on the PG&E account.", "Older net-metering tariffs run for a limited term from the interconnection date (commonly described as 20 years; confirm on the account). If the term ends before the inheritance, today's small monthly credit should not be counted, and panels of that age may need replacing.", src("solar", "PG&E · net energy metering")],
+    ["At death", "Order a date-of-death appraisal of Property A.", "It fixes the heir's tax basis and the value the assessor and the IRS will look at.", src("irsInherited", "IRS · basis of inherited property")],
+    ["Within 60 days", "Trustee serves the notification to beneficiaries and heirs.", "Starts the period for challenges, so a sale or distribution can proceed safely.", src("probate160617", "Probate Code §16061.7")],
+    ["Within 150 days", "File the change-in-ownership statement with the Santa Clara County assessor.", "Avoids the penalty and starts the reassessment or the exclusion claim.", src("rtc480", "Rev. & Tax. Code §480")],
+    ["If selling (plan 1)", "List while the appraisal is fresh; keep sale proceeds in insured or Treasury holdings until the investment plan is in place.", "The closer the sale is to the date of death, the smaller the taxable gain.", src("fdic", "FDIC · deposit insurance")],
+    ["If living there (plans 3, 4)", "Move in and file the homeowners' exemption within one year; file the exclusion claim within three years and before any transfer.", "Late filing gives relief only from the year of filing.", src("boeLta2026026", "BOE LTA 2026/026 · filing")],
+    ["Within 9 months", "If the estate with cash is near the federal threshold, file Form 706; file it anyway if a surviving spouse should keep the unused amount.", "Tax is due with the return; the unused exclusion is lost without a timely return.", src("irsEstateFAQ", "IRS · estate tax FAQ")]
+  ].map(([a, b, c, e]) => row([td(`<strong>${a}</strong>`, ""), td(b), td(c), `<td class="source">${e}</td>`])).join("");
+}
+document.getElementById("year").addEventListener("change", render);
+render();
+</script></body></html>

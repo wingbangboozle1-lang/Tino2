@@ -8,6 +8,7 @@ exclude:
   - dashboard
   - integration
   - scripts
+  - qa
   - css
   - research-portal.html
   - cupertino.html
