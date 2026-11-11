@@ -14,6 +14,7 @@
     ["home", home, "Overview"],
     ["plan", prefix + "plan.html", "Best plan"],
     ["decision", prefix + "decision.html", "Decision"],
+    ["options", prefix + "options.html", "Other options"],
     ["properties", prefix + "properties.html", "Properties"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
     ["operating-costs", prefix + "operating-costs.html", "Operating costs"],

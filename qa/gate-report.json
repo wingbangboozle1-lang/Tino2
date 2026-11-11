@@ -44,6 +44,13 @@
    "links": 0
   },
   {
+   "file": "site/options.html",
+   "rows": 58,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 169,
+   "links": 0
+  },
+  {
    "file": "site/plan.html",
    "rows": 51,
    "rowsWithContextLinkOnly": 0,
@@ -59,9 +66,9 @@
   },
   {
    "file": "site/review.html",
-   "rows": 76,
+   "rows": 84,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 31,
+   "amounts": 33,
    "links": 0
   },
   {
@@ -80,9 +87,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 156,
+   "rows": 182,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 41,
+   "amounts": 54,
    "links": 0
   },
   {
@@ -94,22 +101,22 @@
   },
   {
    "file": "site/verification.html",
-   "rows": 104,
+   "rows": 106,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 137,
+   "amounts": 146,
    "links": 0
   }
  ],
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 14,
-  "rows": 1153,
-  "rowsWithOwnSource": 1144,
+  "pages": 15,
+  "rows": 1247,
+  "rowsWithOwnSource": 1238,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4410,
-  "officialExactAmounts": 70,
-  "internalLinks": 290,
-  "externalLinks": 1565
+  "amounts": 4603,
+  "officialExactAmounts": 74,
+  "internalLinks": 325,
+  "externalLinks": 1668
  }
 }
