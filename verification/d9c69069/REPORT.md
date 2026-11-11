@@ -2,7 +2,11 @@
 
 **Date:** 2026-11-11 (all access dates are 2026-11-11 UTC)
 **Branch:** `arena/d9c69069-tino2`
-**Tree verified:** `main` at `660be98` (PR #20, session `11bffb54`, merged 07:49:54 UTC), merged into this branch.
+**Trees verified:** `main` at `660be98` (PR #20) for the first pass, then re-verified in full on `main` at
+`c429440` (PRs #21–#28 from sessions `81334f2c`, `246f5b3b`, `b0123943`, `aa1f073e`), merged into this branch.
+`main` moved **five times** while this session was working; every finding below is stated against the final
+tree, and findings that were superseded by another session mid-flight are marked as such rather than deleted
+(see D-I-3).
 **Role:** read-only independent auditor. This report is the only substantive file this session adds. No file owned by another session was edited; corrections that belong in someone else's file are logged as requests in `COORDINATION.md`.
 
 **Privacy statement.** No personal name, street address, parcel number, account number or contact detail appears in this report. Properties are "Property A" (Cupertino 95014) and "Property B" (San Francisco 94122). Household figures quoted here are already the $10-rounded values the site publishes; no exact household amount is reproduced.
@@ -11,20 +15,30 @@
 
 ## 1. Automated suite re-run on the merged tree
 
-| Check | Command | Result |
-|---|---|---|
-| Model, syntax, link and source validation | `node scripts/validate.js` | PASS — 737 checks, 13 pages, 100 official sources |
-| 50-year stress paths, estate ownership, real-dollar tests | `node scripts/stress-test.js` | PASS |
-| Rendered-page gate (JSDOM): rows, source links, dollar rounding, links | `node qa/tools/gate.cjs` | PASS — 13 rendered pages, 963 table rows (951 with their own official link, 12 calculated rows with a context link), 4,194 dollar amounts (54 official exact figures), 254 internal + 1,376 external links, 0 errors, 0 warnings |
-| Publication allowlist packaging | `python3 scripts/package-site.py` | PASS |
-| Internal links across the whole repository | `python3 src/check_links.py .` | 58 pages, 871 table rows, 124 distinct external links, 0 errors |
-| Privacy scanner | `python3 integration/tools/privacy_scan.py` | 0 errors, 102 warnings — see §4 |
+| # | Check | Command | Result on the final tree |
+|---|---|---|---|
+| 1 | Model arithmetic, script syntax, internal links, source references | `node scripts/validate.js` | **PASS** — 835 checks, 14 pages, 121 official sources |
+| 2 | 50-year stress paths, estate ownership, privacy, real-dollar and shock tests | `node scripts/stress-test.js` | **PASS** |
+| 3 | Publication allowlist + $10 rounding rule | `python3 scripts/package-site.py` | **PASS** |
+| 4 | Publication boundary, including fail-closed negative tests | `python3 scripts/check-publication.py --self-test` | **PASS** — 26 reviewed public files only; rejects unlisted files, symlinks and missing pages |
+| 5 | Rendered-page test (JSDOM): runtime errors, source-linked rows, local links | `node scripts/runtime-test.cjs` | **PASS** — 14 rendered pages, 1,126 rendered rows source-linked, no runtime errors, no broken local links |
+| 6 | Rendered-page gate: rows, source links, dollar rounding, internal + external links | `node qa/tools/gate.cjs` | **PASS** — 14 pages, 1,126 table rows (1,117 with their own official link, 9 calculated rows with a context link), 4,370 dollar amounts (59 official exact figures), 290 internal + 1,535 external links, **0 errors, 0 warnings** |
+| 7 | Internal links across the whole repository | `python3 src/check_links.py .` | 60 pages, 871 table rows, 124 distinct external links, **0 errors** |
+| 8 | Legacy privacy scanner | `python3 integration/tools/privacy_scan.py` | **0 errors**, 128 warnings — all inspected, see D-I-9 |
+| 9 | CI on `main` | `.github/workflows/pages.yml` | last four runs on `main` concluded **success**; the workflow also builds with `actions/jekyll-build-pages` and audits the real `_site` output |
 
-`qa/tools/gate.cjs` needs the optional dev dependency `jsdom`, installed outside the repository
-(`npm install --prefix .cache/test jsdom`); `.cache/` is gitignored, so the repository stays dependency-free.
+Checks 5 and 6 need the optional dev dependency `jsdom`, installed outside the repository
+(`npm install --prefix .cache/test jsdom`); `.cache/` is gitignored, so the published site stays
+dependency-free. Checks 1–4 and 7–9 need no dependency at all.
 
-Base case reproduced by the model on the merged tree (2040 inheritance, 2050 endpoint):
+The site grew from 13 to 14 published pages while this session was verifying: PR #28 added
+`site/operating-costs.html` and `site/data/costs.js`. All checks above were re-run after that merge.
+
+Base case reproduced by the model on the final tree (2040 inheritance, 2050 endpoint):
 sell **$7,683,290** · rent **$6,249,830** · live **$5,135,780**.
+Identical before and after PRs #21–#28, so those merges changed presentation and operating-cost detail
+without moving the decision result. Every `MODEL.BASE` household input was re-read after the last merge and
+is unchanged (§5).
 
 ---
 
