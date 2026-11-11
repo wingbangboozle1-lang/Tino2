@@ -284,3 +284,13 @@ Claimed 2026-11-11. Repo state at claim: `main` at `016eb53` (PR #9 merged), wor
 | PR to `main`, merge, confirm Pages | pending | d7d62f7a | — |
 
 Notes: no other session is active; every other listed claim is `done`. This session edits shared outputs (`index.html`, nav) only because no other session holds them. Existing pages and their figures are left intact; all new content is additive and clearly labelled.
+
+### Session `d7d62f7a` — completion record
+
+- 2026-11-11: added `site/data/scenarios.js` (stress engine) and `site/scenarios.html` (black-swan / real-conditions section), plus nav, landing-page card, decision-page cross-link, four review items, eight official sources and README notes.
+- Engine reproduces `MODEL.decision()` exactly at base assumptions (2045 transfer, 2055 endpoint): sell $9,125,343 · rent $7,320,681 · live $5,946,263.
+- Results: selling leads on money in 6 of 7 cases; renting wins only in the stagflation replay; break-even 8.0% home growth or 2.7% after-tax portfolio return; 12% premium growth costs the rent case $236,090 over ten years; a 10% uninsured earthquake loss removes $970,780 from every strategy.
+- Sources added (all official, opened and read this session): BLS historical CPI-U PDF and annual CPI table, Freddie Mac PMMS and 2021 archive, FHFA HPI datasets and Q3 2008 release, USGS Bay Area earthquake probabilities, CBO publication 61882, California FAIR Plan key statistics.
+- Chevcks: `node scripts/validate.js` PASS 399 checks / 9 pages / 53 sources; `python3 src/check_links.py .` 41 pages, 871 rows, 0 errors; privacy scan 0 errors (59 pre-existing rounding warnings for exact historical household bills); JSDOM render of all 9 pages with no runtime errors or NaN output.
+- Irregularities flagged (published, non-blocking): subjective scenario weights; unverified $1,500 premium guess; Property A original basis absent, so step-up repeal priced only per $1,000,000 of gain; no official retrofit cost, so catastrophe exposure is a share of value; whether renting Property B's vacant unit changes assessment/coverage is unverified.
+- PR [#12](https://github.com/wingbangboozle1-lang/Tino2/pull/12) — black-swan and real-conditions stress section.
