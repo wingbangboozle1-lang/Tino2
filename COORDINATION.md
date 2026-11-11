@@ -69,7 +69,7 @@ The published recommendation (sell Property A, keep Property B) is **confirmed**
 | N-2 | Completeness audit. Read every published page against the brief and list (a) strategies and mixed strategies that are not analysed, (b) tax rules that would change a path and are not stated, (c) process steps and forms missing from the checklist, (d) rules for inherited money by account type. Each item checked on the official page, wording and link recorded; blank and flagged when not confirmed | **done** | 0d6ec51e | `research/0d6ec51e/completeness-ledger.md` | 25 official documents opened (29 ledger rows) and 8 ledger rows read from official search extracts (IRS, FTB, FDIC, leginfo, Secretary of State, Attorney General, BOE, Dept of Insurance); wording and link per row in the ledger | N-I4, N-I7 |
 | N-3 | Numbers for the strategies found in N-2, from a separately written calculation that reads its inputs from the published `site/data/model.js` (no household figure typed), compared with the three published choices | **done** | 0d6ec51e | `verification/0d6ec51e/options.cjs`, `options.json`, `REPORT.md` | reproduces the three published choices for 2040, 2045, 2050 to the dollar (12 of 12); 110 figures of the published engine equal the independent calculation | N-I1 |
 | N-4 | Hand the findings to the live integrator as requests (log below). If `cf587387` records done, or goes 60 minutes without a commit, publish them on the site as additions only, after logging the handoff here | **done** — handoff logged 13:28 UTC; published by this session as additions only | 0d6ec51e | `site/options.html` (new), `site/data/options.js` (new), `site/data/sources.js` (25 keys appended), `site/review.html` (8 items added), `site/sources.html` (1 row added), `site/plan.html`, `site/inheritance.html`, `site/estate-tax.html`, `index.html` (pointer only), `assets/app.js` (1 menu entry), `scripts/validate.js`, `scripts/check-publication.py`, `qa/ledger.json` (N-01…N-12), `README.md` | as N-2 | N-I2, N-I3, N-I5 |
-| N-5 | Own PR (new paths and this block), merge, confirm the Pages build, record the result here | pending | 0d6ec51e | own files + this block | — | — |
+| N-5 | Own PR (new paths and this block), merge, confirm the Pages build, record the result here | **done** — PR [#36](https://github.com/wingbangboozle1-lang/Tino2/pull/36) merged 13:39:09 UTC, merge commit `24dddd7`; Pages `built`, no error, 13:39:49 UTC; live page read back | 0d6ec51e | own files + this block | — | none |
 
 **Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure in new files is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push. The platform fixes the branch name to `arena/0d6ec51e-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
 
@@ -120,6 +120,20 @@ Session `cf587387` recorded every one of its tasks **done** at 13:21 UTC: PR #34
 **Conflicts.** None. `origin/main` was merged four times (PR #34, PR #35 and two no-change pulls); every merge was automatic and kept both sides.
 
 **Privacy.** No personal information added. No household figure typed in any new file: the new engine and the independent calculation read their inputs from the published model. Every dollar figure added to the site is rounded to $10 or is an amount a government body publishes.
+
+### Session `0d6ec51e` — publication record (2026-11-11)
+
+| Step | Result |
+|---|---|
+| PR | [#36](https://github.com/wingbangboozle1-lang/Tino2/pull/36) `arena/0d6ec51e-tino2` → `main`; `MERGEABLE`, state `CLEAN`; **MERGED** 13:39:09 UTC without waiting for approval |
+| CI on the PR head `caef106` | `verify` (Verify public Pages boundary) **pass**, 23s — includes the Jekyll build and the rejection of unexpected files in the real Pages output (28 files allowed) |
+| Merge commit | `24dddd7f28fd31e518f3293d9619fcd676bb2cc2` |
+| CI on `main` after the merge | `Verify public Pages boundary` **success**; `pages build and deployment` **success**, both for `24dddd7` |
+| GitHub Pages | build for `24dddd7` reported **`built`**, `error.message: null`, 13:39:49 UTC (Pages API) |
+| Live-URL read-back | **Completed.** `https://wingbangboozle1-lang.github.io/Tino2/site/options.html` was fetched after the build and returned the rendered page with title "Other options and missing steps" and the figures recorded above (−$117,930, −$537,910, $1,154,390, $12,271,500). The read was made with the session's page-fetch tool; `curl` from the sandbox still cannot reach that host, as earlier sessions recorded |
+| Open PRs after this session | #3 only (from 10 November, another session's, untouched) |
+
+**State of the board after this session.** Every task in this block is `done`. Items marked **needs review** (N-I1 to N-I4, N-I7) are published on the Flagged for Review page with the document that would settle each; none blocks the merge.
 
 <!-- END block owned by session 0d6ec51e -->
 
