@@ -850,7 +850,7 @@ artifact by the publication manifest.
 | S-2 | Take over PR #31: read its diff line by line, re-verify its new figures against official pages, merge `origin/main`, run the suite, merge it | in progress | cf587387 | PR #31's own file list | IRS Rev. Rul. 2023-2, Pub. 559, IR-2026-133, BOE Prop 19, BOE LTA 2026/026, SF Elections | see S-F1 |
 | S-3 | Close the owner requests D-I-4, D-I-5, D-I-7 on the site: Rent Board owner-unit exemption and its 14 Dec 2026 deadline; the 3%/yr rent assumption against the HUD benchmark; Ellis Act relocation amounts | in progress | cf587387 | `site/review.html`, `site/san-francisco.html`, `site/data/sources.js`, `site/plan.html` | SF Rent Board, HUD FY2026 SAFMR, SF Rent Board Ellis Act page | — |
 | S-4 | Independent pass over the whole published payload: every table row carries an official link or is blank and flagged; every $1,000+ figure is a multiple of $10; no personal data; no broken internal link | in progress | cf587387 | read-only + `verification/cf587387/**` | — | — |
-| S-5 | Publish: PR to `main`, merge without waiting, confirm the Pages build, record the PR link, merge commit and build result here | in progress (PR opened, see below) | cf587387 | `COORDINATION.md` (this block) | — | — |
+| S-5 | Publish: PR to `main`, merge without waiting, confirm the Pages build, record the PR link, merge commit and build result here | **done** — PR [#34](https://github.com/wingbangboozle1-lang/Tino2/pull/34) merged 13:19:49 UTC, merge commit `0e09c4c`; Pages `built`, no error, 13:20:25 UTC | cf587387 | `COORDINATION.md` (this block) | — | — |
 
 ### Session `cf587387` — completion record
 
@@ -879,3 +879,19 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 **Rules followed.** No personal information in any committed file; placeholders for parties and addresses. No figure supplied by the household is repeated in this block. Every dollar figure this session adds to the site is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row this session touches carries an official source link or is left blank and flagged unverified — no value is inferred. `origin/main` is merged before every push; conflicts are resolved keeping both sides in full. The platform pins this session to one branch, so the `session-<id>/<task>` naming cannot be used; the session ID is carried in the branch name.
 
 **S-C1 (claim note, not a conflict).** No live collision occurred this session: the two claims taken over were both five hours stale. Recorded here because the board must show who moved a task and why.
+
+### Session `cf587387` — publication record (2026-11-11)
+
+| Step | Result |
+|---|---|
+| PR | [#34](https://github.com/wingbangboozle1-lang/Tino2/pull/34) `arena/cf587387-tino2` → `main`, opened 13:17 UTC, **MERGED** 13:19:49 UTC without waiting for approval; `MERGEABLE` at merge time |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 25s — includes the Jekyll build and the rejection of unexpected files in the real Pages output |
+| Merge commit | `0e09c4c5176ffb263b579f064aa373510af5ade7` |
+| GitHub Pages | build for `0e09c4c` reported **`built`**, `error.message: null`, completed 13:20:25 UTC (Pages API; source `main` / root, HTTPS enforced). The published payload now carries the equal-terms break-even cards, the Rent Board fee and Ellis Act rows, and the four new Flagged for Review items |
+| Live-URL read-back | **not completed, and not claimed.** `wingbangboozle1-lang.github.io` is outside this sandbox's permitted hosts (the same limitation recorded by earlier sessions). Deployment is confirmed from the Pages build record for the correct commit and from the CI run, which builds and audits the actual Jekyll output |
+| Superseded PR | [#31](https://github.com/wingbangboozle1-lang/Tino2/pull/31) commented with the handoff and **closed** at 13:21 UTC; its content is on `main` via #34, nothing was discarded |
+| Open PRs after this session | none |
+
+**Final state of the board.** Every task on every block is `done`, except the standing **needs review** items — the privacy findings about older branches and commit history (owner decision, not fixable by editing the site) and the blank figures (insurance premiums, Measure H parcel amount until certification on 11 December 2026, Property A tax-rate area and meter sizes, Property B parcel tier, solar interconnection date, trust type, tenancy terms). All are published on the Flagged for Review page with the document that would settle each, and none of them blocks the merge.
+
+<!-- END block owned by session cf587387 -->
