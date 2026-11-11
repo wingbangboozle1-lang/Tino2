@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Verification ledger: every law, rate and threshold re-opened on its official page, with the link and the wording found. Unconfirmed items are blank and marked."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Verified facts">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="data/ledger.js"></script><script src="../assets/app.js"></script>
+<script>
+/* Session f16e6e34. Independent verification ledger. Official facts and series only; household dollar histories are not published here. */
+const main = document.getElementById("main");
+const L = window.LEDGER, SER = window.SERIES, M = window.MODEL;
+const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const link = (url, label) => `<a class="source-link" href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
+const src = (key, label) => UI.source(key, label);
+const row = cells => "<tr>" + cells.join("") + "</tr>";
+const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+const num = html => `<td class="number">${html}</td>`;
+const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+const verified = L.filter(e => e.status === "verified"), open = L.filter(e => e.status !== "verified");
+const TOPICS = [
+  ["federal-estate", "Federal estate and gift tax"], ["california-estate", "California estate and inheritance tax"],
+  ["prop19", "Proposition 19 · parent-to-child transfer"], ["prop13", "Proposition 13 · yearly assessment factor"],
+  ["santa-clara-tax", "Santa Clara County property tax"], ["sf-tax", "San Francisco property tax"], ["sf-rent", "San Francisco rent rules"],
+  ["federal-income", "Federal income tax on selling or renting"], ["california-income", "California income tax"],
+  ["california-law-change", "California law changes · November 2026 ballot"], ["federal-law-change", "Federal proposals"],
+  ["utilities", "Water, sewer and solar"], ["insurance", "Insurance"], ["trust-process", "Trust administration deadlines"], ["history", "Local price history"]
+];
+
+// ---------- local price history (official FHFA county indexes) ----------
+function stats(key) {
+  const r = Object.fromEntries(SER[key].rows), years = Object.keys(r).map(Number).sort((a, b) => a - b);
+  const cagr = (a, b) => Math.pow(r[b] / r[a], 1 / (b - a)) - 1;
+  let peak = 0, peakYear = null, worst = 0, worstSpan = null, down = 0;
+  years.forEach((y, i) => {
+    if (r[y] > peak) { peak = r[y]; peakYear = y; }
+    if (r[y] / peak - 1 < worst) { worst = r[y] / peak - 1; worstSpan = [peakYear, y]; }
+    if (i && r[y] < r[years[i - 1]]) down += 1;
+  });
+  const regain = years.find(y => y > worstSpan[1] && r[y] >= r[worstSpan[0]]);
+  const nineties = key.includes("santa") ? [1990, 1994] : [1990, 1995];
+  const regain90 = years.find(y => y > nineties[1] && r[y] >= r[nineties[0]]);
+  return { r, cagr, worst, worstSpan, regain, down, n: years.length - 1, nineties, drop90: r[nineties[1]] / r[nineties[0]] - 1, regain90, last: r[2025] / r[2024] - 1 };
+}
+const A = stats("hpi_santa_clara_county"), Bst = stats("hpi_san_francisco_county");
+const boe = SER.boe_inflation_factor.rows, full = boe.filter(x => x[2] >= 1.02).length;
+const boeAvg = Math.pow(boe.reduce((p, x) => p * x[2], 1), 1 / boe.length) - 1;
+const cdi = SER.cdi_statewide_residential.rows, prem = x => x[1] / x[2];
+const cdiGrowth = Math.pow(prem(cdi[cdi.length - 1]) / prem(cdi[0]), 1 / (cdi.length - 1)) - 1;
+const factorFor = y => { const hit = boe.find(x => x[0].startsWith(String(y) + "-")); return hit ? hit[2] - 1 : null; };
+
+// Household percentage changes exactly as supplied (percentages only; no dollar history is published).
+const HIST = [
+  // year, AV change A, tax change A, AV change B, tax change B
+  [2014, 0.5, null, null, null], [2015, 2, 2.8, null, null], [2016, 1.5, 4.6, 1.5, 1.6], [2017, 2, -0.5, 2, 3.9], [2018, 2, 0, 2, 18.4],
+  [2019, 2, 2.8, 2, 3.5], [2020, 2, 0, 2, 3], [2021, 1, 1.5, 1, -5.9], [2022, 2, 1.4, 2, 2], [2023, 2, 2.4, 2, 3.4], [2024, 2, 1.2, 2, 6.2], [2025, 2, 2.9, 2, 5.3], [2026, 2, null, null, null]
+];
+const NOTES = {
+  2017: "Property A bill fell while its assessment rose 2%: check the county bill.",
+  2018: "Property A bill identical to 2017 (looks like a repeated entry). Property B jump: a new flat school parcel tax reportedly began in July 2018; amount not confirmed on an official page.",
+  2020: "Property A bill identical to 2019 (looks like a repeated entry).",
+  2021: "Factor below 2% because California CPI rose only 1.036%. Property B drop: consistent with the Rent Board fee leaving the tax bill (official: owners pay it directly ‘as of 2022’).",
+  2024: "Property B bill rising about three times as fast as its assessment: flat parcel taxes, most of them inflation-adjusted.",
+  2025: "Same pattern for Property B."
+};
+const sign = v => v === null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1).replace(/\.0$/, "") + "%";
+
+main.innerHTML = UI.hero("Verification · official sources re-opened 11 November 2026",
+  "Verified facts, with the link and the wording.",
+  "An independent check of the law, rates and thresholds the dashboard relies on. Each row gives the official page and what it says. Where a figure could not be confirmed on an official page, the value is left blank or the row is marked not confirmed. Household dollar amounts are not published here.",
+  `<a class="button" href="review.html">Flagged for Review</a><a class="button secondary" href="sources.html">Source register</a><a class="button secondary" href="plan.html">Best plan</a>`) + `<div class="container">
+<section class="section"><div class="grid four">
+<div class="card"><div class="metric-label">Facts confirmed on an official page</div><div class="metric small">${verified.length}</div><div class="tiny">Opened and read on 11 Nov 2026</div></div>
+<div class="card"><div class="metric-label">Not confirmed · blank or marked</div><div class="metric small">${open.length}</div><div class="tiny">Listed below and on Flagged for Review</div></div>
+<div class="card"><div class="metric-label">Corrections made to the dashboard</div><div class="metric small">4</div><div class="tiny">Two figures, one privacy fix, one label</div></div>
+<div class="card"><div class="metric-label">Newest official figure</div><div class="metric small">$15,480,000</div><div class="tiny">Federal exclusion for deaths in 2027, announced 5 Nov 2026</div></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">What changed</div><h2>Corrections made after checking</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Item</th><th class="wrap">Before</th><th class="wrap">Now</th><th>Official source</th></tr></thead><tbody>
+${row([td("<strong>Federal exclusion, 2027</strong>"), td("Shown as a modeled $15,300,000 with the note that the official amount was unknown."), td("$15,480,000, the amount the IRS published on 5 November 2026. Years from 2028 are still modeled, now starting from the official 2027 amount."), `<td class="source">${src("irs2027")}</td>`])}
+${row([td("<strong>Proposition 19 amount in future years</strong>"), td("Grown by two years of home-price change at each two-year step, giving about $1,690,870 by 2040."), td("Grown by one year of change at each step, which is what the Board of Equalization has done (2023: ×1.0226; 2025: ×1.0215), giving about " + UI.money(M.modelAllowance(2040)) + " by 2040. Living in Property A saves less tax than the dashboard showed."), `<td class="source">${src("boeLta2023012")} ${src("boeLta2025009")}</td>`])}
+${row([td("<strong>Privacy check in the build script</strong>"), td("Four private amounts were kept as SHA-256 hashes. Hashes of 4- and 6-digit numbers can be reversed by trying every number; all four were recovered in under two seconds."), td("Hashes removed. The check is now a rule with no household data in it: any dollar amount of $1,000 or more that is not a multiple of $10 and is not an official figure stops the build."), `<td class="source">${src("githubSensitive")}</td>`])}
+${row([td("<strong>Source column on model tables</strong>"), td("Rows without a source were given the same IRS link, labelled “Framework only”."), td("Column renamed to say what it is: the rule the model applies, not evidence for the number. Model results are calculations, not official figures."), `<td class="source">${src("irsInherited")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Ledger</div><h2>Every fact, its official page and the wording found</h2><p>“Confirmed” means the page was opened and the figure read on it. “Not confirmed” means it was seen only in a search extract or a non-official summary, or no official source publishes it; those values are blank or marked.</p></div></div>
+<div id="ledger"></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Household history, checked</div><h2>Assessment and tax-bill changes against the official yearly factor</h2><p>Percentages only, as supplied by the household. Dollar histories are withheld from this site as a privacy precaution. The assessed-value changes match the Board of Equalization's factor in every year; the tax bills do not move with the assessment, and the notes say why.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Official factor</th><th class="number">Property A assessment</th><th class="number">Property A tax bill</th><th class="number">Property B assessment</th><th class="number">Property B tax bill</th><th class="wrap">Note</th><th>Official source</th></tr></thead><tbody>
+${HIST.map(([y, avA, taxA, avB, taxB]) => row([td(String(y), ""), num("+" + (factorFor(y) * 100).toFixed(3) + "%"), num(sign(avA)), num(sign(taxA)), num(sign(avB)), num(sign(taxB)), td(NOTES[y] || (y === 2014 || y === 2016 || y === 2021 ? "Below 2% because California CPI rose less than 2%." : "")), `<td class="source">${src(y === 2018 ? "sfParcelTaxes" : y === 2021 ? "sfRentBoardFee" : "boeLta2026002", y === 2018 ? "SF parcel taxes" : y === 2021 ? "SF Rent Board fee" : "BOE factor table")}</td>`])).join("")}
+</tbody></table></div>
+<p class="tiny">The household's figures are rounded to the half or whole percent. One Property B year is about $40 below the straight factor; later years continue from the lower figure. Tax-bill changes are the household's own calculation and are not verified against bills.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">What the bills are made of</div><h2>Rate-based tax and flat charges</h2><p>This matters for projections: after a reassessment only the rate-based part grows with the value. Flat charges grow with inflation and with new voter measures.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Property</th><th class="wrap">Rate on assessed value (official)</th><th class="wrap">Flat charges on the bill (official list)</th><th class="wrap">Share of the latest bill (derived, rounded)</th><th class="wrap">What it means</th><th>Official source</th></tr></thead><tbody>
+${row([td("<strong>Property A · Cupertino</strong>"), td("1% plus bond rates. The FY 2025-26 components listed for Cupertino-area schools, college, county and open space add up to 1.1636%. The parcel's own tax-rate area is not confirmed."), td("Not itemized on an official page that could be opened. Left blank."), td("About 86–87% rate-based; about $930–$1,010 a year flat."), td("At full market value the rate-based part would be about five to six times larger; the flat part would not change."), `<td class="source">${src("sccRateBook2526")}</td>`])}
+${row([td("<strong>Property B · San Francisco</strong>"), td("1.18162182% for FY 2026-27."), td("FY 2025-26: School Parcel Tax of 2020 $334.38; SFUSD Teacher Support $319.34; SFUSD Facilities District $21.50 per unit; City College $99; Bay Restoration $12. For three units: $829.22."), td("About 55% rate-based; about 45% flat (about $1,090), of which about $260 is not explained by the five listed items."), td("The bill grows faster than the 2% assessment cap because nearly half of it is flat charges, most of them inflation-adjusted. Model Property B's tax as rate × assessment plus flat charges, not as a single percentage."), `<td class="source">${src("sfTreasurerSecured")} ${src("sfParcelTaxes")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Costs</div><h2>Official recent changes against the model's assumptions</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Cost or rate</th><th class="wrap">Official recent change</th><th class="wrap">Dashboard assumption</th><th class="wrap">Reading</th><th>Official source</th></tr></thead><tbody>
+${row([td("<strong>San Francisco water and sewer</strong>"), td("About +12.6% (fiscal year ending 2027) and +12.5% (2028) for the average single-family bill, in the rate notice."), td("+3% a year"), td("Too low for the next two years. If the building's bill moves the same way, $330–$400 a month becomes about $370–$450 and then $420–$510. Multi-family bills differ; check the bill."), `<td class="source">${src("sfpucRates2026")}</td>`])}
+${row([td("<strong>Cupertino water</strong>"), td("About +2.8% from 1 January 2026 under the approved rate case, plus a wholesale increase from 1 July 2026."), td("+3% a year"), td("In line. The water company for the address is not confirmed."), `<td class="source">${src("sjw2026")}</td>`])}
+${row([td("<strong>Home insurance, California average</strong>"), td(`Premium per policy-year across all residential policy types: about ${UI.money(prem(cdi[0]))} in 2018 and ${UI.money(prem(cdi[cdi.length - 1]))} in 2023, or +${pct(cdiGrowth)} a year. Average dwelling coverage ${UI.money(cdi[cdi.length - 1][3])}.`), td("$1,500 a year for each property, +3% a year"), td("The starting figure is the household's guess and no official page gives a premium for a specific home. The growth assumption is well below the recent statewide trend. Get quotes."), `<td class="source">${src("cdiSb824")}</td>`])}
+${row([td("<strong>Assessed value while owned</strong>"), td(`The 2% cap applied in ${full} of the last ${boe.length} rolls; the average factor was +${pct(boeAvg, 2)} a year.`), td("+2% a year"), td("Slightly high, so projected tax on an unchanged assessment is slightly overstated."), `<td class="source">${src("boeLta2026002")}</td>`])}
+${row([td("<strong>San Francisco rent increases</strong>"), td("1.6% (from March 2026), 1.4% (2025), 1.7% (2024) for covered units."), td("+1.6% a year"), td("In line. Rent grows more slowly than the building's costs."), `<td class="source">${src("sfRentRates")}</td>`])}
+${row([td("<strong>Home prices</strong>"), td(`Santa Clara County: +${pct(A.cagr(1975, 2025))} a year over 1975–2025, +${pct(A.cagr(2000, 2025))} over 2000–2025. San Francisco County: +${pct(Bst.cagr(1975, 2025))} and +${pct(Bst.cagr(2000, 2025))}.`), td("+3.5% a year for both"), td("Below the long record. If prices keep their past pace, holding Property A does better than the base case shows; see the stress check on the Best plan page."), `<td class="source">${src("fredSccCounty")} ${src("fredSfCounty")}</td>`])}
+${row([td("<strong>Federal exclusion</strong>"), td("+3.2% from 2026 to 2027."), td("+2% a year from 2028"), td("Cautious: projected room under the threshold is slightly understated."), `<td class="source">${src("irs2027")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Local record</div><h2>Fifty years of county house prices</h2><p>Federal Housing Finance Agency all-transactions indexes, yearly. County indexes, not a value for either property.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Measure</th><th class="number">Santa Clara County</th><th class="number">San Francisco County</th><th>Official data</th></tr></thead><tbody>
+${[["Average yearly change, 1975–2025", pct(A.cagr(1975, 2025)), pct(Bst.cagr(1975, 2025))],
+   ["Average yearly change, 2000–2025", pct(A.cagr(2000, 2025)), pct(Bst.cagr(2000, 2025))],
+   ["Average yearly change, 2015–2025", pct(A.cagr(2015, 2025)), pct(Bst.cagr(2015, 2025))],
+   ["Average yearly change, 2020–2025", pct(A.cagr(2020, 2025)), pct(Bst.cagr(2020, 2025))],
+   ["Latest year, 2024 to 2025", pct(A.last), pct(Bst.last)],
+   ["Largest fall from a peak", `${pct(A.worst)} (${A.worstSpan[0]}–${A.worstSpan[1]})`, `${pct(Bst.worst)} (${Bst.worstSpan[0]}–${Bst.worstSpan[1]})`],
+   ["Year the earlier peak was regained", String(A.regain), String(Bst.regain)],
+   ["Early-1990s fall", `${pct(A.drop90)} (${A.nineties[0]}–${A.nineties[1]}), regained ${A.regain90}`, `${pct(Bst.drop90)} (${Bst.nineties[0]}–${Bst.nineties[1]}), regained ${Bst.regain90}`],
+   ["Years in which the index fell", `${A.down} of ${A.n}`, `${Bst.down} of ${Bst.n}`]
+  ].map(([a, b, c]) => row([td(`<strong>${a}</strong>`), num(b), num(c), `<td class="source">${src("fredSccCounty", "Santa Clara")} ${src("fredSfCounty", "San Francisco")}</td>`])).join("")}
+</tbody></table></div>
+<p class="tiny">Growth has never been steady: about one year in four showed a fall, and after the 2006 peak it took nine years in Santa Clara County and eight in San Francisco to get back. Since 2015 the two counties have parted: Santa Clara County has risen about five percent a year, San Francisco about three.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">How this page is checked</div><h2>Publication gate</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Check</th><th class="wrap">Rule</th><th class="wrap">Why</th><th>Reference</th></tr></thead><tbody>
+${row([td("<strong>Rounding</strong>"), td("Every dollar amount of $1,000 or more shown on any page must be a multiple of $10, unless it is an official published figure listed in this ledger."), td("Keeps household figures from being matched to a record. The rule holds no household data, so the check itself cannot leak."), `<td class="source">${src("githubSensitive", "GitHub · sensitive data")}</td>`])}
+${row([td("<strong>Identifiers</strong>"), td("No street address, parcel number, e-mail address or account number on any page."), td("Properties are called A and B throughout."), `<td class="source">${src("githubSensitive", "GitHub · sensitive data")}</td>`])}
+${row([td("<strong>Links</strong>"), td("Every internal link resolves; every table row carries an https link to an official page."), td("Run on the pages as rendered in a browser engine, not on the source text."), `<td class="source">${src("irsInherited", "Example of a row source")}</td>`])}
+</tbody></table></div>
+<p class="tiny">Run with <span class="code">python3 scripts/package-site.py &amp;&amp; node qa/tools/gate.cjs</span>. The ledger lives in <span class="code">qa/ledger.json</span>; this page is generated from it.</p></section>
+</div>`;
+
+document.getElementById("ledger").innerHTML = TOPICS.filter(([t]) => L.some(e => e.topic === t)).map(([t, title]) => {
+  const items = L.filter(e => e.topic === t);
+  return `<details class="card" ${["federal-estate", "prop19"].includes(t) ? "open" : ""}><summary><strong>${title}</strong> · ${items.length} ${items.length === 1 ? "entry" : "entries"}</summary><div class="table-wrap"><table><thead><tr><th class="wrap">Fact</th><th class="wrap">Value</th><th class="wrap">Wording found on the page</th><th>Status</th><th>Official source</th></tr></thead><tbody>
+  ${items.map(e => row([td(`<strong>${esc(e.claim)}</strong>${e.notes ? `<div class="tiny">${esc(e.notes)}</div>` : ""}`), td(e.value ? esc(e.value) : "— <span class=\"tiny\">left blank</span>"), td(`<span class="tiny">${esc(e.evidence)}</span>`), td(e.status === "verified" ? UI.badge("Confirmed") : UI.badge("Not confirmed", "red"), ""), `<td class="source">${link(e.url, esc(e.source.split(" - ")[0].split(" (")[0].slice(0, 60)))}<div class="tiny">${esc(e.id)} · ${esc(e.checked)}</div></td>`])).join("")}
+  </tbody></table></div></details>`;
+}).join("");
+</script></body></html>

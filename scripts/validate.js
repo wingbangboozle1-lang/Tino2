@@ -67,11 +67,14 @@ const mcA = SC.monteCarlo({paths: 200}), mcB = SC.monteCarlo({paths: 200});
 near(mcA.summary[2045].p50.sell, mcB.summary[2045].p50.sell, 1e-9, "Monte Carlo is seeded and reproducible");
 ok(mcA.summary[2045].sellBeatsRent > 0 && mcA.summary[2045].sellBeatsRent < 1, "Monte Carlo produces mixed outcomes");
 near(MODEL.modelAllowance(2026), 1044586, 1e-9, "Prop 19 amount in the current BOE period");
-near(MODEL.modelAllowance(2030), 1044586 * Math.pow(1.035, 4), 1e-6, "Prop 19 amount compounds in completed two-year steps");
+near(MODEL.modelAllowance(2030), 1044586 * Math.pow(1.035, 2), 1e-6, "Prop 19 amount: one year of growth per biennial step (BOE LTA 2023/012, 2025/009)");
+near(MODEL.modelAllowance(2040), 1044586 * Math.pow(1.035, 7), 1e-6, "Prop 19 amount: seven biennial steps by 2040");
+near(MODEL.estateRow(2027).exclusion, 15480000, 1e-9, "official 2027 federal basic exclusion (IRS IR-2026-133)");
+near(MODEL.estateRow(2026).exclusion, 15000000, 1e-9, "official 2026 federal basic exclusion");
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 11, "eleven dashboard pages");
+ok(htmlFiles.length === 13, "thirteen dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
