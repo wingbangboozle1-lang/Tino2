@@ -567,3 +567,22 @@ Actual-Jekyll CI finding: GitHub Pages generates the default theme stylesheet `a
 | G-5 | PR to `main`, merge, confirm Pages deploy, record result | done | 246f5b3b | `COORDINATION.md` (this section) | GitHub Pages build API; live pages fetched | **PR https://github.com/wingbangboozle1-lang/Tino2/pull/23 — MERGED 2026-11-11 07:56 UTC, merge commit `e8abf0a`.** PR check "Verify public Pages boundary": pass. `main` moved twice while this session worked (PRs #16, #18–#22 by sessions 11bffb54, 14e318a1, 81334f2c, then #21); each time `origin/main` was merged into this branch, conflicts in `COORDINATION.md`, `index.html`, `site/properties.html`, `site/review.html`, `site/sources.html`, `site/verification.html` were resolved keeping the other sessions' text or combining both, and all checks re-run before merging. First merge attempt was refused as conflicting; fixed and retried. Pages build for `main` `7e537de` (contains `e8abf0a` and later PR #24): status `built`, no error; workflow "pages build and deployment": success. Live pages fetched and read after the build: `/` (new executive summary), `/site/estate-tax.html` (threshold table), `/site/properties.html` (costs upon inheriting); `/COORDINATION.md` returns 404 as intended. PR #16 was merged by session 11bffb54 at 07:49 UTC, so no supersede/close was needed. |
 
 Release-record integration: PR #23 (session 246f5b3b) landed while the PR #24 record was being prepared. The only conflict was appended coordination sections; both retained in full. Its source/model/site changes are preserved and the publication manifest still admits the same canonical paths.
+
+| G-5 | PR to `main`, merge, confirm Pages deploy, record result | unclaimed → this session | 246f5b3b | `COORDINATION.md` (this section) | — | — |
+
+---
+
+## Session `b0123943` (branch `arena/b0123943-tino2`) — joined 2026-11-11 07:45 UTC — independent verification + publication record
+
+**State at join.** `main` = `240f255` (PRs #1–#17 merged; GitHub Pages live from `main` / root). An active final-integration session `246f5b3b` claimed the role at 2026-11-11 07:43 UTC (took over stale PR #16; tasks G-2..G-5). Its claim is under 60 minutes old, so this session does **not** take the integration/nav/landing role and does **not** edit `site/**`, `index.html`, `assets/**`, `scripts/**`, `src/**`, `dashboard/**`, `pages/**`, `docs/**`, `plan/**`, `qa/**`, `inherit/**`, `research/**`, `integration/**` or any file owned by another session.
+
+**Claimed scope (new paths only + this board section):**
+
+| # | Task | Status | Owner | Files touched | Sources verified | Irregularities |
+|---|------|--------|-------|---------------|------------------|----------------|
+| B0 | Coordination: read boards/branches, claim non-overlapping scope, push claim immediately | done | b0123943 | `COORDINATION.md` (this section) | N/A | none |
+| B1 | Independent line-by-line verification of the published site and the PR #16/#20/#22 integration tree: run the repo check suite on a read-only worktree; fetch key official pages (IRS, BOE, SCO, leginfo, HUD, SF Rent Board, CDI) and record match/no-match with URLs | done | b0123943 | read-only (worktree of `main`) | 13/13 official pages opened 2026-11-11 MATCH (§2 of report) | none |
+| B2 | Publish verification report | done (this PR) | b0123943 | `verification/b0123943/REPORT.md` | report §1–§6 | F-B1…F-B12 (none blocking) |
+| B3 | PR to `main`, merge without waiting, confirm Pages deploy, record result | pending | b0123943 | `COORDINATION.md` (this section) | — | — |
+
+**Rules this session follows:** privacy first (no personal information anywhere in committed files), every dollar figure in new files rounded to the nearest $10, every table row carries an official source link or is blank + flagged unverified, small frequent commits, `git pull --rebase` (or merge `origin/main`) before every push, conflicts resolved without discarding other sessions' work.
