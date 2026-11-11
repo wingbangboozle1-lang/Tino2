@@ -42,8 +42,9 @@
     bRentMonthly: 7150,
     bRentBoardFeeAnnual: 118,
     prop19Amount: 1044586,
-    estateExclusion: 15000000,
-    estateIndex: 0.02
+    estateExclusion: 15000000,      // official, decedents dying in 2026 (IRS)
+    estateExclusion2027: 15480000,  // official, decedents dying in 2027 (IRS IR-2026-133; Rev. Proc. 2026-35 sec. 3.44)
+    estateIndex: 0.02               // assumption for 2028 onward only
   };
 
   // Private historical bill sequences are intentionally not distributed.
@@ -70,12 +71,17 @@
   function futureValue(present, annualRate, years) {
     return present * Math.pow(1 + annualRate, years);
   }
+  function prop19Steps(year) {
+    // Adjustments take effect every second February 16: 2027, 2029, 2031, ...
+    return Math.max(0, Math.floor((year - 2025) / 2));
+  }
   function modelAllowance(year, config = BASE) {
-    // BOE adjusts the Prop 19 amount every other February 16 using the FHFA House Price Index for California
-    // (BOE news release NR 25-02). Future amounts are unknown; this scenario compounds the cap at the
-    // model's home-price growth rate, one completed two-year step at a time (no look-ahead).
-    const completedSteps = Math.max(0, Math.floor((year - 2026) / 2));
-    return config.prop19Amount * Math.pow(1 + config.appreciation, 2 * completedSteps);
+    // BOE method, verified 2026-11-11 against Letters to Assessors 2023/012 and 2025/009:
+    // every second February 16 the amount is multiplied by ONE calendar year's change in the FHFA
+    // House Price Index for California (2023: x1.0226 for 2022; 2025: x1.0215 for 2024).
+    // The other year's change is not applied, so the amount grows at about half the pace of home prices.
+    // Future amounts are unknown; this scenario applies the model's home-price growth once per step.
+    return config.prop19Amount * Math.pow(1 + config.appreciation, prop19Steps(year));
   }
   function seriesFor(property, year, config = BASE) {
     const n = year - config.startYear;
@@ -210,7 +216,8 @@
   function estateRow(year, config = BASE) {
     const a = seriesFor("A", year, config).market;
     const b = seriesFor("B", year, config).market;
-    const exclusion = futureValue(config.estateExclusion, config.estateIndex, year - config.startYear);
+    // 2026 and 2027 are official IRS amounts; later years index the 2027 amount by an assumed rate.
+    const exclusion = year <= 2026 ? config.estateExclusion : futureValue(config.estateExclusion2027, config.estateIndex, year - 2027);
     const combined = a; // B is already owned by the heir, not the decedent.
     return { year, a, b, combined, exclusion, headroom: Math.max(0, exclusion - combined), excess: Math.max(0, combined - exclusion) };
   }
@@ -225,7 +232,7 @@
 
   window.MODEL = {
     BASE, historyA, historyB, round10, fmtMoney, fmtExact, fmtPct, futureValue,
-    modelAllowance, seriesFor, inheritanceValues, annualA, afterTaxPortfolioReturn,
+    modelAllowance, prop19Steps, seriesFor, inheritanceValues, annualA, afterTaxPortfolioReturn,
     decision, sfAnnual, estateRow, historyChecks
   };
 })();
