@@ -74,7 +74,7 @@ window.UI.ensureRowSources = function () {
     const rows=[...table.querySelectorAll('tbody tr')];
     if(!rows.some(r=>!r.querySelector('a[href^="https://"]'))) return;
     const heading=document.createElement('th'); heading.textContent='Official framework / model context';
-    const head=table.querySelector('thead tr'); if(head) head.append(heading);
+    const head=table.querySelector('thead tr'); if(head && !head.querySelector('[data-framework]')) { heading.dataset.framework='true'; head.append(heading); }
     rows.forEach(r=>{
       const cell=document.createElement('td');cell.className='source';
       cell.innerHTML=UI.source('irsBasis','Framework only · scenario unverified');r.append(cell);

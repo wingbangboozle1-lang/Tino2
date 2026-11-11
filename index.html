@@ -63,7 +63,7 @@
       <section class="section">
         <div class="section-heading"><div><div class="eyebrow">Dashboard</div><h2>Go deeper by category</h2></div></div>
         <div class="grid three">
-          <a class="card" href="site/properties.html" style="text-decoration:none;color:inherit"><h3>Property projections →</h3><p class="muted">Annual market values, assessments, property taxes, operating costs, historical household inputs and rental sensitivity through 2050.</p></a>
+          <a class="card" href="site/properties.html" style="text-decoration:none;color:inherit"><h3>Property projections →</h3><p class="muted">Annual market values, assessments, property taxes, operating costs, withheld private histories and rental sensitivity through 2050.</p></a>
           <a class="card" href="site/decision.html" style="text-decoration:none;color:inherit"><h3>Live / rent / sell →</h3><p class="muted">Interactive inheritance year, holding period and return assumptions, with transparent annual cash flow and terminal wealth.</p></a>
           <a class="card" href="site/inheritance.html" style="text-decoration:none;color:inherit"><h3>Trust administration →</h3><p class="muted">Death-to-distribution checklist, notices, assessor filings, tax basis, deadlines and professional handoffs.</p></a>
           <a class="card" href="site/estate-tax.html" style="text-decoration:none;color:inherit"><h3>Estate-tax headroom →</h3><p class="muted">Real-estate-only scenarios, federal threshold mechanics, deductions, portability and an honest list of missing estate data.</p></a>
@@ -84,8 +84,8 @@
     const estate2026 = MODEL.estateRow(2026);
     const estate2040 = MODEL.estateRow(2040);
     document.getElementById("summary-metrics").innerHTML = [
-      ["Current real-estate inputs", UI.money(estate2026.combined), "Two properties · household values, not appraisals"],
-      ["2040 modeled real estate", UI.money(estate2040.combined), "3.5% annual growth assumption"],
+      ["Decedent’s Property A input", UI.money(estate2026.combined), "Heir-owned B excluded · not an appraisal"],
+      ["2040 modeled decedent real estate", UI.money(estate2040.combined), "3.5% annual growth assumption"],
       ["2040 modeled federal exclusion", UI.money(estate2040.exclusion), "2% indexing assumption; official amount unknown"],
       ["2040 real-estate-only headroom", UI.money(estate2040.headroom), "Before all other estate items and DSUE"]
     ].map(([label, value, note]) => `<div class="card"><div class="metric-label">${label}</div><div class="metric small">${value}</div><div class="tiny">${note}</div></div>`).join("");

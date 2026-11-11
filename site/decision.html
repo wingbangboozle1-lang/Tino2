@@ -84,10 +84,10 @@ function render() {
     return `<td class="number ${diff < 0 ? "negative" : "positive"}">${diff >= 0 ? "Sell +" : "Rent +"}${UI.money(Math.abs(diff))}</td>`;
   }).join("")}</tr>`).join("");
 }
-ids.forEach(id => document.getElementById(id).addEventListener("change", render));
+ids.forEach(id => document.getElementById(id).addEventListener("change", () => { render(); UI.ensureRowSources(); }));
 document.getElementById("reset").addEventListener("click", () => {
   const defaults = {inheritYear:2040,horizon:10,appreciation:0.035,netReturn:0.05,rentChoice:"4BR",capitalGainsTax:0.331};
-  ids.forEach(id => document.getElementById(id).value = defaults[id]); render();
+  ids.forEach(id => document.getElementById(id).value = defaults[id]); render(); UI.ensureRowSources();
 });
 document.getElementById("print").addEventListener("click", () => window.print());
 document.getElementById("download").addEventListener("click", () => {
