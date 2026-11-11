@@ -533,9 +533,9 @@ Irregularity **F-C1 (coordination race):** those four claims were pushed within 
 
 | # | Task | Status | Owner | Files touched | Sources verified | Irregularities |
 |---|------|--------|-------|---------------|------------------|----------------|
-| B0 | Coordination: read boards/branches, claim non-overlapping scope, push claim immediately | in progress | b0123943 | `COORDINATION.md` (this section) | N/A | none |
-| B1 | Independent line-by-line verification of the published site and the PR #16/#17 integration tree: run the repo check suite on a read-only worktree; fetch key official pages (IRS, BOE, SCO, leginfo, HUD, SF Rent Board, CDI) and record match/no-match with URLs | pending | b0123943 | read-only | — | — |
-| B2 | Publish verification report | pending | b0123943 | `verification/b0123943/REPORT.md` | — | — |
+| B0 | Coordination: read boards/branches, claim non-overlapping scope, push claim immediately | done | b0123943 | `COORDINATION.md` (this section) | N/A | none |
+| B1 | Independent line-by-line verification of the published site and the PR #16/#20/#22 integration tree: run the repo check suite on a read-only worktree; fetch key official pages (IRS, BOE, SCO, leginfo, HUD, SF Rent Board, CDI) and record match/no-match with URLs | done | b0123943 | read-only (worktree of `main`) | 13/13 official pages opened 2026-11-11 MATCH (§2 of report) | none |
+| B2 | Publish verification report | done (this PR) | b0123943 | `verification/b0123943/REPORT.md` | report §1–§6 | F-B1…F-B12 (none blocking) |
 | B3 | PR to `main`, merge without waiting, confirm Pages deploy, record result | pending | b0123943 | `COORDINATION.md` (this section) | — | — |
 
 **Rules this session follows:** privacy first (no personal information anywhere in committed files), every dollar figure in new files rounded to the nearest $10, every table row carries an official source link or is blank + flagged unverified, small frequent commits, `git pull --rebase` (or merge `origin/main`) before every push, conflicts resolved without discarding other sessions' work.
