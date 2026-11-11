@@ -18,7 +18,7 @@ Repository-only; not published. No household figure is typed in this folder: `op
 2. The depreciation figures use three assumed building shares, full-year deductions, no $25,000 allowance and the highest possible tax rate on the deduction at sale. The page states each assumption and also gives the opposite extreme.
 3. The old-rule test changes one thing only: the assessed value carried by the heir. It does not model any other part of the failed measure.
 4. The estate-tax table assumes no prior taxable gifts, no unused exclusion from a parent who died first, and no deductions. The exclusion after 2027 is the model's projection.
-5. Eight official documents were read from the official site's search-result text only (marked "extract" in `research/0d6ec51e/completeness-ledger.md`). They are flagged on the site.
+5. Eight ledger rows were read from the official site's search-result text only (marked "extract" in `research/0d6ec51e/completeness-ledger.md`). Seven of them support a statement on the site and are flagged there; the eighth (a Secretary of State news release) is background only.
 
 ## Irregularities
 
@@ -27,7 +27,7 @@ Repository-only; not published. No household figure is typed in this folder: `op
 | N-I1 | The published rental case contains no depreciation, although the checklist page tells the reader to reconcile it | Quantified on the new page; ranking unchanged; published figures left as they are |
 | N-I2 | No plan includes estate tax on the money, and the amount of money is not in the record | Flagged High; table by amount published |
 | N-I3 | The recommendation depends on the current reassessment rule | Flagged High; test published; initiative status verified |
-| N-I4 | Eight documents not opened, read from extracts | Flagged Medium |
+| N-I4 | Seven documents used on the site were not opened, only read from extracts | Flagged Medium |
 | N-I5 | The source register labels those entries "Carried forward · needs revalidation"; they were not carried forward, they were read from extracts | Cosmetic; the register's rule was not changed because another session wrote it |
 | N-I6 | This session's first board entry gave its claim time as 13:27 UTC; the push was at 13:18 UTC | Corrected in the block |
 | N-I7 | Steps for which no official page was opened (affidavit of death of trustee, preliminary change of ownership report, supplemental-bill timing) | Not published; listed in the ledger as open |

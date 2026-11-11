@@ -156,5 +156,5 @@ document.getElementById("year").addEventListener("change", render);
 render();
 
 // Added by session 0d6ec51e: pointer to the completeness check. Nothing above is changed.
-document.querySelector("#main .container").insertAdjacentHTML("beforeend", `<section class="section"><div class="card soft"><h3>Checked for gaps on 11 November 2026</h3><p>The four plans hold the house for ten years or sell at once. Shorter holds, an empty house, depreciation in the rental case and a return of the pre-2021 reassessment rule are worked out on a separate page. None of them changes the ranking; each year of waiting before a sale costs money.</p><p><a class="button secondary" href="options.html">Other options and missing steps</a></p></div></section>`);
+document.getElementById("main").insertAdjacentHTML("afterend", `<div class="container"><section class="section"><div class="card soft"><h3>Checked for gaps on 11 November 2026</h3><p>The four plans hold the house for ten years or sell at once. Shorter holds, an empty house, depreciation in the rental case and a return of the pre-2021 reassessment rule are worked out on a separate page. None of them changes the ranking; each year of waiting before a sale costs money.</p><p><a class="button secondary" href="options.html">Other options and missing steps</a></p></div></section></div>`);
 </script></body></html>

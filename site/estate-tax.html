@@ -77,5 +77,5 @@ for (let year=2026; year<=2050; year++) {
 UI.ensureRowSources();
 
 // Added by session 0d6ec51e: pointer to the completeness check. Nothing above is changed.
-document.querySelector("#main .container").insertAdjacentHTML("beforeend", `<section class="section"><div class="card soft"><h3>Checked for gaps on 11 November 2026</h3><p>This page counts Property A only. The tax for a range of amounts of money added to it, and the rules for each kind of inherited money (deposits, investments, retirement accounts, life insurance, income inside the trust), are on a separate page.</p><p><a class="button secondary" href="options.html">Other options and missing steps</a></p></div></section>`);
+document.getElementById("main").insertAdjacentHTML("afterend", `<div class="container"><section class="section"><div class="card soft"><h3>Checked for gaps on 11 November 2026</h3><p>This page counts Property A only. The tax for a range of amounts of money added to it, and the rules for each kind of inherited money (deposits, investments, retirement accounts, life insurance, income inside the trust), are on a separate page.</p><p><a class="button secondary" href="options.html">Other options and missing steps</a></p></div></section></div>`);
 </script></body></html>
