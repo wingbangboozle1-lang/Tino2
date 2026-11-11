@@ -357,7 +357,7 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 | V-1 | Coordination: read all boards/branches, claim non-overlapping scope, push claim immediately | done | 457907c1 | `COORDINATION.md` (this section only) | N/A | None |
 | V-2 | Post-merge verification of the combined `main` tree: full test suite (`scripts/validate.js`, `scripts/stress-test.js`, `scripts/runtime-test.cjs`, `scripts/package-site.py`, `src/check_links.py`, `integration/tools/privacy_scan.py`), Pages API deploy status for the current merge commit, broken-link and privacy status | done | 457907c1 | `verification/457907c1/REPORT.md` | 6/6 checks PASS on merged tree (`a841d23`); Pages run `success`; privacy scan 0 errors / 42 warnings (all non-household, other sessions' files) | V-I-1…V-I-4 in REPORT §5 |
 | V-3 | Independent spot re-check of key published legal/tax figures against official sources (IRS 2026 basic exclusion, Prop 19 exclusion amount, county tax rates, rent rules, HUD SAFMRs, trust/assessor deadlines) using direct fetches; every check recorded with the official URL and access date | done | 457907c1 | `verification/457907c1/REPORT.md` §3 | 10/10 official pages opened 2026-11-11 (IRS, SCO, BOE NR 25-02, SF minutes Res. 524-26, SF Rent Board ×2, HUD SAFMR ×2, Prob. Code §16061.7, BOE pub800-9); all Match | none — 10/10 Match |
-| V-4 | Publish this session's verification report and coordination record via own PR to `main`, merge without waiting, confirm Pages deploy, record PR link + merge result here | in progress | 457907c1 | `verification/457907c1/**`, `COORDINATION.md` (this section) | — | — |
+| V-4 | Publish this session's verification report and coordination record via own PR to `main`, merge without waiting, confirm Pages deploy, record PR link + merge result here | done | 457907c1 | `verification/457907c1/REPORT.md`, `COORDINATION.md` (this section) | PR #15 merged; Pages run 42961279245 success; report live | none |
 
 **Rules this session follows:** privacy first (no personal information in any committed file; no household figure repeated in this file), all dollar figures in new files rounded to the nearest $10, every table row in the new report carries an official source link or is left blank + flagged unverified, small frequent commits, `git pull --rebase` equivalent (merge `origin/main`) before every push, conflicts resolved without discarding other sessions' work.
 
@@ -366,6 +366,15 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 | Time (UTC) | From | To | Entry |
 |---|---|---|---|
 | 2026-11-11 04:19 | 457907c1 | all sessions | I claim only `verification/457907c1/**` + this COORDINATION section. I will not touch shared outputs or any path listed above. Findings that belong on a flagged page I cannot edit are logged here for the owner of that page. |
+
+### Session `457907c1` — publication result
+
+- PR [#15](https://github.com/wingbangboozle1-lang/Tino2/pull/15) (`arena/457907c1-tino2` -> `main`) merged without waiting for approval on 2026-11-11 at 04:45 UTC; merge commit `d161c3abd50732d2844b4e03a7cb14e107750af3`. State `MERGED`, `mergeable/clean` at merge time.
+- GitHub Pages run `42961279245` for `d161c3a` completed `success` (build, report-build-status, deploy). Pages API: `built`, source `main` / root.
+- Live confirmation: https://wingbangboozle1-lang.github.io/Tino2/verification/457907c1/REPORT.md renders the full report on the deployed site; the landing page renders the executive summary, decision preview with per-row source links, and links to all 10 category pages including the three black-swan/stress pages.
+- Verification results on the tree merged into the PR (based on `a841d23`): 6/6 automated checks PASS (581 validations / 11 pages / 70 sources; 11 rendered pages / 763 source-linked rows; 54 pages / 871 rows link check; privacy scan 0 errors); 10/10 independent official-source spot re-checks Match (IRS, SCO, BOE, SF minutes, SF Rent Board, HUD, Probate Code — URLs in the report).
+- Merge log note: one conflict in `COORDINATION.md` when integrating PR #14 (session 70f163d0) was resolved by keeping both session sections in full; no other session's work was discarded.
+- Open flagged items recorded in report §5 (V-I-1 non-$10 research averages in other sessions' legacy files; V-I-2 jsdom env note for runtime test; V-I-3 external links not machine-checkable; V-I-4 legacy dashboards pending final integration). Non-blocking per brief.
 
 ## Session `70f163d0` (branch `arena/70f163d0-tino2`) — claim, overlap and completion
 
