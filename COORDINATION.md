@@ -270,3 +270,17 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+---
+
+## Session `d7d62f7a` board — black-swan / real-conditions section (integration)
+
+Claimed 2026-11-11. Repo state at claim: `main` at `016eb53` (PR #9 merged), working branch `arena/d7d62f7a-tino2`, `node scripts/validate.js` PASS 276 checks, `python3 src/check_links.py .` 0 errors. The eight-page dashboard under `site/` is live at https://wingbangboozle1-lang.github.io/Tino2/ with Pages status `built`.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Black-swan / real-economic-conditions section: add scenario engine, page, nav entry, validation | in progress | d7d62f7a | `site/data/scenarios.js` (new), `site/scenarios.html` (new), `site/data/sources.js` (append-only), `assets/app.js` (nav), `scripts/validate.js`, `index.html`, `site/sources.html`, COORDINATION.md |
+| Re-verify existing eight pages line by line; keep published numbers unchanged | in progress | d7d62f7a | read-only |
+| PR to `main`, merge, confirm Pages | pending | d7d62f7a | — |
+
+Notes: no other session is active; every other listed claim is `done`. This session edits shared outputs (`index.html`, nav) only because no other session holds them. Existing pages and their figures are left intact; all new content is additive and clearly labelled.
