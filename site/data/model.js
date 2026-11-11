@@ -71,9 +71,11 @@
     return present * Math.pow(1 + annualRate, years);
   }
   function modelAllowance(year, config = BASE) {
-    // Explicit assumption only: the official post-February-2027 amount is not yet published.
-    const periods = Math.max(0, Math.ceil((year - 2026) / 2));
-    return config.prop19Amount * Math.pow(1.02, periods);
+    // BOE adjusts the Prop 19 amount every other February 16 using the FHFA House Price Index for California
+    // (BOE news release NR 25-02). Future amounts are unknown; this scenario compounds the cap at the
+    // model's home-price growth rate, one completed two-year step at a time (no look-ahead).
+    const completedSteps = Math.max(0, Math.floor((year - 2026) / 2));
+    return config.prop19Amount * Math.pow(1 + config.appreciation, 2 * completedSteps);
   }
   function seriesFor(property, year, config = BASE) {
     const n = year - config.startYear;
@@ -147,6 +149,9 @@
       firstYearTax: 0,
       firstYearCash: netImmediateSale * portfolioReturn,
       terminal: netImmediateSale * Math.pow(1 + portfolioReturn, horizon),
+      // Conservative bound: also tax ALL portfolio growth above the invested principal at the capital-gain scenario rate
+      // (the annual drag already taxes part of the return, so this deliberately double-counts to bracket the result).
+      terminalAfterLiquidation: netImmediateSale * Math.pow(1 + portfolioReturn, horizon) - Math.max(0, netImmediateSale * (Math.pow(1 + portfolioReturn, horizon) - 1)) * config.capitalGainsTax,
       cashReserve: 0,
       finalSale: 0,
       capitalGainsTax: 0

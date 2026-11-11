@@ -35,6 +35,6 @@
 ## Example: Cupertino home inherited ~2045 (projection — assumptions flagged)
 - Projected factored base year value at inheritance (2026 AV $550,540 growing at the Prop 13 cap of 2%/yr for 19 years): ≈ $802,030 (modeled — assumption).
 - Projected market value at inheritance (2026 estimate $3,100,000 growing 3%/yr for 19 years — assumption, not official): ≈ $5,435,870.
-- If heir lives in as primary residence and files timely: new assessed value = $802,030 + ($5,435,870 − $802,030 − $1,044,586) = $4,391,284 ≈ $4,391,280 (modeled, holds the 2025-2027 cap amount constant — future cap unknown/flagged).
+- If heir lives in as primary residence and files timely: new assessed value = $802,030 + ($5,435,870 − $802,030 − $1,044,586) ≈ $4,391,280 (modeled, holds the 2025-2027 cap amount constant — future cap unknown/flagged).
 - If heir does NOT live in (rent/sell prep): full reassessment to ≈ $5,435,870.
 - All post-inheritance figures above rely on unverified appreciation assumptions and an unknowable future cap amount — flagged for review.

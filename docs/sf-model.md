@@ -40,7 +40,7 @@ Assessed value continues +2%/yr; tax modeled at 1.22%. No reassessment occurs wh
 | Property tax (modeled) | −$1,420 |
 | Landlord insurance (indicative quote) | −$2,240 |
 | Maintenance & repairs | Not estimated — no official source |
-| Net operating income excl. maintenance | ≈ $77,100/yr ($6,425/mo) |
+| Net operating income excl. maintenance | ≈ $77,100/yr ($6,430/mo) |
 | Plus potential 3rd-unit rent | Not estimated — market rent unverified |
 
 If all 3 units rented at similar rates, income could rise materially (rent estimates unverified — flagged).

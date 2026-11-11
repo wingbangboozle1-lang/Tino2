@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Black-swan economic stress tests over a 50-year horizon for an inherited Property A and an already-owned Property B: historical replays, assumption-based shocks and a seeded Monte Carlo."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Black swans and economic scenarios">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/history.js"></script><script src="data/model.js"></script><script src="data/history-engine.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const S = window.SCEN, M = window.MODEL;
+const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+const SRC = k => UI.source(k);
+const BEST = { sell: "Sell & reinvest", sellLiq: "Sell & reinvest", rent: "Rent, then sell", live: "Live, then sell", liveSF: "Live + rent freed SF unit" };
+
+main.innerHTML = UI.hero("Black swans · 50-year stress tests", "Growth and inflation are never smooth.", "A straight-line projection assumes 3.5% home growth and 2.3% inflation every year for 50 years. Real economies deliver booms, crashes and inflation spikes in clusters. This page is the data-driven companion to the Stress tests and Shock replays pages: it replays recorded official annual data, adds clearly labelled assumption shocks, and runs 2,000 seeded random 50-year histories — then asks which strategy for the inherited Property A is least regretted.", `<a class="button" href="decision.html">Back to the decision lab</a><a class="button secondary" href="stress.html">50-year paths to 2095</a><a class="button secondary" href="scenarios.html">Shock replays</a><a class="button secondary" href="review.html">Flagged for review ⚑</a>`) + `<div class="container">
+<section class="section"><div class="grid three" id="headline"></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">1 · What the record says</div><h2>Fifty years of official data versus the straight-line baseline</h2><p>Computed in your browser from index levels downloaded from FRED (Federal Reserve Bank of St. Louis) on 11 Nov 2026. Metro-area house-price indexes are not Cupertino or parcel values.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Measure</th><th class="number">Recorded</th><th class="number">Baseline assumption</th><th>Official source</th></tr></thead><tbody id="calibration"></tbody></table></div>
+<div class="callout"><strong>Read this carefully.</strong> Over 1976–2025 Bay Area homes compounded far faster than the 3.5% baseline, but the last year of data (2024→2025) was nearly flat and the path included three drawdowns of 12–40%. The baseline is deliberately below history; the stress tests ask what happens when the <em>order</em> of returns is unkind.</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">2 · Scenario catalogue</div><h2>Twelve economic worlds</h2><p>“Official-data replay” means each year’s CPI, yields, equity-price change and home-price change come from the recorded series. “Assumption” scenarios are invented stress paths and are flagged as such. Every scenario runs on top of the baseline outside its stressed years.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Scenario</th><th>Type</th><th class="wrap">Historical analog / construction</th><th class="wrap">Parameters</th><th class="wrap">Why it matters</th><th>Source</th></tr></thead><tbody id="catalogue"></tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">3 · Strategy results by scenario</div><h2>Which option holds up?</h2><p id="outcome-intro"></p></div><button class="button secondary" id="reset">Reset</button></div>
+<div class="controls">
+<div class="control"><label for="inheritYear">Inheritance year</label><select id="inheritYear">${UI.options("y", [[2040,"2040"],[2045,"2045 · base"],[2050,"2050"]], 2045)}</select></div>
+<div class="control"><label for="hold">Years held after inheritance</label><select id="hold">${UI.options("h", [[5,"5 years"],[10,"10 years · base"],[15,"15 years"],[20,"20 years"]], 10)}</select></div>
+<div class="control"><label for="shock">Year the shock begins</label><select id="shock">${UI.options("s", [[2030,"2030"],[2035,"2035"],[2040,"2040"],[2042,"2042 · base"],[2045,"2045"],[2050,"2050"],[2055,"2055"]], 2042)}</select></div>
+<div class="control"><label for="rentChoice">Property A rent benchmark</label><select id="rentChoice">${UI.options("r", [["4BR","4BR · HUD FY2026"],["3BR","3BR · HUD FY2026"]], "4BR")}</select></div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Scenario</th><th class="number">Property A value at inheritance</th><th class="number">Sell &amp; reinvest<br><span class="tiny">no liquidation tax</span></th><th class="number">Sell &amp; reinvest<br><span class="tiny">liquidated, taxed</span></th><th class="number">Rent, then sell</th><th class="number">Live, then sell</th><th class="number">Live + rent freed SF unit</th><th>Best<br><span class="tiny">(taxed basis)</span></th><th class="number">Best, in 2026 dollars</th><th>Source</th></tr></thead><tbody id="outcomes"></tbody></table></div>
+<p class="tiny">Nominal future dollars at the end of the holding period, rounded to $10. “Live” counts carrying costs only; it assigns no value to housing received, because the household already owns a place to live (Property B). “Live + rent freed SF unit” adds an after-tax rent for Property B’s currently unrented unit, at the HUD FY2026 one-bedroom benchmark indexed to inheritance and then grown at the SF allowable-increase rule (60% of CPI, max 7%) — unit legality, tenant rights and rent-control treatment are unverified. “Liquidated, taxed” also applies the capital-gain scenario rate to all portfolio growth, which is conservative.</p>
+<div id="timing-note" class="callout warning"></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">4 · Random 50-year histories</div><h2>Monte Carlo: 2,000 seeded paths</h2><p>Each path stitches together random 5-year blocks of the recorded 1977–2025 years (keeping the way home prices, inflation, yields and equities moved together). “Mean-adjusted” shifts each series so its long-run compound growth equals the baseline (3.5% homes, 2.3% CPI, 7.0% equities, 4.5% yields) but keeps the recorded volatility and crashes. “Raw history” keeps the recorded averages. Seed is fixed, so results are reproducible.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>History type</th><th>Inherit year</th><th class="number">Sell &amp; reinvest<br><span class="tiny">median (10th–90th)</span></th><th class="number">Sell, liquidated &amp; taxed<br><span class="tiny">median</span></th><th class="number">Rent, then sell<br><span class="tiny">median (10th–90th)</span></th><th class="number">Live + SF unit<br><span class="tiny">median</span></th><th class="number">Sell beats rent<br><span class="tiny">untaxed / taxed</span></th><th class="number">Sell beats live</th><th>Source</th></tr></thead><tbody id="mc"></tbody></table></div>
+<p class="tiny">Hold period and rent benchmark follow the controls above. Percent of simulated paths in which the first option finishes ahead. A 10th percentile means 1 path in 10 finished at or below that amount.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">5 · The household effect</div><h2>Property B is already owned — and exposed</h2><p>Property B (already owned, 3 units) is modeled with the same shocks. Its rent is regulated, so inflation shocks squeeze it, and its low Prop 13 base is the largest hidden dependency in the whole plan.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Scenario (shock year per control)</th><th class="number">NOI 2026</th><th class="number">NOI 2040</th><th class="number">NOI 2050</th><th class="number">NOI 2060</th><th class="number">Lowest NOI 2027–2076</th><th class="number">Property B value 2050</th><th>Source</th></tr></thead><tbody id="sf"></tbody></table></div>
+<p class="tiny">Net operating income = collected rent − management reserve − property tax − water − electricity − insurance − maintenance reserve − Rent Board fee, in nominal dollars. Property B’s tax is its carried-forward assessed value times the FY2026–27 official ad valorem rate (about 1.18%; direct charges and supplemental bills excluded); in the “assessments track market” scenario the same rate is applied to full market value. Property A’s tax uses the dashboard’s hypothetical 1.2% combined levy.</p>
+<div class="grid two" id="household-cards"></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">6 · Year-by-year path</div><h2>Every year, 2026–2076</h2><p>Pick a scenario to see inflation, home growth, Property A and B values, the Prop 13 factored assessment and property tax, and Property B’s NOI each year.</p></div><button class="button secondary" id="download">Download CSV</button></div>
+<div class="controls"><div class="control"><label for="pathScenario">Scenario</label><select id="pathScenario"></select></div></div>
+<div class="table-wrap" style="max-height:560px;overflow:auto"><table><thead><tr><th>Year</th><th class="number">CPI</th><th class="number">Property A growth</th><th class="number">Property A value</th><th class="number">Factored assessment (A, carried forward)</th><th class="number">A tax at carried-forward assessment</th><th class="number">A tax if fully reassessed</th><th class="number">Property B value</th><th class="number">Property B NOI</th><th class="number">Portfolio return (60/40, after drag)</th><th>Source</th></tr></thead><tbody id="path"></tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">7 · The recorded data</div><h2>Annual official series, 1970–2025</h2><p>These are the exact inputs used for the replays and Monte Carlo (index levels or percentages, not dollar amounts). Percent change columns are computed.</p></div></div>
+<div class="table-wrap" style="max-height:560px;overflow:auto"><table><thead><tr><th>Year</th><th class="number">CPI-U avg (index)</th><th class="number">Inflation</th><th class="number">San Jose HPI</th><th class="number">Change</th><th class="number">SF HPI</th><th class="number">Change</th><th class="number">California HPI</th><th class="number">10-yr yield</th><th class="number">30-yr mortgage</th><th class="number">US share price (index)</th><th class="number">Change</th><th>Official sources</th></tr></thead><tbody id="history"></tbody></table></div></section>
+
+<section class="section"><div class="grid two">
+<div class="card review"><h3>Limits of this analysis</h3><ul class="list">
+<li>Scenarios are not forecasts. Replays use one realised history; the future will differ.</li>
+<li>House-price indexes are metro-area, repeat-sale series, not Cupertino or parcel values.</li>
+<li>The share-price series excludes dividends; the model adds a flat 2.0-point dividend assumption. The “safe” sleeve earns the 10-year yield with no price change, which understates bond losses such as 2022.</li>
+<li>Portfolio is a fixed 60/40 mix with a 1-point annual tax drag; no rebalancing, fees or sequence-of-withdrawal effects.</li>
+<li>Insurance, lost-decades, tax-regime and Prop 19 repeal scenarios are assumptions, not official projections.</li>
+<li>The 2.3% CPI and 4.4–4.5% yield baselines are read from secondary summaries of CBO’s February 2026 outlook and are flagged for confirmation against CBO’s data tables.</li>
+</ul></div>
+<div class="card"><h3>Method notes</h3><ul class="list">
+<li>Same engine as the Decision lab: with constant rates it reproduces the lab’s results to the cent (verified in <span class="code">scripts/validate.js</span>).</li>
+<li>Prop 13 factor each year = lesser of 2% and CPI; Prop 8-style decline: assessment cannot exceed market value.</li>
+<li>Prop 19 value cap follows the model home-price path in completed two-year steps (BOE indexes it to the FHFA California HPI).</li>
+<li>Costs and market rent grow at CPI + 0.7 point (3.0% in the baseline); Property B rent at 60% of CPI, max 7%.</li>
+<li>Monte Carlo: 5-year block bootstrap of 1977–2025, seed 20261111, 2,000 paths.</li>
+</ul></div></div></section>
+</div>`;
+
+// ---------- static tables ----------
+document.getElementById("calibration").innerHTML = S.calibration().map(c => `<tr><td>${c.label}${c.note ? ` <span class="tiny">(${c.note})</span>` : ""}</td><td class="number"><strong>${pct(c.value)}</strong></td><td class="number">${c.assumption == null ? "—" : pct(c.assumption)}</td><td class="source">${SRC(c.series)}</td></tr>`).join("") +
+  `<tr><td>CBO long-run CPI inflation / 10-year yield (published projection)</td><td class="number">≈2.3% / ≈4.4%</td><td class="number">${pct(S.BASELINE.cpi)} / ${pct(S.BASELINE.bond)}</td><td class="source">${SRC("cbo")}<div class="tiny">Exact figures unverified at source; flagged</div></td></tr>`;
+document.getElementById("catalogue").innerHTML = S.SCENARIOS.map(sc => `<tr><td><strong>${sc.name}</strong></td><td>${sc.kind === "Assumption" ? UI.badge("Assumption", "gold") : sc.kind === "Baseline" ? UI.badge("Baseline", "neutral") : UI.badge(sc.kind)}</td><td class="wrap">${sc.analog}</td><td class="wrap">${sc.params}</td><td class="wrap">${sc.note}</td><td class="source">${SRC(sc.source)}</td></tr>`).join("");
+const fmtI = v => v == null ? "—" : v.toFixed(v > 100 ? 1 : 2);
+const rows = S.H;
+const years = Object.keys(rows).map(Number).sort((a, b) => a - b);
+const chg = (c, y) => (rows[y - 1] && rows[y][c] != null && rows[y - 1][c] != null) ? pct(rows[y][c] / rows[y - 1][c] - 1) : "—";
+document.getElementById("history").innerHTML = years.map(y => `<tr><td>${y}</td><td class="number">${fmtI(rows[y].cpi)}</td><td class="number">${chg("cpi", y)}</td><td class="number">${fmtI(rows[y].sj)}</td><td class="number">${chg("sj", y)}</td><td class="number">${fmtI(rows[y].sf)}</td><td class="number">${chg("sf", y)}</td><td class="number">${fmtI(rows[y].ca)}</td><td class="number">${rows[y].gs10 == null ? "—" : rows[y].gs10.toFixed(2) + "%"}</td><td class="number">${rows[y].mort == null ? "—" : rows[y].mort.toFixed(2) + "%"}</td><td class="number">${fmtI(rows[y].eq)}</td><td class="number">${chg("eq", y)}</td><td class="source"><a class="source-link" href="${SOURCES.fredCPI.url}" target="_blank" rel="noopener noreferrer">CPI ↗</a> <a class="source-link" href="${SOURCES.fredSJ.url}" target="_blank" rel="noopener noreferrer">SJ ↗</a> <a class="source-link" href="${SOURCES.fredSF.url}" target="_blank" rel="noopener noreferrer">SF ↗</a> <a class="source-link" href="${SOURCES.fredCA.url}" target="_blank" rel="noopener noreferrer">CA ↗</a> <a class="source-link" href="${SOURCES.fredGS10.url}" target="_blank" rel="noopener noreferrer">10Y ↗</a> <a class="source-link" href="${SOURCES.fredMortgage.url}" target="_blank" rel="noopener noreferrer">Mtg ↗</a> <a class="source-link" href="${SOURCES.fredOECD.url}" target="_blank" rel="noopener noreferrer">Shares ↗</a></td></tr>`).join("");
+document.getElementById("pathScenario").innerHTML = S.SCENARIOS.map(sc => `<option value="${sc.id}">${sc.name}</option>`).join("");
+
+// ---------- dynamic ----------
+const ids = ["inheritYear", "hold", "shock", "rentChoice"];
+const val = id => id === "rentChoice" ? document.getElementById(id).value : Number(document.getElementById(id).value);
+let mcCache = {}, latestPath = null;
+function mcFor(adjust, hold, rentChoice) {
+  const key = [adjust, hold, rentChoice].join("|");
+  if (!mcCache[key]) mcCache[key] = S.monteCarlo({ adjust, hold, rentChoice });
+  return mcCache[key];
+}
+function renderOutcomes() {
+  const Y = val("inheritYear"), H = val("hold"), shock = val("shock"), rc = val("rentChoice");
+  const end = Y + H;
+  document.getElementById("outcome-intro").textContent = `Inheritance in ${Y}, held ${H} years to ${end}. Each stress begins in ${shock} (replay-of-49-years is fixed at 2027). Nominal dollars at ${end}; the last column deflates by the scenario’s own CPI path.`;
+  let wins = { sellLiq: 0, rent: 0, live: 0, liveSF: 0 }, results = [];
+  document.getElementById("outcomes").innerHTML = S.SCENARIOS.map(sc => {
+    const p = S.buildPath(sc, shock), r = S.simulate(p, Y, H, rc);
+    results.push([sc, r]); wins[r.bestLiq] += 1;
+    const bestVal = Math.max(r.sellLiq, r.rent, r.live, r.liveSF);
+    const cls = k => (k === r.bestLiq ? "positive" : "");
+    return `<tr><td><strong>${sc.name}</strong></td><td class="number">${UI.money(r.marketAtInherit)}</td><td class="number">${UI.money(r.sell)}</td><td class="number ${cls("sellLiq")}">${UI.money(r.sellLiq)}</td><td class="number ${cls("rent")}">${UI.money(r.rent)}</td><td class="number ${cls("live")}">${UI.money(r.live)}</td><td class="number ${cls("liveSF")}">${UI.money(r.liveSF)}</td><td>${UI.badge(BEST[r.bestLiq], r.bestLiq === "sellLiq" ? "" : "gold")}</td><td class="number">${UI.money(bestVal / r.deflator)}</td><td class="source">${SRC(sc.source)}</td></tr>`;
+  }).join("");
+  const n = S.SCENARIOS.length;
+  const worst = k => Math.min(...results.map(([, r]) => r[k] / r.deflator));
+  const bres = results[0][1], bBest = Math.max(bres.sellLiq, bres.rent), liveGap = bBest - bres.liveSF;
+  document.getElementById("timing-note").innerHTML = `<strong>Reading the table (${Y} inheritance, ${H}-year hold, shock from ${shock}).</strong> On the tax-symmetric basis, selling is best in ${wins.sellLiq} of ${n} scenarios and renting is best in ${wins.rent}; living in Property A is best in ${wins.live + wins.liveSF} (it never earns its carrying cost without a housing benefit). Renting wins where inflation or house prices run well ahead of the portfolio; selling wins in bust, deflation and equity-light scenarios where the property loses value. Worst case in today’s dollars: sell ${UI.money(worst("sellLiq"))}, rent ${UI.money(worst("rent"))}, live + SF unit ${UI.money(worst("liveSF"))}. In the smooth baseline, choosing to live in Property A (and renting the freed SF unit) ends <strong>${UI.money(liveGap)}</strong> behind the better financial option at ${end} — about ${UI.money(liveGap / H)} per year over ${H} years, uncompounded — before any value placed on housing received. <strong>Timing matters:</strong> change the shock year above — the winner can flip.`;
+  latestPath = { Y, H, shock, rc };
+}
+function renderMC() {
+  const H = val("hold"), rc = val("rentChoice");
+  const out = [];
+  [[true, "Mean-adjusted to baseline"], [false, "Raw history"]].forEach(([adj, label]) => {
+    const mc = mcFor(adj, H, rc);
+    Object.keys(mc.summary).forEach(y => {
+      const s = mc.summary[y];
+      out.push(`<tr><td>${label}</td><td>${y}</td><td class="number">${UI.money(s.p50.sell)}<div class="tiny">(${UI.money(s.p10.sell)} – ${UI.money(s.p90.sell)})</div></td><td class="number">${UI.money(s.p50.sellLiq)}</td><td class="number">${UI.money(s.p50.rent)}<div class="tiny">(${UI.money(s.p10.rent)} – ${UI.money(s.p90.rent)})</div></td><td class="number">${UI.money(s.p50.liveSF)}</td><td class="number">${pct(s.sellBeatsRent, 0)} / ${pct(s.sellLiqBeatsRent, 0)}</td><td class="number">${pct(s.sellBeatsLive, 0)}</td><td class="source">${SRC("fredSJ")}</td></tr>`);
+    });
+  });
+  document.getElementById("mc").innerHTML = out.join("");
+}
+function renderSF() {
+  const shock = val("shock");
+  document.getElementById("sf").innerHTML = S.SCENARIOS.map(sc => {
+    const s = S.sfSeries(S.buildPath(sc, shock));
+    const low = s.slice(1).reduce((m, r) => r.noi < m.noi ? r : m, s[1]);
+    return `<tr><td><strong>${sc.name}</strong></td><td class="number">${UI.money(s[0].noi)}</td><td class="number">${UI.money(s[14].noi)}</td><td class="number">${UI.money(s[24].noi)}</td><td class="number">${UI.money(s[34].noi)}</td><td class="number ${low.noi < 0 ? "negative" : ""}">${UI.money(low.noi)} <span class="tiny">(${low.yr})</span></td><td class="number">${UI.money(s[24].market)}</td><td class="source">${SRC(sc.source === "fredSJ" ? "fredSF" : sc.source)}</td></tr>`;
+  }).join("");
+  const base = S.sfSeries(S.buildPath(S.SCENARIOS[0])), tax = S.sfSeries(S.buildPath(S.SCENARIOS.find(x => x.id === "policyTax"), shock));
+  const a = S.simulate(S.buildPath(S.SCENARIOS[0]), val("inheritYear"), val("hold"), val("rentChoice"));
+  const combined = a.marketAtInherit + base[val("inheritYear") - 2026].market;
+  document.getElementById("household-cards").innerHTML = `
+  <div class="card"><h3>Why Property B changes the answer</h3><ul class="list">
+  <li><strong>No housing need.</strong> Property B has three livable units and can house the heir without losing rent, so living in Property A is a lifestyle choice. The model charges it full carrying cost and credits no housing benefit.</li>
+  <li><strong>Moving in has a side effect.</strong> Prop 19 relief requires Property A to become the heir’s principal residence (homeowners’ exemption within one year, continual use). That would free Property B’s unrented unit — the “Live + rent freed SF unit” column.</li>
+  <li><strong>Concentration.</strong> At ${val("inheritYear")} the two homes total about ${UI.money(combined)} in the baseline, all in two Bay Area ZIP codes. In the 2008-style and 1990s scenarios both fall together; selling Property A is the only lever that diversifies.</li>
+  <li><strong>Property B’s rent is regulated.</strong> The model lets its rent rise 60% of CPI (max 7%) while costs track inflation, so inflation shocks compress its income (coverage and exemptions must be verified).</li></ul></div>
+  <div class="card"><h3>The hidden dependency: the 2% assessment cap</h3><p>Under the baseline, Property B’s 2050 NOI is about <strong>${UI.money(base[24].noi)}</strong>. If assessments tracked market value from ${shock} (an assumption, not current law or a pending measure), it would be about <strong>${UI.money(tax[24].noi)}</strong>. Property A’s tax would also rise to full-market levels. The plan’s economics are far more sensitive to Prop 13 and Prop 19 than to equity-market swings — which is why the legal watchlist matters.</p><p class="tiny">Estate-tax context: the federal exclusion is ${UI.money(M.BASE.estateExclusion)} per decedent in 2026 (IRS); see the Estate tax page for headroom.</p></div>`;
+}
+function pathRows() {
+  const sc = S.SCENARIOS.find(x => x.id === document.getElementById("pathScenario").value), shock = val("shock");
+  const p = S.buildPath(sc, shock), d = S.derive(p), sf = S.sfSeries(p), port = [];
+  const out = [];
+  for (let i = 0; i <= S.N; i += 1) {
+    const yr = S.START + i, assessed = Math.min(d.fbA[i], d.mA[i]);
+    out.push({ yr, cpi: i ? p.cpi[i] : null, home: i ? p.home[i] : null, a: d.mA[i], assessed, taxCarry: assessed * M.BASE.aRate, taxFull: d.mA[i] * M.BASE.aRate, b: sf[i].market, noi: sf[i].noi, port: i ? d.port[i] : null });
+  }
+  return out;
+}
+function renderPath() {
+  const rowsP = pathRows(), sc = S.SCENARIOS.find(x => x.id === document.getElementById("pathScenario").value);
+  document.getElementById("path").innerHTML = rowsP.map(r => `<tr><td>${r.yr}</td><td class="number">${r.cpi == null ? "—" : pct(r.cpi)}</td><td class="number ${r.home < 0 ? "negative" : ""}">${r.home == null ? "—" : pct(r.home)}</td><td class="number">${UI.money(r.a)}</td><td class="number">${UI.money(r.assessed)}</td><td class="number">${UI.money(r.taxCarry)}</td><td class="number">${UI.money(r.taxFull)}</td><td class="number">${UI.money(r.b)}</td><td class="number ${r.noi < 0 ? "negative" : ""}">${UI.money(r.noi)}</td><td class="number ${r.port < 0 ? "negative" : ""}">${r.port == null ? "—" : pct(r.port)}</td><td class="source">${SRC(sc.source)}</td></tr>`).join("");
+}
+function renderHeadline() {
+  const base = mcFor(true, 10, "4BR").summary[2045], raw = mcFor(false, 10, "4BR").summary[2045];
+  const cal = Object.fromEntries(S.calibration().map(c => [c.label, c.value]));
+  const rentWins = S.SCENARIOS.filter(sc => S.simulate(S.buildPath(sc, 2042), 2045, 10, "4BR").bestLiq === "rent").map(sc => sc.name);
+  document.getElementById("headline").innerHTML = `
+  <div class="card soft"><div class="metric-label">Straight-line vs recorded home growth</div><div class="metric small">${pct(S.BASELINE.home)} vs ${pct(cal["San Jose-area home prices, 1976–2025 (annualized)"])}</div><p class="muted">Baseline assumption vs San Jose-area 1976–2025 record, but the path included a ${pct(Math.abs(cal["San Jose-area home prices, 2006→2011 (peak to trough, year-end)"]), 0)} drop in 2006→2011 and a 0.3% year in 2025.</p></div>
+  <div class="card soft"><div class="metric-label">Random histories: sell beats rent (2045, 10-yr)</div><div class="metric small">${pct(base.sellLiqBeatsRent, 0)}–${pct(base.sellBeatsRent, 0)}</div><p class="muted">Share of 2,000 mean-adjusted paths, taxed to untaxed basis. Raw recorded history: ${pct(raw.sellLiqBeatsRent, 0)}–${pct(raw.sellBeatsRent, 0)}. Selling is the more robust default, not a certainty.</p></div>
+  <div class="card soft"><div class="metric-label">Where keeping and renting wins (2045, 10-yr, shock 2042, taxed basis)</div><div class="metric small">${rentWins.length} of ${S.SCENARIOS.length} scenarios</div><p class="muted">${rentWins.length ? rentWins.join("; ") + "." : "None."} Keeping the house wins when home prices outrun a 60/40 portfolio; selling wins in busts, deflation and the smooth baseline.</p></div>`;
+}
+function renderAll() { renderOutcomes(); renderMC(); renderSF(); renderPath(); renderHeadline(); }
+ids.forEach(id => document.getElementById(id).addEventListener("change", renderAll));
+document.getElementById("pathScenario").addEventListener("change", renderPath);
+document.getElementById("reset").addEventListener("click", () => { document.getElementById("inheritYear").value = 2045; document.getElementById("hold").value = 10; document.getElementById("shock").value = 2042; document.getElementById("rentChoice").value = "4BR"; renderAll(); });
+document.getElementById("download").addEventListener("click", () => {
+  const r = pathRows(), r10 = v => v == null ? "" : Math.round(v / 10) * 10;
+  const lines = [["Year","CPI","Property A growth","Property A value","Factored assessment","A tax carried forward","A tax full reassessment","Property B value","Property B NOI","Portfolio return"]];
+  r.forEach(x => lines.push([x.yr, x.cpi == null ? "" : (x.cpi * 100).toFixed(2) + "%", x.home == null ? "" : (x.home * 100).toFixed(2) + "%", r10(x.a), r10(x.assessed), r10(x.taxCarry), r10(x.taxFull), r10(x.b), r10(x.noi), x.port == null ? "" : (x.port * 100).toFixed(2) + "%"]));
+  const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([lines.map(l => l.join(",")).join("\n")], { type: "text/csv" })); link.download = "scenario-path.csv"; link.click(); URL.revokeObjectURL(link.href);
+});
+renderAll();
+</script></body></html>

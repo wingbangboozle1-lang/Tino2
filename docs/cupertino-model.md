@@ -62,7 +62,7 @@ Projected FBYV at 2045: $802,030. Projected market value: $5,435,870.
 | Electricity (solar net) | −$180/yr (credit) | −$180/yr | Unverified — owner estimate |
 | Homeowners insurance | $1,500/yr | $2,240/yr (landlord, indicative) | Unverified — commercial quotes |
 | Maintenance & repairs | Not estimated | Not estimated | Unverified — no official source |
-| Total excl. maintenance | ≈ $59,970/yr ($4,997/mo) | ≈ $74,290/yr ($6,191/mo) | Modeled |
+| Total excl. maintenance | ≈ $59,970/yr ($5,000/mo) | ≈ $74,290/yr ($6,190/mo) | Modeled |
 
 Break-even rent (rent-out scenario): tax alone ≈ $70,670/yr ≈ $5,890/mo before insurance, maintenance, water, and income tax on rents.
 

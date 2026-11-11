@@ -26,12 +26,14 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
+- `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
 - `site/review.html` — unresolved items and verification routes
 - `site/data/model.js` — deterministic calculations; full precision retained until display
+- `site/data/scenarios.js` — stress-case engine; reproduces `MODEL.decision()` exactly at base assumptions and adds path-based shocks
 - `site/data/sources.js` — official URLs and reviewed notes
 - `assets/` — shared layout, styling, and navigation
 - `scripts/validate.js` — model, syntax, internal-link, and source checks
@@ -101,3 +103,8 @@ node scripts/runtime-test.cjs
 ```
 
 This checks runtime errors, every rendered table row for an official framework link, and local links in the allowlisted output. It does not establish truth of a projection or verify every external document.
+
+## Recorded-data stress tests (added 2026-11-11, session 70f163d0)
+
+`site/black-swan.html` ("Recorded data") replays twelve scenarios from official annual series (BLS CPI-U, FHFA house-price indexes, Treasury yields, Freddie Mac mortgage rates, OECD share prices; 1970–2025) and runs 2,000 seeded random 50-year histories through the same cash-flow logic as the Decision lab (`site/data/history-engine.js`; with constant rates it reproduces `MODEL.decision()` exactly, checked in `scripts/validate.js`). Inputs are stored in `research/data/fred_annual_2026-11-11.csv`; regenerate `site/data/history.js` with `python3 scripts/build-history.py`. Notes: `research/black-swan.md`; verification log: `research/verification-2026-11-11.md`. The Prop 19 cap is modeled as compounding with home-price growth in two-year steps (BOE indexes it to the FHFA California HPI).
+

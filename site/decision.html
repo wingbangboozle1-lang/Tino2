@@ -8,7 +8,7 @@
 const main = document.getElementById("main");
 main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or sell?", "Change the inheritance year, holding period, growth, rent and tax scenarios. The model carries every strategy to the same endpoint and shows the arithmetic—not just the winner.", `<button class="button" id="print">Print this scenario</button><button class="button secondary" id="download">Download annual CSV</button>`) + `<div class="container">
 <section class="section">
-<div class="section-heading"><div><div class="eyebrow">Scenario controls</div><h2>Start with the base case, then stress it</h2></div><button class="button secondary" id="reset">Reset base case</button></div>
+<div class="section-heading"><div><div class="eyebrow">Scenario controls</div><h2>Start with the base case, then stress it</h2><p>For recorded-shock replays — stagflation, a 2008-shaped crash at the transfer date, an insurance repricing and an earthquake — see the <a href="scenarios.html">black-swan stress cases</a>.</p></div><button class="button secondary" id="reset">Reset base case</button></div>
 <div class="controls">
 <div class="control"><label for="inheritYear">Inheritance year</label><select id="inheritYear">${UI.options("inheritYear", [[2030,"2030"],[2035,"2035"],[2040,"2040 · base"],[2045,"2045"],[2050,"2050"]], 2040)}</select></div>
 <div class="control"><label for="horizon">Years held after inheritance</label><select id="horizon">${UI.options("horizon", [[5,"5 years"],[10,"10 years · base"],[15,"15 years"],[20,"20 years"]], 10)}</select></div>
@@ -24,6 +24,7 @@ main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Terminal wealth bridge</div><h2 id="comparison-title"></h2><p>All amounts are nominal future dollars, rounded to the nearest $10. “Cash reserve” includes reinvested annual cash flow; negative living costs compound as an opportunity cost.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Strategy</th><th class="number">Initial net sale</th><th class="number">First-year property tax</th><th class="number">First-year after-tax cash</th><th class="number">Cash reserve at endpoint</th><th class="number">Net terminal property sale</th><th class="number">Terminal capital-gain tax</th><th class="number">Financial position</th><th>Tax rule</th></tr></thead><tbody id="comparison"></tbody></table></div>
 <p class="tiny">“Initial net sale” is invested immediately in the sell case. “Net terminal property sale” is after sale costs and capital-gain tax. The sell case assumes no further liquidation tax beyond its annual after-tax return proxy. First-year cash in the sell case is portfolio return, not rental cash flow.</p>
+<div id="liqcheck" class="callout warning"></div>
 </section>
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Annual mechanics</div><h2>Where the difference comes from</h2><p id="annual-intro"></p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Rent-case assessment</th><th class="number">Rent-case property tax</th><th class="number">Gross rent</th><th class="number">Rental NOI</th><th class="number">Rent after-tax cash</th><th class="number">Live-case property tax</th><th class="number">Live annual net cost</th><th>Rule / model</th></tr></thead><tbody id="annual"></tbody></table></div>
@@ -71,6 +72,9 @@ function render() {
     const live = r.live.yearly[i];
     return `<tr><td>${x.year}</td>${moneyCell(x.market)}${moneyCell(x.assessed)}${moneyCell(x.propertyTax)}${moneyCell(x.grossRent)}${moneyCell(x.noi)}${moneyCell(x.afterTaxCash)}${moneyCell(live.propertyTax)}${moneyCell(live.afterTaxCash)}<td class="source">${UI.source("hudA", "HUD + scenario model")}</td></tr>`;
   }).join("");
+  const liq = r.sell.terminalAfterLiquidation;
+  const liqLead = liq - r.rent.terminal;
+  document.getElementById("liqcheck").innerHTML = `<strong>Tax-symmetric check.</strong> The sell result above leaves the portfolio’s unrealized growth untaxed, while the rent and live cases pay capital-gain tax when the house is sold at the endpoint. If the portfolio were also liquidated at the endpoint with the same ${UI.pct(c.capitalGainsTax)} scenario rate applied to all growth (deliberately conservative: it double-counts the annual tax drag), sell-and-reinvest would be <strong>${UI.money(liq)}</strong>, which is ${liqLead >= 0 ? "still ahead of" : "behind"} rent-then-sell by <strong>${UI.money(Math.abs(liqLead))}</strong>. Treat the true sell advantage as lying between the two figures. If the portfolio is never sold and passes at death, the date-of-death basis rule generally removes embedded gains for it as well as for real estate (IRS Pub. 551) — a planning question for a tax professional. <a href="black-swan.html">See how this changes under economic shocks →</a>`;
   const netSale = r.transfer.market * (1 - c.saleCost);
   const gain = r.rent.amountRealized - r.transfer.market;
   document.getElementById("formulas").innerHTML = `
