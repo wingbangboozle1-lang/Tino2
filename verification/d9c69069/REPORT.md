@@ -90,7 +90,7 @@ These are checks this session computed from scratch, not re-runs of another sess
 | Personal identifiers | Grepped published pages for names, street addresses, parcel numbers (APN), account numbers, emails, phone numbers | **None found.** Parties are "Property A" / "Property B"; the only phone numbers published are government contact numbers on official-source citations |
 | Search-engine exposure | Grepped every published page | All 13 carry `noindex,nofollow,noarchive` |
 | Internal audit files served publicly | Compared served payload with the allowlist | `qa/**` and `verification/**` are now excluded by `_config.yml`; **no internal file is served** |
-| Unmerged public branch tips | Scanned `origin/arena/5a1bd5be-tino2` (public, never merged) | **46 of the 40 distinct exact figures' patterns still present.** See irregularity D-I-2 |
+| Unmerged public branch tips | Scanned `origin/arena/5a1bd5be-tino2` (public, never merged) for the 40 distinct values that $10-rounding actually obscures | **All 40 are present**, in 5 files: `index.html`, `model/projections.html`, `site/inheritance.html`, `site/properties.html`, `site/sources.html`. See irregularity D-I-2 |
 | Public git history | Could not be scanned: this clone is shallow (`.git/shallow`), so historical commits are not available locally | **Not established either way.** Prior sessions documented that exact figures exist in commits `be7733d` and `6e3fb83`; this session neither confirms nor denies it and does not claim history is clean |
 
 ## 5. Brief-coverage check (household inputs the owner supplied)
@@ -112,3 +112,151 @@ range inputs use the midpoint of the owner's stated range.
 | 2026 Cupertino assessment / 2025 SF assessment | `aAssessed`, `bAssessed2025` | 550540, 114250 | rounded to $10 (verified correct in §3) |
 
 **No owner-supplied input is missing from the model, and none is silently altered.**
+
+---
+
+## 6. Irregularity register
+
+Severity: **High** = privacy or a figure the decision turns on. **Medium** = a published claim that needs a
+qualifier or a correction. **Low** = cosmetic or immaterial to the result. None of these blocks publication;
+all are logged as requests to the owner of the file, because this session's scope forbids editing them.
+
+### D-I-1 — HIGH — $10 rounding cannot anonymise three of the owner's figures (inherent, not a mistake)
+
+The brief asks for figures to be rounded to $10 "so it cannot be traced back to the source or traced online
+through search". Three of the 43 owner-supplied amounts are **already exact multiples of $10**, so their
+rounded form equals the exact value and remains searchable as-is:
+
+- Property A, **2020 assessed value**
+- Property A, **2015 property tax**
+- Property B, **2017 property tax**
+
+They are published in that form in `site/verification.html` (and mirrored in `qa/ledger.json`,
+`site/data/ledger.js` — both now excluded from Pages, and in legacy excluded files). Rounding is correct per
+the brief; the brief's stated *purpose* is simply unachievable for these three values.
+**Owner decision needed:** band them (e.g. publish "≈$493,500" or a range), drop those three rows, or accept
+the exposure. No file was edited by this session.
+
+### D-I-2 — HIGH — exact household figures remain publicly retrievable from an unmerged branch tip
+
+`main` is clean (§4: 0 hits), but the public branch `arena/5a1bd5be-tino2` still serves **all 40** exact
+figures in 5 files. Deleting them from `main` does not remove them: the repository is public, the branch tip
+is readable, and prior sessions recorded that the same figures also exist in historical commits
+(`be7733d`, `6e3fb83`) — this session could not scan history locally because the clone is shallow, and does
+**not** claim history is clean.
+**Owner decision needed** (same three options session `11bffb54` recorded, plus one): make the repository
+private; start a fresh repository from the current files; ask GitHub Support to purge; **or delete the
+stale unmerged branch tips**, which is the cheapest partial mitigation and is the only one that can be done
+inside GitHub's normal tooling. Branch deletion is outside this session's scope.
+
+### D-I-3 — MEDIUM — the publication privacy guard covers only 4 of the 40 exact figures
+
+`scripts/package-site.py` blocks publication by matching SHA-256 hashes of exact private amounts, but
+`FORBIDDEN_HASHES` contains **4** entries. This session hashed all 40 distinct exact household figures:
+only **$550,537-class, $539,743-class, $7,207-class and $114,248-class** values (identified by hash, not
+reproduced here) are covered. The other **36** would pass the guard silently if reintroduced.
+The rendered-page gate `qa/tools/gate.cjs` is stricter and currently reports 0 errors, so nothing is
+published today — but the two guards have different coverage.
+**Request:** owner of `scripts/package-site.py` (session `516f904c` scope, now `11bffb54`) to extend the
+hash set to all 40, or delegate the check to `qa/tools/gate.cjs` only.
+
+### D-I-4 — MEDIUM — SF Rent Board fee: the owner-unit exemption is **not** automatic, and has a filing deadline
+
+The base model charges `bRentBoardFeeAnnual = 118` (2 × $59) and `site/san-francisco.html` discloses
+"$59 × 2; exemption assumed for owner unit … charging all three units would add $59". The disclosure is
+honest and the magnitude is right, but the official page adds two conditions the site does not state:
+
+- **Vacant units are charged.** "All residential property owners must pay a per-unit Rent Board fee unless
+  the unit(s) have a current exemption. **This includes … vacant units**, and units occupied by friends or
+  family members." The third unit is currently vacant, so today's correct charge is **$177 (3 × $59)**, not $118.
+- **The exemption must be applied for, by a deadline.** "**you must submit a Request for Exemption**" between
+  October and early December; "The deadline to submit a Request for Exemption for the 2027 Rent Board fee is
+  **December 14, 2026**." It also requires owner-of-record occupancy with the unit "not rented at any time".
+- **Half is recoverable from tenants.** "you can recover 50 percent of the fee from the tenants … $29.50 per
+  dwelling unit", if the tenant was in occupancy as of 1 November. The model charges the full fee and books
+  no recovery, so it is conservative by up to $59 a year.
+
+Source: [SF.gov — The Rent Board Fee](https://www.sf.gov/rent-board-fee), opened 2026-11-11.
+**Request:** owner of `site/san-francisco.html` / `site/data/model.js` to add the 14 December 2026 filing
+deadline and the vacancy rule. Immaterial to the Property A ranking ($59 a year), but it is an actionable
+calendar date for the owner.
+
+### D-I-5 — MEDIUM — the rent-growth assumption runs above the latest official change in the same benchmark
+
+Property A's rent uses HUD's FY2026 SAFMR for ZIP 95014 and grows it at `rentGrowth = 3%` a year. The same
+official page publishes the prior year, so the actual year-over-year change is visible:
+
+| SAFMR 95014 | FY2025 | FY2026 | Change |
+|---|---|---|---|
+| Efficiency | $3,410 | $3,340 | **−2.1%** |
+| 1-bedroom | $3,880 | $3,800 | **−2.1%** |
+| 2-bedroom | $4,500 | $4,440 | **−1.3%** |
+| 3-bedroom | $5,850 | $5,870 | +0.3% |
+| 4-bedroom | $6,370 | $6,390 | **+0.3%** |
+
+Source: [HUD FY2026 SAFMR calculation for 95014](https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&year=2026), opened 2026-11-11.
+The 4-bedroom benchmark the model rents Property A at rose **0.3%** in the latest official year, and every
+smaller unit **fell**. The site already labels 3% as an assumption, so nothing is wrong — but the assumption
+is roughly ten times the latest official movement in its own benchmark, and the rent case is the one the site
+calls "highly sensitive to achievable rent". **Request:** show the FY2025→FY2026 official change next to the
+3% assumption on the Decision and Properties pages, or add a 0.3% rent-growth stress row.
+
+### D-I-6 — MEDIUM — Proposition 3 result is published as an unofficial snapshot percentage
+
+`qa/ledger.json` CA-05/06/07 publish the November 2026 ballot outcomes with specific percentages
+("Passing — Yes 60.6%", "Yes 51.5%", "No 52.6% / No 57%"), each labelled "in the unofficial count".
+That label is honest, but the number moves with the count: this session found **58.66%** (CBS 8, 4 Nov
+02:59 PT), **60.5%** (AP call via KQED) and **59.9%** (Secretary of State count as of 6 Nov, reported by
+californiatoday.com). The Secretary of State **certifies on 11 December 2026**.
+The *substance* is not in doubt and is the part the decision depends on: **Prop 3 passed**, so the 10.3% /
+11.3% / 12.3% high-income rates become permanent instead of sunsetting, and **Prop 40 (one-time wealth tax)
+is failing**. California still taxes capital gains as ordinary income, which is what the sell-and-reinvest
+case is priced on.
+**Request:** owner of `qa/ledger.json` / `site/verification.html` to replace the decimal percentage with
+"passed — unofficial count; certified 11 December 2026", so the figure cannot go stale. Note: this session
+could not open `electionresults.sos.ca.gov` directly (see D-I-8), so the outcome above rests on press
+reporting of the official count and is labelled accordingly — it is **not** an official-source match.
+
+### D-I-7 — LOW — Ellis Act relocation amounts are materially higher and are not on the plan page
+
+`site/plan.html` prices "taking the unit back later" using owner move-in relocation
+($8,245 / $24,733 / $5,497 — verified in §2). If the owner ever considered permanently removing units from
+rental use instead, the **Ellis Act** schedule applies and is much larger:
+**$11,110.05 per tenant, $33,330.13 maximum per unit, plus $7,443.90** for each elderly (62+) or disabled
+tenant, for notices served 1 Mar 2026 – 28 Feb 2027.
+Source: [SF Rent Board — Current Rates](https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit), opened 2026-11-11.
+**Request:** add as a context row; it is the difference between the two legal routes to reclaiming Property B.
+
+### D-I-8 — LOW — two official pages could not be opened from this sandbox; recorded as gaps, not as passes
+
+Direct fetches of the **SFPUC Proposition 218 rate notice** (UT-03) and the **California Secretary of State
+ballot-measure returns** (CA-05/06/07) failed repeatedly with a proxy signature error (`SignatureDoesNotMatch`)
+after 14 successful official fetches. Those two facts keep the status given by the session that added them.
+This session does **not** claim to have verified them.
+
+### D-I-9 — LOW — the two privacy gates disagree, because the older one's allowlist is stale
+
+`integration/tools/privacy_scan.py` reports **102 warnings / 0 errors**. This session inspected every warning
+in the *published* files: they are all **official** amounts, not household data —
+SF Rent Board relocation payments ($8,245 / $24,733 / $5,497), a BOE Letter to Assessors worked example
+(its Q50 factored base year value, value cap and excess), the California income-tax bracket thresholds, and
+CDI statewide premium aggregates. The scanner allowlists against `integration/ledger/facts.jsonl`, which
+predates `qa/ledger.json`, so it does not know the newer official figures. `qa/tools/gate.cjs` allowlists 54
+official exact figures and reports **0 errors, 0 warnings** on the same tree.
+**Request:** owners of `integration/**` (`7eeb5f71`) and `qa/**` (`11bffb54`) to sync the two allowlists, or
+retire the older scanner, so a clean run is unambiguous.
+
+### D-I-10 — LOW — two of the owner's own stated percentages differ slightly from their own dollar history
+
+Recomputing the owner's percentage changes from the owner's dollar history gives **+2.9%** where the brief
+states **+2.8%** for the Property A 2019 tax bill, and **+5.4%** where the brief states **+5.3%** for the
+Property B 2025 tax bill. Both are tenth-of-a-point rounding in the brief, not site errors:
+`site/verification.html` publishes the percentages "exactly as supplied", which is the right call.
+Recorded so that nobody later "corrects" the site to the recomputed values. The site's substantive claim —
+that **assessed-value** changes match the official BOE factor in every year — is confirmed (13/13, §3);
+both discrepancies are in tax bills, which the site explicitly says do not track the assessment.
+
+### D-I-11 — LOW — cosmetic
+
+`_config.yml` lists `assets/style.css-alternate.css` twice. Harmless (Jekyll de-duplicates), owner: whoever
+next edits `_config.yml`.
