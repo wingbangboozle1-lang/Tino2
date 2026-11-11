@@ -78,3 +78,37 @@ These are checks this session computed from scratch, not re-runs of another sess
 | Publication payload = allowlist | Enumerated every git-tracked file, applied `_config.yml` exclusions, and diffed against the `_public/` artifact from `scripts/package-site.py` | **24 files each side, identical set** (only `.gitignore` and `_config.yml` differ, and Jekyll consumes those). `qa/**` and `verification/**` are now excluded, so no internal audit file is served |
 | Privacy headers | Grepped every published page | All **13** pages carry `<meta name="robots" content="noindex,nofollow,noarchive">` |
 | Navigation completeness | Cross-checked every published page against `assets/app.js` | All **13** pages are reachable from the shared navigation; no orphan page |
+
+---
+
+## 4. Privacy audit
+
+| Check | Method | Result |
+|---|---|---|
+| Exact household figures in the current `main` tree | Scanned every git-tracked file on `main` for all 40 owner-supplied figures that $10-rounding actually obscures (both comma and plain forms, 80 patterns) | **0 hits.** The published tree and the working tree contain no exact household amount that rounding was meant to hide |
+| Exact household figures in the published artifact | Same scan over `_public/` | **0 hits** |
+| Personal identifiers | Grepped published pages for names, street addresses, parcel numbers (APN), account numbers, emails, phone numbers | **None found.** Parties are "Property A" / "Property B"; the only phone numbers published are government contact numbers on official-source citations |
+| Search-engine exposure | Grepped every published page | All 13 carry `noindex,nofollow,noarchive` |
+| Internal audit files served publicly | Compared served payload with the allowlist | `qa/**` and `verification/**` are now excluded by `_config.yml`; **no internal file is served** |
+| Unmerged public branch tips | Scanned `origin/arena/5a1bd5be-tino2` (public, never merged) | **46 of the 40 distinct exact figures' patterns still present.** See irregularity D-I-2 |
+| Public git history | Could not be scanned: this clone is shallow (`.git/shallow`), so historical commits are not available locally | **Not established either way.** Prior sessions documented that exact figures exist in commits `be7733d` and `6e3fb83`; this session neither confirms nor denies it and does not claim history is clean |
+
+## 5. Brief-coverage check (household inputs the owner supplied)
+
+Each owner-supplied figure was traced into `site/data/model.js` `MODEL.BASE`. All ten are present, and
+range inputs use the midpoint of the owner's stated range.
+
+| Owner input | Model field | Value used | Check |
+|---|---|---|---|
+| Cupertino water $100–$150 / month | `aWaterMonthly` | 125 | midpoint of the stated range |
+| Solar credit, profit $10–$20 / month | `aSolarMonthlyCredit` | 15 | midpoint of the stated range |
+| Cupertino insurance "around $1,500" | `aInsuranceAnnual` | 1500 | owner's guess; ledger `INS-02` is **unverified** and labelled so |
+| SF water $330–$400 / month (3 units) | `bWaterMonthly` | 365 | midpoint of the stated range |
+| SF electricity $30–$70 / month | `bElectricMonthly` | 50 | midpoint of the stated range |
+| SF insurance "somewhere around $1,500" | `bInsuranceAnnual` | 1500 | owner's guess; ledger `INS-03` is **unverified** and labelled so |
+| SF rental income ~$7,150 / month (2 units) | `bRentMonthly` | 7150 | as supplied |
+| Cupertino value $3,100,000 (Nov 2026) | `aValue` | 3100000 | as supplied, labelled a household input, not an appraisal |
+| SF value $1,800,000 (Nov 2026) | `bValue` | 1800000 | as supplied |
+| 2026 Cupertino assessment / 2025 SF assessment | `aAssessed`, `bAssessed2025` | 550540, 114250 | rounded to $10 (verified correct in §3) |
+
+**No owner-supplied input is missing from the model, and none is silently altered.**
