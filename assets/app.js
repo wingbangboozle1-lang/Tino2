@@ -16,6 +16,7 @@
     ["decision", prefix + "decision.html", "Decision"],
     ["properties", prefix + "properties.html", "Properties"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
+    ["operating-costs", prefix + "operating-costs.html", "Operating costs"],
     ["stress", prefix + "stress.html", "Black swan"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
