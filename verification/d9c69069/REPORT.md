@@ -260,3 +260,31 @@ both discrepancies are in tax bills, which the site explicitly says do not track
 
 `_config.yml` lists `assets/style.css-alternate.css` twice. Harmless (Jekyll de-duplicates), owner: whoever
 next edits `_config.yml`.
+
+---
+
+## 7. Does the verified evidence support the published recommendation?
+
+The site recommends **selling Property A at inheritance and reinvesting the net proceeds**, with the explicit
+caveat that this is a financial result and not an instruction. This session did not re-derive the
+recommendation; it checked whether the **verified** legal and rate facts point the same way. They do, and the
+reason is worth stating plainly because it is the hinge of the whole analysis:
+
+| Verified fact | Official source (§2) | Effect on the ranking |
+|---|---|---|
+| Prop 19 preserves the low assessment **only** if the home is the principal residence of the transferor **and** the transferee; it "eliminates exclusion for other real property other than the principal residence" | BOE Prop 19 chart (#5) | **Renting Property A gets no exclusion at all.** It is reassessed to full market value on transfer. This is the single largest driver of the rent case's weakness |
+| Prop 19 value cap = factored base year value + $1,044,586 (transfers 16 Feb 2025 – 15 Feb 2027), and the formula is market value − exclusion when the cap is below market value | BOE LTA 2025/009 (#6, #7) | The **live** case keeps a low base; on a $3,100,000-class home the preserved benefit is large, but the site correctly notes the heir must actually occupy it and file |
+| Property A's assessed value is roughly one sixth of its market value | owner input, rounding verified (#3) | Losing Prop 19 multiplies the tax base several times over — which is why the rent case's first-year after-tax cash is the weakest of the three |
+| Prop 13 caps annual growth at the lesser of California CPI or 2%; factor 1.02 for 2026-27 | BOE LTA 2026/002 (#8) | Once reassessed, the bill still only grows ~2% a year, so the rent case is not catastrophic — it is a level shift, not a slope change |
+| No California estate-tax return for deaths on/after 1 Jan 2005 | State Controller (#4) | No state estate tax to plan around; the only estate exposure is federal |
+| Federal basic exclusion $15,000,000 (2026), $15,480,000 (2027) | IRS (#1, #2) | Property A alone sits far below the threshold. The brief's "considerable amount of money" is what could breach it — and the site correctly leaves the actual estate tax **blank** because the gross estate, gifts and DSUE are unknown |
+| Trustee notice 60 days; change-in-ownership statement 150 days for property held in trust | Prob. Code §16061.7 (#9), R&TC §480 (#10) | The step-by-step inheritance path is correct on both clocks, and the trust route does **not** avoid the assessor filing |
+| SF rate 1.18162182% FY 2026-27 and $829.22 of flat parcel charges for three units | SF Treasurer (#11, #12) | Property B's carrying cost is verified, so "keep B" rests on real numbers rather than an estimate |
+| SF rent increases are capped at 1.6% while the building's costs rise faster | SF Rent Board (#13, #16) | Confirms the site's point that Property B's income grows more slowly than its expenses — a reason not to buy more SF rental exposure with Property A proceeds |
+
+**Conclusion.** Every verified fact is consistent with the published ranking, and the two facts that decide it
+— Prop 19's principal-residence condition, and the gap between Property A's assessment and its market value —
+are both confirmed on official pages this session opened. The recommendation does not rest on an unverified
+figure. What it *does* rest on that remains unverified is: the insurance premiums (both $1,500 guesses),
+Property A's actual tax-rate area and direct charges (the model uses a hypothetical 1.2% levy), the
+achievable rent, and the full composition of the estate. All four are already flagged on the site.
