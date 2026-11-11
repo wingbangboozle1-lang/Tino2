@@ -1,0 +1,400 @@
+{
+ "inputs_read_from": "site/data/model.js",
+ "part1": {
+  "2040": {
+   "value_at_death": 5017950,
+   "old_assessed": 726430,
+   "allowance": 1329010,
+   "live_taxable": 3688950,
+   "sell": 7683290,
+   "sell_all_growth_taxed": 6701410,
+   "sell_unrealised_taxed": 7094160,
+   "rent": 6249830,
+   "live": 5135780,
+   "liveB": 5530150,
+   "sale_cost_loss": 301080,
+   "sale_cost_loss_tax_value_max": 99660,
+   "first_year": {
+    "tax_full": 61420,
+    "tax_live": 45150,
+    "noi": 12530,
+    "rent_cash": 8360,
+    "live_cash": -75610,
+    "gross_rent": 119460,
+    "market": 5193580,
+    "upkeep": 30460,
+    "b_unit_cash": 29350
+   },
+   "breakeven_home_growth": {
+    "rent": 0.0747,
+    "live": 0.0858,
+    "liveB": 0.0824
+   }
+  },
+  "2045": {
+   "value_at_death": 5959750,
+   "old_assessed": 802030,
+   "allowance": 1473490,
+   "live_taxable": 4486260,
+   "sell": 9125340,
+   "sell_all_growth_taxed": 7959170,
+   "sell_unrealised_taxed": 8425640,
+   "rent": 7395620,
+   "live": 6068080,
+   "liveB": 6525270,
+   "sale_cost_loss": 357590,
+   "sale_cost_loss_tax_value_max": 118360,
+   "first_year": {
+    "tax_full": 72950,
+    "tax_live": 54910,
+    "noi": 12020,
+    "rent_cash": 8010,
+    "live_cash": -90990,
+    "gross_rent": 138490,
+    "market": 6168350,
+    "upkeep": 36080,
+    "b_unit_cash": 34020
+   },
+   "breakeven_home_growth": {
+    "rent": 0.0781,
+    "live": 0.0863,
+    "liveB": 0.0837
+   }
+  },
+  "2050": {
+   "value_at_death": 7078320,
+   "old_assessed": 885510,
+   "allowance": 1578440,
+   "live_taxable": 5499880,
+   "sell": 10838040,
+   "sell_all_growth_taxed": 9453000,
+   "sell_unrealised_taxed": 10007020,
+   "rent": 8752170,
+   "live": 7164510,
+   "liveB": 7694520,
+   "sale_cost_loss": 424700,
+   "sale_cost_loss_tax_value_max": 140580,
+   "first_year": {
+    "tax_full": 86640,
+    "tax_live": 67320,
+    "noi": 10950,
+    "rent_cash": 7300,
+    "live_cash": -110050,
+    "gross_rent": 160550,
+    "market": 7326060,
+    "upkeep": 42730,
+    "b_unit_cash": 39440
+   },
+   "breakeven_home_growth": {
+    "rent": 0.0808,
+    "live": 0.0868,
+    "liveB": 0.0849
+   }
+  }
+ },
+ "part2": {
+  "2040": {
+   "site treatment": {
+    "sell": 7094160,
+    "rent": 6249830,
+    "live": 5135780,
+    "liveB": 5530150,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "A tax rate 1.1636% (sum of published components) instead of 1.2%": {
+    "sell": 7094160,
+    "rent": 6266810,
+    "live": 5154490,
+    "liveB": 5548870,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "joint return: $500,000 home-sale exclusion": {
+    "sell": 7094160,
+    "rent": 6249830,
+    "live": 5218530,
+    "liveB": 5612900,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "depreciation, building = 20% of value (assumption)": {
+    "sell": 7094160,
+    "rent": 6245060,
+    "live": 5135780,
+    "liveB": 5530150,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "depreciation, building = 40% of value (assumption)": {
+    "sell": 7094160,
+    "rent": 6227550,
+    "live": 5135780,
+    "liveB": 5530150,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "rent 25% above the HUD benchmark (assumption)": {
+    "sell": 7094160,
+    "rent": 6497910,
+    "live": 5135780,
+    "liveB": 5530150,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   },
+   "home prices +5.0% a year (assumption)": {
+    "sell": 8677340,
+    "rent": 8215890,
+    "live": 7056690,
+    "liveB": 7451070,
+    "best": "sell",
+    "sell_untaxed": 9397940,
+    "sell_all_growth_taxed": 8196930
+   },
+   "home prices +6.7% a year (recorded San Jose-area average 1976-2025), portfolio unchanged": {
+    "sell": 10865210,
+    "rent": 11241560,
+    "live": 10111610,
+    "liveB": 10505980,
+    "best": "rent",
+    "sell_untaxed": 11767510,
+    "sell_all_growth_taxed": 10263680
+   },
+   "portfolio +7.0% a year after tax (assumption)": {
+    "sell": 8631670,
+    "rent": 6261980,
+    "live": 5036070,
+    "liveB": 5468230,
+    "best": "sell",
+    "sell_untaxed": 9278810,
+    "sell_all_growth_taxed": 7768810
+   },
+   "portfolio +3.0% a year after tax (assumption)": {
+    "sell": 5802130,
+    "rent": 6238830,
+    "live": 5225670,
+    "liveB": 5586010,
+    "best": "rent",
+    "sell_untaxed": 6339090,
+    "sell_all_growth_taxed": 5802130
+   },
+   "no Prop 19 relief": {
+    "sell": 7094160,
+    "rent": 6249830,
+    "live": 4913520,
+    "liveB": 5307890,
+    "best": "sell",
+    "sell_untaxed": 7683290,
+    "sell_all_growth_taxed": 6701410
+   }
+  },
+  "2045": {
+   "site treatment": {
+    "sell": 8425640,
+    "rent": 7395620,
+    "live": 6068080,
+    "liveB": 6525270,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "A tax rate 1.1636% (sum of published components) instead of 1.2%": {
+    "sell": 8425640,
+    "rent": 7415780,
+    "live": 6090840,
+    "liveB": 6548030,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "joint return: $500,000 home-sale exclusion": {
+    "sell": 8425640,
+    "rent": 7395620,
+    "live": 6150830,
+    "liveB": 6608020,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "depreciation, building = 20% of value (assumption)": {
+    "sell": 8425640,
+    "rent": 7387300,
+    "live": 6068080,
+    "liveB": 6525270,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "depreciation, building = 40% of value (assumption)": {
+    "sell": 8425640,
+    "rent": 7366500,
+    "live": 6068080,
+    "liveB": 6525270,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "rent 25% above the HUD benchmark (assumption)": {
+    "sell": 8425640,
+    "rent": 7683220,
+    "live": 6068080,
+    "liveB": 6525270,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   },
+   "home prices +5.0% a year (assumption)": {
+    "sell": 11074730,
+    "rent": 10318880,
+    "live": 8961460,
+    "liveB": 9418650,
+    "best": "sell",
+    "sell_untaxed": 11994420,
+    "sell_all_growth_taxed": 10461600
+   },
+   "home prices +6.7% a year (recorded San Jose-area average 1976-2025), portfolio unchanged": {
+    "sell": 15026580,
+    "rent": 15228260,
+    "live": 13920420,
+    "liveB": 14377610,
+    "best": "rent",
+    "sell_untaxed": 16274460,
+    "sell_all_growth_taxed": 14194670
+   },
+   "portfolio +7.0% a year after tax (assumption)": {
+    "sell": 10251710,
+    "rent": 7407510,
+    "live": 5948120,
+    "liveB": 6449110,
+    "best": "sell",
+    "sell_untaxed": 11020310,
+    "sell_all_growth_taxed": 9226910
+   },
+   "portfolio +3.0% a year after tax (assumption)": {
+    "sell": 6891120,
+    "rent": 7384860,
+    "live": 6176220,
+    "liveB": 6593960,
+    "best": "rent",
+    "sell_untaxed": 7528850,
+    "sell_all_growth_taxed": 6891120
+   },
+   "no Prop 19 relief": {
+    "sell": 8425640,
+    "rent": 7395620,
+    "live": 5821650,
+    "liveB": 6278840,
+    "best": "sell",
+    "sell_untaxed": 9125340,
+    "sell_all_growth_taxed": 7959170
+   }
+  },
+  "2050": {
+   "site treatment": {
+    "sell": 10007020,
+    "rent": 8752170,
+    "live": 7164510,
+    "liveB": 7694520,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "A tax rate 1.1636% (sum of published components) instead of 1.2%": {
+    "sell": 10007020,
+    "rent": 8776120,
+    "live": 7192420,
+    "liveB": 7722420,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "joint return: $500,000 home-sale exclusion": {
+    "sell": 10007020,
+    "rent": 8752170,
+    "live": 7247260,
+    "liveB": 7777270,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "depreciation, building = 20% of value (assumption)": {
+    "sell": 10007020,
+    "rent": 8739220,
+    "live": 7164510,
+    "liveB": 7694520,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "depreciation, building = 40% of value (assumption)": {
+    "sell": 10007020,
+    "rent": 8714510,
+    "live": 7164510,
+    "liveB": 7694520,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "rent 25% above the HUD benchmark (assumption)": {
+    "sell": 10007020,
+    "rent": 9085570,
+    "live": 7164510,
+    "liveB": 7694520,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   },
+   "home prices +5.0% a year (assumption)": {
+    "sell": 14134470,
+    "rent": 12976390,
+    "live": 11373440,
+    "liveB": 11903450,
+    "best": "sell",
+    "sell_untaxed": 15308260,
+    "sell_all_growth_taxed": 13351940
+   },
+   "home prices +6.7% a year (recorded San Jose-area average 1976-2025), portfolio unchanged": {
+    "sell": 20781760,
+    "rent": 20691210,
+    "live": 19154950,
+    "liveB": 19684950,
+    "best": "sell",
+    "sell_untaxed": 22507570,
+    "sell_all_growth_taxed": 19631220
+   },
+   "portfolio +7.0% a year after tax (assumption)": {
+    "sell": 12175820,
+    "rent": 8763340,
+    "live": 7019480,
+    "liveB": 7600250,
+    "best": "sell",
+    "sell_untaxed": 13088680,
+    "sell_all_growth_taxed": 10958670
+   },
+   "portfolio +3.0% a year after tax (assumption)": {
+    "sell": 8184480,
+    "rent": 8742050,
+    "live": 7295260,
+    "liveB": 7779540,
+    "best": "rent",
+    "sell_untaxed": 8941910,
+    "sell_all_growth_taxed": 8184480
+   },
+   "no Prop 19 relief": {
+    "sell": 10007020,
+    "rent": 8752170,
+    "live": 6900540,
+    "liveB": 7430540,
+    "best": "sell",
+    "sell_untaxed": 10838040,
+    "sell_all_growth_taxed": 9453000
+   }
+  }
+ }
+}
