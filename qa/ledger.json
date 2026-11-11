@@ -331,12 +331,12 @@
   "id": "P13-01",
   "topic": "prop13",
   "claim": "Annual inflation factor applied to base year values",
-  "value": "Lesser of California CPI change or 2%. 2026 roll: 1.02 (CCPI +3.307%). In the 51 rolls 1976-77 to 2026-27 the full 2% applied in 42 years; below 2% in 9 years (1983-84 1%; 1995-96 1.19%; 1996-97 1.11%; 1999-2000 1.853%; 2004-05 1.867%; 2010-11 -0.237%; 2011-12 0.753%; 2014-15 0.454%; 2015-16 1.998%; 2016-17 1.525%; 2021-22 1.036%)",
+  "value": "Lesser of the California CPI change or 2%. 2026 roll: 1.02 (CCPI +3.307%). Across the 51 rolls 1976-77 to 2026-27 the full 2% applied in 40 years and a lower factor in 11 (1983-84 1%; 1995-96 1.19%; 1996-97 1.11%; 1999-2000 1.853%; 2004-05 1.867%; 2010-11 -0.237%; 2011-12 0.753%; 2014-15 0.454%; 2015-16 1.998%; 2016-17 1.525%; 2021-22 1.036%). Compound average 1.81% a year over 51 years; 1.73% over the last 25.",
   "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf",
   "source": "BOE Letter to Assessors No. 2026/002 (January 13, 2026)",
-  "evidence": "'please prepare your 2026 assessment roll using an inflation factor of 1.02' and enclosure table of final factors 1976-77 to 2026-27.",
+  "evidence": "'please prepare your 2026 assessment roll using an inflation factor of 1.02' and the enclosure table of final factors 1976-77 to 2026-27.",
   "status": "verified",
-  "notes": "Counting the table: 11 listed years are below 2.000% including 2015-16 (1.998%) and 1999-2000; the 2% count is therefore 40 of 51. Recount in qa/series.json is authoritative.",
+  "notes": "The household's assessed-value history for both properties tracks these official factors year by year (checked privately; one San Francisco year is about $40 below the factor).",
   "checked": "2026-11-11"
  },
  {
@@ -532,6 +532,78 @@
   "source": "California Revenue and Taxation Code section 480",
   "evidence": "'...including a transfer through the medium of a trust, the change in ownership statement or statements shall be filed by the trustee (if the property was held in trust) or the transferee ... within 150 days after the date of death.'",
   "status": "verified",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "P19-09",
+  "topic": "prop19",
+  "claim": "How the Prop 19 $1 million amount is indexed",
+  "value": "Every second February 16 the amount is multiplied by ONE year's change in the FHFA House Price Index for California (the prior calendar year only). 2023: x 1.0226 (2022 change) = $1,022,600. 2025: x 1.0215 (2024 change) = $1,044,586. The intervening year's change is not applied.",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta23012.pdf",
+  "source": "BOE Letters to Assessors No. 2023/012 (March 7, 2023) and No. 2025/009 (March 7, 2025)",
+  "evidence": "'the annual percentage change in the House Price Index for California for 2022 was 2.26 percent. Accordingly, the $1 million amount is adjusted to $1,022,600.' ; 'for 2024 was 2.15 percent. Accordingly, the $1 million amount is adjusted to $1,044,586.'",
+  "status": "verified",
+  "notes": "Consequence: the excluded amount grows at roughly half the pace of home prices, so the share of an expensive home that Prop 19 shelters shrinks over time. The site model on main compounded two years of growth per step, which overstates the future amount - corrected at integration and flagged.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "UT-01",
+  "topic": "utilities",
+  "claim": "San Jose Water rates, 2026",
+  "value": "Quantity rate and service charge up about 2.8% from January 1, 2026 (year 2 of the CPUC-approved 2025-27 General Rate Case); a separate Valley Water wholesale increase took effect July 1, 2026",
+  "url": "https://www.sjwater.com/2026Rates",
+  "source": "San Jose Water - 2026 Rates",
+  "evidence": "'Year 2 of our 2025-27 GRC Filing shows an increase in the quantity rate and service charge of approximately 2.8%, effective January 1.'",
+  "status": "verified",
+  "notes": "Whether the Cupertino home is served by San Jose Water or another retailer is not confirmed - check the bill. Flagged.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "UT-02",
+  "topic": "utilities",
+  "claim": "San Jose Water typical bill in the 2025-27 rate case filing",
+  "value": "Average residential bill, 3/4-inch meter, 10 Ccf a month: $107.44 at prior rates; requested $120.62 (2025), $125.44 (2026), $131.12 (2027), before surcharges",
+  "url": "https://www.sjwater.com/GRC2025",
+  "source": "San Jose Water - General Rate Case 2025-27",
+  "evidence": "Seen in the search-result extract of the official page: 'the average monthly residential bill with a 3/4-inch meter using 10 Ccf per month would increase by $13.18 (or 12.3%) from $107.44 at present rates, to $120.62 in 2025, by $4.82 (or 4.0%) to $125.44 in 2026, and by $5.68 (or 4.5%) to $131.12 in 2027.'",
+  "status": "unverified",
+  "notes": "These are the amounts REQUESTED in the filing, read from a search extract rather than the opened page; the approved amounts differ (2026 approved increase was about 2.8%). Shown for scale only - flagged.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "UT-03",
+  "topic": "utilities",
+  "claim": "San Francisco water and sewer rates, fiscal years ending 2027 and 2028",
+  "value": "Proposed schedule effective July 1, 2026: average single-family combined bill up about $21 a month in FY 2027 and $23 a month in FY 2028 (about 12.6% and 12.5% a year)",
+  "url": "https://www.sfpuc.gov/accounts-services/water-power-sewer-rates/proposed-water-sewer-rates-2026/proposition-218-notice",
+  "source": "San Francisco Public Utilities Commission - Proposition 218 notice",
+  "evidence": "'the proposed new rate schedule represents an average combined monthly bill increase of approximately $21 and $23 per month in fiscal years 2027 and 2028 respectively (about 12.6% and 12.5% per year).'",
+  "status": "verified",
+  "notes": "The notice describes PROPOSED rates; final adoption was not re-confirmed this session - flagged. Multi-family bills differ from the single-family average.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "UT-04",
+  "topic": "utilities",
+  "claim": "Solar net-metering legacy terms and AB 942 (2025-2026)",
+  "value": "AB 942 was amended on July 17, 2025 to remove its net-metering section (Public Utilities Code 2827.2); it now concerns climate credits only and remains in committee (last action August 29, 2025). Not enacted.",
+  "url": "https://leginfo.legislature.ca.gov/faces/billStatusClient.xhtml?bill_id=202520260AB942",
+  "source": "California Legislative Information - AB 942 status",
+  "evidence": "Title: 'An act to [struck: add Section 2827.2 to] amend Section 748.5 of the Public Utilities Code'. Type of measure: 'Active Bill - In Committee Process'.",
+  "status": "verified",
+  "notes": "The 20-year legacy period for older net-metering tariffs and what happens when it ends were NOT opened on a CPUC or PG&E page this session - flagged. If the Cupertino system is on a legacy tariff, the legacy term will almost certainly have ended before 2040-2050, so today's monthly credit should not be projected forward.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "FED-15",
+  "topic": "federal-law-change",
+  "claim": "Bills to repeal the federal estate tax, 119th Congress",
+  "value": "S. 587 and H.R. 1301 (Death Tax Repeal Act), introduced February 13, 2025, referred to committee; no further action shown",
+  "url": "https://www.congress.gov/bill/119th-congress/senate-bill/587/text/is",
+  "source": "Congress.gov - S.587 and H.R.1301",
+  "evidence": "Seen in the search-result extract of congress.gov: 'This bill has the status Introduced'; H.R.1301 'Latest Action: House - 02/13/2025 Referred to the House Committee on Ways and Means.'",
+  "status": "unverified",
+  "notes": "Read from search extracts of the official pages, not the opened pages (congress.gov was not fetched) - flagged for a manual click-through.",
   "checked": "2026-11-11"
  }
 ]
