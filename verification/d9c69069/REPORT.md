@@ -58,3 +58,23 @@ result or another session's file). "Wording found" is quoted from the official p
 SFPUC proposed water/sewer rates, Santa Clara County tax-rate book components, HUD SAFMR for ZIP 94122,
 CDI statewide residential insurance experience, IRC §1014 / §121 / §1411 / Form 706 pages, and the
 California Secretary of State ballot-measure returns. Two of these were attempted and are recorded in §5.
+
+---
+
+## 3. Independent arithmetic and consistency checks
+
+These are checks this session computed from scratch, not re-runs of another session's validator.
+
+| Check | Method | Result |
+|---|---|---|
+| Household tax/assessment history rounded to the nearest $10 | Recomputed all 52 published values from the owner-supplied exact figures using round-half-up to $10, and compared with `site/verification.html` | **52 / 52 correct.** No rounding error. Convention is half-up (e.g. `x,565 → x,570`, `x,x05 → x,x10`) and is applied consistently |
+| BOE Prop 13 factor table (51 roll years, 1976-77 … 2026-27) | Transcribed the official table from LTA 2026/002 by hand and diffed every CCPI percentage and every factor against `qa/series.json` | **51 / 51 rows match exactly.** No missing, extra or altered row |
+| Site claim: "The assessed-value changes match the Board of Equalization's factor in every year" | Compared each of the 13 household assessment changes (2014–2026) with the official factor for that roll year | **Confirmed, 13 / 13.** 2014 +0.5% vs official 0.454%; 2016 +1.5% vs 1.525%; 2021 +1% vs 1.036%; the other ten +2% vs factor 1.02 |
+| Site claim: "the tax bills do not move with the assessment" | Compared household tax-bill changes with the assessment changes | **Confirmed.** The two series diverge in most years, which is what flat direct charges and exemptions produce |
+| Site claim: 2021 Property B bill drop "consistent with the Rent Board fee leaving the tax bill" | Checked the official fee page | **Confirmed.** "While this fee was previously collected on the property tax bill, owners must pay this fee to the Rent Board directly as of 2022." The 2021 bill fell 5.9% while its assessment rose 1% |
+| Property B three-unit parcel-tax total $829.22 | Summed the five official amounts for a 3-unit multi-family parcel | **Confirmed exactly**: 334.38 + 319.34 + (3 × 21.50 = 64.50) + 99 + 12 = **829.22** |
+| Derived stats rendered on the Verified facts page | Recomputed from the official 51-row table | 2% cap applied in **40 of 51** rolls; geometric-average factor **+1.81% a year**. Both consistent with the page's own formulas |
+| Base-case decision output | Re-ran the model on the merged tree | sell **$7,683,290** · rent **$6,249,830** · live **$5,135,780** (2040 inheritance, 2050 endpoint). The `live` figure moved from $5,196,300 (pre-PR #20) because of the HPI-indexed Prop 19 cap; that is an intended correction, not a regression |
+| Publication payload = allowlist | Enumerated every git-tracked file, applied `_config.yml` exclusions, and diffed against the `_public/` artifact from `scripts/package-site.py` | **24 files each side, identical set** (only `.gitignore` and `_config.yml` differ, and Jekyll consumes those). `qa/**` and `verification/**` are now excluded, so no internal audit file is served |
+| Privacy headers | Grepped every published page | All **13** pages carry `<meta name="robots" content="noindex,nofollow,noarchive">` |
+| Navigation completeness | Cross-checked every published page against `assets/app.js` | All **13** pages are reachable from the shared navigation; no orphan page |
