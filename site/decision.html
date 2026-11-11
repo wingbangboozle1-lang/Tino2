@@ -98,4 +98,6 @@ document.getElementById("download").addEventListener("click", () => {
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "property-a-scenario.csv"; link.click(); URL.revokeObjectURL(link.href);
 });
 render();
+
+UI.ensureRowSources();
 </script></body></html>

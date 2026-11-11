@@ -46,3 +46,10 @@ window.SOURCES = {
   sb974: { agency: "California Legislative Information", title: "SB-974 — special needs trusts", url: "https://leginfo.legislature.ca.gov/faces/billStatusClient.xhtml?bill_id=202520260SB974", note: "Chapter 665, Statutes of 2026; clarifies qualifying trust transfers." },
   rtc63: { agency: "California Legislative Information", title: "Revenue and Taxation Code §63.2", url: "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=63.2&lawCode=RTC", note: "Current statutory intergenerational exclusion." }
 };
+// Reopened and checked in this session on 2026-11-11; other register entries
+// are carried-forward research and require revalidation, not a fresh audit claim.
+Object.assign(window.SOURCES, {
+ blsCPI:{agency:'BLS',title:'December 2022 CPI release (January 12, 2023)',url:'https://www.bls.gov/news.release/archives/cpi_01122023.htm',note:'Checked 2026-11-11: CPI-U 6.5%, electricity 14.3% over 12 months. Not a forecast.'},
+ fdic:{agency:'FDIC',title:'Understanding Deposit Insurance',url:'https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance',note:'Checked 2026-11-11: $250,000 per depositor, bank and ownership category; nondeposit investments excluded.'},
+ insuranceResidential:{agency:'California Department of Insurance',title:'Home/Residential Insurance',url:'https://www.insurance.ca.gov/01-consumers/105-type/5-residential/index.cfm',note:'Checked 2026-11-11: comparison guidance and limited FAIR Plan coverage; no verified property-specific premium.'}
+});
