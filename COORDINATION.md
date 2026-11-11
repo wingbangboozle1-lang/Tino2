@@ -270,3 +270,11 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+## Session `c8786419` — 2026-11-11
+
+| Task | Status | Owner | Scope |
+|---|---|---|---|
+| Audit privacy exposure and verification of existing public site | in progress | c8786419 | `COORDINATION.md` (append), audit findings only |
+
+Prior in-progress claims above are more than 60 minutes old; no takeover of their implementation scope is assumed until checked. Platform requires the existing Arena branch rather than a session-named branch. Existing GitHub Pages publishes the repository root, including historical alternate pages and source files; a privacy audit is urgent.
