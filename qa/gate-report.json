@@ -59,16 +59,16 @@
   },
   {
    "file": "site/review.html",
-   "rows": 72,
+   "rows": 76,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 23,
+   "amounts": 31,
    "links": 0
   },
   {
    "file": "site/san-francisco.html",
-   "rows": 24,
+   "rows": 26,
    "rowsWithContextLinkOnly": 6,
-   "amounts": 25,
+   "amounts": 30,
    "links": 0
   },
   {
@@ -80,9 +80,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 154,
+   "rows": 156,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 29,
+   "amounts": 41,
    "links": 0
   },
   {
@@ -104,12 +104,12 @@
  "warnings": [],
  "totals": {
   "pages": 14,
-  "rows": 1145,
-  "rowsWithOwnSource": 1136,
+  "rows": 1153,
+  "rowsWithOwnSource": 1144,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4385,
-  "officialExactAmounts": 60,
+  "amounts": 4410,
+  "officialExactAmounts": 70,
   "internalLinks": 290,
-  "externalLinks": 1555
+  "externalLinks": 1565
  }
 }
