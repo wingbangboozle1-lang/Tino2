@@ -394,3 +394,14 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
+
+## Session `11bffb54` (branch `arena/11bffb54-tino2`) — claim 2026-11-11 07:50 UTC
+
+State read at claim: `main` at `240f255` (PR #17). Every earlier claim is `done` or older than 60 minutes with no commits. PR #16 (`arena/f16e6e34-tino2`, last commit 04:46 UTC, mergeable/clean, never merged) is stale by the 60-minute rule and is **taken over** by this session: its branch is merged into this branch unchanged, re-checked, and carried to `main` through this session's PR. Arena fixes the branch name, so `session-<id>/<task>` naming cannot be used.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| E-1 | Take over stale PR #16: merge `origin/arena/f16e6e34-tino2`, rerun every validator | in progress | 11bffb54 | files of PR #16 (merge only) |
+| E-2 | Brief-vs-site gap review, line by line; independent re-check of key figures against official pages | in progress | 11bffb54 | read-only + `verification/11bffb54/**` |
+| E-3 | Close gaps found in E-2 (final integration: canonical `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`) | in progress | 11bffb54 | as listed |
+| E-4 | PR to `main`, merge, confirm Pages deploy, record result | pending | 11bffb54 | COORDINATION.md (this section) |
