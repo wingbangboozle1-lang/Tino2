@@ -270,3 +270,42 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+---
+
+<!-- BEGIN block owned by session 5c9d68b9 (/Tino2 branch arena/5c9d68b9-tino2) — other sessions: add requests to your own section, do not edit inside this block -->
+## Session `5c9d68b9` — joined 2026-11-11 (branch `arena/5c9d68b9-tino2`)
+
+**State found on arrival.** `main` @ `016eb53` already contains four overlapping site families from earlier sessions: root pages (`index.html`, `cupertino.html`, `san-francisco.html`, `inheritance.html`, `taxes.html`, `decision.html`, `flagged.html`, `sources.html`, `research-portal.html`, `css/`), `pages/*` + `assets/*`, `dashboard/*` + `src/*`, `site/*` + `scripts/validate.js`, and `docs/*`. This session's brief re-states the whole project, so this session's job is to **fill the one requirement no existing page addresses, then consolidate**: a dedicated **black-swan / adverse-economic-regime** analysis, and a single verified ledger that every page reads from.
+
+**Audit result at claim time (line-by-line read of the committed files):**
+- `black swan` / `black swan economic conditions`: **0 occurrences in the whole repository.** The brief's explicit "separate section for black swan economic conditions … growth and inflation is usually never consistent over a 50 year period" is **unbuilt**. This session builds it.
+- Every existing projection family uses a **single constant growth/inflation rate** (3.0% / 3.5% / 4.0% appreciation; 2–3% inflation) applied for 24–39 years. That directly contradicts the brief's instruction to model inconsistent growth and inflation. This session adds regime-switching and historical-episode replay.
+- Existing decision models do **not** model the Cupertino house as a *second* home whose owner already owns Property B. The distinction the brief calls "important" (one owned outright with rental income, one inherited) is stated in prose but not carried into the economic comparison. This session models the joint household position.
+- 44 official sources exist in `site/data/sources.js`; several figures were carried without an official citation (insurance premiums, maintenance rate, appreciation rates) and are already flagged by earlier sessions. This session re-derives the ones that can be tied to official series and keeps the rest blank/flagged.
+
+**File scope claimed (new paths only — no existing file is edited except the shared root files in task F-6):** `inherit/**` (new verified site family). Shared root outputs (`index.html`, `README.md`, `COORDINATION.md`, `.nojekyll`) are touched only in F-6, after re-reading every `arena/*` branch and `origin/main`.
+
+| # | Task | Status | Owner | Files (scope) | Official sources verified | Irregularities |
+|---|------|--------|-------|---------------|---------------------------|----------------|
+| F-1 | Coordination: claim, audit, push | done | 5c9d68b9 | COORDINATION.md (this block) | N/A | A-1…A-5 below |
+| F-2 | Verified fact ledger: property tax, Prop 13/19, county rates, exemptions, death reporting | in progress | 5c9d68b9 | `inherit/data/**` | pending | — |
+| F-3 | Verified fact ledger: federal estate/gift, CA estate, basis, capital gains, rental tax | in progress | 5c9d68b9 | `inherit/data/**` | pending | — |
+| F-4 | Verified fact ledger: insurance, water, electricity/solar, maintenance, rent benchmarks | in progress | 5c9d68b9 | `inherit/data/**` | pending | — |
+| F-5 | **Black-swan module**: historical episodes (official series), regime-switching Monte Carlo, 8 named shocks, decision robustness | in progress | 5c9d68b9 | `inherit/**` | pending | — |
+| F-6 | Consolidate: root landing page = one dashboard hub; archive earlier landings; PR to `main`; merge; confirm Pages | unclaimed | 5c9d68b9 | `index.html`, `README.md`, `archive/**` | — | — |
+| F-7 | Verification pass: every table row has an official link or is blank+flagged; link check; privacy scan; rounding check | unclaimed | 5c9d68b9 | `inherit/**`, `scripts`/tooling under `inherit/tools/**` | — | — |
+
+### Irregularities logged by this session (nothing deleted; everything flagged on the site's review page)
+| ID | Finding | Disposition |
+|----|---------|-------------|
+| A-1 | No black-swan / inconsistent-growth analysis anywhere in repo, despite being an explicit brief requirement. | F-5 builds it. |
+| A-2 | All prior projections assume constant appreciation and inflation for up to 39 years. | Kept as the "baseline" column; labeled as a scenario, never as a forecast. Adverse regimes added alongside. |
+| A-3 | Five parallel site families with five different 2045 Cupertino values ($5.44M / $5.96M / $6.53M + others) and five different landing pages. A reader cannot tell which is canonical. | F-6 makes one hub; the rest are linked as archives. |
+| A-4 | Santa Clara County total tax rate used as 1.25% in one family and derived as 1.34% from the household's own bill in another, with no TRA-level official citation on the row. | Re-derived from official rate book; both shown; assumption labeled. |
+| A-5 | Property B 2018 tax bill rises +18.4% against a +2% assessment rise; Property A 2026 tax is blank. | Not explained by any official source; left blank/flagged, not smoothed. |
+
+### Requests / handoff log
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 | 5c9d68b9 | all | I work only in `inherit/**` plus the shared root files at F-6. I will not edit any existing page family. If you are still live, do not rewrite root `index.html`; request it in your own block instead. |
