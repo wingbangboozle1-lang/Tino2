@@ -164,7 +164,8 @@
       ["H.R.1301, Death Tax Repeal Act", "Introduced 13 Feb 2025; no action since", "Would end the federal estate tax. Not enacted; not modeled.", "hr1301"],
       ["Proposition 19 relief amount", "$1,044,586 until 15 Feb 2027", "Adjusted every second February by one year's change in the California house-price index.", "boeLta2025009"],
       ["California ballot, 3 Nov 2026", "Unofficial results; certified by 11 Dec 2026", "No measure changed the 1% rate, the 2% cap or the inheritance rules. Proposition 42 (no new state taxes on personal property) was leading.", "sosResults2026"],
-      ["San Francisco File No. 261020", "Proposed; not enacted", "Would cap banked plus capital-improvement rent increases at 10% a year on rent-controlled units. Affects Property B only.", "sfRentRates"]
+      ["San Francisco File No. 261020", "Proposed; not enacted", "Would cap banked plus capital-improvement rent increases at 10% a year on rent-controlled units. Affects Property B only.", "sfRentRates"],
+      ["San Francisco Measure H (parcel tax for Muni)", "Passed in the preliminary count of 3 Nov 2026 (74.4% yes); not yet certified", "A new yearly parcel tax for 15 years, from $129 a parcel by property type and size, adjusted for inflation. Affects Property B only; the amount for its parcel type is not confirmed and is not in the model.", "sfMeasureH"]
     ].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td>${td(r[2])}${src(r[3])}</tr>`).join("");
 
     document.getElementById("source-prop19").innerHTML = UI.source("boeProp19");

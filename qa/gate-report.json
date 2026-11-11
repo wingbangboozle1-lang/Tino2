@@ -3,7 +3,7 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 31,
+   "rows": 32,
    "rowsWithContextLinkOnly": 0,
    "amounts": 74,
    "links": 0
@@ -24,9 +24,9 @@
   },
   {
    "file": "site/estate-tax.html",
-   "rows": 53,
+   "rows": 56,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 187,
+   "amounts": 196,
    "links": 0
   },
   {
@@ -45,9 +45,9 @@
   },
   {
    "file": "site/plan.html",
-   "rows": 48,
+   "rows": 51,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 99,
+   "amounts": 101,
    "links": 0
   },
   {
@@ -59,14 +59,14 @@
   },
   {
    "file": "site/review.html",
-   "rows": 65,
+   "rows": 72,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 19,
+   "amounts": 23,
    "links": 0
   },
   {
    "file": "site/san-francisco.html",
-   "rows": 23,
+   "rows": 24,
    "rowsWithContextLinkOnly": 6,
    "amounts": 25,
    "links": 0
@@ -80,7 +80,7 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 151,
+   "rows": 154,
    "rowsWithContextLinkOnly": 0,
    "amounts": 29,
    "links": 0
@@ -104,12 +104,12 @@
  "warnings": [],
  "totals": {
   "pages": 14,
-  "rows": 1127,
-  "rowsWithOwnSource": 1118,
+  "rows": 1145,
+  "rowsWithOwnSource": 1136,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4370,
-  "officialExactAmounts": 59,
+  "amounts": 4385,
+  "officialExactAmounts": 60,
   "internalLinks": 290,
-  "externalLinks": 1536
+  "externalLinks": 1555
  }
 }
