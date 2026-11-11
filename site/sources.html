@@ -21,7 +21,7 @@ const assumptions=[
  ["Capital-gain scenario","33.1%","High-bracket illustration, not taxpayer-specific","caCapGains","Federal, NIIT and California treatment need actual return"],
  ["Main-home exclusion","$250,000 when horizon ≥2 years","Applied to live case only; eligibility tests still required","irsHomeSale","No $500,000 amount assumed"],
  ["Estate exclusion growth","2% annually after 2026","2026 $15 million official; later values modeled","irsEstate","Not an IRS forecast"],
- ["Prop 19 exclusion growth","2% every two years after current period","2025–27 $1,044,586 official; later amounts modeled","boeProp19Amount","Actual HPI adjustments unknown"]
+ ["Prop 19 exclusion growth","Compounds at home-price growth every two years after current period","2025–27 $1,044,586 official; later amounts modeled","boeProp19Amount","BOE indexes to FHFA California HPI (NR 25-02); actual future adjustments unknown"]
 ];
 main.innerHTML=UI.hero("Evidence and reproducibility", "Every claim has a classification.", "Official sources support law and published benchmarks. Household inputs support only the starting scenario. Calculations are deterministic, assumptions are adjustable where material, and unknown values remain blank.", `<a class="button secondary" href="review.html">Unresolved items ⚑</a>`)+`<div class="container">
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Reading the dashboard</div><h2>Five labels, five different levels of confidence</h2></div></div><div class="grid three">

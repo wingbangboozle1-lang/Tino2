@@ -7,6 +7,8 @@ const root = path.resolve(__dirname, "..");
 global.window = global;
 require(path.join(root, "site/data/sources.js"));
 require(path.join(root, "site/data/model.js"));
+require(path.join(root, "site/data/history.js"));
+require(path.join(root, "site/data/scenarios.js"));
 let checks = 0;
 function ok(condition, message) {
   checks += 1;
@@ -43,9 +45,43 @@ Object.entries(SOURCES).forEach(([key, source]) => {
   ok(source.agency && source.title && source.note, `${key} has agency, title and note`);
 });
 
+
+// Privacy: published household history must already be rounded to the nearest $10.
+[...MODEL.historyA, ...MODEL.historyB].forEach(r => {
+  [r.tax, r.assessed].forEach(v => ok(v === null || v % 10 === 0, `household history value ${v} is a $10 multiple`));
+});
+ok(MODEL.BASE.aAssessed % 10 === 0 && MODEL.BASE.bAssessed2025 % 10 === 0, "base assessed inputs are $10 multiples");
+
+// Scenario engine: constant-rate baseline must reproduce the Decision lab exactly.
+const SC = window.SCEN;
+for (const Y of [2040, 2045, 2050]) {
+  for (const H of [5, 10, 20]) {
+    const lab = MODEL.decision({...MODEL.BASE, inheritYear: Y}, H, "4BR");
+    const eng = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), Y, H, "4BR");
+    near(eng.sell, lab.sell.terminal, 0.01, `engine sell ${Y}/${H}`);
+    near(eng.rent, lab.rent.terminal, 0.01, `engine rent ${Y}/${H}`);
+    near(eng.live, lab.live.terminal, 0.01, `engine live ${Y}/${H}`);
+    near(eng.sellLiq, lab.sell.terminalAfterLiquidation, 0.01, `engine liquidation-taxed sell ${Y}/${H}`);
+  }
+}
+ok(SC.SCENARIOS.length === 12, "twelve scenarios");
+SC.SCENARIOS.forEach(sc => ok(Boolean(SOURCES[sc.source]), `scenario ${sc.id} has an official source key`));
+// History data integrity against the downloaded CSV.
+const csv = fs.readFileSync(path.join(root, "research/data/fred_annual_2026-11-11.csv"), "utf8").trim().split("\n").slice(1).map(l => l.split(","));
+ok(csv.length === window.HISTORY.rows.length, "history row count matches CSV");
+csv.forEach((cells, i) => { ok(Number(cells[0]) === window.HISTORY.rows[i][0] && Number(cells[1]) === window.HISTORY.rows[i][1], `history row ${cells[0]} matches CSV`); });
+near(SC.H[2025].cpi / SC.H[2024].cpi - 1, 321.943 / 313.689 - 1, 1e-12, "CPI 2025 change");
+// Prop 19 formula against BOE letter 2026/026: new taxable value = factored base + (market - (factored base + cap)) when market exceeds the limit.
+const tx = MODEL.inheritanceValues(2026);
+near(tx.primaryAssessed, tx.carryForwardAssessed + (tx.market - (tx.carryForwardAssessed + 1044586)), 0.001, "BOE excess-amount formula");
+// Deterministic Monte Carlo.
+const mcA = SC.monteCarlo({paths: 200}), mcB = SC.monteCarlo({paths: 200});
+near(mcA.summary[2045].p50.sell, mcB.summary[2045].p50.sell, 1e-9, "Monte Carlo is seeded and reproducible");
+ok(mcA.summary[2045].sellBeatsRent > 0 && mcA.summary[2045].sellBeatsRent < 1, "Monte Carlo produces mixed outcomes");
+
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 8, "eight dashboard pages");
+ok(htmlFiles.length === 9, "nine dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
