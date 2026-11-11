@@ -40,7 +40,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Model conventions
 
-Displayed projection dollars round to the nearest $10. Exact historical household bills are withheld from the canonical public site. Rounded inputs remain unverified scenarios; rounding is not guaranteed anonymization. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
+Displayed projection dollars round to the nearest $10. Household tax and assessment history is published rounded to the nearest $10 on `site/properties.html`; exact bills are not stored in the current files. Rounded inputs remain unverified scenarios; rounding is not guaranteed anonymization. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
 
 Current law is separated from assumptions and proposed legislation. Future Proposition 19 and federal estate exclusion amounts are scenarios, not official forecasts. Unknown values remain blank.
 
