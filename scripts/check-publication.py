@@ -62,6 +62,8 @@ if __name__ == '__main__':
     if '--jekyll' in sys.argv:
         # Jekyll root publication does not synthesize package-only crawler markers.
         ALLOWED.difference_update({'.nojekyll', 'robots.txt'})
+        # GitHub Pages' default theme generates this stylesheet (not private input).
+        ALLOWED.add('assets/css/style.css')
     errors = audit(target)
     if errors:
         for error in errors:
