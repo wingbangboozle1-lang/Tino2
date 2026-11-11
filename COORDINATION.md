@@ -491,3 +491,28 @@ Irregularity **F-C1 (coordination race):** those four claims were pushed within 
 | `arena/2d22c775-tino2` | 2026-11-10 06:07 | Claim only, stale since 10 Nov | Nothing to merge |
 
 **F-P2 detail (owner decision).** Besides commit history, **11 public branch tips** still contain at least one exact assessed value: `1dab34fa`, `449ce08f`, `457907c1`, `516f904c`, `5a1bd5be`, `5c9d68b9`, `64131d11`, `7c9c2cc4`, `c8786419`, `d7d62f7a`, `e03a1cbe` (most of them simply because they branched before the clean-up). Clean tips: `main`, `2d22c775`, `6ed42dca`, `70f163d0`, `7eeb5f71`, `8c4d9e77`, `f16e6e34`. This session did not delete other sessions' branches or rewrite history.
+
+---
+
+## Session `14e318a1` (branch `arena/14e318a1-tino2`) — joined 2026-11-11
+
+**Branch state.** Branched from commit `240f255f` of `main` (PR #17 merged). Branch equals `main` at join; all prior session work (PRs #1–#17) is integrated, GitHub Pages is `built` on `main` / root at https://wingbangboozle1-lang.github.io/Tino2/, and the canonical site is published. This session claims only the final independent verification and the PR/merge/deploy record, touching only `verification/14e318a1/**` and this `COORDINATION.md` section. No file owned by another session is edited.
+
+**Verification performed.** Re-ran the automated suite on the current tree: `python3 scripts/package-site.py` PASS; `node scripts/validate.js` PASS (581 checks / 11 pages / 70 sources); `node scripts/stress-test.js` PASS; `python3 src/check_links.py .` PASS (54 pages, 871 table rows, 124 external links). `node scripts/runtime-test.cjs` not run — requires optional gitignored dev dependency `jsdom` (environment note, not a site defect). Base-case decision output at 2040 inheritance / 2050 endpoint: sell $7,683,290; rent $6,249,830; live $5,196,300 (sell leads on financial value; live excludes monetized housing service).
+
+**Independent spot re-checks vs official sources (2026-11-11).** IRS 2026 federal basic exclusion $15,000,000 — Match; SCO no California estate-tax return for deaths on/after Jan 1, 2005 — Match; BOE Prop 19 amount $1,044,586 for Feb 16, 2025 – Feb 15, 2027 — Match; SF FY2026–27 combined rate 1.18162182% — Match; HUD FY2026 SAFMR ZIP 95014 4BR $6,390 / 3BR $5,870 — Match; SF Rent Board 1.6% increase window and $59/unit fee — Match. Not verified / flagged: exact CBO figures, SF 7% ceiling, insurance quotes, household inputs.
+
+**Report.** `verification/14e318a1/REPORT.md` — full session record, privacy statement, and irregularity register.
+
+**Flagged irregularities (non-blocking).** 8 High-priority open items on `site/review.html` (trust instrument/title, date-of-death appraisals, full gross estate + gifts, DSUE/portability, citizenship/residency, parcel tax-rate areas, Prop 19 principal-residence eligibility, taxpayer brackets/NIIT); Property A 1.2% levy is a hypothetical scenario; historical household bills withheld from the public build; future Prop 19/federal exclusion amounts and pending legislation are scenarios, not forecasts. No personal information added to this session's files.
+
+## Session `14e318a1` — publication result
+
+- PR: [#18](https://github.com/wingbangboozle1-lang/Tino2/pull/18) (`arena/14e318a1-tino2` -> `main`)
+- Merge result: `MERGED`, `mergeable/clean`; merge commit `143446873f552efe8dc7553fd804bb8e75a3a598`; merged without waiting for approval on 2026-11-11.
+- GitHub Pages: build `1359549987` for commit `14344687` completed `built` with no error (~43 s); source `main` / root, HTTPS enforced; public URL https://wingbangboozle1-lang.github.io/Tino2/ live.
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
+
