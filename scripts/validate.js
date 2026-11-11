@@ -45,7 +45,7 @@ Object.entries(SOURCES).forEach(([key, source]) => {
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 8, "eight dashboard pages");
+ok(htmlFiles.length === 9, "nine dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
@@ -63,10 +63,42 @@ for (const file of htmlFiles) {
     const target = path.resolve(path.dirname(file), clean);
     ok(fs.existsSync(target), `${path.basename(file)} local reference ${ref}`);
   }
-  for (const match of html.matchAll(/UI\.source\("([A-Za-z0-9]+)"/g)) {
+  for (const match of html.matchAll(/(?:UI\.source|src)\("([A-Za-z0-9]+)"/g)) {
     ok(Boolean(SOURCES[match[1]]), `${path.basename(file)} source key ${match[1]}`);
   }
 }
+// Black-swan scenario engine: assumptions stay inside sane bounds and the ranking is reproducible.
+require(path.join(root, "site/data/scenarios.js"));
+ok(SCENARIOS.DEFS.length === 7, "seven stress cases");
+ok(SCENARIOS.INHERIT === 2045 && SCENARIOS.END === 2055, "transfer year and horizon");
+const scenarioRows = SCENARIOS.runAll();
+ok(scenarioRows.length === SCENARIOS.DEFS.length, "every case runs");
+scenarioRows.forEach(({ def, result }) => {
+  ok(["sell", "rent", "live"].includes(result.winner), `${def.id} has a winner`);
+  ok(result.vAtInherit > 0 && result.sell.terminal > 0 && result.rent.terminal > 0 && result.live.terminal > 0, `${def.id} produces positive values`);
+  ok(result.margin >= 0, `${def.id} margin is non-negative`);
+  ok(def.sources.every(k => Boolean(SOURCES[k])), `${def.id} cites registered sources`);
+  ok(result.live.housingAdjustedTerminal >= result.live.terminal, `${def.id} housing value is additive`);
+  ok(result.fullTaxAtTransfer > result.primaryTaxAtTransfer, `${def.id} Prop 19 exclusion reduces tax`);
+});
+const stag = scenarioRows.find(r => r.def.id === "stagflation");
+ok(stag.result.winner === "rent", "stagflation replay favours holding");
+const baseRow = scenarioRows.find(r => r.def.id === "base").result;
+near(baseRow.vAtInherit, MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10).transfer.market, 1, "scenario engine matches the decision page value at 2045");
+const refDecision = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10);
+near(baseRow.sell.terminal, refDecision.sell.terminal, 1, "scenario engine matches the decision page sell terminal");
+near(baseRow.rent.terminal, refDecision.rent.terminal, 1, "scenario engine matches the decision page rent terminal");
+near(baseRow.live.terminal, refDecision.live.terminal, 1, "scenario engine matches the decision page live terminal");
+near(baseRow.primaryTaxAtTransfer, refDecision.transfer.primaryTax, 0.5, "scenario engine matches the decision page Prop 19 tax");
+const beHome = SCENARIOS.breakEvenHomeGrowth(SCENARIOS.DEFS[0]);
+const bePort = SCENARIOS.breakEvenPortfolioReturn(SCENARIOS.DEFS[0]);
+ok(beHome > 0.03 && beHome < 0.15, `break-even home growth is plausible: ${beHome}`);
+ok(bePort > 0 && bePort < 0.10, `break-even portfolio return is plausible: ${bePort}`);
+ok(SCENARIOS.quakeShock(0.10).hit > SCENARIOS.quakeShock(0.05).hit, "larger damage produces a larger hit");
+ok(SCENARIOS.insuranceShock(0.12).rentDelta < SCENARIOS.insuranceShock(0.03).rentDelta, "faster premium growth costs more");
+const expectation = SCENARIOS.expectation();
+ok(expectation.sell > expectation.rent && expectation.sell > expectation.live, "weighted result favours selling");
+
 const assets = ["assets/styles.css", "assets/app.js"];
 assets.forEach(file => ok(fs.existsSync(path.join(root, file)), `${file} exists`));
 new vm.Script(fs.readFileSync(path.join(root, "assets/app.js"), "utf8"), {filename: "app.js"}); checks += 1;

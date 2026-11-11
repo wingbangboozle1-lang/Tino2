@@ -11,6 +11,7 @@
     ["home", home, "Overview"],
     ["properties", prefix + "properties.html", "Properties"],
     ["decision", prefix + "decision.html", "Decision"],
+    ["scenarios", prefix + "scenarios.html", "Black swans"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
