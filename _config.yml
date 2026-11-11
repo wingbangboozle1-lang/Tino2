@@ -1,0 +1,26 @@
+# Publish only the canonical dashboard; do not serve legacy private histories.
+exclude:
+  - COORDINATION.md
+  - README.md
+  - docs
+  - research
+  - src
+  - dashboard
+  - integration
+  - scripts
+  - css
+  - research-portal.html
+  - cupertino.html
+  - decision.html
+  - flagged.html
+  - inheritance.html
+  - san-francisco.html
+  - sources.html
+  - taxes.html
+  - pages
+  - assets/style.css
+  - assets/style.css-alternate.css
+  - assets/style.css-alternate.css
+  - assets/app-old.js
+  - _public
+  - .cache

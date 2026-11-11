@@ -12,7 +12,7 @@
   <div class="privacy-strip"><div class="container"><span aria-hidden="true">◈</span><span><strong>Privacy by design.</strong> Properties are labeled A and B. No personal names, street addresses, parcel numbers, account details, or private documents are published.</span></div></div>
   <main>
     <section class="hero"><div class="container">
-      <div class="eyebrow">Executive summary · reviewed 10 November 2026</div>
+      <div class="eyebrow">Executive summary · privacy/correction audit 11 November 2026</div>
       <h1>Two properties.<br>One long-range plan.</h1>
       <p class="lead">A source-linked decision framework for inheriting the Cupertino property around 2040–2050—compare living in it, renting it, or selling and reinvesting, while keeping the San Francisco property’s economics in view.</p>
       <div class="hero-actions"><a class="button" href="site/decision.html">Explore the decision →</a><a class="button secondary" href="site/inheritance.html">Inheritance checklist</a></div>
@@ -20,6 +20,7 @@
     </div></section>
 
     <div class="container">
+      <section class="section"><div class="callout warning"><strong>Privacy and evidence audit · 11 November 2026.</strong> Exact historical records are withheld. Figures are rounded planning scenarios, not verified private bills or appraisals. B is already owned by the heir and excluded from the decedent’s estate. <a href="site/stress.html">50-year black-swan paths →</a> · <a href="site/review.html">Flagged for Review →</a></div></section>
       <section class="section">
         <div class="grid four" id="summary-metrics"></div>
       </section>
@@ -38,7 +39,7 @@
       <section class="section">
         <div class="section-heading"><div><div class="eyebrow">The properties</div><h2>Different roles. Different rules.</h2><p>Household values and rents are planning inputs, not appraisals or verified leases. Property B is not automatically sold in the Property A comparison.</p></div></div>
         <div class="grid two">
-          <article class="card"><div class="meta-row" style="margin:0 0 16px"><span class="badge">Property A</span><span class="badge neutral">Cupertino · future inheritance</span></div><h3>High value, low historic assessment</h3><div class="metric">$3,100,000</div><p class="muted">Household market-value input · November 2026</p><ul class="list"><li>2026 assessed-value input: <strong>$550,537</strong>.</li><li>Post-inheritance property tax is the central swing factor.</li><li>Proposition 19 can preserve value only with a qualifying primary residence and claims—not for a rental.</li></ul><a href="site/properties.html">Annual values, taxes and household history →</a></article>
+          <article class="card"><div class="meta-row" style="margin:0 0 16px"><span class="badge">Property A</span><span class="badge neutral">Cupertino · future inheritance</span></div><h3>High value, low historic assessment</h3><div class="metric">$3,100,000</div><p class="muted">Household market-value input · November 2026</p><ul class="list"><li>2026 assessed-value input: <strong>$550,540</strong>.</li><li>Post-inheritance property tax is the central swing factor.</li><li>Proposition 19 can preserve value only with a qualifying primary residence and claims—not for a rental.</li></ul><a href="site/properties.html">Annual scenarios and verification status →</a></article>
           <article class="card"><div class="meta-row" style="margin:0 0 16px"><span class="badge">Property B</span><span class="badge neutral">San Francisco · retained context</span></div><h3>Existing multi-unit rental income</h3><div class="metric">$1,800,000</div><p class="muted">Household market-value input · November 2026</p><ul class="list"><li>Two rented units: household input of about <strong>$7,150/month</strong>.</li><li>Third unit is owner-occupiable; no added rent is assumed.</li><li>Local rent limits, inventory reporting and rent-increase licensing matter.</li></ul><a href="site/san-francisco.html">Cash flow, compliance and upside →</a></article>
         </div>
       </section>
@@ -97,6 +98,8 @@
     document.getElementById("source-estate").innerHTML = UI.source("irsEstate");
     document.getElementById("source-ca-estate").innerHTML = UI.source("caEstate");
     document.getElementById("source-prop19").innerHTML = UI.source("boeProp19");
-  </script>
+  
+UI.ensureRowSources();
+</script>
 </body>
 </html>

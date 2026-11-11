@@ -54,4 +54,6 @@ for (const year of [2026,2030,2040,2050]) {
   const x=MODEL.sfAnnual(year);
   document.getElementById("selected-years").insertAdjacentHTML("beforeend", `<tr><td>${year}</td><td class="number">${UI.money(x.market)}</td><td class="number">${UI.money(x.propertyTax)}</td><td class="number">${UI.money(x.grossRent)}</td><td class="number"><strong>${UI.money(x.noi)}</strong></td><td class="number">${UI.pct(x.noi/x.grossRent,1)}</td><td class="source">${UI.source("sfRent","Current rule + model")}</td></tr>`);
 }
+
+UI.ensureRowSources();
 </script></body></html>
