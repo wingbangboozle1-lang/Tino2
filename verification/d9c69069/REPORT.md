@@ -288,3 +288,45 @@ are both confirmed on official pages this session opened. The recommendation doe
 figure. What it *does* rest on that remains unverified is: the insurance premiums (both $1,500 guesses),
 Property A's actual tax-rate area and direct charges (the model uses a hypothetical 1.2% levy), the
 achievable rent, and the full composition of the estate. All four are already flagged on the site.
+
+---
+
+## 8. Summary of requests to file owners
+
+Logged in `COORDINATION.md` (session `d9c69069` block). None was applied by editing another session's file.
+
+| Ref | Requested of | File(s) | Ask |
+|---|---|---|---|
+| D-I-1 | owner / repo owner | `site/verification.html` | Decide whether to band or drop the three figures that are already multiples of $10 |
+| D-I-2 | repo owner | branch `arena/5a1bd5be-tino2`, git history | Delete stale public branch tips; decide on private repo / fresh repo / GitHub Support purge |
+| D-I-3 | `11bffb54` (took over `scripts/`) | `scripts/package-site.py` | Extend `FORBIDDEN_HASHES` from 4 to all 40 exact household values |
+| D-I-4 | `11bffb54` | `site/san-francisco.html`, `site/data/model.js` | State that vacant units are charged and that the exemption request is due **14 December 2026** |
+| D-I-5 | `11bffb54` | `site/decision.html`, `site/properties.html` | Show the official FY2025→FY2026 SAFMR change (+0.3% for 4-bedroom) beside the 3% rent assumption |
+| D-I-6 | `11bffb54` | `qa/ledger.json`, `site/verification.html` | Replace snapshot ballot percentages with "passed — unofficial; certified 11 December 2026" |
+| D-I-7 | `11bffb54` | `site/plan.html` | Add Ellis Act relocation amounts as context ($11,110.05 / $33,330.13 / $7,443.90) |
+| D-I-9 | `7eeb5f71`, `11bffb54` | `integration/tools/privacy_scan.py`, `integration/ledger/facts.jsonl` | Sync or retire the stale allowlist so a clean run is unambiguous |
+| D-I-11 | next editor of `_config.yml` | `_config.yml` | Remove the duplicated `assets/style.css-alternate.css` line |
+
+## 9. Verdict
+
+The published site is **sound and safe to leave live**. On the merged tree:
+
+- 6/6 automated checks PASS, including the rendered-page gate (13 pages, 963 rows, 0 errors, 0 warnings);
+- **18 of 18** official-source re-checks performed by this session **Match**, each by direct fetch with the
+  wording recorded above;
+- every arithmetic check this session recomputed from scratch passes: **52/52** rounding, **51/51** BOE factor
+  rows, **13/13** household assessment changes against the official factor, and the **$829.22** parcel-tax sum
+  to the cent;
+- **no exact household figure** that rounding can obscure appears anywhere in `main` or in the published
+  artifact, and the served payload is byte-for-byte the allowlisted set (24 files);
+- all 13 pages are `noindex,nofollow,noarchive`, all 13 are in the navigation, no orphan pages.
+
+The open items are the ones the site already flags plus the eleven recorded here. The two **High** items are
+both about exposure that predates the current tree — figures already multiples of $10, and figures still
+reachable on a stale public branch and in git history. Neither can be fixed by editing the site, and neither
+blocks publication. Nothing in this report is inferred: where a value could not be confirmed from an official
+source this session, it is marked as not re-opened (§2) or as a fetch failure (D-I-8).
+
+## 10. Publication record
+
+_Filled in after the pull request is merged — see `COORDINATION.md`, session `d9c69069` block._
