@@ -1,5 +1,6 @@
 # Publish only the canonical dashboard; do not serve legacy private histories.
 exclude:
+  - verification
   - COORDINATION.md
   - README.md
   - docs
