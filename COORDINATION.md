@@ -270,3 +270,44 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+---
+
+## Session `e03a1cbe` (branch `arena/e03a1cbe-tino2`) — joined 2026-11-11
+
+**State at join.** `main` = `016eb53` (PR #9 merged). Nine prior sessions are recorded above and are marked complete; no session is active. GitHub Pages is live from `main` / root (`build_type: legacy`, HTTPS enforced).
+
+**Gaps identified against the brief (reason for this session's work).**
+1. **No black-swan / stress-test section anywhere in the repository.** A repo-wide search for "black swan", "stress test" and "stagflation" returns zero files. The brief explicitly asks for a separate section on non-consistent growth and inflation over a 50-year period, grounded in real economic history.
+2. **Reinvestment is modelled pre-tax.** `src/model.py` `wealth("sell", …)` applies selling costs then a reinvestment return, but no federal long-term capital-gains rate, no 3.8% NIIT, and no California tax on the reinvested gains. The brief asks what selling and reinvesting yields **after taxes**.
+3. **Property-tax growth is assumed at the 2% cap every year** for the successor (`tax_A_live`, `tax_full`). The cap is a ceiling, not a rate; the model never shows the lower-inflation case, where assessed value tracks CPI instead.
+4. **Insurance, water and electricity are frozen plan inputs** carried from earlier sessions with no current re-verification, and no wildfire/FAIR Plan cost shock is modelled.
+5. **Threshold "allowed before tax" is stated for 2026–2027 only**, with no projection table across the 2040–2050 inheritance window.
+6. Four parallel dashboards (`index.html`, `pages/`, `dashboard/`, `site/`) with different conclusions and no single canonical entry point.
+
+**Claimed scope (non-overlapping — every path below is either new or is a root shared output handled at integration).**
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|---|---|---|---|---|---|
+| E-1 | Coordination claim | done | e03a1cbe | `COORDINATION.md` (appended section only) | N/A | None |
+| E-2 | Verify federal estate/gift exclusion, 2026–2027 amounts, filing rules, top rate | in progress | e03a1cbe | `plan/data/facts.json` | irs.gov | — |
+| E-3 | Verify California estate/inheritance tax status, RTC 13301, pending legislation | in progress | e03a1cbe | `plan/data/facts.json` | sco.ca.gov, leginfo | — |
+| E-4 | Verify Prop 19 parent-child exclusion mechanics, $1M+ amount, filing deadline and forms (BOE-19-P) | in progress | e03a1cbe | `plan/data/facts.json` | boe.ca.gov | — |
+| E-5 | Verify property-tax rates (Santa Clara, San Francisco), Prop 13 cap, homeowners' exemption | in progress | e03a1cbe | `plan/data/facts.json` | sccassessor.org, sftreasurer.gov, boe.ca.gov | — |
+| E-6 | Verify capital-gains taxation: federal 0/15/20, NIIT, CA brackets incl. 1% mental-health surtax | in progress | e03a1cbe | `plan/data/facts.json` | irs.gov, ftb.ca.gov | — |
+| E-7 | Verify utilities (San Jose Water tariff, PG&E NEM), insurance (CDI, FAIR Plan) | in progress | e03a1cbe | `plan/data/facts.json` | sjwater.com, pge.com, insurance.ca.gov, cfpnet.com | — |
+| E-8 | **Black-swan scenario research**: 1970s stagflation, 2006–2012 housing bust, 1990s disinflation/Japan, rate shocks, regional tech shocks — all with official historical series | in progress | e03a1cbe | `plan/data/scenarios.json` | bls.gov, fred (FHFA/BLS), federalreserve.gov | — |
+| E-9 | Projection engine: value, assessed value, property tax, insurance, utilities, maintenance, rent, after-tax reinvestment, 2026–2050 under baseline + stress scenarios | in progress | e03a1cbe | `plan/tools/model.py`, `plan/data/outputs.json` | N/A (derived) | — |
+| E-10 | After-tax sell-and-reinvest comparison (federal + NIIT + CA) with breakeven returns | in progress | e03a1cbe | `plan/tools/model.py` | — | — |
+| E-11 | Step-by-step trust inheritance process, 2040–2050 | in progress | e03a1cbe | `plan/tools/build.py` | — | — |
+| E-12 | Build canonical dashboard: landing + category subpages, table per row carries a source link or is blank + flagged | in progress | e03a1cbe | `plan/`, root `index.html` | — | — |
+| E-13 | Verification: row-by-row source check, privacy scan, rounding check, internal link check, build | in progress | e03a1cbe | `plan/tools/check.py` | — | — |
+| E-14 | PR to `main`, merge, confirm Pages deploy, record result | unclaimed | e03a1cbe | PR + this file | — | — |
+
+**Constraints honoured.** All work stays on `arena/e03a1cbe-tino2`; the platform fixes this branch name, so the `session-<id>/<task>` convention cannot be applied (session id is in the branch name). Prior sessions' files are **not edited**; they are preserved and linked from an archive page. Two root shared outputs — `index.html` and `README.md` — are rewritten only in the final integration step (E-14), after re-reading `origin/main`.
+
+**Request log**
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 | e03a1cbe | prior sessions (all complete) | No file owned by an earlier session is modified. If a correction is needed in `src/**`, `dashboard/**`, `pages/**` or `site/**`, it is recorded in the Flagged for Review page and in the log at the bottom of this section instead of being edited. |
