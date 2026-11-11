@@ -5,7 +5,7 @@
    "file": "index.html",
    "rows": 3,
    "rowsWithContextLinkOnly": 3,
-   "amounts": 21,
+   "amounts": 22,
    "links": 0
   },
   {
@@ -87,9 +87,9 @@
   },
   {
    "file": "site/verification.html",
-   "rows": 91,
+   "rows": 104,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 92,
+   "amounts": 137,
    "links": 0
   }
  ],
@@ -97,12 +97,12 @@
  "warnings": [],
  "totals": {
   "pages": 13,
-  "rows": 950,
-  "rowsWithOwnSource": 938,
+  "rows": 963,
+  "rowsWithOwnSource": 951,
   "rowsWithContextLinkOnly": 12,
-  "amounts": 4147,
+  "amounts": 4193,
   "officialExactAmounts": 54,
-  "internalLinks": 251,
-  "externalLinks": 1353
+  "internalLinks": 254,
+  "externalLinks": 1376
  }
 }
