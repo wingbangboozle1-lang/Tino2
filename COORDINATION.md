@@ -1,5 +1,59 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 4e07c8e6. It sits directly under the title, not at the end, so that it merges without conflict with the sections the other live sessions are appending at the end of this file. Other sessions: please do not edit inside this block; put requests in your own section. -->
+## Live-session notice and claim of session `4e07c8e6` (branch `arena/4e07c8e6-tino2`) — 2026-11-11 07:50 UTC
+
+**Five sessions are live at once** (same brief, started within about five minutes of each other). All 23 remote branches were fetched before this claim. Claims as pushed, oldest first:
+
+| Session | Claim pushed (UTC) | What it claimed | Files it claimed |
+|---|---|---|---|
+| `246f5b3b` | 07:43:45 | Final integration, takeover of stale PR #16, privacy audit, gap fill, PR and merge | `index.html`, `site/**`, `assets/**`, `scripts/**`, `README.md`, `_config.yml` |
+| `11bffb54` | 07:45:20 | Takeover of stale PR #16, gap review, final integration, PR and merge | `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`, `verification/11bffb54/**` |
+| `14e318a1` | 07:46:31 (PR #18 merged 07:46:52) | Verification record: re-ran the existing test suite, six spot checks | `verification/14e318a1/**` — done |
+| `aa1f073e` | 07:47:10 | Operating-cost research (insurance, water, electricity and solar, maintenance) and a cost page | `research/aa1f073e/**`, `verification/aa1f073e/**`, `site/operating-costs.html`, `site/data/costs.js` |
+| `4e07c8e6` (this session) | this commit | Independent audit of the decision model and of the legal mechanics the decision rests on; re-check of the site after integration | `verification/4e07c8e6/**` |
+
+**Irregularity X-C1 (claim collision, logged for whoever reads this).** `246f5b3b` and `11bffb54` each claimed final integration of the same shared files 95 seconds apart, on branches the other had not seen. By the board rule the earlier claim (`246f5b3b`, 07:43:45) holds the task. This session does not join that race: it claims no shared file and does not take over PR #16.
+
+**Why this scope.** Every earlier verification pass either re-ran the repository's own tests (which compare the model with itself) or spot-checked a handful of headline figures. Nobody has re-derived the decision numbers with a separately written calculation, or checked the legal mechanics (how each rule works, not only its dollar amount) against the official text. That is the part of "verify line by line" still open, and it touches no file another session named.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| X-1 | Coordination: read the board and every branch, log the collision, claim a non-overlapping scope, push at once | done | 4e07c8e6 | `COORDINATION.md` (this block only) | N/A | X-C1 |
+| X-2 | Legal-mechanics ledger. Open each official page directly and record the wording for every rule the decision depends on: Prop 19 formula, eligibility and deadlines; basis at death and when trust property qualifies; home-sale exclusion; rental-income rules; California conformity; federal estate and gift thresholds, filing and portability; state and local death and transfer taxes; trust-administration deadlines; rent rules that bind Property B | done (33 rules: 29 confirmed, 1 differs from the site, 3 left blank as not confirmed) | 4e07c8e6 | `verification/4e07c8e6/LEDGER.md`, `ledger.json` | IRS (estate and gift, IR-2026-133, estate FAQ, inherited-property FAQ, Topics 409, 414, 559, 701, Rev. Rul. 2023-2, Pub. 559); BOE (Prop 19 page, LTA 2025/009, LTA 2026/026); State Controller; FTB (capital gains, 2025 rate schedules); Probate Code 16061.7; RTC 480, 13301; SF Treasurer; SF Department of Elections. Every page opened on 2026-11-11; URL and wording are in the ledger | X-F1 … X-F7 in the findings table below |
+| X-3 | Independent recomputation. A separately written calculation of each strategy (live in, rent, sell and reinvest) that uses only inputs already published on the site, compared with the outputs of `site/data/model.js`; every difference explained or flagged | done | 4e07c8e6 | `verification/4e07c8e6/recompute.py`, `recompute.json` | Inputs read from `site/data/model.js`; no private figure typed | All twelve headline results for 2040, 2045 and 2050 (sell, sell with growth taxed, rent, live) and both published break-even rates match to the nearest $10. One explained difference of about $500: the scenario engine grows the Property B unit rent at 1.62% (60% of 2.7%), the model input is 1.6% |
+| X-4 | Brief-versus-site requirement check, read-only; findings logged below as requests to the file owners | done | 4e07c8e6 | this block | Rendered all 13 pages of `main` at `a6818a3` and read them against the brief | Findings X-F1 … X-F7 below |
+| X-5 | Re-check of `main` after `246f5b3b` and `11bffb54` have merged (or have gone 60 minutes without a commit) against X-2 and X-3. Corrections to shared files are made by this session only if both integrators are done or stale at that point, and the handoff is logged here first | done: both integrators recorded `done` and merged (`11bffb54` PR #20/#22 at 07:52 UTC, `246f5b3b` PR #23/#26 at 07:59 UTC). Handoff logged below at 08:10 UTC | 4e07c8e6 | — | — | — |
+| X-6 | Own PR (`verification/4e07c8e6/**` and this block only), merge, confirm Pages deploy, record the result here | in progress | 4e07c8e6 | own files + this block | — | — |
+| X-7 | **Follow-up integration, narrow.** Publish findings X-F1 … X-F7 on the canonical site: new rows and sentences only, no change to the model, the navigation, the page list or any existing figure | in progress (claimed 08:10 UTC) | 4e07c8e6 | `site/data/sources.js` (new entries only), `site/plan.html`, `site/review.html`, `site/san-francisco.html`, `site/inheritance.html`, `site/estate-tax.html`, `index.html` (law-watch table only) | see X-2 | — |
+
+**Rules this session follows.** No personal information in any committed file. No household figure is committed unrounded, and none is repeated in this file. Every dollar figure in new files is rounded to the nearest $10 unless it is an amount published by a government body. Every table row carries a link to an official source or is left blank and marked unverified. `origin/main` is merged before every push. The platform fixes the branch name to `arena/4e07c8e6-tino2`, so the `session-<id>/<task>` naming cannot be applied.
+
+
+### Findings of the audit (session `4e07c8e6`)
+
+The published recommendation (sell Property A, keep Property B) is **confirmed**. The independent calculation reproduces every headline number, and selling stays ahead when the comparison is made on equal tax terms. The items below are what the site did not yet say. Wording and links are in `verification/4e07c8e6/LEDGER.md`; the numbers are in `verification/4e07c8e6/REPORT.md`.
+
+| ID | Finding | Effect on the decision | Official source |
+|---|---|---|---|
+| X-F1 | The two published break-even rates (home prices 7.8% a year, portfolio 2.8% a year) compare a house that is sold and taxed with a portfolio that is not. On equal terms they are about 5.3% and 4.0% | The answer is less robust than the break-even cards suggest: the recorded 1976–2025 average for the metro area (6.7% a year) is above the equal-terms figure. Selling still leads in the base case | [FHFA index via FRED](https://fred.stlouisfed.org/series/ATNHPIUS41940Q) |
+| X-F2 | The whole case for selling rests on the tax basis resetting at death. That holds for a revocable trust. Property in an irrevocable trust that is outside the estate keeps the old basis | If the trust is of the second kind, a sale at inheritance is taxed on the gain since purchase and the ranking has to be redone. The trust type is not known | [IRS Rev. Rul. 2023-2](https://www.irs.gov/pub/irs-drop/rr-23-02.pdf) |
+| X-F3 | Prop 19 relief needs the house to be the parent's home at death. In a care facility that still counts only if the house is not rented outside the immediate family. A house held in an LLC never qualifies | Affects the live-in plan only | [BOE LTA 2026/026, Q11, Q32–35](https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf) |
+| X-F4 | San Francisco Measure H (new yearly parcel tax for Muni, 15 years, inflation-adjusted) passed in the preliminary count of 3 November 2026. Not on the site's law watch | Small new fixed cost for Property B. The amount for its parcel type was not confirmed on an official page and is left blank | [SF Department of Elections](https://www.sfelections.org/results/20261103/index.html) |
+| X-F5 | A house the estate holds for sale is investment property, so the selling costs can produce a deductible capital loss. If a beneficiary lives in it rent-free first, a loss is not deductible | Favors selling without moving in first. The model gives the sell plan no credit for this | [IRS Publication 559](https://www.irs.gov/publications/p559) |
+| X-F6 | The model sells on the day of the inheritance. Until the sale closes, the house is taxed on its new market value and still has to be insured and kept up | About 0.15% of the house's value per month. Does not change the ranking | [BOE Prop 19](https://www.boe.ca.gov/prop19/) |
+| X-F7 | The room under the federal threshold is shown in future dollars only. Stated in today's money it is smaller, because savings grow faster than the threshold is assumed to | Helps judge whether the money in the estate matters. The amount of money was not supplied | [IRS IR-2026-133](https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts) |
+
+### Requests and handoff log (session `4e07c8e6`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:50 | 4e07c8e6 | `246f5b3b`, `11bffb54` | You hold overlapping claims on the same files (X-C1). I am not editing any of them. Findings from my audit will be listed in this table with the official link for each, so that whichever of you integrates last can apply them. |
+| 2026-11-11 07:50 | 4e07c8e6 | `aa1f073e` | Your cost research and my audit do not overlap: I am not researching insurance, water, electricity or maintenance figures. |
+| 2026-11-11 08:10 | 4e07c8e6 | all sessions | **Handoff note.** Both final-integration claims are complete: `11bffb54` (E-1 … E-4 done, PRs #20 and #22 merged) and `246f5b3b` (G-1 … G-5 done, PRs #23 and #26 merged). No live session claims the shared files. This session therefore takes task X-7 above: additions to the seven files listed there, nothing else. It does not change `site/data/model.js`, `assets/**`, `scripts/**`, `_config.yml`, the page list or any published figure. If you are about to edit one of those seven files, please wait for the X-7 merge record in this table or write to me in your own section. |
+| 2026-11-11 08:12 | 4e07c8e6 | `aa1f073e` | Seen: your PR #28 (merged 08:05 UTC) added `site/operating-costs.html` and `site/data/costs.js` and listed them in the publication manifest, the validator and the navigation yourself. Nothing is needed from me. Your edit to `site/review.html` is kept as is; X-7 only adds rows to that file. |
+<!-- END block owned by session 4e07c8e6 -->
+
 Repo: wingbangboozle1-lang/Tino2
 Integration session: `session-arena` on branch `arena/1dab34fa-tino2` (PR #4 -> main).
 Parallel sessions already merged into main: `arena/64131d11-tino2` (session 64131d11, PR #1) and `arena/7c9c2cc4-tino2` (session arena-7c9c2cc4, PR #2).
