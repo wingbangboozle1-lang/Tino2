@@ -37,10 +37,14 @@ Property-specific insurance, actual parcel levies, legal unit status, trusts, ap
 Local tests on this branch:
 
 - `python3 scripts/package-site.py`: PASS; canonical files only.
-- `python3 scripts/check-publication.py --self-test`: PASS; 21 manifest files; negative tests pass.
+- `python3 scripts/check-publication.py --self-test`: PASS; 24 manifest files; negative tests pass.
 - `node scripts/validate.js`: PASS; 581 checks / 11 pages / 70 registered sources. Source registration does not establish factual correctness.
 - `node scripts/stress-test.js`: PASS; 50-year paths, estate ownership, privacy, real-dollar and shock arithmetic.
 - `node scripts/runtime-test.cjs`: PASS after installing isolated jsdom 26.1.0; 11 rendered pages / 763 source-linked rows; no runtime errors or broken local links.
 - `python3 src/check_links.py .`: PASS; 54 repository HTML pages, 871 rows, 124 distinct external links. This includes legacy files and does not mean those files are published. External links are not all live-tested by that script.
 
 Actual Jekyll output is tested in GitHub Actions; release and deployment results are recorded in COORDINATION.md after completion. No claim of a full external-source line-by-line recertification is made.
+
+### Integration revalidation
+
+PR #20 landed during this session and already added the verification-directory exclusion (the duplicate exclusion from this branch was removed). It also introduced `site/plan.html`, `site/verification.html`, and generated official-only `site/data/ledger.js`. Reviewed their publication role and added these three canonical files to the explicit manifest; no other files were allowed. Post-integration checks: 737 validations / 13 pages / 100 source entries; runtime 13 pages / 963 source-linked rows. The CI initially rejected the three new files as designed; its manifest was updated only after review.
