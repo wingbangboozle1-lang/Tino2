@@ -91,3 +91,13 @@ Property B is already owned by the heir and excluded from the decedent’s estat
 Current-session source checks: IRS estate threshold and filing FAQ, BOE Proposition 19 overview, California Controller estate tax, BLS December 2022 CPI release, FDIC deposit insurance and CDI residential guidance. Other source-register entries are carried forward, explicitly flagged for revalidation; no blanket fresh verification is claimed.
 
 Prior public Git history and third-party caches may retain earlier exact household figures. A publication change does not erase those. See Flagged for Review. Legacy files are retained in Git to preserve previous sessions’ work, but are not part of the public Pages artifact.
+
+Rendered-page tests (optional development-only dependency):
+
+```sh
+npm install --prefix .cache/test jsdom --no-audit --no-fund
+python3 scripts/package-site.py
+node scripts/runtime-test.cjs
+```
+
+This checks runtime errors, every rendered table row for an official framework link, and local links in the allowlisted output. It does not establish truth of a projection or verify every external document.
