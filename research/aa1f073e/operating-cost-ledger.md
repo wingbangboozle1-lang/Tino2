@@ -33,8 +33,18 @@ produced it; the site leaves it blank and flags it.
 | A15 | Which of the three systems serves the subject address | — | **Not confirmed** — address withheld for privacy; the service-area finder requires an address | https://gis.cupertino.org/servicefinder/?varname=waterS |
 | A16 | California Water Service tariff for the Los Altos district | — | **Not confirmed** — not read this session | — |
 
-**Reproduction check.** Applying A4–A7 at 10 Ccf: 78.64 + 6×4.9692 + 4×7.4167 = **$141.73**, matching A11
-exactly. The tariff has therefore been transcribed and applied correctly.
+**Reproduction check — does not reconcile.** Applying A4–A7 at 10 Ccf gives
+78.64 + 6×4.9692 + 4×7.4167 = **$138.12**, which is **$3.61 below** the company's own average-bill
+illustration of $141.73 (A11). Schedule No. 1 was re-read on 11 Nov 2026 to test the obvious
+explanation: the service charge is $78.64 for both the 5/8 × 3/4-inch and the 3/4-inch meter, and the
+residential tiers apply to meters from 5/8 × 3/4-inch through 2-inch, so meter size does not account for
+the difference. The tariff transcription is therefore correct and the gap lies in the notice's
+illustration — most plausibly authorized surcharges or balancing-account amortisation that the rate
+schedule does not itself list, but that was not confirmed. **Published as irregularity AA-I3; not
+reconciled.** The site uses the schedule's own rates for the build-up and cites the notice separately.
+
+An earlier draft of this ledger and of the published page stated that the build-up reproduced $141.73
+exactly. That was an arithmetic error, caught on review of the rendered page and corrected the same day.
 
 **Relation to the household range.** The household supplied a monthly water range for Property A. The
 tariff build-up lands inside that range at ordinary single-family usage, so the range is corroborated as
