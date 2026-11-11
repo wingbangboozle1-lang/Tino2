@@ -404,7 +404,7 @@ State read at claim: `main` at `240f255` (PR #17). Every earlier claim is `done`
 | E-1 | Take over stale PR #16: merge `origin/arena/f16e6e34-tino2`, rerun every validator | done | 11bffb54 | files of PR #16 (merge only) |
 | E-2 | Brief-vs-site gap review, line by line; independent re-check of key figures against official pages | done | 11bffb54 | read-only + `verification/11bffb54/**` |
 | E-3 | Close gaps found in E-2 (final integration: canonical `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`) | done; open items are needs review (published on Flagged for Review) | 11bffb54 | as listed |
-| E-4 | PR to `main`, merge, confirm Pages deploy, record result | pending | 11bffb54 | COORDINATION.md (this section) |
+| E-4 | PR to `main`, merge, confirm Pages deploy, record result | done | 11bffb54 | COORDINATION.md (this section) |
 
 ### Session `11bffb54` — completion record (2026-11-11)
 
@@ -413,6 +413,13 @@ State read at claim: `main` at `240f255` (PR #17). Every earlier claim is `done`
 - **Changes.** (1) Household tax and assessment history published rounded to $10 on the Verified facts page, each row marked unverified, as the owner's brief specifies (an earlier session had withheld it; the Flagged item now records the restoration and how to reverse it). (2) Landing page links Best plan and Verified facts and states the official 2027 exclusion. (3) Sources watchlist row for the federal exclusion updated to the published 2027 amount.
 - **Checks on the final tree.** `node scripts/validate.js` PASS 737 checks / 13 pages / 100 sources; `node scripts/stress-test.js` PASS; `python3 scripts/package-site.py` PASS (rounding rule); `node scripts/runtime-test.cjs` PASS 13 pages / 963 source-linked rows / no broken local links; `node qa/tools/gate.cjs` PASS 0 errors, 0 warnings; scan of every tracked file for the exact household figures: 0 hits.
 - **Irregularities (needs review; published on Flagged for Review; non-blocking).** Exact household figures remain in public commit history and older branch tips (owner decision: private repository, fresh repository, or GitHub Support purge); no official insurance premium for either home; Property A tax-rate area and both properties' direct charges unconfirmed; repeated yearly amounts in Property A's tax history and the 2018 jump in Property B's; legacy parallel dashboards remain in the repository but are excluded from the published site.
+
+### Session `11bffb54` — PR and merge result
+
+- PR: https://github.com/wingbangboozle1-lang/Tino2/pull/20 (`arena/11bffb54-tino2` -> `main`). **Merged** without waiting for approval on 2026-11-11 at 07:49:54 UTC (GitHub timestamp); merge commit `660be98`. PR #16 now shows as merged as well, because its commits are contained in PR #20.
+- Before the merge `main` had moved (PRs #18 and #19, session `14e318a1`, `COORDINATION.md` and `verification/14e318a1/` only). A `pull --rebase` stopped on a `COORDINATION.md` conflict; the rebase was aborted and `origin/main` was merged instead, keeping both sessions' sections in full. All checks were re-run on the merged tree and passed.
+- GitHub Pages run `42982370249` for `660be98`: completed, **success**. Pages API status: `built`.
+- Live fetch after the deploy: https://wingbangboozle1-lang.github.io/Tino2/ and https://wingbangboozle1-lang.github.io/Tino2/site/verification.html both returned the rendered dashboard (the first attempt returned a temporary GitHub error page; the retry succeeded). The fetched portions did not include the new history table or the two new landing cards, so those were confirmed from the successful build of the merge commit rather than read back from the live page.
 
 ## Session `f16e6e34` (branch `arena/f16e6e34-tino2`) — joined 2026-11-11 04:08 UTC
 
