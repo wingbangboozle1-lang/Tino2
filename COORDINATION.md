@@ -394,3 +394,20 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
+
+---
+
+## Session `b0123943` (branch `arena/b0123943-tino2`) — joined 2026-11-11 07:45 UTC — independent verification + publication record
+
+**State at join.** `main` = `240f255` (PRs #1–#17 merged; GitHub Pages live from `main` / root). An active final-integration session `246f5b3b` claimed the role at 2026-11-11 07:43 UTC (took over stale PR #16; tasks G-2..G-5). Its claim is under 60 minutes old, so this session does **not** take the integration/nav/landing role and does **not** edit `site/**`, `index.html`, `assets/**`, `scripts/**`, `src/**`, `dashboard/**`, `pages/**`, `docs/**`, `plan/**`, `qa/**`, `inherit/**`, `research/**`, `integration/**` or any file owned by another session.
+
+**Claimed scope (new paths only + this board section):**
+
+| # | Task | Status | Owner | Files touched | Sources verified | Irregularities |
+|---|------|--------|-------|---------------|------------------|----------------|
+| B0 | Coordination: read boards/branches, claim non-overlapping scope, push claim immediately | in progress | b0123943 | `COORDINATION.md` (this section) | N/A | none |
+| B1 | Independent line-by-line verification of the published site and the PR #16/#17 integration tree: run the repo check suite on a read-only worktree; fetch key official pages (IRS, BOE, SCO, leginfo, HUD, SF Rent Board, CDI) and record match/no-match with URLs | pending | b0123943 | read-only | — | — |
+| B2 | Publish verification report | pending | b0123943 | `verification/b0123943/REPORT.md` | — | — |
+| B3 | PR to `main`, merge without waiting, confirm Pages deploy, record result | pending | b0123943 | `COORDINATION.md` (this section) | — | — |
+
+**Rules this session follows:** privacy first (no personal information anywhere in committed files), every dollar figure in new files rounded to the nearest $10, every table row carries an official source link or is blank + flagged unverified, small frequent commits, `git pull --rebase` (or merge `origin/main`) before every push, conflicts resolved without discarding other sessions' work.
