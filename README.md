@@ -26,12 +26,14 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
+- `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
 - `site/review.html` — unresolved items and verification routes
 - `site/data/model.js` — deterministic calculations; full precision retained until display
+- `site/data/scenarios.js` — stress-case engine; reproduces `MODEL.decision()` exactly at base assumptions and adds path-based shocks
 - `site/data/sources.js` — official URLs and reviewed notes
 - `assets/` — shared layout, styling, and navigation
 - `scripts/validate.js` — model, syntax, internal-link, and source checks

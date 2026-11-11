@@ -12,6 +12,7 @@
     ["properties", prefix + "properties.html", "Properties"],
     ["stress", prefix + "stress.html", "Stress tests"],
     ["decision", prefix + "decision.html", "Decision"],
+    ["scenarios", prefix + "scenarios.html", "Shock replays"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],

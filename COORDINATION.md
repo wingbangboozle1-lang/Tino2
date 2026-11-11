@@ -271,6 +271,16 @@ None.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
 
+### Conflict log — 2026-11-11 merge of `origin/main` into `arena/d7d62f7a-tino2`
+
+Two sessions built overlapping stress sections. `origin/main` already contained session `516f904c`'s 50-year path laboratory (`site/stress.html`, `site/data/stress.js`) and its estate-ownership correction; this branch contained the recorded-episode replay page (`site/scenarios.html`, `site/data/scenarios.js`). Nothing was discarded:
+
+- Both stress pages are retained and cross-linked. `stress.html` stays the long-horizon (2045→2095) path laboratory and remains the navigation entry; `scenarios.html` is the recorded-episode replay to 2055 with break-even thresholds, premium and catastrophe sensitivities and law-risk table, reachable from `stress.html`, `decision.html` and the landing page.
+- `site/sources.js` keeps both source sets (61 keys). The register marks both sessions' checked sources as checked on 11 Nov 2026.
+- `site/sources.html` conflict resolved by keeping main's per-source review-status column and adding this session's eight newly checked keys to it.
+- The estate-ownership correction from `516f904c` is authoritative: only Property A is in the decedent's real-estate-only headroom. This session's scenario page was corrected to match.
+
+
 ## Session 516f904c — 2026-11-11 privacy and reliability integration
 
 | Task | Status | Owner | Scope |
@@ -295,3 +305,33 @@ All previous claims predate this session by over 60 minutes and are complete or 
 - Public fetch confirmed updated executive summary at https://wingbangboozle1-lang.github.io/Tino2/ and rendered 50-year scenario tables at https://wingbangboozle1-lang.github.io/Tino2/site/stress.html . Legacy `/dashboard/properties.html` no longer returned the former historical dashboard (GitHub error page); HTTP removal status could not be independently established by fetch tooling. Artifact-download confirmation was blocked by outbound restrictions on Azure blob artifact storage; do not claim a downloaded-artifact audit. `_config.yml` lists all legacy published paths as exclusions.
 - Follow-up: persist rendered-page test for reproduction, retain official context links after control changes, and correct overview metric labels to say decedent A only. All 294 checks, stress tests and 9-page/510-row runtime validation pass again.
 - Task status: done for implementation, modeling, current-session source review and deployment; needs review for legacy source revalidation, property-specific private records, and prior public Git/cache exposure. These open items are published on Flagged for Review and do not block publication.
+
+---
+
+
+---
+
+## Session `d7d62f7a` board — black-swan / real-conditions section (integration)
+
+Claimed 2026-11-11. Repo state at claim: `main` at `016eb53` (PR #9 merged), working branch `arena/d7d62f7a-tino2`, `node scripts/validate.js` PASS 276 checks, `python3 src/check_links.py .` 0 errors. The eight-page dashboard under `site/` is live at https://wingbangboozle1-lang.github.io/Tino2/ with Pages status `built`.
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Black-swan / real-economic-conditions section: add scenario engine, page, nav entry, validation | in progress | d7d62f7a | `site/data/scenarios.js` (new), `site/scenarios.html` (new), `site/data/sources.js` (append-only), `assets/app.js` (nav), `scripts/validate.js`, `index.html`, `site/sources.html`, COORDINATION.md |
+| Re-verify existing eight pages line by line; keep published numbers unchanged | in progress | d7d62f7a | read-only |
+| PR to `main`, merge, confirm Pages | pending | d7d62f7a | — |
+
+Notes: no other session is active; every other listed claim is `done`. This session edits shared outputs (`index.html`, nav) only because no other session holds them. Existing pages and their figures are left intact; all new content is additive and clearly labelled.
+
+### Session `d7d62f7a` — completion record
+
+- 2026-11-11: added `site/data/scenarios.js` (recorded-episode stress engine) and `site/scenarios.html` (shock-replay section), plus nav entry, landing-page card, decision-page cross-link, four review items, eight official sources and README notes.
+- Merged `origin/main` (session `516f904c`'s 50-year stress laboratory, estate-ownership correction and privacy audit) into this branch. Two conflicts, both resolved without discarding work: `site/sources.html` keeps main's per-source review-status column with this session's eight newly checked keys added; `COORDINATION.md` keeps both session records. Result: ten dashboard pages, 56 official sources, two complementary stress pages (`stress.html` to 2095, `scenarios.html` to 2055) cross-linked and labelled distinctly in navigation.
+- Ownership correction from `516f904c` adopted: only Property A is in the decedent's real-estate-only headroom ($11,900,000 for 2026), and this session's scenario page was corrected to match.
+- Engine reproduces `MODEL.decision()` exactly at base assumptions (2045 transfer, 2055 endpoint): sell $9,125,343 · rent $7,395,618 · live $6,034,608.
+- Results (recomputed after the merge): selling leads on money in 6 of 7 cases; renting wins only in the stagflation replay ($9,904,099 vs $8,236,335); break-even 7.8% home growth or 2.8% after-tax portfolio return; 12% premium growth costs the rent case $198,810 over ten years; a 10% uninsured earthquake loss removes $970,780 from every strategy; the Prop 19 exclusion is worth $15,280 a year at 2045.
+- Sources added (opened and read this session): BLS historical CPI-U PDF and annual CPI table, Freddie Mac PMMS and 2021 archive, FHFA HPI datasets and Q3 2008 release, USGS Bay Area earthquake probabilities, CBO publication 61882, California FAIR Plan key statistics.
+- Checks after the merge: `node scripts/validate.js` PASS 421 checks / 10 pages / 56 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 10 rendered pages / 567 source-linked rows / no runtime errors; `python3 scripts/package-site.py` PASS; privacy scan and link check rerun below.
+- Irregularities flagged (published, non-blocking): subjective scenario weights; unverified $1,500 premium guess; Property A original basis absent, so step-up repeal is priced only per $1,000,000 of gain; no official retrofit cost, so catastrophe exposure is a share of value; whether renting Property B's vacant unit changes assessment or coverage is unverified.
+- PR [#12](https://github.com/wingbangboozle1-lang/Tino2/pull/12) — black-swan and real-conditions stress section, rebased onto main and merged without waiting for approval.
+
