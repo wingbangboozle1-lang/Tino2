@@ -401,10 +401,18 @@ State read at claim: `main` at `240f255` (PR #17). Every earlier claim is `done`
 
 | # | Task | Status | Owner | File scope |
 |---|---|---|---|---|
-| E-1 | Take over stale PR #16: merge `origin/arena/f16e6e34-tino2`, rerun every validator | in progress | 11bffb54 | files of PR #16 (merge only) |
-| E-2 | Brief-vs-site gap review, line by line; independent re-check of key figures against official pages | in progress | 11bffb54 | read-only + `verification/11bffb54/**` |
-| E-3 | Close gaps found in E-2 (final integration: canonical `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`) | in progress | 11bffb54 | as listed |
+| E-1 | Take over stale PR #16: merge `origin/arena/f16e6e34-tino2`, rerun every validator | done | 11bffb54 | files of PR #16 (merge only) |
+| E-2 | Brief-vs-site gap review, line by line; independent re-check of key figures against official pages | done | 11bffb54 | read-only + `verification/11bffb54/**` |
+| E-3 | Close gaps found in E-2 (final integration: canonical `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`) | done; open items are needs review (published on Flagged for Review) | 11bffb54 | as listed |
 | E-4 | PR to `main`, merge, confirm Pages deploy, record result | pending | 11bffb54 | COORDINATION.md (this section) |
+
+### Session `11bffb54` — completion record (2026-11-11)
+
+- **Handoff / merge log.** PR #16 was open, mergeable and untouched since 04:46 UTC (over 60 minutes), so it was taken over. Merging `origin/arena/f16e6e34-tino2` gave one conflict, in `COORDINATION.md`; both sessions' sections were kept in full. No other file conflicted and nothing was discarded.
+- **Sources opened and read by this session** (wording recorded in `verification/11bffb54/REPORT.md`): IRS What's new, estate and gift tax ($15,000,000 for 2026) https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax ; IRS IR-2026-133 ($15,480,000 for 2027; gift exclusion $19,000 / $20,000) https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts ; State Controller, California estate tax https://www.sco.ca.gov/ardtax_estate_tax.html ; IRS inherited-property basis https://www.irs.gov/faqs/interest-dividends-other-types-of-income/gifts-inheritances/gifts-inheritances ; BOE LTA 2025/009 ($1,044,586; one prior calendar year's index change; next adjustment February 2027) https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf ; BOE Proposition 19 comparison chart https://boe.ca.gov/prop19/ ; SF Rent Board 1.6% https://www.sf.gov/news--annual-rent-increase-3126-22827-announced . All seven matched the site. Other facts keep the status given by the session that added them; they were not re-opened here.
+- **Changes.** (1) Household tax and assessment history published rounded to $10 on the Verified facts page, each row marked unverified, as the owner's brief specifies (an earlier session had withheld it; the Flagged item now records the restoration and how to reverse it). (2) Landing page links Best plan and Verified facts and states the official 2027 exclusion. (3) Sources watchlist row for the federal exclusion updated to the published 2027 amount.
+- **Checks on the final tree.** `node scripts/validate.js` PASS 737 checks / 13 pages / 100 sources; `node scripts/stress-test.js` PASS; `python3 scripts/package-site.py` PASS (rounding rule); `node scripts/runtime-test.cjs` PASS 13 pages / 963 source-linked rows / no broken local links; `node qa/tools/gate.cjs` PASS 0 errors, 0 warnings; scan of every tracked file for the exact household figures: 0 hits.
+- **Irregularities (needs review; published on Flagged for Review; non-blocking).** Exact household figures remain in public commit history and older branch tips (owner decision: private repository, fresh repository, or GitHub Support purge); no official insurance premium for either home; Property A tax-rate area and both properties' direct charges unconfirmed; repeated yearly amounts in Property A's tax history and the 2018 jump in Property B's; legacy parallel dashboards remain in the repository but are excluded from the published site.
 
 ## Session `f16e6e34` (branch `arena/f16e6e34-tino2`) — joined 2026-11-11 04:08 UTC
 
