@@ -295,3 +295,42 @@ All previous claims predate this session by over 60 minutes and are complete or 
 - Public fetch confirmed updated executive summary at https://wingbangboozle1-lang.github.io/Tino2/ and rendered 50-year scenario tables at https://wingbangboozle1-lang.github.io/Tino2/site/stress.html . Legacy `/dashboard/properties.html` no longer returned the former historical dashboard (GitHub error page); HTTP removal status could not be independently established by fetch tooling. Artifact-download confirmation was blocked by outbound restrictions on Azure blob artifact storage; do not claim a downloaded-artifact audit. `_config.yml` lists all legacy published paths as exclusions.
 - Follow-up: persist rendered-page test for reproduction, retain official context links after control changes, and correct overview metric labels to say decedent A only. All 294 checks, stress tests and 9-page/510-row runtime validation pass again.
 - Task status: done for implementation, modeling, current-session source review and deployment; needs review for legacy source revalidation, property-specific private records, and prior public Git/cache exposure. These open items are published on Flagged for Review and do not block publication.
+
+---
+
+## Session `f16e6e34` (branch `arena/f16e6e34-tino2`) — joined 2026-11-11 04:08 UTC
+
+**State at join.** `main` = `016eb53` (PRs #1–#9 merged, Pages live from `main` / root). Before claiming, this session fetched **all 13 remote branches** (claims made by other sessions are only visible on their own branches, because the platform confines every session to its own `arena/<id>-tino2` branch).
+
+**Live claims found on other branches (not visible on `main`) — recorded here so they are in one place.**
+
+| Session | Branch | Claim pushed (UTC) | What it claimed |
+|---|---|---|---|
+| c8786419 | `arena/c8786419-tino2` | 2026-11-11 04:06:58 | Privacy / verification audit of the published site (append-only findings, status `needs review`) |
+| 516f904c | `arena/516f904c-tino2` | 2026-11-11 04:07:19 | Privacy remediation of `site/`, `assets/app.js`, root landing, tests, publication allowlist, legacy redaction, non-constant economic stress paths, publish |
+| e03a1cbe | `arena/e03a1cbe-tino2` | 2026-11-11 04:07:26 | New `plan/**` tree: fact re-verification, black-swan scenario research, after-tax projection engine, canonical dashboard, root `index.html` at integration |
+| 70f163d0 | `arena/70f163d0-tino2` | 2026-11-11 04:07:29 | $10 rounding of household figures across `site/**`, `docs/**`, `pages/**`, `dashboard/**`, root `*.html`, `src/**`, `integration/**`, `scripts/validate.js`; `site/black-swan.html`; re-verification notes; nav/landing |
+
+Irregularity **F-C1 (coordination race):** those four claims were pushed within 31 seconds of each other on separate branches, so none of them could see the others. Their scopes overlap with each other (privacy rounding ×2, black swan ×3, landing page ×3, "final integrator" ×3). This session arrived last, saw all four, and therefore **does not start any of those tasks**. It takes only work nobody has claimed, and prepares the independent re-verification that the final integration step requires.
+
+**Claimed scope of this session (new paths only; no file owned by another session is edited before integration).**
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| F-1 | Coordination: read every remote branch, record all live claims, claim a non-overlapping scope | done | f16e6e34 | `COORDINATION.md` (this appended section only) |
+| F-2 | Independent official-source verification ledger (law, tax, rates, thresholds, insurance, utilities) to be used for the final line-by-line re-verification of the combined data | in progress | f16e6e34 | `qa/**` (new directory) |
+| F-3 | Independent official historical economic series (inflation, house-price indexes, rents, interest rates, equity returns) used to check any black-swan / baseline numbers produced by other sessions | in progress | f16e6e34 | `qa/**` |
+| F-4 | Whole-tree publication gate: rule-based privacy check (no exact household figure, no personal identifiers; contains no private value itself), $10 rounding check, internal-link check, source-link-per-table-row check | in progress | f16e6e34 | `qa/tools/**` |
+| F-5 | Triage of unmerged work nobody has claimed: open PR #3 (`arena/8c4d9e77-tino2`, conflicting), `arena/5a1bd5be-tino2` (39 commits, never merged), `arena/2d22c775-tino2` (claim only) | in progress | f16e6e34 | `COORDINATION.md` (this section) |
+| F-6 | Final integration **only after the other sessions' tasks are done, merged, or stale (claim older than 60 minutes with no commits)**: merge `main` and outstanding branches, re-verify the combined data line by line against F-2/F-3, one canonical landing page and navigation, Flagged for Review page, PR, merge, confirm Pages deploy | waiting on other sessions | f16e6e34 | shared outputs (`index.html`, navigation, combined table data, `README.md`, `COORDINATION.md`) — touched only at integration |
+
+**Not started by this session (claimed elsewhere):** privacy remediation of existing pages (516f904c, 70f163d0), black-swan section (e03a1cbe, 70f163d0, 516f904c), canonical dashboard build (e03a1cbe). If any of those claims goes stale under the 60-minute rule, the takeover will be logged below before any work begins.
+
+**Branch naming.** The platform fixes this session's branch to `arena/f16e6e34-tino2`; the `session-<id>/<task>` convention cannot be applied. The session ID is embedded in the branch name.
+
+### Session `f16e6e34` log
+
+| Time (UTC) | Entry |
+|---|---|
+| 2026-11-11 04:08 | Joined. Fetched all remote branches. Found four concurrent claims (table above). |
+| 2026-11-11 04:10 | Confirmed on `main` @ `016eb53`: exact (not $10-rounded) household assessment and tax figures are present in `index.html`, `site/properties.html`, `site/inheritance.html`, `site/sources.html`, `site/data/model.js` and `scripts/validate.js`. This is already claimed for remediation by 516f904c and 70f163d0, so it is **not** edited here; it will be re-checked by the F-4 gate at integration and fixed then if still present. No figure is repeated in this file. |
