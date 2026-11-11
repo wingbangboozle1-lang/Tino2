@@ -424,4 +424,9 @@ checks and is gitignored; it is **not** committed.
 
 ## 11. Publication record
 
-_Filled in after the pull request is merged — see `COORDINATION.md`, session `d9c69069` block._
+- **Pull request:** [#32](https://github.com/wingbangboozle1-lang/Tino2/pull/32) (`arena/d9c69069-tino2` → `main`)
+- **Merge result:** `MERGED`, 2026-11-11 08:16:33 UTC; merge commit `a23f241aada54604f10b46930fca9cc1b83b02e1`. `mergeable` / `mergeStateStatus: CLEAN` at merge time. Merged without waiting for approval, as the brief directs.
+- **CI before merge:** the repository's own `Verify public Pages boundary` workflow concluded **SUCCESS** on the PR head.
+- **GitHub Pages:** build for `a23f241` reported **`built`** with `error.message: null`, completed 08:17:08 UTC (Pages API, source `main` / root, HTTPS enforced, `status: built`).
+- **Live-URL fetch: not completed.** Fetches of `https://wingbangboozle1-lang.github.io/Tino2/` failed from this sandbox with the same proxy signature error recorded in D-I-8, after 14 successful official-source fetches earlier in the session. Deployment is therefore confirmed from the **Pages API build record and the CI run**, not from a read-back of the public page. This session does not claim to have read the deployed HTML.
+- **Effect on the live site: none.** This PR adds only `verification/d9c69069/**` and an appended `COORDINATION.md` block. Both `verification` and `COORDINATION.md` are excluded by `_config.yml`, so the published payload is byte-identical before and after — 26 files, verified by `scripts/check-publication.py` and by §3 check 6.
