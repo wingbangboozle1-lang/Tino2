@@ -523,3 +523,21 @@ Irregularity **F-C1 (coordination race):** those four claims were pushed within 
 |---|---|---|---|
 | 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
 
+
+## Session `81334f2c` — publication boundary hardening (2026-11-11)
+
+Current fixed branch: `arena/81334f2c-tino2`; base `815289a`. Prior financial dashboard implementation and completed sessions are retained. No alternate branch is created (Arena branch constraint).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Enforce canonical-only Pages deployment, test publication boundary, verify existing dashboard and record release | in progress | 81334f2c | `.github/workflows/pages.yml` (new), `scripts/check-publication.py` (new), `verification/81334f2c/**` (new), this coordination section |
+
+Finding: `scripts/package-site.py` creates an allowlisted `_public` artifact, but current Pages uses legacy root/Jekyll publication. The packaging check therefore does not prove the deployed artifact excludes all future unlisted repository files (including verification notes). This session will deploy only the packaged artifact. It will not edit another session's financial model, sources, or shared navigation. Source-link presence is not semantic verification of every financial claim; carried-forward source claims are not newly certified by this session. The open integration PR #16 is not merged here because it belongs to another active branch.
+
+Deployment constraint: GitHub's Pages settings update API returned HTTP 403 (`Resource not accessible by integration`); the repository connection can read Pages and push code but cannot switch its build type. No credentials requested. Scope extended to `_config.yml` (completed prior owner, no current competing claim): retain working legacy Pages, explicitly exclude verification notes, and add CI that builds the *actual Jekyll output* and rejects any file outside the reviewed manifest. This closes the tested-package/deployed-output verification gap without changing an unauthorized repository setting. A strict artifact deployment migration remains an administrative follow-up, not a claimed success.
+
+Integration note: main advanced via PR #20 during this session. Rebased onto main, then merged the original published claim commit to preserve remote ancestry without a force push. The sole conflict was our own coordination appendix; kept its full updated version and all other sessions’ sections. No other session files discarded.
+
+PR #20 integration also brought its already-completed verification-directory exclusion and three new canonical files (Best plan, Verified facts, official ledger). Removed this branch’s redundant config entry; reviewed those three files and updated the manifest from 21 to 24 files. First PR CI correctly failed closed on these previously unlisted files. Model/runtime checks now pass 737 validations / 13 pages / 100 sources and 963 rendered source-linked rows. A pull-rebase against the old session claim attempted to replay unrelated historical commits; aborted it immediately without retaining any conflict changes, preserving main and published claim via the prior merge.
+
+Actual-Jekyll CI finding: GitHub Pages generates the default theme stylesheet `assets/css/style.css`, absent from the hand-packaged output. Added precisely that generated CSS path to the Jekyll-only manifest; no broad asset wildcard was added. All model, package and rendering checks already passed in CI; final Jekyll audit is being rerun.
