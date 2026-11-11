@@ -64,5 +64,8 @@ if __name__ == '__main__':
         ALLOWED.difference_update({'.nojekyll', 'robots.txt'})
     errors = audit(target)
     if errors:
+        for error in errors:
+            # Keep failures readable through the Checks API when runner logs are restricted.
+            print('::error title=Publication boundary::' + error)
         raise SystemExit('\n'.join(errors))
     print(f'PASS: {len(ALLOWED)} reviewed public files only; internal material excluded.')
