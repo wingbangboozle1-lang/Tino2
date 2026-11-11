@@ -335,3 +335,11 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 - Irregularities flagged (published, non-blocking): subjective scenario weights; unverified $1,500 premium guess; Property A original basis absent, so step-up repeal is priced only per $1,000,000 of gain; no official retrofit cost, so catastrophe exposure is a share of value; whether renting Property B's vacant unit changes assessment or coverage is unverified.
 - PR [#12](https://github.com/wingbangboozle1-lang/Tino2/pull/12) — black-swan and real-conditions stress section, rebased onto main and merged without waiting for approval.
 
+
+### Session `d7d62f7a` — merge and publication result
+
+- PR [#12](https://github.com/wingbangboozle1-lang/Tino2/pull/12) merged to `main` on 2026-11-11 at 04:15:23 UTC without waiting for approval; merge commit `89a6a30923f0ad4779250dda856cdb01319a5472`. State `MERGED`, mergeable/clean at merge time.
+- GitHub Pages run [42958030157](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42958030157) completed `success` for merge commit `89a6a30`: build, report-build-status and deploy jobs all passed.
+- Public deployment confirmed by cache-busted fetches: https://wingbangboozle1-lang.github.io/Tino2/site/scenarios.html renders the stress-case tables and source links; https://wingbangboozle1-lang.github.io/Tino2/site/stress.html still renders the 50-year laboratory with its cross-link to the replay page.
+- Final state on `main`: 10 dashboard pages, 56 official sources, `node scripts/validate.js` 421 checks, `node scripts/stress-test.js` PASS, `node scripts/runtime-test.cjs` PASS (10 pages, 567 source-linked rows), `python3 scripts/package-site.py` PASS, link check and privacy scan 0 errors.
+- Status: implementation, modelling, current-session source verification and deployment are done. Needs review: the household-input and legal items listed on the Flagged for Review page, plus revalidation of carried-forward sources (the register marks which ones this session checked).
