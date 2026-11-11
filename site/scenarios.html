@@ -20,12 +20,12 @@ const row = cells => `<tr>${cells.join("")}</tr>`;
 const num = v => `<td class="number">${MONEY(v)}</td>`;
 
 /* Prop 19 exclusion is worth the difference between the two 2045 tax bills, compounded at the base return. */
-const exclYear1 = base.primaryTaxAtTransfer - base.fullTaxAtTransfer;
+const exclYear1 = Math.abs(base.primaryTaxAtTransfer - base.fullTaxAtTransfer);
 const exclTenYear = exclYear1 * ((Math.pow(1.02, 10) - 1) / 0.02);
 
 main.innerHTML = UI.hero("Black swans · stress cases for Property A", "What if the next 30 years are not a straight line?",
   "The dashboard's base case holds home growth at 3.5% and inflation at 3% for thirty years. Real fifty-year history does not behave that way. This page replays the shape of recorded stress episodes through the same three strategies — sell and reinvest, rent then sell, live then sell — and shows which conclusions survive.",
-  `<a class="button secondary" href="decision.html">Open the interactive decision lab</a><a class="button secondary" href="review.html">Flagged items ⚑</a>`) + `<div class="container">
+  `<a class="button secondary" href="decision.html">Open the interactive decision lab</a><a class="button secondary" href="stress.html">50-year stress tests</a><a class="button secondary" href="review.html">Flagged items ⚑</a>`) + `<div class="container">
 
 <section class="section"><div class="grid four">
 <div class="card"><div class="metric-label">Stress cases re-run</div><div class="metric small">${R.length}</div><p class="tiny">Every case uses the same cost and tax rules as the decision page.</p></div>
@@ -33,6 +33,7 @@ main.innerHTML = UI.hero("Black swans · stress cases for Property A", "What if 
 <div class="card"><div class="metric-label">Break-even home growth</div><div class="metric small">${(beHome * 100).toFixed(1)}%</div><p class="tiny">Annual home growth for 30 years at which renting overtakes selling.</p></div>
 <div class="card"><div class="metric-label">Break-even after-tax return</div><div class="metric small">${(bePort * 100).toFixed(1)}%</div><p class="tiny">Portfolio return below which reinvesting the sale proceeds stops winning.</p></div>
 </div>
+<div class="callout"><strong>Companion page.</strong> The <a href="stress.html">50-year stress tests</a> run automatic paths to 2095 in nominal and real dollars. This page replays recorded episodes, ranks the three strategies to 2055 and solves for the thresholds that would change the answer.</div>
 <div class="callout"><strong>How to read this page.</strong> Every growth rate below is a stated scenario assumption, not a forecast and not an official number. Recorded history is cited separately, with links, in the second table. Dollar figures are rounded to the nearest $10. Nothing here is legal, tax or investment advice.</div>
 </section>
 

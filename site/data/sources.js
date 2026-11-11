@@ -54,3 +54,10 @@ window.SOURCES = {
   cboOutlook2026: { agency: "Congressional Budget Office", title: "The Budget and Economic Outlook: 2026 to 2036", url: "https://www.cbo.gov/publication/61882", note: "Real GDP growth moderates to 1.8% a year after 2026; PCE inflation returns to 2% by 2030; 10-year Treasury rises gradually." },
   fairPlan: { agency: "California FAIR Plan", title: "Key statistics and data", url: "https://www.cfpnet.com/key-statistics-data/", note: "Exposure $773 billion at September 2026, +252% since September 2022; 698,307 policies in force; written premium $2.04 billion." }
 };
+// Reopened and checked in this session on 2026-11-11; other register entries
+// are carried-forward research and require revalidation, not a fresh audit claim.
+Object.assign(window.SOURCES, {
+ blsCPI:{agency:'BLS',title:'December 2022 CPI release (January 12, 2023)',url:'https://www.bls.gov/news.release/archives/cpi_01122023.htm',note:'Checked 2026-11-11: CPI-U 6.5%, electricity 14.3% over 12 months. Not a forecast.'},
+ fdic:{agency:'FDIC',title:'Understanding Deposit Insurance',url:'https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance',note:'Checked 2026-11-11: $250,000 per depositor, bank and ownership category; nondeposit investments excluded.'},
+ insuranceResidential:{agency:'California Department of Insurance',title:'Home/Residential Insurance',url:'https://www.insurance.ca.gov/01-consumers/105-type/5-residential/index.cfm',note:'Checked 2026-11-11: comparison guidance and limited FAIR Plan coverage; no verified property-specific premium.'}
+});

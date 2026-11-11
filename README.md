@@ -18,10 +18,11 @@ Property names are placeholders. Do **not** add personal names, street addresses
 python3 -m http.server 8080 --bind 0.0.0.0
 ```
 
-Open `http://localhost:8080`. There is no build step, package dependency, analytics script, backend, or external font request. JavaScript calculations run locally in the browser. GitHub Pages can serve the repository root directly; `.nojekyll` disables Jekyll processing.
+Open `http://localhost:8080`. There is no build step, package dependency, analytics script, backend, or external font request. JavaScript calculations run locally in the browser. GitHub Pages can serve the repository root directly; `_config.yml` excludes legacy research and historical dashboards from the GitHub Pages build. Do not add `.nojekyll`: that would bypass these privacy exclusions.
 
 ## Structure
 
+- `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
@@ -39,7 +40,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Model conventions
 
-Displayed projection dollars round to the nearest $10. Historical household bills retain their supplied exact amounts. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
+Displayed projection dollars round to the nearest $10. Exact historical household bills are withheld from the canonical public site. Rounded inputs remain unverified scenarios; rounding is not guaranteed anonymization. The model uses a date-of-death fair-market-value basis proxy, selling costs, after-tax cash flows, and same-endpoint terminal values. It deliberately does **not** impute depreciation, passive-loss benefits, land/building allocations, recapture, or taxpayer-specific brackets. Living in Property A excludes the value of housing service and any release of Property B’s owner unit, so its terminal dollar result is not a complete lifestyle comparison.
 
 Current law is separated from assumptions and proposed legislation. Future Proposition 19 and federal estate exclusion amounts are scenarios, not official forecasts. Unknown values remain blank.
 
@@ -82,3 +83,23 @@ python3 src/check_links.py .  # internal links across the whole site
 ```
 
 Coordination between the parallel sessions is recorded in `COORDINATION.md`.
+
+## 11 November 2026 audit
+
+Property B is already owned by the heir and excluded from the decedent’s estate model. Property A-only 2026 illustrative headroom is $11,900,000 before other estate items, gifts and deductions—not a verified amount of tax-free inheritance. Actual estate tax remains blank. Historic bill-to-assessment ratios are no longer extrapolated after reassessment: A uses a hypothetical 1.2% levy; B uses a carried-forward city ad valorem rate excluding unknown direct charges.
+
+`node scripts/stress-test.js` tests all five automatic 50-year paths. `python3 scripts/package-site.py` produces an allowlisted local artifact and rejects known exact household fingerprints. Pages retains its existing main/root configuration; `_config.yml` excludes old HTML, research, coordination logs and model source trees. GitHub integration permits repository/PR work but returns HTTP 403 for changing Pages configuration, so no settings change is required.
+
+Current-session source checks: IRS estate threshold and filing FAQ, BOE Proposition 19 overview, California Controller estate tax, BLS December 2022 CPI release, FDIC deposit insurance and CDI residential guidance. Other source-register entries are carried forward, explicitly flagged for revalidation; no blanket fresh verification is claimed.
+
+Prior public Git history and third-party caches may retain earlier exact household figures. A publication change does not erase those. See Flagged for Review. Legacy files are retained in Git to preserve previous sessions’ work, but are not part of the public Pages artifact.
+
+Rendered-page tests (optional development-only dependency):
+
+```sh
+npm install --prefix .cache/test jsdom --no-audit --no-fund
+python3 scripts/package-site.py
+node scripts/runtime-test.cjs
+```
+
+This checks runtime errors, every rendered table row for an official framework link, and local links in the allowlisted output. It does not establish truth of a projection or verify every external document.

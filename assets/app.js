@@ -10,8 +10,9 @@
   const navItems = [
     ["home", home, "Overview"],
     ["properties", prefix + "properties.html", "Properties"],
+    ["stress", prefix + "stress.html", "Stress tests"],
     ["decision", prefix + "decision.html", "Decision"],
-    ["scenarios", prefix + "scenarios.html", "Black swans"],
+    ["scenarios", prefix + "scenarios.html", "Shock replays"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
@@ -23,7 +24,7 @@
   const header = document.createElement("header");
   header.className = "site-header";
   header.innerHTML = `<div class="container header-inner">
-    <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Household records · 2026</small></span></a>
+    <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Anonymized scenarios · 2026</small></span></a>
     <button class="menu-button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
     <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
   </div>`;
@@ -36,7 +37,7 @@
   });
   const footerHost = document.querySelector("[data-footer]");
   if (footerHost) {
-    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Privacy-safe planning dashboard</strong><br>Property labels are placeholders. No names, street addresses, parcel numbers, or account numbers are published.</div><div>Official-law review: 10 Nov 2026<br><a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
+    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Privacy-safe planning dashboard</strong><br>Property labels are placeholders. No names, street addresses, parcel numbers, or account numbers are published.</div><div>Correction audit: 11 Nov 2026<br><a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
   }
   window.UI = {
     source(key, label) {
@@ -66,3 +67,18 @@
     }
   };
 })();
+
+// Model-only comparison rows need an explicit official framework link too.
+// The link is context, never verification of a hypothetical dollar amount.
+window.UI.ensureRowSources = function () {
+  document.querySelectorAll('table').forEach(table => {
+    const rows=[...table.querySelectorAll('tbody tr')];
+    if(!rows.some(r=>!r.querySelector('a[href^="https://"]'))) return;
+    const heading=document.createElement('th'); heading.textContent='Official framework / model context';
+    const head=table.querySelector('thead tr'); if(head && !head.querySelector('[data-framework]')) { heading.dataset.framework='true'; head.append(heading); }
+    rows.forEach(r=>{
+      const cell=document.createElement('td');cell.className='source';
+      cell.innerHTML=UI.source('irsBasis','Framework only · scenario unverified');r.append(cell);
+    });
+  });
+};
