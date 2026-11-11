@@ -270,3 +270,11 @@ None.
 - PR [#8](https://github.com/wingbangboozle1-lang/Tino2/pull/8) merged to `main` at 2026-11-10 06:48:43 UTC; merge commit `4c465bbeb7ab5c965a31ed0b3dae80a91db7be03`. PR state clean/mergeable; GitHub reported no PR-specific checks, with local/model/runtime/build/link/privacy validations recorded above.
 - GitHub Pages [run 42771015838](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42771015838) completed `success` for merge commit `4c465bb`; build, report-build-status and deploy jobs passed. Pages API reports `built`, `main` / root, HTTPS enforced.
 - Public deployment confirmed at https://wingbangboozle1-lang.github.io/Tino2/ (cache-busted fetch after deployment), `/site/decision.html`, and `/research-portal.html`; rendered base case and source links present. Final coordination-record PR contains documentation only.
+
+## Session 516f904c — 2026-11-11 privacy and reliability integration
+
+| Task | Status | Owner | Scope |
+|---|---|---|---|
+| Audit public privacy, remove exact household fingerprints, verify current-law sources, add nonconstant economic stress paths, validate and publish | in progress | 516f904c | canonical `site/`, `assets/app.js`, root landing, source/model tests, publication allowlist, legacy privacy redaction, coordination |
+
+All previous claims predate this session by over 60 minutes and are complete or stale. No currently active competing claim found. This session is final integrator. Arena requires the fixed branch `arena/516f904c-tino2`; no alternate branch will be created. Previously published exact household histories are a privacy irregularity: rounding is not anonymization and public Git history cannot be erased by a site change. Remove histories from the published artifact and redact exact household amounts from working files. Official rules and hypothetical projections remain distinct.
