@@ -278,3 +278,21 @@ None.
 | Audit privacy exposure and verification of existing public site | in progress | c8786419 | `COORDINATION.md` (append), audit findings only |
 
 Prior in-progress claims above are more than 60 minutes old; no takeover of their implementation scope is assumed until checked. Platform requires the existing Arena branch rather than a session-named branch. Existing GitHub Pages publishes the repository root, including historical alternate pages and source files; a privacy audit is urgent.
+
+### Audit result — needs review (2026-11-11)
+
+The existing publication is **not privacy-safe** under the current request. GitHub reports this repository is public and Pages publishes `main` from `/`. The root landing page, `site/properties.html`, `site/data/model.js`, `research-portal.html`, and multiple `pages/` files contain household-specific financial data, including values with exact dollar precision. The public repository also contains data and prior generated files; removing visible HTML alone would not remove public source, history, caches, or search indexes. Do not describe rounding or `noindex` as anonymization. No household figures are repeated in this audit.
+
+Additional verified concerns:
+- `pages/inheritance-tax.html` describes the already-owned property as part of the inheritance. Ownership does not, by itself, put another person's solely owned asset in the decedent's gross estate. Actual ownership and includibility require professional review. [IRS estate tax FAQ](https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes).
+- `site/data/model.js` embeds unsupported household inputs and assumptions, yet the existing dashboard and its validation script present a numerical winning option. Such a result cannot be established under the requirement that unconfirmed values be blank; hypothetical scenarios are not official forecasts. Historical returns, future estate values and parcel-specific insurance premiums are not confirmed by the cited legal sources.
+- A county information or payment portal link is not verification of an individual property's assessed value, bill, rent, or quote. Table/source attribution requires review at the level of each claim.
+- The parent-child property tax exclusion requires, among other conditions, a qualifying family home and occupancy by the transferee. It is not automatically available simply because property passes through a trust. [California BOE fact sheet](https://www.boe.ca.gov/pdf/pub801.pdf).
+- The IRS describes the 2026 federal basic exclusion and Form 706 filing threshold, but an actual estate's remaining exclusion, includible assets, prior gifts and future law are unknown. [IRS FAQ](https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes).
+- Existing automated checks are insufficient to prove the requested verification: `python3 src/check_links.py .` states external links were not machine-checked; `node scripts/validate.js` passed despite the privacy and attribution concerns above. A source-by-source substantive audit has not been completed.
+
+**Handoff:** A final integration session must remove household-specific information from every published artifact and its generator, verify all remaining assertions, and decide how to address already-public Git history, copies and search caches. Because previous implementation claims are stale, this is a requested handoff rather than a claim to their overlapping files. Do not merge on the strength of the existing checks. This audit does not claim the existing Pages deployment is compliant.
+
+| Task | Status | Owner | Scope | Verification |
+|---|---|---|---|---|
+| Audit privacy exposure and verification of existing public site | needs review | c8786419 | `COORDINATION.md` append only | GitHub repository and Pages API, local file inspection, and IRS/BOE official materials linked above |
