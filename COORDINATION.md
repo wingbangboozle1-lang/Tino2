@@ -523,6 +523,164 @@ Irregularity **F-C1 (coordination race):** those four claims were pushed within 
 |---|---|---|---|
 | 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
 
+
+## Session `81334f2c` — publication boundary hardening (2026-11-11)
+
+Current fixed branch: `arena/81334f2c-tino2`; base `815289a`. Prior financial dashboard implementation and completed sessions are retained. No alternate branch is created (Arena branch constraint).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Enforce canonical-only Pages deployment, test publication boundary, verify existing dashboard and record release | in progress | 81334f2c | `.github/workflows/pages.yml` (new), `scripts/check-publication.py` (new), `verification/81334f2c/**` (new), this coordination section |
+
+Finding: `scripts/package-site.py` creates an allowlisted `_public` artifact, but current Pages uses legacy root/Jekyll publication. The packaging check therefore does not prove the deployed artifact excludes all future unlisted repository files (including verification notes). This session will deploy only the packaged artifact. It will not edit another session's financial model, sources, or shared navigation. Source-link presence is not semantic verification of every financial claim; carried-forward source claims are not newly certified by this session. The open integration PR #16 is not merged here because it belongs to another active branch.
+
+Deployment constraint: GitHub's Pages settings update API returned HTTP 403 (`Resource not accessible by integration`); the repository connection can read Pages and push code but cannot switch its build type. No credentials requested. Scope extended to `_config.yml` (completed prior owner, no current competing claim): retain working legacy Pages, explicitly exclude verification notes, and add CI that builds the *actual Jekyll output* and rejects any file outside the reviewed manifest. This closes the tested-package/deployed-output verification gap without changing an unauthorized repository setting. A strict artifact deployment migration remains an administrative follow-up, not a claimed success.
+
+Integration note: main advanced via PR #20 during this session. Rebased onto main, then merged the original published claim commit to preserve remote ancestry without a force push. The sole conflict was our own coordination appendix; kept its full updated version and all other sessions’ sections. No other session files discarded.
+
+PR #20 integration also brought its already-completed verification-directory exclusion and three new canonical files (Best plan, Verified facts, official ledger). Removed this branch’s redundant config entry; reviewed those three files and updated the manifest from 21 to 24 files. First PR CI correctly failed closed on these previously unlisted files. Model/runtime checks now pass 737 validations / 13 pages / 100 sources and 963 rendered source-linked rows. A pull-rebase against the old session claim attempted to replay unrelated historical commits; aborted it immediately without retaining any conflict changes, preserving main and published claim via the prior merge.
+
+Actual-Jekyll CI finding: GitHub Pages generates the default theme stylesheet `assets/css/style.css`, absent from the hand-packaged output. Added precisely that generated CSS path to the Jekyll-only manifest; no broad asset wildcard was added. All model, package and rendering checks already passed in CI; final Jekyll audit is being rerun.
+
+### Session `81334f2c` — completion and release
+
+- Task status: **done** (privacy-boundary CI and integration); artifact-only deployment migration remains **needs review**, due to Pages-settings API 403. This supersedes the initial intent to switch deployment mode. Actual deployment remains legacy main/root.
+- PR [#21](https://github.com/wingbangboozle1-lang/Tino2/pull/21) merged without waiting for review on 2026-11-11 07:55 UTC. Merge commit `e3ec53b8983459cc281cbc07bfb1d3b4b2bab9c0`.
+- PR validation run [42982912949](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42982912949): success before merge.
+- Main verification run [42983004236](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42983004236): success, including actual GitHub Pages Jekyll output audit. Reviewed package manifest: 24 files. Jekyll manifest: 23 (package-only `.nojekyll` and robots omitted; generated theme stylesheet included). Model checks: 737 / 13 pages / 100 source entries; rendering: 13 pages / 963 source-linked rows. Source presence is not semantic certification.
+- Pages deployment [42983003027](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/42983003027): **success**; Pages API reports `built`, no error, commit `e3ec53b8`.
+- Live landing and Flagged for Review pages retrieved successfully at https://wingbangboozle1-lang.github.io/Tino2/ and https://wingbangboozle1-lang.github.io/Tino2/site/review.html . Existing financial/private-history uncertainties remain visible on that page. Public Git history/cache retention is not erased or claimed solved.
+- Fresh official-source spot checks: IRS 2026 exclusion, California SCO estate filing status, BOE current Prop 19 amount/period/indexing, CDI residential insurance guidance, GitHub custom-workflow publication requirements. Full links and scope in `verification/81334f2c/REPORT.md` (repository-only, intentionally not published).
+- All previous sessions' work preserved. Main advanced via PR #20 and #22 during this session; coordination changes retained. Ordinary flattening rebases conflicted with the old published claim ancestry and were aborted without retaining changes; merging main succeeded. Later pushes used `pull --rebase=merges` against this session branch, avoiding any force push or branch switch.
+## Session `246f5b3b` (branch `arena/246f5b3b-tino2`) — joined 2026-11-11 07:43 UTC — final integration
+
+**State at join.** `main` = `240f255` (PRs #1–#15, #17 merged; Pages live from `main` / root). All 17 remote `arena/*` branches fetched before claiming. Newest commit on any other branch: `f16e6e34` at 04:46 UTC (about three hours old), so every other claim is past the 60-minute stale mark. PR #16 (`f16e6e34`) is open, mergeable and unmerged; its session stopped before merging.
+
+**Handoff.** This session takes over the stale final-integration task (F-6 of `f16e6e34`, E-14 of `e03a1cbe`, F-6 of `5c9d68b9`) under the 60-minute rule. The platform fixes the branch name to `arena/246f5b3b-tino2`; the `session-<id>/<task>` naming cannot be applied.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| G-1 | Claim, read all boards and branches | done | 246f5b3b | `COORDINATION.md` (this section) | N/A | none |
+| G-2 | Take over PR #16 (also taken over and merged in parallel by session 11bffb54; both merges kept): merged `arena/f16e6e34-tino2` into this branch, re-ran every check, re-verified its corrections on the official pages | done | 246f5b3b | files of PR #16 | IRS IR-2026-133 ($15,480,000 for 2027; gift exclusion $20,000); IRS "What's new" ($15,000,000 for 2026); BOE Prop 19 page; BOE LTA 2025/009 ($1,044,586, 16 Feb 2025–15 Feb 2027); SCO estate tax page; SF Rent Board rates (1.6%); HUD FY2026 SAFMR; RTC 480; congress.gov H.R.1301. All match the site. | One conflict in `COORDINATION.md` (both sessions appended); resolved keeping both sides. |
+| G-3 | Privacy audit of the tree, the Pages artifact, the history and every branch | done; owner decision open | 246f5b3b | whole tree (read) | GitHub Docs "Removing sensitive data" | Pages artifact (`_public/`): no exact figure except one assessed value that already ends in 0. **Ten other branch tips (`1dab34fa 449ce08f 516f904c 5a1bd5be 5c9d68b9 64131d11 7c9c2cc4 c8786419 d7d62f7a e03a1cbe`) and nine commits in `main` history still hold exact assessed values.** A session cannot delete other sessions' branches or purge history. Published as the first High item on the Flagged for Review page. Legacy root pages (`cupertino.html`, `pages/`, `dashboard/`, `docs/`, `src/` …) stay in the tree with $10-rounded figures and are excluded from Pages by `_config.yml`; not deleted because other sessions own them. |
+| G-4 | Line-by-line review of the published site against the brief; gaps filled | done | 246f5b3b | `index.html`, `site/properties.html`, `site/estate-tax.html`, `site/review.html`, `site/sources.html`, `site/verification.html`, `site/inheritance.html`, `site/data/model.js`, `site/data/sources.js`, `scripts/stress-test.js`, `scripts/package-site.py`, `README.md` | New this session: RTC 13301 (no state or local gift/inheritance/estate tax); RTC 11930 (no transfer tax on transfer by death); RTC 11911 (county rate $0.55 per $500); CPUC net energy metering page; CDI residential workbook (statewide sheet only); SFPUC Prop 218 notice; CA SoS ballot results (unofficial, 10 Nov 2026) | (1) Household tax/assessed history had been withheld against the brief; restored rounded to $10 (`MODEL.historyA/B`, Properties `#history`). (2) Landing page was stale (modeled 2027 exclusion, no best plan, 2040 only); rewritten as executive summary for 2040/2045/2050. (3) No table answered "federal / state / local threshold and room"; added to Estate page. (4) No "costs upon inheriting" table; added. (5) Source register status column never matched the date format; fixed. (6) Inheritance step 8 linked the wrong county assessor; fixed. (7) Still unconfirmed and blank: both insurance premiums (ZIP sheets unreadable), solar tariff term, tax-rate areas, money in the estate. (8) Model property tax before inheritance is below the household's bills (no flat charges); disclosed. All listed on `site/review.html`. Request to earlier sessions: none; shared files were changed by this session as final integrator. |
+| G-5 | PR to `main`, merge, confirm Pages deploy, record result | done | 246f5b3b | `COORDINATION.md` (this section) | GitHub Pages build API; live pages fetched | **PR https://github.com/wingbangboozle1-lang/Tino2/pull/23 — MERGED 2026-11-11 07:56 UTC, merge commit `e8abf0a`.** PR check "Verify public Pages boundary": pass. `main` moved twice while this session worked (PRs #16, #18–#22 by sessions 11bffb54, 14e318a1, 81334f2c, then #21); each time `origin/main` was merged into this branch, conflicts in `COORDINATION.md`, `index.html`, `site/properties.html`, `site/review.html`, `site/sources.html`, `site/verification.html` were resolved keeping the other sessions' text or combining both, and all checks re-run before merging. First merge attempt was refused as conflicting; fixed and retried. Pages build for `main` `7e537de` (contains `e8abf0a` and later PR #24): status `built`, no error; workflow "pages build and deployment": success. Live pages fetched and read after the build: `/` (new executive summary), `/site/estate-tax.html` (threshold table), `/site/properties.html` (costs upon inheriting); `/COORDINATION.md` returns 404 as intended. PR #16 was merged by session 11bffb54 at 07:49 UTC, so no supersede/close was needed. |
+
+Release-record integration: PR #23 (session 246f5b3b) landed while the PR #24 record was being prepared. The only conflict was appended coordination sections; both retained in full. Its source/model/site changes are preserved and the publication manifest still admits the same canonical paths.
+
+| G-5 | PR to `main`, merge, confirm Pages deploy, record result | unclaimed → this session | 246f5b3b | `COORDINATION.md` (this section) | — | — |
+
+---
+
+## Session `b0123943` (branch `arena/b0123943-tino2`) — joined 2026-11-11 07:45 UTC — independent verification + publication record
+
+**State at join.** `main` = `240f255` (PRs #1–#17 merged; GitHub Pages live from `main` / root). An active final-integration session `246f5b3b` claimed the role at 2026-11-11 07:43 UTC (took over stale PR #16; tasks G-2..G-5). Its claim is under 60 minutes old, so this session does **not** take the integration/nav/landing role and does **not** edit `site/**`, `index.html`, `assets/**`, `scripts/**`, `src/**`, `dashboard/**`, `pages/**`, `docs/**`, `plan/**`, `qa/**`, `inherit/**`, `research/**`, `integration/**` or any file owned by another session.
+
+**Claimed scope (new paths only + this board section):**
+
+| # | Task | Status | Owner | Files touched | Sources verified | Irregularities |
+|---|------|--------|-------|---------------|------------------|----------------|
+| B0 | Coordination: read boards/branches, claim non-overlapping scope, push claim immediately | done | b0123943 | `COORDINATION.md` (this section) | N/A | none |
+| B1 | Independent line-by-line verification of the published site and the PR #16/#20/#22 integration tree: run the repo check suite on a read-only worktree; fetch key official pages (IRS, BOE, SCO, leginfo, HUD, SF Rent Board, CDI) and record match/no-match with URLs | done | b0123943 | read-only (worktree of `main`) | 13/13 official pages opened 2026-11-11 MATCH (§2 of report) | none |
+| B2 | Publish verification report | done (this PR) | b0123943 | `verification/b0123943/REPORT.md` | report §1–§6 | F-B1…F-B12 (none blocking) |
+| B3 | PR to `main`, merge without waiting, confirm Pages deploy, record result | done | b0123943 | `COORDINATION.md` (this section) | PR #25; runs 42983734588 (verify) and 42983734021 (pages) | none |
+
+**Rules this session follows:** privacy first (no personal information anywhere in committed files), every dollar figure in new files rounded to the nearest $10, every table row carries an official source link or is blank + flagged unverified, small frequent commits, `git pull --rebase` (or merge `origin/main`) before every push, conflicts resolved without discarding other sessions' work.
+
+### Session `b0123943` — publication result (2026-11-11)
+
+- PR [#25](https://github.com/wingbangboozle1-lang/Tino2/pull/25) (`arena/b0123943-tino2` -> `main`) **merged** 2026-11-11 08:01:10 UTC; merge commit `a6818a35da43a5c03b50361732a4fd5b89a5ea7c`. The `verify` check (Verify public Pages boundary) was **success** before merge (run `42983600751`).
+- Main moved during this session (PRs #18–#24, #26); this branch merged `origin/main` twice to stay current; both conflicts were in `COORDINATION.md` and were resolved by keeping every session's section in full. No other session's file was edited; site code was identical to `e8abf0a` when this branch was merged into `main`.
+- Post-merge `main` (`a6818a3`): `Verify public Pages boundary` run `42983734588` **success**; `pages build and deployment` run `42983734021` **success**; Pages API status `built`, source `main` / root.
+- Live site confirmed serving the current dashboard (cache-busted fetch 2026-11-11): executive summary with the three-inheritance-year table (2040: sell $7,683,290 · 2045: sell $9,125,340 · 2050: sell $10,838,040), the 2027 federal exclusion $15,480,000, Best plan and Verified facts links, and the black-swan check table. Note: the un-busted URL served a cached older render; the deployed artifact matches `main`.
+- Carried forward for the owner (not blocking): Insurance quotes for both ZIPs; exact household figures in public Git history (owner decision); PR #3 recommended for owner to close; Property B cost inflation and solar-credit sunset flags; Prop 19 amount beyond Feb 2027; SF File No. 261020 (not enacted); carried-forward (not re-opened) official series listed in `verification/b0123943/REPORT.md` §2.
+
+---
+
+## Session `aa1f073e` (branch `arena/aa1f073e-tino2`) — claim 2026-11-11 07:52 UTC
+
+**State read at claim.** `main` = `240f255` (PR #17 merged; Pages `built`, source `main` / root; `node scripts/validate.js` PASS 581, `node scripts/stress-test.js` PASS, `python3 scripts/package-site.py` PASS, `python3 src/check_links.py .` 0 errors). All 19 `arena/*` branches fetched before claiming.
+
+**Live claims seen on other branches at 07:50–07:52 UTC (not stale, therefore not touched):**
+
+| Session | Branch | Claim pushed (UTC) | Claimed |
+|---|---|---|---|
+| `11bffb54` | `arena/11bffb54-tino2` | 2026-11-11 07:50 | Take over stale PR #16, brief-vs-site gap review, final integration (`site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`), PR/merge/Pages |
+| `246f5b3b` | `arena/246f5b3b-tino2` | 2026-11-11 07:44 | Final integration + takeover of stale PR #16 (already merged `arena/f16e6e34-tino2` into its branch) |
+
+Irregularity **AA-C1 (coordination race):** three sessions (`246f5b3b`, `11bffb54`, this one) were started within ~8 minutes of each other with the same brief, and the first two both claimed "final integration / take over PR #16" 6 minutes apart on branches neither could see. This session therefore does **not** claim final integration, does not take over PR #16, and does not edit any file those two named. It takes the research gap that every previous session left explicitly **unverified**.
+
+**Claimed scope (new paths only; nothing owned by an active session is edited).**
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| AA-1 | Coordination: read every branch, record the race, claim a non-overlapping scope, push immediately | **done** | aa1f073e | `COORDINATION.md` (this section only) |
+| AA-2 | Operating-cost research from official/regulator sources only — insurance (CA Dept of Insurance, NAIC), water tariffs for both ZIPs, electricity/solar export tariff, maintenance benchmarks | **done** — 5 cost lines, 47 ledger entries, 41 confirmed on the official page, 6 not confirmed and left blank | aa1f073e | `research/aa1f073e/operating-cost-ledger.md` |
+| AA-3 | Verification ledger for AA-2: one row per figure with the official URL, the wording found, access date; blank + flagged when no official source confirms it | **done** — merged into the AA-2 ledger (one document, one row per figure, status column) | aa1f073e | `research/aa1f073e/operating-cost-ledger.md` |
+| AA-4 | Published cost page built from AA-2/AA-3 | **done** — `site/operating-costs.html` + `site/data/costs.js`, 15 new registered sources, every row linked or flagged | aa1f073e | `site/operating-costs.html`, `site/data/costs.js` (new) |
+| AA-5 | Line-by-line read of the published site against the brief; findings logged for the owning session | **done** — 7 new items appended to the Flagged for Review register (2 High) | aa1f073e | `site/review.html` (append only) |
+| AA-6 | Own PR to `main` (additive files only), merge, confirm Pages deploy, record result here | **done** — see result below | aa1f073e | own files + this section |
+
+**Rules this session follows:** no personal information in any committed file; every dollar figure rounded to the nearest $10; every table row carries an official source link or is left blank and flagged unverified; no value inferred; small frequent commits; `origin/main` merged before every push; conflicts resolved without discarding another session's work.
+
+### Requests / handoff log (session `aa1f073e`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:52 | aa1f073e | `246f5b3b`, `11bffb54` | You both claimed final integration minutes apart. I am staying out of `index.html`, `README.md`, `_config.yml`, `assets/**`, `scripts/**`, `qa/**`, `site/**` **except two new files** (`site/operating-costs.html`, `site/data/costs.js`) that no one has claimed. Whoever integrates last: please add one nav entry for `site/operating-costs.html`. If both of your claims pass 60 minutes with no commit, I will add the nav entry myself and log the takeover here. |
+
+### Session `aa1f073e` — results (2026-11-11)
+
+**Handoff taken, with the 60-minute rule not needed.** Both sessions named in the request log below
+finished and merged while this research ran: PR #20 and PR #22 (`11bffb54`), PR #23 (`246f5b3b`) and
+PR #24 (`81334f2c`) are all in `main`. `246f5b3b` left G-5 open and its G-4 note lists the gaps it could
+not close, including "both insurance premiums, solar tariff term, tax-rate areas". With no active
+competing claim, this session made the four shared-file edits its new page needs, each additive:
+
+| Shared file | Edit | Why it is safe |
+|---|---|---|
+| `assets/app.js` | one navigation entry, `Operating costs` | Additive; no existing entry changed |
+| `scripts/validate.js` | page count 13 → 14; `require` of `site/data/costs.js` so its source keys are registered | The count is an exact-match assertion that a new page necessarily breaks |
+| `scripts/check-publication.py` | two paths added to the reviewed manifest | The CI gate fails closed on unlisted files, by design |
+| `site/sources.html`, `site/review.html` | load `data/costs.js`; 7 appended review items | Append-only; no existing row edited |
+
+**What the new page establishes.** Operating costs are rebuilt from adopted rate schedules instead of
+recalled bill amounts. Water and wastewater for both properties now have tariff-level build-ups with
+effective dates and adopting resolutions; the solar legacy term is confirmed at 20 years from permission
+to operate and transferable with the system; the minimum delivery charge is confirmed as a floor under
+any solar credit; maintenance has a national official series. The San Jose Water build-up reproduces
+that company's own published average-bill illustration to the cent, which is the transcription check.
+
+**What it deliberately leaves blank.** Insurance, for both properties. Three official routes were tried
+and each either declines to price a specific property or publishes a state average its own publisher
+warns against reading as a price. No figure was substituted. Also open: which of three water systems
+serves Property A, both meter sizes, Property B's parcel tier and meter count, and the solar install
+year. All seven are now on the Flagged for Review register with the document that resolves each.
+
+**Irregularity AA-I1 (new).** San Francisco's adopted schedule raises the average single-family combined
+bill about 12.6% and then about 12.5% in consecutive years, while every projection on the site escalates
+operating costs at a flat 3%. The adopted increases are not forecasts. Published on the Operating costs
+page and on the review register; the base case was not re-escalated, because that model belongs to the
+integration sessions and changing it would overwrite their work.
+
+**Irregularity AA-I2 (new).** The household's supplied water range for Property B is materially below the
+tariff build-up at ordinary three-unit usage. Either consumption is lower than assumed or the billing
+basis differs (separate meters, different parcel tier, or rates recalled from before July 2026). Not
+reconciled; published as an open item.
+
+**Checks on the final tree.** `node scripts/validate.js` PASS 835 checks / 14 pages / 121 sources ·
+`node scripts/runtime-test.cjs` PASS 14 pages, 1,126 rendered rows all source-linked ·
+`node scripts/stress-test.js` PASS · `python3 scripts/package-site.py` PASS ·
+`python3 scripts/check-publication.py` PASS 26 reviewed files, and its `--self-test` PASS ·
+`node qa/tools/gate.cjs` **PASS: 0 errors, 0 warnings** (14 pages, 1,126 rows, 4,370 dollar amounts,
+1,535 external links). Base case unchanged at 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780.
+
+**Privacy.** No household figure, address, meter number, account number or parcel identifier is in the
+new page, the new data file or the research ledger. Every dollar amount of $1,000 or more that the page
+renders is a multiple of $10; tariff unit rates below $1,000 are shown exactly, because that is what
+makes the build-up checkable. `research/aa1f073e/**` is repository-only and excluded from the Pages
+artifact by the publication manifest.
+
 ---
 
 ## Session `46b8d4fa` (branch `arena/46b8d4fa-tino2`) — joined 2026-11-11 07:43 UTC, claim pushed 07:48 UTC

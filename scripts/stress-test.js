@@ -5,7 +5,9 @@ require('../site/data/model.js');require('../site/data/stress.js');
 assert.equal(MODEL.estateRow(2026).combined,3100000);
 assert.equal(MODEL.estateRow(2026).headroom,11900000);
 assert.equal(MODEL.estateRow(2026,{...MODEL.BASE,bValue:999999999}).headroom,11900000);
-assert.equal(MODEL.historyA.length+MODEL.historyB.length,0);
+// Household history is published only rounded to the nearest $10 (owner's rule); no unrounded figure may be stored.
+for(const r of [...MODEL.historyA,...MODEL.historyB]) for(const k of ['tax','assessed']) assert(r[k]===null||r[k]%10===0,'history value not rounded to $10');
+assert.equal(MODEL.historyA.length,13);assert.equal(MODEL.historyB.length,10);
 for(const key of Object.keys(STRESS.paths)){
  const rows=STRESS.run(key);assert.equal(rows.length,50);
  assert.equal(rows[0].year,2046);assert.equal(rows.at(-1).year,2095);
