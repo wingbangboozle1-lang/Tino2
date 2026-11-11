@@ -7,6 +7,8 @@ const root = path.resolve(__dirname, "..");
 global.window = global;
 require(path.join(root, "site/data/sources.js"));
 require(path.join(root, "site/data/model.js"));
+require(path.join(root, "site/data/history.js"));
+require(path.join(root, "site/data/history-engine.js"));
 let checks = 0;
 function ok(condition, message) {
   checks += 1;
@@ -43,9 +45,33 @@ Object.entries(SOURCES).forEach(([key, source]) => {
   ok(source.agency && source.title && source.note, `${key} has agency, title and note`);
 });
 
+// Recorded-data engine (site/black-swan.html): constant-rate baseline must reproduce the Decision lab exactly.
+const SC = window.SCEN;
+for (const Y of [2040, 2045, 2050]) {
+  for (const H of [5, 10, 20]) {
+    const lab = MODEL.decision({...MODEL.BASE, inheritYear: Y}, H, "4BR");
+    const eng = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), Y, H, "4BR");
+    near(eng.sell, lab.sell.terminal, 0.01, `engine sell ${Y}/${H}`);
+    near(eng.rent, lab.rent.terminal, 0.01, `engine rent ${Y}/${H}`);
+    near(eng.live, lab.live.terminal, 0.01, `engine live ${Y}/${H}`);
+    near(eng.sellLiq, lab.sell.terminalAfterLiquidation, 0.01, `engine liquidation-taxed sell ${Y}/${H}`);
+  }
+}
+ok(SC.SCENARIOS.length === 12, "twelve recorded-data scenarios");
+SC.SCENARIOS.forEach(sc => ok(Boolean(SOURCES[sc.source]), `scenario ${sc.id} has a source key`));
+const csv = fs.readFileSync(path.join(root, "research/data/fred_annual_2026-11-11.csv"), "utf8").trim().split("\n").slice(1).map(l => l.split(","));
+ok(csv.length === window.HISTORY.rows.length, "history row count matches the FRED CSV");
+csv.forEach((cells, i) => ok(window.HISTORY.columns.every((c, j) => (cells[j] === "" ? window.HISTORY.rows[i][j] === null : Number(cells[j]) === window.HISTORY.rows[i][j])), `history row ${cells[0]} matches the FRED CSV`));
+near(SC.H[2025].cpi / SC.H[2024].cpi - 1, 321.943 / 313.689 - 1, 1e-12, "CPI 2025 change");
+const mcA = SC.monteCarlo({paths: 200}), mcB = SC.monteCarlo({paths: 200});
+near(mcA.summary[2045].p50.sell, mcB.summary[2045].p50.sell, 1e-9, "Monte Carlo is seeded and reproducible");
+ok(mcA.summary[2045].sellBeatsRent > 0 && mcA.summary[2045].sellBeatsRent < 1, "Monte Carlo produces mixed outcomes");
+near(MODEL.modelAllowance(2026), 1044586, 1e-9, "Prop 19 amount in the current BOE period");
+near(MODEL.modelAllowance(2030), 1044586 * Math.pow(1.035, 4), 1e-6, "Prop 19 amount compounds in completed two-year steps");
+
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 10, "ten dashboard pages");
+ok(htmlFiles.length === 11, "eleven dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);

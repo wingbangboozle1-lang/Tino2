@@ -103,3 +103,8 @@ node scripts/runtime-test.cjs
 ```
 
 This checks runtime errors, every rendered table row for an official framework link, and local links in the allowlisted output. It does not establish truth of a projection or verify every external document.
+
+## Recorded-data stress tests (added 2026-11-11, session 70f163d0)
+
+`site/black-swan.html` ("Recorded data") replays twelve scenarios from official annual series (BLS CPI-U, FHFA house-price indexes, Treasury yields, Freddie Mac mortgage rates, OECD share prices; 1970–2025) and runs 2,000 seeded random 50-year histories through the same cash-flow logic as the Decision lab (`site/data/history-engine.js`; with constant rates it reproduces `MODEL.decision()` exactly, checked in `scripts/validate.js`). Inputs are stored in `research/data/fred_annual_2026-11-11.csv`; regenerate `site/data/history.js` with `python3 scripts/build-history.py`. Notes: `research/black-swan.md`; verification log: `research/verification-2026-11-11.md`. The Prop 19 cap is modeled as compounding with home-price growth in two-year steps (BOE indexes it to the FHFA California HPI).
+
