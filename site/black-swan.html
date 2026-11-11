@@ -60,7 +60,7 @@ main.innerHTML = UI.hero("Black swans · 50-year stress tests", "Growth and infl
 <div class="card"><h3>Method notes</h3><ul class="list">
 <li>Same engine as the Decision lab: with constant rates it reproduces the lab’s results to the cent (verified in <span class="code">scripts/validate.js</span>).</li>
 <li>Prop 13 factor each year = lesser of 2% and CPI; Prop 8-style decline: assessment cannot exceed market value.</li>
-<li>Prop 19 value cap follows the model home-price path in completed two-year steps (BOE indexes it to the FHFA California HPI).</li>
+<li>Prop 19 value cap takes one year of the model home-price change at each two-year step, the way BOE has applied the FHFA California HPI so far (2023: ×1.0226; 2025: ×1.0215).</li>
 <li>Costs and market rent grow at CPI + 0.7 point (3.0% in the baseline); Property B rent at 60% of CPI, max 7%.</li>
 <li>Monte Carlo: 5-year block bootstrap of 1977–2025, seed 20261111, 2,000 paths.</li>
 </ul></div></div></section>

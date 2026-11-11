@@ -395,6 +395,134 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
 
+## Session `11bffb54` (branch `arena/11bffb54-tino2`) — claim 2026-11-11 07:50 UTC
+
+State read at claim: `main` at `240f255` (PR #17). Every earlier claim is `done` or older than 60 minutes with no commits. PR #16 (`arena/f16e6e34-tino2`, last commit 04:46 UTC, mergeable/clean, never merged) is stale by the 60-minute rule and is **taken over** by this session: its branch is merged into this branch unchanged, re-checked, and carried to `main` through this session's PR. Arena fixes the branch name, so `session-<id>/<task>` naming cannot be used.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| E-1 | Take over stale PR #16: merge `origin/arena/f16e6e34-tino2`, rerun every validator | done | 11bffb54 | files of PR #16 (merge only) |
+| E-2 | Brief-vs-site gap review, line by line; independent re-check of key figures against official pages | done | 11bffb54 | read-only + `verification/11bffb54/**` |
+| E-3 | Close gaps found in E-2 (final integration: canonical `site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`) | done; open items are needs review (published on Flagged for Review) | 11bffb54 | as listed |
+| E-4 | PR to `main`, merge, confirm Pages deploy, record result | done | 11bffb54 | COORDINATION.md (this section) |
+
+### Session `11bffb54` — completion record (2026-11-11)
+
+- **Handoff / merge log.** PR #16 was open, mergeable and untouched since 04:46 UTC (over 60 minutes), so it was taken over. Merging `origin/arena/f16e6e34-tino2` gave one conflict, in `COORDINATION.md`; both sessions' sections were kept in full. No other file conflicted and nothing was discarded.
+- **Sources opened and read by this session** (wording recorded in `verification/11bffb54/REPORT.md`): IRS What's new, estate and gift tax ($15,000,000 for 2026) https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax ; IRS IR-2026-133 ($15,480,000 for 2027; gift exclusion $19,000 / $20,000) https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts ; State Controller, California estate tax https://www.sco.ca.gov/ardtax_estate_tax.html ; IRS inherited-property basis https://www.irs.gov/faqs/interest-dividends-other-types-of-income/gifts-inheritances/gifts-inheritances ; BOE LTA 2025/009 ($1,044,586; one prior calendar year's index change; next adjustment February 2027) https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf ; BOE Proposition 19 comparison chart https://boe.ca.gov/prop19/ ; SF Rent Board 1.6% https://www.sf.gov/news--annual-rent-increase-3126-22827-announced . All seven matched the site. Other facts keep the status given by the session that added them; they were not re-opened here.
+- **Changes.** (1) Household tax and assessment history published rounded to $10 on the Verified facts page, each row marked unverified, as the owner's brief specifies (an earlier session had withheld it; the Flagged item now records the restoration and how to reverse it). (2) Landing page links Best plan and Verified facts and states the official 2027 exclusion. (3) Sources watchlist row for the federal exclusion updated to the published 2027 amount.
+- **Checks on the final tree.** `node scripts/validate.js` PASS 737 checks / 13 pages / 100 sources; `node scripts/stress-test.js` PASS; `python3 scripts/package-site.py` PASS (rounding rule); `node scripts/runtime-test.cjs` PASS 13 pages / 963 source-linked rows / no broken local links; `node qa/tools/gate.cjs` PASS 0 errors, 0 warnings; scan of every tracked file for the exact household figures: 0 hits.
+- **Irregularities (needs review; published on Flagged for Review; non-blocking).** Exact household figures remain in public commit history and older branch tips (owner decision: private repository, fresh repository, or GitHub Support purge); no official insurance premium for either home; Property A tax-rate area and both properties' direct charges unconfirmed; repeated yearly amounts in Property A's tax history and the 2018 jump in Property B's; legacy parallel dashboards remain in the repository but are excluded from the published site.
+
+### Session `11bffb54` — PR and merge result
+
+- PR: https://github.com/wingbangboozle1-lang/Tino2/pull/20 (`arena/11bffb54-tino2` -> `main`). **Merged** without waiting for approval on 2026-11-11 at 07:49:54 UTC (GitHub timestamp); merge commit `660be98`. PR #16 now shows as merged as well, because its commits are contained in PR #20.
+- Before the merge `main` had moved (PRs #18 and #19, session `14e318a1`, `COORDINATION.md` and `verification/14e318a1/` only). A `pull --rebase` stopped on a `COORDINATION.md` conflict; the rebase was aborted and `origin/main` was merged instead, keeping both sessions' sections in full. All checks were re-run on the merged tree and passed.
+- GitHub Pages run `42982370249` for `660be98`: completed, **success**. Pages API status: `built`.
+- Live fetch after the deploy: https://wingbangboozle1-lang.github.io/Tino2/ and https://wingbangboozle1-lang.github.io/Tino2/site/verification.html both returned the rendered dashboard (the first attempt returned a temporary GitHub error page; the retry succeeded). The fetched portions did not include the new history table or the two new landing cards, so those were confirmed from the successful build of the merge commit rather than read back from the live page.
+
+## Session `f16e6e34` (branch `arena/f16e6e34-tino2`) — joined 2026-11-11 04:08 UTC
+
+**State at join.** `main` = `016eb53` (PRs #1–#9 merged, Pages live from `main` / root). Before claiming, this session fetched **all 13 remote branches** (claims made by other sessions are only visible on their own branches, because the platform confines every session to its own `arena/<id>-tino2` branch).
+
+**Live claims found on other branches (not visible on `main`) — recorded here so they are in one place.**
+
+| Session | Branch | Claim pushed (UTC) | What it claimed |
+|---|---|---|---|
+| c8786419 | `arena/c8786419-tino2` | 2026-11-11 04:06:58 | Privacy / verification audit of the published site (append-only findings, status `needs review`) |
+| 516f904c | `arena/516f904c-tino2` | 2026-11-11 04:07:19 | Privacy remediation of `site/`, `assets/app.js`, root landing, tests, publication allowlist, legacy redaction, non-constant economic stress paths, publish |
+| e03a1cbe | `arena/e03a1cbe-tino2` | 2026-11-11 04:07:26 | New `plan/**` tree: fact re-verification, black-swan scenario research, after-tax projection engine, canonical dashboard, root `index.html` at integration |
+| 70f163d0 | `arena/70f163d0-tino2` | 2026-11-11 04:07:29 | $10 rounding of household figures across `site/**`, `docs/**`, `pages/**`, `dashboard/**`, root `*.html`, `src/**`, `integration/**`, `scripts/validate.js`; `site/black-swan.html`; re-verification notes; nav/landing |
+
+Irregularity **F-C1 (coordination race):** those four claims were pushed within 31 seconds of each other on separate branches, so none of them could see the others. Their scopes overlap with each other (privacy rounding ×2, black swan ×3, landing page ×3, "final integrator" ×3). This session arrived last, saw all four, and therefore **does not start any of those tasks**. It takes only work nobody has claimed, and prepares the independent re-verification that the final integration step requires.
+
+**Claimed scope of this session (new paths only; no file owned by another session is edited before integration).**
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| F-1 | Coordination: read every remote branch, record all live claims, claim a non-overlapping scope | done | f16e6e34 | `COORDINATION.md` (this appended section only) |
+| F-2 | Independent official-source verification ledger (law, tax, rates, thresholds, insurance, utilities) to be used for the final line-by-line re-verification of the combined data | **done** — 53 entries (48 confirmed on the opened official page, 5 not confirmed and left blank or marked) | f16e6e34 | `qa/ledger.json`, `qa/tools/ledger_add.py`, `qa/tools/build_ledger_js.py`, `site/data/ledger.js` (generated), `site/verification.html` |
+| F-3 | Independent official historical series used to check baseline and black-swan numbers produced by other sessions | **done** — FHFA county indexes 1975–2025 (Santa Clara, San Francisco), BOE factor table 1976–2026, IRS thresholds 2011–2027, BOE Prop 19 amounts, CDI statewide premiums 2018–2023. No fourth black-swan page was built; the three existing ones are grouped under one navigation entry | f16e6e34 | `qa/series.json`, `site/verification.html` |
+| F-4 | Whole-tree publication gate on the pages as rendered: $10 rounding rule, identifier patterns, internal links, https links, a source link in every table row. Holds no household data | **done** — PASS: 13 pages, 950 rows, 4,147 dollar amounts, 0 errors, 0 warnings | f16e6e34 | `qa/tools/gate.cjs`, `qa/gate-report.json`, `scripts/package-site.py` |
+| F-5 | Triage of unmerged work nobody has claimed: open PR #3 (`arena/8c4d9e77-tino2`, conflicting), `arena/5a1bd5be-tino2` (39 commits, never merged), `arena/2d22c775-tino2` (claim only) | **done** — none merged; reasons in the triage table below | f16e6e34 | `COORDINATION.md` (this section) |
+| F-6a | Integration re-verification of the merged `site/` dashboard (owners 449ce08f, 516f904c, d7d62f7a, 70f163d0 all done): corrections where an official source contradicts the site, household-level Best plan page, Verified facts page, grouped navigation, flagged items, PR, merge, Pages check | **done** — see results below | f16e6e34 | `site/data/model.js`, `site/data/history-engine.js`, `site/data/sources.js` (append), `site/estate-tax.html`, `site/properties.html`, `site/scenarios.html`, `site/black-swan.html`, `site/sources.html`, `site/review.html` (append), `site/plan.html` (new), `site/verification.html` (new), `assets/app.js`, `assets/styles.css` (append), `scripts/package-site.py`, `scripts/validate.js`, `_config.yml` (one exclusion) |
+| F-6b | Landing page and README alignment | waiting — `index.html` and `README.md` are claimed by e03a1cbe (04:07:26) and 5c9d68b9 (04:08:29); not touched before those claims are merged or pass 60 minutes without a commit | f16e6e34 | `index.html`, `README.md` |
+
+**Not started by this session (claimed elsewhere):** privacy remediation of existing pages (516f904c, 70f163d0), black-swan section (e03a1cbe, 70f163d0, 516f904c), canonical dashboard build (e03a1cbe). If any of those claims goes stale under the 60-minute rule, the takeover will be logged below before any work begins.
+
+**Branch naming.** The platform fixes this session's branch to `arena/f16e6e34-tino2`; the `session-<id>/<task>` convention cannot be applied. The session ID is embedded in the branch name.
+
+### Session `f16e6e34` log
+
+| Time (UTC) | Entry |
+|---|---|
+| 2026-11-11 04:08 | Joined. Fetched all remote branches. Found four concurrent claims (table above). |
+| 2026-11-11 04:10 | Confirmed on `main` @ `016eb53`: exact (not $10-rounded) household assessment and tax figures are present in `index.html`, `site/properties.html`, `site/inheritance.html`, `site/sources.html`, `site/data/model.js` and `scripts/validate.js`. This is already claimed for remediation by 516f904c and 70f163d0, so it is **not** edited here; it will be re-checked by the F-4 gate at integration and fixed then if still present. No figure is repeated in this file. |
+| 2026-11-11 04:20 | Merged `origin/main` (PRs #10–#14 of sessions 516f904c, d7d62f7a, 70f163d0) into this branch. One conflict, in `COORDINATION.md`; resolved by keeping both sides in full (their sections first, then this section). Nothing discarded. |
+| 2026-11-11 04:31 | Re-read every remote branch. Sessions 516f904c, d7d62f7a and 70f163d0 are **done and merged**; c8786419 is audit-only. Two more sessions hold live claims that exist only on their own branches: **e03a1cbe** (`plan/**`, root `index.html`, `README.md`; claim 04:07:26, no commit since) and **5c9d68b9** (`inherit/**`, root `index.html`, `README.md`, `archive/**`; claim 04:08:29, no commit since). Neither claims `site/**`, `assets/**` or `scripts/**`. This session therefore does **not** touch `index.html`, `README.md`, `plan/**`, `inherit/**` or `archive/**` unless those claims are merged or pass the 60-minute stale mark (05:07 / 05:08 UTC). |
+| 2026-11-11 04:32 | **Scope extension claimed (integration re-verification of the merged `site/` dashboard; owners of these files are all marked done):** corrections limited to what an official source contradicts — `site/data/model.js` (federal exclusion for 2027; Prop 19 indexing method), `site/estate-tax.html`, `scripts/package-site.py` (see F-P1 below), `scripts/validate.js` (checks that encode the corrected values), `site/data/sources.js` (append-only block), `site/review.html` (append-only items), `assets/app.js` (navigation entries for new pages). New files: `site/plan.html`, `site/verification.html`, `site/data/ledger.js`, `site/data/household.js`. |
+
+**Irregularities found by this session's independent verification (all published on the Flagged for Review page at integration):**
+
+| ID | Finding | Evidence | Disposition |
+|---|---|---|---|
+| F-P1 | **Privacy.** `scripts/package-site.py` on `main` stores four "forbidden" household amounts as unsalted SHA-256 hashes. The inputs are 4- and 6-digit numbers, so the hashes are reversible by trying every number: this session recovered all four in 1.6 seconds. The repository is public, so the file re-publishes four exact private figures. | Brute-force test run 2026-11-11 04:36 UTC (values not printed or stored) | Replace with the rule-based scanner that contains no household data (`integration/tools/privacy_scan.py` logic: any dollar amount of $1,000 or more that is not a multiple of $10 and is not an official figure fails). Remove the hashes. |
+| F-P2 | **Privacy, cannot be fixed by a commit.** Exact household figures remain readable in this public repository's commit history (commits of 2026-11-10 and early 2026-11-11) and in pull-request refs, which a session cannot delete. The current tree is clean: a scan of every tracked file finds no exact assessed value. | `git ls-files` scan 2026-11-11 04:35 UTC, 0 files | Owner decision required (history rewrite does not remove PR refs; options are a fresh repository, a GitHub Support purge request, or making the repository private). Flagged; reported to the user. |
+| F-V1 | Federal exclusion for 2027 is now official: **$15,480,000** (IRS IR-2026-133, Nov 5 2026; Rev. Proc. 2026-35 §3.44). The site shows a modeled $15,300,000 and says the official amount is unknown. | https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts | Correct model and text. |
+| F-V2 | Prop 19 amount indexing. BOE applies **one** year's California HPI change every second February (2023: ×1.0226; 2025: ×1.0215). `MODEL.modelAllowance` on `main` compounds **two** years of growth per step, overstating the 2040 amount by about 27%. | BOE LTA 2023/012 and 2025/009 | Correct model, validator check and page text. |
+| F-V3 | "Framework only" links. `UI.ensureRowSources` appends the same IRS basis link to every table row that has no source, whatever the row is about. That satisfies an automated row check but is not a source for the row. | `assets/app.js` | Flag on the review page; relabel the column so it is not read as verification. Model rows are derived values, not official facts. |
+| F-V4 | The household's San Francisco tax history moves differently from its assessed value because roughly 45% of the bill is flat parcel taxes, not the 1.18% rate (FY 2025-26: $334.38 + $319.34 + $21.50 per unit + $99 + $12). The Rent Board fee left the tax bill in 2022. | SF Treasurer parcel-tax page; SF Rent Board fee page | Publish as an explanation with sources; the 2018 jump is consistent with a new $298 parcel tax but that amount was seen only on non-official pages, so it is flagged unverified. |
+
+### Session `f16e6e34` — completion record for F-2 … F-6a (2026-11-11)
+
+**Official pages opened and read this session (48 confirmed facts; each with URL, date and the wording found in `qa/ledger.json`, published at `site/verification.html`):** IRS What's new — estate and gift tax; IRS IR-2026-133 and Rev. Proc. 2026-35; IRS Estate tax (threshold table); IRS estate-tax FAQ; IRS Topics 409, 414, 559, 701; IRS FAQ on inherited property; California State Controller (estate tax); FTB capital gains and 2025 rate schedules; BOE Proposition 19 page; BOE Letters to Assessors 2023/012, 2025/009, 2026/002, 2026/026; Santa Clara County tax rate book FY 2025-26; SF Treasurer secured property taxes and parcel taxes; SF Rent Board current rates and Rent Board fee; SFPUC Proposition 218 notice; San Jose Water 2026 rates; California Department of Insurance residential report and SB 824 workbook; California Secretary of State election results and Prop 3 guide; Probate Code §16061.7; Revenue and Taxation Code §480; Leginfo AB 942 status; FRED/FHFA county house-price indexes for Santa Clara and San Francisco counties.
+
+**Not confirmed, left blank or marked (5):** insurance premium for Property A; insurance premium for Property B; the 2018 San Francisco parcel-tax amount (seen only on non-official pages); San Jose Water's requested bill amounts and the two federal estate-repeal bill statuses (read from search extracts of the official pages, not the opened pages).
+
+**Corrections made to the merged dashboard, each with its source:**
+1. Federal exclusion 2027 = $15,480,000 (IRS IR-2026-133). `MODEL.estateRow` now uses the official 2026 and 2027 amounts and indexes from 2027; estate page rows added for the 2027 amount, the 40% top rate and the annual gift exclusion.
+2. Prop 19 amount: one year of home-price change per biennial step (BOE LTA 2023/012, 2025/009) in `MODEL.modelAllowance` and `SCEN` (`history-engine.js`); 2040 amount $1,329,010 instead of $1,690,870; base live case 2040→2050 moved from $5,196,300 to $5,135,780. Text on four pages and one validator check updated; two checks added.
+3. `scripts/package-site.py`: reversible hashes removed; rule-based rounding check with no household data.
+4. "Framework only" column relabelled as the rule the model applies, not a source for the number.
+
+**New pages:** `site/plan.html` (four household plans — sell / rent / live / live and rent the Property B unit — for a 2040, 2045 or 2050 inheritance, with the drivers, the effect of already owning Property B, a 12-scenario stress check, a 2,000-path summary, what would change the answer, and ordered steps; built only on the existing `MODEL`, `SCEN` and `SCENARIOS` engines so its numbers agree with the other pages) and `site/verification.html` (ledger, corrections, household percent-change history checked against the BOE factor, what the tax bills are made of, official cost changes against model assumptions, 50-year county price record). Navigation: one entry per category; the three black-swan pages share one entry and a sub-navigation.
+
+**Checks on the final tree:** `node scripts/validate.js` PASS 732 checks / 13 pages / 100 sources; `node scripts/stress-test.js` PASS; `python3 scripts/package-site.py` PASS; `node scripts/runtime-test.cjs` PASS 13 rendered pages / 950 rows; `node qa/tools/gate.cjs` PASS 0 errors.
+
+**Triage of unmerged work (F-5):**
+
+| Ref | Last commit (UTC) | Finding | Disposition |
+|---|---|---|---|
+| PR #3 `arena/8c4d9e77-tino2` | 2026-11-10 06:12 | Alternative ten-file guide from before the dashboard; conflicts with `main`; no exact household value at its tip; content superseded by `site/` | Not merged. Left open with a triage comment; recommend the owner close it |
+| `arena/5a1bd5be-tino2` | 2026-11-10 07:03 | 39 commits, never opened as a PR; its tip contains six files with exact household assessed values (it predates the privacy clean-up) | **Must not be merged.** Flagged |
+| `arena/2d22c775-tino2` | 2026-11-10 06:07 | Claim only, stale since 10 Nov | Nothing to merge |
+
+**F-P2 detail (owner decision).** Besides commit history, **11 public branch tips** still contain at least one exact assessed value: `1dab34fa`, `449ce08f`, `457907c1`, `516f904c`, `5a1bd5be`, `5c9d68b9`, `64131d11`, `7c9c2cc4`, `c8786419`, `d7d62f7a`, `e03a1cbe` (most of them simply because they branched before the clean-up). Clean tips: `main`, `2d22c775`, `6ed42dca`, `70f163d0`, `7eeb5f71`, `8c4d9e77`, `f16e6e34`. This session did not delete other sessions' branches or rewrite history.
+
+---
+
+## Session `14e318a1` (branch `arena/14e318a1-tino2`) — joined 2026-11-11
+
+**Branch state.** Branched from commit `240f255f` of `main` (PR #17 merged). Branch equals `main` at join; all prior session work (PRs #1–#17) is integrated, GitHub Pages is `built` on `main` / root at https://wingbangboozle1-lang.github.io/Tino2/, and the canonical site is published. This session claims only the final independent verification and the PR/merge/deploy record, touching only `verification/14e318a1/**` and this `COORDINATION.md` section. No file owned by another session is edited.
+
+**Verification performed.** Re-ran the automated suite on the current tree: `python3 scripts/package-site.py` PASS; `node scripts/validate.js` PASS (581 checks / 11 pages / 70 sources); `node scripts/stress-test.js` PASS; `python3 src/check_links.py .` PASS (54 pages, 871 table rows, 124 external links). `node scripts/runtime-test.cjs` not run — requires optional gitignored dev dependency `jsdom` (environment note, not a site defect). Base-case decision output at 2040 inheritance / 2050 endpoint: sell $7,683,290; rent $6,249,830; live $5,196,300 (sell leads on financial value; live excludes monetized housing service).
+
+**Independent spot re-checks vs official sources (2026-11-11).** IRS 2026 federal basic exclusion $15,000,000 — Match; SCO no California estate-tax return for deaths on/after Jan 1, 2005 — Match; BOE Prop 19 amount $1,044,586 for Feb 16, 2025 – Feb 15, 2027 — Match; SF FY2026–27 combined rate 1.18162182% — Match; HUD FY2026 SAFMR ZIP 95014 4BR $6,390 / 3BR $5,870 — Match; SF Rent Board 1.6% increase window and $59/unit fee — Match. Not verified / flagged: exact CBO figures, SF 7% ceiling, insurance quotes, household inputs.
+
+**Report.** `verification/14e318a1/REPORT.md` — full session record, privacy statement, and irregularity register.
+
+**Flagged irregularities (non-blocking).** 8 High-priority open items on `site/review.html` (trust instrument/title, date-of-death appraisals, full gross estate + gifts, DSUE/portability, citizenship/residency, parcel tax-rate areas, Prop 19 principal-residence eligibility, taxpayer brackets/NIIT); Property A 1.2% levy is a hypothetical scenario; historical household bills withheld from the public build; future Prop 19/federal exclusion amounts and pending legislation are scenarios, not forecasts. No personal information added to this session's files.
+
+## Session `14e318a1` — publication result
+
+- PR: [#18](https://github.com/wingbangboozle1-lang/Tino2/pull/18) (`arena/14e318a1-tino2` -> `main`)
+- Merge result: `MERGED`, `mergeable/clean`; merge commit `143446873f552efe8dc7553fd804bb8e75a3a598`; merged without waiting for approval on 2026-11-11.
+- GitHub Pages: build `1359549987` for commit `14344687` completed `built` with no error (~43 s); source `main` / root, HTTPS enforced; public URL https://wingbangboozle1-lang.github.io/Tino2/ live.
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
+
 ---
 
 ## Session `b0123943` (branch `arena/b0123943-tino2`) — joined 2026-11-11 07:45 UTC — independent verification + publication record
