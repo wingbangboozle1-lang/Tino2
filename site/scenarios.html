@@ -11,6 +11,9 @@ const base = R.find(x => x.def.id === "base").result;
 const winners = R.filter(x => x.result.winner === "sell").length;
 const beHome = SCENARIOS.breakEvenHomeGrowth(SCENARIOS.DEFS[0]);
 const bePort = SCENARIOS.breakEvenPortfolioReturn(SCENARIOS.DEFS[0]);
+/* Same question with the portfolio's own gain taxed at the end (session cf587387). */
+const beHomeEq = SCENARIOS.breakEvenHomeGrowthEqualTerms(SCENARIOS.DEFS[0]);
+const bePortEq = SCENARIOS.breakEvenPortfolioReturnEqualTerms(SCENARIOS.DEFS[0]);
 const ins3 = SCENARIOS.insuranceShock(0.03), ins6 = SCENARIOS.insuranceShock(0.06), ins9 = SCENARIOS.insuranceShock(0.09), ins12 = SCENARIOS.insuranceShock(0.12);
 const q5 = SCENARIOS.quakeShock(0.05), q10 = SCENARIOS.quakeShock(0.10), q20 = SCENARIOS.quakeShock(0.20);
 const exp = SCENARIOS.expectation();
@@ -30,8 +33,8 @@ main.innerHTML = UI.hero("Black swans · stress cases for Property A", "What if 
 <section class="section"><div class="grid four">
 <div class="card"><div class="metric-label">Stress cases re-run</div><div class="metric small">${R.length}</div><p class="tiny">Every case uses the same cost and tax rules as the decision page.</p></div>
 <div class="card"><div class="metric-label">Cases where selling wins</div><div class="metric small">${winners} of ${R.length}</div><p class="tiny">Rent then sell wins only in the stagflation replay.</p></div>
-<div class="card"><div class="metric-label">Break-even home growth</div><div class="metric small">${(beHome * 100).toFixed(1)}%</div><p class="tiny">Annual home growth for 30 years at which renting overtakes selling.</p></div>
-<div class="card"><div class="metric-label">Break-even after-tax return</div><div class="metric small">${(bePort * 100).toFixed(1)}%</div><p class="tiny">Portfolio return below which reinvesting the sale proceeds stops winning.</p></div>
+<div class="card"><div class="metric-label">Break-even home growth</div><div class="metric small">${(beHomeEq * 100).toFixed(1)}%</div><p class="tiny">Home growth over the ten years after a 2045 inheritance at which renting overtakes selling, with <em>both</em> sides taxed at the end. The house pays capital-gains tax in both versions; the portfolio does not in the ${(beHome * 100).toFixed(1)}% version below, which is why that figure is higher. <span class="badge gold">Assumption</span></p></div>
+<div class="card"><div class="metric-label">Break-even after-tax return</div><div class="metric small">${(bePortEq * 100).toFixed(1)}%</div><p class="tiny">Same ten years, both sides taxed: portfolio return below which reinvesting the sale proceeds stops winning. Untaxed portfolio growth gives ${(bePort * 100).toFixed(1)}%. <span class="badge gold">Assumption</span></p></div>
 </div>
 <div class="callout"><strong>Companion page.</strong> The <a href="stress.html">50-year stress tests</a> run automatic paths to 2095 in nominal and real dollars. This page replays recorded episodes, ranks the three strategies to 2055 and solves for the thresholds that would change the answer.</div>
 <div class="callout"><strong>How to read this page.</strong> Every growth rate below is a stated scenario assumption, not a forecast and not an official number. Recorded history is cited separately, with links, in the second table. Dollar figures are rounded to the nearest $10. Nothing here is legal, tax or investment advice.</div>
@@ -72,8 +75,8 @@ ${R.map(x => { const r = x.result; return row([
 <li>A crash at the transfer date costs the sell case ${MONEY(base.sell.terminal - R.find(x => x.def.id === "gfc").result.sell.terminal)} but does not change the ranking.</li>
 </ul></div>
 <div class="card review"><h3>What would break the recommendation</h3><ul class="list">
-<li>Home prices compounding above about ${(beHome * 100).toFixed(1)}% a year for three decades.</li>
-<li>An after-tax portfolio return below about ${(bePort * 100).toFixed(1)}%.</li>
+<li>Home prices compounding above about ${(beHomeEq * 100).toFixed(1)}% a year over the ten years after the inheritance, once the portfolio's own gain is taxed like the house's (${(beHome * 100).toFixed(1)}% if it is not).</li>
+<li>An after-tax portfolio return below about ${(bePortEq * 100).toFixed(1)}% on the same tax terms (${(bePort * 100).toFixed(1)}% if the portfolio gain is left untaxed).</li>
 <li>Repeal of the basis step-up: the built-in gain would then be taxed on sale, and the household record does not contain the original basis. This is the largest unquantified risk on this page.</li>
 <li>An uninsured earthquake loss of 10% of value at transfer removes ${MONEY(q10.hit)} from every strategy.</li>
 <li>If the housing service is counted, living also overtakes selling in the stagflation replay — but not in the other six cases.</li>
@@ -123,7 +126,7 @@ ${row([`<td><strong>Weighted result</strong></td>`, `<td class="number">100%</td
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Monitoring</div><h2>Triggers that mean "re-run the model"</h2></div></div>
 <div class="table-wrap"><table><thead><tr><th>Trigger</th><th class="wrap">Why it matters</th><th>Where to check</th></tr></thead><tbody>
 ${row([`<td><strong>30-year mortgage under about 4%</strong></td>`, `<td class="wrap">Buyer demand, and therefore the sale price, is rate-sensitive. It does not change the Prop 13 base.</td>`, `<td class="source">${src("freddiePmms", "Freddie Mac PMMS")}</td>`])}
-${row([`<td><strong>Metro home growth above ${(beHome * 100).toFixed(1)}% for a decade</strong></td>`, `<td class="wrap">Renting starts to beat selling on the model's own arithmetic.</td>`, `<td class="source">${src("fhfaHpi", "FHFA HPI")}</td>`])}
+${row([`<td><strong>Metro home growth above ${(beHomeEq * 100).toFixed(1)}% over the decade after the inheritance</strong></td>`, `<td class="wrap">Renting starts to beat selling on the model's own arithmetic, with both the house and the portfolio taxed at the end (${(beHome * 100).toFixed(1)}% on unequal terms). The metro index rose 6.7% a year over 1976–2025, above both.</td>`, `<td class="source">${src("fhfaHpi", "FHFA HPI")} ${src("fredSJ", "FRED · metro HPI")}</td>`])}
 ${row([`<td><strong>Premiums above about 12% a year</strong></td>`, `<td class="wrap">Holding costs rise by roughly ${MONEY(Math.abs(ins12.rentDelta))} over ten years on the rent case alone.</td>`, `<td class="source">${src("fairPlan", "FAIR Plan data")} ${src("insurance", "CDI tool")}</td>`])}
 ${row([`<td><strong>Any change to the step-up in basis</strong></td>`, `<td class="wrap">This is the single largest identified risk to the sell case; the record does not contain the original basis.</td>`, `<td class="source">${src("irsBasis", "IRS Pub. 551")} ${src("caCapGains", "FTB")}</td>`])}
 ${row([`<td><strong>Prop 19 amount changes on 16 February 2027</strong></td>`, `<td class="wrap">The published $1,044,586 is fixed only through that date; later amounts are modeled here with one year of scenario home-price growth per two-year step, which is how BOE has applied the FHFA California HPI so far (2023: ×1.0226; 2025: ×1.0215).</td>`, `<td class="source">${src("boeProp19Amount", "BOE news release")}</td>`])}

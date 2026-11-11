@@ -605,5 +605,41 @@
   "status": "unverified",
   "notes": "Read from search extracts of the official pages, not the opened pages (congress.gov was not fetched) - flagged for a manual click-through.",
   "checked": "2026-11-11"
+ },
+ {
+  "id": "CF-01",
+  "topic": "sf-rent",
+  "claim": "San Francisco Ellis Act relocation payments, notices served 1 Mar 2026 - 28 Feb 2027",
+  "value": "$11,110.05 per tenant, maximum $33,330.13 per unit, plus $7,443.90 for each tenant aged 62 or over or disabled",
+  "url": "https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit",
+  "source": "San Francisco Rent Board - Current Rates (official SF.gov)",
+  "evidence": "Table headed 'Relocation payments for tenants evicted under the Ellis Act': row '3/01/26 - 2/28/27' gives $11,110.05 / $33,330.13 / $7,443.90. Row '3/01/25 - 2/28/26' gives $10,863.45 / $32,590.33 / $7,278.67. Page re-opened 11 Nov 2026.",
+  "status": "verified",
+  "notes": "Amounts are reset every 1 March; the model includes none of them.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "CF-02",
+  "topic": "sf-rent",
+  "claim": "San Francisco Rent Board Fee 2026-27: amount, who is billed, exemption deadline, tenant recovery",
+  "value": "$59.00 per dwelling unit, $29.50 per guest unit; due 1 March; 5% late penalty a month to a 15% cap; $50 payment-failure fee. Request for Exemption for the 2027 fee due 14 December 2026. Vacant units and units occupied by friends or family are billed; owner-occupied units are exempt only on an approved request and only if not rented at any time. Once paid in full, 50% ($29.50 a unit) may be recovered from a tenant in occupancy on 1 November.",
+  "url": "https://www.sf.gov/rent-board-fee",
+  "source": "San Francisco Rent Board - The Rent Board Fee (official SF.gov)",
+  "evidence": "'For the 2026-2027 tax year, the fee is: $59.00 per dwelling unit'; 'The deadline to submit a Request for Exemption for the 2027 Rent Board fee is December 14, 2026'; 'This includes single-family homes and condominiums, units built after 1979, vacant units, and units occupied by friends or family members'; 'you can recover 50 percent of the fee ... $29.50 per dwelling unit'. Page re-opened 11 Nov 2026.",
+  "status": "verified",
+  "notes": "All three units billed is $177 a year; the model charges two ($118) on the assumption the owner-unit exemption is approved.",
+  "checked": "2026-11-11"
+ },
+ {
+  "id": "CF-03",
+  "topic": "rent-benchmark",
+  "claim": "HUD Small Area Fair Market Rents for the Property A ZIP code, FY2024 to FY2026",
+  "value": "Four-bedroom $6,050 (FY2024), $6,370 (FY2025), $6,390 (FY2026); three-bedroom $5,480 (FY2024), $5,850 (FY2025), $5,870 (FY2026)",
+  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&year=2026",
+  "source": "U.S. Department of Housing and Urban Development - FY2026 SAFMR calculation, ZIP 95014",
+  "evidence": "FY2026 page table 'FY2026 SAFMRs By Unit Bedrooms': $3,340 / $3,800 / $4,440 / $5,870 / $6,390, and its step-5 table lists the FY2025 amounts $3,410 / $3,880 / $4,500 / $5,850 / $6,370. The FY2025 page's step-5 table lists the FY2024 amounts $3,260 / $3,680 / $4,280 / $5,480 / $6,050. Both pages re-opened 11 Nov 2026.",
+  "status": "verified",
+  "notes": "Year on year for a four-bedroom: +5.3% then +0.3%; about 2.8% a year compounded, close to the model's 3% rent-growth assumption.",
+  "checked": "2026-11-11"
  }
 ]

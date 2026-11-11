@@ -285,6 +285,50 @@
     return (lo + hi) / 2;
   }
 
+  /*
+    Equal-terms break-even. The two solvers above compare a house whose end-of-period
+    capital gain is taxed with a portfolio that is never taxed. That flatters the
+    portfolio. These variants tax the portfolio's unrealised appreciation at the end at
+    the same capital-gains rate the house pays, and solve again. Contributions are the
+    plan's own yearly after-tax cash flows; for the sell plan the contribution is the
+    initial net proceeds.
+  */
+  function equalTermsTerminals(spec) {
+    const r = run(spec);
+    const contributions = r.rent.rows.reduce((a, x) => a + x.afterTax, 0);
+    const rentGain = Math.max(0, r.rent.reserve - contributions);
+    const sellGain = Math.max(0, r.sell.terminal - r.sell.initialNet);
+    return {
+      rentEqual: r.rent.terminal - B.capitalGainsTax * rentGain,
+      sellEqual: r.sell.terminal - B.capitalGainsTax * sellGain,
+      result: r
+    };
+  }
+
+  function breakEvenHomeGrowthEqualTerms(baseSpec) {
+    let lo = -0.03;
+    let hi = 0.15;
+    for (let i = 0; i < 90; i += 1) {
+      const mid = (lo + hi) / 2;
+      const t = equalTermsTerminals({ ...baseSpec, home: [[START, END, mid]] });
+      if (t.rentEqual > t.sellEqual) hi = mid;
+      else lo = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  function breakEvenPortfolioReturnEqualTerms(baseSpec) {
+    let lo = 0.0;
+    let hi = 0.15;
+    for (let i = 0; i < 90; i += 1) {
+      const mid = (lo + hi) / 2;
+      const t = equalTermsTerminals({ ...baseSpec, port: [[START, END, mid]] });
+      if (t.rentEqual < t.sellEqual) hi = mid;
+      else lo = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
   /* Premium-growth sensitivity: keep every other base path, change only insurance. */
   function insuranceShock(rate) {
     const spec = { ...DEFS[0], id: `ins-${rate}`, ins: [[START, END, rate]] };
@@ -333,6 +377,8 @@
 
   window.SCENARIOS = {
     START, INHERIT, END, HORIZON, DEFS, run, runAll, paths,
-    breakEvenHomeGrowth, breakEvenPortfolioReturn, insuranceShock, quakeShock, expectation
+    breakEvenHomeGrowth, breakEvenPortfolioReturn,
+    breakEvenHomeGrowthEqualTerms, breakEvenPortfolioReturnEqualTerms, equalTermsTerminals,
+    insuranceShock, quakeShock, expectation
   };
 })();
