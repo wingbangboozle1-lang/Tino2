@@ -89,9 +89,9 @@ These are checks this session computed from scratch, not re-runs of another sess
 | Property B three-unit parcel-tax total $829.22 | Summed the five official amounts for a 3-unit multi-family parcel | **Confirmed exactly**: 334.38 + 319.34 + (3 × 21.50 = 64.50) + 99 + 12 = **829.22** |
 | Derived stats rendered on the Verified facts page | Recomputed from the official 51-row table | 2% cap applied in **40 of 51** rolls; geometric-average factor **+1.81% a year**. Both consistent with the page's own formulas |
 | Base-case decision output | Re-ran the model on the merged tree | sell **$7,683,290** · rent **$6,249,830** · live **$5,135,780** (2040 inheritance, 2050 endpoint). The `live` figure moved from $5,196,300 (pre-PR #20) because of the HPI-indexed Prop 19 cap; that is an intended correction, not a regression |
-| Publication payload = allowlist | Enumerated every git-tracked file, applied `_config.yml` exclusions, and diffed against the `_public/` artifact from `scripts/package-site.py` | **24 files each side, identical set** (only `.gitignore` and `_config.yml` differ, and Jekyll consumes those). `qa/**` and `verification/**` are now excluded, so no internal audit file is served |
-| Privacy headers | Grepped every published page | All **13** pages carry `<meta name="robots" content="noindex,nofollow,noarchive">` |
-| Navigation completeness | Cross-checked every published page against `assets/app.js` | All **13** pages are reachable from the shared navigation; no orphan page |
+| Publication payload = allowlist | Enumerated every git-tracked file, applied `_config.yml` exclusions, and diffed against the `_public/` artifact from `scripts/package-site.py`; then confirmed by CI's real Jekyll build | **Identical set on both sides** (24 files at `660be98`, 26 after PR #28). Only `.gitignore` and `_config.yml` differ, and Jekyll consumes those. `qa/**`, `research/**` and `verification/**` are excluded, so no internal audit file is served. `scripts/check-publication.py` now audits the actual `actions/jekyll-build-pages` `_site` output in CI, which closes the "allowlist is not proof of what Pages serves" gap |
+| Privacy headers | Grepped every published page | All **14** published pages carry `<meta name="robots" content="noindex,nofollow,noarchive">`; none missing |
+| Navigation completeness | Cross-checked every published page against `assets/app.js` | All **14** pages are reachable from the shared navigation; no orphan page |
 
 ---
 
@@ -99,11 +99,12 @@ These are checks this session computed from scratch, not re-runs of another sess
 
 | Check | Method | Result |
 |---|---|---|
-| Exact household figures in the current `main` tree | Scanned every git-tracked file on `main` for all 40 owner-supplied figures that $10-rounding actually obscures (both comma and plain forms, 80 patterns) | **0 hits.** The published tree and the working tree contain no exact household amount that rounding was meant to hide |
-| Exact household figures in the published artifact | Same scan over `_public/` | **0 hits** |
+| Exact household figures in the final `main` tree | Scanned every git-tracked file for all 40 owner-supplied figures that $10-rounding actually obscures (both comma and plain forms) | **0 hits.** Re-run after every merge, including the last. No exact household amount that rounding was meant to hide exists anywhere in the tree |
+| Exact household figures that rounding *cannot* obscure | Same scan, restricted to the 3 values already multiples of $10 | Present as expected in `site/data/model.js` and `site/verification.html` (published, rounded form = exact form) and in legacy Jekyll-excluded files. This is D-I-1, not a regression |
+| Exact household figures in the published artifact | Same scan over `_public/` | **0 obscured figures.** Only the 3 multiples-of-$10 values appear (D-I-1) |
 | Personal identifiers | Grepped published pages for names, street addresses, parcel numbers (APN), account numbers, emails, phone numbers | **None found.** Parties are "Property A" / "Property B"; the only phone numbers published are government contact numbers on official-source citations |
 | Search-engine exposure | Grepped every published page | All 13 carry `noindex,nofollow,noarchive` |
-| Internal audit files served publicly | Compared served payload with the allowlist | `qa/**` and `verification/**` are now excluded by `_config.yml`; **no internal file is served** |
+| Internal audit files served publicly | Compared served payload with the allowlist; confirmed by CI's Jekyll `_site` audit | `qa/**`, `research/**` and `verification/**` are excluded by `_config.yml`; **no internal file is served**, including this report |
 | Unmerged public branch tips | Scanned `origin/arena/5a1bd5be-tino2` (public, never merged) for the 40 distinct values that $10-rounding actually obscures | **All 40 are present**, in 5 files: `index.html`, `model/projections.html`, `site/inheritance.html`, `site/properties.html`, `site/sources.html`. See irregularity D-I-2 |
 | Public git history | Could not be scanned: this clone is shallow (`.git/shallow`), so historical commits are not available locally | **Not established either way.** Prior sessions documented that exact figures exist in commits `be7733d` and `6e3fb83`; this session neither confirms nor denies it and does not claim history is clean |
 
@@ -125,7 +126,9 @@ range inputs use the midpoint of the owner's stated range.
 | SF value $1,800,000 (Nov 2026) | `bValue` | 1800000 | as supplied |
 | 2026 Cupertino assessment / 2025 SF assessment | `aAssessed`, `bAssessed2025` | 550540, 114250 | rounded to $10 (verified correct in §3) |
 
-**No owner-supplied input is missing from the model, and none is silently altered.**
+**No owner-supplied input is missing from the model, and none is silently altered.** Every field above was
+re-read from `MODEL.BASE` after the final merge (PR #28) and is byte-identical to the pre-merge value, so the
+operating-costs page PR #28 added did not quietly restate any household input.
 
 ---
 
@@ -215,7 +218,8 @@ honest and the magnitude is right, but the official page adds two conditions the
 Source: [SF.gov — The Rent Board Fee](https://www.sf.gov/rent-board-fee), opened 2026-11-11.
 **Request:** owner of `site/san-francisco.html` / `site/data/model.js` to add the 14 December 2026 filing
 deadline and the vacancy rule. Immaterial to the Property A ranking ($59 a year), but it is an actionable
-calendar date for the owner.
+calendar date for the owner. **Re-checked after PR #28:** the new `site/operating-costs.html` does not state
+the deadline or the vacancy rule either, and `bRentBoardFeeAnnual` is still 118, so this request remains open.
 
 ### D-I-5 — MEDIUM — the rent-growth assumption runs above the latest official change in the same benchmark
 
