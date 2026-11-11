@@ -47,9 +47,37 @@
     estateIndex: 0.02               // assumption for 2028 onward only
   };
 
-  // Private historical bill sequences are intentionally not distributed.
-  const historyA = [];
-  const historyB = [];
+  // Household history as supplied, every dollar figure rounded to the nearest $10 (owner's rule).
+  // Exact bills are not stored anywhere in this repository's current tree. Percent changes are as supplied.
+  // Not verified against county bills. [year, tax, taxChange, assessed, assessedChange]
+  const mk = rows => rows.map(([year, tax, taxChange, assessed, assessedChange]) => ({ year, tax, taxChange, assessed, assessedChange }));
+  const historyA = mk([
+    [2026, null, null, 550540, "+2%"],
+    [2025, 7210, "+2.9%", 539740, "+2%"],
+    [2024, 7000, "+1.2%", 529160, "+2%"],
+    [2023, 6920, "+2.4%", 518790, "+2%"],
+    [2022, 6760, "+1.4%", 508610, "+2%"],
+    [2021, 6660, "+1.5%", 498640, "+1%"],
+    [2020, 6570, "0%", 493530, "+2%"],
+    [2019, 6570, "+2.8%", 483850, "+2%"],
+    [2018, 6380, "0%", 474370, "+2%"],
+    [2017, 6380, "−0.5%", 465070, "+2%"],
+    [2016, 6410, "+4.6%", 455950, "+1.5%"],
+    [2015, 6130, "+2.8%", 449100, "+2%"],
+    [2014, 5970, null, 440310, "+0.5%"]
+  ]);
+  const historyB = mk([
+    [2025, 2440, "+5.3%", 114250, "+2%"],
+    [2024, 2320, "+6.2%", 112010, "+2%"],
+    [2023, 2180, "+3.4%", 109810, "+2%"],
+    [2022, 2110, "+2%", 107660, "+2%"],
+    [2021, 2070, "−5.9%", 105600, "+1%"],
+    [2020, 2200, "+3%", 104510, "+2%"],
+    [2019, 2130, "+3.5%", 102470, "+2%"],
+    [2018, 2060, "+18.4%", 100460, "+2%"],
+    [2017, 1740, "+3.9%", 98490, "+2%"],
+    [2016, 1680, "+1.6%", 96560, "+1.5%"]
+  ]);
 
   function round10(value) {
     if (value === null || value === undefined || !Number.isFinite(value)) return null;

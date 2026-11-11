@@ -24,9 +24,9 @@
   },
   {
    "file": "site/estate-tax.html",
-   "rows": 42,
+   "rows": 53,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 172,
+   "amounts": 187,
    "links": 0
   },
   {
@@ -45,9 +45,9 @@
   },
   {
    "file": "site/properties.html",
-   "rows": 69,
+   "rows": 105,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 447,
+   "amounts": 522,
    "links": 0
   },
   {
@@ -73,9 +73,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 130,
+   "rows": 135,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 21,
+   "amounts": 24,
    "links": 0
   },
   {
@@ -97,12 +97,12 @@
  "warnings": [],
  "totals": {
   "pages": 13,
-  "rows": 950,
-  "rowsWithOwnSource": 938,
+  "rows": 1002,
+  "rowsWithOwnSource": 990,
   "rowsWithContextLinkOnly": 12,
-  "amounts": 4147,
-  "officialExactAmounts": 54,
-  "internalLinks": 251,
-  "externalLinks": 1353
+  "amounts": 4240,
+  "officialExactAmounts": 57,
+  "internalLinks": 253,
+  "externalLinks": 1403
  }
 }
