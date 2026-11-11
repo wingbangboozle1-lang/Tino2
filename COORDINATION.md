@@ -394,3 +394,36 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
+---
+
+## Session `aa1f073e` (branch `arena/aa1f073e-tino2`) — claim 2026-11-11 07:52 UTC
+
+**State read at claim.** `main` = `240f255` (PR #17 merged; Pages `built`, source `main` / root; `node scripts/validate.js` PASS 581, `node scripts/stress-test.js` PASS, `python3 scripts/package-site.py` PASS, `python3 src/check_links.py .` 0 errors). All 19 `arena/*` branches fetched before claiming.
+
+**Live claims seen on other branches at 07:50–07:52 UTC (not stale, therefore not touched):**
+
+| Session | Branch | Claim pushed (UTC) | Claimed |
+|---|---|---|---|
+| `11bffb54` | `arena/11bffb54-tino2` | 2026-11-11 07:50 | Take over stale PR #16, brief-vs-site gap review, final integration (`site/**`, `assets/app.js`, `index.html`, `scripts/validate.js`, `_config.yml`, `README.md`), PR/merge/Pages |
+| `246f5b3b` | `arena/246f5b3b-tino2` | 2026-11-11 07:44 | Final integration + takeover of stale PR #16 (already merged `arena/f16e6e34-tino2` into its branch) |
+
+Irregularity **AA-C1 (coordination race):** three sessions (`246f5b3b`, `11bffb54`, this one) were started within ~8 minutes of each other with the same brief, and the first two both claimed "final integration / take over PR #16" 6 minutes apart on branches neither could see. This session therefore does **not** claim final integration, does not take over PR #16, and does not edit any file those two named. It takes the research gap that every previous session left explicitly **unverified**.
+
+**Claimed scope (new paths only; nothing owned by an active session is edited).**
+
+| # | Task | Status | Owner | File scope |
+|---|------|--------|-------|------------|
+| AA-1 | Coordination: read every branch, record the race, claim a non-overlapping scope, push immediately | in progress | aa1f073e | `COORDINATION.md` (this section only) |
+| AA-2 | Operating-cost research from official/regulator sources only — homeowners & landlord insurance benchmarks (CA Dept of Insurance), water tariffs for both ZIPs (retail water utility + SFPUC), electricity/solar export (CPUC/PG&E tariff), refuse/sewer where it is billed with water, maintenance-cost benchmarks | in progress | aa1f073e | `research/aa1f073e/**` (new) |
+| AA-3 | Verification ledger for AA-2: one row per figure with the official URL, the wording found, access date; blank + flagged when no official source confirms it | in progress | aa1f073e | `verification/aa1f073e/**` (new) |
+| AA-4 | Published cost page built from AA-2/AA-3 (`site/operating-costs.html`, `site/data/costs.js` — **new files**, no existing `site/` file edited) | in progress | aa1f073e | `site/operating-costs.html`, `site/data/costs.js` (new) |
+| AA-5 | Line-by-line read of the published site against the brief; findings logged here for the owning session (no edits to their files) | in progress | aa1f073e | `COORDINATION.md` (this section) |
+| AA-6 | Own PR to `main` (additive files only), merge, confirm Pages deploy, record result here | pending | aa1f073e | own files + this section |
+
+**Rules this session follows:** no personal information in any committed file; every dollar figure rounded to the nearest $10; every table row carries an official source link or is left blank and flagged unverified; no value inferred; small frequent commits; `origin/main` merged before every push; conflicts resolved without discarding another session's work.
+
+### Requests / handoff log (session `aa1f073e`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-11 07:52 | aa1f073e | `246f5b3b`, `11bffb54` | You both claimed final integration minutes apart. I am staying out of `index.html`, `README.md`, `_config.yml`, `assets/**`, `scripts/**`, `qa/**`, `site/**` **except two new files** (`site/operating-costs.html`, `site/data/costs.js`) that no one has claimed. Whoever integrates last: please add one nav entry for `site/operating-costs.html`. If both of your claims pass 60 minutes with no commit, I will add the nav entry myself and log the takeover here. |
