@@ -1,0 +1,108 @@
+{
+ "checked": "2026-11-11",
+ "pages": [
+  {
+   "file": "index.html",
+   "rows": 3,
+   "rowsWithContextLinkOnly": 3,
+   "amounts": 22,
+   "links": 0
+  },
+  {
+   "file": "site/black-swan.html",
+   "rows": 166,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 463,
+   "links": 0
+  },
+  {
+   "file": "site/decision.html",
+   "rows": 16,
+   "rowsWithContextLinkOnly": 3,
+   "amounts": 144,
+   "links": 0
+  },
+  {
+   "file": "site/estate-tax.html",
+   "rows": 42,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 172,
+   "links": 0
+  },
+  {
+   "file": "site/inheritance.html",
+   "rows": 5,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 4,
+   "links": 0
+  },
+  {
+   "file": "site/plan.html",
+   "rows": 48,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 99,
+   "links": 0
+  },
+  {
+   "file": "site/properties.html",
+   "rows": 69,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 447,
+   "links": 0
+  },
+  {
+   "file": "site/review.html",
+   "rows": 50,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 8,
+   "links": 0
+  },
+  {
+   "file": "site/san-francisco.html",
+   "rows": 23,
+   "rowsWithContextLinkOnly": 6,
+   "amounts": 25,
+   "links": 0
+  },
+  {
+   "file": "site/scenarios.html",
+   "rows": 45,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 126,
+   "links": 0
+  },
+  {
+   "file": "site/sources.html",
+   "rows": 130,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 22,
+   "links": 0
+  },
+  {
+   "file": "site/stress.html",
+   "rows": 262,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 2525,
+   "links": 0
+  },
+  {
+   "file": "site/verification.html",
+   "rows": 104,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 137,
+   "links": 0
+  }
+ ],
+ "errors": [],
+ "warnings": [],
+ "totals": {
+  "pages": 13,
+  "rows": 963,
+  "rowsWithOwnSource": 951,
+  "rowsWithContextLinkOnly": 12,
+  "amounts": 4194,
+  "officialExactAmounts": 54,
+  "internalLinks": 254,
+  "externalLinks": 1376
+ }
+}
