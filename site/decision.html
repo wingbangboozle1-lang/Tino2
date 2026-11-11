@@ -8,7 +8,7 @@
 const main = document.getElementById("main");
 main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or sell?", "Change the inheritance year, holding period, growth, rent and tax scenarios. The model carries every strategy to the same endpoint and shows the arithmetic—not just the winner.", `<button class="button" id="print">Print this scenario</button><button class="button secondary" id="download">Download annual CSV</button>`) + `<div class="container">
 <section class="section">
-<div class="section-heading"><div><div class="eyebrow">Scenario controls</div><h2>Start with the base case, then stress it</h2></div><button class="button secondary" id="reset">Reset base case</button></div>
+<div class="section-heading"><div><div class="eyebrow">Scenario controls</div><h2>Start with the base case, then stress it</h2><p>For recorded-shock replays — stagflation, a 2008-shaped crash at the transfer date, an insurance repricing and an earthquake — see the <a href="scenarios.html">black-swan stress cases</a>.</p></div><button class="button secondary" id="reset">Reset base case</button></div>
 <div class="controls">
 <div class="control"><label for="inheritYear">Inheritance year</label><select id="inheritYear">${UI.options("inheritYear", [[2030,"2030"],[2035,"2035"],[2040,"2040 · base"],[2045,"2045"],[2050,"2050"]], 2040)}</select></div>
 <div class="control"><label for="horizon">Years held after inheritance</label><select id="horizon">${UI.options("horizon", [[5,"5 years"],[10,"10 years · base"],[15,"15 years"],[20,"20 years"]], 10)}</select></div>
@@ -88,10 +88,10 @@ function render() {
     return `<td class="number ${diff < 0 ? "negative" : "positive"}">${diff >= 0 ? "Sell +" : "Rent +"}${UI.money(Math.abs(diff))}</td>`;
   }).join("")}</tr>`).join("");
 }
-ids.forEach(id => document.getElementById(id).addEventListener("change", render));
+ids.forEach(id => document.getElementById(id).addEventListener("change", () => { render(); UI.ensureRowSources(); }));
 document.getElementById("reset").addEventListener("click", () => {
   const defaults = {inheritYear:2040,horizon:10,appreciation:0.035,netReturn:0.05,rentChoice:"4BR",capitalGainsTax:0.331};
-  ids.forEach(id => document.getElementById(id).value = defaults[id]); render();
+  ids.forEach(id => document.getElementById(id).value = defaults[id]); render(); UI.ensureRowSources();
 });
 document.getElementById("print").addEventListener("click", () => window.print());
 document.getElementById("download").addEventListener("click", () => {
@@ -102,4 +102,6 @@ document.getElementById("download").addEventListener("click", () => {
   const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "property-a-scenario.csv"; link.click(); URL.revokeObjectURL(link.href);
 });
 render();
+
+UI.ensureRowSources();
 </script></body></html>

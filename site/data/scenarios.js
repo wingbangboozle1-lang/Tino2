@@ -1,258 +1,338 @@
 /*
-  Economic-scenario ("black swan") engine for Property A (inherited) and Property B (already owned).
-  Not a forecast and not an appraisal. Historical windows are replayed from official-source index data in
-  history.js (BLS CPI, FHFA house-price indexes, Treasury yields, OECD share prices, via FRED).
-  Assumption-based scenarios are labelled as such. All dollar results are rounded to $10 only when displayed.
-  The engine reproduces MODEL.decision() exactly when every rate is constant (checked by scripts/validate.js).
+  Black-swan / real-conditions scenario engine.
+
+  Purpose: the eight-page dashboard carries one constant-rate planning line
+  (3.5% home growth, 3% inflation). Real 50-year history is not constant, so this
+  engine replays the *shape* of recorded stress episodes as explicit rate paths and
+  re-runs the same three strategies (sell and reinvest, rent then sell, live then sell)
+  through each path.
+
+  Rules kept from the rest of the site:
+    * every rate is a stated scenario assumption, never a forecast or an official figure;
+    * historical anchors are cited to official sources on the page, separately from the assumptions;
+    * no personal data, no parcel data, no inferred basis;
+    * all displayed currency is rounded to the nearest $10 by MODEL.fmtMoney().
+
+  Transfer year is the midpoint of the 2040-2050 window (2045) and the holding horizon
+  is 10 years (to 2055), matching the decision page's default horizon.
 */
-(function (root) {
-  const MODEL = root.MODEL;
-  const HISTORY = root.HISTORY;
-  const B = MODEL.BASE;
-  const START = 2026, N = 50;               // paths cover 2026 .. 2076
-  const BASELINE = { home: B.appreciation, cpi: 0.023, eq: 0.07, bond: 0.045 };
-  const SPREAD = B.expenseInflation - 0.023; // cost and rent growth = CPI + 0.7 pt (= 3.0% in the base case)
-  const EQ_WEIGHT = 0.6, DIVIDEND = 0.02, DRAG = B.portfolioTaxDrag;
-  const SF_RATE_OFFICIAL = 0.0118162182;     // SF FY2026-27 combined ad valorem rate (Board of Supervisors minutes)
-  const SF_UNIT_RENT_2026 = B.bRent1BR;      // HUD FY2026 SAFMR 1BR benchmark for the vacant owner-unit scenario
+(function () {
+  const M = window.MODEL;
+  const B = M.BASE;
+  const START = 2026;
+  const INHERIT = 2045;
+  const HORIZON = 10;
+  const END = INHERIT + HORIZON;
+  const PROP13_CAP = 0.02;
 
-  // ---------- history helpers ----------
-  const H = {};
-  HISTORY.rows.forEach(r => { H[r[0]] = {}; HISTORY.columns.forEach((c, i) => { H[r[0]][c] = r[i]; }); });
-  const g = (col, y) => (H[y] && H[y - 1] && H[y][col] != null && H[y - 1][col] != null) ? H[y][col] / H[y - 1][col] - 1 : null;
-  function histYear(y) {
-    const cpi = g("cpi", y);
-    const home = g("sj", y) ?? g("ca", y) ?? cpi;      // fallback order: San Jose MSA, California, CPI
-    const homeB = g("sf", y) ?? g("ca", y) ?? cpi;     // fallback order: SF metro division, California, CPI
-    const eqPrice = g("eq", y);
-    return { home, homeB, cpi, eq: eqPrice + DIVIDEND, bond: H[y].gs10 / 100, fallback: g("sj", y) == null };
+  function seg(list, year) {
+    for (let i = 0; i < list.length; i += 1) {
+      const s = list[i];
+      if (year >= s[0] && year <= s[1]) return s[2];
+    }
+    return list[list.length - 1][2];
   }
-  function window_(a, b) { const out = []; for (let y = a; y <= b; y += 1) out.push(histYear(y)); return out; }
-  function cagr(col, a, b) { return Math.pow(H[b][col] / H[a][col], 1 / (b - a)) - 1; }
-  function total(col, a, b) { return H[b][col] / H[a][col] - 1; }
 
-  // ---------- scenario catalogue ----------
-  const SCENARIOS = [
-    { id: "baseline", name: "Smooth baseline", kind: "Baseline", seq: [], fixedStart: null,
-      analog: "Same constant rates as the Decision lab", params: "Home +3.5%/yr · CPI 2.3% · costs/rent CPI+0.7 pt · equities 7.0% · 10-yr 4.5%",
-      note: "CBO (Feb 2026) projects ~2% PCE inflation from 2030 and a 10-yr yield of about 4.4% from 2031; home growth and equity return are household-model assumptions.", source: "cbo" },
-    { id: "replay50", name: "Replay of the last 49 years", kind: "Official-data replay", seq: window_(1977, 2025), fixedStart: 2027,
-      analog: "1977–2025 annual data replayed in order from 2027 (then baseline for 2076)", params: "San Jose-area home prices, CPI, Treasury yields and equity price index (+2.0 pt dividend assumption) exactly as recorded",
-      note: "Real sequence incl. 1980s inflation, 1990s Bay Area bust, 2000 dot-com, 2008 crisis, 2021–23 inflation. Home growth averaged far above the baseline, so this is not a 'bad' case for homeowners.", source: "fredSJ" },
-    { id: "stagflation", name: "1970s-style stagflation", kind: "Official-data replay", seq: window_(1973, 1982), fixedStart: null,
-      analog: "1973–1982 CPI, yields and equity prices; home prices from FHFA California index (1976+), CPI before that", params: "Replayed annually",
-      note: "CPI compounded about 8.7%/yr across 1972–1982 while equity prices compounded about 2.3%/yr: investors lose purchasing power. Prop 13 caps assessments at 2%, so property tax lags inflation, while insurance and utilities do not.", source: "fredCPI" },
-    { id: "gfc", name: "2008-style housing and equity crash", kind: "Official-data replay", seq: window_(2006, 2012), fixedStart: null,
-      analog: "2006–2012 CPI, yields, equities, San Jose-area home prices", params: "San Jose-area index fell about 26% 2006→2011; California index about 40%; US share-price index fell about 44% in 2008",
-      note: "Hits the sell-and-reinvest option (equities) and the keep-the-house options (home value) at the same time.", source: "fredSJ" },
-    { id: "bust90", name: "Early-1990s Bay Area bust", kind: "Official-data replay", seq: window_(1990, 1996), fixedStart: null,
-      analog: "1990–1996 data", params: "San Jose-area index fell about 12.5% 1989→1994 while CPI rose about 3–4%/yr (real decline about 25%)",
-      note: "Regional bust with healthy equity markets: favors having sold and diversified.", source: "fredSJ" },
-    { id: "dotcom", name: "Equity-only crash (2000–2003 style)", kind: "Official-data replay", seq: window_(2000, 2003), fixedStart: null,
-      analog: "2000–2003 data", params: "US share-price index fell about 26% 2000→2002; local home prices kept rising",
-      note: "Tests the main risk of selling and investing: a market drawdown early in the reinvestment period.", source: "fredOECD" },
-    { id: "infl2123", name: "2021–23 inflation spike", kind: "Official-data replay", seq: window_(2021, 2023), fixedStart: null,
-      analog: "2021–2023 data", params: "CPI about 4.7% / 8.0% / 4.1% (annual averages), 30-yr mortgage rate 3.0%→6.8%",
-      note: "Costs jump; Prop 13 assessments rise only 2% (or the CPI if lower); rents in rent-controlled SF are allowed only 60% of CPI.", source: "fredCPI" },
-    { id: "lost", name: "Lost decades (flat nominal prices)", kind: "Assumption", seq: Array.from({ length: 15 }, () => ({ home: 0, homeB: 0, cpi: 0.005, eq: 0.03, bond: 0.015 })), fixedStart: null,
-      analog: "Stylised; no official US data series supports this exact path", params: "15 years: home 0%, CPI 0.5%, equities 3.0%, 10-yr 1.5%",
-      note: "Included because long deflation-like spells have occurred in other economies; flagged as an unverified assumption.", source: "fredSJ" },
-    { id: "insurance", name: "Insurance and climate-cost shock", kind: "Assumption", seq: Array.from({ length: 10 }, (_, i) => ({ home: i < 5 ? -0.03 : BASELINE.home, homeB: i < 5 ? -0.03 : BASELINE.home, cpi: BASELINE.cpi, eq: BASELINE.eq, bond: BASELINE.bond, insExtra: 0.12 })), fixedStart: null,
-      analog: "Stylised; premiums rising faster than CPI", params: "10 years: insurance +12 pt/yr above cost inflation; home prices −3%/yr for 5 years",
-      note: "California regulators have approved large homeowners-insurance increases and insurer withdrawals; this path is an assumption, not a CDI forecast.", source: "insurance" },
-    { id: "policyTax", name: "Property-tax regime change (assessments track market)", kind: "Assumption", seq: [], fixedStart: null, flags: { assessFollowsMarket: true },
-      analog: "Hypothetical; no such measure is currently on the books", params: "From the shock year onward Property A and B are taxed on current market value",
-      note: "The Nov 2026 'Save Prop 13' measure was a different proposal (see Sources → watchlist). This stresses the model's biggest hidden dependency: the 2% assessment cap.", source: "boeProp13" },
-    { id: "noProp19", name: "Prop 19 inheritance relief repealed", kind: "Assumption", seq: [], fixedStart: null, flags: { noProp19: true },
-      analog: "Hypothetical", params: "Living in Property A earns no assessment relief: full reassessment at inheritance",
-      note: "Prop 19's parent-child exclusion was narrowed in 2021 and is itself subject to ballot-box and legislative change.", source: "boeProp19" },
-    { id: "perfect", name: "Compound shock: stagflation → 2008-style crash + insurance shock", kind: "Official-data replay + assumption",
-      seq: window_(1973, 1982).map((r, i) => ({ ...r, insExtra: 0.08 })).concat(window_(2006, 2012)), fixedStart: null,
-      analog: "Back-to-back replays of 1973–82 and 2006–12 with +8 pt/yr insurance shock in the first decade", params: "17 consecutive stressed years",
-      note: "A deliberately severe path; shows which strategy is least bad rather than most likely.", source: "fredCPI" }
+  function paths(spec) {
+    const p = { home: {}, cpi: {}, rent: {}, port: {}, ins: {} };
+    for (let y = START; y <= END; y += 1) {
+      p.home[y] = seg(spec.home, y);
+      p.cpi[y] = seg(spec.cpi, y);
+      p.rent[y] = seg(spec.rent, y);
+      p.port[y] = seg(spec.port, y);
+      p.ins[y] = seg(spec.ins, y);
+    }
+    return p;
+  }
+
+  function factor(rates, from, to) {
+    let f = 1;
+    for (let y = from + 1; y <= to; y += 1) f *= 1 + rates[y];
+    return f;
+  }
+
+  function run(spec) {
+    const p = paths(spec);
+    const market = (y) => B.aValue * factor(p.home, START, y);
+    // Prop 13 caps assessment growth at the lower of CPI and 2%.
+    const assessedPre = {};
+    assessedPre[START] = B.aAssessed;
+    for (let y = START + 1; y <= END; y += 1) assessedPre[y] = assessedPre[y - 1] * (1 + Math.min(p.cpi[y], PROP13_CAP));
+
+    const vAtInherit = market(INHERIT);
+    const allowance = M.modelAllowance(INHERIT);
+    const primaryStart = vAtInherit <= assessedPre[INHERIT] + allowance ? assessedPre[INHERIT] : vAtInherit - allowance;
+
+    function assessedPath(start) {
+      const out = {};
+      out[INHERIT] = start;
+      for (let y = INHERIT + 1; y <= END; y += 1) out[y] = out[y - 1] * (1 + Math.min(p.cpi[y], PROP13_CAP));
+      return out;
+    }
+
+    const water = (y) => B.aWaterMonthly * 12 * factor(p.cpi, START, y);
+    const insurance = (y) => B.aInsuranceAnnual * factor(p.ins, START, y);
+    const rentAnnual = (y) => B.aRent4BR * 12 * factor(p.rent, START, y);
+
+    function cash(year, assess, mode) {
+      const mkt = market(year);
+      const tax = assess[year] * B.aRate;
+      const w = water(year);
+      const ins = insurance(year);
+      const solarCredit = B.aSolarMonthlyCredit * 12;
+      const maintenance = mkt * B.maintenanceA;
+      const operatingCost = tax + w + ins + maintenance - solarCredit;
+      if (mode === "live") {
+        return { year, market: mkt, assessed: assess[year], propertyTax: tax, water: w, insurance: ins, maintenance, grossRent: 0, noi: -operatingCost, incomeTax: 0, afterTax: -operatingCost };
+      }
+      const grossRent = rentAnnual(year);
+      const collected = grossRent * (1 - B.vacancy);
+      const noi = collected - collected * B.management - operatingCost;
+      const incomeTax = Math.max(0, noi) * B.ordinaryTax;
+      return { year, market: mkt, assessed: assess[year], propertyTax: tax, water: w, insurance: ins, maintenance, grossRent, noi, incomeTax, afterTax: noi - incomeTax };
+    }
+
+    function hold(mode) {
+      const assess = assessedPath(mode === "live" ? primaryStart : vAtInherit);
+      let reserve = 0;
+      const rows = [];
+      for (let y = INHERIT + 1; y <= END; y += 1) {
+        const row = cash(y, assess, mode);
+        reserve = reserve * (1 + p.port[y]) + row.afterTax;
+        rows.push(row);
+      }
+      const finalMarket = market(END);
+      const realized = finalMarket * (1 - B.saleCost);
+      const gain = Math.max(0, realized - vAtInherit);
+      const exclusion = mode === "live" ? Math.min(B.primaryGainExclusion, gain) : 0;
+      const capitalGainsTax = Math.max(0, gain - exclusion) * B.capitalGainsTax;
+      return {
+        mode,
+        terminal: reserve + realized - capitalGainsTax,
+        reserve,
+        finalMarket,
+        realized,
+        gain,
+        exclusion,
+        capitalGainsTax,
+        rows,
+        taxAtTransfer: assess[INHERIT] * B.aRate,
+        firstRow: rows[0]
+      };
+    }
+
+    // Live case with the housing service valued at the market rent the household would
+    // otherwise pay. It is not cash: it is the avoided cost of equivalent housing.
+    function liveHousingValue(holdResult) {
+      const assess = assessedPath(primaryStart);
+      let reserve = 0;
+      for (let y = INHERIT + 1; y <= END; y += 1) {
+        const row = cash(y, assess, "live");
+        reserve = reserve * (1 + p.port[y]) + row.afterTax + rentAnnual(y);
+      }
+      return reserve + holdResult.realized - holdResult.capitalGainsTax;
+    }
+
+    const sellInitial = vAtInherit * (1 - B.saleCost);
+    const sellTerminal = sellInitial * factor(p.port, INHERIT, END);
+    const rent = hold("rent");
+    const live = hold("live");
+    const result = {
+      id: spec.id,
+      vAtInherit,
+      allowance,
+      assessedAtTransfer: assessedPre[INHERIT],
+      primaryStart,
+      fullTaxAtTransfer: vAtInherit * B.aRate,
+      primaryTaxAtTransfer: primaryStart * B.aRate,
+      sell: { mode: "sell", terminal: sellTerminal, initialNet: sellInitial, gain: 0, capitalGainsTax: 0 },
+      rent,
+      live,
+      paths: p
+    };
+    live.housingAdjustedTerminal = liveHousingValue(live);
+    const ranking = ["sell", "rent", "live"].sort((a, b) => result[b].terminal - result[a].terminal);
+    result.winner = ranking[0];
+    result.runnerUp = ranking[1];
+    result.margin = result[ranking[0]].terminal - result[ranking[1]].terminal;
+    return result;
+  }
+
+  /*
+    Scenario register. `home`, `cpi`, `rent`, `port` and `ins` are annual rate paths
+    in the form [firstYear, lastYear, rate]. `anchor` names the recorded episode that
+    fixes the shape; `sources` are keys in site/data/sources.js.
+  */
+  const DEFS = [
+    {
+      id: "base",
+      label: "Baseline planning case",
+      shape: "Constant rates (the dashboard default)",
+      anchor: "No episode is replayed. This is the arithmetic line the other cases are measured against.",
+      sources: ["cboOutlook2026", "fedInflation", "investorRisk"],
+      home: [[2026, END, 0.035]],
+      cpi: [[2026, END, 0.03]],
+      rent: [[2026, END, 0.03]],
+      port: [[2026, END, 0.05]],
+      ins: [[2026, END, 0.03]]
+    },
+    {
+      id: "stagflation",
+      label: "Stagflation replay",
+      shape: "1973–82 shape: inflation 4.5% rising to 6.5%, home growth below inflation, portfolio return near zero in real terms",
+      anchor: "CPI-U rose 11.0% (1974), 11.3% (1979), 13.5% (1980) and 10.3% (1981). The shape is replayed; the size is a design choice.",
+      sources: ["blsCpiHistory", "boeProp13"],
+      home: [[2026, 2030, 0.04], [2031, 2040, 0.045], [2041, END, 0.05]],
+      cpi: [[2026, 2030, 0.045], [2031, 2035, 0.065], [2036, 2040, 0.05], [2041, END, 0.035]],
+      rent: [[2026, END, 0.04]],
+      port: [[2026, END, 0.02]],
+      ins: [[2026, END, 0.055]]
+    },
+    {
+      id: "gfc",
+      label: "Great Recession replay at the transfer date",
+      shape: "Home prices fall 5%, 9%, 7% and 4% in 2043–2046, then recover; equities −20% then −15%",
+      anchor: "FHFA reported the national purchase-only index down 6.0% over the four quarters to 2008 Q3 and San Jose metro prices down 8.33% year over year. The 2043–2046 path here is a design choice of similar total depth.",
+      sources: ["fhfaRelease2008", "fhfaHpi"],
+      home: [[2026, 2042, 0.035], [2043, 2043, -0.05], [2044, 2044, -0.09], [2045, 2045, -0.07], [2046, 2046, -0.04], [2047, 2047, 0.01], [2048, END, 0.04]],
+      cpi: [[2026, 2042, 0.03], [2043, 2043, 0.04], [2044, 2044, 0.01], [2045, 2045, -0.01], [2046, END, 0.03]],
+      rent: [[2026, 2042, 0.03], [2043, 2043, 0.01], [2044, 2044, -0.02], [2045, 2045, -0.03], [2046, 2046, 0.01], [2047, END, 0.03]],
+      port: [[2026, 2042, 0.05], [2043, 2043, -0.2], [2044, 2044, -0.15], [2045, 2046, 0.02], [2047, 2048, 0.1], [2049, END, 0.05]],
+      ins: [[2026, END, 0.04]]
+    },
+    {
+      id: "rateshock",
+      label: "Rate and insurance shock at the transfer date",
+      shape: "2045: home prices −6%, CPI 5%, equities −18%, premiums +5%; two years to recover",
+      anchor: "CPI-U rose 8.0% in 2022, 4.1% in 2023 and 3.3% in the first half of 2026; the 30-year fixed stood at 2.98% in the week of 11 November 2021 and 7.18% in November 2026.",
+      sources: ["blsCpiAnnual", "freddiePmms", "fairPlan"],
+      home: [[2026, 2044, 0.035], [2045, 2045, -0.06], [2046, 2046, -0.03], [2047, 2047, 0.02], [2048, END, 0.035]],
+      cpi: [[2026, 2044, 0.03], [2045, 2045, 0.05], [2046, 2046, 0.04], [2047, END, 0.03]],
+      rent: [[2026, 2044, 0.03], [2045, 2045, 0.01], [2046, 2046, 0.02], [2047, END, 0.03]],
+      port: [[2026, 2044, 0.05], [2045, 2045, -0.18], [2046, 2046, 0.04], [2047, END, 0.05]],
+      ins: [[2026, END, 0.05]]
+    },
+    {
+      id: "techbust",
+      label: "Regional tech-cycle bust",
+      shape: "2041–2043: home prices −8%, −7%, −2%; rents −4%, −5%, flat; local payrolls contract",
+      anchor: "No official episode is replayed. The case tests what happens if regional employers contract while the household holds the property; rent levels come from the HUD benchmark.",
+      sources: ["hudA", "fhfaHpi", "blsCpiAnnual"],
+      home: [[2026, 2040, 0.04], [2041, 2041, -0.08], [2042, 2042, -0.07], [2043, 2043, -0.02], [2044, 2044, 0.02], [2045, END, 0.03]],
+      cpi: [[2026, END, 0.028]],
+      rent: [[2026, 2040, 0.03], [2041, 2041, -0.04], [2042, 2042, -0.05], [2043, 2043, 0], [2044, END, 0.03]],
+      port: [[2026, 2040, 0.05], [2041, 2041, -0.15], [2042, 2042, -0.05], [2043, END, 0.05]],
+      ins: [[2026, END, 0.035]]
+    },
+    {
+      id: "insurance",
+      label: "Insurance and climate repricing",
+      shape: "Premiums +12% a year for ten years, then +7%; home growth 2.8%; CPI 3.2%",
+      anchor: "California FAIR Plan exposure reached $773 billion at September 2026, 252% higher than September 2022, with 698,307 policies in force.",
+      sources: ["fairPlan", "insurance"],
+      home: [[2026, END, 0.028]],
+      cpi: [[2026, END, 0.032]],
+      rent: [[2026, END, 0.028]],
+      port: [[2026, END, 0.05]],
+      ins: [[2026, 2035, 0.12], [2036, END, 0.07]]
+    },
+    {
+      id: "prolonged",
+      label: "Lost decade (Japan-style)",
+      shape: "Home growth 1% for 20 years, CPI 1.5%, rents 1%, portfolio 3%",
+      anchor: "No official U.S. precedent is replayed here. This is a structure test for a 20-year nominal stagnation, not a forecast.",
+      sources: ["cboOutlook2026", "investorRisk", "fedInflation"],
+      home: [[2026, END, 0.01]],
+      cpi: [[2026, END, 0.015]],
+      rent: [[2026, END, 0.01]],
+      port: [[2026, END, 0.03]],
+      ins: [[2026, END, 0.035]]
+    }
   ];
 
-  // ---------- path construction ----------
-  function baselinePath() {
-    const p = { home: [], homeB: [], cpi: [], eq: [], bond: [], insExtra: [] };
-    for (let i = 0; i <= N; i += 1) { p.home.push(BASELINE.home); p.homeB.push(BASELINE.home); p.cpi.push(BASELINE.cpi); p.eq.push(BASELINE.eq); p.bond.push(BASELINE.bond); p.insExtra.push(0); }
-    return p;
-  }
-  function buildPath(scenario, shockStart) {
-    const p = baselinePath();
-    const start = scenario.fixedStart || shockStart || 2042;
-    scenario.seq.forEach((r, k) => {
-      const i = start - START + k;
-      if (i < 1 || i > N) return;
-      p.home[i] = r.home; p.homeB[i] = r.homeB; p.cpi[i] = r.cpi; p.eq[i] = r.eq; p.bond[i] = r.bond; p.insExtra[i] = r.insExtra || 0;
-    });
-    p.flags = Object.assign({}, scenario.flags || {});
-    p.shockStart = start;
-    return p;
-  }
-
-  // ---------- derived series ----------
-  function derive(path) {
-    const flags = path.flags || {};
-    const d = { cpiI: [1], mA: [B.aValue], mB: [B.bValue], fbA: [B.aAssessed], fbB: [B.bAssessed2025 * (1 + B.assessmentGrowth)], costI: [1], rentI: [1], insI: [1], sfg: [0], port: [0] };
-    for (let i = 1; i <= N; i += 1) {
-      d.cpiI.push(d.cpiI[i - 1] * (1 + path.cpi[i]));
-      d.mA.push(d.mA[i - 1] * (1 + path.home[i]));
-      d.mB.push(d.mB[i - 1] * (1 + path.homeB[i]));
-      const f = Math.min(0.02, path.cpi[i]);
-      d.fbA.push(d.fbA[i - 1] * (1 + f));
-      d.fbB.push(d.fbB[i - 1] * (1 + f));
-      const costG = Math.max(-0.5, path.cpi[i] + SPREAD);
-      d.costI.push(d.costI[i - 1] * (1 + costG));
-      d.rentI.push(d.rentI[i - 1] * (1 + costG));
-      d.insI.push(d.insI[i - 1] * (1 + costG + (path.insExtra[i] || 0)));
-      d.sfg.push(Math.min(0.07, Math.max(0, 0.6 * (path.cpi[i] + 0.004)))); // SF Rent Board: 60% of Bay Area CPI (official); 7% ceiling is from the Rent Ordinance and unverified here
-      d.port.push(EQ_WEIGHT * path.eq[i] + (1 - EQ_WEIGHT) * path.bond[i] - DRAG);
-    }
-    d.flags = flags; d.shockStart = path.shockStart || START;
-    return d;
-  }
-  function cap(d, year) { const steps = Math.max(0, Math.floor((year - START) / 2)); return B.prop19Amount * d.mA[Math.min(N, 2 * steps)] / d.mA[0]; }
-  function follows(d, year) { return d.flags.assessFollowsMarket && year >= d.shockStart; }
-
-  // ---------- strategy engine ----------
-  function simulate(path, inheritYear, hold, rentChoice, opts) {
-    const d = derive(path), o = opts || {};
-    const Y = inheritYear - START, T = Y + hold;
-    const MY = d.mA[Y];
-    const fb = d.fbA[Y];
-    const capY = cap(d, inheritYear);
-    const useP19 = !d.flags.noProp19;
-    const primaryAssessed = useP19 ? (MY <= fb + capY ? fb : MY - capY) : MY;
-    const net = MY * (1 - B.saleCost);
-    let sell = net;
-    for (let t = Y + 1; t <= T; t += 1) sell *= 1 + d.port[t];
-    const res = { rent: 0, live: 0, liveSF: 0 };
-    const ladder = { rent: MY, live: primaryAssessed };
-    const rentRent = (rentChoice === "3BR" ? B.aRent3BR : B.aRent4BR);
-    const sfUnitStart = SF_UNIT_RENT_2026 * 12 * d.rentI[Y];
-    let sfUnit = sfUnitStart;
-    const yearly = [];
-    let first = null;
-    for (let t = Y + 1; t <= T; t += 1) {
-      const yr = START + t;
-      ladder.rent *= 1 + Math.min(0.02, path.cpi[t]); ladder.live *= 1 + Math.min(0.02, path.cpi[t]);
-      const assessedRent = follows(d, yr) ? d.mA[t] : Math.min(ladder.rent, d.mA[t]);
-      const assessedLive = follows(d, yr) ? d.mA[t] : Math.min(ladder.live, d.mA[t]);
-      const water = B.aWaterMonthly * 12 * d.costI[t];
-      const insurance = B.aInsuranceAnnual * d.insI[t];
-      const maint = d.mA[t] * B.maintenanceA;
-      const solar = B.aSolarMonthlyCredit * 12;
-      const fixed = water + insurance + maint - solar;
-      const taxRent = assessedRent * B.aRate, taxLive = assessedLive * B.aRate;
-      const gross = rentRent * 12 * d.rentI[t];
-      const collected = gross * (1 - B.vacancy);
-      const noi = collected * (1 - B.management) - taxRent - fixed;
-      const rentCash = noi - Math.max(0, noi) * B.ordinaryTax;
-      const liveCash = -(taxLive + fixed);
-      sfUnit *= 1 + d.sfg[t];
-      const sfNet = sfUnit * (1 - B.vacancy) * (1 - B.management) * (1 - B.ordinaryTax);
-      res.rent = res.rent * (1 + d.port[t]) + rentCash;
-      res.live = res.live * (1 + d.port[t]) + liveCash;
-      res.liveSF = res.liveSF * (1 + d.port[t]) + liveCash + sfNet;
-      if (o.detail) yearly.push({ year: yr, market: d.mA[t], assessedRent, assessedLive, taxRent, taxLive, rentCash, liveCash, sfNet });
-    }
-    const amountRealized = d.mA[T] * (1 - B.saleCost);
-    const gainBefore = Math.max(0, amountRealized - MY);
-    const taxRentSale = gainBefore * B.capitalGainsTax;
-    const exclusion = hold >= 2 ? Math.min(B.primaryGainExclusion, gainBefore) : 0;
-    const taxLiveSale = Math.max(0, gainBefore - exclusion) * B.capitalGainsTax;
-    const sellLiq = sell - Math.max(0, sell - net) * B.capitalGainsTax;
-    const out = {
-      inheritYear, endYear: START + T, marketAtInherit: MY, marketAtEnd: d.mA[T], deflator: d.cpiI[T], primaryAssessed, fullAssessed: MY, capUsed: capY,
-      sell, sellLiq, rent: amountRealized - taxRentSale + res.rent, live: amountRealized - taxLiveSale + res.live, liveSF: amountRealized - taxLiveSale + res.liveSF,
-      reserves: res, yearly
-    };
-    out.best = ["sell", "rent", "live", "liveSF"].reduce((a, k) => out[k] > out[a] ? k : a, "sell");
-    out.bestLiq = ["sellLiq", "rent", "live", "liveSF"].reduce((a, k) => out[k] > out[a] ? k : a, "sellLiq");
+  function runAll(defs) {
+    const out = (defs || DEFS).map((d) => ({ def: d, result: run(d) }));
+    const baseSell = out[0].result.sell.terminal;
+    out.forEach((o) => { o.delta = o.result.sell.terminal - baseSell; });
     return out;
   }
 
-  // ---------- Property B (already owned) ----------
-  function sfSeries(path) {
-    const d = derive(path), rows = [];
-    for (let i = 0; i <= N; i += 1) {
-      const yr = START + i;
-      const assessed = follows(d, yr) ? d.mB[i] : Math.min(d.fbB[i], d.mB[i]);
-      const tax = follows(d, yr) ? d.mB[i] * SF_RATE_OFFICIAL : assessed * B.bRate;
-      let rent = B.bRentMonthly * 12;
-      rows.push({ i, yr, market: d.mB[i], assessed, tax });
+  /* Flat home-growth rate at which rent-then-sell catches sell-and-reinvest. */
+  function breakEvenHomeGrowth(baseSpec) {
+    let lo = -0.03;
+    let hi = 0.15;
+    for (let i = 0; i < 90; i += 1) {
+      const mid = (lo + hi) / 2;
+      const trial = { ...baseSpec, home: [[START, END, mid]] };
+      const r = run(trial);
+      if (r.rent.terminal > r.sell.terminal) hi = mid;
+      else lo = mid;
     }
-    let rentIdx = 1;
-    rows.forEach(r => {
-      if (r.i > 0) rentIdx *= 1 + d.sfg[r.i];
-      const gross = B.bRentMonthly * 12 * rentIdx;
-      const vacancy = gross * B.vacancy, mgmt = (gross - vacancy) * B.management;
-      const water = B.bWaterMonthly * 12 * d.costI[r.i], elec = B.bElectricMonthly * 12 * d.costI[r.i];
-      const insurance = B.bInsuranceAnnual * d.insI[r.i], maint = r.market * B.maintenanceB, fee = B.bRentBoardFeeAnnual * d.costI[r.i];
-      r.gross = gross; r.noi = gross - vacancy - mgmt - r.tax - water - elec - insurance - maint - fee; r.cpiIdx = d.costI[r.i];
-    });
-    return rows;
+    return (lo + hi) / 2;
   }
 
-  // ---------- Monte Carlo (seeded block bootstrap of 1977-2025 official data) ----------
-  function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-  const histVec = window_(1977, 2025);
-  function geo(key) { return Math.exp(histVec.reduce((s, r) => s + Math.log(1 + r[key]), 0) / histVec.length) - 1; }
-  function monteCarlo(opts) {
-    const o = Object.assign({ paths: 2000, block: 5, seed: 20261111, adjust: true, inheritYears: [2040, 2045, 2050], hold: 10, rentChoice: "4BR" }, opts || {});
-    const rnd = mulberry32(o.seed);
-    const shift = o.adjust ? { home: BASELINE.home - geo("home"), homeB: BASELINE.home - geo("homeB"), cpi: BASELINE.cpi - geo("cpi"), eq: BASELINE.eq - geo("eq"), bond: BASELINE.bond - geo("bond") } : { home: 0, homeB: 0, cpi: 0, eq: 0, bond: 0 };
-    const results = {}; o.inheritYears.forEach(y => { results[y] = { sell: [], sellLiq: [], rent: [], live: [], liveSF: [] }; });
-    for (let k = 0; k < o.paths; k += 1) {
-      const p = { home: [0], homeB: [0], cpi: [0], eq: [0], bond: [0], insExtra: [0], flags: {} };
-      while (p.home.length <= N) {
-        const s = Math.floor(rnd() * (histVec.length - o.block + 1));
-        for (let j = 0; j < o.block && p.home.length <= N; j += 1) {
-          const r = histVec[s + j];
-          p.home.push(Math.max(-0.6, r.home + shift.home)); p.homeB.push(Math.max(-0.6, r.homeB + shift.homeB));
-          p.cpi.push(Math.max(-0.05, r.cpi + shift.cpi)); p.eq.push(Math.max(-0.9, r.eq + shift.eq)); p.bond.push(Math.max(0, r.bond + shift.bond)); p.insExtra.push(0);
-        }
-      }
-      o.inheritYears.forEach(y => { const r = simulate(p, y, o.hold, o.rentChoice); ["sell", "sellLiq", "rent", "live", "liveSF"].forEach(key => results[y][key].push(r[key])); });
+  /* Flat after-tax portfolio return at which sell-and-reinvest stops winning. */
+  function breakEvenPortfolioReturn(baseSpec) {
+    let lo = 0.0;
+    let hi = 0.15;
+    for (let i = 0; i < 90; i += 1) {
+      const mid = (lo + hi) / 2;
+      const trial = { ...baseSpec, port: [[START, END, mid]] };
+      const r = run(trial);
+      if (r.rent.terminal < r.sell.terminal) hi = mid;
+      else lo = mid;
     }
-    const q = (arr, pr) => { const s = arr.slice().sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.max(0, Math.floor(pr * (s.length - 1))))]; };
-    const summary = {};
-    o.inheritYears.forEach(y => {
-      const R = results[y], n = R.sell.length;
-      const share = (a, b) => R[a].filter((v, i) => v > R[b][i]).length / n;
-      summary[y] = {
-        n, p10: {}, p50: {}, p90: {}, mean: {},
-        sellBeatsRent: share("sell", "rent"), sellLiqBeatsRent: share("sellLiq", "rent"), sellLiqBeatsLive: share("sellLiq", "live"), sellBeatsLive: share("sell", "live"), sellBeatsLiveSF: share("sell", "liveSF"), liveSFBeatsRent: share("liveSF", "rent"),
-        bestCount: ["sell", "rent", "live", "liveSF"].reduce((m, key) => { m[key] = R.sell.filter((_, i) => ["sell", "rent", "live", "liveSF"].reduce((a, kk) => R[kk][i] > R[a][i] ? kk : a, "sell") === key).length / n; return m; }, {})
-      };
-      ["sell", "sellLiq", "rent", "live", "liveSF"].forEach(key => { summary[y].p10[key] = q(R[key], 0.1); summary[y].p50[key] = q(R[key], 0.5); summary[y].p90[key] = q(R[key], 0.9); summary[y].mean[key] = R[key].reduce((a, b) => a + b, 0) / n; });
+    return (lo + hi) / 2;
+  }
+
+  /* Premium-growth sensitivity: keep every other base path, change only insurance. */
+  function insuranceShock(rate) {
+    const spec = { ...DEFS[0], id: `ins-${rate}`, ins: [[START, END, rate]] };
+    const r = run(spec);
+    const base = run(DEFS[0]);
+    return {
+      rate,
+      rentTerminal: r.rent.terminal,
+      liveTerminal: r.live.terminal,
+      sellTerminal: r.sell.terminal,
+      rentDelta: r.rent.terminal - base.rent.terminal,
+      liveDelta: r.live.terminal - base.live.terminal,
+      firstYearPremium: r.rent.firstRow.insurance
+    };
+  }
+
+  /* Uninsured damage at the transfer date: same absolute hit to every strategy. */
+  function quakeShock(fraction) {
+    const r = run(DEFS[0]);
+    const loss = r.vAtInherit * fraction;
+    const growth = factor(r.paths.port, INHERIT, END);
+    const hit = loss * growth; // the part of the loss that would otherwise have compounded
+    return {
+      fraction,
+      loss,
+      hit,
+      sellTerminal: r.sell.terminal - hit,
+      rentTerminal: r.rent.terminal - hit,
+      liveTerminal: r.live.terminal - hit
+    };
+  }
+
+  function expectation(weights) {
+    const rows = runAll();
+    const w = weights || { base: 0.45, stagflation: 0.15, gfc: 0.1, rateshock: 0.1, techbust: 0.1, insurance: 0.05, prolonged: 0.05 };
+    const total = Object.values(w).reduce((a, b) => a + b, 0);
+    const acc = { sell: 0, rent: 0, live: 0 };
+    rows.forEach((o) => {
+      const weight = (w[o.def.id] || 0) / total;
+      acc.sell += weight * o.result.sell.terminal;
+      acc.rent += weight * o.result.rent.terminal;
+      acc.live += weight * o.result.live.terminal;
     });
-    return { options: o, shift, summary };
+    return { weights: w, ...acc };
   }
 
-  // ---------- calibration statistics from official data ----------
-  function calibration() {
-    return [
-      { label: "CPI-U inflation, 1976–2025 (annualized)", value: cagr("cpi", 1976, 2025), assumption: BASELINE.cpi, series: "fredCPI" },
-      { label: "CPI-U inflation, 1972–1982 (annualized)", value: cagr("cpi", 1972, 1982), assumption: null, series: "fredCPI" },
-      { label: "CPI-U inflation, 2020–2025 (annualized)", value: cagr("cpi", 2020, 2025), assumption: null, series: "fredCPI" },
-      { label: "San Jose-area home prices, 1976–2025 (annualized)", value: cagr("sj", 1976, 2025), assumption: BASELINE.home, series: "fredSJ" },
-      { label: "San Francisco-area home prices, 1976–2025 (annualized)", value: cagr("sf", 1976, 2025), assumption: BASELINE.home, series: "fredSF" },
-      { label: "California home prices, 1975–2025 (annualized)", value: cagr("ca", 1975, 2025), assumption: null, series: "fredCA" },
-      { label: "San Jose-area home prices, 2019–2025 (annualized)", value: cagr("sj", 2019, 2025), assumption: BASELINE.home, series: "fredSJ" },
-      { label: "San Jose-area home prices, 2024→2025", value: total("sj", 2024, 2025), assumption: null, series: "fredSJ" },
-      { label: "San Jose-area home prices, 2006→2011 (peak to trough, year-end)", value: total("sj", 2006, 2011), assumption: null, series: "fredSJ" },
-      { label: "California home prices, 2006→2011", value: total("ca", 2006, 2011), assumption: null, series: "fredCA" },
-      { label: "San Jose-area home prices, 1989→1994", value: total("sj", 1989, 1994), assumption: null, series: "fredSJ" },
-      { label: "US share-price index (price only), 1976–2025 (annualized)", value: cagr("eq", 1976, 2025), assumption: null, series: "fredOECD", note: "Excludes dividends" },
-      { label: "US share-price index, 2007→2008", value: total("eq", 2007, 2008), assumption: null, series: "fredOECD" },
-      { label: "US share-price index, 2000→2002", value: total("eq", 2000, 2002), assumption: null, series: "fredOECD" },
-      { label: "US share-price index, 1972→1974", value: total("eq", 1972, 1974), assumption: null, series: "fredOECD" },
-      { label: "US share-price index, 1972–1982 (annualized)", value: cagr("eq", 1972, 1982), assumption: null, series: "fredOECD" }
-    ];
-  }
-
-  root.SCEN = { START, N, BASELINE, SPREAD, EQ_WEIGHT, DIVIDEND, SF_RATE_OFFICIAL, SF_UNIT_RENT_2026, SCENARIOS, H, buildPath, derive, simulate, sfSeries, monteCarlo, calibration, geo, histVec };
-  if (typeof module !== "undefined" && module.exports) module.exports = root.SCEN;
-})(typeof window !== "undefined" ? window : globalThis);
+  window.SCENARIOS = {
+    START, INHERIT, END, HORIZON, DEFS, run, runAll, paths,
+    breakEvenHomeGrowth, breakEvenPortfolioReturn, insuranceShock, quakeShock, expectation
+  };
+})();

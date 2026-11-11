@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Black-swan and real-conditions stress cases for the Cupertino inheritance decision: recorded inflation, mortgage, home-price, insurance and earthquake shocks replayed through the three strategies."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Black swans and real conditions">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="data/scenarios.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const R = SCENARIOS.runAll();
+const base = R.find(x => x.def.id === "base").result;
+const winners = R.filter(x => x.result.winner === "sell").length;
+const beHome = SCENARIOS.breakEvenHomeGrowth(SCENARIOS.DEFS[0]);
+const bePort = SCENARIOS.breakEvenPortfolioReturn(SCENARIOS.DEFS[0]);
+const ins3 = SCENARIOS.insuranceShock(0.03), ins6 = SCENARIOS.insuranceShock(0.06), ins9 = SCENARIOS.insuranceShock(0.09), ins12 = SCENARIOS.insuranceShock(0.12);
+const q5 = SCENARIOS.quakeShock(0.05), q10 = SCENARIOS.quakeShock(0.10), q20 = SCENARIOS.quakeShock(0.20);
+const exp = SCENARIOS.expectation();
+const MONEY = UI.money;
+const src = (k, l) => UI.source(k, l);
+const row = cells => `<tr>${cells.join("")}</tr>`;
+const num = v => `<td class="number">${MONEY(v)}</td>`;
+
+/* Prop 19 exclusion is worth the difference between the two 2045 tax bills, compounded at the base return. */
+const exclYear1 = Math.abs(base.primaryTaxAtTransfer - base.fullTaxAtTransfer);
+const exclTenYear = exclYear1 * ((Math.pow(1.02, 10) - 1) / 0.02);
+
+main.innerHTML = UI.hero("Black swans · stress cases for Property A", "What if the next 30 years are not a straight line?",
+  "The dashboard's base case holds home growth at 3.5% and inflation at 3% for thirty years. Real fifty-year history does not behave that way. This page replays the shape of recorded stress episodes through the same three strategies — sell and reinvest, rent then sell, live then sell — and shows which conclusions survive.",
+  `<a class="button secondary" href="decision.html">Open the interactive decision lab</a><a class="button secondary" href="stress.html">50-year stress tests</a><a class="button secondary" href="review.html">Flagged items ⚑</a>`) + `<div class="container">
+
+<section class="section"><div class="grid four">
+<div class="card"><div class="metric-label">Stress cases re-run</div><div class="metric small">${R.length}</div><p class="tiny">Every case uses the same cost and tax rules as the decision page.</p></div>
+<div class="card"><div class="metric-label">Cases where selling wins</div><div class="metric small">${winners} of ${R.length}</div><p class="tiny">Rent then sell wins only in the stagflation replay.</p></div>
+<div class="card"><div class="metric-label">Break-even home growth</div><div class="metric small">${(beHome * 100).toFixed(1)}%</div><p class="tiny">Annual home growth for 30 years at which renting overtakes selling.</p></div>
+<div class="card"><div class="metric-label">Break-even after-tax return</div><div class="metric small">${(bePort * 100).toFixed(1)}%</div><p class="tiny">Portfolio return below which reinvesting the sale proceeds stops winning.</p></div>
+</div>
+<div class="callout"><strong>Companion page.</strong> The <a href="stress.html">50-year stress tests</a> run automatic paths to 2095 in nominal and real dollars. This page replays recorded episodes, ranks the three strategies to 2055 and solves for the thresholds that would change the answer.</div>
+<div class="callout"><strong>How to read this page.</strong> Every growth rate below is a stated scenario assumption, not a forecast and not an official number. Recorded history is cited separately, with links, in the second table. Dollar figures are rounded to the nearest $10. Nothing here is legal, tax or investment advice.</div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Recorded variation</div><h2>Fifty years of official numbers, in one table</h2><p>These are the anchors the stress cases are built to resemble. Each value is published by the agency linked in the row.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Measure</th><th class="wrap">What the record shows</th><th class="wrap">Why it changes this decision</th><th>Official source</th></tr></thead><tbody>
+${row([`<td><strong>Consumer price inflation</strong></td>`, `<td class="wrap">CPI-U rose 11.0% in 1974, 11.3% in 1979, 13.5% in 1980 and 10.3% in 1981; then 8.0% (2022), 4.1% (2023), 2.9% (2024), 2.6% (2025) and 3.3% in the first half of 2026.</td>`, `<td class="wrap">Water, insurance and maintenance bills are repriced every year; a single 3% line understates both tails.</td>`, `<td class="source">${src("blsCpiHistory", "BLS historical CPI-U")} ${src("blsCpiAnnual", "BLS annual CPI table")}</td>`])}
+${row([`<td><strong>Mortgage rates</strong></td>`, `<td class="wrap">The 30-year fixed stood at 2.98% in the week of 11 November 2021 and 7.18% on 5 November 2026.</td>`, `<td class="wrap">Rates do not touch the Prop 13 tax base, but they set what a buyer will pay on the day the property is sold.</td>`, `<td class="source">${src("freddiePmms", "Freddie Mac PMMS")}</td>`])}
+${row([`<td><strong>Home prices, San Jose metro</strong></td>`, `<td class="wrap">Prices were down 8.33% year over year in 2008 Q2 for the San Jose–Sunnyvale–Santa Clara metro, while the national purchase-only index fell 6.0% over the four quarters to 2008 Q3.</td>`, `<td class="wrap">Selling at the wrong point in a cycle is the largest avoidable loss in the plan.</td>`, `<td class="source">${src("fhfaRelease2008", "FHFA Q3 2008 release")} ${src("fhfaHpi", "FHFA HPI datasets")}</td>`])}
+${row([`<td><strong>Property-tax assessment</strong></td>`, `<td class="wrap">Assessment growth is capped at the lower of CPI and 2% a year, with a 1% general levy plus voter-approved debt.</td>`, `<td class="wrap">The tax base cannot follow the market up — which is why holding gains value in an inflationary shock.</td>`, `<td class="source">${src("boeProp13", "BOE Publication 29")}</td>`])}
+${row([`<td><strong>Insurance market</strong></td>`, `<td class="wrap">California FAIR Plan exposure reached $773 billion at September 2026, 252% higher than September 2022, with 698,307 policies in force.</td>`, `<td class="wrap">Premiums can compound faster than the CPI, and the last-resort market is now a primary market.</td>`, `<td class="source">${src("fairPlan", "FAIR Plan key statistics")} ${src("insurance", "CDI comparison tool")}</td>`])}
+${row([`<td><strong>Earthquake</strong></td>`, `<td class="wrap">A 72% chance of a magnitude 6.7 or greater earthquake somewhere in the San Francisco Bay region within 30 years.</td>`, `<td class="wrap">This is the one loss that no investment return offsets, and it lands inside the inheritance window.</td>`, `<td class="source">${src("usgsQuake", "USGS earthquake probabilities")}</td>`])}
+${row([`<td><strong>Official long-run baseline</strong></td>`, `<td class="wrap">CBO projects real GDP growth moderating to about 1.8% a year after 2026, PCE inflation back to 2% by 2030 and a gradually rising 10-year Treasury yield.</td>`, `<td class="wrap">A 3.5% home-growth line is above the official output baseline; it is a planning assumption, not a consensus.</td>`, `<td class="source">${src("cboOutlook2026", "CBO outlook 2026–2036")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Scenario register</div><h2>Seven shapes, each with a stated rule</h2><p>Transfer year 2045 (the midpoint of the 2040–2050 window) and a ten-year holding horizon to 2055. Only the rate paths change; costs, taxes, Prop 19 and sale costs are identical in every case.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Case</th><th class="wrap">Path</th><th class="wrap">Recorded anchor</th><th>Source</th></tr></thead><tbody>
+${R.map(x => row([`<td><strong>${x.def.label}</strong></td>`, `<td class="wrap">${x.def.shape}</td>`, `<td class="wrap">${x.def.anchor}</td>`, `<td class="source">${x.def.sources.map(k => src(k)).join(" ")}</td>`])).join("")}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Results</div><h2>Terminal value in 2055, by case and strategy</h2><p>All three strategies end with the property sold, so every number is after sale costs. The sell case reinvests the 2045 proceeds immediately. Rent and live cases collect (or save) cash along the way and sell in 2055.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Case</th><th class="number">Property A value 2045</th><th class="number">Annual tax at transfer, move in</th><th class="number">Sell 2045, hold portfolio</th><th class="number">Rent then sell</th><th class="number">Live then sell</th><th class="number">Live, rent valued</th><th>Winner</th><th>Source</th></tr></thead><tbody>
+${R.map(x => { const r = x.result; return row([
+  `<td><strong>${x.def.label}</strong></td>`, num(r.vAtInherit), num(r.primaryTaxAtTransfer), num(r.sell.terminal), num(r.rent.terminal), num(r.live.terminal), num(r.live.housingAdjustedTerminal),
+  `<td><span class="badge">${r.winner === "sell" ? "Sell" : r.winner === "rent" ? "Rent" : "Live"}</span><div class="tiny">leads by ${MONEY(r.margin)}</div></td>`,
+  `<td class="source">${src("hudA", "HUD rent benchmark + model")}</td>`]); }).join("")}
+</tbody></table></div>
+<p class="tiny">"Live, rent valued" adds the market rent the household would otherwise pay (HUD FY2026 4-bedroom benchmark for the property's ZIP, grown with each case's rent path). It is avoided cost, not cash. Counting it, selling still leads in six of the seven cases; only in the stagflation replay does living come out ahead. The live case also requires moving in within one year to keep any Prop 19 exclusion — see the inheritance page.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Findings</div><h2>What survives the stress tests</h2></div></div>
+<div class="grid two">
+<div class="card soft"><h3>Selling is the financial winner in ${winners} of ${R.length} cases</h3><ul class="check-list">
+<li>Base case: sell ${MONEY(base.sell.terminal)} vs rent ${MONEY(base.rent.terminal)} and live ${MONEY(base.live.terminal)}.</li>
+<li>The margin is thinnest in the lost-decade case, at ${MONEY(R.find(x => x.def.id === "prolonged").result.margin)}.</li>
+<li>Renting wins only when inflation outruns the portfolio: the stagflation replay puts rent at ${MONEY(R.find(x => x.def.id === "stagflation").result.rent.terminal)} against ${MONEY(R.find(x => x.def.id === "stagflation").result.sell.terminal)} for selling.</li>
+<li>A crash at the transfer date costs the sell case ${MONEY(base.sell.terminal - R.find(x => x.def.id === "gfc").result.sell.terminal)} but does not change the ranking.</li>
+</ul></div>
+<div class="card review"><h3>What would break the recommendation</h3><ul class="list">
+<li>Home prices compounding above about ${(beHome * 100).toFixed(1)}% a year for three decades.</li>
+<li>An after-tax portfolio return below about ${(bePort * 100).toFixed(1)}%.</li>
+<li>Repeal of the basis step-up: the built-in gain would then be taxed on sale, and the household record does not contain the original basis. This is the largest unquantified risk on this page.</li>
+<li>An uninsured earthquake loss of 10% of value at transfer removes ${MONEY(q10.hit)} from every strategy.</li>
+<li>If the housing service is counted, living also overtakes selling in the stagflation replay — but not in the other six cases.</li>
+</ul></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Cost shock</div><h2>If insurance compounds faster than the CPI</h2><p>Only the premium path changes; every other base assumption is held. Premiums start from the household's unverified $1,500-a-year estimate.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Premium growth</th><th class="number">Premium in 2046</th><th class="number">Rent then sell</th><th class="number">Change vs 3%</th><th class="number">Live then sell</th><th class="number">Change vs 3%</th><th>Source</th></tr></thead><tbody>
+${[[0.03, ins3], [0.06, ins6], [0.09, ins9], [0.12, ins12]].map(([rate, s]) => row([`<td><strong>${(rate * 100).toFixed(0)}% a year</strong></td>`, num(s.firstYearPremium), num(s.rentTerminal), num(s.rentDelta), num(s.liveTerminal), num(s.liveDelta), `<td class="source">${src("insurance", "CDI comparison tool + model")}</td>`])).join("")}
+</tbody></table></div>
+<p class="tiny">The premium itself is a household estimate and stays flagged. The FAIR Plan growth figures show why a 3% assumption is not conservative for this state.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Catastrophe</div><h2>Uninsured damage at the transfer date</h2><p>Damage equal to a share of market value in 2045, with no insurance recovery. The loss is shown as the terminal-value hit after compounding.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Damage</th><th class="number">Loss in 2045</th><th class="number">Terminal hit by 2055</th><th class="number">Sell case after loss</th><th class="number">Rent case after loss</th><th>Source</th></tr></thead><tbody>
+${[[0.05, q5], [0.10, q10], [0.20, q20]].map(([f, q]) => row([`<td><strong>${(f * 100).toFixed(0)}% of value</strong></td>`, num(q.loss), num(q.hit), num(q.sellTerminal), num(q.rentTerminal), `<td class="source">${src("usgsQuake", "USGS probability + model")}</td>`])).join("")}
+</tbody></table></div>
+<p class="tiny">No retrofit or repair estimate is published here: no official cost figure was verified for this property, so the row stays a percentage of value rather than a repair quote. See the review page.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Law risk</div><h2>Rule changes that move the answer more than any market does</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Change</th><th class="wrap">What it would do</th><th class="number">Modeled impact</th><th class="wrap">Does it flip the decision?</th><th>Official source</th></tr></thead><tbody>
+${row([`<td><strong>Basis step-up repealed</strong></td>`, `<td class="wrap">Tax would be due on the difference between the sale price and the parent's original cost basis instead of the date-of-death value.</td>`, `<td class="number">—<div class="tiny">basis not in record</div></td>`, `<td class="wrap">Unknown, potentially decisive. Each $1,000,000 of carried-over gain would cost about $331,000 at the 33.1% scenario rate.</td>`, `<td class="source">${src("irsBasis", "IRS Pub. 551")} ${src("caCapGains", "FTB capital gains")}</td>`])}
+${row([`<td><strong>Prop 19 parent-child exclusion repealed</strong></td>`, `<td class="wrap">Moving in would no longer preserve part of the parent's assessed value; the base would reset in full.</td>`, `<td class="number">${MONEY(Math.abs(exclYear1))}<div class="tiny">extra tax a year at 2045</div></td>`, `<td class="wrap">No. The live case is already last on money in every case; the exclusion's ten-year value is about ${MONEY(exclTenYear)}.</td>`, `<td class="source">${src("boeProp19", "BOE Prop 19")} ${src("rtc63", "RTC §63.2")}</td>`])}
+${row([`<td><strong>Federal exclusion reduced</strong></td>`, `<td class="wrap">Estate tax at 40% on the excess over the year-of-death exclusion, if the combined estate exceeded it.</td>`, `<td class="number">—<div class="tiny">estate not fully known</div></td>`, `<td class="wrap">Only if other assets push the estate past the threshold. Real estate alone leaves ${MONEY(MODEL.estateRow(2026).headroom)} of 2026 headroom.</td>`, `<td class="source">${src("irsEstate", "IRS estate tax")} ${src("irs706", "Form 706 instructions")}</td>`])}
+${row([`<td><strong>Rent control extended to single-family homes</strong></td>`, `<td class="wrap">Caps annual increases at 5% plus CPI or 10%, whichever is lower, for covered units.</td>`, `<td class="number">—<div class="tiny">3% path is below the cap</div></td>`, `<td class="wrap">No. The modeled rent path is already below the statewide cap.</td>`, `<td class="source">${src("caRentCaps", "CA Attorney General")} ${src("caTenants", "AG tenant guidance")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Weighted view</div><h2>If you put a judgment weight on each case</h2><p>The weights are the household's own judgment, not measured probabilities and not an official forecast. They are shown so the arithmetic can be challenged.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Case</th><th class="number">Weight</th><th class="number">Sell</th><th class="number">Rent then sell</th><th class="number">Live then sell</th><th>Source</th></tr></thead><tbody>
+${R.map(x => row([`<td>${x.def.label}</td>`, `<td class="number">${((exp.weights[x.def.id] || 0) * 100).toFixed(0)}%</td>`, num(x.result.sell.terminal), num(x.result.rent.terminal), num(x.result.live.terminal), `<td class="source">${src("hudA", "model")}</td>`])).join("")}
+${row([`<td><strong>Weighted result</strong></td>`, `<td class="number">100%</td>`, `<td class="number"><strong>${MONEY(exp.sell)}</strong></td>`, `<td class="number"><strong>${MONEY(exp.rent)}</strong></td>`, `<td class="number"><strong>${MONEY(exp.live)}</strong></td>`, `<td class="source">${src("hudA", "model")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Household interaction</div><h2>Property B is not a bystander</h2></div></div>
+<div class="grid two">
+<div class="card soft"><h3>Moving into Property A has a price</h3><ul class="check-list">
+<li>The Prop 19 exclusion for a child requires moving into the home as a principal residence within one year.</li>
+<li>That conflicts with keeping Property B as the principal residence, and it changes which unit income is available.</li>
+<li>The exclusion is worth about ${MONEY(exclYear1)} a year in tax at 2045, or about ${MONEY(exclTenYear)} over the ten-year horizon.</li>
+</ul><p>${src("boeProp19", "BOE Prop 19")}</p></div>
+<div class="card"><h3>Renting the vacant Property B unit</h3><ul class="list">
+<li>HUD's FY2026 benchmark for the area is $2,730 a month for a one-bedroom and $3,310 for a two-bedroom, so the vacant unit is worth roughly $32,760 to $39,720 a year gross.</li>
+<li>That income is separate from this page's analysis and does not change the ranking of the Property A strategies.</li>
+<li>Whether converting the vacant unit to a rental changes any assessment, coverage or Rent Board status has not been verified — it is on the review page.</li>
+</ul><p>${src("hudB", "HUD FY2026 FMR")} ${src("sfRent", "SF Rent Board")}</p></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Monitoring</div><h2>Triggers that mean "re-run the model"</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Trigger</th><th class="wrap">Why it matters</th><th>Where to check</th></tr></thead><tbody>
+${row([`<td><strong>30-year mortgage under about 4%</strong></td>`, `<td class="wrap">Buyer demand, and therefore the sale price, is rate-sensitive. It does not change the Prop 13 base.</td>`, `<td class="source">${src("freddiePmms", "Freddie Mac PMMS")}</td>`])}
+${row([`<td><strong>Metro home growth above ${(beHome * 100).toFixed(1)}% for a decade</strong></td>`, `<td class="wrap">Renting starts to beat selling on the model's own arithmetic.</td>`, `<td class="source">${src("fhfaHpi", "FHFA HPI")}</td>`])}
+${row([`<td><strong>Premiums above about 12% a year</strong></td>`, `<td class="wrap">Holding costs rise by roughly ${MONEY(Math.abs(ins12.rentDelta))} over ten years on the rent case alone.</td>`, `<td class="source">${src("fairPlan", "FAIR Plan data")} ${src("insurance", "CDI tool")}</td>`])}
+${row([`<td><strong>Any change to the step-up in basis</strong></td>`, `<td class="wrap">This is the single largest identified risk to the sell case; the record does not contain the original basis.</td>`, `<td class="source">${src("irsBasis", "IRS Pub. 551")} ${src("caCapGains", "FTB")}</td>`])}
+${row([`<td><strong>Prop 19 amount changes on 16 February 2027</strong></td>`, `<td class="wrap">The published $1,044,586 is fixed only through that date; later amounts are modeled here at the scenario home-price rate in completed two-year steps (BOE indexes the amount to the FHFA California HPI).</td>`, `<td class="source">${src("boeProp19Amount", "BOE news release")}</td>`])}
+</tbody></table></div></section>
+
+<section class="section"><div class="grid two">
+<div class="card review"><h3>Flagged in this section</h3><ul class="list">
+<li>Scenario weights are judgment, not measured probabilities.</li>
+<li>Insurance premiums remain the household's $1,500-a-year guess; no quote was obtained.</li>
+<li>The original cost basis of Property A is not in the record, so a step-up repeal cannot be priced.</li>
+<li>No official earthquake retrofit or repair cost was verified; the catastrophe table uses percentages of value.</li>
+<li>Prop 19 amounts after February 2027 are modeled, not published.</li>
+<li>Whether renting the vacant Property B unit changes its assessment or coverage is unverified.</li>
+</ul><p><a href="review.html">Open the flagged for review page →</a></p></div>
+<div class="card soft"><h3>Method</h3><ul class="list">
+<li>Engine: <span class="code">site/data/scenarios.js</span>; base assumptions: <span class="code">site/data/model.js</span>.</li>
+<li>Transfer year 2045, horizon to 2055, sale cost 6%, vacancy 5%, management 8%, maintenance 0.5% of value, capital-gain scenario 33.1%, rental income-tax scenario 33.3%.</li>
+<li>Assessment growth after transfer is capped at the lower of each case's CPI path and 2%.</li>
+<li>Every dollar figure is rounded to the nearest $10 before display.</li>
+</ul><p><a href="sources.html">Source register and assumptions →</a></p></div>
+</div></section>
+</div>`;
+</script>
+</body></html>

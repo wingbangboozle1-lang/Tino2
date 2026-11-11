@@ -45,4 +45,6 @@ document.getElementById("basis-cards").innerHTML = [
   ["Date-of-death FMV · 2040 model", a2040, "General federal starting basis, subject to actual appraisal and exceptions"],
   ["Old assessed-value input · 2026", 550540, "Do not substitute for date-of-death FMV"]
 ].map(([label,value,note]) => `<div class="card"><div class="metric-label">${label}</div><div class="metric small">${UI.money(value)}</div><p class="tiny">${note}</p></div>`).join("");
+
+UI.ensureRowSources();
 </script></body></html>

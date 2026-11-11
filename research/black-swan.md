@@ -1,6 +1,6 @@
 # Black swan economic scenarios — research note
 
-Session 70f163d0 · 2026-11-11 · generated from `site/data/scenarios.js` (values rounded to $10; household amounts anonymised).
+Session 70f163d0 · 2026-11-11 · generated from `site/data/history-engine.js` (values rounded to $10; household amounts anonymised).
 
 **Status:** scenarios are stress tests, not forecasts. "Replay" scenarios use recorded official data; "Assumption" scenarios are invented and flagged.
 
@@ -49,29 +49,29 @@ Nominal dollars at 2055. "Sell (taxed)" liquidates the portfolio at the endpoint
 
 | Scenario | Property A at inheritance | Sell (untaxed) | Sell (taxed) | Rent then sell | Live then sell | Live + free SF unit | Best (taxed) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Smooth baseline | $5,959,750 | $9,125,340 | $7,959,170 | $7,320,370 | $6,070,060 | $6,527,720 | sellLiq |
-| Replay of the last 49 years | $13,683,540 | $26,646,710 | $22,084,150 | $29,266,500 | $27,096,440 | $27,920,830 | rent |
-| 1970s-style stagflation | $8,120,090 | $14,913,780 | $12,503,810 | $15,552,820 | $13,098,590 | $13,825,740 | rent |
-| 2008-style housing and equity crash | $3,990,000 | $6,021,280 | $5,269,680 | $5,131,130 | $3,962,410 | $4,421,270 | sellLiq |
-| Early-1990s Bay Area bust | $4,611,260 | $8,590,160 | $7,181,560 | $5,865,340 | $4,526,760 | $5,036,930 | sellLiq |
-| Equity-only crash (2000–2003 style) | $7,275,360 | $11,139,750 | $9,716,150 | $8,622,950 | $7,413,480 | $7,874,930 | sellLiq |
-| 2021–23 inflation spike | $6,999,060 | $10,716,680 | $9,347,150 | $8,506,290 | $7,119,600 | $7,622,560 | sellLiq |
-| Lost decades (flat nominal prices) | $5,193,580 | $5,610,150 | $5,369,120 | $4,998,890 | $4,048,010 | $4,390,330 | sellLiq |
-| Insurance and climate-cost shock | $4,597,840 | $7,040,030 | $6,140,350 | $5,623,840 | $4,408,200 | $4,865,860 | sellLiq |
-| Property-tax regime change (assessments track market) | $5,959,750 | $9,125,340 | $7,959,170 | $7,257,530 | $5,619,210 | $6,076,870 | sellLiq |
-| Prop 19 inheritance relief repealed | $5,959,750 | $9,125,340 | $7,959,170 | $7,320,370 | $5,708,840 | $6,166,500 | sellLiq |
-| Compound shock: stagflation → 2008-style crash + insurance shock | $8,120,090 | $13,238,020 | $11,382,720 | $11,353,510 | $9,126,590 | $9,788,470 | sellLiq |
+| Smooth baseline | $5,959,750 | $9,125,340 | $7,959,170 | $7,395,620 | $6,146,150 | $6,603,810 | sellLiq |
+| Replay of the last 49 years | $13,683,540 | $26,646,710 | $22,084,150 | $29,533,380 | $27,275,590 | $28,099,980 | rent |
+| 1970s-style stagflation | $8,120,090 | $14,913,780 | $12,503,810 | $15,679,910 | $13,219,960 | $13,947,110 | rent |
+| 2008-style housing and equity crash | $3,990,000 | $6,021,280 | $5,269,680 | $5,181,060 | $4,010,070 | $4,468,930 | sellLiq |
+| Early-1990s Bay Area bust | $4,611,260 | $8,590,160 | $7,181,560 | $5,925,410 | $4,586,080 | $5,096,260 | sellLiq |
+| Equity-only crash (2000–2003 style) | $7,275,360 | $11,139,750 | $9,716,150 | $8,760,670 | $7,505,770 | $7,967,220 | sellLiq |
+| 2021–23 inflation spike | $6,999,060 | $10,716,680 | $9,347,150 | $8,602,190 | $7,208,950 | $7,711,910 | sellLiq |
+| Lost decades (flat nominal prices) | $5,193,580 | $5,610,150 | $5,369,120 | $5,049,020 | $4,099,210 | $4,441,520 | sellLiq |
+| Insurance and climate-cost shock | $4,597,840 | $7,040,030 | $6,140,350 | $5,681,180 | $4,465,000 | $4,922,660 | sellLiq |
+| Property-tax regime change (assessments track market) | $5,959,750 | $9,125,340 | $7,959,170 | $7,341,920 | $5,741,140 | $6,198,800 | sellLiq |
+| Prop 19 inheritance relief repealed | $5,959,750 | $9,125,340 | $7,959,170 | $7,395,620 | $5,821,650 | $6,279,310 | sellLiq |
+| Compound shock: stagflation → 2008-style crash + insurance shock | $8,120,090 | $13,238,020 | $11,382,720 | $11,470,660 | $9,236,370 | $9,898,240 | rent |
 
 ## 4. Monte Carlo (2,000 paths, 5-year block bootstrap of 1977–2025, seed 20261111)
 
 | History | Inherit | Sell median | Sell taxed median | Rent median | Live+SF median | Sell>Rent (untaxed / taxed) | Sell>Live |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mean-adjusted | 2040 | $7,749,450 | $6,775,700 | $5,860,890 | $5,186,860 | 79% / 66% | 90% |
-| Mean-adjusted | 2045 | $8,859,310 | $7,718,710 | $6,914,620 | $6,101,000 | 77% / 64% | 91% |
-| Mean-adjusted | 2050 | $10,387,710 | $9,053,520 | $8,024,090 | $7,077,750 | 78% / 65% | 90% |
-| Raw | 2040 | $14,510,090 | $12,153,550 | $10,905,110 | $9,949,640 | 80% / 62% | 88% |
-| Raw | 2045 | $19,407,210 | $16,204,480 | $14,817,800 | $13,613,420 | 79% / 61% | 88% |
-| Raw | 2050 | $26,535,370 | $22,107,600 | $19,768,500 | $18,380,250 | 81% / 64% | 88% |
+| Mean-adjusted | 2040 | $7,749,450 | $6,775,700 | $5,937,580 | $5,240,590 | 78% / 65% | 90% |
+| Mean-adjusted | 2045 | $8,859,310 | $7,718,710 | $6,996,300 | $6,175,350 | 76% / 62% | 90% |
+| Mean-adjusted | 2050 | $10,387,710 | $9,053,520 | $8,106,520 | $7,169,650 | 77% / 64% | 90% |
+| Raw | 2040 | $14,510,090 | $12,153,550 | $11,036,570 | $10,074,210 | 79% / 61% | 87% |
+| Raw | 2045 | $19,407,210 | $16,204,480 | $14,996,640 | $13,753,510 | 78% / 60% | 88% |
+| Raw | 2050 | $26,535,370 | $22,107,600 | $20,037,520 | $18,608,750 | 80% / 62% | 88% |
 
 ## 5. Findings
 

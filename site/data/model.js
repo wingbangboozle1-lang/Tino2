@@ -4,8 +4,8 @@
   All displayed currency is rounded to the nearest $10 by fmtMoney().
 */
 (function () {
-  const A_RATE = 7210 / 539740; // household-derived effective rate, not an official TRA rate
-  const B_RATE = 2440 / 114250; // household-derived effective rate, not the city ad valorem rate
+  const A_RATE = 0.012; // hypothetical combined levy; actual parcel rate unverified
+  const B_RATE = 0.0118162182; // carried-forward city ad valorem rate; direct charges excluded
   const BASE = {
     startYear: 2026,
     aValue: 3100000,
@@ -46,34 +46,9 @@
     estateIndex: 0.02
   };
 
-  const historyA = [
-    [2026, null, null, 550540, "+2%"],
-    [2025, 7210, "+2.9%", 539740, "+2%"],
-    [2024, 7000, "+1.2%", 529160, "+2%"],
-    [2023, 6920, "+2.4%", 518790, "+2%"],
-    [2022, 6760, "+1.4%", 508610, "+2%"],
-    [2021, 6660, "+1.5%", 498640, "+1%"],
-    [2020, 6570, null, 493530, "+2%"],
-    [2019, 6570, "+2.8%", 483850, "+2%"],
-    [2018, 6380, null, 474370, "+2%"],
-    [2017, 6380, "-0.5%", 465070, "+2%"],
-    [2016, 6410, "+4.6%", 455950, "+1.5%"],
-    [2015, 6130, "+2.8%", 449100, "+2%"],
-    [2014, 5970, null, 440310, "+0.5%"]
-  ].map(([year, tax, taxChange, assessed, assessedChange]) => ({ year, tax, taxChange, assessed, assessedChange }));
-
-  const historyB = [
-    [2025, 2440, "+5.3%", 114250, "+2%"],
-    [2024, 2320, "+6.2%", 112010, "+2%"],
-    [2023, 2180, "+3.4%", 109810, "+2%"],
-    [2022, 2110, "+2%", 107660, "+2%"],
-    [2021, 2070, "-5.9%", 105600, "+1%"],
-    [2020, 2200, "+3%", 104510, "+2%"],
-    [2019, 2130, "+3.5%", 102470, "+2%"],
-    [2018, 2060, "+18.4%", 100460, "+2%"],
-    [2017, 1740, "+3.9%", 98490, "+2%"],
-    [2016, 1680, "+1.6%", 96560, "+1.5%"]
-  ].map(([year, tax, taxChange, assessed, assessedChange]) => ({ year, tax, taxChange, assessed, assessedChange }));
+  // Private historical bill sequences are intentionally not distributed.
+  const historyA = [];
+  const historyB = [];
 
   function round10(value) {
     if (value === null || value === undefined || !Number.isFinite(value)) return null;
@@ -87,7 +62,7 @@
   }
   function fmtExact(value) {
     if (value === null || value === undefined || !Number.isFinite(value)) return "—";
-    return "$" + value.toLocaleString("en-US", { maximumFractionDigits: 0 });
+    return fmtMoney(value);
   }
   function fmtPct(value, digits = 1) {
     return (value * 100).toFixed(digits) + "%";
@@ -174,8 +149,8 @@
       firstYearTax: 0,
       firstYearCash: netImmediateSale * portfolioReturn,
       terminal: netImmediateSale * Math.pow(1 + portfolioReturn, horizon),
-      // Conservative bound: also tax ALL portfolio growth above the invested principal at the capital-gain scenario rate.
-      // The annual drag already taxes part of the return, so this deliberately double-counts to bracket the result.
+      // Conservative bound: also tax ALL portfolio growth above the invested principal at the capital-gain scenario rate
+      // (the annual drag already taxes part of the return, so this deliberately double-counts to bracket the result).
       terminalAfterLiquidation: netImmediateSale * Math.pow(1 + portfolioReturn, horizon) - Math.max(0, netImmediateSale * (Math.pow(1 + portfolioReturn, horizon) - 1)) * config.capitalGainsTax,
       cashReserve: 0,
       finalSale: 0,
@@ -236,7 +211,7 @@
     const a = seriesFor("A", year, config).market;
     const b = seriesFor("B", year, config).market;
     const exclusion = futureValue(config.estateExclusion, config.estateIndex, year - config.startYear);
-    const combined = a + b;
+    const combined = a; // B is already owned by the heir, not the decedent.
     return { year, a, b, combined, exclusion, headroom: Math.max(0, exclusion - combined), excess: Math.max(0, combined - exclusion) };
   }
   function historyChecks(history) {
