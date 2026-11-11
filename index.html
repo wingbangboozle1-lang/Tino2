@@ -54,7 +54,7 @@
       <section class="section">
         <div class="section-heading"><div><div class="eyebrow">Black swan check</div><h2>Growth and inflation are never steady for 50 years</h2><p>The same three choices run through recorded bad decades (1970s inflation, the 1990s Bay Area bust, 2000–2003, 2008, 2021–23) and through stated shocks, using official yearly data.</p></div><a class="button secondary" href="site/stress.html">Open the stress tests</a></div>
         <div class="table-wrap"><table><thead><tr><th>Inheritance year</th><th class="number">Scenarios where selling is best</th><th class="wrap">Scenarios where keeping the house is best</th><th class="number">Random histories where selling is best</th><th class="number">Poor decade, sell (1 in 10)</th><th class="number">Poor decade, rent (1 in 10)</th><th>Data</th></tr></thead><tbody id="swan"></tbody></table></div>
-        <p class="tiny">Twelve scenarios and 2,000 random 50-year histories built by re-ordering blocks of recorded years. Keeping the house wins when Bay Area home prices outrun a mixed portfolio for a decade, as they did over the last 49 years taken as a whole, or when shares fall hard just after the sale. Santa Clara County prices rose about 7.0% a year over 1975–2025 and 4.3% a year over 2000–2025, with a 25% fall from 2006 to 2011; the base case uses 3.5%. Details: <a href="site/stress.html">50-year paths</a>, <a href="site/scenarios.html">shock replays</a>, <a href="site/black-swan.html">recorded data</a>.</p>
+        <p class="tiny">Twelve scenarios and 2,000 random 50-year histories built by re-ordering blocks of recorded years. Keeping the house wins when Bay Area home prices outrun a mixed portfolio for a decade, as they did over the last 49 years taken as a whole, or when shares fall hard just after the sale. The official index for the San Jose metro area (not Cupertino alone) rose about 6.7% a year over 1976–2025 and 4.1% a year over 2000–2025, with a 26% fall from 2006 to 2011; the base case uses 3.5%. Details: <a href="site/stress.html">50-year paths</a>, <a href="site/scenarios.html">shock replays</a>, <a href="site/black-swan.html">recorded data</a>.</p>
       </section>
 
       <section class="section">
@@ -134,7 +134,7 @@
       const sellBest = res.filter(({q}) => q.sell >= Math.max(q.rent, q.live, q.liveSF));
       const other = res.filter(x => !sellBest.includes(x)).map(x => x.sc.name || x.sc.label || x.sc.id);
       const m = mc.summary[y];
-      return `<tr><td><strong>${y}</strong> → ${y + HOLD}</td>${num(sellBest.length + " of " + res.length)}${td(other.length ? other.join("; ") : "None")}${num((m.bestCount.sell * 100).toFixed(0) + "%")}${num(money(m.p10.sell))}${num(money(m.p10.rent))}${src("fredSccCounty", "FHFA county index")}</tr>`; }).join("");
+      return `<tr><td><strong>${y}</strong> → ${y + HOLD}</td>${num(sellBest.length + " of " + res.length)}${td(other.length ? other.join("; ") : "None")}${num((m.bestCount.sell * 100).toFixed(0) + "%")}${num(money(m.p10.sell))}${num(money(m.p10.rent))}${src("fredSJ", "FHFA metro index")}</tr>`; }).join("");
 
     document.getElementById("costs").innerHTML = YEARS.map(y => { const cfg = {...B, inheritYear: y};
       const live = M.annualA(y + 1, "live", cfg), rent = M.annualA(y + 1, "rent", cfg), other = live.insurance + live.water - live.solarCredit + live.maintenance;
