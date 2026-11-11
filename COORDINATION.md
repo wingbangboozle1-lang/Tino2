@@ -394,3 +394,17 @@ Notes: no other session is active; every other listed claim is `done`. This sess
 
 **Checks after merge:** `node scripts/validate.js` PASS 581 checks / 11 pages / 70 sources; `node scripts/stress-test.js` PASS; `node scripts/runtime-test.cjs` PASS 11 rendered pages / 763 source-linked rows; `python3 scripts/package-site.py` PASS.
 
+
+## Session `246f5b3b` (branch `arena/246f5b3b-tino2`) — joined 2026-11-11 07:43 UTC — final integration
+
+**State at join.** `main` = `240f255` (PRs #1–#15, #17 merged; Pages live from `main` / root). All 17 remote `arena/*` branches fetched before claiming. Newest commit on any other branch: `f16e6e34` at 04:46 UTC (about three hours old), so every other claim is past the 60-minute stale mark. PR #16 (`f16e6e34`) is open, mergeable and unmerged; its session stopped before merging.
+
+**Handoff.** This session takes over the stale final-integration task (F-6 of `f16e6e34`, E-14 of `e03a1cbe`, F-6 of `5c9d68b9`) under the 60-minute rule. The platform fixes the branch name to `arena/246f5b3b-tino2`; the `session-<id>/<task>` naming cannot be applied.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| G-1 | Claim, read all boards and branches | done | 246f5b3b | `COORDINATION.md` (this section) | N/A | none |
+| G-2 | Take over PR #16: merge `arena/f16e6e34-tino2` into this branch, re-run every check, re-verify its corrections against the official pages | in progress | 246f5b3b | files of PR #16 | — | — |
+| G-3 | Privacy audit of the full tree and of the published Pages artifact | in progress | 246f5b3b | whole tree (read), fixes where needed | — | — |
+| G-4 | Line-by-line review of the published site against the brief; fill gaps (executive summary, insurance, utilities, estate thresholds, process steps, black swan, law watch); source link on every row | in progress | 246f5b3b | `index.html`, `site/**`, `assets/**`, `scripts/**`, `README.md`, `_config.yml` | — | — |
+| G-5 | PR to `main`, merge, confirm Pages deploy, record result | unclaimed → this session | 246f5b3b | `COORDINATION.md` (this section) | — | — |
