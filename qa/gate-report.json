@@ -37,6 +37,13 @@
    "links": 0
   },
   {
+   "file": "site/operating-costs.html",
+   "rows": 53,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 16,
+   "links": 0
+  },
+  {
    "file": "site/plan.html",
    "rows": 48,
    "rowsWithContextLinkOnly": 0,
@@ -52,7 +59,7 @@
   },
   {
    "file": "site/review.html",
-   "rows": 57,
+   "rows": 64,
    "rowsWithContextLinkOnly": 0,
    "amounts": 19,
    "links": 0
@@ -73,9 +80,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 135,
+   "rows": 151,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 27,
+   "amounts": 29,
    "links": 0
   },
   {
@@ -96,13 +103,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 13,
-  "rows": 1050,
-  "rowsWithOwnSource": 1041,
+  "pages": 14,
+  "rows": 1126,
+  "rowsWithOwnSource": 1117,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4352,
+  "amounts": 4370,
   "officialExactAmounts": 59,
-  "internalLinks": 259,
-  "externalLinks": 1459
+  "internalLinks": 290,
+  "externalLinks": 1535
  }
 }

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Operating costs rebuilt from adopted utility tariffs: water and wastewater rate build-ups for both properties, solar tariff term, insurance evidence status and a national maintenance benchmark."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Operating costs">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const C = window.COSTS, r10 = C.round10, m = C.money;
+
+/* Property A — San Jose Water Company Schedule No. 1, effective 1 July 2026.
+   Usage grid, not a household bill: the published average residential usage of 10 Ccf a month
+   is shown alongside lower and higher usage so the household can locate its own meter reading. */
+const aUsage = [6, 8, 10, 12, 16, 20].map(ccf => {
+  const month = C.sjwMonthly(ccf);
+  return { ccf, month, year: month * 12 };
+});
+
+/* Property B — SFPUC adopted schedule, FY 2026-27, three-unit building on one meter.
+   Multi-family water Schedule W-1B, wastewater Schedule A at the 95% multi-family flow factor,
+   plus the residential stormwater tier for a parcel of 1,701–3,300 square feet. */
+const bUsage = [12, 15, 18, 21, 24, 27].map(ccf => {
+  const x = C.sfpucMonthly(ccf, 3);
+  return { ccf, water: x.water, sewer: x.sewer, storm: x.storm, month: x.total, year: x.total * 12 };
+});
+
+const sjwRows = aUsage.map(u => `<tr><td>${u.ccf} Ccf${u.ccf === 10 ? ' <span class="badge">published average</span>' : ''}</td><td class="number">${(u.ccf * 748).toLocaleString("en-US")} gal</td><td class="number">$${C.SJW.service.toFixed(2)}</td><td class="number">${m(u.month - C.SJW.service, 2)}</td><td class="number"><strong>${m(u.month, 2)}</strong></td><td class="number">${m(r10(u.year))}</td><td class="source">${UI.source("ocSjw", "Schedule No. 1 · rates read on the tariff")}</td></tr>`).join("");
+
+const sfpucRows = bUsage.map(u => `<tr><td>${u.ccf} Ccf</td><td class="number">${m(u.water, 2)}</td><td class="number">${m(u.sewer, 2)}</td><td class="number">${m(u.storm, 2)}</td><td class="number"><strong>${m(u.month, 2)}</strong></td><td class="number">${m(r10(u.year))}</td><td class="source">${UI.source("ocSfpucSchedule", "Adopted FY 2026-27 schedule")}</td></tr>`).join("");
+
+const escalationRows = C.ESCALATION.map(e => `<tr><td class="wrap">${e.label}</td><td class="number">${e.value}</td><td class="wrap">${e.basis}</td><td class="source">${UI.source(e.src)}</td></tr>`).join("");
+
+const maintRows = Object.entries(C.blsMaintenance).map(([year, v]) => `<tr><td>${year}</td><td class="number">${m(r10(v))}</td><td class="number">${year === "2020" ? "—" : UI.pct(v / C.blsMaintenance[Number(year) - 1] - 1, 1)}</td><td>${UI.badge("National survey average", "gold")}</td><td class="source">${UI.source("ocBlsMaint", "Consumer Expenditure Survey series")}</td></tr>`).join("");
+
+const legacyRows = C.SOLAR_LEGACY.map(s => `<tr><td>${s.pto}</td><td>${s.ends}</td><td>${s.ends >= 2040 ? "Legacy terms still running at the earliest expected inheritance (2040)" : "Already moved to the successor tariff before 2040"}</td><td class="source">${UI.source("ocPgeLegacy", "20-year rule, tied to the system")}</td></tr>`).join("");
+
+const tariffA = C.sjwMonthly(10), tariffB = C.sfpucMonthly(18, 3).total;
+
+main.innerHTML = UI.hero(
+  "Operating costs · tariff evidence",
+  "What the published rate schedules actually say.",
+  "Water, wastewater, stormwater, the solar tariff term and the maintenance benchmark rebuilt from adopted rate schedules rather than from recalled bill amounts. Each table is a usage grid against official rates, so the household can locate its own meter reading without any private figure being published. Insurance stays blank: no official source will quote a premium for a specific property.",
+  `<a class="button secondary" href="properties.html">Annual projections</a><a class="button secondary" href="review.html">Flagged items</a>`) + `<div class="container">
+
+<section class="section"><div class="grid four">
+<div class="card"><div class="metric-label">Property A · tariff bill at the published average usage</div><div class="metric small">${m(tariffA, 2)}</div><div class="tiny">Per month, 3/4-inch meter at 10 Ccf · San Jose Water Schedule No. 1</div></div>
+<div class="card"><div class="metric-label">Property B · tariff bill, three units, 18 Ccf</div><div class="metric small">${m(tariffB, 2)}</div><div class="tiny">Water, wastewater and stormwater · SFPUC adopted schedule</div></div>
+<div class="card"><div class="metric-label">PG&amp;E minimum delivery charge</div><div class="metric small">${m(C.pgeMinimumDelivery, 2)}</div><div class="tiny">Every month, including for a solar account in credit</div></div>
+<div class="card"><div class="metric-label">Insurance premium, either property</div><div class="metric small">—</div><div class="tiny">${UI.badge("No official quote exists", "red")}</div></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">How to read this page</div><h2>A rate schedule is verifiable; a remembered bill is not</h2><p>The household supplied monthly cost ranges. Those ranges cannot be checked against anything official, so this page does not try to confirm them. Instead it reconstructs what each adopted tariff charges at a range of metered usage levels. Where the tariff build-up and the household range agree, the range is corroborated; where they differ, the gap is published rather than reconciled.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Cost line</th><th>Evidence this page can supply</th><th>Evidence it cannot supply</th><th>Status</th><th>Official source</th></tr></thead><tbody>
+<tr><td>Water and wastewater</td><td class="wrap">The adopted per-unit rates and service charges in force from 1 July 2026, and the bill they produce at any usage level</td><td class="wrap">The household's metered consumption, meter size and parcel size</td><td>${UI.status("official")}</td><td class="source">${UI.source("ocSfpucSchedule", "Adopted rate schedule")}</td></tr>
+<tr><td>Electricity with solar</td><td class="wrap">The tariff floor under any solar account and the length of the legacy period</td><td class="wrap">The system's generation, the household's load, and the year it received permission to operate</td><td>${UI.status("official")}</td><td class="source">${UI.source("ocPgeMinBill", "Minimum delivery charge")}</td></tr>
+<tr><td>Insurance</td><td class="wrap">That the regulator publishes survey premiums for hypothetical risks only, and what those surveys exclude</td><td class="wrap">A premium for either property: no official body quotes one</td><td>${UI.badge("Unverified — left blank", "red")}</td><td class="source">${UI.source("ocCdiCompare", "Regulator: results are not quotes")}</td></tr>
+<tr><td>Maintenance and repairs</td><td class="wrap">A national survey average per owner household, with its trend</td><td class="wrap">Any Bay Area or property-specific figure; the survey has no metro maintenance line</td><td>${UI.badge("Benchmark only", "gold")}</td><td class="source">${UI.source("ocBlsMaint", "Consumer Expenditure Survey")}</td></tr>
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property A · Cupertino 95014</div><h2>Water: the rate depends on which system serves the address</h2><p>Three water systems serve this ZIP code. The City states that the northeast is served by California Water Service, the southeast by San Jose Water Company's own system, and the west by the City-owned system that San Jose Water Company operates under a lease extended to 2036. Until the service address is matched to a system, the correct tariff is not determined. The grid below applies the San Jose Water Company schedule, which covers the larger part of the city and is the only one of the three whose 1 July 2026 rates were read in full for this page.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Metered use per month</th><th class="number">Equivalent</th><th class="number">Service charge</th><th class="number">Quantity charge</th><th class="number">Monthly total</th><th class="number">Annual, to $10</th><th>Official source</th></tr></thead><tbody>
+${sjwRows}
+</tbody></table></div>
+<p class="tiny">Tiered quantity rates per Ccf: $${C.SJW.t1.toFixed(4)} for the first 6 Ccf, $${C.SJW.t2.toFixed(4)} above 6 up to 12 Ccf, $${C.SJW.t3.toFixed(4)} above 12 Ccf. Service charge $${C.SJW.service.toFixed(2)} a month for a 5/8 × 3/4-inch or 3/4-inch meter. One Ccf is 100 cubic feet, or 748 gallons. The company's own notice puts the average residential bill with a 3/4-inch meter at 10 Ccf a month at $136.78 before and $141.73 after the increase; this grid reproduces that figure, which is a check that the rates have been applied correctly. Charges for a larger meter, a fire-sprinkler service or a private fire-protection line are additional and are listed in the tariff.</p>
+<div class="table-wrap"><table><thead><tr><th>Open question for Property A</th><th>Why it is open</th><th>What resolves it</th><th>Official source</th></tr></thead><tbody>
+<tr><td class="wrap">Which of the three water systems serves the address</td><td class="wrap">Service area, not ZIP code, decides the tariff, and the City reports the municipal system has been the cheaper of the two since January 2017</td><td class="wrap">The City's service-area finder, or the provider name printed on the bill</td><td class="source">${UI.source("ocCupertinoWater", "City of Cupertino · water providers")}</td></tr>
+<tr><td class="wrap">The California Water Service tariff, if that is the provider</td><td class="wrap">Its schedule was not read for this page, so its rates are not published here</td><td class="wrap">The company's CPUC-filed tariff for the Los Altos district</td><td class="source">${UI.source("ocCupertinoWater", "Provider split confirmed by the City")}</td></tr>
+<tr><td class="wrap">Meter size</td><td class="wrap">The service charge ranges from $78.64 to several hundred dollars a month by meter size</td><td class="wrap">The meter size shown on the bill, read against the tariff's service-charge table</td><td class="source">${UI.source("ocSjwApproved", "Approved tariff sheets")}</td></tr>
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property B · San Francisco 94122</div><h2>Three charges arrive on one water bill</h2><p>For a three-unit building on a single meter the adopted schedule charges water by the unit of consumption, wastewater as a percentage of that consumption, and stormwater by parcel size. The grid applies the multi-family water rate, the 95% multi-family flow factor for wastewater, and the stormwater tier for a parcel of 1,701 to 3,300 square feet. Change the parcel tier and the monthly total moves by several dollars; change the flow factor and the wastewater column moves.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Metered use per month</th><th class="number">Water</th><th class="number">Wastewater</th><th class="number">Stormwater</th><th class="number">Monthly total</th><th class="number">Annual, to $10</th><th>Official source</th></tr></thead><tbody>
+${sfpucRows}
+</tbody></table></div>
+<p class="tiny">Water Schedule W-1B, multi-family: $${C.SFPUC.t1.toFixed(2)} per unit for the first 3 units per dwelling unit a month, $${C.SFPUC.t2.toFixed(2)} thereafter, plus a $${C.SFPUC.serviceWater.toFixed(2)} monthly service charge for a 3/4-inch meter. Wastewater Schedule A: $${C.SFPUC.serviceSewer.toFixed(2)} service charge plus $${C.SFPUC.discharge.toFixed(2)} per discharge unit, where discharge is 95% of metered water for multi-family service. Stormwater is shown at the middle residential parcel tier. These are the rates in force from 1 July 2026; the same schedule sets higher rates from 1 July 2027, and the Commission may add a drought surcharge of up to 32% on volumetric rates when a shortage stage is declared.</p>
+<div class="table-wrap"><table><thead><tr><th>Open question for Property B</th><th>Why it is open</th><th>What resolves it</th><th>Official source</th></tr></thead><tbody>
+<tr><td class="wrap">Parcel size tier for stormwater</td><td class="wrap">The three residential tiers differ by roughly $17 a month at FY 2027 rates</td><td class="wrap">The parcel area on the bill, read against the tier table</td><td class="source">${UI.source("ocSfpuc218", "Stormwater tiers by parcel size")}</td></tr>
+<tr><td class="wrap">Whether the building is on one meter or three</td><td class="wrap">Separate meters mean three service charges and three first-tier allowances instead of one</td><td class="wrap">The number of accounts billed to the property</td><td class="source">${UI.source("ocSfpucSchedule", "Service charges by meter")}</td></tr>
+<tr><td class="wrap">Whether the simplified or the standard stormwater schedule applies</td><td class="wrap">The simplified residential schedule is limited to parcels of 6,000 square feet or less with 6 units or fewer</td><td class="wrap">Parcel area and unit count against the schedule's eligibility rule</td><td class="source">${UI.source("ocSfpucSchedule", "Schedule eligibility")}</td></tr>
+</tbody></table></div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Electricity and solar</div><h2>A solar account in credit still pays something every month</h2><p>The household expects the solar system to run a small net credit. The tariff sets a floor under that: the minimum delivery charge is billed every month regardless of production, and net-metered customers pay it monthly against the annual true-up. The more consequential question for a 2040–2050 inheritance is not this month's credit but how long the current terms last.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Tariff fact</th><th>What the tariff says</th><th>Effect on the projection</th><th>Official source</th></tr></thead><tbody>
+<tr><td>Minimum delivery charge</td><td class="number">${m(C.pgeMinimumDelivery, 2)} a month</td><td class="wrap">A solar account cannot bill below this in a month; ${m(C.pgeMinimumDeliveryCare, 2)} on the discounted rate</td><td class="source">${UI.source("ocPgeMinBill", "Minimum bill rule")}</td></tr>
+<tr><td>Legacy period under net energy metering</td><td>20 years from permission to operate</td><td class="wrap">Determines whether the favourable terms survive to the inheritance date</td><td class="source">${UI.source("ocPgeLegacy", "20-year transition")}</td></tr>
+<tr><td>Transfer on sale or inheritance</td><td class="wrap">The remaining legacy term runs with the system at its location, not with the owner</td><td class="wrap">An heir or a buyer keeps whatever term is left; it does not reset</td><td class="source">${UI.source("ocPgeSolarPlan", "Tied to the system, not the owner")}</td></tr>
+<tr><td>Successor tariff after expiry</td><td class="wrap">Exports are compensated at hourly avoided-cost values with no netting against imports</td><td class="wrap">The export credit per kWh falls sharply when the legacy term ends</td><td class="source">${UI.source("ocPgeNbt", "Net Billing Tariff")}</td></tr>
+<tr><td>Charges that credits cannot offset</td><td class="wrap">Four non-bypassable charges apply to every kWh imported from the grid</td><td class="wrap">Part of the bill is unavoidable even in a high-production year</td><td class="source">${UI.source("ocPgeNbt", "Non-bypassable charges")}</td></tr>
+<tr><td>Rate changes</td><td class="wrap">Electric rates change two to three times a year</td><td class="wrap">No single year's credit should be extended as a constant to 2050</td><td class="source">${UI.source("ocPgeMinBill", "Rate change frequency")}</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>If permission to operate was granted in</th><th>Legacy terms end</th><th>Position at the earliest expected inheritance</th><th>Official source</th></tr></thead><tbody>
+${legacyRows}
+</tbody></table></div>
+<p class="tiny">The installation year was not supplied, so this is a lookup table rather than a finding. On any row where the legacy period ends before the inheritance, the electricity line should be modelled on the successor tariff — export credits at hourly avoided-cost values, no netting, and the minimum delivery charge — not on the current net credit.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Insurance</div><h2>Deliberately blank, with the reason published</h2><p>Both properties carry an estimated premium in the household inputs. No official source confirms either one, and this page does not substitute a figure of its own. The regulator's own position explains why.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>What was checked</th><th>What it establishes</th><th>Why it does not produce a premium</th><th>Official source</th></tr></thead><tbody>
+<tr><td class="wrap">The regulator's premium comparison survey</td><td class="wrap">The Department runs statutory surveys and publishes the results</td><td class="wrap">The Department states the results are not premium quotes and that it cannot provide quotes</td><td class="source">${UI.source("ocCdiCompare", "Survey basis in statute")}</td></tr>
+<tr><td class="wrap">The comparison tool itself</td><td class="wrap">Premiums are published for hypothetical risks in selected ZIP codes</td><td class="wrap">Wildfire-related surcharges, which can range from 15% to over 300%, are not reflected in the figures</td><td class="source">${UI.source("ocCdiTool", "Scope and exclusions of the tool")}</td></tr>
+<tr><td class="wrap">The survey profiles</td><td class="wrap">Each premium belongs to a defined profile of coverage amount, deductible and age of home</td><td class="wrap">Neither property's coverage amount, deductible or construction has been supplied, so no profile can be matched</td><td class="source">${UI.source("ocCdiProfiles", "Profile definitions")}</td></tr>
+<tr><td class="wrap">The national statistical report</td><td class="wrap">Average premium is written premium divided by house-years, and California's data come from the state regulator</td><td class="wrap">An average across a state is not a price for a property, and the report cautions against reading it as one; earthquake cover is excluded entirely</td><td class="source">${UI.source("ocNaic", "Methodology and cautions")}</td></tr>
+<tr><td class="wrap">Property A premium</td><td class="wrap">—</td><td class="wrap">${UI.badge("Blank: no official source", "red")} An owner-occupied policy on a $3,100,000-value home is far outside any published survey profile</td><td class="source">${UI.source("ocCdiCompare", "Quote required from an admitted insurer")}</td></tr>
+<tr><td class="wrap">Property B premium</td><td class="wrap">—</td><td class="wrap">${UI.badge("Blank: no official source", "red")} A three-unit building with two tenanted units needs a landlord policy, which the homeowners surveys do not cover at all</td><td class="source">${UI.source("ocCdiCompare", "Quote required from an admitted insurer")}</td></tr>
+</tbody></table></div>
+<p class="tiny">The practical consequence for the decision: insurance is the one recurring cost in this model with no verifiable anchor, and in California it is also the line most exposed to repricing. Two binding quotes — one owner-occupied, one landlord — would convert the largest unverified input in the projection into a known number, and should be obtained before any plan is acted on.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Maintenance</div><h2>The only official anchor is a national average</h2><p>The metropolitan consumer-expenditure releases publish major category shares only; they contain no maintenance or insurance line. The national series below is therefore the closest official anchor, and it is an average across all owner households in the country, not a Bay Area figure for a house of this value.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Maintenance, repairs, insurance and other, per owner household</th><th class="number">Change</th><th>Classification</th><th>Official source</th></tr></thead><tbody>
+${maintRows}
+</tbody></table></div>
+<p class="tiny">The series bundles insurance with maintenance, so it cannot be used to separate the two. Over 2020–2024 it rose about 37% in total, faster than general inflation in the same period — which is the reason the model's flat 3% expense inflation is identified as an assumption rather than a verified rate. The projection pages size maintenance as a percentage of modelled value instead, because a national household average does not scale to a property of this value; that percentage remains an assumption and is labelled as one.</p></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Escalation evidence</div><h2>Published increases, not a smooth 3%</h2><p>Every projection on this site escalates operating costs at a constant rate. The adopted schedules below show what regulators have actually approved for the next two years. They are the evidence behind the black-swan pages' treatment of utility inflation as lumpy rather than smooth.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Published increase</th><th class="number">Amount</th><th>What it is</th><th>Official source</th></tr></thead><tbody>
+${escalationRows}
+</tbody></table></div>
+<p class="tiny">Two of these increases are around 12.5% a year for two consecutive years, and they are already adopted rather than forecast. A model that escalates water at 3% a year understates the next two years for Property B by a wide margin, then may overstate later years if increases revert. Neither direction is corrected in the base case; the divergence is disclosed here and carried into the stress pages.</p></section>
+
+<section class="section"><div class="card review"><h3>What this page changes, and what it leaves open</h3><p><strong>Closed:</strong> the water and wastewater rates for both properties are now read from adopted schedules with effective dates, not estimated; the solar tariff term is confirmed as 20 years from permission to operate and transferable with the system; the minimum delivery charge is confirmed as a floor under the solar credit; the maintenance benchmark has an official series behind it.</p><p><strong>Still open:</strong> which of three water systems serves Property A, and therefore which tariff applies; both meter sizes; Property B's parcel tier and meter count; the solar installation year; and both insurance premiums, which no official source will supply. Each is listed on the verification queue with the document that would resolve it. <a href="review.html">Open the verification queue →</a></p></div></section>
+</div>`;
+
+UI.ensureRowSources();
+</script></body></html>
