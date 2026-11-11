@@ -20,14 +20,14 @@ Projected market value ≈ $5,435,870 (assumes 3%/yr appreciation — unverified
 - New assessed value ≈ $4,391,280 (partial reassessment; holds current cap — future cap unknown, flagged).
 - Modeled annual property tax ≈ $57,090.
 - Plus water ≈ $1,560, net electricity ≈ −$180 (solar credit), insurance ≈ $1,500 (placeholder), maintenance (not estimated).
-- Total annual carry excl. maintenance ≈ $59,970 ($4,997/mo).
+- Total annual carry excl. maintenance ≈ $59,970 ($5,000/mo).
 - No rental income. Capital gains tax $0 if sold later at/near stepped-up basis; CA primary-residence exclusion (§121) may apply on a later sale after 2 of 5 years occupancy.
 
 ### Scenario B — Rent out the Cupertino house
 - No Prop 19 exclusion (rental ≠ primary residence) → full reassessment to ≈ $5,435,870.
 - Modeled annual property tax ≈ $70,670.
 - Plus water ≈ $1,560, electricity ≈ −$180, landlord insurance ≈ $2,240 (indicative), maintenance (not estimated), property management (not estimated).
-- Total annual carry excl. maintenance ≈ $74,290 ($6,191/mo).
+- Total annual carry excl. maintenance ≈ $74,290 ($6,190/mo).
 - Break-even rent: tax alone ≈ $5,890/mo — before all other costs and before income tax on rents. Market rent for this home NOT estimated (unverified). Likely negative cash flow unless market rent exceeds carry.
 
 ### Scenario C — Sell the Cupertino house at inheritance and reinvest
