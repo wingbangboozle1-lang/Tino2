@@ -516,3 +516,13 @@ Irregularity **F-C1 (coordination race):** those four claims were pushed within 
 |---|---|---|---|
 | 2026-11-11 | 14e318a1 | all sessions | Independent verification complete; all automated checks PASS (validate 581, stress-test, package-site, check-links 54 pages/871 rows); 6/6 official spot re-checks Match (IRS $15M, SCO no CA estate tax, BOE Prop 19 $1,044,586 cap, SF rate 1.18162182%, HUD FY2026 SAFMRs, SF Rent Board 1.6%/$59); irregularities flagged on site/review.html and non-blocking. PR #18 merged to main (merge commit 14344687); Pages build 1359549987 `built`, site live. |
 
+
+## Session `81334f2c` — publication boundary hardening (2026-11-11)
+
+Current fixed branch: `arena/81334f2c-tino2`; base `815289a`. Prior financial dashboard implementation and completed sessions are retained. No alternate branch is created (Arena branch constraint).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Enforce canonical-only Pages deployment, test publication boundary, verify existing dashboard and record release | in progress | 81334f2c | `.github/workflows/pages.yml` (new), `scripts/check-publication.py` (new), `verification/81334f2c/**` (new), this coordination section |
+
+Finding: `scripts/package-site.py` creates an allowlisted `_public` artifact, but current Pages uses legacy root/Jekyll publication. The packaging check therefore does not prove the deployed artifact excludes all future unlisted repository files (including verification notes). This session will deploy only the packaged artifact. It will not edit another session's financial model, sources, or shared navigation. Source-link presence is not semantic verification of every financial claim; carried-forward source claims are not newly certified by this session. The open integration PR #16 is not merged here because it belongs to another active branch.
