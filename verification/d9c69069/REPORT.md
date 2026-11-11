@@ -3,10 +3,11 @@
 **Date:** 2026-11-11 (all access dates are 2026-11-11 UTC)
 **Branch:** `arena/d9c69069-tino2`
 **Trees verified:** `main` at `660be98` (PR #20) for the first pass, then re-verified in full on `main` at
-`c429440` (PRs #21–#28 from sessions `81334f2c`, `246f5b3b`, `b0123943`, `aa1f073e`), merged into this branch.
-`main` moved **five times** while this session was working; every finding below is stated against the final
-tree, and findings that were superseded by another session mid-flight are marked as such rather than deleted
-(see D-I-3).
+`c429440` (PRs #21–#28), then again on `main` at `1877b08` (PRs #29–#30 from sessions `4e07c8e6` and
+`aa1f073e`), each merged into this branch. `main` moved **seven times** while this session was working, and
+six other sessions merged into it concurrently; every finding below is stated against the final merged tree
+`b7c8fb4`, and findings that were superseded by another session mid-flight are marked as such rather than
+deleted (see D-I-3).
 **Role:** read-only independent auditor. This report is the only substantive file this session adds. No file owned by another session was edited; corrections that belong in someone else's file are logged as requests in `COORDINATION.md`.
 
 **Privacy statement.** No personal name, street address, parcel number, account number or contact detail appears in this report. Properties are "Property A" (Cupertino 95014) and "Property B" (San Francisco 94122). Household figures quoted here are already the $10-rounded values the site publishes; no exact household amount is reproduced.
@@ -21,8 +22,8 @@ tree, and findings that were superseded by another session mid-flight are marked
 | 2 | 50-year stress paths, estate ownership, privacy, real-dollar and shock tests | `node scripts/stress-test.js` | **PASS** |
 | 3 | Publication allowlist + $10 rounding rule | `python3 scripts/package-site.py` | **PASS** |
 | 4 | Publication boundary, including fail-closed negative tests | `python3 scripts/check-publication.py --self-test` | **PASS** — 26 reviewed public files only; rejects unlisted files, symlinks and missing pages |
-| 5 | Rendered-page test (JSDOM): runtime errors, source-linked rows, local links | `node scripts/runtime-test.cjs` | **PASS** — 14 rendered pages, 1,126 rendered rows source-linked, no runtime errors, no broken local links |
-| 6 | Rendered-page gate: rows, source links, dollar rounding, internal + external links | `node qa/tools/gate.cjs` | **PASS** — 14 pages, 1,126 table rows (1,117 with their own official link, 9 calculated rows with a context link), 4,370 dollar amounts (59 official exact figures), 290 internal + 1,535 external links, **0 errors, 0 warnings** |
+| 5 | Rendered-page test (JSDOM): runtime errors, source-linked rows, local links | `node scripts/runtime-test.cjs` | **PASS** — 14 rendered pages, 1,127 rendered rows source-linked, no runtime errors, no broken local links |
+| 6 | Rendered-page gate: rows, source links, dollar rounding, internal + external links | `node qa/tools/gate.cjs` | **PASS** — 14 pages, 1,127 table rows (1,118 with their own official link, 9 calculated rows with a context link), 4,370 dollar amounts (59 official exact figures), 290 internal + 1,536 external links, **0 errors, 0 warnings** |
 | 7 | Internal links across the whole repository | `python3 src/check_links.py .` | 60 pages, 871 table rows, 124 distinct external links, **0 errors** |
 | 8 | Legacy privacy scanner | `python3 integration/tools/privacy_scan.py` | **0 errors**, 128 warnings — all inspected, see D-I-9 |
 | 9 | CI on `main` | `.github/workflows/pages.yml` | last four runs on `main` concluded **success**; the workflow also builds with `actions/jekyll-build-pages` and audits the real `_site` output |
@@ -36,9 +37,9 @@ The site grew from 13 to 14 published pages while this session was verifying: PR
 
 Base case reproduced by the model on the final tree (2040 inheritance, 2050 endpoint):
 sell **$7,683,290** · rent **$6,249,830** · live **$5,135,780**.
-Identical before and after PRs #21–#28, so those merges changed presentation and operating-cost detail
+Identical before and after PRs #21–#30, so those merges changed presentation and operating-cost detail
 without moving the decision result. Every `MODEL.BASE` household input was re-read after the last merge and
-is unchanged (§5).
+is unchanged (§5), and all nine automated checks were re-run on the final merged tree.
 
 ---
 
@@ -380,7 +381,7 @@ Logged in `COORDINATION.md` (session `d9c69069` block). None was applied by edit
 
 The published site is **sound and safe to leave live**. On the merged tree:
 
-- **9/9** automated checks PASS on the final tree, including the rendered-page gate (14 pages, 1,126 rows,
+- **9/9** automated checks PASS on the final tree, including the rendered-page gate (14 pages, 1,127 rows,
   0 errors, 0 warnings), the publication-boundary self-test, and the CI workflow's last four runs on `main`;
 - **18 of 18** official-source re-checks performed by this session **Match**, each by direct fetch with the
   wording recorded above;
