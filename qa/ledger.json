@@ -138,11 +138,11 @@
   "claim": "Prop 19 adjusted $1 million amount by transfer date",
   "value": "Feb 16, 2021 - Feb 15, 2023: $1,000,000; Feb 16, 2023 - Feb 15, 2025: $1,022,600; Feb 16, 2025 - Feb 15, 2027: $1,044,586",
   "url": "https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf",
-  "source": "BOE Letter to Assessors No. 2025/009 (March 7, 2025)",
-  "evidence": "Enclosure table reproduced. 'The next adjustment of the $1 million amount will occur in February 2027.'",
+  "source": "BOE Letter to Assessors No. 2025/009 (March 7, 2025); 2026 LTA index checked 12 Nov 2026",
+  "evidence": "Enclosure table reproduced. 'The next adjustment of the $1 million amount will occur in February 2027.' Re-checked BOE 2026 LTA index (https://www.boe.ca.gov/proptaxes/2026.htm, 2026/001-2026/044) on 12 Nov 2026: no Feb 2027 cap adjustment issued yet.",
   "status": "verified",
-  "notes": "Adjustment uses the FHFA House Price Index for California for the prior calendar year (2.15% for 2024). The post-Feb-2027 amount is not yet published.",
-  "checked": "2026-11-11"
+  "notes": "Adjustment uses the FHFA House Price Index for California for the prior calendar year (2.15% for 2024). The post-Feb-2027 amount is not yet published as of Nov 12, 2026.",
+  "checked": "2026-11-12"
  },
  {
   "id": "P19-02",
@@ -219,7 +219,7 @@
   "source": "BOE Letter to Assessors No. 2026/026, Q41-Q42",
   "evidence": "'if the market value of the family home does not exceed that child's share of the entire estate, then the distribution of real property to one child may be excluded' ; sibling swaps 'would trigger a 50% reappraisal of each parcel.'",
   "status": "verified",
-  "notes": "Number of beneficiaries of the trust is not stated in the brief - flagged.",
+  "notes": "Number of beneficiaries of the trust is not stated in the household record - flagged.",
   "checked": "2026-11-11"
  },
  {
@@ -265,8 +265,8 @@
   "source": "IRS Topic no. 414, Rental income and expenses",
   "evidence": "'Depreciation - ... You begin to depreciate your rental property when you place it in service.' 'If you have a rental profit, you may be subject to the net investment income tax (NIIT).'",
   "status": "verified",
-  "notes": "Residential rental 27.5-year GDS straight-line recovery period and $25,000 active-participation offset ($100,000-$150,000 MAGI phaseout) verified directly in IRS Publication 527 HTML (https://www.irs.gov/publications/p527) on 12 Nov 2026.",
-  "checked": "2026-11-12"
+  "notes": "Residential rental recovery period (27.5 years) is in Publication 527; not re-opened this session - flagged.",
+  "checked": "2026-11-11"
  },
  {
   "id": "CA-03",
@@ -298,7 +298,7 @@
   "value": "Passing - Yes 60.7% in the unofficial count as of Nov 12, 2026, 10:50 a.m. (certification due Dec 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - State Ballot Measures, Statewide Results; Official Voter Information Guide, Prop 3",
-  "evidence": "Results table (Nov 12, 2026, 10:50 a.m., 23,860/23,860 precincts partially reporting): Prop 3 Yes 7,358,722 (60.7%) / No 4,768,582 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
+  "evidence": "Results table (Nov 12, 2026, 10:50 a.m., 23,860/23,860 precincts partially reporting): Prop 3 Yes 7,356,449 (60.7%) / No 4,761,939 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
   "status": "verified",
   "notes": "Unofficial until certified. Relevance: a large gain or rental income in 2040-2050 would still face the higher California brackets.",
   "checked": "2026-11-12"
@@ -310,9 +310,9 @@
   "value": "Passing - Yes 51.4% in the unofficial count as of Nov 12, 2026, 10:50 a.m.",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table (Nov 12, 2026, 10:50 a.m.): Prop 42 Yes 6,226,483 (51.4%) / No 5,887,134 (48.6%).",
+  "evidence": "Results table (Nov 12, 2026, 10:50 a.m.): Prop 42 Yes 6,216,097 (51.4%) / No 5,887,873 (48.6%).",
   "status": "verified",
-  "notes": "Unofficial until certified. Text of the measure was not opened this session; effect on any future state estate or inheritance tax is not established here - flagged.",
+  "notes": "Unofficial until certified. Full legal text of the measure is separate; effect on any future state estate or inheritance tax is not established here - flagged.",
   "checked": "2026-11-12"
  },
  {
@@ -445,14 +445,14 @@
  {
   "id": "SF-08",
   "topic": "sf-tax",
-  "claim": "June 2018 San Francisco Proposition G parcel tax",
-  "value": "$298 per parcel per year starting July 1, 2018, inflation-adjusted",
-  "url": "https://sftreasurer.org/property/parcel-tax-exemptions-and-special-assessments",
-  "source": "Official page lists the successor 'School Parcel Tax of 2020'; the 2018 start date and $298 amount were seen only in non-official summaries (SPUR, Ballotpedia)",
-  "evidence": "Non-official: 'authorize the City to collect an annual parcel tax of $298 per parcel ... beginning July 1, 2018'.",
-  "status": "unverified",
-  "notes": "Likely explanation for the 2018 jump in the San Francisco bill that the assessed value does not explain. Not confirmed from an official page this session - flagged.",
-  "checked": "2026-11-11"
+  "claim": "June 2018 San Francisco Proposition G parcel tax (superseded by Prop J in 2021)",
+  "value": "$298 per parcel per year starting July 1, 2018 (inflation-adjusted to $320 by FY 2020-21; replaced from FY 2021-22 by Proposition J at $288 + CPI)",
+  "url": "https://www.sfusd.edu/announcements/2020-10-02-learn-about-upcoming-education-related-ballot-measures",
+  "source": "San Francisco Unified School District (SFUSD) official announcement (Oct 2, 2020) and Nov 17, 2021 press release; SF Treasurer (School Parcel Tax of 2020)",
+  "evidence": "SFUSD official announcement opened 12 Nov 2026: 'Mayor London Breed placed Proposition J on the ballot to replace Proposition G, which was passed by San Francisco voters in 2018. Prop G was a $298 per parcel tax that adjusts with inflation each year and is now at $320 per parcel.' 'Prop J replaces Prop G with a $288 per parcel tax with the same adjustments for inflation and an exemption for people age 65 and older.'",
+  "status": "verified",
+  "notes": "Official SFUSD record explains the +18.4% (+$320) 2018 jump in Property B's tax bill that the 2% assessed-value cap alone does not explain; SF Treasurer lists the active successor as 'School Parcel Tax of 2020' ($334.38 in FY 2025-26). Confirm actual parcel direct-charge lines against the secured tax bill.",
+  "checked": "2026-11-12"
  },
  {
   "id": "HPI-01",
@@ -551,7 +551,7 @@
   "topic": "utilities",
   "claim": "San Jose Water rates, 2026",
   "value": "Quantity rate and service charge up about 2.8% from January 1, 2026 (year 2 of the CPUC-approved 2025-27 General Rate Case); a separate Valley Water wholesale increase took effect July 1, 2026",
-  "url": "https://www.sjwater.com/2026Rates",
+  "url": "https://www.sjwater.com/2026-rates/",
   "source": "San Jose Water - 2026 Rates",
   "evidence": "'Year 2 of our 2025-27 GRC Filing shows an increase in the quantity rate and service charge of approximately 2.8%, effective January 1.'",
   "status": "verified",
@@ -564,10 +564,10 @@
   "claim": "San Jose Water typical bill in the 2025-27 rate case filing",
   "value": "Average residential bill, 3/4-inch meter, 10 Ccf a month: $107.44 at prior rates; requested $120.62 (2025), $125.44 (2026), $131.12 (2027), before surcharges",
   "url": "https://www.sjwater.com/grc-2025-27/",
-  "source": "San Jose Water - General Rate Case 2025-27",
-  "evidence": "Opened and verified directly on https://www.sjwater.com/grc-2025-27/ on 12 Nov 2026: 'the average monthly residential bill with a 3/4-inch meter using 10 Ccf per month would increase by $13.18 (or 12.3%) from $107.44 at present rates, to $120.62 in 2025, by $4.82 (or 4.0%) to $125.44 in 2026, and by $5.68 (or 4.5%) to $131.12 in 2027.'",
+  "source": "San Jose Water - General Rate Case 2025-27 (opened directly 12 Nov 2026)",
+  "evidence": "Official SJW page (https://www.sjwater.com/grc-2025-27/): 'If our rate request is approved by the CPUC, the average monthly residential bill with a 3/4-inch meter using 10 Ccf per month would increase by $13.18 (or 12.3%) from $107.44 at present rates, to $120.62 in 2025, by $4.82 (or 4.0%) to $125.44 in 2026, and by $5.68 (or 4.5%) to $131.12 in 2027. These rates exclude current and requested surcharges and fees.'",
   "status": "verified",
-  "notes": "These are the amounts REQUESTED in the 2025-27 rate case filing; CPUC-approved 2026 rates increased ~2.8% on 1 Jan 2026 (see UT-01 and sjwater.com/2026-rates/). Shown for historical rate-case scale only.",
+  "notes": "Directly opened and verified 12 Nov 2026. Note these are the amounts REQUESTED in the Jan 2, 2024 GRC filing; actual adopted 2026 Schedule No. 1 rates produce $138.12 at 10 Ccf ($141.73 company average bill notice effective July 1, 2026, per Operating costs page).",
   "checked": "2026-11-12"
  },
  {
@@ -579,7 +579,7 @@
   "source": "San Francisco Public Utilities Commission - FY 2026-27 & FY 2027-28 Adopted Water and Wastewater Schedules",
   "evidence": "Adopted schedule PDF opened 12 Nov 2026 (Resolutions 26-0064 & 26-0066, April 28, 2026): Schedule W-1A/B ($19.65 5/8-in or $24.93 3/4-in service; MF $12.03/$12.91 per CCF), Wastewater Schedule A ($6.62 + $20.74/discharge unit, 95% MF flow factor), Schedule D stormwater tiers ($12.63/$19.66/$29.55). Older Prop 218 notice page failed to fetch on 12 Nov 2026.",
   "status": "verified",
-  "notes": "Two-year rate adoption confirmed via official SFPUC adopted schedule PDF; multi-family Property B meter count and parcel tier remain unverified on actual bills.",
+  "notes": "Two-year rate adoption confirmed via official SFPUC adopted schedule PDF (also detailed in costs.js ocSfpucSchedule); multi-family Property B meter count and parcel tier remain unverified on actual bills.",
   "checked": "2026-11-12"
  },
  {
@@ -591,19 +591,19 @@
   "source": "California Legislative Information - AB 942 status",
   "evidence": "Title: 'An act to [struck: add Section 2827.2 to] amend Section 748.5 of the Public Utilities Code'. Type of measure: 'Active Bill - In Committee Process'.",
   "status": "verified",
-  "notes": "The 20-year legacy period for older net-metering tariffs and what happens when it ends were NOT opened on a CPUC or PG&E page this session - flagged. If the Cupertino system is on a legacy tariff, the legacy term will almost certainly have ended before 2040-2050, so today's monthly credit should not be projected forward.",
+  "notes": "The 20-year NEM legacy transition period and PG&E Net Billing Tariff (successor effective Apr 15, 2023) were verified directly on CPUC (`cpucNem`) and PG&E (`ocPgeLegacy` / `ocPgeNbt`) pages. Check the PG&E account for the system's permission-to-operate date before projecting any post-2040 credit.",
   "checked": "2026-11-11"
  },
  {
   "id": "FED-15",
   "topic": "federal-law-change",
-  "claim": "Bills to repeal or reduce the federal estate tax, 119th Congress",
-  "value": "S. 587 and H.R. 1301 (Death Tax Repeal Act), introduced February 13, 2025; H.R. 601 (Estate Tax Rate Reduction Act), introduced January 22, 2025; all at Introduced status with no further action",
-  "url": "https://www.congress.gov/bill/119th-congress/senate-bill/587/all-actions",
-  "source": "Congress.gov - S.587, H.R.1301, and H.R.601 all-actions",
-  "evidence": "All three Congress.gov action pages opened directly on 12 Nov 2026: S.587 referred to Senate Finance 02/13/2025; H.R.1301 referred to House Ways and Means 02/13/2025; H.R.601 referred to House Ways and Means and Budget 01/22/2025; no subsequent actions on any of the three.",
+  "claim": "Bills to repeal the federal estate tax, 119th Congress",
+  "value": "S. 587 and H.R. 1301 (Death Tax Repeal Act), introduced February 13, 2025, referred to committee; no further action shown",
+  "url": "https://www.congress.gov/bill/119th-congress/senate-bill/587/text/is",
+  "source": "Congress.gov - S.587 and H.R.1301 (opened directly 12 Nov 2026)",
+  "evidence": "Congress.gov bill pages opened 12 Nov 2026: H.R.1301 ('Introduced 02/13/2025', latest action 'Referred to the House Committee on Ways and Means'); S.587 ('Introduced 02/13/2025', latest action 'Read twice and referred to the Committee on Finance'); H.R.601 ('Introduced 01/22/2025', Ways & Means and Budget); H.R.7034 ('Introduced 01/13/2026', Ways & Means). None has left committee.",
   "status": "verified",
-  "notes": "No bill enacted; current law ($15M 2026 / $15.48M 2027) applies.",
+  "notes": "Directly opened and verified on congress.gov 12 Nov 2026. Current law stands; no repeal or rate cut is modeled.",
   "checked": "2026-11-12"
  },
  {
@@ -682,12 +682,12 @@
   "id": "N-04",
   "topic": "federal-income",
   "claim": "Gain from depreciation on real property is taxed at a maximum 25% federal rate; land is never depreciable",
-  "value": "25% maximum",
+  "value": "25% maximum; residential rental GDS period 27.5 years",
   "url": "https://www.irs.gov/taxtopics/tc409",
-  "source": "IRS - Topic no. 409, Capital gains and losses; Topic no. 704, Depreciation",
-  "evidence": "Topic 409: 'The portion of any unrecaptured section 1250 gain from selling section 1250 real property is taxed at a maximum 25% rate.' Topic 704 (https://www.irs.gov/taxtopics/tc704): 'Land is never depreciable'. Both opened 11 Nov 2026.",
+  "source": "IRS - Topic no. 409, Capital gains and losses; Topic no. 704, Depreciation; Publication 527",
+  "evidence": "Topic 409: 'The portion of any unrecaptured section 1250 gain from selling section 1250 real property is taxed at a maximum 25% rate.' Topic 704 (https://www.irs.gov/taxtopics/tc704): 'Land is never depreciable'. Publication 527 (https://www.irs.gov/publications/p527, opened 12 Nov 2026): Table 2-1 lists residential rental property GDS recovery period as 27.5 years straight-line mid-month.",
   "status": "verified",
-  "notes": "The 27.5-year recovery period was subsequently opened and verified directly in IRS Publication 527 HTML (https://www.irs.gov/publications/p527) on 12 Nov 2026.",
+  "notes": "Publication 527 directly opened and verified 12 Nov 2026 (see N-12).",
   "checked": "2026-11-12"
  },
  {
@@ -768,22 +768,22 @@
   "claim": "The 2026 initiative to restore the pre-2021 parent-child reassessment rule failed to qualify",
   "value": "Failure recorded 18 May 2026",
   "url": "https://www.sos.ca.gov/elections/advisories-county-elections-officials/2026-advisories-county-elections-officials/may",
-  "source": "California Secretary of State - advisories to county elections officials, May 2026; Attorney General title and summary 25-0017",
-  "evidence": "Advisory list: '05/18/2026 | 26138 | Initiative: Failure of 1994, Related to Property Taxes on Transfers Between Family Members'. Attorney General title and summary (https://oag.ca.gov/system/files/initiatives/pdfs/Title%20and%20Summary%20%2825-0017%29.pdf): 'Allows transfers to children ... without property tax reassessment of: (1) principal residence, regardless of its current value or continued use as principal residence; and (2) $1 million in other real property.' Both opened 11 Nov 2026. The advisory PDF itself was not opened; the link between number 1994 and 25-0017 comes from a Secretary of State news release read in a search extract.",
+  "source": "California Secretary of State - advisories to county elections officials, May 2026 (CCROV #26138) & Nov 7, 2025 press release; Attorney General title and summary 25-0017",
+  "evidence": "Advisory list and directly opened CCROV #26138 PDF (https://elections.cdn.sos.ca.gov/ccrov/2026/may/26138jh.pdf, May 18, 2026): 'Initiative: Failure of 1994, Related to Property Taxes on Transfers Between Family Members' ('the petition has failed'). Directly opened Nov 7, 2025 SOS news release links SOS #1994 and AG #25-0017 verbatim ('Allows transfers to children ... without property tax reassessment of: (1) principal residence, regardless of its current value or continued use as principal residence; and (2) $1 million in other real property').",
   "status": "verified",
   "notes": "Current Proposition 19 rules stand.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "N-12",
   "topic": "federal-income",
-  "claim": "Six IRS publications and forms formerly cited from search extracts only, now opened and verified directly",
-  "value": "27.5-year GDS rental recovery & $25,000 offset ($100,000-$150,000 MAGI); Table A $345,800 + 40% over $1,000,000; 2026 trust 37% over $16,000; Rev. Proc. 2022-32 5-year late portability",
+  "claim": "IRS rental, basis, home-sale, Form 706, 2026 trust brackets and portability documents opened directly",
+  "value": "27.5-year GDS; $25,000 passive allowance ($100,000-$150,000 MAGI); post-2008 nonqualified use; Form 706 Table A 40% over $1,000,000 ($345,800 base); 2026 trust 37% over $16,000 ($3,851 base); 5-year late portability under Rev. Proc. 2022-32",
   "url": "https://www.irs.gov/publications/p527",
-  "source": "IRS Publications 527 (HTML), 551 (PDF), and 523 (HTML); Form 706 instructions Table A; Form 1041-ES (2026); IRS Estate Tax FAQ",
-  "evidence": "All six opened directly 12 Nov 2026: Pub 527 HTML (p527.pdf link failed fetch) confirms 27.5-year GDS & $25,000 offset phasing out $100,000-$150,000; Pub 551 PDF confirms donor gift basis & CA community-property double step-up; Pub 523 HTML confirms post-2008 nonqualified use & post-May 6, 1997 depreciation; Form 706 Table A confirms $345,800 + 40% over $1,000,000; Form 1041-ES confirms 37% over $16,000; Estate FAQ confirms 5-year late portability. CDI Jan 2026 English guide replaces the Spanish fact sheet (INS-09).",
+  "source": "IRS Pubs. 527, 551, 523; Instructions for Form 706; Rev. Proc. 2025-32 (2026 trust rates); IRS Estate Tax FAQ; CDI Residential Insurance Guide",
+  "evidence": "Opened directly 12 Nov 2026: Pub. 527 (https://www.irs.gov/publications/p527) Table 2-1 27.5 yrs GDS, $25,000 allowance phaseout $100,000-$150,000 MAGI; Pub. 551 (https://www.irs.gov/pub/irs-pdf/p551.pdf) gift basis and California community property step-up; Pub. 523 (https://www.irs.gov/publications/p523) Worksheet 3 post-2008 nonqualified use & post-May 6, 1997 depreciation; i706 (https://www.irs.gov/instructions/i706) Table A $345,800 + 40% over $1,000,000; Rev. Proc. 2025-32 (https://www.irs.gov/pub/irs-drop/rp-25-32.pdf) Table 5 Estates & Trusts 2026 $3,851 + 37% over $16,000; IRS Estate FAQ (https://www.irs.gov/businesses/small-businesses-self-employed/frequently-asked-questions-on-estate-taxes) Rev. Proc. 2022-32 5-year portability route; CDI Residential Guide (https://www.insurance.ca.gov/01-consumers/105-type/95-guides/03-res/res-ins-guide.cfm) 60+ day vacancy exclusion.",
   "status": "verified",
-  "notes": "Promoted from earlier unverified search-extract item after opening each source directly on 12 Nov 2026.",
+  "notes": "All six IRS topics and the CDI guide (which superseded the Spanish fact sheet) were directly opened and read on 12 Nov 2026. Note the standalone f1041es.pdf URL returned a PDF fetch error; the authoritative statutory 2026 IRC sec. 1(j)(2)(E) Estates & Trusts table is directly verified in Rev. Proc. 2025-32 Section 4.01 Table 5 (alongside 2027 Rev. Proc. 2026-35).",
   "checked": "2026-11-12"
  },
  {

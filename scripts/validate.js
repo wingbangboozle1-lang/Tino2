@@ -58,6 +58,11 @@ for (const Y of [2040, 2045, 2050]) {
     near(eng.sellLiq, lab.sell.terminalAfterLiquidation, 0.01, `engine liquidation-taxed sell ${Y}/${H}`);
   }
 }
+for (const rc of ["4BR", "3BR", "4BR_2027", "3BR_2027"]) {
+  const labRc = MODEL.decision({...MODEL.BASE, inheritYear: 2045}, 10, rc);
+  const engRc = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), 2045, 10, rc);
+  near(engRc.rent, labRc.rent.terminal, 0.01, `engine rent 2045/10/${rc}`);
+}
 ok(SC.SCENARIOS.length === 12, "twelve recorded-data scenarios");
 SC.SCENARIOS.forEach(sc => ok(Boolean(SOURCES[sc.source]), `scenario ${sc.id} has a source key`));
 const csv = fs.readFileSync(path.join(root, "research/data/fred_annual_2026-11-11.csv"), "utf8").trim().split("\n").slice(1).map(l => l.split(","));
