@@ -952,3 +952,43 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 **Final state of the board.** Every task on every block is `done`, except the standing **needs review** items — the privacy findings about older branches and commit history (owner decision, not fixable by editing the site) and the blank figures (insurance premiums, Measure H parcel amount until certification on 11 December 2026, Property A tax-rate area and meter sizes, Property B parcel tier, solar interconnection date, trust type, tenancy terms). All are published on the Flagged for Review page with the document that would settle each, and none of them blocks the merge.
 
 <!-- END block owned by session cf587387 -->
+
+<!-- BEGIN block owned by session 1e425502 — other sessions: please do not edit inside this block; send requests to my log at the bottom of it -->
+## Session `1e425502` (branch `arena/1e425502-tino2`) — claim 2026-11-12
+
+**State at join.** `main` = `9867620` (PR #37 merged, session `0d6ec51e`). Read `COORDINATION.md` in full (954 lines, 13 session blocks, every task `done` except standing `needs review` items). Fetched all branches: only `main` and this branch exist remotely. Open PRs: #3 (`arena/8c4d9e77-tino2`, 2026-11-10, stale >60 min, superseded by integrated site). No live session holds any claim.
+
+**Role taken (non-overlapping).** Final independent verification of the published site against the brief, line by line, from official sources. No shared file is edited unless a defect is found; any such edit is logged here first.
+
+**File scope — new paths only.** `verification/1e425502/**` (new) and this `COORDINATION.md` block (append-only). This session does **not** edit `site/**`, `index.html`, `assets/**`, `scripts/**`, `_config.yml`, `README.md`, `qa/**`, `docs/**`, `research/**`, `src/**`, `dashboard/**`, `integration/**`, `pages/**`, `css/**`, root `*.html`, or any other session's `verification/**` directory, unless a defect is found and logged here first.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| T-1 | Coordination: read the board and every branch, detect stale PR #3, claim non-overlapping scope, push claim immediately | done | 1e425502 | `COORDINATION.md` (this block only) | N/A | T-C1 (below) |
+| T-2 | Brief-coverage audit: every requirement in the brief mapped to a published page/section, line by line | in progress | 1e425502 | `verification/1e425502/**` | read-only | — |
+| T-3 | Automated suite re-run on the final tree: validate, stress-test, package, publication boundary, runtime, gate, link check, privacy scan, rounding | in progress | 1e425502 | `verification/1e425502/**` | — | — |
+| T-4 | Official-source re-verification: re-open key official pages directly (IRS, BOE, SCO, FTB, HUD, BLS, FHFA, SF, counties) and record wording, URL, access date | in progress | 1e425502 | `verification/1e425502/**` | official pages opened this session | — |
+| T-5 | Stale PR #3 disposition: read its diff, confirm superseded, close with handoff note | unclaimed → in progress | 1e425502 | PR #3 only | — | T-C1 |
+| T-6 | Publish: PR to `main`, merge without waiting, confirm Pages deploy, record PR link and merge result here | pending | 1e425502 | `verification/1e425502/**`, `COORDINATION.md` (this block) | — | — |
+
+**Rules this session follows.** Privacy first: no personal information in any committed file, no household figure repeated in this block, placeholders for parties and addresses. Every dollar figure in new files is rounded to the nearest $10 unless it is an amount published by a government body. Every table row in the new report carries an official source link or is left blank and flagged unverified; no value is ever inferred. No file owned by another session is edited without logging the request here. Small frequent commits; `origin/main` merged before every push; conflicts resolved without discarding other sessions' work; the session ID is embedded in the branch name because Arena pins one branch per session.
+
+**T-C1 (claim note, not a conflict).** PR #3 is 2 days stale and its content is superseded by the integrated site on `main`. This session will close it with a handoff comment rather than merging it, so the board shows who moved it and why. No live collision occurred.
+
+<!-- END block owned by session 1e425502 -->
+
+### Session `1e425502` — completion record (2026-11-12)
+
+**T-2 Brief-coverage audit: done.** Every brief requirement mapped to a published page (see `verification/1e425502/REPORT.md` §T-2). No gap requires a site edit. The canonical site (15 pages) already covers: executive summary, privacy/placeholders, Cupertino-vs-San Francisco distinction, black-swan/50-year stress, $10 rounding, 2040–2050 live/rent/sell + reinvest, year-by-year value/tax/assessed projections, step-by-step inheritance, operating costs (water/solar/insurance), both properties' histories, best-plan reasoning, law-change watchlist, estate thresholds by year, Flagged for Review, and source-linked tables.
+
+**T-3 Automated suite: done.** On the final tree: `validate.js` PASS 1,086 checks / 15 pages / 151 sources (base case 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780) · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py --self-test` PASS 28 files · `runtime-test.cjs` PASS 15 pages / 1,259 rows · `qa/tools/gate.cjs` PASS 0 errors 0 warnings (4,620 amounts, 74 official exact figures) · `src/check_links.py` 62 pages 0 errors · `privacy_scan.py` 0 errors. The gate/runtime checks need `npm install --prefix .cache/test jsdom@26.1.0` first (T-I2); CI installs it.
+
+**T-4 Official-source re-verification: done, 9 of 9 match.** Re-opened directly 12 Nov 2026: IRS 2026 $15,000,000 and IR-2026-133 2027 $15,480,000 / gift $20,000; BOE Prop 19 value-limit formula and filing deadlines; BOE LTA 2025/009 $1,044,586 (2.15% HPI, next Feb 2027); State Controller no CA estate return after Jan 1, 2005; IRS inherited-basis FMV at death; FTB capital gains as ordinary income; HUD FY2026 SAFMR 95014 3BR $5,870 / 4BR $6,390 (FY2025 $5,850 / $6,370); SF Rent Board $59.00/unit, $29.50 recoverable, Dec 14, 2026 deadline, vacant billed. Wording and URLs in the report. No correction needed; blanks remain blank.
+
+**T-5 Stale PR #3: done.** Read its diff (10 files, 311 insertions, superseded legacy pages). Commented with handoff and closed 12 Nov 2026 without merge; branch retained on remote. No live collision (T-C1).
+
+**T-6 Publish: in progress.** PR from this branch to `main`, merge without waiting, confirm Pages build, record result here.
+
+**Irregularities (T-I1…T-I4).** Standing High privacy findings (older branches/history) unchanged and published on Flagged for Review; jsdom install note; privacy-scan warnings expected; live-URL read-back outside sandbox hosts (Pages API + CI Jekyll build used instead). None blocks the merge.
+
+**Rules followed.** No personal information in any committed file; placeholders for parties and addresses. No household figure repeated in this block. Every dollar figure in new files rounded to $10 unless government-published. Every table row in the new report carries an official source link or is flagged unverified. No file owned by another session was edited. `origin/main` merged before every push; the session ID is carried in the branch name.
