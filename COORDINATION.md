@@ -1103,6 +1103,31 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
 
+<!-- BEGIN block owned by session 62245584 — other sessions: please do not edit inside this block; send requests to the log at the bottom of it -->
+## Session `62245584` (branch `arena/693321af-tino2`) — claim 2026-11-12 15:40 UTC
+
+**Task ID.** The platform assigns the branch `arena/693321af-tino2`, so this block is keyed to the task identifier `62245584`; the session ID is carried in the branch name because Arena pins one branch per session and the `session-<id>/<task>` naming cannot be applied.
+
+**State at join.** `main` = `bfb2268` (PR #42 merged, session `60ca3e1f`). Read `COORDINATION.md` in full (1,104 lines, 15 session blocks). Every task on every block is `done` except the standing **needs review** items, which are published on the Flagged for Review page and do not block. `origin/main` and this branch were level at claim time (0 commits either way). `git ls-remote --heads origin` shows 37 remote branches; the only open pull request is none (last six PRs #37–#42 all merged). No session block has an open task and no branch tip has moved since 05:14 UTC on 12 Nov 2026, so **no live claim exists** and nothing is taken over.
+
+**Role taken.** Brief-coverage gap closure on the *published site*, plus the final integration and publication of this session's work. The existing 15 pages are not rewritten and no published figure, plan or recommendation is changed or removed; the work is additive.
+
+**Why this scope, and what is genuinely missing.** The brief asks for two things the published site does not have at all. A repository-wide search returns **zero** occurrences of the word "suggestion" in any page (`grep -ric suggestion site/*.html index.html` → all `0`). The brief asks, in its own words, for "a section dedicated for suggestions so someone can review suggestions and choose the best path before implementing any changes". There is no such section. Second, the brief asks for "a clear list of questions, informations and answers that need to be addressed before any decision can be reasonably made", with "suggestions … to discover missing information". The existing Flagged for Review page is an *uncertainty register* (what is unknown, why it matters, what to do); it is not a question-and-answer decision gate that says, item by item, whether a decision may reasonably be made yet. Those two gaps are this session's scope.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| Q-1 | Coordination: read the board in full, fetch every branch and pull request, confirm no live claim, claim a non-overlapping scope, push at once | done | 62245584 | `COORDINATION.md` (this block only) | N/A | Q-C1 |
+| Q-2 | Build the missing **Questions and answers** decision gate: every question that must be answered before living, renting or selling can reasonably be decided, each with its **current answer**, whether that answer is official / household-supplied / still missing, and what to do next. No value inferred; a missing value stays blank and is flagged | in progress | 62245584 | `site/questions.html` (new), `site/data/questions.js` (new) | official pages opened by this session; wording recorded in `verification/62245584/REPORT.md` | — |
+| Q-3 | Build the missing **Suggestions** section: a ranked register of concrete, costed, reversible-first suggestions, each with the problem it solves, the evidence, the expected effect, the effort, the risk, and — the part the brief asks for — a **choose-one decision panel** so the best path can be picked and reviewed before anything is implemented | in progress | 62245584 | `site/suggestions.html` (new), `site/data/suggestions.js` (new) | as Q-2 | — |
+| Q-4 | Navigation, landing page and manifest: add both pages to `assets/app.js`, to the landing-page category grid and executive summary, to `scripts/check-publication.py`'s reviewed manifest and to `_config.yml` where needed | pending | 62245584 | `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js` (page count), `_config.yml` | — | — |
+| Q-5 | Verify line by line: every new table row carries an official https link or is blank and flagged; every dollar figure a multiple of $10 unless a government body publishes that exact amount; full suite re-run | pending | 62245584 | `verification/62245584/**` (new) | — | — |
+| Q-6 | Publish: PR to `main`, merge, confirm the Pages build, record the result here | pending | 62245584 | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders (`[OWNER]`, `[TRUSTEE]`, `[DECEDENT]`, `[HEIR]`, `Property A`, `Property B`). No household figure is typed into any new file: the new pages read their inputs from the published `MODEL.BASE` and from `qa/ledger.json`, exactly as the existing engines do. Every dollar figure this session adds to the site is rounded to the nearest $10 unless a government body publishes that exact amount (the ledger allowlist governs). Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push; conflicts are resolved without discarding another session's work.
+
+**Q-C1 (claim note, not a conflict).** No live collision occurred. No file owned by another session is claimed, and no shared output (table data, index navigation) is changed except the additive entries listed in Q-4, which are made in the integration role this session holds because no other session is live.
+
+<!-- END block owned by session 62245584 -->
 ## Session `58941d22` (branch `arena/58941d22-tino2`) — claim 2026-11-12 — final integration: reader-facing polish + final verification
 
 ### Scope
@@ -1236,6 +1261,38 @@ No model input, no recommendation, no published figure, no other page's content 
 **Merge note, 12 Nov 2026 (recorded, not hidden).** Two other sessions were live while this one worked: `62b76b9d` and `6e6baf25`. `62b76b9d` merged PR #43 at 15:33 UTC and `6e6baf25` PR #44 at 15:36 UTC, after this session's 15:35 UTC claim read “no open pull requests”. Both had already published a suggestions page and a landing-page suggestions table. The conflict on `site/suggestions.html` was resolved by **combining**, not replacing: their privacy notice, privacy-path table, seven structural improvements, seven questions (kept unchanged in a collapsed block) and closing note remain in full; this session's itemized register, decision-critical questions, sequence and choose-a-path record were added around them. The duplicate navigation entry and the duplicate landing-page card from this session were removed in favour of the published ones, with the published card's wording extended to mention the recorded choice. **Nothing of theirs was discarded.** `origin/main` was merged before the push.
 
 
+### Session `62245584` — merge conflict, resolution and completion record (12 Nov 2026)
+
+**Conflict, logged as the rules require.** At 15:52 UTC this session's first push met an add/add conflict on `site/suggestions.html`. `origin/main` had moved from `bfb2268` to `30fae97` while this session was working: sessions `6e6baf25` and `364b453d` built a Suggestions page for the same brief requirement and merged it as PR #44 and PR #45. This session's claim was accurate when it was pushed (no live branch had moved since 05:14 UTC); the collision happened after it. **Nothing of the other sessions' work was discarded.**
+
+**How it was resolved, and why.**
+
+| File | Resolution |
+|---|---|
+| `site/suggestions.html` | **Theirs kept byte for byte.** It is their page and it already meets the brief's suggestion requirement in full, including an approve / defer / decline record held only in the reader's browser. This session's draft was **not** merged into it. |
+| `site/questions.html`, `site/data/questions.js` | **This session's, renamed from its original name.** The brief's other requirement — "a clear list of questions, informations and answers … before any decision can reasonably be made" — was still thin on `main`: their page carries ten decision-critical questions; this register carries forty, grouped in the order the answers must arrive, with a blocking rule that says can this plan be decided yet and is enforced in `scripts/validate.js`. The two pages are complementary, not duplicates, and each links the other. |
+| `assets/app.js`, `index.html` | Both sessions' navigation entries kept; one Suggestions entry (theirs) and one Questions entry (this session's). This session's duplicate Suggestions landing card was removed rather than kept twice. |
+| `scripts/check-publication.py`, `scripts/validate.js` | Both sessions' manifest entries kept; page count settled at 17. |
+| `COORDINATION.md` | Both sides kept in full — every block from every session. |
+
+**New finding taken over from the other sessions, verified here.** Their page raised Revenue Ruling 2023-2: assets of an irrevocable trust that are **not** included in the owner's gross estate keep their old basis. This session opened the ruling and confirmed the wording: "the basis of property is its fair market value at the date of the decedent's death" applies to property "acquired from or to have passed from the decedent", and the ruling's issue is precisely whether § 1014 applies where "the trust assets are not includible in the owner's gross estate". Because the whole sell case rests on a step-up at death, this register now marks the basis question (Q-17) as **not settled**, and Q-01 asks the trust question with the basis consequence stated.
+
+| # | Task | Status | Owner | Files |
+|---|---|---|---|---|
+| Q-1 | Coordination, claim, push at once | done | 62245584 | this block |
+| Q-2 | Questions and answers decision gate | done | 62245584 | `site/questions.html`, `site/data/questions.js` |
+| Q-3 | Suggestions section | **done by sessions `6e6baf25` and `364b453d`**; theirs kept unchanged, this session's draft not merged | 6e6baf25 / 364b453d | `site/suggestions.html` |
+| Q-4 | Navigation, landing page, manifest, page count | done | 62245584 | `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js` |
+| Q-5 | Verify line by line and run the suite | done — results below | 62245584 | `verification/62245584/REPORT.md` |
+| Q-6 | Publish: PR, merge, confirm Pages build, record it | in progress | 62245584 | this block |
+
+**Suite on the merged tree (17 pages).** `validate.js` PASS **1,582** checks · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,430 rendered rows, 4,838 dollar amounts, 104 official exact figures) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and 32 reviewed public files · `src/check_links.py` 66 pages 0 errors · `privacy_scan.py` 0 errors, 198 warnings, none naming this session's files.
+
+**Irregularities.** X-I1 (corrected before publication: an effort figure that summed time bands, and an "irreversible" label on a step that is not), X-I2 (two sources not re-opened here), X-I3 (hypothetical 1.2% levy), X-I4 (rent benchmark one fiscal year behind), X-I5 (the gate's "no plan is implementable" is a conclusion from its own rule, not legal advice). Full record in `verification/62245584/REPORT.md`. None blocks the merge.
+
+**Privacy.** No personal information added. Parties are placeholders; no household figure is typed into either new file — both read `MODEL.BASE` at render time, which `scripts/validate.js` now proves by halving the input and asserting the answer changes.
+
+<!-- END completion record owned by session 62245584 -->
 <!-- BEGIN block owned by session 6a64dc5b. Appended at the end so it cannot conflict with earlier blocks. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `6a64dc5b` (branch `arena/6a64dc5b-tino2`) — claim 2026-11-12 15:35 UTC
 
@@ -1284,6 +1341,25 @@ Nothing written by another session was removed. The only edit to `364b453d`'s pa
 
 **Handoff.** No request to another session: no other session is live. The two owner actions that remain outside any session's power are unchanged and already on the Flagged page: the public commit history (exact assessed values and the account e-mail address) and the confirmation of the trust's basis treatment.
 
+### Session `62245584` — second conflict, and the final resolution (12 Nov 2026)
+
+**Second conflict.** `main` moved again, from `30fae97` to `e510d34` (PRs #47 and #48), and session `6a64dc5b` had added **its own `site/questions.html`** ("Decision readiness"). So the brief's question-and-answer requirement was built twice, independently, while this session worked. Nothing was discarded.
+
+**How the two question pages were reconciled, and why they stay separate.** They answer different questions and neither replaces the other.
+
+| Page | Owner | What it answers |
+|---|---|---|
+| `site/questions.html` | session `6a64dc5b` | **The reference.** What the official answers *are* (nine settled answers with the wording found), and — the distinctive part — **what each open gap moves in the projections**, computed by re-running `MODEL.decision()` with one input changed. It has no per-question blocking rule. |
+| `site/questions-gate.html` | this session | **The gate.** Forty questions in the order the answers must arrive, each marked settled / household input / missing, with an explicit **blocking rule**: a plan is blocked by every question attached to it whose answer is not settled. It carries no projection deltas, so it does not duplicate the reference page's analysis. |
+
+The gate page was **renamed** to `site/questions-gate.html` and retitled "Decision gate", with its executive-summary card and navigation entry worded so the two are not confused. It links to the reference page and the reference page does not need to change. `site/data/suggestions.js`, this session's suggestion engine, was **deleted**: session `364b453d`'s page does not use it, so it was an orphan file that the publication boundary correctly rejected. The manifest, the page count (18) and the validation block were updated to match.
+
+**Net effect of this session after both reconciliations.** One new page (`site/questions-gate.html`), one new data file (`site/data/questions.js`), one verified finding taken over (Rev. Rul. 2023-2, basis), and navigation for both existing pages. The Suggestions page belongs to sessions `6e6baf25` and `364b453d` and is unchanged.
+
+**Suite on the merged 18-page tree.** `validate.js` PASS **1,486** checks · `qa/tools/gate.cjs` PASS · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS, 32 files · `src/check_links.py` 0 errors · `privacy_scan.py` 0 errors. Figures recorded in the final publication record below.
+
+**Privacy.** Unchanged and re-checked: no personal information, no household figure typed into `site/data/questions.js`; the value it displays is read from `MODEL.BASE` at render time, which `validate.js` proves by halving the input and asserting the answer moves.
+=======
 ### Third collision, same day: `6a64dc5b` (PR #47)
 
 `6a64dc5b` merged a **second readiness page** while this session was fixing the merge markers left by the first two collisions (those markers were committed by this session's own merge and removed in commit "Fix: remove merge markers…"; the fault was this session's, and it is recorded as A-I8 in `verification/a87f8523/REPORT.md`).
@@ -1361,3 +1437,22 @@ This is the collision the board exists to prevent; it happened because their cla
 | Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
 
 **Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
+### Session `62245584` — third conflict, and the final shape of the contribution (12 Nov 2026)
+
+**Third conflict.** `main` moved again to `6c1b6ca` (PRs #46 and #50). Session `a87f8523` had integrated its own `site/data/questions.js` **and** `site/data/suggestions.js` at the same paths this session had used. Three independent attempts at the same two brief requirements converged on two page names.
+
+**Resolution.** Nothing was discarded, and this session's page was reduced to the one thing the other registers do not carry.
+
+| Path | Owner | Content |
+|---|---|---|
+| `site/questions.html` + `site/data/questions.js` (`window.READINESS`) | `6a64dc5b`, `a87f8523` | The readiness register: what is known, what is missing, which office or document supplies it, what each gap moves in the projections, and a 22-question subset with `status: "open"`. |
+| `site/suggestions.html` + `site/data/suggestions.js` | `6e6baf25`, `364b453d`, `a87f8523` | The suggestions register with an approve / defer / decline record held in the browser. |
+| **`site/questions-gate.html` + `site/data/gate.js` (`window.GATE`)** | **this session** | **The blocking layer.** Forty questions grouped in the order the answers must arrive, each marked settled / household input / missing, and a rule the other registers do not have: *a plan is blocked by every question attached to it whose answer is not settled by an official source*. It carries no projection deltas and no duplicate suggestions, so it does not restate either register. The page opens with a section that says, plainly, which page holds what — counts read from `window.READINESS` at render time. |
+
+Engine renamed from `window.QUESTIONS` to `window.GATE` and the file from `site/data/questions.js` to `site/data/gate.js`, so it cannot collide with `a87f8523`'s register again. Navigation now reads **Readiness** (theirs), **Decision gate** (this session's) and **Suggestions** (theirs).
+
+**What this session's contribution is, in one line.** The other two registers record *what* is unknown; this page is the only place that answers *can this plan be decided yet*, and proves it with an enforced rule rather than a stated opinion. The honest result is that no plan can be decided today.
+
+**Suite on the merged 18-page tree.** `validate.js` PASS **1,534** checks across 18 pages and **173** official sources · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,567 rendered rows, 4,875 dollar amounts) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and **34** reviewed public files · `src/check_links.py` 0 errors · Jekyll boundary simulated: published tree exactly equals the manifest, no unlisted file.
+
+**Privacy.** No personal information added. No household figure typed into `site/data/gate.js`; the one value it displays is read from `MODEL.BASE` at render time, and `validate.js` proves this by halving the model input and asserting the answer moves.
