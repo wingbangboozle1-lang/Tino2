@@ -1128,3 +1128,5 @@ Read the board and remote heads; no open PRs and no recent live claim identified
 | Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
 
 Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
+
+**Scope addition, 15:33 UTC:** `site/plan.html` is also claimed for a narrow clarification of endpoint portfolio taxation. No current owner was found. The same correction is planned for `index.html`; neither changes model results.
