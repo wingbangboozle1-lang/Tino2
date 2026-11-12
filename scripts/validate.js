@@ -75,7 +75,7 @@ near(MODEL.estateRow(2026).exclusion, 15000000, 1e-9, "official 2026 federal bas
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 15, "fifteen dashboard pages");
+ok(htmlFiles.length === 17, "seventeen dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);

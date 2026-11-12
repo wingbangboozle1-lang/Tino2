@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Suggestions for improving this decision dashboard: review each proposal, compare four ready-made paths, and choose before anything is built. Nothing is applied by selecting."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Suggestions to review">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script>
+<script src="data/model.js"></script>
+<script src="data/questions.js"></script>
+<script src="data/suggestions.js"></script>
+<script src="../assets/app.js"></script>
+<script>
+/* Session a87f8523. Review-and-choose page. Selecting a suggestion only writes to this browser's
+   localStorage; it changes no page, no figure and no plan. Nothing typed here leaves the device. */
+const main = document.getElementById("main");
+const G = window.SUGGESTIONS, R = window.READINESS;
+const KEY = "tino2-suggestions-v1";
+const STATUSES = [["", "Not now"], ["chosen", "Chosen"], ["scheduled", "Scheduled"], ["done", "Done"], ["declined", "Not needed"]];
+const kindLabel = k => G.kinds[k] || k;
+const kindBadge = k => `<span class="badge ${k === "privacy" ? "red" : k === "pro" ? "gold" : k === "site" ? "" : "neutral"}">${kindLabel(k)}</span>`;
+const openTotal = R.open.length;
+const srcCell = keys => `<td class="source">${keys.map(k => UI.source(k)).join("")}</td>`;
+
+main.innerHTML = UI.hero("Suggestions · reviewed " + G.checked,
+  "Improvements to choose from — nothing here is built yet",
+  "Every proposal below is a change to this site or to the information behind it. Each one says what uncertainty it removes, which of the " + openTotal + " readiness questions it closes, what it costs in time, and what it does not fix. Four ready-made paths are grouped at the top so they can be compared before anything is implemented. Choosing here records a preference in this browser; no page, figure or plan changes until the choice is logged and the work is done.",
+  `<a class="button" href="questions.html">Open the readiness register</a><a class="button secondary" href="plan.html">Best plan</a><a class="button secondary" href="review.html">Flagged for Review</a>`) + `<div class="container">
+
+<section class="section">
+  <div class="grid four" id="cards"></div>
+  <div class="callout warning" style="margin-top:18px"><strong>How a suggestion becomes a change.</strong> Read the table, choose a path or a few items, export the choice, and record it on the coordination board with the files it would touch. Only then is anything written. A suggestion marked “Chosen” in this browser has <em>not</em> changed the site, the model or the recommendation.</div>
+</section>
+
+<section class="section" id="paths">
+  <div class="section-heading"><div><div class="eyebrow">Four ways forward</div><h2>Compare the paths, then pick one</h2><p>Each path is a fixed set of proposals. “Choose this path” marks its items as chosen below; it does not start any work.</p></div></div>
+  <div class="grid two" id="bundles"></div>
+  <p class="tiny">Effort is the household’s own time, not a quote. No official price exists for legal, tax or insurance advice, so none is invented here; the cost column says so where that is the case.</p>
+</section>
+
+<section class="section">
+  <div class="card soft">
+    <div class="eyebrow">Your selection</div>
+    <div class="grid three" id="selection"></div>
+    <p class="tiny" id="selection-note" style="margin-top:12px"></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">The full list</div><h2>Every suggestion, its purpose and its price in time</h2><p>Ordered by priority, then by number. Use the last column to record a choice. For a change to the site, the reference in the last column is the official page the change would serve, not a source for the proposal itself.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion, and what it would do</th><th>Type</th><th class="wrap">Uncertainty it removes</th><th>Closes</th><th>Effort</th><th class="wrap">Direct cost</th><th class="wrap">Risk or limit</th><th>Reference</th><th>Your choice</th></tr></thead><tbody id="items"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Recommendation</div><h2>If only five things are done, do these</h2><p>In this order. They are the five that can change the ranking rather than the margin, and four of them can only be done while the parent is alive.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Do this</th><th class="wrap">Because</th><th class="wrap">What it costs</th><th>Source</th></tr></thead><tbody id="top5"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What should never be added, however useful it looks</h2><p>These are the rules every session on this repository has followed. A future suggestion that breaks one should be declined.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">Never</th><th class="wrap">Why</th><th>Reference</th></tr></thead><tbody id="never"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Export the choice</h2><p>The file contains your marks and the official links, and no private data. Saved only in this browser until you export it.</p></div>
+  <div class="controls" style="grid-template-columns:repeat(3,minmax(120px,1fr))">
+    <div class="control"><label for="export">Save this choice</label><button class="button secondary" id="export" type="button">Export a Markdown file</button></div>
+    <div class="control"><label for="print">Keep a copy</label><button class="button secondary" id="print" type="button">Print this page</button></div>
+    <div class="control"><label for="reset">Start again</label><button class="button secondary" id="reset" type="button">Reset all marks</button></div>
+  </div>
+  <pre id="export-output" class="code" style="display:none;white-space:pre-wrap;line-height:1.5;margin-top:14px"></pre>
+  <p class="tiny">To have a chosen suggestion implemented, record it on <span class="code">COORDINATION.md</span> with the files it would touch, then make the change in a new session with the same verification standard: every row source-linked, every figure rounded to $10 or officially published, and every blank left blank.</p>
+</section>
+</div>`;
+
+/* Download when the browser allows it; otherwise show the text so it can be copied. No network. */
+function downloadOrShow(text, filename, hostId) {
+  try {
+    const blob = new Blob([text], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+    return;
+  } catch (e) { /* fall through */ }
+  const host = document.getElementById(hostId);
+  if (host) { host.style.display = "block"; host.textContent = text; }
+}
+
+function state() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
+function setState(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* private mode */ } }
+function chosenIds() {
+  const s = state();
+  return G.items.filter(i => i.status === "done" || ["chosen", "scheduled", "done"].includes(s[i.id])).map(i => i.id);
+}
+function closedQuestions() {
+  const s = state();
+  const set = new Set();
+  G.items.forEach(i => {
+    const st = i.status === "done" ? "done" : (s[i.id] || "");
+    if (st === "chosen" || st === "scheduled" || st === "done") i.closes.forEach(q => set.add(q));
+  });
+  return set;
+}
+function renderCards() {
+  const s = state();
+  const picked = G.items.filter(i => ["chosen", "scheduled"].includes(s[i.id])).length;
+  const closed = closedQuestions();
+  const hours = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id])).reduce((a, i) => a + (i.hours || 0), 0);
+  document.getElementById("cards").innerHTML = [
+    ["Suggestions listed", String(G.items.length), `${G.items.filter(i => i.kind === "site").length} site changes · ${G.items.filter(i => i.kind !== "site").length} research or professional`],
+    ["Paths offered", String(G.bundles.length), "Each is a fixed set, not a mixture"],
+    ["Chosen in this browser", String(picked), picked ? "Not implemented — recorded only" : "Nothing chosen yet"],
+    ["Readiness questions they close", `${closed.size} of ${openTotal}`, `About ${hours} hours of household time`]
+  ].map(([l, v, n]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+}
+function renderBundles() {
+  document.getElementById("bundles").innerHTML = G.bundles.map(b => {
+    const closed = new Set(); b.includes.forEach(id => (G.items.find(i => i.id === id) || { closes: [] }).closes.forEach(q => closed.add(q)));
+    return `<div class="card"><div class="eyebrow">${b.id}</div><h3>${b.name}</h3>
+      <p class="muted">${b.audience}</p>
+      <p><strong>Includes ${b.includes.length} item${b.includes.length === 1 ? "" : "s"}:</strong> ${b.includes.join(", ")}</p>
+      <p><strong>Closes ${closed.size} of ${openTotal} readiness questions.</strong> ${b.outcome}</p>
+      <p><strong>Leaves:</strong> ${b.leaves}</p>
+      <p class="tiny"><strong>Effort:</strong> ${b.effort} · <strong>Cost:</strong> ${b.cost}</p>
+      <button class="button secondary" type="button" data-bundle="${b.id}">Choose this path</button></div>`;
+  }).join("");
+  document.querySelectorAll("[data-bundle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const b = G.bundles.find(x => x.id === btn.dataset.bundle);
+      const s = state();
+      G.items.forEach(i => { s[i.id] = b.includes.includes(i.id) ? "chosen" : ""; });
+      setState(s);
+      fillSelects(); renderCards(); renderSelection();
+      document.getElementById("selection-note").textContent = `Path ${b.id} (“${b.name}”) marked. Nothing has been implemented and no figure has changed. Review the list below, adjust individual items if needed, then export the choice.`;
+      const paths = document.getElementById("paths");
+      if (paths && paths.scrollIntoView) paths.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+function renderItems() {
+  document.getElementById("items").innerHTML = G.items.map(i => `<tr data-s="${i.id}">
+    <td>${i.id}<br><span class="badge ${i.priority === "High" ? "red" : i.priority === "Medium" ? "gold" : "neutral"}">${i.priority}</span></td>
+    <td class="wrap"><strong>${i.title}</strong><div class="tiny">${i.what}</div>${i.note ? `<div class="tiny">${i.note}</div>` : ""}</td>
+    <td>${kindBadge(i.kind)}</td>
+    <td class="wrap">${i.removes}</td>
+    <td class="wrap">${i.closes.length ? i.closes.join(", ") : "—"}</td>
+    <td class="wrap">${i.effort}</td>
+    <td class="wrap">${i.cost}</td>
+    <td class="wrap">${i.risk}</td>
+    ${srcCell(sourceFor(i))}
+    <td><select class="s-choice" data-id="${i.id}" aria-label="Choice for ${i.id}">${STATUSES.map(([v, l]) => `<option value="${v}">${l}${i.status === "done" && v === "done" ? " (published)" : ""}</option>`).join("")}</select></td></tr>`).join("");
+  fillSelects();
+}
+/* Each suggestion needs a row-level official link even when it is purely a site change:
+   the link is the rule the suggestion protects, not a source for the suggestion itself. */
+function sourceFor(i) {
+  const map = { S01: "githubPages", S02: "cdiSurveyCup40_1000", S03: "irsRevRul20232", S04: "sccTaxBook", S05: "caRentCaps", S06: "irsTopic559", S07: "irsPub527", S08: "investorRisk", S09: "probate160617", S10: "boeLta2026026", S11: "boeLta2025009", S12: "githubSensitive", S13: "irsEstateTax", S14: "irsBasis", S15: "githubPages", S16: "irsEstateTax", S17: "cupertinoADU", S18: "irsPub527", S19: "ftb593", S20: "irs706" };
+  const k = map[i.id];
+  return k && window.SOURCES[k] ? [k] : ["boeProp19"];
+}
+function fillSelects() {
+  const s = state();
+  document.querySelectorAll("select.s-choice").forEach(sel => {
+    const item = G.items.find(i => i.id === sel.dataset.id);
+    sel.value = item.status === "done" ? "done" : (s[sel.dataset.id] || "");
+    sel.disabled = item.status === "done";
+  });
+}
+function renderSelection() {
+  const s = state();
+  const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done");
+  const closed = closedQuestions();
+  const remaining = R.open.filter(q => !closed.has(q.id));
+  const hours = chosen.reduce((a, i) => a + (i.hours || 0), 0);
+  document.getElementById("selection").innerHTML = [
+    ["Items in your selection", String(chosen.length), chosen.length ? chosen.map(i => i.id).join(", ") : "None"],
+    ["Readiness questions closed", `${closed.size} of ${openTotal}`, closed.size ? [...closed].sort().join(", ") : "None yet"],
+    ["Household time", `About ${hours} hours`, "Professional time is additional and unpriced here"]
+  ].map(([l, v, n]) => `<div><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+  document.getElementById("selection-note").textContent = remaining.length
+    ? `Still unanswered after this selection: ${remaining.map(q => q.id).join(", ")}. Open the readiness register to see what each one needs.`
+    : "Every open question would be closed by this selection. The eight unknowables remain — they are planned around, not solved.";
+}
+document.getElementById("top5").innerHTML = [
+  ["S03", "Read the trust", "It decides whether the basis resets — the reason selling leads. If it does not reset, the answer changes.", "Attorney’s own rate", "irsRevRul20232"],
+  ["S02", "Quote the insurance and the rebuild cost", "Three blank premiums become three written numbers, and the earthquake decision is priced.", "Quotes are free", "cdiSurveyCup40_1000"],
+  ["S04", "Read the tax bill and the rate book", "Replaces the hypothetical levy with the parcel’s actual rate.", "No charge", "sccTaxBook"],
+  ["S08", "Write the investment policy", "The 5% assumption is the largest single lever in the sell case.", "No charge to write", "investorRisk"],
+  ["S20", "Set an answer-by date", "The trust and beneficiary decisions can only be made while the parent is alive.", "No charge", "probate160617"]
+].map(([id, what, why, cost, key], i) => `<tr><td class="number">${i + 1}</td><td class="wrap"><strong>${what}</strong><div class="tiny">${id}</div></td><td class="wrap">${why}</td><td class="wrap">${cost}</td><td class="source">${UI.source(key)}</td></tr>`).join("");
+
+document.getElementById("never").innerHTML = G.never.map(([what, why, key]) => `<tr><td class="wrap"><strong>${what}</strong></td><td class="wrap">${why}</td><td class="source">${UI.source(key)}</td></tr>`).join("");
+
+document.addEventListener("change", e => {
+  if (e.target && e.target.classList.contains("s-choice")) {
+    const s = state(); s[e.target.dataset.id] = e.target.value; setState(s);
+    renderCards(); renderSelection();
+  }
+});
+document.getElementById("reset").addEventListener("click", () => {
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  fillSelects(); renderCards();
+  document.getElementById("selection-note").textContent = "Marks cleared. Nothing else changed.";
+  renderSelection();
+});
+document.getElementById("print").addEventListener("click", () => { try { window.print(); } catch (e) {} });
+document.getElementById("export").addEventListener("click", () => {
+  const s = state();
+  const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done");
+  const closed = closedQuestions();
+  const lines = ["# Suggestions — the household's choice", "", "Exported " + new Date().toISOString().slice(0, 10) + ". Nothing below has been implemented.", ""];
+  if (!chosen.length) lines.push("_No suggestion was chosen._");
+  chosen.forEach(i => {
+    lines.push(`## ${i.id} · ${i.title}`);
+    lines.push(`- Status: ${i.status === "done" ? "Published" : (STATUSES.find(x => x[0] === s[i.id]) || STATUSES[0])[1]}`);
+    lines.push(`- Type: ${kindLabel(i.kind)} · Effort: ${i.effort} · Cost: ${i.cost}`);
+    lines.push(`- Removes: ${i.removes}`);
+    if (i.closes.length) lines.push(`- Closes questions: ${i.closes.join(", ")}`);
+    lines.push("");
+  });
+  lines.push(`Readiness questions closed by this choice: ${closed.size} of ${openTotal}.`);
+  lines.push("Record the choice in COORDINATION.md with the files it would touch before implementing it.");
+  const text = lines.join("\n");
+  downloadOrShow(text, "suggestions-choice.md", "export-output");
+});
+
+renderCards(); renderBundles(); renderItems(); renderSelection();
+</script></body></html>

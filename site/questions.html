@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision readiness: the questions, information and answers needed before choosing to live in, rent or sell the inherited Cupertino house — what is known, what is missing and how to find it."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Decision readiness">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script>
+<script src="data/model.js"></script>
+<script src="data/questions.js"></script>
+<script src="../assets/app.js"></script>
+<script>
+/* Session a87f8523. A register, not a model: it adds no new dollar figure of its own.
+   Rows come from site/data/questions.js, which carries the source keys. Nothing typed here leaves the browser. */
+const main = document.getElementById("main");
+const R = window.READINESS, M = window.MODEL;
+const srcCell = keys => `<td class="source">${keys.map(k => UI.source(k)).join("")}</td>`;
+const pri = p => `<span class="badge ${p === "High" ? "red" : p === "Medium" ? "gold" : "neutral"}">${p}</span>`;
+const groupOf = id => R.groups.find(g => g.id === id);
+const openIds = R.open.map(q => q.id);
+const KEY = "tino2-readiness-v1";
+const STATUSES = [["", "Not started"], ["requested", "Requested"], ["answered", "Answered by us"], ["verified", "Verified with source"]];
+
+main.innerHTML = UI.hero("Decision readiness · checked " + R.checked,
+  "What still has to be settled before a decision is reasonable",
+  "The site already answers the money question on today's law: selling Property A first leads in the base case and in most bad decades. This page lists what that answer still rests on — " + R.open.length + " open questions, " + R.answered.length + " points already settled by an official source, and " + R.unknowable.length + " that no document can settle. Each row says what is known, what is missing, and exactly which document, office or lookup supplies the answer.",
+  `<a class="button" href="plan.html">Best plan</a><a class="button secondary" href="suggestions.html">Choose which gaps to close ⚑</a><a class="button secondary" href="review.html">Flagged for Review</a>`) + `<div class="container">
+
+<section class="section">
+  <div class="grid four" id="cards"></div>
+  <div class="callout warning" style="margin-top:18px"><strong>How to use this page.</strong> A question is only answered when a document or an official page is in hand; a remembered figure or a broker's verbal estimate is recorded as “Requested”, not as answered. Nothing on this page is required to read the recommendation — but the High-priority items — starting with the five below — should be answered before acting on it. Your progress marks stay in this browser; nothing is sent anywhere.</div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Start here</div><h2>Five answers that move the decision most</h2><p>In this order. Four turn on a document, a quote or a record; the fifth is a decision, not a document.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Answer needed</th><th class="wrap">Why first</th><th>Question</th><th>Source</th></tr></thead><tbody id="first"></tbody></table></div>
+</section>
+
+<div id="groups"></div>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Settled</div><h2>Already answered from an official source</h2><p>These do not need research. They are the rules the projection is built on, and each was opened and read rather than recalled.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Answer, as published</th><th class="wrap">What it means for this decision</th><th>Official source</th></tr></thead><tbody id="answered"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Not answerable yet</div><h2>What no document can settle — and how the site handles it</h2><p>These are not research failures. They are future facts. The honest response is a range, a break-even and a date to look again.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Unknown</th><th class="wrap">Why it cannot be answered</th><th class="wrap">How the site handles it</th><th class="wrap">When to look again</th><th>Source</th></tr></thead><tbody id="unknowable"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Discovery plan</div><h2>Where each missing answer comes from</h2><p>Twelve documents or lookups close most of the list. Effort is the household's time; professional fees are not estimated here because no official price exists for them.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Document or lookup</th><th class="wrap">Where to get it</th><th class="wrap">Questions it closes</th><th class="wrap">Effort</th><th>Official route</th></tr></thead><tbody id="plan"></tbody></table></div>
+  <p class="tiny">Send this table, the <a href="plan.html">Best plan</a> page and the <a href="review.html">Flagged for Review</a> list to the trustee, the CPA and the trust attorney. None of them needs the household's private documents to read it, and this site publishes none.</p>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Mark what has been answered</h2><p>Saved only in this browser. Export a copy to keep with the trust file.</p></div>
+  <div class="controls" style="grid-template-columns:repeat(3,minmax(120px,1fr))">
+    <div class="control"><label for="progress-label">Open questions answered</label><div id="progress-label" style="font-weight:700;font-size:15px">…</div></div>
+    <div class="control"><label for="export">Download your answers</label><button class="button secondary" id="export" type="button">Export a Markdown file</button></div>
+    <div class="control"><label for="reset">Clear this browser</label><button class="button secondary" id="reset" type="button">Reset all marks</button></div>
+  </div>
+  <div class="bar"><span id="progress-bar" style="width:0%"></span></div>
+  <p class="tiny" id="progress-note"></p>
+  <pre id="export-output" class="code" style="display:none;white-space:pre-wrap;line-height:1.5;margin-top:14px"></pre>
+  <div class="callout"><strong>What this page does not do.</strong> It does not value the house, quote insurance, compute tax or recommend a plan. Those figures live on the <a href="decision.html">Decision</a>, <a href="operating-costs.html">Operating costs</a> and <a href="estate-tax.html">Estate tax</a> pages. Where a figure could not be confirmed it is blank there and listed on <a href="review.html">Flagged for Review</a> — never filled in here.</div>
+</section>
+</div>`;
+
+/* Summary cards */
+function stateMap() {
+  try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; }
+}
+function counts() {
+  const s = stateMap();
+  const done = openIds.filter(id => s[id] === "answered" || s[id] === "verified").length;
+  return { done, total: openIds.length, requested: openIds.filter(id => s[id] === "requested").length };
+}
+function renderCards() {
+  const c = counts();
+  document.getElementById("cards").innerHTML = [
+    ["Open questions", String(R.open.length), `${R.open.filter(q => q.priority === "High").length} marked High priority`],
+    ["Settled by an official source", String(R.answered.length), "Rules the projection already uses"],
+    ["Not answerable yet", String(R.unknowable.length), "Handled with ranges and triggers"],
+    ["Marked answered by you", `${c.done} of ${c.total}`, c.requested ? `${c.requested} requested` : "Nothing marked yet"]
+  ].map(([l, v, n]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+}
+
+/* The five to start with */
+const FIRST = [
+  ["Q01", "Whether the trust resets the tax basis at death", "It is the reason a prompt sale has almost no tax. If it does not reset, the answer changes.", "Read the trust with the attorney."],
+  ["Q07", "Whether the heir will move in and qualify for the parent-child exclusion", "It decides the property tax bill for as long as the house is kept.", "A decision plus the assessor’s claim forms."],
+  ["Q02", "Who the beneficiaries are and whether the house can go to one of them", "A sibling buy-out adds a reassessment and a cash call.", "The distribution clause, read now."],
+  ["Q16", "How much money is in the estate and in what form", "Federal tax starts above the exclusion; the form of the money decides who pays.", "An inventory with the CPA and trustee."],
+  ["Q19", "Whether the household actually wants to live there", "The model can price the house; it cannot price the choice.", "Write the non-financial criteria down once."]
+];
+document.getElementById("first").innerHTML = FIRST.map(([id, what, why, how], i) => {
+  const q = R.open.find(x => x.id === id);
+  return `<tr><td class="number">${i + 1}</td><td class="wrap"><strong>${what}</strong><div class="tiny">${how}</div></td><td class="wrap">${why}</td><td>${id}</td>${srcCell(q.src)}</tr>`;
+}).join("");
+
+/* Grouped open questions */
+document.getElementById("groups").innerHTML = R.groups.map(g => {
+  const rows = R.open.filter(q => q.group === g.id);
+  if (!rows.length) return "";
+  return `<section class="section" id="${g.id}">
+    <div class="section-heading"><div><div class="eyebrow">${rows.length} question${rows.length === 1 ? "" : "s"}</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">The question, and why it decides something</th><th class="wrap">What we know now</th><th class="wrap">What is missing</th><th class="wrap">How to discover it</th><th class="wrap">What changes if the answer is different</th><th>Official source</th><th>Your status</th></tr></thead><tbody>${
+      rows.map(q => `<tr data-q="${q.id}"><td>${q.id}<br>${pri(q.priority)}</td><td class="wrap"><strong>${q.q}</strong><div class="tiny">${q.why}</div></td><td class="wrap">${q.known}</td><td class="wrap">${q.missing}</td><td class="wrap">${q.discover}</td><td class="wrap">${q.flip}</td>${srcCell(q.src)}<td><select class="q-status" data-id="${q.id}" aria-label="Status of ${q.id}">${UPDATE_OPTIONS()}</select></td></tr>`).join("")
+    }</tbody></table></div></section>`;
+}).join("");
+
+function UPDATE_OPTIONS() {
+  return STATUSES.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+}
+/* The selects are filled from the saved marks after the tables are rendered. */
+function fillSelects() {
+  const s = stateMap();
+  document.querySelectorAll("select.q-status").forEach(sel => { sel.value = s[sel.dataset.id] || ""; });
+}
+
+/* Answered and unknowable tables */
+document.getElementById("answered").innerHTML = R.answered.map(a =>
+  `<tr><td>${a.id}</td><td class="wrap"><strong>${a.q}</strong></td><td class="wrap">${a.answer}</td><td class="wrap">${a.effect}</td>${srcCell(a.src)}</tr>`).join("");
+document.getElementById("unknowable").innerHTML = R.unknowable.map(u =>
+  `<tr><td>${u.id}</td><td class="wrap"><strong>${u.q}</strong></td><td class="wrap">${u.why}</td><td class="wrap">${u.handling}</td><td class="wrap">${u.trigger}</td>${srcCell(u.src)}</tr>`).join("");
+document.getElementById("plan").innerHTML = R.discovery.map(d =>
+  `<tr><td>${d.id}</td><td class="wrap"><strong>${d.doc}</strong></td><td class="wrap">${d.where}</td><td class="wrap">${d.closes}</td><td class="wrap">${d.effort}</td>${srcCell(d.src)}</tr>`).join("");
+
+/* Download when the browser allows it; otherwise show the text so it can be copied. No network. */
+function downloadOrShow(text, filename, hostId) {
+  try {
+    const blob = new Blob([text], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+    return;
+  } catch (e) { /* fall through */ }
+  const host = document.getElementById(hostId);
+  if (host) { host.style.display = "block"; host.textContent = text; }
+}
+
+/* Progress, local only */
+function renderProgress() {
+  const c = counts();
+  document.getElementById("progress-label").textContent = `${c.done} of ${c.total}`;
+  document.getElementById("progress-bar").style.width = Math.round(c.done / c.total * 100) + "%";
+  document.getElementById("progress-note").textContent = c.done === 0
+    ? "No question is marked answered. That is the honest starting point: the recommendation is a model result, not a decision."
+    : `${c.done} of ${c.total} open questions are marked answered. Check each against the official page before treating it as settled.`;
+  renderCards();
+}
+function save(id, value) {
+  const s = stateMap();
+  if (value) s[id] = value; else delete s[id];
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* private mode: marks are not kept */ }
+  renderProgress();
+}
+document.addEventListener("change", e => {
+  if (e.target && e.target.classList.contains("q-status")) save(e.target.dataset.id, e.target.value);
+});
+document.getElementById("reset").addEventListener("click", () => {
+  try { localStorage.removeItem(KEY); } catch (e) { /* nothing stored */ }
+  document.querySelectorAll("select.q-status").forEach(sel => { sel.value = ""; });
+  renderProgress();
+});
+document.getElementById("export").addEventListener("click", () => {
+  const s = stateMap();
+  const lines = ["# Decision readiness — the household's own record", "", "Exported " + new Date().toISOString().slice(0, 10) + ". Marks are self-reported; verify each against its official page.", ""];
+  R.open.forEach(q => {
+    lines.push(`## ${q.id} · ${q.q}`);
+    lines.push(`- Priority: ${q.priority}`);
+    lines.push(`- Status: ${(STATUSES.find(x => x[0] === (s[q.id] || "")) || STATUSES[0])[1]}`);
+    lines.push(`- What is missing: ${q.missing}`);
+    lines.push(`- How to discover it: ${q.discover}`);
+    lines.push(`- Source: ${q.src.map(k => window.SOURCES[k].url).join(" ; ")}`);
+    lines.push("");
+  });
+  const text = lines.join("\n");
+  downloadOrShow(text, "decision-readiness.md", "export-output");
+});
+
+fillSelects();
+renderProgress();
+</script></body></html>
