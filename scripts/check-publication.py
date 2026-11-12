@@ -1,77 +1,64 @@
-"""Fail closed if the Pages artifact differs from the reviewed publication manifest.
+#!/usr/bin/env python3
+"""Fail closed on missing, extra, linked or altered public-artifact files.
 
-Run after package-site.py. Research/verification/coordination are repository-only.
-New public files require an explicit manifest review, not merely a Jekyll exclusion.
+The legacy root-based Pages builder is also checked in CI. A manifest check is
+not a proof of anonymity and does not protect public repository history.
 """
 from pathlib import Path
 import sys
-
+from public_manifest import PUBLIC_FILES
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC = ROOT / '_public'
-ALLOWED = {
-    '.nojekyll', 'robots.txt', 'index.html',
-    'assets/app.js', 'assets/styles.css',
-    'site/black-swan.html', 'site/decision.html', 'site/estate-tax.html',
-    'site/inheritance.html', 'site/properties.html', 'site/review.html',
-    'site/san-francisco.html', 'site/scenarios.html', 'site/sources.html',
-    'site/stress.html', 'site/plan.html', 'site/verification.html',
-    'site/operating-costs.html', 'site/options.html',
-    'site/questions.html', 'site/suggestions.html', 'site/questions-gate.html',
-    'site/data/questions.js', 'site/data/suggestions.js', 'site/data/gate.js',
-    'site/data/ledger.js', 'site/data/history-engine.js', 'site/data/history.js',
-    'site/data/model.js', 'site/data/scenarios.js',
-    'site/data/sources.js', 'site/data/stress.js', 'site/data/costs.js',
-    'site/data/options.js',
-}
 
 
-def audit(directory):
-    errors = []
-    files = set()
-    if not directory.is_dir():
-        return ['Missing _public; run python3 scripts/package-site.py first.']
-    for path in directory.rglob('*'):
-        relative = path.relative_to(directory).as_posix()
-        if path.is_symlink():
-            errors.append(f'Symlink forbidden: {relative}')
-        elif path.is_file():
-            files.add(relative)
-            if path.stat().st_nlink > 1:
-                errors.append(f'Hard link forbidden: {relative}')
-    errors.extend(f'Unexpected public file: {name}' for name in sorted(files - ALLOWED))
-    errors.extend(f'Missing public file: {name}' for name in sorted(ALLOWED - files))
+def audit(directory, jekyll=False):
+    expected = set(PUBLIC_FILES)
+    # GitHub's default Pages theme generates this CSS under the legacy builder.
+    expected.add('assets/css/style.css' if jekyll else '.nojekyll')
+    if directory.is_symlink() or not directory.is_dir():
+        return ['Missing or symlinked output directory']
+    files, errors = set(), []
+    for p in directory.rglob('*'):
+        rel = p.relative_to(directory).as_posix()
+        if p.is_symlink():
+            errors.append('Symlink forbidden: ' + rel)
+        elif p.is_file():
+            files.add(rel)
+            if p.stat().st_nlink > 1:
+                errors.append('Hard link forbidden: ' + rel)
+    errors += ['Unexpected public file: ' + x for x in sorted(files-expected)]
+    errors += ['Missing public file: ' + x for x in sorted(expected-files)]
+    for name in sorted(files & PUBLIC_FILES):
+        original = ROOT / name
+        if original.is_symlink() or not original.is_file() or (directory/name).read_bytes() != original.read_bytes():
+            errors.append('Altered or missing reviewed source: ' + name)
     return errors
 
 
 if __name__ == '__main__':
+    target = ROOT / sys.argv[sys.argv.index('--directory')+1] if '--directory' in sys.argv else ROOT / '_public'
+    jekyll = '--jekyll' in sys.argv
     if '--self-test' in sys.argv:
-        import tempfile
-        import shutil
-        with tempfile.TemporaryDirectory() as temp:
-            fixture = Path(temp) / 'public'
-            shutil.copytree(PUBLIC, fixture)
+        import os, tempfile, shutil
+        if jekyll:
+            raise SystemExit('Run --self-test on the packaged artifact, not Jekyll output')
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture=Path(tmp)/'public'
+            shutil.copytree(target,fixture)
             assert not audit(fixture), audit(fixture)
-            marker = fixture / 'verification' / 'INTERNAL.md'
-            marker.parent.mkdir()
-            marker.write_text('Synthetic non-personal test sentinel')
-            assert any('Unexpected' in e for e in audit(fixture))
-            marker.unlink()
-            marker.symlink_to(fixture / 'index.html')
-            assert any('Symlink forbidden' in e for e in audit(fixture))
-            marker.unlink()
-            (fixture / 'site' / 'decision.html').unlink()
-            assert any('Missing public file' in e for e in audit(fixture))
-        print('PASS: fail-closed tests reject unlisted files, symlinks and missing pages.')
-    target = ROOT / sys.argv[sys.argv.index('--directory') + 1] if '--directory' in sys.argv else PUBLIC
-    if '--jekyll' in sys.argv:
-        # Jekyll root publication does not synthesize package-only crawler markers.
-        ALLOWED.difference_update({'.nojekyll', 'robots.txt'})
-        # GitHub Pages' default theme generates this stylesheet (not private input).
-        ALLOWED.add('assets/css/style.css')
-    errors = audit(target)
+            unexpected=fixture/'private.txt'; unexpected.write_text('synthetic marker')
+            assert any('Unexpected' in x for x in audit(fixture)); unexpected.unlink()
+            unexpected.symlink_to(fixture/'index.html')
+            assert any('Symlink' in x for x in audit(fixture)); unexpected.unlink()
+            os.link(fixture/'index.html',unexpected)
+            assert any('Hard link' in x for x in audit(fixture)); unexpected.unlink()
+            page=fixture/'guide/decision.html'
+            original=page.read_bytes(); page.write_bytes(original+b'\n<!-- tamper test -->')
+            assert any('Altered' in x for x in audit(fixture)); page.unlink()
+            assert any('Missing' in x for x in audit(fixture))
+        print('PASS: extra, missing, altered, symlinked and hard-linked files rejected.')
+    errors=audit(target,jekyll=jekyll)
     if errors:
-        for error in errors:
-            # Keep failures readable through the Checks API when runner logs are restricted.
-            print('::error title=Publication boundary::' + error)
-        raise SystemExit('\n'.join(errors))
-    print(f'PASS: {len(ALLOWED)} reviewed public files only; internal material excluded.')
+        for e in errors:
+            print('::error title=Publication boundary::'+e)
+        raise SystemExit(1)
+    print(f'PASS: publication matches {len(PUBLIC_FILES)} reviewed source files plus build marker.')
