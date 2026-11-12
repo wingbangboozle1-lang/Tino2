@@ -3,7 +3,7 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 32,
+   "rows": 36,
    "rowsWithContextLinkOnly": 0,
    "amounts": 76,
    "links": 0
@@ -73,7 +73,7 @@
   },
   {
    "file": "site/review.html",
-   "rows": 93,
+   "rows": 95,
    "rowsWithContextLinkOnly": 0,
    "amounts": 51,
    "links": 0
@@ -108,7 +108,7 @@
   },
   {
    "file": "site/suggestions.html",
-   "rows": 31,
+   "rows": 65,
    "rowsWithContextLinkOnly": 0,
    "amounts": 0,
    "links": 0
@@ -125,12 +125,12 @@
  "warnings": [],
  "totals": {
   "pages": 17,
-  "rows": 1419,
-  "rowsWithOwnSource": 1410,
+  "rows": 1459,
+  "rowsWithOwnSource": 1450,
   "rowsWithContextLinkOnly": 9,
   "amounts": 4856,
   "officialExactAmounts": 105,
-  "internalLinks": 407,
-  "externalLinks": 1892
+  "internalLinks": 466,
+  "externalLinks": 1941
  }
 }

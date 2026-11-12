@@ -185,6 +185,69 @@ window.SUGGESTIONS = {
       closes: [],
       cost: "No charge", risk: "None. It is a scheduling decision, not a change to the model.",
       status: "proposed", note: "The trust and the beneficiary decisions can only be made while the parent is alive."
+    },
+    {
+      id: "S21", kind: "privacy", priority: "High", hours: 2, effort: "1–2 hours of planning, plus an owner decision",
+      title: "Separate the private inputs from the published examples",
+      what: "Keep household-specific inputs and outputs out of the public product and publish only synthetic examples; review access controls and every public reference before relying on it.",
+      removes: "Further disclosure while keeping a public explanation of the method.",
+      closes: [],
+      cost: "Private hosting may need a paid plan", risk: "Existing history and copies still need a coordinated remediation plan. This proposal performs no history rewrite and changes no access setting.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25 on 12 Nov 2026, with its wording kept."
+    },
+    {
+      id: "S22", kind: "site", priority: "Medium", hours: 5, effort: "4–6 hours of work",
+      title: "Make the estate calculation conditional",
+      what: "Show documented estate assets, debts, lifetime gifts and possible elections separately, and only then estimate any federal estate tax.",
+      removes: "The risk of reading a property-only headroom figure as the amount that can pass tax-free.",
+      closes: ["Q04", "Q16"],
+      cost: "No charge", risk: "The actual amounts remain unknown and must stay private; the page can show a method and a range, not a liability.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; the readiness register now holds the underlying questions."
+    },
+    {
+      id: "S23", kind: "site", priority: "Medium", hours: 7, effort: "6–8 hours of work",
+      title: "Match the sale endpoints and the tax basis across the three plans",
+      what: "Show clearly labelled pre-liquidation and after-liquidation portfolio values beside the property sale proceeds, with basis and taxes applied consistently in every plan.",
+      removes: "The ambiguity in comparing a plan that ends with a house sale against one that ends with a portfolio that has not been liquidated.",
+      closes: ["Q09"],
+      cost: "No charge", risk: "Needs account type, acquisition basis, gains, holding period and taxpayer treatment. The existing endpoint-tax sensitivity deliberately overstates part of the tax and is not a tax estimate.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25, which also flagged the endpoint wording on the Best plan and Decision pages."
+    },
+    {
+      id: "S24", kind: "site", priority: "High", hours: 3, effort: "3 hours of work",
+      title: "Add a documented Proposition 19 eligibility branch",
+      what: "Separate a qualifying primary-residence transfer from a full reassessment, and put the one-year and three-year claim dates on the page.",
+      removes: "The chance that a reader treats the live-in relief as automatic.",
+      closes: ["Q07"],
+      cost: "No charge", risk: "Eligibility and the adjusted allowance from February 2027 are unknown; the relationship, trust and residence facts must be confirmed privately with the assessor and counsel.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25."
+    },
+    {
+      id: "S25", kind: "research", priority: "Medium", hours: 4, effort: "3–4 hours",
+      title: "Replace the remaining cost proxies with reviewed ranges",
+      what: "Maintenance, water and the solar credit, in addition to the insurance quotes in S02: an inspection, twelve months of bills and a net-metering statement.",
+      removes: "Three modelled costs that are still household guesses rather than documents.",
+      closes: ["Q12", "Q13"],
+      cost: "An inspection is priced by the inspector; no official price", risk: "A range is not a bill. Keep the records private and distinguish a scenario from a verified cost.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; S02 and S18 are the specific actions."
+    },
+    {
+      id: "S26", kind: "site", priority: "Medium", hours: 4, effort: "4 hours of work",
+      title: "Compare investment mixes and the downside",
+      what: "Show liquidity, inflation, a bad return sequence and concentration beside the single 5%-a-year assumption, with deposit limits shown at their real level.",
+      removes: "The impression that a central return assumption is a plan.",
+      closes: ["Q17"],
+      cost: "No charge", risk: "Returns are not guaranteed. Historical replays are not probabilities of future outcomes and must be labelled as such.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25."
+    },
+    {
+      id: "S27", kind: "site", priority: "Low", hours: 3, effort: "3 hours of work",
+      title: "Add legal and source freshness checks",
+      what: "A dated check on each rule and benchmark the site relies on, with enacted, proposed and archived material kept visibly separate.",
+      removes: "Quiet drift between what the law says and what the page says.",
+      closes: ["Q21"],
+      cost: "No charge", risk: "An automated check can detect that a page changed but cannot decide its legal effect; a professional must confirm that.",
+      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; overlaps S11 and S16."
     }
   ],
   bundles: [
@@ -204,7 +267,7 @@ window.SUGGESTIONS = {
     },
     {
       id: "P3", name: "Decision-grade file", audience: "If the household wants a file it can hand to a trustee, a CPA and an attorney and act on.",
-      includes: ["S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S13", "S18", "S19", "S20"], effort: "About 30 hours of household time, plus professional time",
+      includes: ["S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S13", "S18", "S19", "S20", "S22", "S23", "S24", "S26"], effort: "About 45 hours of household time, plus professional time",
       cost: "Professional fees at their own rates; no official price exists for them",
       outcome: "Closes every open question a document can close, including all five High ones, and leaves a dated plan for the first twelve months.",
       leaves: "The eight unknowables — the date of death, future prices, returns, law and earthquakes. Those are planned around, not solved."
@@ -216,6 +279,23 @@ window.SUGGESTIONS = {
       outcome: "The site keeps its dates current and tells the household when a rule or a benchmark changes.",
       leaves: "Everything else. This is the status quo with a reminder attached, and it is a legitimate choice if the inheritance is decades away."
     }
+  ],
+  /* The seven decision questions on the shortlist published by session 6e6baf25 (site/suggestions.html before
+     this session touched it). Kept, with their wording, and mapped to the register that now holds them. */
+  carried: [
+    { q: "What may be distributed, when, and by whom?", status: "— Trust terms and title not verified.", resolve: "Trust attorney and trustee review the signed trust, its amendments and the title.", closes: ["Q01", "Q02"], src: ["probate160617", "boeProp19"] },
+    { q: "Will the family-home exclusion apply?", status: "— Relationship, residence and trust eligibility not verified. The live-in scenario assumes eligibility; the rental scenario does not.", resolve: "Confirm the facts and the filing dates with the county assessor and counsel.", closes: ["Q03", "Q07"], src: ["boeProp19"] },
+    { q: "What is the full estate-tax exposure?", status: "— Other assets, debts, gifts and available elections are unknown; the future exclusion is a scenario.", resolve: "An estate CPA inventories assets and debts, prior gifts and any portability election before preparing a calculation.", closes: ["Q04", "Q16"], src: ["irsEstateTax"] },
+    { q: "What are the correct basis and gain if sold?", status: "— Future appraised value, adjustments, proceeds and taxpayer facts are not verified.", resolve: "Obtain an appraisal and the closing records; have a tax adviser reconcile basis and the applicable exclusions.", closes: ["Q05", "Q09"], src: ["irsBasis", "irsTopic701"] },
+    { q: "What will each property actually cost to insure and maintain?", status: "— Actual premiums and future repairs are unverified; the model inputs are illustrative.", resolve: "Compare owner-occupied and landlord quotes including deductibles and excluded hazards; obtain an inspection and repair estimates.", closes: ["Q10", "Q11", "Q13"], src: ["cdiResGuide"] },
+    { q: "What rental income and restrictions apply?", status: "— Future rent, vacancy and the legal treatment of each unit are not verified. Property B is already owned, not inherited in this comparison.", resolve: "Review the leases and unit status privately; obtain a market-rent opinion and check the applicable local rules.", closes: ["Q14"], src: ["sfRentRates", "caRentCaps"] },
+    { q: "How much risk and liquidity can the heir accept?", status: "— Investment goals, time horizon and account types are unknown.", resolve: "Discuss allocation, tax, deposit limits and withdrawal needs privately with a qualified adviser.", closes: ["Q17", "Q18"], src: ["investorRisk", "fdic"] }
+  ],
+  /* Privacy paths compared on the same shortlist. Kept because they are alternatives, not a claim that any is complete protection. */
+  privacyPaths: [
+    { name: "Private analysis, public generic examples", note: "Suggested privacy-first direction", benefit: "Keep household-specific inputs and outputs out of a public product; publish only synthetic examples.", tradeoff: "Less personalised public analysis. Existing history and copies still need a coordinated remediation plan. Review access controls and every public reference before relying on this path.", src: "githubSensitive" },
+    { name: "Reduce the public detail", note: "", benefit: "Remove household history and granular contextual combinations from the current published pages.", tradeoff: "A new commit alone does not erase earlier history or copies. Generic labels and rounding are not a guarantee of anonymity; decide what exposure remains acceptable.", src: "githubSensitive" },
+    { name: "Retain the current public scenarios", note: "", benefit: "Preserves the most detailed public explanation and model.", tradeoff: "The property and household context remains linkable even without names. Treat this as an unresolved privacy risk, not as anonymisation.", src: "githubSensitive" }
   ],
   never: [
     ["Publish a name, street address, parcel number, account number or trust document", "The site is public and indexed. Placeholders are the only safe form.", "sccBill"],

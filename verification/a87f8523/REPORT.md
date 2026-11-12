@@ -98,3 +98,30 @@ checked date of 11 or 12 November 2026 and an entry in `qa/ledger.json`.
 | A-I5 | The FY2027 HUD rent benchmark, the Proposition 19 amount from February 2027, the Measure H parcel amount and both insurance premiums remain blank, as earlier sessions recorded. Nothing on the new pages fills them. | carried forward |
 | A-I6 | The `githubPages` and `cupertinoADU` entries were appended to `site/data/sources.js` by assignment so that the existing block was not edited. A future session may prefer to fold them into the object. | recorded |
 | A-I7 | This session did not re-open the IRS release for the 2027 exclusion, the HUD lookup or the 2026 ballot results; they are carried with their checked dates in §2. | recorded |
+
+## 7. Collision with two other sessions, and how it was resolved
+
+While this session was working, sessions `62b76b9d` (PR #43) and `6e6baf25` (PR #44) merged their own
+`site/suggestions.html`, a navigation entry, a landing-page card and site-wide privacy wording. This session
+had claimed the same deliverable at 15:35 UTC, before either merge appeared on `main`; the remote showed only
+`main` at claim time.
+
+Nothing of theirs was replaced:
+
+- Their page's privacy callout, **three-path privacy comparison** and **seven decision questions** are on the
+  published page in their wording. The questions are mapped to register IDs Q01, Q02, Q03, Q04, Q05, Q07, Q09,
+  Q10, Q11, Q13, Q14, Q16, Q17, Q18 so nothing is lost between the two structures.
+- Their seven proposals became S21–S27 in the backlog (privacy separation, conditional estate calculation,
+  matched sale endpoints, Proposition 19 eligibility branch, cost proxies, investment mixes, freshness checks).
+- Their nav entry was de-duplicated against the one this session added; their brand tagline, footer and
+  landing-page privacy wording are kept. Their `verification/` reports are untouched. Their board blocks are
+  kept in full, with a merge note between them and this session's block.
+- Allowlist and validator counts were resolved to the combined state: **32 public files, 17 pages**.
+
+Re-checked after the merge: `validate.js` 1,183 checks · 17 pages · 173 sources; `runtime-test.cjs` 17 pages,
+1,459 rows source-linked, no runtime error or broken local link; `gate.cjs` 0 errors, 0 warnings, 4,856 dollar
+amounts; publication boundary 32 files. The model, the projection and the recommendation are unchanged
+(base case 2040→2050: sell $7,683,290 · rent $6,249,830 · live $5,135,780 — identical to `main` at `bfb2268`).
+
+No fact on either merged page was found to conflict with the sources opened in §1; where both pages cite the
+same rule they link the same URL.

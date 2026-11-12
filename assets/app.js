@@ -28,11 +28,11 @@
     ["review", prefix + "review.html", "Flagged"]
   ];
   const title = document.body.dataset.title || "Inheritance planning";
-  document.title = title + " · Private-property dashboard";
+  document.title = title + " · Planning dashboard";
   const header = document.createElement("header");
   header.className = "site-header";
   header.innerHTML = `<div class="container header-inner">
-    <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Anonymized scenarios · 2026</small></span></a>
+    <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Placeholder labels · 2026</small></span></a>
     <button class="menu-button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
     <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${(id === current || (id === "stress" && inStress)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
   </div>${inStress ? `<div class="container subnav" aria-label="Black swan pages"><span class="tiny">Black swan and economic scenarios:</span> ${stressPages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}`;
@@ -45,7 +45,7 @@
   });
   const footerHost = document.querySelector("[data-footer]");
   if (footerHost) {
-    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Privacy-safe planning dashboard</strong><br>Property labels are placeholders. No names, street addresses, parcel numbers, or account numbers are published.</div><div>Correction audit: 11 Nov 2026<br><a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
+    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Public planning dashboard</strong><br>Property labels are placeholders; rounded figures and context can still be identifying. See <a href="${prefix}review.html">privacy risks</a>.</div><div>See source register for review dates<br><a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
   }
   window.UI = {
     source(key, label) {
