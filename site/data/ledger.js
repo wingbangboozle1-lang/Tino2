@@ -576,13 +576,13 @@ window.LEDGER = [
   "id": "UT-03",
   "topic": "utilities",
   "claim": "San Francisco water and sewer rates, fiscal years ending 2027 and 2028",
-  "value": "Proposed schedule effective July 1, 2026: average single-family combined bill up about $21 a month in FY 2027 and $23 a month in FY 2028 (about 12.6% and 12.5% a year)",
-  "url": "https://www.sfpuc.gov/accounts-services/water-power-sewer-rates/proposed-water-sewer-rates-2026/proposition-218-notice",
-  "source": "San Francisco Public Utilities Commission - Proposition 218 notice",
-  "evidence": "'the proposed new rate schedule represents an average combined monthly bill increase of approximately $21 and $23 per month in fiscal years 2027 and 2028 respectively (about 12.6% and 12.5% per year).'",
+  "value": "Commission-adopted schedules effective July 1, 2026 & July 1, 2027 (Resolutions 26-0064 & 26-0066, April 28, 2026); Prop 218 notice estimated average single-family combined bill up about $21/mo in FY 2027 and $23/mo in FY 2028 (+12.6% and +12.5%)",
+  "url": "https://www.sfpuc.gov/sites/default/files/accounts-and-services/Rates_Schedule_Water_Sewer_2026-7.pdf",
+  "source": "San Francisco Public Utilities Commission - FY 2026-27 & FY 2027-28 Adopted Water and Wastewater Schedules",
+  "evidence": "Adopted schedule PDF opened 12 Nov 2026 (Resolutions 26-0064 & 26-0066, April 28, 2026): Schedule W-1A/B ($19.65 5/8-in or $24.93 3/4-in service; MF $12.03/$12.91 per CCF), Wastewater Schedule A ($6.62 + $20.74/discharge unit, 95% MF flow factor), Schedule D stormwater tiers ($12.63/$19.66/$29.55). Older Prop 218 notice page failed to fetch on 12 Nov 2026.",
   "status": "verified",
-  "notes": "Adopted FY 2026-27 and FY 2027-28 schedule also verified directly on costs.js (`ocSfpucSchedule`). Multi-family bills differ from the single-family average.",
-  "checked": "2026-11-11"
+  "notes": "Two-year rate adoption confirmed via official SFPUC adopted schedule PDF (also detailed in costs.js ocSfpucSchedule); multi-family Property B meter count and parcel tier remain unverified on actual bills.",
+  "checked": "2026-11-12"
  },
  {
   "id": "UT-04",
@@ -965,8 +965,8 @@ window.LEDGER = [
   "value": "Efficiency $2,370; 1-Bedroom $2,770; 2-Bedroom $3,410; 3-Bedroom $4,460; 4-Bedroom $5,020 (effective Oct 1, 2026)",
   "url": "https://www.huduser.gov/datasets/fmr/fmr2027/zip-calc?year=2027&zip=94122&cbsasub=METRO41860MM7360",
   "source": "U.S. Department of Housing and Urban Development - FY2027 SAFMR calculation, ZIP 94122 (San Francisco HMFA)",
-  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $2,370 / $2,770 / $3,410 / $4,460 / $5,020; step-5 table lists FY2026 FMR figures $2,485 / $2,977 / $3,604 / $4,604 / $4,772; ZIP base rent $2,622. Opened and read 12 Nov 2026.",
-  "notes": "Up slightly from the original FY2026 SAFMR table ($2,730 1-BR / $3,310 2-BR) used in the owner-unit comparison."
+  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $2,370 / $2,770 / $3,410 / $4,460 / $5,020; step-5 line lists metro-wide FY2026 FMR baseline $2,485 / $2,977 / $3,604 / $4,604 / $4,772; ZIP base rent $2,622. Opened and read 12 Nov 2026.",
+  "notes": "Up slightly from ZIP 94122's final FY2026 SAFMR table ($2,730 1-BR / $3,310 2-BR, hudB) used in the owner-unit comparison."
  },
  {
   "id": "SF-09",

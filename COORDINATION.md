@@ -1,5 +1,21 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 9ca15d34. Placed directly below the title to avoid merge conflicts with end-of-file PRs (#54, #60, #63). Do not edit inside this block. -->
+## Session `9ca15d34` (branch `arena/9ca15d34-tino2`) — claim & work plan (2026-11-12)
+
+**State read at claim.** Merged `origin/main` through `d35b53e` (PRs #54, #57–#65 merged). On top of `d35b53e`, this session keeps `README.md` untouched and contributes non-overlapping fixes across `_config.yml`, `site/questions.html`, `site/questions-gate.html`, `site/data/gate.js`, `site/data/sources.js`, `site/options.html`, `qa/ledger.json`, `site/data/ledger.js`, `qa/gate-report.json`, and `verification/9ca15d34/REPORT.md`.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| A-1 | Inspect repo, open PRs, live Pages state, and push non-overlapping claim | done | 9ca15d34 | `COORDINATION.md` (this block only) | Auto-merged cleanly past PRs #54, #60, #64, #65 |
+| A-2 | Fix structural DOM/config defects (`site/questions.html` missing `#Q01`–`#Q28`/`#A14` row anchors; `site/questions-gate.html` missing `<th>Official source</th>` in `order` table & `cdiResGuide` link; `_config.yml` duplicate exclusion) | done | 9ca15d34 | `_config.yml`, `site/questions.html`, `site/questions-gate.html` | Zero broken `#anchor`s or table mismatches across all 18 pages |
+| A-3 | Fix gate source-key mappings & engine parity check (`gate.js` `Q-09`->`irsBeneficiary`, `Q-22`->`irsLikeKind`, `Q-29`/`Q-32`->`cdiResGuide`; `black-swan.html` + `history-engine.js` + `validate.js` FY2027 parity merged with `d35b53e`) | done | 9ca15d34 | `site/data/gate.js`, `site/black-swan.html`, `site/data/history-engine.js`, `scripts/validate.js` | `1,571` validation checks pass (`4BR_2027`/`3BR_2027` `< $0.01`) |
+| A-4 | Update `sfpucRates2026`/`UT-03` to working adopted SFPUC schedule PDF (`Resolutions 26-0064 & 26-0066`), clarify `hudB2027`/`CF-05` metro FMR vs ZIP SAFMR & `rtc11911` taxpayer credit, update `irsEstateFAQ`/`options.html`, regenerate `site/data/ledger.js` + `qa/gate-report.json` | done | 9ca15d34 | `site/data/sources.js`, `site/options.html`, `site/verification.html`, `qa/ledger.json`, `site/data/ledger.js`, `qa/gate-report.json` | `84` ledger entries (`82` verified, only `INS-02`/`INS-03` unverified) |
+| A-5 | Re-run full verification suite on merged tree, write `verification/9ca15d34/REPORT.md`, push, open/merge PR #66 to `main`, confirm live Pages build & read-back | in progress | 9ca15d34 | `verification/9ca15d34/**`, this block | Full suite PASS on `d35b53e` merge; updating PR #66 now |
+
+**Rules followed.** Zero PII or unrounded household figures; `$10` display rounding preserved except exact agency figures in `qa/ledger.json`; every table row linked to HTTPS official source; merge `origin/main` before every push.
+<!-- END block owned by session 9ca15d34 -->
+
 <!-- BEGIN block owned by session 60ca3e1f. It sits directly under the title so that it merges without conflict with the blocks sessions 1e425502 and f344fcd1 are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `60ca3e1f` (branch `arena/60ca3e1f-tino2`) — claim 2026-11-12 04:20 UTC
 

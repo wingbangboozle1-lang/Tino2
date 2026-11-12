@@ -142,7 +142,7 @@
           status: "missing",
           why: "A non-spouse heir generally must empty an inherited retirement account within ten years, and those distributions are ordinary income. Life insurance and inheritances themselves are not income.",
           action: "List each account by type, because the tax treatment differs by type, not by amount.",
-          src: "irsTopic559",
+          src: "irsBeneficiary",
           affects: ["estate"]
         },
         {
@@ -286,7 +286,7 @@
           status: "settled",
           why: "The 'sell and reinvest in the stock market' plan is therefore fully taxable on any gain, which is why the basis reset matters so much.",
           action: "Nothing to obtain. Plan the reinvestment on an after-tax basis.",
-          src: "irsTopic409",
+          src: "irsLikeKind",
           affects: ["sell"]
         }
       ]
@@ -370,7 +370,7 @@
           status: "missing",
           why: "A homeowners premium follows the dwelling limit, which is the rebuild cost. The state regulator's 2026 survey shows the middle premium roughly doubling between a $500,000 and a $1,000,000 dwelling limit.",
           action: "Ask a builder or an insurer for a rebuild estimate, then get a written quote on that limit.",
-          src: "insuranceGuide",
+          src: "cdiResGuide",
           affects: ["live", "rent"]
         },
         {
@@ -400,7 +400,7 @@
           status: "settled",
           why: "The slow period between a death and a decision is exactly when a house stands empty, so the gap in cover arrives at the worst time.",
           action: "Ask the insurer in writing for the vacancy term of any policy, before relying on it during the transfer.",
-          src: "insuranceGuide",
+          src: "cdiResGuide",
           affects: ["rent", "sell", "live"]
         },
         {

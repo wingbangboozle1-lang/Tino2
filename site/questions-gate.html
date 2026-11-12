@@ -36,7 +36,7 @@ main.innerHTML = UI.hero("Decision gate · blocked or ready · 12 Nov 2026",
 </section>
 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Read in order</div><h2>The order the questions have to be answered in</h2><p>The groups are sequential, not alphabetical. A question about the sale cannot be answered before the question about the deed, because a house that is not the heir's to sell cannot be sold.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Group</th><th class="number">Questions</th><th class="number">Settled</th><th class="number">Blocking</th><th class="wrap">Why it comes at this point</th></tr></thead><tbody id="order"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Group</th><th class="number">Questions</th><th class="number">Settled</th><th class="number">Blocking</th><th class="wrap">Why it comes at this point</th><th>Official source</th></tr></thead><tbody id="order"></tbody></table></div>
 </section>
 
 <div id="groups"></div>
@@ -78,7 +78,7 @@ const ORDER_WHY = {
 document.getElementById("order").innerHTML = Q.GROUPS.map((g, i) => {
   const settled = g.items.filter(x => x.status === "settled").length;
   const blocking = g.items.length - settled;
-  const key = g.id === "transfer" ? "caTrustNotice" : g.id === "tax" ? "boeProp19" : g.id === "sell" ? "irsInherited" : g.id === "rent" ? "hudA" : g.id === "live" ? "insuranceGuide" : "irsEstateTax";
+  const key = g.id === "transfer" ? "caTrustNotice" : g.id === "tax" ? "boeProp19" : g.id === "sell" ? "irsInherited" : g.id === "rent" ? "hudA" : g.id === "live" ? "cdiResGuide" : "irsEstateTax";
   return `<tr><td><strong>${i + 1}</strong></td><td class="wrap"><a href="#g-${g.id}">${g.title}</a></td><td class="number">${g.items.length}</td><td class="number">${settled}</td><td class="number">${blocking}</td><td class="wrap">${ORDER_WHY[g.id]}</td><td class="source">${UI.source(key)}</td></tr>`;
 }).join("");
 
