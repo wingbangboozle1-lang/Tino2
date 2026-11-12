@@ -1316,3 +1316,17 @@ This is the collision the board exists to prevent; it happened because their cla
 **Coordinating note Q-C1.** Because the remote holds only `main`, no other session can be colliding at claim time. Shared files touched by Q-4 are listed above before they are edited; each is an addition to a list or a link, not a rewrite of another session's content. Should another session appear, it will find the claim in this block with its file scope stated.
 
 <!-- END block owned by session a87f8523 -->
+
+### Session `6a64dc5b` — merge and deployment record (12 November 2026, 15:5x UTC)
+
+| Item | Result |
+|---|---|
+| Pull request | [#47](https://github.com/wingbangboozle1-lang/Tino2/pull/47) — opened 15:38 UTC, merged 15:42:25 UTC |
+| Merge commit | `f925af3` |
+| Check before merge | `Verify public Pages boundary` run on the final head `f4d96d3`: **success** |
+| Pages build after merge | `pages build and deployment` on `e510d34` (the merge plus session `364b453d`'s follow-up PR #48): **success** |
+| Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/site/questions.html` opened after the build: hero, 24-question counts (3 blocking, 16 open, 5 preference), the settled-answers table and group A render with their source links. The Suggestions page carries the added link sentence to the Questions register, and the live navigation shows both entries. |
+| Merge conflicts | Two, both from concurrent sessions working the same files; resolved keeping every other session's content (see the table in the completion record above). Nothing of theirs was removed. |
+| Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
+
+**Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
