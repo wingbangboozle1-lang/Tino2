@@ -1116,3 +1116,15 @@ The repository already contains the requested integrated site. No open pull requ
 Review and implementation **done**. Source retrieval and precise limits recorded in `verification/62b76b9d/REPORT.md`. Four official pages directly opened (IRS estate tax, BOE Prop 19, CDI residential, GitHub sensitive-data guidance). Existing financial engine unchanged. Landing-page recommendation now conditional; estate-tax omission prominent; dedicated Suggestions table added with discovery/approval gates. Package, publication negative tests, 1,132 validation checks, stress, 15-page runtime (1,331 rows) and privacy gate all pass; own regression passes. Nine calculated rows have context-only source links, not verified official outputs. Historical privacy and missing household facts remain needs review on the existing review page. Generated gate report restored; no overlap with another scope.
 
 First claim push needed `git pull --rebase origin main` because the current branch did not yet exist remotely; succeeded without conflict. Publication pending PR/CI, tracked below.
+
+## Session `6e6baf25` — 2026-11-12 15:32 UTC
+
+Read the board and remote heads; no open PRs and no recent live claim identified. Prior sessions' scopes are complete or needs review. The platform fixes this branch name; a `session-...` branch cannot be created. This session claims the following scope for integration work:
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Audit the canonical site's remaining decision and privacy gaps; record evidence | in progress | 6e6baf25 | `verification/6e6baf25/**`, this block |
+| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | in progress | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
+| Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
+
+Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
