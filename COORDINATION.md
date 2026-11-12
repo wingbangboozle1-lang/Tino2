@@ -1103,6 +1103,40 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
 
+## Session `62b76b9d` — 2026-11-12
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Independent final review of existing integrated dashboard; improve executive-summary uncertainty and household-cost display rounding; run publication/model checks | in progress | 62b76b9d | `verification/62b76b9d/**`, `index.html` (executive summary wording only), this board block |
+
+The repository already contains the requested integrated site. No open pull requests at claim. Earlier task blocks have subsequent completion records; no current overlapping work identified. The Arena-fixed current branch is used (no alternate branch created). Research facts will not be marked verified unless directly retrieved; restricted network access will be reported. Existing private-history risks are not resolved by display rounding. No private records will be added.
+
+### `62b76b9d` completion / integration
+
+Review and implementation **done**. Source retrieval and precise limits recorded in `verification/62b76b9d/REPORT.md`. Four official pages directly opened (IRS estate tax, BOE Prop 19, CDI residential, GitHub sensitive-data guidance). Existing financial engine unchanged. Landing-page recommendation now conditional; estate-tax omission prominent; dedicated Suggestions table added with discovery/approval gates. Package, publication negative tests, 1,132 validation checks, stress, 15-page runtime (1,331 rows) and privacy gate all pass; own regression passes. Nine calculated rows have context-only source links, not verified official outputs. Historical privacy and missing household facts remain needs review on the existing review page. Generated gate report restored; no overlap with another scope.
+
+First claim push needed `git pull --rebase origin main` because the current branch did not yet exist remotely; succeeded without conflict. Publication pending PR/CI, tracked below.
+
+## Session `6e6baf25` — 2026-11-12 15:32 UTC
+
+Read the board and remote heads; no open PRs and no recent live claim identified. Prior sessions' scopes are complete or needs review. The platform fixes this branch name; a `session-...` branch cannot be created. This session claims the following scope for integration work:
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Audit the canonical site's remaining decision and privacy gaps; record evidence | in progress | 6e6baf25 | `verification/6e6baf25/**`, this block |
+| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | in progress | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
+| Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
+
+Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
+
+**Scope addition, 15:33 UTC:** `site/plan.html` is also claimed for a narrow clarification of endpoint portfolio taxation. No current owner was found. The same correction is planned for `index.html`; neither changes model results.
+
+**Scope addition, 15:34 UTC:** `site/decision.html` is claimed for one narrow correction: the existing tax sensitivity is not a proven bound on the true result. No active owner was found. No model arithmetic will be changed.
+
+**Coordination correction and conflict:** Session `62b76b9d` had a concurrent claim and merged PR #43 while this session was working; its landing-page scope overlapped. It was not visible in the initial check. `git pull --rebase origin main` conflicted on the board. Both blocks were retained and the rebase completed; the stashed site edits restored cleanly, preserving the other session's landing-page suggestions table. No other session's work was discarded. This session's separate suggestions page supplies a more detailed decision and privacy comparison.
+
+**Review status:** Source retrieval, limits and specific findings are recorded in `verification/6e6baf25/REPORT.md`. The reviewed sources include [BOE Proposition 19](https://www.boe.ca.gov/prop19/), [IRS estate tax](https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax), [IRS basis](https://www.irs.gov/taxtopics/tc703), [CDI residential insurance](https://www.insurance.ca.gov/01-consumers/105-type/5-residential/), [FDIC](https://www.fdic.gov/resources/deposit-insurance/faq/), [SEC](https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments), and [GitHub data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). External links outside this checked subset and every inherited row were not freshly verified. Public contextual re-identification risk and historical exposure, as well as unverified household values that are displayed rather than blank, remain **needs review** and are published on the Flagged page. No history rewrite or privacy-setting change was performed.
+
 <!-- BEGIN block owned by session 6a64dc5b. Appended at the end so it cannot conflict with earlier blocks. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `6a64dc5b` (branch `arena/6a64dc5b-tino2`) — claim 2026-11-12 15:35 UTC
 
@@ -1131,8 +1165,10 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 | S-2 | Independent verification | **done** | `verification/6a64dc5b/REPORT.md`: 17 sources opened and quoted; 1 irregularity (IREG-1); every row PASS |
 | S-3 | Decision readiness page | **done** | `site/questions.html`: 24 questions in 4 groups, 10 settled answers, 3 blocking, 5 readiness gates, 10-row sensitivity table computed by the published model |
 | S-4 | Suggestions page | **done** | `site/suggestions.html`: 10 decision suggestions + 10 site suggestions, three-way choice, copy/print record, `localStorage` only, no network |
-| S-5 | Wiring and checks | **done** | Navigation (2 entries), landing page (2 cards), publication manifest (30 files), validator (17 pages), README, ledger P19-12; `validate.js` PASS 1,161 checks; `package-site.py` + `check-publication.py --self-test` PASS; `runtime-test.cjs` PASS 17 pages / 1,392 rows; privacy scan 0 errors |
+| S-5 | Wiring and checks | **done** | Navigation (2 entries), landing page (2 cards), publication manifest (30 files), validator (17 pages), README, ledger P19-12; `validate.js` PASS 1,170 checks; `package-site.py` + `check-publication.py --self-test` PASS; `runtime-test.cjs` PASS 17 pages / 1,416 rows; `gate.cjs` 0 errors; privacy scan 0 errors |
 | S-6 | PR, merge, Pages | **pending** | To be recorded below once the pull request is merged |
+
+**Concurrent work merged, not replaced.** While S-4 was being written, `main` advanced from `bfb2268` to `ed9cbbd` with two other sessions: `62b76b9d` (executive-summary wording, conditional recommendation, privacy warnings) and `6e6baf25` (a dedicated review-only suggestions page at the same path, plus privacy and question lists). The merge kept every one of their changes: their two COORDINATION blocks, their index/app.js privacy wording, their two High items on the Flagged page, and all of their suggestions-page content — the privacy-path comparison, the seven ranked improvements, the seven questions and the how-to-use card — now published together with this session's two choice registers and decision record. Nothing of theirs was removed; their page was extended rather than overwritten.
 
 **Irregularity published.** IREG-1: the Santa Clara County Assessor page says the Proposition 19 allowance is adjusted "annually", while the Board of Equalization and Letter to Assessors 2026/026 say every other 16 February. The model follows the Board; the item is on `site/review.html` with both links.
 

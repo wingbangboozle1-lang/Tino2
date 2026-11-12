@@ -1,6 +1,6 @@
 # Session 6a64dc5b — independent verification and two new pages (12 November 2026)
 
-**Branch:** `arena/6a64dc5b-tino2`, based on `main` = `bfb2268` (merge of PR #42).
+**Branch:** `arena/6a64dc5b-tino2`, based on `main` = `bfb2268` (merge of PR #42); `main` advanced to `ed9cbbd` during the session and was merged in (see section 6).
 **Scope claimed:** (S-2) re-open the official sources that drive the decision and record each result; (S-3) a decision-readiness register at `site/questions.html`; (S-4) a suggestions register with a local-only choice record at `site/suggestions.html`; (S-5) wiring, checks and ledger; (S-6) own PR, merge and Pages confirmation. No published figure, ranking or recommendation was changed.
 
 **Method.** Each source below was opened on 12 November 2026 with the fetch tool and the quoted passage was read on the page itself, not taken from an earlier session's report. Where a page could not be read, the row says so and nothing is inferred. Figures already recorded in `qa/ledger.json` were not duplicated unless this session added a new distinction (P19-12).
@@ -39,9 +39,9 @@ Observation, not an error: the IRS "Estate tax" page still ends its filing-thres
 
 | Check | Command | Result |
 |---|---|---|
-| Model, sources, links, page count | `node scripts/validate.js` | **PASS** — 1,161 checks across 17 pages and 171 official sources; base case 2045 unchanged (sell $9,125,340 / rent $7,395,620 / live $6,068,080) |
+| Model, sources, links, page count | `node scripts/validate.js` | **PASS** — 1,170 checks across 17 pages and 171 official sources; base case 2045 unchanged (sell $9,125,340 / rent $7,395,620 / live $6,068,080) |
 | Publication allowlist | `python3 scripts/package-site.py` then `python3 scripts/check-publication.py --self-test` | **PASS** — 30 reviewed public files; rounding rule passed |
-| Rendered pages, rows and local links | `node scripts/runtime-test.cjs` | **PASS** — 17 pages, 1,392 rendered rows each with an official link, no runtime errors |
+| Rendered pages, rows and local links | `node scripts/runtime-test.cjs` | **PASS** — 17 pages, 1,416 rendered rows each with an official link, no runtime errors |
 | Privacy scan | `python3 integration/tools/privacy_scan.py` | **0 errors**; the only new warnings are the official CDI survey minimum $1,543, which is an official published amount and is in the ledger (INS-04) |
 
 No name, street address, parcel number, account number or household figure was added. Every dollar amount added to the two new pages is either produced by the published model and rounded to $10 by `fmtMoney`, or an official amount published by a government body ($1,543, $1,044,586, $15,480,000, $20,000, $59.00).
@@ -56,3 +56,7 @@ Both pages are reachable from the navigation on every page and from two new card
 ## 5. Confirmation
 
 The published ranking is unchanged: for a 2045 inheritance held ten years, selling and reinvesting finishes ahead of renting by $1,729,720 and ahead of living in the house by $3,057,260. Every sensitivity tested on the new page (insurance at the survey high, rent ten per cent lower, home growth 2% or 6.7%, portfolio return 5%, upkeep 1%, tax 37%, the rate-book levy) keeps selling first.
+
+## 6. Note on the concurrent merge
+
+`main` moved to `ed9cbbd` while this session was working, carrying work from sessions `62b76b9d` and `6e6baf25`. Session `6e6baf25` had created `site/suggestions.html` at the same path with a privacy-path comparison, seven ranked improvements and seven questions. That page was merged in, not replaced: every one of its sections is still published, its wording on privacy and on the conditional recommendation was kept in `index.html` and `assets/app.js`, and its two High items remain at the top of `site/review.html`. This session's two suggestion registers, the three-way choice per row and the local-only decision record were added to it, and the link to the full 24-question register was added. The page now has five tables and 37 rows; `gate.cjs` reports 17 pages, 1,416 rows, 0 errors.
