@@ -71,7 +71,7 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 <!-- END block owned by session 5eb05dce -->
 ## Session `f2cc9e15` — 2026-11-12 — claim
 
-**State read at claim.** `origin/main` = `052e626` (merge of PR #52) when this block was written. While it sat unpushed, `origin/main` moved to `444be2e` (PRs #55 and #56 merged — both verification-only); this block was then rebased onto `444be2e` keeping both sides; `origin/main` moved again to `4b6a5cd` (PR #58 merged), and again to `5bc7512` (PR #59 merged), and again to `7f9bab5` (PRs #57 and #61 merged — record/verification only); this block was rebased past each the same way. The smoke verification in F-3 was re-run on the `444be2e` tree; PRs #55–#59 add only `verification/**` and `COORDINATION.md`, so the published allowlist artifact is unchanged. `git ls-remote --heads origin` fetched; the only open pull request is **#54** (`arena/9984092e-tino2`, final independent re-verification, verification-only, opened 22:13 UTC, files `verification/9984092e/**` + its own `COORDINATION.md` block). No session block on the board lists an unclaimed task; every prior task is `done` or standing `needs review` (published on the Flagged for Review page). No live claim covers the scope below. This session does **not** touch PR #54, `site/**`, `index.html`, `assets/**`, `scripts/**`, `qa/**`, or `verification/9984092e/**`.
+**State read at claim.** `origin/main` = `052e626` (merge of PR #52) when this block was written. While it sat unpushed, `origin/main` moved to `444be2e` (PRs #55 and #66 merged — both verification-only); this block was then rebased onto `444be2e` keeping both sides; `origin/main` moved again to `4b6a5cd` (PR #58 merged), and again to `5bc7512` (PR #59 merged), and again to `7f9bab5` (PRs #57 and #61 merged — record/verification only); this block was rebased past each the same way. The smoke verification in F-3 was re-run on the `444be2e` tree; PRs #55–#59 add only `verification/**` and `COORDINATION.md`, so the published allowlist artifact is unchanged. `git ls-remote --heads origin` fetched; the only open pull request is **#54** (`arena/9984092e-tino2`, final independent re-verification, verification-only, opened 22:13 UTC, files `verification/9984092e/**` + its own `COORDINATION.md` block). No session block on the board lists an unclaimed task; every prior task is `done` or standing `needs review` (published on the Flagged for Review page). No live claim covers the scope below. This session does **not** touch PR #54, `site/**`, `index.html`, `assets/**`, `scripts/**`, `qa/**`, or `verification/9984092e/**`.
 
 | # | Task | Status | Owner | File scope | Sources verified | Irregularities |
 |---|------|--------|-------|------------|------------------|----------------|
@@ -93,6 +93,22 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 | Task | Status | Owner | File scope |
 |---|---|---|---|
 | Integration verification and finalization of the executive summary landing, suggestions section, questions/info/answers register, black-swan section, year-by-year projections, comparison, inheritance process, tax law analysis, GitHub Pages site, verification, PR to `main`, merge without waiting, confirm Pages build, read live pages back, record PR/merge in `COORDINATION.md` | done | 58941d22 | `COORDINATION.md`, `index.html`, `site/*.html`, `site/data/*.js`, `assets/app.js`, `qa/ledger.json`, `scripts/validate.js` |
+
+---
+
+## Session `cf976834` — integration and finalization (2026-11-12)
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| I-1 | Coordination: read the board and `git ls-remote`, claim integration scope (executive summary, suggestions section, questions/info/answers register, black-swan section, year-by-year projections, comparison, inheritance process, tax law analysis, GitHub Pages site, verification, PR/merge/record) | **in progress** | cf976834 | `COORDINATION.md` (this block), `index.html`, `site/*.html`, `site/data/*.js`, `assets/app.js`, `qa/ledger.json`, `scripts/validate.js` | N/A | I-C1 below |
+
+**Scope.** Integration and finalization of the executive summary landing (`index.html`), suggestions section (`site/suggestions.html` + `site/data/suggestions.js`), questions/info/answers register (`site/questions.html` + `site/data/questions.js`), black-swan section (`site/black-swan.html` + `site/data/history-engine.js`), year-by-year projections (`site/properties.html` + `site/data/model.js` + `site/data/costs.js`), live vs rent vs sell-and-reinvest comparison (`site/decision.html` + `site/data/options.js`), inheritance process (`site/inheritance.html`), tax law analysis (`site/estate-tax.html`), GitHub Pages site (`_config.yml`, `scripts/validate.js`, `scripts/package-site.py`), verification (`site/verification.html` + `qa/ledger.json`), PR to `main`, merge without waiting, confirm Pages build, read live pages back, record PR/merge in `COORDINATION.md`.
+
+**Coordinating note I-C1.** Because the remote holds only `main` at `69c64d9` and no other session is currently claiming the integration scope, this session claims the full integration and finalization. Small frequent commits, `git pull --rebase` before push, resolve conflicts without discarding others' work.
+
+**Privacy.** No personal information in any committed file; parties and addresses stay placeholders (Property A / Property B); household amounts appear only rounded to $10. Every dollar figure of $1,000 or more on the new pages is a multiple of $10 or a figure a government body publishes (and, where it is new, added to `qa/ledger.json`). Every table row carries an official source link or is left blank and flagged unverified. Nothing is inferred.
+
+<!-- END block owned by session cf976834 -->
 
 ---
 
