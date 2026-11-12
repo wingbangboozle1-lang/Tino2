@@ -1,5 +1,47 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 9caf8551. It sits directly under the title so that it merges without conflict with the blocks the other live sessions are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
+## Live-session notice and claim of session `9caf8551` (branch `arena/9caf8551-tino2`) — 2026-11-12 15:39 UTC
+
+**Eight sessions are live at once**, all started between 15:31 and 15:37 UTC on 12 Nov 2026 with the same brief. `git ls-remote --heads origin` at 15:38 UTC lists 39 branches including `main`; seven besides this one have commits newer than `bfb2268` (PR #42). Claims in the order they reached the remote (times are commit times on the remote, not the times written in the headings):
+
+| Session | Claim commit (UTC) | What it claimed | Files it claimed | State at 15:38 UTC |
+|---|---|---|---|---|
+| `62b76b9d` | 15:31:28 | Final review; executive-summary uncertainty wording; display rounding of household costs | `verification/62b76b9d/**`, `index.html` (executive-summary wording) | PR #43 merged 15:33:53; a suggestions table was added to `index.html` |
+| `364b453d` | 15:31:44 | Suggestions page with decision-readiness questions and a local choice record | `site/suggestions.html` (new), `assets/app.js` (one nav entry), `index.html` (one link block), `scripts/validate.js` (page count), `scripts/check-publication.py`, `README.md`, `verification/364b453d/**` | PR #45 open since 15:36:24 |
+| `a87f8523` | 15:31:58 | Two pages: Decision readiness and Suggestions to review | `site/questions.html`, `site/data/questions.js`, `site/suggestions.html`, `site/data/suggestions.js` (all new), `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js`, `README.md`, `verification/a87f8523/**` | claim only |
+| `6a64dc5b` | 15:32:09 | Independent verification; two pages: Decision readiness and Suggestions | `verification/6a64dc5b/**`, `site/questions.html`, `site/suggestions.html` (new), `assets/app.js`, `index.html`, `scripts/validate.js`, `scripts/runtime-test.cjs`, `scripts/check-publication.py`, `qa/ledger.json`, `README.md` | claim only |
+| `6e6baf25` | 15:32:44 (branch later force-updated) | Audit of decision and privacy gaps; suggestions section; narrow corrections | `verification/6e6baf25/**`, `site/suggestions.html`, `site/review.html`, `site/plan.html`, `site/decision.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` | PR #44 merged 15:36:54; `site/suggestions.html` is now on `main` |
+| `62245584` (branch `arena/693321af-tino2`) | 15:34:07 | Questions-and-answers decision gate; suggestions section with a choose-one panel | `site/questions.html`, `site/data/questions.js`, `site/suggestions.html`, `site/data/suggestions.js` (all new), `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js`, `_config.yml`, `verification/62245584/**` | claim only |
+| `55c16cea` | 15:36:05 | HUD FY2027 rent benchmark; Questions and Suggestions pages; fixes for R-D3, R-D4, R-D5 | `site/questions.html`, `site/suggestions.html`, `index.html`, `assets/app.js`, `site/data/sources.js`, `site/data/model.js`, `site/data/ledger.js`, `qa/ledger.json`, eleven existing pages under `site/`, `scripts/check-publication.py`, `scripts/validate.js`, `verification/55c16cea/**` | claim only |
+| `9caf8551` (this session) | this commit | see the table below | see the table below | — |
+
+**Why most of the seven say no other session is live.** The clone a session receives fetches only `main` and its own branch (`git config --get-all remote.origin.fetch` returns two refspecs), so `git fetch --all` and `git branch -r` show `main` alone. `git ls-remote --heads origin` shows every branch. Later sessions: run that command before claiming.
+
+**Overlaps, as facts for the sessions concerned.** `site/suggestions.html` is claimed by six sessions (first claim on the remote: `364b453d`; first merged: `6e6baf25`). `site/questions.html` is claimed by four (first claim: `a87f8523`). `index.html`, `assets/app.js`, `scripts/validate.js` (the page-count assertion) and `scripts/check-publication.py` are claimed by five or more. The board rule is that a claimed task is not started by another session, and that a conflict is resolved without discarding the other session's work. This session edits none of those blocks and builds neither of those two pages.
+
+**What this session takes.** Nobody holds the part of the brief that says "sell the house and reinvest the money into the stock market, savings, etc after taxes". The site carries one assumed after-tax return (5% a year) and has no comparison of where the proceeds could go. This session researches and publishes that, and afterwards checks what the eight parallel merges leave on `main`.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| 9C-1 | Coordination: read the board, list every remote branch and pull request, detect the live claims, claim a non-overlapping scope, push at once | done at this commit | 9caf8551 | `COORDINATION.md` (this block only) | N/A | 9C-C1 below |
+| 9C-2 | Research, official sources only: what sale proceeds can earn in shares, bank savings, Treasury securities and municipal bonds; how each is taxed by the United States and by California; what protection each carries; the recorded year-by-year returns of each. Blank and flagged where no official figure exists | in progress | 9caf8551 | `research/9caf8551/**` (new), `verification/9caf8551/**` (new) | to be listed per row | to be listed |
+| 9C-3 | New page **Reinvesting the proceeds** (`site/reinvest.html`): the after-tax return of each choice set beside the 5% the model assumes, the published sell, rent and live results recomputed at each return with the existing engine, and the return at which selling stops leading. No model input, plan or published figure is changed | claimed | 9caf8551 | `site/reinvest.html` (new), `site/data/reinvest.js` (new) | as 9C-2 | — |
+| 9C-4 | Wire the page in. Shared files are **not** claimed yet: they are in use by the sessions above. They will be listed in this block, with a handoff note, before any is touched, and only after re-reading the board on `main` | pending | 9caf8551 | expected: `assets/app.js` (one nav entry), `index.html` (one link), `scripts/validate.js` (page count), `scripts/check-publication.py` (manifest), `README.md` (one line), `site/data/sources.js` (append-only block), `qa/ledger.json` + `site/data/ledger.js` (new entries) | — | — |
+| 9C-5 | After the other seven record done, or a claim is older than 60 minutes with no commit: read `main` as a reader would and check what the parallel merges left behind (duplicate Suggestions or Questions pages, repeated navigation entries, page counts in the validators, publication manifest, broken links). Fix only what is broken, discard nothing, and log each change here before making it | claimed | 9caf8551 | to be listed before any file is touched | N/A | — |
+| 9C-6 | Own pull request to `main`, merge, confirm the Pages build, read the live page back, record the result here | pending | 9caf8551 | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure in new files is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push; conflicts are resolved keeping both sides. The platform fixes the branch name to `arena/9caf8551-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+**9C-C1 (claim note).** This session started at 15:32 UTC and read seven claims before writing its own. It is the only one of the eight that saw the others at claim time. Nothing above is a judgment on any session's work; the table records what each pushed.
+
+### Requests and handoff log (session `9caf8551`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-12 15:39 UTC | 9caf8551 | all | Eight sessions are live; the table above lists each claim. I build neither the Suggestions nor the Questions page and edit no file another session has claimed. My new files are `site/reinvest.html`, `site/data/reinvest.js`, `research/9caf8551/**` and `verification/9caf8551/**`. If you add a navigation entry, a page count or a manifest line, I will merge mine after yours and keep yours. |
+<!-- END block owned by session 9caf8551 -->
+
 <!-- BEGIN block owned by session 60ca3e1f. It sits directly under the title so that it merges without conflict with the blocks sessions 1e425502 and f344fcd1 are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `60ca3e1f` (branch `arena/60ca3e1f-tino2`) — claim 2026-11-12 04:20 UTC
 
