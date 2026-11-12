@@ -955,14 +955,27 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 
 ## Session `f344fcd1` (branch `arena/f344fcd1-tino2`) — claim 2026-11-12 04:20 UTC
 
-All remote branches were fetched at 04:18 UTC. `origin/main` (`9867620`, PR #37) is the only branch on the remote, and no session block on this board has an open task, so **no other session is live**. The last commit on `main` is more than 14 hours old. PR #3 (`arena/8c4d9e77-tino2`) is still open from 2026-11-10 and its branch no longer exists on the remote.
+All remote branches were fetched at 04:18 UTC. `origin/main` (`9867620`, PR #37) is the only branch on the remote, and no session block on this board has an open task, so **no other session is live**. The last commit on `main` was more than 14 hours old. (Correction to the first version of this claim: PR #3 is closed, not open.)
 
 | # | Task | Status | Owner | File scope | Sources verified | Irregularities |
 |---|------|--------|-------|------------|------------------|----------------|
 | F-1 | Coordination: read the board, fetch every branch, claim, push at once | done | f344fcd1 | `COORDINATION.md` (this block only) | N/A | none |
-| F-2 | Whole-repository privacy audit. The repository is public, so every tracked file counts, not only the published pages: search for unrounded household figures, names, addresses and identifiers | in progress | f344fcd1 | read-only first; any fix is logged here before the file is touched | — | — |
-| F-3 | Re-run every check on `main`; read every published page against the brief; re-open the time-sensitive official figures (estate exclusion, Prop 19 amount, tax rates) | in progress | f344fcd1 | `verification/f344fcd1/**` | — | — |
-| F-4 | Final integration for whatever F-2 and F-3 find (no live owner of the shared files exists). Additions and corrections only, each logged here | unclaimed until F-2/F-3 report | f344fcd1 | to be listed here before any shared file is touched | — | — |
-| F-5 | PR to `main`, merge, confirm the Pages build, record the result here | unclaimed | f344fcd1 | this block | — | — |
+| F-2 | Whole-repository privacy audit. The repository is public, so every tracked file and the history count | done | f344fcd1 | read-only; report in `verification/f344fcd1/REPORT.md` | [GitHub Docs, sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository) · [GitHub Docs, commit email](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) | F-I1, F-I2 |
+| F-3 | Re-run every check on `main`; read the published pages against the brief; re-open the time-sensitive official figures | done | f344fcd1 | `verification/f344fcd1/**` | Ten official pages opened on 12 Nov 2026 (IRS ×3, State Controller, BOE ×2, SF Rent Board, HUD ×2, Secretary of State, Federal Register); wording and links in `verification/f344fcd1/REPORT.md` | F-I3, F-I4 |
+| F-4 | Final integration of the findings (no live owner of the shared files). Additions and corrections only | done | f344fcd1 | `site/review.html` (4 items added, 1 percentage), `site/data/sources.js` (3 keys appended, 2 notes), `site/sources.html` (2 percentages), `site/data/ledger.js` (CA-05, CA-06, CA-07), `index.html` (one sentence in the Flagged box) | as F-3 | none |
+| F-5 | PR to `main`, merge, confirm the Pages build, record the result here | in progress | f344fcd1 | this block | — | — |
 
 The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+### Irregularities found by session `f344fcd1`
+
+| ID | Finding | What was done | Left for the owner |
+|---|---|---|---|
+| F-I1 | **Privacy, new.** 20 merge commits on `main` are authored with the account's primary e-mail address (pull requests merged with e-mail privacy off). The address is in no tracked file and not on the site, and is not repeated here | Published on Flagged for Review. This session's merge is authored with the no-reply address (`gh pr merge --author-email`); **later sessions should do the same** | Turn on "Keep my email addresses private" in GitHub settings; the earlier commits need the history decision in F-I2 |
+| F-I2 | **Privacy, recount.** No tracked file holds an unrounded household figure. History: 42 of 173 commits on `main` and 9 of 37 saved pull-request copies still hold exact assessed values. The older session branches are now deleted | Flagged page updated with the recount | Fresh repository, private repository, or a GitHub Support purge |
+| F-I3 | The HUD rent benchmark in the model is FY2026; FY2027 took effect 1 Oct 2026. The FY2027 amount for the ZIP could not be read from the official lookup | Left blank and flagged; model unchanged. Test in `verification/f344fcd1/rent-benchmark-test.cjs`: rent ±10% leaves selling first for 2040, 2045 and 2050 | Read the FY2027 row in the HUD lookup |
+| F-I4 | Ballot counts moved by 0.1 point since 10 Nov; no outcome changed; not certified | Percentages updated with the count time | Recheck after 11 Dec 2026 |
+
+### Checks on this branch (12 Nov 2026)
+
+`package-site.py` PASS · `check-publication.py --self-test` PASS, 28 public files · `validate.js` PASS, 1,092 checks, 15 pages, 154 sources · `stress-test.js` PASS · `runtime-test.cjs` PASS, 15 pages, 1,266 source-linked rows, no broken local link · `qa/tools/gate.cjs` PASS, 0 errors, 0 warnings. The published recommendation and every model figure are unchanged.
