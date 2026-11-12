@@ -47,6 +47,8 @@ For a full Chromium smoke test when browser dependencies are available, install 
 - `scripts/check-publication.py`, `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs` — boundary, rendered-page, independent arithmetic and privacy-regression checks.
 - `site/`, `docs/`, `research/`, `qa/`, `verification/` — retained legacy work, not safe to publish as Pages output and not necessarily independently verified.
 
-The existing legacy Pages configuration serves `main`/root through Jekyll; `_config.yml` excludes known legacy paths and CI checks the Jekyll output as well as the explicit package. **Do not add `.nojekyll` at the repository root**, which bypasses Jekyll exclusions. Direct commits or bypassing checks can still make a denylist unsafe. If Pages is switched to the provided GitHub Actions workflow, deployment must use the checked `_public` allowlist instead; this still does not privatize the repository or its history.
+The existing legacy Pages configuration serves `main`/root through Jekyll; `_config.yml` excludes known legacy paths and CI checks the Jekyll output as well as the explicit package. **Do not add `.nojekyll` at the repository root**, which bypasses Jekyll exclusions. Direct commits or bypassing checks can still make a denylist unsafe, and legacy Pages deployment is not gated by the separate CI check.
+
+For a fail-closed publication boundary, a repository administrator can set **Settings → Pages → Build and deployment → Source → GitHub Actions**, then run **Verify public Pages boundary** on `main` from the Actions tab. The workflow deploys the checked `_public` allowlist only after all checks succeed; verify the deployment and the live site. This change still does not privatize the repository or its history.
 
 This guide is educational, not legal, tax, insurance or investment advice.

@@ -12,8 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def audit(directory, jekyll=False):
     expected = set(PUBLIC_FILES)
-    # GitHub's default Pages theme generates this CSS under the legacy builder.
-    expected.add('assets/css/style.css' if jekyll else '.nojekyll')
+    # Legacy Jekyll output must match the same reviewed files byte-for-byte.
+    # The package has an extra marker; a root marker would bypass Jekyll excludes.
+    if not jekyll:
+        expected.add('.nojekyll')
     if directory.is_symlink() or not directory.is_dir():
         return ['Missing or symlinked output directory']
     files, errors = set(), []
@@ -45,6 +47,14 @@ if __name__ == '__main__':
             fixture=Path(tmp)/'public'
             shutil.copytree(target,fixture)
             assert not audit(fixture), audit(fixture)
+            jekyll_fixture=Path(tmp)/'jekyll'
+            shutil.copytree(target,jekyll_fixture)
+            (jekyll_fixture/'.nojekyll').unlink()
+            assert not audit(jekyll_fixture,jekyll=True), audit(jekyll_fixture,jekyll=True)
+            theme=jekyll_fixture/'assets/css/style.css'
+            theme.parent.mkdir(parents=True)
+            theme.write_text('unreviewed CSS')
+            assert any('Unexpected' in x for x in audit(jekyll_fixture,jekyll=True))
             unexpected=fixture/'private.txt'; unexpected.write_text('synthetic marker')
             assert any('Unexpected' in x for x in audit(fixture)); unexpected.unlink()
             unexpected.symlink_to(fixture/'index.html')
@@ -61,4 +71,4 @@ if __name__ == '__main__':
         for e in errors:
             print('::error title=Publication boundary::'+e)
         raise SystemExit(1)
-    print(f'PASS: publication matches {len(PUBLIC_FILES)} reviewed source files plus build marker.')
+    print(f'PASS: publication matches {len(PUBLIC_FILES)} reviewed source files' + ('.' if jekyll else ' plus build marker.'))
