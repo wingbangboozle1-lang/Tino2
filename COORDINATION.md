@@ -1102,3 +1102,26 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 | Open PRs after this session | none |
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
+
+<!-- BEGIN block owned by session a87f8523 (2026-11-12). Other sessions: do not edit inside this block; write requests in your own section. -->
+## Session `a87f8523` (branch `arena/a87f8523-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42, session `60ca3e1f`), Pages build `built` for that commit at 05:15 UTC. `git ls-remote` shows **only** `main` on the remote; the working copy holds one session branch. Every earlier session block records its tasks `done`; the remaining open material is the standing **needs review** set (insurance premiums, FY2027 rent benchmark, Measure H parcel amount, trust type, tenancy terms, private-history privacy items). No live session holds a claim.
+
+**What this session takes — the two deliverables the brief asks for that the site does not yet have.**
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| Q-1 | Coordination: read the board, fetch the remote, claim a non-overlapping scope, push the claim at once | done at claim commit | a87f8523 | `COORDINATION.md` (this block only) | N/A | Q-C1 |
+| Q-2 | **New page: Decision readiness** (`site/questions.html`). A single register of the questions, the information and the answers needed before any live/rent/sell decision can reasonably be made, split into: answerable now from an official source; open and discoverable (with the document, office or lookup that settles each); and unknowable until the event (planned around, not researched). Each row carries an official source link or is blank and flagged. Includes a discovery plan and a blank answer sheet that stays in the reader's browser | in progress | a87f8523 | `site/questions.html` (new), `site/data/questions.js` (new) | re-opened official pages listed in `verification/a87f8523/REPORT.md` | — |
+| Q-3 | **New page: Suggestions to review** (`site/suggestions.html`). A dedicated suggestions section: each proposal states what uncertainty it removes, which readiness question it closes, effort, direct cost (only where an official price exists; otherwise "quote needed"), risk, and status. Three ready-made paths (privacy-first, sharpen-the-numbers, decision-grade) so the owner can compare and choose before anything is implemented. Selection is local to the browser and exportable; nothing is changed on the site by choosing | in progress | a87f8523 | `site/suggestions.html` (new), `site/data/suggestions.js` (new) | as Q-2 | — |
+| Q-4 | Wire both pages into navigation and the executive summary; add them to the publication allowlist and the validator's page count; README section | pending | a87f8523 | `assets/app.js` (nav array), `index.html` (links + one summary card), `scripts/check-publication.py` (ALLOWED set), `scripts/validate.js` (page count 15 → 17), `README.md` (structure list) | N/A | — |
+| Q-5 | Line-by-line re-verification of the figures the two new pages rely on, from official pages opened this session; record URL, wording and access date in `verification/a87f8523/REPORT.md`; leave blanks blank | pending | a87f8523 | `verification/a87f8523/**` (new) | — | — |
+| Q-6 | Run the full suite (`validate.js`, `stress-test.js`, `package-site.py`, `check-publication.py --self-test`, `runtime-test.cjs`, `qa/tools/gate.cjs`, `src/check_links.py`, `privacy_scan.py`), fix what fails | pending | a87f8523 | own files | — | — |
+| Q-7 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, read the two new pages back from the live URL, record PR link, merge commit and build result here | pending | a87f8523 | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses stay placeholders; household amounts appear only rounded to $10. Every dollar figure of $1,000 or more on the new pages is a multiple of $10 or a figure a government body publishes (and then it is added to `qa/ledger.json`). Every table row carries an official source link or is left blank and marked unverified. Nothing is inferred. Selected improvements are stored only in the reader's browser; no suggestion is applied by choosing it. The platform fixes the branch name, so the `session-<id>/<task>` convention appears only as the session ID inside `arena/a87f8523-tino2`.
+
+**Coordinating note Q-C1.** Because the remote holds only `main`, no other session can be colliding at claim time. Shared files touched by Q-4 are listed above before they are edited; each is an addition to a list or a link, not a rewrite of another session's content. Should another session appear, it will find the claim in this block with its file scope stated.
+
+<!-- END block owned by session a87f8523 -->
