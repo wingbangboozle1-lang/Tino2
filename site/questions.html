@@ -1,324 +1,234 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Structured pre-decision questions, known versus missing information, and private discovery steps before making inheritance, tax, or property decisions.">
-<meta name="robots" content="noindex,nofollow,noarchive">
-<link rel="stylesheet" href="../assets/styles.css">
-</head>
-<body data-title="Questions &amp; discovery guide">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision readiness: the questions, information and answers that must be settled before choosing to live in, rent or sell Property A, with how each gap can be closed."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Decision readiness">
 <main id="main"></main><div data-footer></div>
 <script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
 <script>
 const main = document.getElementById("main");
-const row = cells => "<tr>" + cells.join("") + "</tr>";
-const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+const B = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR");
+const baseLead = B.sell.terminal - B.rent.terminal;
+function lead(over) {
+  const d = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR");
+  return d.sell.terminal - d.rent.terminal;
+}
+function diff(over) { return lead(over) - baseLead; }
+const money = MODEL.fmtMoney;
+const sign = v => (v >= 0 ? "+" : "−") + money(Math.abs(v));
 
-const QUESTIONS = [
-  // 1 · Trust, Title & Legal Authority
-  {
-    domain: "Trust & Title",
-    priority: "High",
-    q: "Is Property A held in a revocable living trust, an irrevocable trust, or outside the trust?",
-    have: "Planning premise: Property A is to be inherited via trust around 2040–2050. Verified rule: a revocable trust included in the gross estate generally resets tax basis to fair market value at death (IRC § 1014), whereas IRS Revenue Ruling 2023-2 holds that assets in an irrevocable grantor trust excluded from the gross estate do not get a step-up.",
-    missing: "The actual signed trust instrument, amendments, trust type, and recorded vesting deed.",
-    discover: "Read the trust title/declaration and amendments privately with the trust attorney, and verify the latest recorded Santa Clara County deed names the acting trustee (confirming Property A will avoid statutory probate).",
-    src: "irsRevRul20232",
-    srcLabel: "IRS Rev. Rul. 2023-2"
-  },
-  {
-    domain: "Trust & Title",
-    priority: "High",
-    q: "How many beneficiaries inherit, and does the trust authorize non-pro-rata (uneven) distribution?",
-    have: "Proposition 19 requires an eligible child/transferee to move into Property A as a principal residence within 1 year; if multiple children inherit equally and cannot allocate the house cleanly, partial reassessment relief can be lost.",
-    missing: "Number of beneficiaries, distribution percentages, buy-out mechanics, and whether the trustee can allocate Property A to one heir and liquid assets to others.",
-    discover: "Review the trust's distribution and trustee-powers articles privately with counsel; confirm whether an equalizing allocation or third-party purchase loan is permitted.",
-    src: "boeLta2026026",
-    srcLabel: "BOE LTA 2026/026"
-  },
-  {
-    domain: "Trust & Title",
-    priority: "Medium",
-    q: "Could title ever be placed in an LLC, or Property A rented out if a parent moves into care before death?",
-    have: "Verified BOE guidance: property held in an LLC or partnership does not qualify for the Proposition 19 parent-child exclusion, and renting the family home to non-family while the parent is in a care facility breaks principal-residence status.",
-    missing: "Whether any entity transfer is contemplated and any care-facility / elder-law contingencies (including Medi-Cal planning).",
-    discover: "Confirm with an elder-law and estate attorney before changing title, moving a parent out, or renting Property A before death.",
-    src: "boeProp19",
-    srcLabel: "BOE Prop 19 rules"
-  },
+// Settled official rules & benchmarks verified 12 Nov 2026.
+const settled = [
+  ["Does California tax an inheritance?", "No. For deaths on or after 1 January 2005 no California estate or inheritance tax return is required. California does tax income the inherited assets later produce.", "caEstate", "State Controller, 12 Nov 2026"],
+  ["Is an inheritance income?", "No. The Franchise Tax Board says a gift or inheritance is not included in income; interest, dividends, rent or gain it later produces is taxable.", "ftbInheritance", "FTB, 12 Nov 2026"],
+  ["What can pass free of federal estate tax?", "$15,000,000 for a death in 2026; $15,480,000 for a death in 2027. Above the exclusion the top rate is 40%.", "irs2027", "IRS IR-2026-133, 12 Nov 2026"],
+  ["How much of Property A is excluded on a parent-to-child transfer, and how often does it reset?", "The parent's taxable value plus $1,044,586 for transfers from 16 February 2025 through 15 February 2027. Per BOE LTA 2026/026, the cap adjusts every other 16 February (note: Santa Clara County's summary page says 'annually'), and the heir must live in the home and claim the exemption.", "boeLta2026026", "BOE NR 25-02 & LTA 2026/026, 12 Nov 2026"],
+  ["How fast can the assessed value grow while the house is owned?", "At most 2% a year under Proposition 13, plus the 1% levy and voter-approved debt. A change of ownership reassesses the property to market value, subject to the exclusion above.", "boeProp13", "BOE Publication 29, 12 Nov 2026"],
+  ["How is the heir's tax basis set?", "Generally the fair market value on the date of death for property included in the estate. That is why a sale soon after death has little gain; it is not the assessed value.", "irsPub551", "IRS Publication 551, 12 Nov 2026"],
+  ["How long does the trustee have to notify beneficiaries and heirs?", "Not later than 60 days after the event requiring notice, when Probate Code §16061.7 applies.", "caTrustNotice", "California Legislative Information, 12 Nov 2026"],
+  ["What rent benchmarks apply to Property A and Property B?", "Property A (ZIP 95014): FY2026 base is $5,870 (3BR) / $6,390 (4BR); verified FY2027 (effective 1 Oct 2026) is $5,440 (3BR) / $5,800 (4BR). Property B (ZIP 94122): FY2027 is $2,770 (1BR) / $3,410 (2BR), up from FY2026 $2,730 / $3,310.", "hudA2027", "HUD FY2027 Lookup, 12 Nov 2026"],
+  ["What does the San Francisco Rent Board charge per unit?", "$59.00 per dwelling unit for 2026–27, due 1 March; an owner-occupied unit is exempt only with an approved request, and the window for the 2027 fee closes 14 December 2026.", "sfRentFee", "SF Rent Board, 12 Nov 2026"],
+  ["What is San Francisco Measure H's multifamily parcel tax schedule?", "Approved in preliminary counts (74.4% yes; certification due 11 Dec 2026). Effective 1 July 2027–30 June 2042 (CPI-adjusted from July 2028): multifamily parcels pay $249/yr base + $0.195/sq ft over 5,000 sq ft ($50,000 cap); up to 50% (max $65/unit) may pass through on pre-June 1, 2027 leases.", "sfMeasureHTerms", "SF Ballot Title & Summary, 12 Nov 2026"],
+  ["What does a Cupertino homeowner policy cost?", "No official premium exists for a specific house. The state regulator's 2026 survey of a made-up 40-year-old Cupertino home with $1,000,000 of dwelling cover shows 35 premiums from $1,543 to $6,430 a year, with a $2,500 deductible.", "cdiSurveyCup40_1000", "Department of Insurance, 12 Nov 2026"]
+];
 
-  // 2 · Estate Size & Inherited Money ("Considerable Amount of Money")
+// Status codes: blocking = the plan cannot be implemented until closed; open = closes with a quote, record or professional answer; partial = some of it is known; preference = only the household can answer.
+const groups = [
   {
-    domain: "Estate & Liquid Assets",
-    priority: "High",
-    q: "What is the total dollar value and asset mix of the \"considerable amount of money\" besides Property A?",
-    have: "Property A household input: $3,100,000 in 2026. Federal basic exclusion is $15,000,000 in 2026 and $15,480,000 in 2027 (official IRS); real-estate-only headroom before non-property assets is $11,900,000 (2026) and $12,271,500 (2027), with each $1,000,000 over the threshold taxed up to 40%.",
-    missing: "Actual balances and account types (cash/CDs, taxable brokerage, Traditional IRA/401(k), Roth IRA, annuities, life insurance, business interests, and debts/liabilities).",
-    discover: "Compile a private net-worth schedule showing owner, title, and named beneficiary for every financial and insurance account. Traditional IRAs generally trigger ordinary income tax within 10 years (no basis step-up), while cash and life-insurance proceeds follow distinct rules.",
-    src: "irsEstateTax",
-    srcLabel: "IRS Estate Tax"
+    id: "A", title: "Title, the trust and the basis reset", intro: "These decide whether a sale is taxed on the value at death or on the gain since the house was bought. The sell plan is built on the first, so they come before any number.",
+    rows: [
+      ["A1", "Is the trust revocable, or otherwise included in the federal estate?", "It decides whether the heir's basis resets at death. Every projection assumes it does.", "An IRS revenue ruling holds that assets of an irrevocable trust that are not counted in the estate keep the old basis. The trust document has not been supplied.", "Read the trust and any amendments; ask the trust attorney one question: is the house included in the gross estate?", "Trust attorney reads the document. One meeting, before 2040.", "If the basis does not reset, a sale is taxed on the gain since purchase. The test on the Other options page shows the sell lead falling toward level when both sides are taxed at the end.", "irsRevRul20232", "blocking"],
+      ["A2", "Does the recorded deed name the trustee, and is the house actually in the trust?", "If not, the house may go through probate and statutory fees apply on its full value.", "Not seen. The household has not provided the deed or the trust's schedule of assets.", "Read the recorded deed and the schedule of assets; a title company can confirm the vesting in one report.", "Title company or county recorder. Low cost, days.", "Probate fees are a statutory percentage of the estate; the table on Other options shows the exposure on Property A's value.", "prob10800", "blocking"],
+      ["A3", "How many beneficiaries are there, and may the house pass to one of them?", "Proposition 19 relief needs at least one eligible transferee to occupy the home; a distribution clause that blocks that removes the relief.", "Number of children and the distribution clause are not known.", "Read the distribution clause; if more than one child inherits, confirm whether the trust permits the home to go to the one who will live in it.", "Trust attorney. One meeting.", "No effect on an immediate sale. It can remove the exemption from a live-in plan, which is already last on money.", "boeLta2026026", "open"],
+      ["A4", "Was the house the parent's principal residence at death, and will it stay in the family's use?", "The Proposition 19 exclusion depends on the parent's home status and on continued use by the heir.", "The house is the family home today. Whether it will still qualify at death is a future fact; a care facility, renting outside the family or holding it in an LLC can end the relief.", "Keep the homeowners' exemption records; ask the assessor before renting the house or changing how title is held.", "Santa Clara County Assessor, before any change of use.", "Removes the exclusion from the live-in path only. The sell path does not use it.", "sccProp19", "open"],
+      ["A5", "How is title held, and did the first spouse die earlier?", "Community property and a prior death change the basis of part of the house and the exclusion available at the second death.", "Not known. No deeds or prior returns supplied.", "Obtain the deed history and any prior Form 706 or DSUE record.", "Title company and CPA.", "Can lower the gain taxed on a future sale; does not reverse the ranking in the tests so far.", "irsPub551", "open"]
+    ]
   },
   {
-    domain: "Estate & Liquid Assets",
-    priority: "High",
-    q: "Have prior taxable gifts (Form 709) been made, or is a predeceased spouse's unused exclusion (DSUE) available?",
-    have: "Annual gift exclusion is $19,000 per recipient in 2026 and $20,000 in 2027 (IRS IR-2026-133). Surviving-spouse DSUE requires a timely Form 706 election at the first spouse's death.",
-    missing: "Whether prior gifts reduced the decedent's lifetime exclusion, and whether a spouse died earlier with or without a portability Form 706 filing.",
-    discover: "Ask the family CPA/attorney for prior Forms 709, any Form 706 from a first spouse's estate, and marital/community-property agreements (which also determine double step-up vs single step-up).",
-    src: "irs2027",
-    srcLabel: "IRS IR-2026-133"
-  },
-
-  // 3 · Property A (Cupertino) Carrying Costs, Tax, Rent & Solar
-  {
-    domain: "Property A · Cupertino",
-    priority: "High",
-    q: "What do actual insurer quotes and rebuild-cost estimates say for Property A (homeowner vs. landlord policy) and earthquake insurance?",
-    have: "Household estimate: ~$1,500/year (unsure). Official 2026 CDI survey of a hypothetical 40-yr Cupertino home shows medians of $1,380 ($500,000 rebuild), $2,020 ($750,000), and $2,690 ($1,000,000), up to $6,430; earthquake rates average $3.10 per $1,000; ZIP 95014 FAIR Plan policies rose from 74 (2022) to 227 (2026).",
-    missing: "Actual rebuild cost (Coverage A), current policy declarations, whether the carrier insures rentals and vacant homes past 60 days, wildfire/FAIR Plan status, and written quotes.",
-    discover: "Ask an insurer or contractor for replacement cost (not land/market value), then request written quotes privately for both owner-occupied and tenant-occupied forms plus an earthquake rider quote.",
-    src: "cdiSurveyCup40_1000",
-    srcLabel: "CDI 2026 Cupertino Survey"
+    id: "B", title: "The money part and federal estate tax", intro: "The inheritance includes money whose amount and account types were not supplied. Whether Form 706 is needed, and whether 40% is owed, depends on this group.",
+    rows: [
+      ["B1", "What is the total gross estate: money, investments, retirement accounts, life insurance, real estate, less debts?", "It decides whether a Form 706 must be filed and whether tax is owed above the exclusion.", "Only Property A is known to be in the estate: about $3,100,000 at the 2026 estimate. Room left under the exclusion after Property A is about " + money(MODEL.estateRow(2026).headroom) + " for a 2026 death and about " + money(MODEL.estateRow(2027).headroom) + " for a 2027 death, on real estate alone.", "Complete an asset and liability inventory with values and beneficiaries for every account.", "Estate attorney or CPA. Weeks; no filing fee.", "If the estate is above the threshold, tax reaches 40% of the excess and could force a sale. No plan includes it because the amount is unknown.", "irs706", "blocking"],
+      ["B2", "Have there been taxable gifts, and were Forms 709 filed?", "Taxable gifts add back to the estate and reduce the exclusion available at death.", "Not known.", "Ask whether either parent made gifts above the yearly exclusion; the 2027 yearly exclusion is $20,000 per recipient.", "Parent, CPA and prior returns.", "Each $1,000,000 of unreported taxable gifts can add up to $400,000 of tax at the top rate.", "irsEstateFAQ", "open"],
+      ["B3", "Is any of the exclusion portable from a deceased spouse?", "A timely portability election can add the first spouse's unused exclusion at the second death.", "Not known whether a prior spouse died or whether Form 706 was filed then.", "Check prior returns and the DSUE amount, if any.", "Estate attorney.", "Can roughly double the exclusion if available; without it the threshold in B1 is the only one.", "irs706", "open"],
+      ["B4", "What kinds of accounts hold the money, and who is the named beneficiary?", "Retirement accounts, life insurance and bank deposits follow different income-tax and estate rules; a named beneficiary can pass outside the trust.", "Not known. Planning assumptions note inherited money but do not list accounts.", "List each account: type, owner, balance and named beneficiary.", "Household records plus the institutions.", "Changes who reports the income and when. Retirement accounts inherited by a child generally must be emptied within ten years.", "irsBeneficiary", "open"],
+      ["B5", "Is there enough cash in the estate to pay any estate tax without selling Property A?", "A forced sale sets the timing and may set the price.", "Not known.", "Compare liquid assets with the tax estimate from B1 once the inventory exists.", "Estate attorney and CPA.", "If not, the sale happens on the estate's timetable, not the household's.", "irs706", "open"],
+      ["B6", "Who pays the tax: the estate, the trust or the beneficiary?", "Apportionment clauses decide who bears the tax and can change what the heir actually receives.", "Not seen; the trust's tax clause has not been read.", "Read the apportionment clause with the attorney.", "Trust attorney.", "Can reduce the money available to reinvest after a sale, even when the real-estate decision is unchanged.", "irs706TableA", "open"]
+    ]
   },
   {
-    domain: "Property A · Cupertino",
-    priority: "Medium",
-    q: "Which of Cupertino's three water systems serves Property A, what is the meter size, and what is the parcel's Tax Rate Area (TRA)?",
-    have: "Household inputs: water $100–$150/month; 2026 assessed value $550,540; 2025 tax bill $7,210 (~86–87% rate-based at ~1.1636% Cupertino bond sum plus ~$930–$1,010 flat charges). Cupertino has three water service zones (Cal Water, San Jose Water, and City-owned leased to SJW).",
-    missing: "Exact TRA code, itemized fixed parcel assessments on the bill, water provider name, and meter size.",
-    discover: "Read the Tax Rate Area and Special Assessments table directly from the latest Santa Clara County secured tax bill (via the County Tax Collector portal privately), and read the utility provider/meter size from a recent water bill.",
-    src: "sccTaxBook",
-    srcLabel: "SCC Tax Rate Book"
+    id: "C", title: "The numbers that are still guesses", intro: "Each line below is used in the projections. None is an official figure for these two properties; each can be replaced by a quote or a record. The last column shows what the test does to the answer today.",
+    rows: [
+      ["C1", "What would it cost to rebuild Property A?", "A homeowners limit is the rebuild cost, not the market value, and the premium follows it.", "The state survey shows premiums from $1,543 to $6,430 a year at $1,000,000 of dwelling cover for a made-up 40-year-old Cupertino home. The household's $1,500 is at the bottom of that range.", "Ask a builder or the insurer for a reconstruction-cost estimate, then get a written quote on that limit.", "One quote; an hour plus a call-back.", "At $6,430 a year instead of $1,500 the sell lead over renting widens by " + money(diff({ aInsuranceAnnual: 6430 })) + "; at $2,690 it widens by " + money(diff({ aInsuranceAnnual: 2690 })) + ". The ranking does not change.", "cdiSurveyCup40_1000", "open"],
+      ["C2", "Will earthquake cover be carried on either property?", "A homeowners policy generally excludes earthquake; the cover is separate and priced separately.", "The regulator's survey median rate is $3.10 a year per $1,000 of cover in Cupertino and $3.29 in the Sunset District; at $1,000,000 of cover that is about $3,100 and $3,290.", "Decide, then get a quote including the deductible and the California Earthquake Authority option.", "Two quotes.", "Adds cost if carried; leaves a large uninsured loss if not. The stress pages model the loss without insurance.", "cdiSurveyEqCup", "open"],
+      ["C3", "What does a landlord policy on Property B cost?", "It is a yearly cost against the rent the plan counts.", "The household's guess is $1,500; no landlord quote has been obtained. The same state survey prices owner-occupied policies, not landlord policies.", "Ask three insurers for a landlord policy on a three-unit building, with loss-of-rent cover.", "Three quotes.", "Rent income in the model is net of the guess; a real premium moves B's cash flow, not the A ranking.", "insurance", "open"],
+      ["C4", "How much of Property A's value is the building, not the land?", "Depreciation is taken on the building only, and it is recaptured on sale.", "The assessor's land and improvement split was not supplied.", "Read both values on the assessor's roll, or use an appraiser's allocation.", "County roll lookup, minutes.", "The rental case at 20–40% building share falls by about $8,320 to $29,120 at the end; selling still leads.", "irsTopic704", "open"],
+      ["C5", "What is Property A's tax-rate area, and what flat charges are on the bill?", "The model uses a 1.2% levy. The county rate book's Cupertino-area components add to 1.1636%, plus flat charges.", "Official FY2025-26 rate components are published; the parcel's own rate area and direct charges are not confirmed.", "Read the rate-area number and the fixed charges on the current bill; look both up in the rate book.", "One bill and the rate book.", "About $30 a year per $1,000,000 of assessed value on the rate; the flat charges are small after reassessment.", "sccRateBook2526", "open"],
+      ["C6", "When was the solar system switched on, and which tariff applies?", "The credit is a limited-term benefit, and the panels age.", "A system is installed and the property usually runs a credit. The interconnection date and tariff term are not known.", "Find the permission-to-operate date and the tariff on the utility account.", "Utility account or installer records.", "The model holds the credit flat. If the term ends before 2040 the credit disappears; at $15 a month that is small against the sale lead.", "solar", "open"],
+      ["C7", "What are Property B's flat charges and official square footage for Measure H?", "B's tax bill cannot be projected as a percentage of assessed value alone; flat items are about 45% of the current bill, and Measure H adds a square-footage tier over 5,000 sq ft from July 2027.", "Five flat items total $829 for three units in FY2025-26. Measure H's multifamily rate is verified ($249/yr base + $0.195/sq ft over 5,000 sq ft; 50% / $65/unit pass-through); Property B's square footage and Dec 11 certification are pending.", "Read the direct-charge lines and building square footage on the SF bill/assessor record, and check Dec 11 certification.", "One bill + assessor record check.", "The model understates B's bill by about $1,060 a year today; Measure H adds $249+ from July 2027. No effect on the A ranking.", "sfMeasureHTerms", "open"],
+      ["C8", "What are the actual rents, lease terms and tenant circumstances in Property B?", "Rent-controlled increases, vacancy and any relocation obligation set B's income and the cost of ever emptying a unit.", "Two units are let at about $7,150 a month combined; the third is occupied by the owner's household. Tenant ages and lease dates were not supplied.", "Build a rent roll: unit, rent, lease start, increase history, tenant age if relevant to relocation.", "Household records and the Rent Board's current-rates page.", "Changes B's income, which the plan keeps in every case. It does not change the A comparison.", "sfRent", "open"]
+    ]
   },
   {
-    domain: "Property A · Cupertino",
-    priority: "Medium",
-    q: "When did Property A's solar system receive Permission to Operate (PTO), and which net-metering tariff (NEM 1.0/2.0 vs. NBT) applies?",
-    have: "Household input: electricity net credit $10–$20/month (solar installed). Verified CPUC rule: legacy NEM tariffs last 20 years from PTO (transferring with the home), after which exports drop sharply to hourly avoided cost; non-CARE minimum delivery is $10.12/month.",
-    missing: "Exact PTO date, system size/age/ownership (owned vs. leased), inverter warranty, and 12-month true-up statement.",
-    discover: "Check the PG&E online interconnection record / annual true-up bill privately; if PTO was before 2020–2030, model the post-20-year drop well before the 2040–2050 inheritance.",
-    src: "cpucNem",
-    srcLabel: "CPUC Net Metering"
-  },
-  {
-    domain: "Property A · Cupertino",
-    priority: "Medium",
-    q: "What actual rent would Property A command, what are its bedrooms/condition, and what is the land-versus-building tax split?",
-    have: "Verified HUD ZIP 95014 benchmarks: FY2026 $6,390 (4BR) / $5,870 (3BR) and FY2027 $5,800 (4BR) / $5,440 (3BR, effective 1 Oct 2026). Depreciation applies only to the building share over 27.5 years (subject to 25% unrecaptured § 1250 tax at sale).",
-    missing: "Bedroom/bath count, deferred maintenance or pre-rental renovation budget, whether any mortgage exists, and assessor improvement ratio.",
-    discover: "Look up the land-versus-improvement split on the Santa Clara County bill, check local MLS/property-manager rent comps, and get a contractor walk-through estimate before comparing rent vs. immediate sale.",
-    src: "hudA2027",
-    srcLabel: "HUD FY2027 95014"
-  },
-
-  // 4 · Property B (San Francisco Outer Sunset)
-  {
-    domain: "Property B · San Francisco",
-    priority: "High",
-    q: "Have the 2027 San Francisco Rent Board owner-unit exemption (due 14 Dec 2026) and Housing Inventory / license been filed?",
-    have: "Property B is already owned by the heir (3 units: 2 rented at ~$7,150/mo total, 1 owner unit). Official SF Rent Board fee is $59/unit ($177 for 3 units; $118 if the owner unit gets an approved exemption). Vacant units and relative-occupied units are billed unless exempted by 14 Dec 2026; 50% ($29.50/unit) may be passed to tenants in occupancy on 1 Nov. Rent increases require an active Housing Inventory license.",
-    missing: "Whether the Rent Board portal shows all 3 units accurately, current license status, and whether the 2027 owner-unit exemption request has been submitted.",
-    discover: "Log into the SF Rent Board portal privately before 14 December 2026 to verify the Housing Inventory and file the Request for Exemption for the owner-occupied 3rd unit.",
-    src: "sfRentFee",
-    srcLabel: "SF Rent Board Fee"
-  },
-  {
-    domain: "Property B · San Francisco",
-    priority: "Medium",
-    q: "What are the exact direct parcel charges, building square footage (for Measure H), and true utility/insurance bills for Property B?",
-    have: "2025 household bill ~$2,440 on ~$114,250 assessed value (~55% rate-based at 1.18162182%, ~45% flat charges including $829.22 listed taxes + ~$260 unlisted). Water $330–$400/mo (SFPUC adopted ~12.6% / ~12.5% jumps for FY27–28); electric $30–$70/mo; landlord insurance ~$1,500/yr input. Preliminary Measure H passed Nov 3 (74.4% yes): multifamily $249/yr base + $0.195/sq ft over 5,000 sq ft starting July 1, 2027 (50% / $65/unit rent-controlled pass-through).",
-    missing: "Written multi-unit landlord insurance quote (CDI survey lacks 2–4 unit landlord pricing), building square footage, water meter count/stormwater tier, and itemized SF direct charges.",
-    discover: "Check the latest SF Treasurer secured tax bill line-by-line (including building square footage for Measure H), review 12 months of SFPUC/PG&E statements, and request commercial/habitational landlord quotes.",
-    src: "sfMeasureHTerms",
-    srcLabel: "SF Measure H Terms"
-  },
-  {
-    domain: "Property B · San Francisco",
-    priority: "Medium",
-    q: "What are the tenancy terms, rent-control status, and lawful bedroom/use details of Property B's 3 units (including the vacant owner unit)?",
-    have: "Current SF Rent Board allowable increase is 1.6% (Mar 2026–Feb 2027); pending File No. 261020 would cap banked + capital-improvement increases at 10%/yr. Ellis Act withdrawal costs $11,110.05/tenant (up to $33,330.13/unit + $7,443.90 elderly/disabled). HUD ZIP 94122 FY2027 SAFMRs are $2,770 (1BR) and $3,410 (2BR) vs FY2026 $2,730 / $3,310.",
-    missing: "Written leases, start dates (pre- vs post-1979 construction / rent-control applicability), tenant ages/protected status, and whether the 3rd owner unit is a permitted 1BR or 2BR ready to rent if the heir ever moved.",
-    discover: "Audit all leases, initial move-in dates, security-deposit interest compliance (4.2% for 2026–27), and San Francisco DBI unit permits privately with an SF landlord-tenant attorney before assuming extra 3rd-unit rent.",
-    src: "hudB2027",
-    srcLabel: "HUD FY2027 94122"
-  },
-
-  // 5 · Heir Profile, Tax Brackets & Reinvestment Plan
-  {
-    domain: "Heir Profile & Strategy",
-    priority: "High",
-    q: "What are the heir's marginal federal/California tax brackets, filing status, and Net Investment Income Tax (NIIT) exposure?",
-    have: "Base model uses 33.3% ordinary rental rate and 33.1% combined capital-gain rate (20% federal + 3.8% NIIT + 9.3% CA). Prop 3 (leading 60.7% unofficially as of Nov 11) keeps CA's top 10.3%–12.3% brackets above $371,479 permanent.",
-    missing: "Heir's filing status (single vs. MFJ — affects $250,000 vs. $500,000 § 121 exclusion and $200,000 vs. $250,000 NIIT threshold), current MAGI (determines passive-loss suspension under $100k–$150k rules), and expected bracket at sale.",
-    discover: "Have a CPA run a two-year tax projection using the heir's actual Form 1040 / CA Form 540, checking passive-loss carryforwards and how a $1M+ capital gain pushes California brackets up to 13.3%.",
-    src: "ftbRates2025",
-    srcLabel: "FTB Tax Schedules"
-  },
-  {
-    domain: "Heir Profile & Strategy",
-    priority: "Medium",
-    q: "If Property A is sold, what exact portfolio mix (stocks, Treasury bonds, HYSA/CDs), liquidity reserve, and time horizon will the heir use?",
-    have: "Base case assumes 6% gross − 1% tax drag = 5% net return; FDIC bank deposit coverage is $250,000 per depositor, bank, and ownership category (cash proceeds above $250k in one bank are uninsured). Tax-symmetric checks show selling vs. renting flips if real estate outpaces the portfolio (break-even ~5.3% home growth / ~4.0% net portfolio return).",
-    missing: "Target asset allocation (e.g., equity index funds vs. munis/Treasuries vs. CDs), emergency cash needs, and whether the proceeds are ever intended to be spent vs. held until the next generation's step-up.",
-    discover: "Define an Investment Policy Statement privately with a fee-only fiduciary advisor covering FDIC/SIPC limits, tax-efficient index placement, and state-tax-exempt Treasury ladders before liquidation.",
-    src: "fdic",
-    srcLabel: "FDIC Deposit Rules"
-  },
-  {
-    domain: "Heir Profile & Strategy",
-    priority: "Medium",
-    q: "What personal (non-financial) value does living in Cupertino versus staying in San Francisco Outer Sunset have for the heir?",
-    have: "In the base 2045–2055 comparison, moving into Property A and renting the freed SF owner unit trails selling A by roughly $1,200,000–$1,800,000 depending on the scenario (roughly $120,000–$180,000/yr uncompounded), before pricing the personal value of living in a Cupertino home.",
-    missing: "Whether the heir actually wants to live in Cupertino (commute, school/family ties, downsizing/upsizing preference, maintenance burden) versus keeping Outer Sunset as primary home.",
-    discover: "Explicitly price the personal housing preference as an annual dollar benchmark ('Is living in Property A worth giving up $X/year in projected terminal wealth?') before weighing Proposition 19 occupancy.",
-    src: "boeProp19",
-    srcLabel: "BOE Prop 19"
-  },
-
-  // 6 · Privacy Remediation & Ongoing Law Triggers
-  {
-    domain: "Privacy & Legal Triggers",
-    priority: "High",
-    q: "Which repository privacy cleanup path will the owner authorize for historical Git commits, branches, and commit email?",
-    have: "Live site pages publish rounded figures ($10 multiples) and placeholder labels only. However, earlier Git commits (42 of 173+ commits to main), 10 older branches, PR history, and GitHub merge author email still remain readable in the public repository history.",
-    missing: "Owner decision on enabling GitHub commit-email privacy and choosing between archiving/replacing the public repo versus making it private / requesting GitHub purge.",
-    discover: "Review GitHub Email Settings ('Keep my email addresses private' + 'Block command line pushes that expose my email') and select a repository remediation path on the Suggestions page.",
-    src: "githubSensitive",
-    srcLabel: "GitHub Sensitive Data"
-  },
-  {
-    domain: "Privacy & Legal Triggers",
-    priority: "Low",
-    q: "Which upcoming legal and official-data deadlines must be checked before taking final action?",
-    have: "Tracked milestones: Dec 11, 2026 (CA SOS & SF election certification for Props 3/40/42/43 and Measure H); Dec 14, 2026 (SF 2027 Rent Board fee exemption); Feb 16 / Mar 2027 (next biennial BOE Prop 19 exclusion cap); Oct 2027+ (annual HUD SAFMRs and IRS estate inflation releases).",
-    missing: "Post-deadline official figures not yet published as of 12 November 2026.",
-    discover: "Set recurring calendar checks for December 2026, March 2027, and October each year before executing lease notices, trust transfers, or sales.",
-    src: "sosResults2026",
-    srcLabel: "CA SOS Election Calendar"
+    id: "D", title: "Questions only the household can answer", intro: "These are preferences, not facts. Each one can overturn a ranking that is correct on money alone, so each should be written down before implementation.",
+    rows: [
+      ["D1", "Will the household still want to live in the Bay Area in 2040–2050?", "Living in Property A avoids buying another home; if the household expects to leave, that value disappears.", "The household lives in San Francisco now and can occupy Property B's third unit.", "Write the intention down for 2040, 2045 and 2050 separately.", "Household decision.", "A move away makes the live-in case weaker than the money already shows: living in A finishes " + money(B.sell.terminal - B.live.terminal) + " behind selling at 2045.", "irsHomeSale", "preference"],
+      ["D2", "How much of the household's wealth should stay in one regional housing market?", "Both houses are in one region; keeping A concentrates earthquake, wildfire-smoke and local-law risk.", "About $4,900,000 of 2026 value sits in two Bay Area properties.", "Set a maximum share of wealth in Bay Area housing, then hold the plan to it.", "Household decision.", "The diversification argument is separate from the return gap and survives every stress test on this site.", "investorRisk", "preference"],
+      ["D3", "Is Property B to be kept indefinitely, including for the next generation?", "It is held in every projection; selling it is not modelled as part of this decision.", "Two units produce about $7,150 a month; the owner's unit is not let.", "Confirm the intention and record it, because it sets the risk the plan accepts.", "Household decision.", "If B might be sold, the comparison changes and a like-kind or other deferral question arises.", "irsLikeKind", "preference"],
+      ["D4", "What will the household's income and filing status be in the sale year?", "The gain rate used is 33.1% combined; a higher income adds the 3.8% federal net investment income tax and can reach the top California bracket.", "The assumption is stated on the Decision page; the household's future income is not known.", "Re-run the model with the expected bracket; ask a CPA to confirm the combined rate.", "CPA; one conversation.", "A 37% combined rate changes the 2045 sell lead by " + sign(diff({ ordinaryTax: 0.37, capitalGainsTax: 0.37 })) + ". The ranking stays.", "irsNIIT", "preference"],
+      ["D5", "What result would make the household keep the house?", "A decision rule set in advance prevents a bad decade from being read as a permanent signal.", "The stress pages show keeping the house wins when local prices outrun a mixed portfolio for a decade.", "Write the rule: for example, sell unless the household intends to live in the house or the trust does not reset basis.", "Household decision, recorded before 2040.", "Without a rule, each new headline becomes a reason to wait; waiting has a measured cost on Other options.", "fredSJ", "preference"]
+    ]
   }
 ];
 
-const domains = ["All", ...new Set(QUESTIONS.map(q => q.domain))];
+const statusBadge = s => ({
+  blocking: '<span class="badge red">Blocking</span>',
+  open: '<span class="badge gold">Open</span>',
+  partial: '<span class="badge neutral">Partly known</span>',
+  preference: '<span class="badge neutral">Your choice</span>'
+}[s] || '<span class="badge">Answered</span>');
+
+const allRows = groups.flatMap(g => g.rows);
+const counts = {
+  total: allRows.length,
+  blocking: allRows.filter(r => r[8] === "blocking").length,
+  open: allRows.filter(r => r[8] === "open").length,
+  preference: allRows.filter(r => r[8] === "preference").length
+};
+
+// Sensitivity table: one input changed at a time, 2045 inheritance, ten-year hold, everything sold at the end.
+const tests = [
+  ["The base case as published", "—", {}, "boeProp13"],
+  ["Property A rent at verified FY2027 HUD 4-BR", "$5,800 a month", { aRent4BR: 5800 }, "hudA2027"],
+  ["Insurance at the survey's mid-point", "$2,690 a year", { aInsuranceAnnual: 2690 }, "cdiSurveyCup40_1000"],
+  ["Insurance at the survey's high end", "$6,430 a year", { aInsuranceAnnual: 6430 }, "cdiSurveyCup40_1000"],
+  ["Rent for Property A ten per cent lower", "$5,750 a month", { aRent4BR: 5750 }, "hudA"],
+  ["Home prices at the low end of the last 25 years", "2.0% a year", { appreciation: 0.02 }, "fredSJ"],
+  ["Home prices at the 50-year local pace", "6.7% a year", { appreciation: 0.067 }, "fredSJ"],
+  ["Portfolio return at the low end", "5.0% before tax", { portfolioGross: 0.05 }, "cboByNumbers2026"],
+  ["Upkeep at 1% of value, not 0.5%", "1.0% a year", { maintenanceA: 0.01 }, "irsRental"],
+  ["Combined tax rate 37%", "37%", { ordinaryTax: 0.37, capitalGainsTax: 0.37 }, "irsNIIT"],
+  ["Cupertino-area rate from the rate book", "1.1636%", { aRate: 0.011636 }, "sccRateBook2526"]
+];
 
 main.innerHTML = UI.hero(
-  "Pre-decision readiness · knowns, unknowns & discovery",
-  "What must be answered before deciding.",
-  "A structured inventory of the questions that govern the Cupertino (Property A) and San Francisco (Property B) decision—explicitly separating what is already supplied or verified from what is still missing, and exactly how to discover each answer privately.",
-  `<a class="button" href="suggestions.html">Review site improvement paths →</a><a class="button secondary" href="review.html">Flagged technical items</a><a class="button secondary" href="inheritance.html">Step-by-step trust timeline</a>`
+  "Decision readiness · questions before a choice",
+  "What must be settled before any decision is reasonable",
+  "A register of the questions, information and answers that stand between the household and a defensible choice on Property A. Each row says what is already known, what is missing, how the gap can be closed, who can close it, and what the projections do if it stays open. Nothing here changes the published ranking; it shows how much of it rests on facts that have not been produced.",
+  `<a class="button" href="suggestions.html">Suggestions and choosing a path</a><a class="button secondary" href="review.html">Flagged for Review ⚑</a><a class="button secondary" href="decision.html">Decision lab</a>`
 ) + `<div class="container">
 <section class="section">
   <div class="grid four">
-    <div class="card"><div class="metric-label">Core pre-decision questions</div><div class="metric small">${QUESTIONS.length}</div><div class="tiny">${QUESTIONS.filter(q => q.priority === "High").length} high priority · ${QUESTIONS.filter(q => q.priority === "Medium").length} medium · ${QUESTIONS.filter(q => q.priority === "Low").length} calendar triggers</div></div>
-    <div class="card"><div class="metric-label">Verified public rules</div><div class="metric small">77</div><div class="tiny">Laws, FY2027 HUD SAFMRs, 2027 IRS thresholds, CDI surveys, FRED series</div></div>
-    <div class="card review"><div class="metric-label">Critical private blanks</div><div class="metric small">10+</div><div class="tiny">Trust type, liquid estate total, actual quotes, basis, leases, heir bracket</div></div>
-    <div class="card soft"><div class="metric-label">Privacy rule</div><div class="metric small">Offline only</div><div class="tiny">Collect missing facts in a private file; never upload PII or bills to GitHub</div></div>
+    <div class="card"><div class="metric-label">Questions on the register</div><div class="metric">${counts.total}</div><p class="tiny">Each one is a fact or a choice that can change the answer.</p></div>
+    <div class="card"><div class="metric-label">Blocking a decision</div><div class="metric">${counts.blocking}</div><p class="tiny">Cannot be closed by an assumption; a document or a professional answer is needed.</p></div>
+    <div class="card"><div class="metric-label">Close with a quote or record</div><div class="metric">${counts.open}</div><p class="tiny">A bill, a quote, the assessor's roll or a tax return is enough.</p></div>
+    <div class="card"><div class="metric-label">Household preference</div><div class="metric">${counts.preference}</div><p class="tiny">No source can answer these; they have to be written down.</p></div>
   </div>
-  <div class="callout warning" style="margin-top:18px"><strong>How to read this page:</strong> Do not treat supplied household midpoints ($1,500 insurance, $125/$365 water, $550,540 / $114,250 assessments) or missing values (liquid estate size, trust language) as verified facts. Resolve the <strong>High</strong> items before locking in any occupancy, gifting, trust, or sale plan.</div>
+  <div class="callout warning"><strong>How to use this page.</strong> Work down each group in order. Group A and B decide what a sale would cost; group C replaces guesses with quotes; group D records the household's own rules. A question marked <em>Open</em> is not a reason to stop planning: the published model already tests the answer both ways. A question marked <em>Blocking</em> is a reason not to sign, sell or move until it is closed.</div>
 </section>
 
 <section class="section">
-  <div class="section-heading">
-    <div>
-      <div class="eyebrow">Question &amp; discovery register</div>
-      <h2>Knowns, missing answers, and where to find each one</h2>
-      <p>Filter by topic or priority below. Every row pairs the decision question with an official lookup or regulatory authority.</p>
-    </div>
-  </div>
-  <div class="controls" style="grid-template-columns: repeat(3, minmax(140px, 1fr));">
-    <div class="control"><label for="filterDomain">Filter by domain</label><select id="filterDomain">${domains.map(d => `<option value="${d}">${d === "All" ? "All domains (" + QUESTIONS.length + ")" : d}</option>`).join("")}</select></div>
-    <div class="control"><label for="filterPriority">Filter by priority</label><select id="filterPriority"><option value="All">All priorities</option><option value="High">High priority only</option><option value="Medium">Medium priority only</option><option value="Low">Low / calendar triggers</option></select></div>
+  <div class="section-heading"><div><div class="eyebrow">Already settled</div><h2>Answers that official sources do give</h2><p>Re-opened on 12 November 2026 on official agency pages; the linked page is the authority, not this table.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Answer</th><th class="wrap">Checked</th><th>Official source</th></tr></thead><tbody>
+  ${settled.map(([q, a, key, when]) => `<tr><td class="wrap"><strong>${q}</strong></td><td class="wrap">${a}</td><td class="wrap tiny">${when}</td><td class="source">${UI.source(key)}</td></tr>`).join("")}
+  </tbody></table></div>
+</section>
+
+<section class="section" id="filter-bar">
+  <div class="controls" style="grid-template-columns: repeat(3, minmax(160px, 1fr));">
+    <div class="control"><label for="qStatusFilter">Filter question register by status</label><select id="qStatusFilter"><option value="All">All statuses (${counts.total})</option><option value="blocking">Blocking only (${counts.blocking})</option><option value="open">Open / quote or record (${counts.open})</option><option value="preference">Household choices (${counts.preference})</option></select></div>
+    <div class="control"><label for="qGroupFilter">Filter by group</label><select id="qGroupFilter"><option value="All">All four groups (A–D)</option>${groups.map(g => `<option value="${g.id}">Group ${g.id} · ${g.title}</option>`).join("")}</select></div>
     <div class="control" style="display:flex;align-items:flex-end"><button class="button secondary" id="downloadChecklist" style="width:100%;justify-content:center">Download blank discovery checklist (CSV)</button></div>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Domain &amp; Priority</th>
-          <th class="wrap">Question to answer before deciding</th>
-          <th class="wrap">Information we already have</th>
-          <th class="wrap">Missing information / answer needed</th>
-          <th class="wrap">Suggested way to discover it (offline)</th>
-          <th>Official route</th>
-        </tr>
-      </thead>
-      <tbody id="qa-rows"></tbody>
-    </table>
-  </div>
 </section>
 
+${groups.map(g => `<section class="section q-group" data-group="${g.id}" id="group-${g.id}">
+  <div class="section-heading"><div><div class="eyebrow">Group ${g.id}</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Why it decides something</th><th class="wrap">What is known today</th><th class="wrap">What is missing, and how to close it</th><th class="wrap">Who can close it</th><th class="wrap">If it stays open</th><th>Status</th><th>Official rule</th></tr></thead><tbody>
+  ${g.rows.map(r => `<tr data-status="${r[8]}"><td>${r[0]}</td><td class="wrap"><strong>${r[1]}</strong></td><td class="wrap">${r[2]}</td><td class="wrap">${r[3]}</td><td class="wrap">${r[4]}</td><td class="wrap">${r[5]}</td><td class="wrap">${r[6]}</td><td>${statusBadge(r[8])}</td><td class="source">${UI.source(r[7])}</td></tr>`).join("")}
+  </tbody></table></div>
+</section>`).join("")}
+
 <section class="section">
-  <div class="section-heading">
-    <div>
-      <div class="eyebrow">Ordered playbook</div>
-      <h2>Recommended sequence to discover missing information</h2>
-      <p>Gather free public/utility records first so professional time with your trust attorney and CPA is focused on legal and tax structure rather than chasing paper.</p>
-    </div>
-  </div>
-  <div class="grid three">
-    <div class="card">
-      <h3>Phase 1 · Immediate self-checks (no fees)</h3>
-      <ul class="check-list">
-        <li>Log into the SF Rent Board portal before <strong>14 Dec 2026</strong> to file the Property B owner-unit exemption and check Housing Inventory.</li>
-        <li>Pull the latest Santa Clara County &amp; SF secured tax bills privately to capture Property A's TRA, land/building split, direct charges, and Property B's square footage for Measure H.</li>
-        <li>Download 12 months of water bills (verify Property A's Cupertino water district) and PG&amp;E solar PTO / annual true-up statements.</li>
-        <li>Turn on GitHub commit-email privacy in Account Settings.</li>
+  <div class="section-heading"><div><div class="eyebrow">How much the gaps can move the answer</div><h2>One uncertain input at a time</h2><p>Inheritance in 2045, ten years held, everything sold and taxed at the end, Property B kept. Every figure is produced by the same published model as the Decision lab, rounded to $10; change any of these inputs yourself on the <a href="decision.html">Decision</a> page.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">What changes</th><th>Value tested</th><th class="number">Sell and reinvest</th><th class="number">Rent, then sell</th><th class="number">Selling ahead by</th><th class="number">Change from base</th><th>Best path</th><th>Official source</th></tr></thead><tbody>
+  ${tests.map(([label, value, over, key]) => {
+    const d = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR");
+    const l = d.sell.terminal - d.rent.terminal;
+    const delta = l - baseLead;
+    return `<tr><td class="wrap">${label}</td><td>${value}</td><td class="number">${money(d.sell.terminal)}</td><td class="number">${money(d.rent.terminal)}</td><td class="number">${money(l)}</td><td class="number ${delta >= 0 ? "positive" : "negative"}">${delta === 0 ? "—" : sign(delta)}</td><td>${d.winner === "sell" ? "Sell" : d.winner === "rent" ? "Rent" : "Live in"}</td><td class="source">${UI.source(key)}</td></tr>`;
+  }).join("")}
+  </tbody></table></div>
+  <p class="tiny">The largest single movement in this table is small beside the base-case gap of ${money(baseLead)}. That is why the gaps are worth closing but do not, on their own, reverse the plan. The exception is a fact that changes the tax basis (A1): it is not a sensitivity, it changes the starting point.</p>
+</section>
+
+<section class="section" id="gates">
+  <div class="section-heading"><div><div class="eyebrow">Readiness gates</div><h2>Five checks before anything is implemented</h2><p>Tick these off in your own browser. Nothing is stored on a server and nothing is sent anywhere; the ticks are kept in this browser's local storage and can be cleared at any time.</p></div></div>
+  <div class="grid two">
+    <div class="card"><h3>Before a decision is committed</h3>
+      <ul class="check-list" id="gate-list">
+        <li><label><input type="checkbox" data-gate="g1"> The trust is confirmed revocable or otherwise included in the estate (A1).</label></li>
+        <li><label><input type="checkbox" data-gate="g2"> The deed and the schedule of assets show the trustee holds Property A (A2).</label></li>
+        <li><label><input type="checkbox" data-gate="g3"> A complete asset and liability inventory exists, with account types and beneficiaries (B1, B4).</label></li>
+        <li><label><input type="checkbox" data-gate="g4"> Written insurance quotes are in hand: homeowner and earthquake for A, landlord for B (C1–C3).</label></li>
+        <li><label><input type="checkbox" data-gate="g5"> The household's own rules are written down: region, risk share and what would change the answer (D1–D5).</label></li>
       </ul>
+      <div class="meta-row"><span class="badge" id="gate-count">0 of 5 closed</span></div>
+      <p class="tiny" style="margin-top:12px">A date-of-death appraisal and a title report can only be obtained after a death; the rest can be started now.</p>
     </div>
-    <div class="card">
-      <h3>Phase 2 · Written quotes &amp; tenant/property audit</h3>
-      <ul class="check-list">
-        <li>Get a replacement-cost estimate and written quotes for Property A (homeowner vs. landlord + earthquake) and Property B (3-unit landlord).</li>
-        <li>Review Property B's leases, move-in dates, protected-tenant status, and 3rd-unit permit/bedroom status.</li>
-        <li>Get an informal market-rent comp and contractor maintenance check for Property A vs. the FY2027 HUD $5,800 4-BR benchmark.</li>
-      </ul>
-    </div>
-    <div class="card highlight">
-      <h3>Phase 3 · Trust attorney &amp; CPA review</h3>
-      <ul class="check-list">
-        <li>Present the private asset inventory (cash, IRAs, brokerage, insurance, prior Forms 709, any spouse DSUE) to estimate true federal estate-tax exposure.</li>
-        <li>Verify revocable trust status (IRC § 1014 basis reset) and non-pro-rata distribution clauses if multiple heirs exist.</li>
-        <li>Model heir-specific federal/CA brackets, NIIT, depreciation recapture, and Prop 19 eligibility before choosing occupancy, rental, or sale.</li>
-      </ul>
+    <div class="card soft"><h3>What to do with the answers</h3>
+      <p>Each closed question replaces an assumption on the Decision page. Record the answer beside its number (A1, B3, C2) so the next review can see what changed.</p>
+      <p>Suggestions for closing each gap, with effort, benefit and who can do it, are on the <a href="suggestions.html">Suggestions</a> page. Items that cannot be closed from an official source stay on <a href="review.html">Flagged for Review</a>.</p>
+      <p class="tiny">This page is a checklist, not advice. A trust attorney, a CPA and the county assessor are the authorities for groups A and B.</p>
     </div>
   </div>
 </section>
 </div>`;
 
-function renderTable() {
-  const d = document.getElementById("filterDomain").value;
-  const p = document.getElementById("filterPriority").value;
-  const filtered = QUESTIONS.filter(item => (d === "All" || item.domain === d) && (p === "All" || item.priority === p));
-  const tbody = document.getElementById("qa-rows");
-  tbody.innerHTML = filtered.map(item => {
-    const prioBadge = item.priority === "High" ? UI.badge("High", "red") : item.priority === "Medium" ? UI.badge("Medium", "gold") : UI.badge("Low", "neutral");
-    return row([
-      td(`<strong>${item.domain}</strong><div style="margin-top:6px">${prioBadge}</div>`, ""),
-      td(`<strong>${item.q}</strong>`),
-      td(item.have),
-      td(item.missing),
-      td(item.discover),
-      `<td class="source">${UI.source(item.src, item.srcLabel)}</td>`
-    ]);
-  }).join("");
-}
+// Local-only tick state.
+(function () {
+  const key = "tino2.readiness.v1";
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (e) { state = {}; }
+  const boxes = [...document.querySelectorAll("[data-gate]")];
+  const label = document.getElementById("gate-count");
+  const render = () => { label.textContent = boxes.filter(b => b.checked).length + " of " + boxes.length + " closed"; };
+  boxes.forEach(b => {
+    b.checked = Boolean(state[b.dataset.gate]);
+    b.addEventListener("change", () => {
+      state[b.dataset.gate] = b.checked;
+      try { localStorage.setItem(key, JSON.stringify(state)); } catch (e) { /* private mode */ }
+      render();
+    });
+  });
+  render();
 
-document.getElementById("filterDomain").addEventListener("change", renderTable);
-document.getElementById("filterPriority").addEventListener("change", renderTable);
-document.getElementById("downloadChecklist").addEventListener("click", () => {
-  const escCsv = s => '"' + String(s).replace(/"/g, '""') + '"';
-  const rows = [["Priority", "Domain", "Question", "What We Have", "Missing Information", "Suggested Discovery Route", "Answer / Private Notes (fill offline)"]];
-  QUESTIONS.forEach(item => rows.push([item.priority, item.domain, item.q, item.have, item.missing, item.discover, ""]));
-  const blob = new Blob([rows.map(r => r.map(escCsv).join(",")).join("\n")], { type: "text/csv" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "pre-decision-discovery-checklist.csv";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
+  const sFilt = document.getElementById("qStatusFilter");
+  const gFilt = document.getElementById("qGroupFilter");
+  function applyFilters() {
+    const sv = sFilt.value, gv = gFilt.value;
+    document.querySelectorAll(".q-group").forEach(sec => {
+      const gOk = gv === "All" || sec.dataset.group === gv;
+      let visibleRows = 0;
+      sec.querySelectorAll("tbody tr").forEach(tr => {
+        const show = gOk && (sv === "All" || tr.dataset.status === sv);
+        tr.style.display = show ? "" : "none";
+        if (show) visibleRows++;
+      });
+      sec.style.display = visibleRows > 0 ? "" : "none";
+    });
+  }
+  sFilt.addEventListener("change", applyFilters);
+  gFilt.addEventListener("change", applyFilters);
 
-renderTable();
-UI.ensureRowSources();
-</script>
-</body>
-</html>
+  document.getElementById("downloadChecklist").addEventListener("click", () => {
+    const esc = s => '"' + String(s).replace(/"/g, '""') + '"';
+    const csv = [["ID", "Status", "Question", "Why it matters", "What is known", "Missing & how to close", "Who can close it", "Private notes (fill offline)"]];
+    groups.forEach(g => g.rows.forEach(r => csv.push([r[0], r[8], r[1], r[2], r[3], r[4], r[5], ""])));
+    const blob = new Blob([csv.map(row => row.map(esc).join(",")).join("\n")], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "decision-readiness-checklist.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+})();
+</script></body></html>

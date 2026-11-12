@@ -26,13 +26,14 @@ function renderPage(relPath) {
 
 // 1. Ledger & model verification
 const ledger = JSON.parse(fs.readFileSync(path.join(root, "qa/ledger.json"), "utf8"));
-assert.equal(ledger.length, 83, "qa/ledger.json should have 83 entries");
+assert.equal(ledger.length, 84, "qa/ledger.json should have 84 entries");
 for (const id of ["CF-04", "CF-05", "SF-09", "CA-05", "CA-06", "CA-07", "SF-04", "SF-05"]) {
   const entry = ledger.find((x) => x.id === id);
   assert(entry, `missing ledger entry ${id}`);
   assert.equal(entry.status, "verified", `${id} should be verified`);
   assert.equal(entry.checked, "2026-11-12", `${id} checked date should be 2026-11-12`);
 }
+assert(ledger.find((x) => x.id === "P19-12"), "preserved P19-12 entry from origin/main");
 const cf04 = ledger.find((x) => x.id === "CF-04");
 assert.match(cf04.value, /\$5,440.*\$5,800/);
 const cf05 = ledger.find((x) => x.id === "CF-05");
@@ -43,24 +44,34 @@ assert.match(sf09.value, /\$249.*\$0\.195/);
 // 2. Questions & discovery page DOM + interactive filter checks
 const qDom = renderPage("site/questions.html");
 const qDoc = qDom.window.document;
-assert.equal(qDoc.querySelectorAll("#qa-rows tr").length, 17, "17 discovery questions rendered");
-const prio = qDoc.getElementById("filterPriority");
-prio.value = "High";
-prio.dispatchEvent(new qDom.window.Event("change"));
-const highCount = qDoc.querySelectorAll("#qa-rows tr").length;
-assert(highCount >= 5 && highCount < 17, `expected filtered high-priority rows, got ${highCount}`);
+assert.equal(qDoc.querySelectorAll(".q-group tbody tr").length, 24, "24 discovery questions rendered across groups A-D");
+assert(!/\bsession\b|the brief/i.test(qDoc.body.textContent), "R-D4 internal wording removed from questions.html");
+assert.match(qDoc.body.textContent, /\$5,800.*4BR/);
+assert.match(qDoc.body.textContent, /\$249\/yr base \+ \$0\.195\/sq ft/);
+const qStatus = qDoc.getElementById("qStatusFilter");
+qStatus.value = "blocking";
+qStatus.dispatchEvent(new qDom.window.Event("change"));
+const visibleBlocking = [...qDoc.querySelectorAll(".q-group tbody tr")].filter(tr => tr.style.display !== "none").length;
+assert.equal(visibleBlocking, 3, "blocking filter isolates 3 blocking questions");
+assert(qDoc.getElementById("downloadChecklist"), "CSV discovery checklist download button present");
 qDom.window.close();
 
 // 3. Suggestions page DOM + interactive path selection checks
 const sDom = renderPage("site/suggestions.html");
 const sDoc = sDom.window.document;
-assert.equal(sDoc.querySelectorAll("#overview-rows tr").length, 8, "8 suggestions in overview table");
-assert.equal(sDoc.querySelectorAll("#summary-rows tr").length, 8, "8 rows in summary table");
-assert.match(sDoc.getElementById("chosen-count").textContent, /0 of 8 chosen/);
-sDoc.getElementById("applyRecommended").click();
-assert.match(sDoc.getElementById("chosen-count").textContent, /8 of 8 chosen/);
-sDoc.getElementById("clearChoices").click();
-assert.match(sDoc.getElementById("chosen-count").textContent, /0 of 8 chosen/);
+assert(!/\bsession\b|the brief/i.test(sDoc.body.textContent), "R-D4 internal wording removed from suggestions.html");
+assert.match(sDoc.body.textContent, /\$5,800.*4BR/);
+assert.match(sDoc.body.textContent, /\$249\/yr base \+ \$0\.195\/sq ft/);
+assert(sDoc.getElementById("dl-md") && sDoc.getElementById("dl-json"), "Markdown and JSON export buttons present");
+const privSel = sDoc.getElementById("privacy-path-select");
+assert(privSel, "Interactive privacy path selector present");
+privSel.value = "Path A: Private analysis, public generic examples";
+privSel.dispatchEvent(new sDom.window.Event("change", { bubbles: true }));
+assert.match(sDoc.getElementById("summary-card").textContent, /Path A: Private analysis, public generic examples/);
+const a05Sel = sDoc.querySelector('select[data-choice="A-05"]');
+a05Sel.value = "Approve";
+a05Sel.dispatchEvent(new sDom.window.Event("change", { bubbles: true }));
+assert.match(sDoc.getElementById("summary-card").textContent, /A-05/);
 sDom.window.close();
 
 // 4. Decision Lab FY2027 selector check

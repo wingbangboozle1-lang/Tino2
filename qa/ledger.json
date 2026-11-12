@@ -931,6 +931,18 @@
   "notes": "By the same timetable the amount that starts on 16 February 2027 may not be published before March 2027."
  },
  {
+  "id": "P19-12",
+  "topic": "prop19",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Whether the Proposition 19 intergenerational value cap is adjusted annually or every other year",
+  "value": "Every other year. The Board of Equalization's Proposition 19 page describes the limit as current taxable value plus $1,000,000 'as biennially adjusted'; Letter to Assessors 2026/026 defines the excluded amount as the factored base-year value plus $1 million, with the $1 million 'adjusted on February 16, 2023, and every other February 16 thereafter'.",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf",
+  "source": "BOE Letter to Assessors 2026/026 (3 August 2026), definition 5, and the BOE Proposition 19 comparison table",
+  "evidence": "LTA 2026/026, definition 5: 'The $1 million is adjusted on February 16, 2023, and every other February 16 thereafter. Also known as the \"value cap\".' BOE Proposition 19 page, parent-child table: 'Value limit of current taxable value plus $1,000,000 (as biennially adjusted)'. The Santa Clara County Assessor page says 'adjusted annually beginning in 2023', which conflicts with both; it is listed on Flagged for Review.",
+  "notes": "The model takes one step every second 16 February, which follows the Board. No household figure."
+ },
+ {
   "id": "CF-04",
   "topic": "rent-benchmark",
   "checked": "2026-11-12",

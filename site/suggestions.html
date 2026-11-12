@@ -1,343 +1,359 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Reviewable suggestions to improve the planning site and inheritance decision-making, with candidate paths, trade-offs, and selection before implementation.">
-<meta name="robots" content="noindex,nofollow,noarchive">
-<link rel="stylesheet" href="../assets/styles.css">
-</head>
-<body data-title="Site &amp; decision improvement suggestions">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Review-only suggestions for the privacy, decision model and research, the questions that must be answered first, and a local-only record of which path is chosen before anything is implemented."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css">
+<style>
+  /* Page-local controls. No shared stylesheet change. */
+  .js-choice { width: 100%; min-width: 116px; padding: 7px 8px; border: 1px solid #cfd8d0; background: #fff; border-radius: 8px; color: var(--ink); font: inherit; font-size: 13px; }
+  .js-choice:focus-visible { outline: 3px solid var(--green-2); outline-offset: 2px; }
+  td.choice-cell { min-width: 128px; }
+  details.card > summary { font-weight: 700; cursor: pointer; }
+  @media print { .js-choice { border: 1px solid #999; } details.card { display: block; } }
+</style></head>
+<body data-title="Suggestions and decisions">
 <main id="main"></main><div data-footer></div>
 <script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
 <script>
+/* Prioritized privacy paths, structural improvements, itemized 15-item register (A-01–A-15),
+   six site improvements (B-01–B-06), ten critical questions (Q-01–Q-10), and a browser-only
+   approve/defer/decline record that never leaves the reader's browser.
+   Nothing here changes the published recommendation, a model input or a published figure. */
 const main = document.getElementById("main");
-const row = cells => "<tr>" + cells.join("") + "</tr>";
-const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+const src = (key, label) => UI.source(key, label);
+const OPTIONS = ["Not decided", "Approve", "Defer", "Decline"];
+const KEY = "tino2.suggestions.v1";
+let chosen = {};
+try { chosen = JSON.parse(window.localStorage.getItem(KEY) || "{}") || {}; } catch (e) { chosen = {}; }
 
-const SUGGESTIONS = [
-  {
-    id: "S1",
-    area: "Privacy & Repository Hygiene",
-    priority: "Urgent",
-    title: "Remediate historical exact figures & commit email in public Git history",
-    gap: "Live site pages publish rounded figures ($10 multiples) and placeholders only, but 42 earlier commits, 10 old branches, PR refs, and GitHub merge author email remain readable in the public Git history.",
-    recommended: "Path A",
-    src: "githubSensitive",
-    srcLabel: "GitHub Sensitive Data",
-    prereq: "Owner GitHub account access; explicit owner approval before deleting branches or creating a replacement repository.",
-    paths: [
-      { key: "Path A", name: "Enable email privacy + migrate clean HEAD to a fresh private repository (archive/delete legacy repo)", pros: "Completely eliminates historical commits, old branches, PR metadata, and exposed commit email in one clean step.", cons: "GitHub Pages on a private repository requires GitHub Pro/Team (or hosting privately / exporting _public locally)." },
-      { key: "Path B", name: "Make existing repository private + enable 'Keep my email addresses private'", pros: "Fastest 2-click toggle; keeps full commit & branch history accessible only to the owner.", cons: "Public GitHub Pages stops serving unless upgraded to a paid plan; collaborators/forks if any keep clones." },
-      { key: "Path C", name: "Delete old branches, rewrite history, and ask GitHub Support to purge cached PR refs", pros: "Keeps the public GitHub Pages URL alive.", cons: "Complex; cached PR refs require GitHub Support intervention and do not guarantee removal of external forks/caches." }
-    ]
-  },
-  {
-    id: "S2",
-    area: "Decision Precision",
-    priority: "High",
-    title: "Add an in-browser, zero-upload 'Private Scratchpad' for missing household numbers",
-    gap: "The Decision Lab only lets you choose preset dropdowns because real estate/tax numbers (liquid estate cash, original cost basis, actual insurance quotes, mortgages, heir bracket) cannot be saved in a public repo. Users cannot test their true total net worth and estate-tax threshold interactively.",
-    recommended: "Path A",
-    src: "irsEstateTax",
-    srcLabel: "IRS Estate Tax",
-    prereq: "Confirm clear browser-only disclaimer (no localStorage persistence by default, or explicit clear button; zero network requests).",
-    paths: [
-      { key: "Path A", name: "RAM-only client-side custom inputs + optional local JSON save/load file", pros: "Lets the heir plug in exact quotes, estate cash, basis, and tax bracket right in the browser while committing zero PII to Git.", cons: "Slightly more UI complexity; user must save/reload a local file offline if reusing numbers later." },
-      { key: "Path B", name: "Expand preset dropdown bands only (e.g., estate money bands $5M–$25M, insurance $1.5k–$6.5k)", pros: "Zero risk of someone accidentally sharing a screenshot or browser state; stays 100% deterministic.", cons: "Less precise than entering exact quotes, mortgages, and individual IRA vs. cash balances." },
-      { key: "Path C", name: "Keep all custom math in a separate offline spreadsheet", pros: "Simplest public codebase; zero chance of private data entering the browser session.", cons: "Forces the decision-maker to duplicate engine formulas offline." }
-    ]
-  },
-  {
-    id: "S3",
-    area: "Decision Precision",
-    priority: "High",
-    title: "Add Property B's freed-unit toggle & tax-symmetric toggle directly inside Decision Lab",
-    gap: "Currently, 'Best plan' models living in Property A while renting Property B's freed 3rd unit (liveSF), and 'Decision' only shows the tax-symmetric portfolio check as a static callout rather than an interactive 4-strategy table.",
-    recommended: "Path A",
-    src: "sfRentRates",
-    srcLabel: "SF Rent Board Rules",
-    prereq: "Verify Property B 3rd-unit permit/bedroom count (1BR vs. 2BR) and confirm moving/rehab allowance before treating liveSF as net income.",
-    paths: [
-      { key: "Path A", name: "Add a 4th strategy column ('Live in A + rent SF 3rd unit') + 'Equal-tax liquidation' switch to Decision Lab", pros: "Unifies the whole two-property decision in one interactive dashboard; prevents understating the live-in-A option or overstating sell-and-reinvest.", cons: "Needs clear assumptions for SF 3rd-unit renovation/moving friction so net cash isn't overstated." },
-      { key: "Path B", name: "Keep Decision Lab strictly Property-A-only and add a prominent link card to 'Best plan'", pros: "Preserves clean separation between Property A standalone mechanics and household-level SF coupling.", cons: "Users adjusting appreciation/return sliders on Decision Lab don't immediately see the liveSF number update." }
-    ]
-  },
-  {
-    id: "S4",
-    area: "Estate & Tax Realism",
-    priority: "High",
-    title: "Layer estate-tax allocation, trust type (revocable vs. irrevocable), and heir income-tax brackets",
-    gap: "Strategy totals currently deduct zero federal estate tax (since liquid estate value is unknown), assume a 100% revocable-trust basis reset (IRC § 1014), and use fixed 33.3% / 33.1% rates without California's 10.3%–13.3% brackets or Traditional IRA 10-year distribution drag.",
-    recommended: "Path A",
-    src: "irsRevRul20232",
-    srcLabel: "IRS Rev. Rul. 2023-2",
-    prereq: "Attorney confirmation of trust type and private CPA summary of non-property accounts & filing status.",
-    paths: [
-      { key: "Path A", name: "Add a Trust Type switch (Revocable step-up vs. Irrevocable carryover) + Estate Cash & Tax Bracket presets", pros: "Immediately shows how an irrevocable carryover basis or 40% estate-tax liquidity squeeze flips the hold-vs-sell analysis.", cons: "Carries a risk of false precision if estate/trust inputs are still guesses." },
-      { key: "Path B", name: "Keep estate tax on 'Estate tax' / 'Other options' pages and add an explicit warning banner before any strategy action", pros: "Prevents mixing unverified liquid wealth estimates with baseline property math.", cons: "Decision-maker has to cross-reference three pages to assess liquidity." }
-    ]
-  },
-  {
-    id: "S5",
-    area: "Cost & Revenue Accuracy",
-    priority: "Medium",
-    title: "Rebase or toggle HUD SAFMR rent benchmarks to FY2027 (effective 1 Oct 2026)",
-    gap: "HUD FY2027 SAFMRs verified on 12 Nov 2026 dropped Property A's 4-BR benchmark from $6,390 (FY2026) to $5,800 (-9.2%) and raised Property B's 1-BR from $2,730 to $2,770. Currently the main baseline still runs FY2026 ($6,390), while Decision Lab now exposes FY2027 as an optional selector.",
-    recommended: "Path A",
-    src: "hudA2027",
-    srcLabel: "HUD FY2027 95014",
-    prereq: "Obtain 2–3 local Cupertino comparable 4-BR/3-BR rental listings or property-manager rent opinions.",
-    paths: [
-      { key: "Path A", name: "Keep FY2026 as published continuity base and let reviewers toggle FY2027 ($5,800) in Decision Lab (already staged as optional selector)", pros: "Maintains historical audit comparability while exposing the official Oct 2026 drop immediately.", cons: "Default headline card still cites the FY2026 rent figure unless switched." },
-      { key: "Path B", name: "Rebase MODEL.BASE everywhere (Decision, Properties, Plan, Scenarios) from FY2026 ($6,390) to FY2027 ($5,800)", pros: "All default pages reflect the active FY2027 federal benchmark (which widens selling's advantage further).", cons: "Shifts every published terminal wealth figure and requires updating cross-verification test baselines." }
-    ]
-  },
-  {
-    id: "S6",
-    area: "Cost & Revenue Accuracy",
-    priority: "Medium",
-    title: "Separate flat parcel charges & lumpy utility/insurance escalation from the 2% / 3% baseline",
-    gap: "Modeling property tax as one flat % understates Property B's pre-inheritance tax (~$1,380 modeled vs ~$2,440 billed, ~45% flat charges + pending Measure H $249 base), while SFPUC water/sewer jumps ~12.6% / ~12.5% in FY27–28, CA residential insurance rose ~9.05%/yr (2018–2023), and PG&E solar legacy tariffs end 20 years after PTO.",
-    recommended: "Path A",
-    src: "sfMeasureHTerms",
-    srcLabel: "SF Measure H Terms",
-    prereq: "Read actual TRA & direct charges on both tax bills, SF building sq ft, and PG&E solar PTO date.",
-    paths: [
-      { key: "Path A", name: "Split Property B tax into (Assessed × Ad Valorem) + CPI-indexed flat charges, add 2-year SFPUC utility schedule, and add a Solar PTO expiry selector", pros: "Eliminates the ~$1,060/yr Property B tax understatement and models post-NEM electricity drop accurately.", cons: "Requires 4 new parcel-specific inputs (flat charges, sq ft, PTO year, water provider) that are still unconfirmed." },
-      { key: "Path B", name: "Keep flat 3% model for clean simplicity and document these four variances solely in sensitivity tables", pros: "Easy for non-technical reviewers to verify by hand.", cons: "Systematically overstates Property B net operating income (NOI) and long-term solar credits." }
-    ]
-  },
-  {
-    id: "S7",
-    area: "Cost & Revenue Accuracy",
-    priority: "Medium",
-    title: "Integrate 27.5-year rental depreciation, land/building split & § 1250 recapture into the main comparison",
-    gap: "Currently, rental depreciation (and 25% unrecaptured § 1250 tax at sale, plus passive-loss carryover rules) is isolated on 'Other options' instead of being toggleable in Decision Lab.",
-    recommended: "Path B",
-    src: "irsPub527",
-    srcLabel: "IRS Pub. 527",
-    prereq: "Santa Clara County assessor land vs. improvement ratio and heir's MAGI / passive-loss eligibility.",
-    paths: [
-      { key: "Path A", name: "Add a Building Share selector (0% / 20% / 30% / 40%) and MAGI passive-loss mode to Decision Lab", pros: "Makes the rent-then-sell after-tax bridge complete in one place.", cons: "Because suspended passive losses release at sale while § 1250 taxes recapture at 25%, net terminal change is small (~$10k–$30k) while adding significant tax complexity." },
-      { key: "Path B", name: "Keep depreciation isolated on 'Other options' and link to it from Decision Lab", pros: "Keeps Decision Lab transparent without guessing taxpayer-specific passive-loss disallowance.", cons: "Minor gap (~1% of terminal wealth) between Decision Lab and a full CPA return." }
-    ]
-  },
-  {
-    id: "S8",
-    area: "Execution & Legal Readiness",
-    priority: "Medium",
-    title: "Add an interactive pre-inheritance legal-trigger & calendar tracker",
-    gap: "Critical pitfalls (deed missing trustee naming, LLC/non-family care-facility traps breaking Prop 19, uneven trust distribution if multiple heirs exist, Dec 14 SF Rent Board fee exemption, Dec 11 election certification, Feb 16 Prop 19 adjustment) are scattered across Inheritance, Review, and Sources.",
-    recommended: "Path A",
-    src: "boeProp19",
-    srcLabel: "BOE Prop 19",
-    prereq: "None for public calendar milestones; offline attorney review for trust-specific traps.",
-    paths: [
-      { key: "Path A", name: "Build a unified milestone calendar + printable attorney/CPA briefing packet (combine Q&A answers + selected paths)", pros: "Turns passive tables into an actionable pre-flight workflow ahead of 2026–2027 and transfer deadlines.", cons: "Requires annual calendar updates for February BOE and October HUD/IRS releases." },
-      { key: "Path B", name: "Keep static timeline on 'Inheritance' and 'Questions & discovery'", pros: "Zero maintenance overhead.", cons: "Deadlines like Dec 14, 2026 and post-death 60/150-day clocks are easier to miss." }
-    ]
-  }
+// Order is the suggested sequence: unblock the facts only the family holds, then price what can be priced, then watch dates.
+const IDEAS = [
+  ["A-01", "Confirm the trust type, and whether the house counts in the parent's estate",
+    "Every plan assumes the heir's tax basis resets to the value at death, which is what makes a prompt sale nearly tax-free. The IRS ruled in 2023 that assets of an irrevocable trust that are not counted in the estate keep the old basis. If that is the case here, the sell plan loses most of its tax advantage and the comparison narrows.",
+    "One meeting", "Now", ["irsRevRul20232", "irsInherited"]],
+  ["A-02", "Confirm the house is still the parent's principal residence at death",
+    "The Proposition 19 family-home exclusion needs the house to remain the parent's home and then the heir's. If it is rented out, held in an entity, or otherwise stops qualifying for the homeowners' exemption, the exclusion is removed and the value is reassessed — the live-in plan's main tax saving disappears.",
+    "One call", "Now", ["boeLta2026026", "boeProp19"]],
+  ["A-03", "Get the cost to rebuild and one written homeowners quote at that limit",
+    "The premium follows the dwelling limit — the cost to rebuild — not the market value. The regulator's comparison tool states that it is not a quote, so the planning input for insurance stays unverified. A written quote also settles the vacancy and earthquake questions in writing.",
+    "Two quotes", "Next 90 days", ["cdiSurveyCup40_1000", "cdiResGuide"]],
+  ["A-04", "Decide whether to carry earthquake cover, and price it",
+    "A homeowners policy generally does not cover earthquake damage; that takes a separate policy. The USGS puts the chance of a magnitude 6.7 or greater earthquake in the Bay Area within 30 years at 72%, and the stress pages model an uninsured loss. A premium is a yearly cost in the live and rent cases but not in the sell case.",
+    "Decision + quote", "Next 90 days", ["cdiSurveyEqCup", "usgsQuake"]],
+  ["A-05", "Choose whether to rebase published defaults to verified FY2027 HUD rent benchmarks",
+    "The base model uses HUD's FY2026 four-bedroom amount of $6,390 a month. HUD's FY2027 SAFMRs (effective 1 October 2026) were verified directly on 12 Nov 2026: ZIP 95014 drops to $5,800 (4BR) and $5,440 (3BR), while ZIP 94122 rises to $2,770 (1BR) and $3,410 (2BR). Decision Lab already includes an FY2027 selector (`4BR_2027` / `3BR_2027`); switching widens selling's lead further. Decide whether to rebase all page defaults to FY2027 alongside local Cupertino rent comps.",
+    "Decision + local comps", "Next 90 days", ["hudA2027", "hudB2027"]],
+  ["A-06", "Re-check the Proposition 19 amount when the Board of Equalization publishes it",
+    "The exclusion adds $1,000,000 to the factored base year value, adjusted every two years. The amount now in force runs through 15 February 2027. The Board published it on 7 March 2025, about three weeks after it took effect, and the site's earlier check of the Board's 2026 letters found none that sets the next amount. Until the new amount is published, later amounts in the model are scenarios, not official figures.",
+    "One check", "March 2027", ["boeLta2025009", "boeLta2026026"]],
+  ["A-07", "Put every pending law change on a calendar with a named reviewer",
+    "Several items can move a cost or the rule itself: the certified result of the 3 November 2026 election (due 11 Dec 2026), San Francisco Measure H (multifamily formula verified 12 Nov 2026 at $249/yr base + $0.195/sq ft over 5,000 sq ft from July 2027; Property B square footage still needed), the proposed cap on banked rent increases (not enacted), and federal estate-tax bills. A calendar makes someone check them.",
+    "One page", "Now", ["sosResults2026", "sfMeasureHTerms", "hr1301"]],
+  ["A-08", "List every asset, owner and beneficiary, then measure federal headroom",
+    "The federal filing threshold is $15,000,000 for a death in 2026 and $15,480,000 for 2027; above it the tax reaches 40%. Property A counts toward the estate and Property B does not, because the heir already owns it. No plan includes estate tax today only because the size and types of the other assets are unknown — that is a gap, not a finding.",
+    "One list", "Now", ["irsEstate", "irs2027", "irs706TableA"]],
+  ["A-09", "Record the assessor's land and building split, then read the depreciation rules",
+    "Depreciation is taken on the building, not the land, so the split decides the deduction in the rent case. The site shows the rent result without depreciation and tests building shares of 20%, 30% and 40%. The ranking does not change, but the after-tax rent does.",
+    "One record", "Before deciding", ["irsTopic704", "irsPub527"]],
+  ["A-10", "Read the recorded deed and the trust's schedule of assets",
+    "If title does not name the trustee, the house goes through probate, and California sets the personal representative's and the attorney's compensation as a statutory percentage of the estate's value. Community-property title also changes the basis when the first spouse dies. Both are cheap to check now and expensive later.",
+    "One request", "Now", ["prob10800", "prob10810"]],
+  ["A-11", "Write the dated obligations into one calendar",
+    "The San Francisco Rent Board fee exemption window closes on 14 December 2026 for the next fee. The Proposition 19 exclusion must be claimed within three years of the transfer or before a sale to a third party, and the homeowners' exemption within one year. A missed date costs money or loses the exclusion permanently.",
+    "One calendar", "Now", ["sfRentFee", "boeProp19", "boeLta2026026"]],
+  ["A-12", "Decide what the San Francisco owner unit is for",
+    "All four plans assume the heir lives in the third unit rent-free. Renting it adds regulated income and makes it hard to reclaim: an owner move-in eviction carries statutory relocation payments, reset every 1 March. Leaving it empty costs the rent it could earn. The site prices only the first and last.",
+    "Decision", "Before inheriting", ["sfRentRates", "caRentCaps"]],
+  ["A-13", "Confirm the solar tariff and interconnection date, then read the current water and power schedules",
+    "The credit the household sees depends on which net-metering tariff the system is on. The regulator's net-metering tariffs are closed to new enrollments and newer systems take a tariff that pays less for exported power. Water and power are billed monthly, and the water bill is the larger and more variable of the two on the household's own figures; the rates are reset by the utility, not fixed for the term.",
+    "One bill + one call", "Next 90 days", ["cpucNem", "sjw2026", "sfpucRates2026"]],
+  ["A-14", "Test the ranking against a lower home-price assumption and write down the break-even",
+    "The gap between selling and keeping the house comes mostly from home prices against a diversified portfolio. The break-even rate is on the Best plan page. Writing down the rate at which the answer flips turns an unknowable forecast into a rule you can monitor.",
+    "One decision review", "Before deciding", ["fredSccCounty", "investorRisk"]],
+  ["A-15", "Keep every new fact out of this repository",
+    "The repository is public. Deeds, trust documents, bills, leases and account statements belong in a secure professional channel; the site keeps placeholders and rounded figures. Past commits and branches still hold old exact figures, so a private repository or a fresh history is the only complete fix.",
+    "Owner decision", "Now", ["githubSensitive"]]
 ];
 
-main.innerHTML = UI.hero(
-  "Improvement suggestions · review before implementing",
-  "Choose the best path before changing anything.",
-  "Every suggestion below is a review-gated proposal—none has been forced into the baseline numbers or Git history. Compare the candidate paths, trade-offs, and prerequisites, pick your preferred option for each item, and export a clear implementation plan.",
-  `<a class="button" href="questions.html">Open Questions &amp; Discovery Guide →</a><a class="button secondary" href="decision.html">Decision lab</a><a class="button secondary" href="review.html">Flagged for Review</a>`
-) + `<div class="container">
+// Changes to the dashboard itself. No model input changes.
+const SITE = [
+  ["B-01", "A dated decision record beside the model", "Built on this page: approve, defer or decline each item and the choice is kept in this browser with a date. Prose and model changes are otherwise invisible after the fact.", "Built", true],
+  ["B-02", "A one-page printable brief for advisers", "Advisers need the assumptions and the question on one page. Today they sit across the Best plan, Properties, Operating costs and Inheritance pages.", "Small", false],
+  ["B-03", "A 'what changed' strip on the landing page", "Every review currently means re-reading sixteen pages to find the one rate that moved. A dated diff of changed figures would shorten it to seconds.", "Small", false],
+  ["B-04", "One assumptions register with a last-checked date and a CSV export", "Inputs are labelled where they are used, but there is no single list of every input, its value, its status and its review date.", "Medium", false],
+  ["B-05", "A deadline calendar with an export", "The dated obligations — Rent Board fee, Proposition 19 claims, insurance renewal, solar true-up — are spread across four pages and none of them can be put into a calendar.", "Medium", false],
+  ["B-06", "A source-freshness dashboard", "Official figures change on known cycles: the IRS each autumn, HUD each 1 October, the San Francisco Rent Board each 1 March, the Board of Equalization every other February. A table of next-check dates would stop a stale figure being carried forward as current.", "Medium", false]
+];
+
+// The decision-critical questions. Everything the site cannot answer is here, with the route that settles it.
+const QUESTIONS = [
+  ["Q-01", "Is the trust revocable, or otherwise counted in the parent's estate?",
+    "Every plan assumes the basis resets at death. The IRS ruled in 2023 that assets of an irrevocable trust outside the estate keep the old basis.",
+    "The trust document, and the trustee's confirmation of what it holds.",
+    "Trust attorney or trustee.",
+    "Revocable or included: the basis resets and selling stays ahead. Irrevocable and outside the estate: tax is owed on the gain since purchase, and the gap narrows.",
+    "irsRevRul20232"],
+  ["Q-02", "Will the house be the parent's principal residence on the date of death?",
+    "The family-home exclusion needs the house to remain the parent's home, then the heir's, and to keep qualifying for the homeowners' exemption.",
+    "Whether it is rented, held in an entity, or vacant, and when.",
+    "County assessor, and the parent's own plans.",
+    "Yes: the exclusion is available if the heir claims it and moves in within one year. No: the house is reassessed in the live-in case as well, and the live-in saving disappears.",
+    "boeLta2026026"],
+  ["Q-03", "How much money is inherited, in what accounts, with which beneficiaries?",
+    "The federal threshold is $15,000,000 for 2026 and $15,480,000 for 2027; above it the tax reaches 40%. Only the parent's own assets count.",
+    "Balances, account types, owners and named beneficiaries; prior gifts above the yearly exclusion.",
+    "Statements and beneficiary designations, read with a tax adviser.",
+    "Below the headroom: no federal estate tax. Above it: 40% of the excess, which no plan currently includes.",
+    "irs706TableA"],
+  ["Q-04", "What would it cost to rebuild, and what will a policy cost at that limit?",
+    "The premium follows the dwelling limit, not the market value. The regulator's comparison tool is not a quote and the planning figure is unverified.",
+    "A rebuild estimate and at least one written quote.",
+    "A builder or insurer, then a broker.",
+    "A quote far above the planning figure raises the cost of holding the house and widens the sell lead; a low quote narrows it slightly.",
+    "cdiResGuide"],
+  ["Q-05", "Will earthquake cover be carried on either property?",
+    "Homeowners policies generally exclude earthquake. The USGS puts 72% probability on a magnitude 6.7 or greater quake in the region within 30 years; the model prices an uninsured loss.",
+    "A decision for each property, and a premium if the answer is yes.",
+    "The insurer, and the state earthquake authority where the insurer does not write it.",
+    "Cover: a known yearly cost in the hold cases and a smaller tail loss. No cover: the tail loss stays uninsured and the cost comparison is unchanged.",
+    "cdiSurveyEqCup"],
+  ["Q-06", "Which solar tariff governs the system, and when does it end?",
+    "The credit depends on the tariff. Net-metering tariffs are closed to new enrollments; newer systems take a tariff that pays less for exported power.",
+    "The interconnection date, the tariff name, and the term.",
+    "The utility bill and the interconnection agreement.",
+    "A legacy net-metering tariff keeps retail-rate credits for its term; a move to net billing cuts the value of exported power.",
+    "cpucNem"],
+  ["Q-07", "Will the heir live in the Cupertino house, or stay in San Francisco?",
+    "The money comparison puts selling first; the live-in cases finish last on money but are the only way to keep the house.",
+    "The decision itself, and its timing against the inheritance.",
+    "The household.",
+    "Live in A: give up the rent-free San Francisco unit and any rent from it. Stay in B: sell A, invest the net proceeds, and keep both units earning.",
+    "irsTopic701"],
+  ["Q-08", "Will the San Francisco owner unit be rented?",
+    "The plans assume the heir lives in it rent-free. Renting it adds regulated income but is hard to undo; an owner move-in eviction carries statutory relocation payments.",
+    "The intent, the timing, and the tenant profile if it is let.",
+    "The household, then the Rent Board rules.",
+    "Rent it: more income, less flexibility, relocation cost to reclaim. Leave it: no income, full flexibility.",
+    "sfRentRates"],
+  ["Q-09", "What share of the property's value is the building?",
+    "Depreciation is taken on the building only, so the split decides the deduction if the house is rented. The site tests 20%, 30% and 40%.",
+    "The assessor's land and improvement values.",
+    "The assessor's roll, or an appraiser's allocation.",
+    "A higher building share improves the after-tax rent case; the ranking does not change at any of the three shares.",
+    "irsTopic704"],
+  ["Q-10", "What home-price growth should be assumed after the inheritance?",
+    "Nobody knows it, and it decides most of the gap between selling and keeping the house. The site shows the recorded metro series and the break-even rate instead of a forecast.",
+    "Nothing that can be discovered; only a rule for monitoring.",
+    "The break-even figure on the Best plan page, reviewed yearly.",
+    "Home prices above the break-even rate favour keeping the house; below it, selling and investing wins.",
+    "fredSccCounty"]
+];
+
+function choice(id) {
+  return `<select class="js-choice" data-choice="${id}" aria-label="Your decision on ${id}">${OPTIONS.map(o => `<option value="${o}" ${(chosen[id] || "Not decided") === o ? "selected" : ""}>${o}</option>`).join("")}</select>`;
+}
+const row = cells => "<tr>" + cells.join("") + "</tr>";
+const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+const sourceCell = keys => keys.map(k => src(k)).join("<br>");
+
+main.innerHTML = `<section class="hero compact"><div class="container">
+  <div class="eyebrow">Review before implementation</div>
+  <h1>Suggestions, decisions, and the questions that come first</h1>
+  <p class="lead">A prioritized shortlist of possible improvements, not a record of approved work. Compare the benefit, trade-off and evidence before choosing a path. The published recommendation is not changed by anything here: read an item, choose approve, defer or decline, and the record stays in this browser — no account, no server, no analytics. Nothing is implemented until an approved item is acted on with an official source and re-verified.</p>
+  <div class="hero-actions"><a class="button" href="plan.html">See the current comparison</a><a class="button secondary" href="review.html">Open unresolved items</a><a class="button secondary" href="#record">Record a choice</a></div>
+  <div class="meta-row"><span class="badge gold">Proposals only</span>${UI.badge("Selections stay in your browser")}${UI.badge("Sources reviewed 12 Nov 2026")}</div>
+</div></section><div class="container">
+
+<section class="section"><div class="callout warning"><strong>Privacy first:</strong> This is a public website and repository. Labels and $10 rounding reduce direct identification but cannot guarantee anonymity: the combination of location, property characteristics and financial history may be recognizable. Historical commits, branches, pull requests and third-party copies may also retain sensitive data. Do not upload private documents or personal details here. <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub explains the limits of removal</a>.</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare before changing publication</h2><p>These are alternatives, not an assertion that any is complete protection. Keeping the current public site retains its exposure.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Path</th><th class="wrap">Potential benefit</th><th class="wrap">Trade-off and next check</th><th>Authoritative reference</th></tr></thead><tbody>
+<tr><td><strong>Private analysis, public generic examples</strong><br>Suggested privacy-first direction</td><td class="wrap">Keep household-specific inputs and outputs out of a public product; publish only synthetic examples.</td><td class="wrap">Less personalized public analysis; existing history and copies still need a coordinated remediation plan. Review access controls and all public refs before relying on this path.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · sensitive data removal</a></td></tr>
+<tr><td><strong>Reduce the public detail</strong></td><td class="wrap">Remove household history and granular contextual combinations from current published pages.</td><td class="wrap">A new commit alone does not erase earlier history or copies; generic labels and rounding are not a guarantee of anonymity. Decide what exposure remains acceptable.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · history and copies</a></td></tr>
+<tr><td><strong>Retain current public scenarios</strong></td><td class="wrap">Preserves the most detailed public explanation and model.</td><td class="wrap">The property and household context remains linkable even without names; treat this as an unresolved privacy risk, not as anonymization.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · exposure limitations</a></td></tr>
+</tbody></table></div>
+<p class="tiny">Choosing a path here is a decision for the owner, not something the dashboard can implement. Items A-15 and B-01 are the two in the register below that touch it directly. Select your preferred privacy path below to include it in your local decision brief:</p>
+<div class="control" style="max-width:460px;margin-top:8px"><label for="privacy-path-select">Recorded privacy path preference (browser-only)</label><select class="js-choice" id="privacy-path-select" data-choice="PRIVACY_PATH"><option value="Not decided">Not decided</option><option value="Path A: Private analysis, public generic examples">Path A: Private analysis, public generic examples</option><option value="Path B: Reduce the public detail">Path B: Reduce the public detail</option><option value="Path C: Retain current public scenarios">Path C: Retain current public scenarios</option></select></div></section>
+
 <section class="section">
-  <div class="grid four">
-    <div class="card"><div class="metric-label">Improvement proposals</div><div class="metric small">${SUGGESTIONS.length}</div><div class="tiny">Privacy, modeling precision, cost realism, legal triggers</div></div>
-    <div class="card"><div class="metric-label">Implemented so far</div><div class="metric small">0 of ${SUGGESTIONS.length}</div><div class="tiny">Review-gated: baseline calculations remain untouched</div></div>
-    <div class="card"><div class="metric-label">High / urgent proposals</div><div class="metric small">${SUGGESTIONS.filter(s => s.priority === "Urgent" || s.priority === "High").length}</div><div class="tiny">History privacy, private scratchpad, SF 3rd unit, estate/trust</div></div>
-    <div class="card soft"><div class="metric-label">Selection state</div><div class="metric small" id="chosen-count">0 chosen</div><div class="tiny">Stored in browser RAM only; zero data sent</div></div>
+  <div class="section-heading"><div><div class="eyebrow">Method</div><h2>How to choose a path before anything is implemented</h2><p>Three steps, five rules, and one distinction. The rules are the test every suggestion has to pass; the steps are the order that removes the most uncertainty for the least effort.</p></div></div>
+  <div class="grid three">
+    <div class="card soft"><h3>1 · Unblock what only the family holds</h3><p>The trust document, the deed, the parent's occupancy and the asset list cannot be researched. They are also the only facts that can change the ranking outright. Do these first even though they cost a meeting rather than a click.</p></div>
+    <div class="card soft"><h3>2 · Price what can be priced</h3><p>Insurance, earthquake cover, rebuild cost and the current tariffs all have official benchmarks and free quotes. Each one replaces an assumption with a number, and each one is dated.</p></div>
+    <div class="card soft"><h3>3 · Watch only what has a date</h3><p>Tax thresholds, rent benchmarks and fee windows change on a published cycle. Everything else is a forecast and belongs in the stress tests, not on a watchlist.</p></div>
   </div>
-  <div class="callout warning" style="margin-top:18px"><strong>How to use this page:</strong> Review the summary table first, then inspect the candidate paths below each suggestion. Choosing a path here updates only your local summary and downloadable brief—nothing modifies the live repository automatically.</div>
+  <div class="grid two" style="margin-top:1rem">
+    <div class="card"><h3>The five rules this page applies</h3><ul class="check-list">
+      <li><strong>No personal data, ever.</strong> Placeholders only, in the site and in the repository.</li>
+      <li><strong>A blank stays blank.</strong> An estimate is never relabelled as verified, and nothing is inferred.</li>
+      <li><strong>Every number is rounded to $10</strong> unless a government body publishes the exact amount.</li>
+      <li><strong>Every row links an official source</strong>, or says what would settle it and stops there.</li>
+      <li><strong>Prefer the reversible step</strong> while a fact is missing: a quote, a meeting and a lookup can all be undone by a better fact.</li>
+    </ul></div>
+    <div class="card warning"><h3>What a suggestion is not</h3><p>An approved suggestion is permission to research or build, not a finding. Approving “get an insurance quote” does not change any figure on the site; only the quote, added as a dated input and re-verified, does. Likewise, declining an item does not make the underlying risk go away — it only means the site will keep saying it is unknown.</p><p class="tiny">If an item is time-critical (a filing window, a certification date, a biennial adjustment) it says so in the “When” column, and deferring it is itself a decision worth recording.</p></div>
+  </div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Proposed improvements</div><h2>Seven structural changes, ranked by decision impact</h2><p>Official links explain the relevant framework; they do not verify household facts or endorse these proposals. The register that follows turns the implementable parts into itemized actions with a suggested order and a recorded choice.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Priority / suggestion</th><th class="wrap">Why it helps</th><th class="wrap">Trade-off / evidence needed before implementation</th><th>Reference</th></tr></thead><tbody>
+<tr><td><strong>1 · Separate private data from public examples</strong></td><td class="wrap">Reduces further disclosure while retaining a public explanation of the method.</td><td class="wrap">Requires choosing private hosting and an exposure-remediation plan; no history rewrite or access change has been performed by this proposal.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · cleanup limitations</a></td></tr>
+<tr><td><strong>2 · Make the estate calculation conditional</strong></td><td class="wrap">Show documented estate assets, debts, lifetime gifts and possible elections separately before estimating any estate tax.</td><td class="wrap">Actual amounts remain unknown and must stay private. A single property-only gap is not the amount that can safely be inherited tax-free.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate tax</a></td></tr>
+<tr><td><strong>3 · Match sale endpoints and tax basis</strong></td><td class="wrap">Compare clearly labeled pre-liquidation and after-liquidation portfolio values with property sale proceeds; model basis and taxes consistently.</td><td class="wrap">Requires account type, acquisition basis, gains, holding period and taxpayer-specific tax treatment. The existing endpoint-tax sensitivity deliberately double-counts part of the tax and is not a tax estimate.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis of assets</a></td></tr>
+<tr><td><strong>4 · Add a documented Proposition 19 eligibility branch</strong></td><td class="wrap">Separates a qualifying primary-residence transfer from full reassessment and highlights time-sensitive claims.</td><td class="wrap">Eligibility and the future adjusted allowance are unknown; confirm the relationship, trust and residence facts privately with the assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">California BOE · Proposition 19</a></td></tr>
+<tr><td><strong>5 · Replace cost proxies with reviewed ranges</strong></td><td class="wrap">Insurance, maintenance, water and solar assumptions can materially affect rental cash flow and stress results.</td><td class="wrap">Quotes are property- and coverage-specific, not official public facts. Keep records private; distinguish scenarios from verified bills and review exclusions and deductibles.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5-residential/">California insurance regulator · shopping guidance</a></td></tr>
+<tr><td><strong>6 · Compare investment mixes and downside</strong></td><td class="wrap">Show liquidity, inflation, bad return sequences and concentration alongside the central return assumption.</td><td class="wrap">Returns are not guaranteed. Compare deposit coverage and securities risk; do not label historical replays as probabilities of future outcomes.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · deposit insurance</a></td></tr>
+<tr><td><strong>7 · Add legal and source freshness checks</strong></td><td class="wrap">Keeps enacted rules, proposed changes and archived benchmarks distinct as the inheritance approaches.</td><td class="wrap">Automation can detect changes but cannot determine legal effect or eligibility; confirm each change with a qualified professional and official issuing agency.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · current rates and proposal</a></td></tr>
+</tbody></table></div></section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Suggestions register</div><h2>Fifteen improvements to the analysis, in suggested order</h2><p>Each row states what to do, why it changes or protects the decision, how much effort it takes, when it should happen, and the official page the reasoning rests on. Choose approve, defer or decline in the last column; the summary at the bottom of the page updates as you go.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion</th><th class="wrap">Why it changes or protects the decision</th><th>Effort</th><th>When</th><th class="wrap">Official evidence</th><th>Your choice</th></tr></thead><tbody>
+  ${IDEAS.map(([id, title, why, effort, when, keys]) => row([td(`<strong>${id}</strong>`, "number"), td(`<strong>${title}</strong>`), td(why), td(effort, "tiny"), td(when, "tiny"), `<td class="source">${sourceCell(keys)}</td>`, `<td class="choice-cell">${choice(id)}</td>`])).join("")}
+  </tbody></table></div>
+  <p class="tiny">Effort is a rough count of the work, not a cost estimate; professional fees are not quoted anywhere on this site. “When” is a suggested window, not a deadline, except where the text names an official date. A-01, A-02, A-08 and A-10 are the four that can change the recommendation rather than sharpen it.</p>
 </section>
 
 <section class="section">
-  <div class="section-heading">
-    <div>
-      <div class="eyebrow">Overview matrix</div>
-      <h2>Suggestions at a glance</h2>
-      <p>Each suggestion pairs a concrete gap in decision-making with candidate paths and the official rule or documentation behind it.</p>
-    </div>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>ID &amp; Priority</th>
-          <th class="wrap">Suggested improvement</th>
-          <th class="wrap">Why it improves decision making</th>
-          <th class="wrap">Recommended path &amp; prerequisites</th>
-          <th>Status</th>
-          <th>Official reference</th>
-        </tr>
-      </thead>
-      <tbody id="overview-rows"></tbody>
-    </table>
+  <div class="section-heading"><div><div class="eyebrow">Before a decision</div><h2>The questions that must be answered first</h2><p>These are the questions the published analysis cannot settle from the information it has. Each row says what the site already knows, what is missing, where the answer lives, and what changes if the answer goes either way. The wider list, including items that do not affect the ranking, is on <a href="review.html">Flagged for Review</a>. A fuller register — 24 questions in four groups, the ten answers official sources do settle, how each gap is closed and by whom, and five readiness gates — is on <a href="questions.html">Questions</a>. Two further questions from the earlier review — who may distribute the estate and when, and how much risk the heir can accept — are kept unchanged below.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">What the site has now</th><th class="wrap">What is missing</th><th class="wrap">Where the answer is</th><th class="wrap">If it goes one way, or the other</th><th class="wrap">Official route</th></tr></thead><tbody>
+  ${QUESTIONS.map(([id, q, have, missing, where, either, key]) => row([td(`<strong>${id}</strong>`, "number"), td(`<strong>${q}</strong>`), td(have), td(missing), td(where), td(either), `<td class="source">${src(key)}</td>`])).join("")}
+  </tbody></table></div>
+  <div class="callout"><strong>Only four of these can change the answer.</strong> Q-01 (trust type), Q-02 (occupancy at death), Q-03 (size of the estate) and Q-07 (whether the heir wants to live there) decide which plan is rational. The rest change how much money the chosen plan produces. Q-10 cannot be answered at all; it is monitored against a break-even rate instead.</div>
+  <details class="card" open><summary>Seven questions from the earlier review — kept unchanged, with discovery routes</summary>
+  <p class="tiny">Published on this page on 12 Nov 2026 before the register above was added. A dash means not established from an official source. Obtain private records through secure professional channels, never through this public site.</p>
+  <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Current answer / status</th><th class="wrap">How to resolve privately</th><th>Official framework</th></tr></thead><tbody>
+<tr><td>What may be distributed, when, and by whom?</td><td class="wrap">— Trust terms and title not verified.</td><td class="wrap">Trust attorney and trustee review signed trust, amendments and title.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate inventory</a></td></tr>
+<tr><td>Will the family-home exclusion apply?</td><td class="wrap">— Relationship, residence and trust eligibility not verified. The live-in scenario assumes eligibility; the rental scenario does not.</td><td class="wrap">Confirm facts and filing dates with the county assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">BOE · eligibility and filing</a></td></tr>
+<tr><td>What is the full estate tax exposure?</td><td class="wrap">— Other assets, debts, gifts and available elections are unknown; the future exclusion is a scenario.</td><td class="wrap">Estate CPA inventories assets and debts, prior gifts and any portability election before preparing a calculation.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · taxable estate and filing</a></td></tr>
+<tr><td>What are the correct basis and gain if sold?</td><td class="wrap">— Future appraised value, adjustments, proceeds and taxpayer facts are not verified.</td><td class="wrap">Obtain an appraisal and closing records; have a tax adviser reconcile basis and applicable exclusions.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis</a> · <a href="https://www.irs.gov/taxtopics/tc701">IRS · home sale</a></td></tr>
+<tr><td>What will each property actually cost to insure and maintain?</td><td class="wrap">— Actual premiums and future repairs are unverified; model inputs are illustrative.</td><td class="wrap">Compare owner-occupied and landlord quotes, including deductibles and excluded hazards; obtain inspections and repair estimates.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5/residential/">California insurance regulator · compare coverage</a></td></tr>
+<tr><td>What rental income and restrictions apply?</td><td class="wrap">— Future rent, vacancy and legal treatment of each unit are not verified. Property B is already owned, not inherited in this comparison.</td><td class="wrap">Review leases and unit status privately; obtain a market-rent opinion and check applicable local rules.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · rates</a></td></tr>
+<tr><td>How much risk and liquidity can the heir accept?</td><td class="wrap">— Investment goals, time horizon and account types are unknown.</td><td class="wrap">Discuss allocation, tax, deposit limits and withdrawal needs privately with a qualified adviser.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · coverage</a></td></tr>
+</tbody></table></div></details>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Dashboard changes</div><h2>Six suggestions for the site itself</h2><p>These change how the analysis is read, not what it says. None of them alters a model input or a published figure. The first is already built on this page; the rest are proposals.</p></div></div>
+  <div class="grid two">
+  ${SITE.map(([id, title, why, effort, built]) => `<div class="card"><h3>${id} · ${title}</h3>${UI.badge(built ? "Built here" : "Proposed", built ? "" : "gold")}<p>${why}</p><p class="tiny">Effort: ${effort}${built ? " · printing this page keeps your recorded choices" : ""}</p><p class="tiny">${choice(id)}</p></div>`).join("")}
   </div>
 </section>
 
 <section class="section">
-  <div class="section-heading">
-    <div>
-      <div class="eyebrow">Path comparison &amp; selection</div>
-      <h2>Compare options and pick a path for each suggestion</h2>
-      <p>Use the dropdown on each card to select a path (or choose the recommended defaults), then review or export your plan below. <strong>Do not type personal names, addresses, or exact private figures into optional notes.</strong></p>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="button secondary" id="applyRecommended">Select all recommended paths</button>
-      <button class="button secondary" id="clearChoices">Reset selections</button>
-    </div>
+  <div class="section-heading"><div><div class="eyebrow">Suggested sequence</div><h2>What to do first, and what “done” looks like</h2><p>An order that front-loads the facts that can change the recommendation and leaves the research that only sharpens it until afterwards.</p></div></div>
+  <div class="timeline">
+    <div class="step"><div class="step-number">1</div><div class="step-body"><div class="deadline">This month · no cost but a meeting</div><h3>Answer the four questions that can change the answer</h3><p>Trust type and what it holds (A-01, A-10); the parent's occupancy and how title is held (A-02); the full asset list with beneficiaries (A-08); and whether the heir would ever live in Cupertino (Q-07). Done when each answer is written down with its date and its source document.</p></div></div>
+    <div class="step"><div class="step-number">2</div><div class="step-body"><div class="deadline">Next 90 days · free or low cost</div><h3>Replace four assumptions with quotes and official figures</h3><p>Rebuild cost and a homeowners quote (A-03); an earthquake decision and quote (A-04); the FY2027 rent benchmark and current tariffs (A-05, A-13); and the break-even home-price rate recorded as a monitoring rule (A-14). Done when each figure on the site is either replaced by a dated official value or still marked unverified on purpose.</p></div></div>
+    <div class="step"><div class="step-number">3</div><div class="step-body"><div class="deadline">Every year, on a fixed date</div><h3>Run the calendar, not the whole site</h3><p>March: the San Francisco Rent Board resets its allowable increase and relocation amounts. October: HUD publishes the next rent benchmark. Autumn: the IRS publishes the next estate exclusion. Every other February: the Board of Equalization adjusts the Proposition 19 amount. December: the Rent Board fee exemption window closes. Done when each date has been checked and the change, if any, is recorded.</p></div></div>
+    <div class="step"><div class="step-number">4</div><div class="step-body"><div class="deadline">In the inheritance year</div><h3>File first, then decide</h3><p>Claim the homeowners' exemption within one year and the intergenerational exclusion within three years or before any sale to a third party. Sell or hold only after the assessed value is confirmed, because the whole comparison turns on which value is enrolled. Done when the assessor's enrolled value matches the plan's assumption.</p></div></div>
+    <div class="step"><div class="step-number">5</div><div class="step-body"><div class="deadline">After implementing anything</div><h3>Re-verify, then record the change</h3><p>An approved suggestion is implemented only with an official source, rounded figures, and a note on <a href="verification.html">Verified facts</a>. Then record here what was done and set the next review date. The decision record is the only artefact that shows why the site says what it says at a given moment.</p></div></div>
   </div>
-  <div id="cards" class="grid two"></div>
+</section>
+
+<section class="section" id="record">
+  <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Choose the path, then print or copy it</h2><p>Your choices are stored only in this browser, under a single key, with the date of the last change. Nothing is transmitted, and clearing the browser data erases them. Print the page to keep a copy with your papers.</p></div></div>
+  <div class="grid two">
+    <div class="card highlight" id="summary-card" aria-live="polite"></div>
+    <div class="card"><h3>What a recorded choice means</h3><ul class="list">
+      <li><strong>Approve</strong> — implement it, using an official source and rounded figures, then note it on Verified facts.</li>
+      <li><strong>Defer</strong> — keep it open deliberately. Say why in the note you keep with your papers; a deferral on a dated item is a decision with a cost.</li>
+      <li><strong>Decline</strong> — the site will keep stating the figure as unknown. That is acceptable only if you accept the uncertainty it leaves.</li>
+    </ul><div class="hero-actions"><button class="button" id="print">Print or save as PDF</button><button class="button secondary" id="copy">Copy the summary</button><button class="button secondary" id="dl-md">Download brief (.md)</button><button class="button secondary" id="dl-json">Download (.json)</button><button class="button secondary" id="clear">Clear all choices</button></div><p class="tiny" id="status" role="status" style="margin-top:12px"></p></div>
+  </div>
 </section>
 
 <section class="section">
-  <div class="section-heading">
-    <div>
-      <div class="eyebrow">Implementation brief</div>
-      <h2>Your selected path summary</h2>
-      <p>Review selected paths side by side before authorizing any code, data, or repository changes.</p>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="button" id="downloadPlan">Download selected paths (.md)</button>
-      <button class="button secondary" id="downloadJson">Download (.json)</button>
-    </div>
+  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What must not change while these are implemented</h2></div></div>
+  <div class="grid three">
+    <div class="card"><h3>Privacy</h3><p>No names, addresses, parcel numbers, account numbers, trust documents or unrounded household figures enter the repository or the site. The public history is already a finding on <a href="review.html">Flagged for Review</a>.</p></div>
+    <div class="card"><h3>Verification</h3><p>A figure is either published by an official body, linked to that body, or blank. Rounding to $10 is a privacy measure, not a claim of accuracy, and it does not make a household input verified.</p></div>
+    <div class="card"><h3>The recommendation</h3><p>Selling Property A and keeping Property B remains the published base case until a fact changes it. None of these suggestions, implemented alone, changes that result; A-01, A-02, A-03, A-04, A-08 and A-12 are the ones that could.</p></div>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th class="wrap">Suggestion</th>
-          <th>Chosen path</th>
-          <th class="wrap">Next action if approved</th>
-          <th>Reference</th>
-        </tr>
-      </thead>
-      <tbody id="summary-rows"></tbody>
-    </table>
-  </div>
+  <div class="card soft" style="margin-top:18px"><h3>How to use this list</h3><p>Start with the privacy alternatives; then resolve the high-impact unknowns in the <a href="review.html">Flagged for Review</a> register. The current sell-and-reinvest ranking is conditional on modeled assumptions and is not a filing-ready recommendation. Check the <a href="stress.html">black-swan scenarios</a> and the <a href="inheritance.html">inheritance steps</a> before deciding.</p><p class="tiny">This page is a planning aid, not legal, tax, insurance or investment advice. Re-check every official page before acting; the register of sources and their review dates is on <a href="sources.html">Sources</a>.</p></div>
 </section>
 </div>`;
 
-const selections = Object.fromEntries(SUGGESTIONS.map(s => [s.id, ""]));
-const notes = Object.fromEntries(SUGGESTIONS.map(s => [s.id, ""]));
-
-document.getElementById("overview-rows").innerHTML = SUGGESTIONS.map(s => {
-  const prio = s.priority === "Urgent" || s.priority === "High" ? UI.badge(s.priority, "red") : UI.badge(s.priority, "gold");
-  const rec = s.paths.find(p => p.key === s.recommended);
-  return row([
-    td(`<strong>${s.id}</strong><div style="margin-top:6px">${prio}</div>`, ""),
-    td(`<strong>${s.title}</strong><div class="tiny">${s.area}</div>`),
-    td(s.gap),
-    td(`<strong>${s.recommended}:</strong> ${rec.name}<div class="tiny">Needs: ${s.prereq}</div>`),
-    td(UI.badge("Proposed · unimplemented", "gold"), ""),
-    `<td class="source">${UI.source(s.src, s.srcLabel)}</td>`
-  ]);
-}).join("");
-
-function renderCards() {
-  document.getElementById("cards").innerHTML = SUGGESTIONS.map(s => {
-    const prio = s.priority === "Urgent" || s.priority === "High" ? UI.badge(s.priority, "red") : UI.badge(s.priority, "gold");
-    const opts = [["", "Undecided · review paths first"], ...s.paths.map(p => [p.key, `${p.key}${p.key === s.recommended ? " (Recommended)" : ""} — ${p.name}`]), ["Defer", "Defer / do not implement now"]];
-    return `<div class="card">
-      <div class="meta-row" style="margin:0 0 10px">${prio}<span class="badge neutral">${s.id} · ${s.area}</span>${UI.badge("Awaiting review", "gold")}</div>
-      <h3>${s.title}</h3>
-      <p class="muted">${s.gap}</p>
-      <div style="display:grid;gap:10px;margin:14px 0">
-        ${s.paths.map(p => `<div style="border:1px solid var(--line);border-radius:10px;padding:12px;background:${p.key === s.recommended ? "var(--green-soft)" : "#fafbf9"}">
-          <div><strong>${p.key}${p.key === s.recommended ? " · Recommended" : ""}:</strong> ${p.name}</div>
-          <div class="tiny" style="margin-top:5px"><strong>Pros:</strong> ${p.pros}</div>
-          <div class="tiny" style="margin-top:3px"><strong>Trade-off:</strong> ${p.cons}</div>
-        </div>`).join("")}
-      </div>
-      <div class="tiny" style="margin-bottom:10px"><strong>Prerequisite before implementing:</strong> ${s.prereq} · ${UI.source(s.src, s.srcLabel)}</div>
-      <div class="control" style="margin-top:10px">
-        <label for="sel-${s.id}">Selected path for ${s.id}</label>
-        <select id="sel-${s.id}" data-sid="${s.id}">${UI.options("sel-" + s.id, opts, selections[s.id])}</select>
-      </div>
-      <div class="control" style="margin-top:8px">
-        <label for="note-${s.id}">Optional reviewer note (do not enter PII or exact private bills)</label>
-        <input id="note-${s.id}" data-nid="${s.id}" type="text" placeholder="e.g., Approve after CPA call" value="${notes[s.id].replace(/"/g, "&quot;")}" style="width:100%;padding:8px 10px;border:1px solid #cfd8d0;border-radius:8px;font:inherit;font-size:13px">
-      </div>
-    </div>`;
-  }).join("");
-
-  document.querySelectorAll("[data-sid]").forEach(el => el.addEventListener("change", e => {
-    selections[e.target.dataset.sid] = e.target.value;
-    renderSummary();
-  }));
-  document.querySelectorAll("[data-nid]").forEach(el => el.addEventListener("input", e => {
-    notes[e.target.dataset.nid] = e.target.value;
-    renderSummary();
-  }));
-}
-
-function renderSummary() {
-  const chosen = Object.values(selections).filter(Boolean).length;
-  document.getElementById("chosen-count").textContent = `${chosen} of ${SUGGESTIONS.length} chosen`;
-  document.getElementById("summary-rows").innerHTML = SUGGESTIONS.map(s => {
-    const ch = selections[s.id];
-    const pObj = s.paths.find(p => p.key === ch);
-    const badge = !ch ? UI.badge("Pending review", "gold") : ch === "Defer" ? UI.badge("Deferred", "neutral") : UI.badge(ch, "");
-    const action = !ch ? `Compare paths and confirm prerequisites (${s.prereq})` : ch === "Defer" ? "No change scheduled." : `${pObj ? pObj.name : ch}${notes[s.id] ? " — Note: " + notes[s.id].replace(/</g, "&lt;") : ""}`;
-    return row([
-      td(`<strong>${s.id}</strong>`, ""),
-      td(s.title),
-      td(badge, ""),
-      td(action),
-      `<td class="source">${UI.source(s.src, s.srcLabel)}</td>`
-    ]);
-  }).join("");
-  UI.ensureRowSources();
-}
-
-document.getElementById("applyRecommended").addEventListener("click", () => {
-  SUGGESTIONS.forEach(s => { selections[s.id] = s.recommended; });
-  renderCards();
-  renderSummary();
-});
-document.getElementById("clearChoices").addEventListener("click", () => {
-  SUGGESTIONS.forEach(s => { selections[s.id] = ""; notes[s.id] = ""; });
-  renderCards();
-  renderSummary();
-});
-document.getElementById("downloadPlan").addEventListener("click", () => {
-  const lines = ["# Selected Site & Decision Improvement Paths", "", "Status: Review summary exported locally; no repository files modified.", ""];
-  SUGGESTIONS.forEach(s => {
-    const ch = selections[s.id] || "Pending";
-    const pObj = s.paths.find(p => p.key === ch);
-    lines.push(`## ${s.id}: ${s.title}`);
-    lines.push(`- **Priority:** ${s.priority}`);
-    lines.push(`- **Chosen path:** ${ch}${pObj ? " — " + pObj.name : ""}`);
-    lines.push(`- **Prerequisite:** ${s.prereq}`);
-    if (notes[s.id]) lines.push(`- **Reviewer note:** ${notes[s.id]}`);
-    lines.push("");
+function updateSummary() {
+  const counts = { Approve: 0, Defer: 0, Decline: 0 };
+  const approved = [], deferred = [];
+  IDEAS.concat(SITE.map(([id, title]) => [id, title])).forEach(([id, title]) => {
+    const c = chosen[id];
+    if (c === "Approve") { counts.Approve++; approved.push([id, title]); }
+    if (c === "Defer") { counts.Defer++; deferred.push([id, title]); }
+    if (c === "Decline") counts.Decline++;
   });
-  const blob = new Blob([lines.join("\n")], { type: "text/markdown" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "selected-improvement-paths.md";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-document.getElementById("downloadJson").addEventListener("click", () => {
-  const payload = SUGGESTIONS.map(s => ({ id: s.id, title: s.title, priority: s.priority, recommended: s.recommended, chosen: selections[s.id] || "Pending", note: notes[s.id] || "" }));
-  const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "selected-improvement-paths.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
+  const total = IDEAS.length + SITE.length;
+  const undecided = total - counts.Approve - counts.Defer - counts.Decline;
+  const stamp = chosen.__updated ? new Date(chosen.__updated).toISOString().slice(0, 10) : "not yet";
+  const priv = chosen.PRIVACY_PATH && chosen.PRIVACY_PATH !== "Not decided" ? chosen.PRIVACY_PATH : "Not decided";
+  document.getElementById("summary-card").innerHTML = `<div class="metric-label">Approved · deferred · declined · undecided</div>
+    <div class="metric small">${counts.Approve} · ${counts.Defer} · ${counts.Decline} · ${undecided}</div>
+    <p class="tiny">Privacy path: <strong>${priv}</strong> · Last change: ${stamp}. ${counts.Approve === 0 ? "Nothing is approved yet, so nothing should be implemented." : "Only approved items are cleared to implement, and only after an official source is found for each figure they touch."}</p>
+    ${approved.length ? `<p><strong>Approved, in the order they should be done:</strong></p><ol class="list">${approved.map(([id, t]) => `<li>${id} — ${t}</li>`).join("")}</ol>` : ""}
+    ${deferred.length ? `<p><strong>Deferred:</strong></p><ul class="list">${deferred.map(([id, t]) => `<li>${id} — ${t}</li>`).join("")}</ul>` : ""}`;
+}
+
+function saveChoice(id, value) {
+  if (value === "Not decided") delete chosen[id]; else chosen[id] = value;
+  chosen.__updated = Date.now();
+  try { window.localStorage.setItem(KEY, JSON.stringify(chosen)); } catch (e) { /* private mode: keep in memory */ }
+  updateSummary();
+}
+
+const privSelect = document.getElementById("privacy-path-select");
+if (privSelect && chosen.PRIVACY_PATH) privSelect.value = chosen.PRIVACY_PATH;
+
+document.addEventListener("change", event => {
+  const select = event.target.closest("select.js-choice");
+  if (!select) return;
+  saveChoice(select.dataset.choice, select.value);
 });
 
-renderCards();
-renderSummary();
-</script>
-</body>
-</html>
+document.getElementById("print").addEventListener("click", () => window.print());
+document.getElementById("clear").addEventListener("click", () => {
+  if (!window.confirm("Clear every recorded choice in this browser?")) return;
+  chosen = {};
+  try { window.localStorage.removeItem(KEY); } catch (e) {}
+  document.querySelectorAll("select.js-choice").forEach(s => { s.value = "Not decided"; });
+  updateSummary();
+  document.getElementById("status").textContent = "All choices cleared.";
+});
+function buildSummaryLines() {
+  const lines = ["Suggestions and decisions — recorded " + new Date().toISOString().slice(0, 10)];
+  if (chosen.PRIVACY_PATH) lines.push("Privacy path: " + chosen.PRIVACY_PATH);
+  IDEAS.concat(SITE.map(([id, title]) => [id, title])).forEach(([id, title]) => {
+    const c = chosen[id] || "Not decided";
+    if (c !== "Not decided") lines.push(c + " · " + id + " · " + title);
+  });
+  if (lines.length === 1) lines.push("No choices recorded.");
+  return lines;
+}
+function dlFile(name, mime, content) {
+  const blob = new Blob([content], { type: mime });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.getElementById("dl-md").addEventListener("click", () => {
+  dlFile("suggestions-choices.md", "text/markdown", "# " + buildSummaryLines().join("\n- ") + "\n");
+  document.getElementById("status").textContent = "Downloaded suggestions-choices.md.";
+});
+document.getElementById("dl-json").addEventListener("click", () => {
+  dlFile("suggestions-choices.json", "application/json", JSON.stringify({ recorded: new Date().toISOString(), privacyPath: chosen.PRIVACY_PATH || "Not decided", choices: chosen }, null, 2) + "\n");
+  document.getElementById("status").textContent = "Downloaded suggestions-choices.json.";
+});
+document.getElementById("copy").addEventListener("click", () => {
+  const text = buildSummaryLines().join("\n");
+  const done = () => { document.getElementById("status").textContent = "Summary copied to the clipboard."; };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => { document.getElementById("status").textContent = "Could not copy; select the summary text and copy it manually."; });
+  } else {
+    const area = document.createElement("textarea");
+    area.value = text; document.body.appendChild(area); area.select();
+    try { document.execCommand("copy"); done(); } catch (e) { document.getElementById("status").textContent = "Could not copy; select the summary text and copy it manually."; }
+    area.remove();
+  }
+});
+
+updateSummary();
+</script></body></html>
