@@ -204,7 +204,7 @@
       id: "rateshock",
       label: "Rate and insurance shock at the transfer date",
       shape: "2045: home prices −6%, CPI 5%, equities −18%, premiums +5%; two years to recover",
-      anchor: "CPI-U rose 8.0% in 2022, 4.1% in 2023 and 3.3% in the first half of 2026; the 30-year fixed stood at 2.98% in the week of 11 November 2021 and 7.18% in November 2026.",
+      anchor: "CPI-U rose 8.0% in 2022, 4.1% in 2023 and 3.3% in the first half of 2026; the 30-year fixed stood at 2.98% in the week of 11 November 2021 and 7.11% in the week of 12 November 2026 (7.18% on 5 November 2026).",
       sources: ["blsCpiAnnual", "freddiePmms", "fairPlan"],
       home: [[2026, 2044, 0.035], [2045, 2045, -0.06], [2046, 2046, -0.03], [2047, 2047, 0.02], [2048, END, 0.035]],
       cpi: [[2026, 2044, 0.03], [2045, 2045, 0.05], [2046, 2046, 0.04], [2047, END, 0.03]],

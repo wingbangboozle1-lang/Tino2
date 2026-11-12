@@ -977,5 +977,29 @@
   "source": "City and County of San Francisco - Ballot Title & Summary (Measure H); SF Department of Elections preliminary count (Nov 10, 2026); OEA Economic Impact Report",
   "evidence": "Ballot Title & Summary table: Single-Family $129 base (caps/adders above 3,000 and 5,000 sq ft); Multifamily Residential $249 base plus $0.195/sq ft over 5,000 sq ft (max $50,000); Non-Residential $799 base (max $400,000). 'Owners of rent-controlled residential units could pass through up to 50% of the tax to their tenants, capped at $65 per unit, if the initial base rent was set before June 1, 2027.' Opened 12 Nov 2026.",
   "notes": "Property B's building square footage is unconfirmed and election certification is pending Dec 11, 2026, so no parcel dollar amount is added to the baseline yet."
+ },
+ {
+  "id": "FED-16",
+  "topic": "federal-estate",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "IRS Estate Tax Closing Letter (Letter 627) user fee",
+  "value": "$76 (effective October 26, 2026; up from $56)",
+  "url": "https://www.irs.gov/businesses/small-businesses-self-employed/whats-new-estate-and-gift-tax",
+  "source": "IRS - What's new: Estate and gift tax (Treasury Decision 10055)",
+  "evidence": "Opened 12 Nov 2026: 'Effective October 26, 2026, final regulations (TD 10055) increase the user fee for an estate tax closing letter from $56 to $76.' Requests submitted through Pay.gov.",
+  "notes": "Applies when an executor or trustee requests an optional IRS estate tax closing letter after filing Form 706."
+ },
+ {
+  "id": "ECO-05",
+  "topic": "economic-baseline",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Freddie Mac Primary Mortgage Market Survey (week of November 12, 2026)",
+  "value": "30-year fixed-rate mortgage 7.11%; 15-year fixed-rate mortgage 6.45% (week of 12 Nov 2026)",
+  "url": "https://www.freddiemac.com/pmms",
+  "source": "Freddie Mac - Primary Mortgage Market Survey (PMMS), November 12, 2026 release",
+  "evidence": "Opened 12 Nov 2026 on freddiemac.com/pmms and FRED MORTGAGE30US: 'As of November 12, 2026: 30-Yr FRM 7.11%' (down from 7.18% on November 5, 2026; 52-week range 5.98% to 7.40%); '15-Yr FRM 6.45%'.",
+  "notes": "Updates the 5 November 2026 reading (7.18%) cited in the rate-shock stress anchor and source register."
  }
 ]
