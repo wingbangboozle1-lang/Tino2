@@ -992,3 +992,17 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 **Irregularities (T-I1…T-I4).** Standing High privacy findings (older branches/history) unchanged and published on Flagged for Review; jsdom install note; privacy-scan warnings expected; live-URL read-back outside sandbox hosts (Pages API + CI Jekyll build used instead). None blocks the merge.
 
 **Rules followed.** No personal information in any committed file; placeholders for parties and addresses. No household figure repeated in this block. Every dollar figure in new files rounded to $10 unless government-published. Every table row in the new report carries an official source link or is flagged unverified. No file owned by another session was edited. `origin/main` merged before every push; the session ID is carried in the branch name.
+
+### Session `1e425502` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#38](https://github.com/wingbangboozle1-lang/Tino2/pull/38) `arena/1e425502-tino2` → `main`, **MERGED** 04:20:28 UTC without waiting for approval; `MERGEABLE` at merge time |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 28s — includes the Jekyll build and the rejection of unexpected files in the real Pages output |
+| Merge commit | `113184a68c0945f5afbe9349aa428db7fefe6a5b` |
+| GitHub Pages | build for `113184a` reported **`built`**, `error.message: null`, completed 04:20:59 UTC (Pages API; source `main` / root, HTTPS enforced) |
+| Live-URL read-back | **not completed, and not claimed.** `wingbangboozle1-lang.github.io` is outside this sandbox's permitted hosts (the same limitation recorded by earlier sessions). Deployment is confirmed from the Pages build record for the correct commit and from the CI run, which builds and audits the actual Jekyll output |
+| Stale PR | [#3](https://github.com/wingbangboozle1-lang/Tino2/pull/3) commented with the handoff and **closed** 12 Nov 2026 without merge; its content is superseded by the integrated site on `main` |
+| Open PRs after this session | none |
+
+**Final state of the board.** Every task on every block is `done`, except the standing **needs review** items — the privacy findings about older branches and commit history (owner decision, not fixable by editing the site) and the blank figures (insurance premiums, Measure H parcel amount until certification on 11 December 2026, Property A tax-rate area and meter sizes, Property B parcel tier, solar interconnection date, trust type, tenancy terms). All are published on the Flagged for Review page with the document that would settle each, and none of them blocks the merge.
