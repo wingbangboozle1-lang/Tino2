@@ -7,9 +7,11 @@
   const prefix = onHome ? "site/" : "";
   const home = onHome ? "index.html" : "../index.html";
   const current = onHome ? "home" : path.split("/").pop().replace(".html", "");
-  // One entry per category. The three black-swan pages share one entry and a sub-navigation (session f16e6e34).
+  // One entry per category. Black-swan pages and guidance pages each share a header entry and sub-navigation.
   const stressPages = [["stress", "stress.html", "50-year paths"], ["scenarios", "scenarios.html", "Shock replays"], ["black-swan", "black-swan.html", "Recorded data"]];
+  const guidePages = [["questions", "questions.html", "Questions & discovery"], ["suggestions", "suggestions.html", "Site suggestions"]];
   const inStress = stressPages.some(([id]) => id === current);
+  const inGuide = guidePages.some(([id]) => id === current);
   const navItems = [
     ["home", home, "Overview"],
     ["plan", prefix + "plan.html", "Best plan"],
@@ -21,6 +23,7 @@
     ["stress", prefix + "stress.html", "Black swan"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
+    ["questions", prefix + "questions.html", "Q&A & Suggestions"],
     ["sources", prefix + "sources.html", "Sources"],
     ["verification", prefix + "verification.html", "Verified facts"],
     ["review", prefix + "review.html", "Flagged"]
@@ -32,8 +35,8 @@
   header.innerHTML = `<div class="container header-inner">
     <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Anonymized scenarios · 2026</small></span></a>
     <button class="menu-button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
-    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${(id === current || (id === "stress" && inStress)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
-  </div>${inStress ? `<div class="container subnav" aria-label="Black swan pages"><span class="tiny">Black swan and economic scenarios:</span> ${stressPages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}`;
+    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${(id === current || (id === "stress" && inStress) || (id === "questions" && inGuide)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
+  </div>${inStress ? `<div class="container subnav" aria-label="Black swan pages"><span class="tiny">Black swan and economic scenarios:</span> ${stressPages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}${inGuide ? `<div class="container subnav" aria-label="Decision readiness and site suggestions"><span class="tiny">Decision readiness &amp; site improvements:</span> ${guidePages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}`;
   document.body.prepend(header);
   const menu = header.querySelector(".menu-button");
   menu.addEventListener("click", () => {
@@ -43,7 +46,7 @@
   });
   const footerHost = document.querySelector("[data-footer]");
   if (footerHost) {
-    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Privacy-safe planning dashboard</strong><br>Property labels are placeholders. No names, street addresses, parcel numbers, or account numbers are published.</div><div>Correction audit: 11 Nov 2026<br><a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
+    footerHost.innerHTML = `<footer class="footer"><div class="container footer-inner"><div><strong>Privacy-safe planning dashboard</strong><br>Property labels are placeholders. No names, street addresses, parcel numbers, or account numbers are published.</div><div>Last verified: 12 Nov 2026<br><a href="${prefix}questions.html">Questions &amp; discovery</a> · <a href="${prefix}suggestions.html">Site suggestions</a> · <a href="${prefix}sources.html">Source register</a> · <a href="${prefix}review.html">Flagged for review</a></div></div></footer>`;
   }
   window.UI = {
     source(key, label) {

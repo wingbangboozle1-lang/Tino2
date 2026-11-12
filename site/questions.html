@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Structured pre-decision questions, known versus missing information, and private discovery steps before making inheritance, tax, or property decisions.">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body data-title="Questions &amp; discovery guide">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const row = cells => "<tr>" + cells.join("") + "</tr>";
+const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+
+const QUESTIONS = [
+  // 1 · Trust, Title & Legal Authority
+  {
+    domain: "Trust & Title",
+    priority: "High",
+    q: "Is Property A held in a revocable living trust, an irrevocable trust, or outside the trust?",
+    have: "Planning premise: Property A is to be inherited via trust around 2040–2050. Verified rule: a revocable trust included in the gross estate generally resets tax basis to fair market value at death (IRC § 1014), whereas IRS Revenue Ruling 2023-2 holds that assets in an irrevocable grantor trust excluded from the gross estate do not get a step-up.",
+    missing: "The actual signed trust instrument, amendments, trust type, and recorded vesting deed.",
+    discover: "Read the trust title/declaration and amendments privately with the trust attorney, and verify the latest recorded Santa Clara County deed names the acting trustee (confirming Property A will avoid statutory probate).",
+    src: "irsRevRul20232",
+    srcLabel: "IRS Rev. Rul. 2023-2"
+  },
+  {
+    domain: "Trust & Title",
+    priority: "High",
+    q: "How many beneficiaries inherit, and does the trust authorize non-pro-rata (uneven) distribution?",
+    have: "Proposition 19 requires an eligible child/transferee to move into Property A as a principal residence within 1 year; if multiple children inherit equally and cannot allocate the house cleanly, partial reassessment relief can be lost.",
+    missing: "Number of beneficiaries, distribution percentages, buy-out mechanics, and whether the trustee can allocate Property A to one heir and liquid assets to others.",
+    discover: "Review the trust's distribution and trustee-powers articles privately with counsel; confirm whether an equalizing allocation or third-party purchase loan is permitted.",
+    src: "boeLta2026026",
+    srcLabel: "BOE LTA 2026/026"
+  },
+  {
+    domain: "Trust & Title",
+    priority: "Medium",
+    q: "Could title ever be placed in an LLC, or Property A rented out if a parent moves into care before death?",
+    have: "Verified BOE guidance: property held in an LLC or partnership does not qualify for the Proposition 19 parent-child exclusion, and renting the family home to non-family while the parent is in a care facility breaks principal-residence status.",
+    missing: "Whether any entity transfer is contemplated and any care-facility / elder-law contingencies (including Medi-Cal planning).",
+    discover: "Confirm with an elder-law and estate attorney before changing title, moving a parent out, or renting Property A before death.",
+    src: "boeProp19",
+    srcLabel: "BOE Prop 19 rules"
+  },
+
+  // 2 · Estate Size & Inherited Money ("Considerable Amount of Money")
+  {
+    domain: "Estate & Liquid Assets",
+    priority: "High",
+    q: "What is the total dollar value and asset mix of the \"considerable amount of money\" besides Property A?",
+    have: "Property A household input: $3,100,000 in 2026. Federal basic exclusion is $15,000,000 in 2026 and $15,480,000 in 2027 (official IRS); real-estate-only headroom before non-property assets is $11,900,000 (2026) and $12,271,500 (2027), with each $1,000,000 over the threshold taxed up to 40%.",
+    missing: "Actual balances and account types (cash/CDs, taxable brokerage, Traditional IRA/401(k), Roth IRA, annuities, life insurance, business interests, and debts/liabilities).",
+    discover: "Compile a private net-worth schedule showing owner, title, and named beneficiary for every financial and insurance account. Traditional IRAs generally trigger ordinary income tax within 10 years (no basis step-up), while cash and life-insurance proceeds follow distinct rules.",
+    src: "irsEstateTax",
+    srcLabel: "IRS Estate Tax"
+  },
+  {
+    domain: "Estate & Liquid Assets",
+    priority: "High",
+    q: "Have prior taxable gifts (Form 709) been made, or is a predeceased spouse's unused exclusion (DSUE) available?",
+    have: "Annual gift exclusion is $19,000 per recipient in 2026 and $20,000 in 2027 (IRS IR-2026-133). Surviving-spouse DSUE requires a timely Form 706 election at the first spouse's death.",
+    missing: "Whether prior gifts reduced the decedent's lifetime exclusion, and whether a spouse died earlier with or without a portability Form 706 filing.",
+    discover: "Ask the family CPA/attorney for prior Forms 709, any Form 706 from a first spouse's estate, and marital/community-property agreements (which also determine double step-up vs single step-up).",
+    src: "irs2027",
+    srcLabel: "IRS IR-2026-133"
+  },
+
+  // 3 · Property A (Cupertino) Carrying Costs, Tax, Rent & Solar
+  {
+    domain: "Property A · Cupertino",
+    priority: "High",
+    q: "What do actual insurer quotes and rebuild-cost estimates say for Property A (homeowner vs. landlord policy) and earthquake insurance?",
+    have: "Household estimate: ~$1,500/year (unsure). Official 2026 CDI survey of a hypothetical 40-yr Cupertino home shows medians of $1,380 ($500,000 rebuild), $2,020 ($750,000), and $2,690 ($1,000,000), up to $6,430; earthquake rates average $3.10 per $1,000; ZIP 95014 FAIR Plan policies rose from 74 (2022) to 227 (2026).",
+    missing: "Actual rebuild cost (Coverage A), current policy declarations, whether the carrier insures rentals and vacant homes past 60 days, wildfire/FAIR Plan status, and written quotes.",
+    discover: "Ask an insurer or contractor for replacement cost (not land/market value), then request written quotes privately for both owner-occupied and tenant-occupied forms plus an earthquake rider quote.",
+    src: "cdiSurveyCup40_1000",
+    srcLabel: "CDI 2026 Cupertino Survey"
+  },
+  {
+    domain: "Property A · Cupertino",
+    priority: "Medium",
+    q: "Which of Cupertino's three water systems serves Property A, what is the meter size, and what is the parcel's Tax Rate Area (TRA)?",
+    have: "Household inputs: water $100–$150/month; 2026 assessed value $550,540; 2025 tax bill $7,210 (~86–87% rate-based at ~1.1636% Cupertino bond sum plus ~$930–$1,010 flat charges). Cupertino has three water service zones (Cal Water, San Jose Water, and City-owned leased to SJW).",
+    missing: "Exact TRA code, itemized fixed parcel assessments on the bill, water provider name, and meter size.",
+    discover: "Read the Tax Rate Area and Special Assessments table directly from the latest Santa Clara County secured tax bill (via the County Tax Collector portal privately), and read the utility provider/meter size from a recent water bill.",
+    src: "sccTaxBook",
+    srcLabel: "SCC Tax Rate Book"
+  },
+  {
+    domain: "Property A · Cupertino",
+    priority: "Medium",
+    q: "When did Property A's solar system receive Permission to Operate (PTO), and which net-metering tariff (NEM 1.0/2.0 vs. NBT) applies?",
+    have: "Household input: electricity net credit $10–$20/month (solar installed). Verified CPUC rule: legacy NEM tariffs last 20 years from PTO (transferring with the home), after which exports drop sharply to hourly avoided cost; non-CARE minimum delivery is $10.12/month.",
+    missing: "Exact PTO date, system size/age/ownership (owned vs. leased), inverter warranty, and 12-month true-up statement.",
+    discover: "Check the PG&E online interconnection record / annual true-up bill privately; if PTO was before 2020–2030, model the post-20-year drop well before the 2040–2050 inheritance.",
+    src: "cpucNem",
+    srcLabel: "CPUC Net Metering"
+  },
+  {
+    domain: "Property A · Cupertino",
+    priority: "Medium",
+    q: "What actual rent would Property A command, what are its bedrooms/condition, and what is the land-versus-building tax split?",
+    have: "Verified HUD ZIP 95014 benchmarks: FY2026 $6,390 (4BR) / $5,870 (3BR) and FY2027 $5,800 (4BR) / $5,440 (3BR, effective 1 Oct 2026). Depreciation applies only to the building share over 27.5 years (subject to 25% unrecaptured § 1250 tax at sale).",
+    missing: "Bedroom/bath count, deferred maintenance or pre-rental renovation budget, whether any mortgage exists, and assessor improvement ratio.",
+    discover: "Look up the land-versus-improvement split on the Santa Clara County bill, check local MLS/property-manager rent comps, and get a contractor walk-through estimate before comparing rent vs. immediate sale.",
+    src: "hudA2027",
+    srcLabel: "HUD FY2027 95014"
+  },
+
+  // 4 · Property B (San Francisco Outer Sunset)
+  {
+    domain: "Property B · San Francisco",
+    priority: "High",
+    q: "Have the 2027 San Francisco Rent Board owner-unit exemption (due 14 Dec 2026) and Housing Inventory / license been filed?",
+    have: "Property B is already owned by the heir (3 units: 2 rented at ~$7,150/mo total, 1 owner unit). Official SF Rent Board fee is $59/unit ($177 for 3 units; $118 if the owner unit gets an approved exemption). Vacant units and relative-occupied units are billed unless exempted by 14 Dec 2026; 50% ($29.50/unit) may be passed to tenants in occupancy on 1 Nov. Rent increases require an active Housing Inventory license.",
+    missing: "Whether the Rent Board portal shows all 3 units accurately, current license status, and whether the 2027 owner-unit exemption request has been submitted.",
+    discover: "Log into the SF Rent Board portal privately before 14 December 2026 to verify the Housing Inventory and file the Request for Exemption for the owner-occupied 3rd unit.",
+    src: "sfRentFee",
+    srcLabel: "SF Rent Board Fee"
+  },
+  {
+    domain: "Property B · San Francisco",
+    priority: "Medium",
+    q: "What are the exact direct parcel charges, building square footage (for Measure H), and true utility/insurance bills for Property B?",
+    have: "2025 household bill ~$2,440 on ~$114,250 assessed value (~55% rate-based at 1.18162182%, ~45% flat charges including $829.22 listed taxes + ~$260 unlisted). Water $330–$400/mo (SFPUC adopted ~12.6% / ~12.5% jumps for FY27–28); electric $30–$70/mo; landlord insurance ~$1,500/yr input. Preliminary Measure H passed Nov 3 (74.4% yes): multifamily $249/yr base + $0.195/sq ft over 5,000 sq ft starting July 1, 2027 (50% / $65/unit rent-controlled pass-through).",
+    missing: "Written multi-unit landlord insurance quote (CDI survey lacks 2–4 unit landlord pricing), building square footage, water meter count/stormwater tier, and itemized SF direct charges.",
+    discover: "Check the latest SF Treasurer secured tax bill line-by-line (including building square footage for Measure H), review 12 months of SFPUC/PG&E statements, and request commercial/habitational landlord quotes.",
+    src: "sfMeasureHTerms",
+    srcLabel: "SF Measure H Terms"
+  },
+  {
+    domain: "Property B · San Francisco",
+    priority: "Medium",
+    q: "What are the tenancy terms, rent-control status, and lawful bedroom/use details of Property B's 3 units (including the vacant owner unit)?",
+    have: "Current SF Rent Board allowable increase is 1.6% (Mar 2026–Feb 2027); pending File No. 261020 would cap banked + capital-improvement increases at 10%/yr. Ellis Act withdrawal costs $11,110.05/tenant (up to $33,330.13/unit + $7,443.90 elderly/disabled). HUD ZIP 94122 FY2027 SAFMRs are $2,770 (1BR) and $3,410 (2BR) vs FY2026 $2,730 / $3,310.",
+    missing: "Written leases, start dates (pre- vs post-1979 construction / rent-control applicability), tenant ages/protected status, and whether the 3rd owner unit is a permitted 1BR or 2BR ready to rent if the heir ever moved.",
+    discover: "Audit all leases, initial move-in dates, security-deposit interest compliance (4.2% for 2026–27), and San Francisco DBI unit permits privately with an SF landlord-tenant attorney before assuming extra 3rd-unit rent.",
+    src: "hudB2027",
+    srcLabel: "HUD FY2027 94122"
+  },
+
+  // 5 · Heir Profile, Tax Brackets & Reinvestment Plan
+  {
+    domain: "Heir Profile & Strategy",
+    priority: "High",
+    q: "What are the heir's marginal federal/California tax brackets, filing status, and Net Investment Income Tax (NIIT) exposure?",
+    have: "Base model uses 33.3% ordinary rental rate and 33.1% combined capital-gain rate (20% federal + 3.8% NIIT + 9.3% CA). Prop 3 (leading 60.7% unofficially as of Nov 11) keeps CA's top 10.3%–12.3% brackets above $371,479 permanent.",
+    missing: "Heir's filing status (single vs. MFJ — affects $250,000 vs. $500,000 § 121 exclusion and $200,000 vs. $250,000 NIIT threshold), current MAGI (determines passive-loss suspension under $100k–$150k rules), and expected bracket at sale.",
+    discover: "Have a CPA run a two-year tax projection using the heir's actual Form 1040 / CA Form 540, checking passive-loss carryforwards and how a $1M+ capital gain pushes California brackets up to 13.3%.",
+    src: "ftbRates2025",
+    srcLabel: "FTB Tax Schedules"
+  },
+  {
+    domain: "Heir Profile & Strategy",
+    priority: "Medium",
+    q: "If Property A is sold, what exact portfolio mix (stocks, Treasury bonds, HYSA/CDs), liquidity reserve, and time horizon will the heir use?",
+    have: "Base case assumes 6% gross − 1% tax drag = 5% net return; FDIC bank deposit coverage is $250,000 per depositor, bank, and ownership category (cash proceeds above $250k in one bank are uninsured). Tax-symmetric checks show selling vs. renting flips if real estate outpaces the portfolio (break-even ~5.3% home growth / ~4.0% net portfolio return).",
+    missing: "Target asset allocation (e.g., equity index funds vs. munis/Treasuries vs. CDs), emergency cash needs, and whether the proceeds are ever intended to be spent vs. held until the next generation's step-up.",
+    discover: "Define an Investment Policy Statement privately with a fee-only fiduciary advisor covering FDIC/SIPC limits, tax-efficient index placement, and state-tax-exempt Treasury ladders before liquidation.",
+    src: "fdic",
+    srcLabel: "FDIC Deposit Rules"
+  },
+  {
+    domain: "Heir Profile & Strategy",
+    priority: "Medium",
+    q: "What personal (non-financial) value does living in Cupertino versus staying in San Francisco Outer Sunset have for the heir?",
+    have: "In the base 2045–2055 comparison, moving into Property A and renting the freed SF owner unit trails selling A by roughly $1,200,000–$1,800,000 depending on the scenario (roughly $120,000–$180,000/yr uncompounded), before pricing the personal value of living in a Cupertino home.",
+    missing: "Whether the heir actually wants to live in Cupertino (commute, school/family ties, downsizing/upsizing preference, maintenance burden) versus keeping Outer Sunset as primary home.",
+    discover: "Explicitly price the personal housing preference as an annual dollar benchmark ('Is living in Property A worth giving up $X/year in projected terminal wealth?') before weighing Proposition 19 occupancy.",
+    src: "boeProp19",
+    srcLabel: "BOE Prop 19"
+  },
+
+  // 6 · Privacy Remediation & Ongoing Law Triggers
+  {
+    domain: "Privacy & Legal Triggers",
+    priority: "High",
+    q: "Which repository privacy cleanup path will the owner authorize for historical Git commits, branches, and commit email?",
+    have: "Live site pages publish rounded figures ($10 multiples) and placeholder labels only. However, earlier Git commits (42 of 173+ commits to main), 10 older branches, PR history, and GitHub merge author email still remain readable in the public repository history.",
+    missing: "Owner decision on enabling GitHub commit-email privacy and choosing between archiving/replacing the public repo versus making it private / requesting GitHub purge.",
+    discover: "Review GitHub Email Settings ('Keep my email addresses private' + 'Block command line pushes that expose my email') and select a repository remediation path on the Suggestions page.",
+    src: "githubSensitive",
+    srcLabel: "GitHub Sensitive Data"
+  },
+  {
+    domain: "Privacy & Legal Triggers",
+    priority: "Low",
+    q: "Which upcoming legal and official-data deadlines must be checked before taking final action?",
+    have: "Tracked milestones: Dec 11, 2026 (CA SOS & SF election certification for Props 3/40/42/43 and Measure H); Dec 14, 2026 (SF 2027 Rent Board fee exemption); Feb 16 / Mar 2027 (next biennial BOE Prop 19 exclusion cap); Oct 2027+ (annual HUD SAFMRs and IRS estate inflation releases).",
+    missing: "Post-deadline official figures not yet published as of 12 November 2026.",
+    discover: "Set recurring calendar checks for December 2026, March 2027, and October each year before executing lease notices, trust transfers, or sales.",
+    src: "sosResults2026",
+    srcLabel: "CA SOS Election Calendar"
+  }
+];
+
+const domains = ["All", ...new Set(QUESTIONS.map(q => q.domain))];
+
+main.innerHTML = UI.hero(
+  "Pre-decision readiness · knowns, unknowns & discovery",
+  "What must be answered before deciding.",
+  "A structured inventory of the questions that govern the Cupertino (Property A) and San Francisco (Property B) decision—explicitly separating what is already supplied or verified from what is still missing, and exactly how to discover each answer privately.",
+  `<a class="button" href="suggestions.html">Review site improvement paths →</a><a class="button secondary" href="review.html">Flagged technical items</a><a class="button secondary" href="inheritance.html">Step-by-step trust timeline</a>`
+) + `<div class="container">
+<section class="section">
+  <div class="grid four">
+    <div class="card"><div class="metric-label">Core pre-decision questions</div><div class="metric small">${QUESTIONS.length}</div><div class="tiny">${QUESTIONS.filter(q => q.priority === "High").length} high priority · ${QUESTIONS.filter(q => q.priority === "Medium").length} medium · ${QUESTIONS.filter(q => q.priority === "Low").length} calendar triggers</div></div>
+    <div class="card"><div class="metric-label">Verified public rules</div><div class="metric small">77</div><div class="tiny">Laws, FY2027 HUD SAFMRs, 2027 IRS thresholds, CDI surveys, FRED series</div></div>
+    <div class="card review"><div class="metric-label">Critical private blanks</div><div class="metric small">10+</div><div class="tiny">Trust type, liquid estate total, actual quotes, basis, leases, heir bracket</div></div>
+    <div class="card soft"><div class="metric-label">Privacy rule</div><div class="metric small">Offline only</div><div class="tiny">Collect missing facts in a private file; never upload PII or bills to GitHub</div></div>
+  </div>
+  <div class="callout warning" style="margin-top:18px"><strong>How to read this page:</strong> Do not treat supplied household midpoints ($1,500 insurance, $125/$365 water, $550,540 / $114,250 assessments) or missing values (liquid estate size, trust language) as verified facts. Resolve the <strong>High</strong> items before locking in any occupancy, gifting, trust, or sale plan.</div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <div>
+      <div class="eyebrow">Question &amp; discovery register</div>
+      <h2>Knowns, missing answers, and where to find each one</h2>
+      <p>Filter by topic or priority below. Every row pairs the decision question with an official lookup or regulatory authority.</p>
+    </div>
+  </div>
+  <div class="controls" style="grid-template-columns: repeat(3, minmax(140px, 1fr));">
+    <div class="control"><label for="filterDomain">Filter by domain</label><select id="filterDomain">${domains.map(d => `<option value="${d}">${d === "All" ? "All domains (" + QUESTIONS.length + ")" : d}</option>`).join("")}</select></div>
+    <div class="control"><label for="filterPriority">Filter by priority</label><select id="filterPriority"><option value="All">All priorities</option><option value="High">High priority only</option><option value="Medium">Medium priority only</option><option value="Low">Low / calendar triggers</option></select></div>
+    <div class="control" style="display:flex;align-items:flex-end"><button class="button secondary" id="downloadChecklist" style="width:100%;justify-content:center">Download blank discovery checklist (CSV)</button></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Domain &amp; Priority</th>
+          <th class="wrap">Question to answer before deciding</th>
+          <th class="wrap">Information we already have</th>
+          <th class="wrap">Missing information / answer needed</th>
+          <th class="wrap">Suggested way to discover it (offline)</th>
+          <th>Official route</th>
+        </tr>
+      </thead>
+      <tbody id="qa-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <div>
+      <div class="eyebrow">Ordered playbook</div>
+      <h2>Recommended sequence to discover missing information</h2>
+      <p>Gather free public/utility records first so professional time with your trust attorney and CPA is focused on legal and tax structure rather than chasing paper.</p>
+    </div>
+  </div>
+  <div class="grid three">
+    <div class="card">
+      <h3>Phase 1 · Immediate self-checks (no fees)</h3>
+      <ul class="check-list">
+        <li>Log into the SF Rent Board portal before <strong>14 Dec 2026</strong> to file the Property B owner-unit exemption and check Housing Inventory.</li>
+        <li>Pull the latest Santa Clara County &amp; SF secured tax bills privately to capture Property A's TRA, land/building split, direct charges, and Property B's square footage for Measure H.</li>
+        <li>Download 12 months of water bills (verify Property A's Cupertino water district) and PG&amp;E solar PTO / annual true-up statements.</li>
+        <li>Turn on GitHub commit-email privacy in Account Settings.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Phase 2 · Written quotes &amp; tenant/property audit</h3>
+      <ul class="check-list">
+        <li>Get a replacement-cost estimate and written quotes for Property A (homeowner vs. landlord + earthquake) and Property B (3-unit landlord).</li>
+        <li>Review Property B's leases, move-in dates, protected-tenant status, and 3rd-unit permit/bedroom status.</li>
+        <li>Get an informal market-rent comp and contractor maintenance check for Property A vs. the FY2027 HUD $5,800 4-BR benchmark.</li>
+      </ul>
+    </div>
+    <div class="card highlight">
+      <h3>Phase 3 · Trust attorney &amp; CPA review</h3>
+      <ul class="check-list">
+        <li>Present the private asset inventory (cash, IRAs, brokerage, insurance, prior Forms 709, any spouse DSUE) to estimate true federal estate-tax exposure.</li>
+        <li>Verify revocable trust status (IRC § 1014 basis reset) and non-pro-rata distribution clauses if multiple heirs exist.</li>
+        <li>Model heir-specific federal/CA brackets, NIIT, depreciation recapture, and Prop 19 eligibility before choosing occupancy, rental, or sale.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>`;
+
+function renderTable() {
+  const d = document.getElementById("filterDomain").value;
+  const p = document.getElementById("filterPriority").value;
+  const filtered = QUESTIONS.filter(item => (d === "All" || item.domain === d) && (p === "All" || item.priority === p));
+  const tbody = document.getElementById("qa-rows");
+  tbody.innerHTML = filtered.map(item => {
+    const prioBadge = item.priority === "High" ? UI.badge("High", "red") : item.priority === "Medium" ? UI.badge("Medium", "gold") : UI.badge("Low", "neutral");
+    return row([
+      td(`<strong>${item.domain}</strong><div style="margin-top:6px">${prioBadge}</div>`, ""),
+      td(`<strong>${item.q}</strong>`),
+      td(item.have),
+      td(item.missing),
+      td(item.discover),
+      `<td class="source">${UI.source(item.src, item.srcLabel)}</td>`
+    ]);
+  }).join("");
+}
+
+document.getElementById("filterDomain").addEventListener("change", renderTable);
+document.getElementById("filterPriority").addEventListener("change", renderTable);
+document.getElementById("downloadChecklist").addEventListener("click", () => {
+  const escCsv = s => '"' + String(s).replace(/"/g, '""') + '"';
+  const rows = [["Priority", "Domain", "Question", "What We Have", "Missing Information", "Suggested Discovery Route", "Answer / Private Notes (fill offline)"]];
+  QUESTIONS.forEach(item => rows.push([item.priority, item.domain, item.q, item.have, item.missing, item.discover, ""]));
+  const blob = new Blob([rows.map(r => r.map(escCsv).join(",")).join("\n")], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "pre-decision-discovery-checklist.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+renderTable();
+UI.ensureRowSources();
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reviewable suggestions to improve the planning site and inheritance decision-making, with candidate paths, trade-offs, and selection before implementation.">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body data-title="Site &amp; decision improvement suggestions">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const row = cells => "<tr>" + cells.join("") + "</tr>";
+const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
+
+const SUGGESTIONS = [
+  {
+    id: "S1",
+    area: "Privacy & Repository Hygiene",
+    priority: "Urgent",
+    title: "Remediate historical exact figures & commit email in public Git history",
+    gap: "Live site pages publish rounded figures ($10 multiples) and placeholders only, but 42 earlier commits, 10 old branches, PR refs, and GitHub merge author email remain readable in the public Git history.",
+    recommended: "Path A",
+    src: "githubSensitive",
+    srcLabel: "GitHub Sensitive Data",
+    prereq: "Owner GitHub account access; explicit owner approval before deleting branches or creating a replacement repository.",
+    paths: [
+      { key: "Path A", name: "Enable email privacy + migrate clean HEAD to a fresh private repository (archive/delete legacy repo)", pros: "Completely eliminates historical commits, old branches, PR metadata, and exposed commit email in one clean step.", cons: "GitHub Pages on a private repository requires GitHub Pro/Team (or hosting privately / exporting _public locally)." },
+      { key: "Path B", name: "Make existing repository private + enable 'Keep my email addresses private'", pros: "Fastest 2-click toggle; keeps full commit & branch history accessible only to the owner.", cons: "Public GitHub Pages stops serving unless upgraded to a paid plan; collaborators/forks if any keep clones." },
+      { key: "Path C", name: "Delete old branches, rewrite history, and ask GitHub Support to purge cached PR refs", pros: "Keeps the public GitHub Pages URL alive.", cons: "Complex; cached PR refs require GitHub Support intervention and do not guarantee removal of external forks/caches." }
+    ]
+  },
+  {
+    id: "S2",
+    area: "Decision Precision",
+    priority: "High",
+    title: "Add an in-browser, zero-upload 'Private Scratchpad' for missing household numbers",
+    gap: "The Decision Lab only lets you choose preset dropdowns because real estate/tax numbers (liquid estate cash, original cost basis, actual insurance quotes, mortgages, heir bracket) cannot be saved in a public repo. Users cannot test their true total net worth and estate-tax threshold interactively.",
+    recommended: "Path A",
+    src: "irsEstateTax",
+    srcLabel: "IRS Estate Tax",
+    prereq: "Confirm clear browser-only disclaimer (no localStorage persistence by default, or explicit clear button; zero network requests).",
+    paths: [
+      { key: "Path A", name: "RAM-only client-side custom inputs + optional local JSON save/load file", pros: "Lets the heir plug in exact quotes, estate cash, basis, and tax bracket right in the browser while committing zero PII to Git.", cons: "Slightly more UI complexity; user must save/reload a local file offline if reusing numbers later." },
+      { key: "Path B", name: "Expand preset dropdown bands only (e.g., estate money bands $5M–$25M, insurance $1.5k–$6.5k)", pros: "Zero risk of someone accidentally sharing a screenshot or browser state; stays 100% deterministic.", cons: "Less precise than entering exact quotes, mortgages, and individual IRA vs. cash balances." },
+      { key: "Path C", name: "Keep all custom math in a separate offline spreadsheet", pros: "Simplest public codebase; zero chance of private data entering the browser session.", cons: "Forces the decision-maker to duplicate engine formulas offline." }
+    ]
+  },
+  {
+    id: "S3",
+    area: "Decision Precision",
+    priority: "High",
+    title: "Add Property B's freed-unit toggle & tax-symmetric toggle directly inside Decision Lab",
+    gap: "Currently, 'Best plan' models living in Property A while renting Property B's freed 3rd unit (liveSF), and 'Decision' only shows the tax-symmetric portfolio check as a static callout rather than an interactive 4-strategy table.",
+    recommended: "Path A",
+    src: "sfRentRates",
+    srcLabel: "SF Rent Board Rules",
+    prereq: "Verify Property B 3rd-unit permit/bedroom count (1BR vs. 2BR) and confirm moving/rehab allowance before treating liveSF as net income.",
+    paths: [
+      { key: "Path A", name: "Add a 4th strategy column ('Live in A + rent SF 3rd unit') + 'Equal-tax liquidation' switch to Decision Lab", pros: "Unifies the whole two-property decision in one interactive dashboard; prevents understating the live-in-A option or overstating sell-and-reinvest.", cons: "Needs clear assumptions for SF 3rd-unit renovation/moving friction so net cash isn't overstated." },
+      { key: "Path B", name: "Keep Decision Lab strictly Property-A-only and add a prominent link card to 'Best plan'", pros: "Preserves clean separation between Property A standalone mechanics and household-level SF coupling.", cons: "Users adjusting appreciation/return sliders on Decision Lab don't immediately see the liveSF number update." }
+    ]
+  },
+  {
+    id: "S4",
+    area: "Estate & Tax Realism",
+    priority: "High",
+    title: "Layer estate-tax allocation, trust type (revocable vs. irrevocable), and heir income-tax brackets",
+    gap: "Strategy totals currently deduct zero federal estate tax (since liquid estate value is unknown), assume a 100% revocable-trust basis reset (IRC § 1014), and use fixed 33.3% / 33.1% rates without California's 10.3%–13.3% brackets or Traditional IRA 10-year distribution drag.",
+    recommended: "Path A",
+    src: "irsRevRul20232",
+    srcLabel: "IRS Rev. Rul. 2023-2",
+    prereq: "Attorney confirmation of trust type and private CPA summary of non-property accounts & filing status.",
+    paths: [
+      { key: "Path A", name: "Add a Trust Type switch (Revocable step-up vs. Irrevocable carryover) + Estate Cash & Tax Bracket presets", pros: "Immediately shows how an irrevocable carryover basis or 40% estate-tax liquidity squeeze flips the hold-vs-sell analysis.", cons: "Carries a risk of false precision if estate/trust inputs are still guesses." },
+      { key: "Path B", name: "Keep estate tax on 'Estate tax' / 'Other options' pages and add an explicit warning banner before any strategy action", pros: "Prevents mixing unverified liquid wealth estimates with baseline property math.", cons: "Decision-maker has to cross-reference three pages to assess liquidity." }
+    ]
+  },
+  {
+    id: "S5",
+    area: "Cost & Revenue Accuracy",
+    priority: "Medium",
+    title: "Rebase or toggle HUD SAFMR rent benchmarks to FY2027 (effective 1 Oct 2026)",
+    gap: "HUD FY2027 SAFMRs verified on 12 Nov 2026 dropped Property A's 4-BR benchmark from $6,390 (FY2026) to $5,800 (-9.2%) and raised Property B's 1-BR from $2,730 to $2,770. Currently the main baseline still runs FY2026 ($6,390), while Decision Lab now exposes FY2027 as an optional selector.",
+    recommended: "Path A",
+    src: "hudA2027",
+    srcLabel: "HUD FY2027 95014",
+    prereq: "Obtain 2–3 local Cupertino comparable 4-BR/3-BR rental listings or property-manager rent opinions.",
+    paths: [
+      { key: "Path A", name: "Keep FY2026 as published continuity base and let reviewers toggle FY2027 ($5,800) in Decision Lab (already staged as optional selector)", pros: "Maintains historical audit comparability while exposing the official Oct 2026 drop immediately.", cons: "Default headline card still cites the FY2026 rent figure unless switched." },
+      { key: "Path B", name: "Rebase MODEL.BASE everywhere (Decision, Properties, Plan, Scenarios) from FY2026 ($6,390) to FY2027 ($5,800)", pros: "All default pages reflect the active FY2027 federal benchmark (which widens selling's advantage further).", cons: "Shifts every published terminal wealth figure and requires updating cross-verification test baselines." }
+    ]
+  },
+  {
+    id: "S6",
+    area: "Cost & Revenue Accuracy",
+    priority: "Medium",
+    title: "Separate flat parcel charges & lumpy utility/insurance escalation from the 2% / 3% baseline",
+    gap: "Modeling property tax as one flat % understates Property B's pre-inheritance tax (~$1,380 modeled vs ~$2,440 billed, ~45% flat charges + pending Measure H $249 base), while SFPUC water/sewer jumps ~12.6% / ~12.5% in FY27–28, CA residential insurance rose ~9.05%/yr (2018–2023), and PG&E solar legacy tariffs end 20 years after PTO.",
+    recommended: "Path A",
+    src: "sfMeasureHTerms",
+    srcLabel: "SF Measure H Terms",
+    prereq: "Read actual TRA & direct charges on both tax bills, SF building sq ft, and PG&E solar PTO date.",
+    paths: [
+      { key: "Path A", name: "Split Property B tax into (Assessed × Ad Valorem) + CPI-indexed flat charges, add 2-year SFPUC utility schedule, and add a Solar PTO expiry selector", pros: "Eliminates the ~$1,060/yr Property B tax understatement and models post-NEM electricity drop accurately.", cons: "Requires 4 new parcel-specific inputs (flat charges, sq ft, PTO year, water provider) that are still unconfirmed." },
+      { key: "Path B", name: "Keep flat 3% model for clean simplicity and document these four variances solely in sensitivity tables", pros: "Easy for non-technical reviewers to verify by hand.", cons: "Systematically overstates Property B net operating income (NOI) and long-term solar credits." }
+    ]
+  },
+  {
+    id: "S7",
+    area: "Cost & Revenue Accuracy",
+    priority: "Medium",
+    title: "Integrate 27.5-year rental depreciation, land/building split & § 1250 recapture into the main comparison",
+    gap: "Currently, rental depreciation (and 25% unrecaptured § 1250 tax at sale, plus passive-loss carryover rules) is isolated on 'Other options' instead of being toggleable in Decision Lab.",
+    recommended: "Path B",
+    src: "irsPub527",
+    srcLabel: "IRS Pub. 527",
+    prereq: "Santa Clara County assessor land vs. improvement ratio and heir's MAGI / passive-loss eligibility.",
+    paths: [
+      { key: "Path A", name: "Add a Building Share selector (0% / 20% / 30% / 40%) and MAGI passive-loss mode to Decision Lab", pros: "Makes the rent-then-sell after-tax bridge complete in one place.", cons: "Because suspended passive losses release at sale while § 1250 taxes recapture at 25%, net terminal change is small (~$10k–$30k) while adding significant tax complexity." },
+      { key: "Path B", name: "Keep depreciation isolated on 'Other options' and link to it from Decision Lab", pros: "Keeps Decision Lab transparent without guessing taxpayer-specific passive-loss disallowance.", cons: "Minor gap (~1% of terminal wealth) between Decision Lab and a full CPA return." }
+    ]
+  },
+  {
+    id: "S8",
+    area: "Execution & Legal Readiness",
+    priority: "Medium",
+    title: "Add an interactive pre-inheritance legal-trigger & calendar tracker",
+    gap: "Critical pitfalls (deed missing trustee naming, LLC/non-family care-facility traps breaking Prop 19, uneven trust distribution if multiple heirs exist, Dec 14 SF Rent Board fee exemption, Dec 11 election certification, Feb 16 Prop 19 adjustment) are scattered across Inheritance, Review, and Sources.",
+    recommended: "Path A",
+    src: "boeProp19",
+    srcLabel: "BOE Prop 19",
+    prereq: "None for public calendar milestones; offline attorney review for trust-specific traps.",
+    paths: [
+      { key: "Path A", name: "Build a unified milestone calendar + printable attorney/CPA briefing packet (combine Q&A answers + selected paths)", pros: "Turns passive tables into an actionable pre-flight workflow ahead of 2026–2027 and transfer deadlines.", cons: "Requires annual calendar updates for February BOE and October HUD/IRS releases." },
+      { key: "Path B", name: "Keep static timeline on 'Inheritance' and 'Questions & discovery'", pros: "Zero maintenance overhead.", cons: "Deadlines like Dec 14, 2026 and post-death 60/150-day clocks are easier to miss." }
+    ]
+  }
+];
+
+main.innerHTML = UI.hero(
+  "Improvement suggestions · review before implementing",
+  "Choose the best path before changing anything.",
+  "Every suggestion below is a review-gated proposal—none has been forced into the baseline numbers or Git history. Compare the candidate paths, trade-offs, and prerequisites, pick your preferred option for each item, and export a clear implementation plan.",
+  `<a class="button" href="questions.html">Open Questions &amp; Discovery Guide →</a><a class="button secondary" href="decision.html">Decision lab</a><a class="button secondary" href="review.html">Flagged for Review</a>`
+) + `<div class="container">
+<section class="section">
+  <div class="grid four">
+    <div class="card"><div class="metric-label">Improvement proposals</div><div class="metric small">${SUGGESTIONS.length}</div><div class="tiny">Privacy, modeling precision, cost realism, legal triggers</div></div>
+    <div class="card"><div class="metric-label">Implemented so far</div><div class="metric small">0 of ${SUGGESTIONS.length}</div><div class="tiny">Review-gated: baseline calculations remain untouched</div></div>
+    <div class="card"><div class="metric-label">High / urgent proposals</div><div class="metric small">${SUGGESTIONS.filter(s => s.priority === "Urgent" || s.priority === "High").length}</div><div class="tiny">History privacy, private scratchpad, SF 3rd unit, estate/trust</div></div>
+    <div class="card soft"><div class="metric-label">Selection state</div><div class="metric small" id="chosen-count">0 chosen</div><div class="tiny">Stored in browser RAM only; zero data sent</div></div>
+  </div>
+  <div class="callout warning" style="margin-top:18px"><strong>How to use this page:</strong> Review the summary table first, then inspect the candidate paths below each suggestion. Choosing a path here updates only your local summary and downloadable brief—nothing modifies the live repository automatically.</div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <div>
+      <div class="eyebrow">Overview matrix</div>
+      <h2>Suggestions at a glance</h2>
+      <p>Each suggestion pairs a concrete gap in decision-making with candidate paths and the official rule or documentation behind it.</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID &amp; Priority</th>
+          <th class="wrap">Suggested improvement</th>
+          <th class="wrap">Why it improves decision making</th>
+          <th class="wrap">Recommended path &amp; prerequisites</th>
+          <th>Status</th>
+          <th>Official reference</th>
+        </tr>
+      </thead>
+      <tbody id="overview-rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <div>
+      <div class="eyebrow">Path comparison &amp; selection</div>
+      <h2>Compare options and pick a path for each suggestion</h2>
+      <p>Use the dropdown on each card to select a path (or choose the recommended defaults), then review or export your plan below. <strong>Do not type personal names, addresses, or exact private figures into optional notes.</strong></p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="button secondary" id="applyRecommended">Select all recommended paths</button>
+      <button class="button secondary" id="clearChoices">Reset selections</button>
+    </div>
+  </div>
+  <div id="cards" class="grid two"></div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <div>
+      <div class="eyebrow">Implementation brief</div>
+      <h2>Your selected path summary</h2>
+      <p>Review selected paths side by side before authorizing any code, data, or repository changes.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="button" id="downloadPlan">Download selected paths (.md)</button>
+      <button class="button secondary" id="downloadJson">Download (.json)</button>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th class="wrap">Suggestion</th>
+          <th>Chosen path</th>
+          <th class="wrap">Next action if approved</th>
+          <th>Reference</th>
+        </tr>
+      </thead>
+      <tbody id="summary-rows"></tbody>
+    </table>
+  </div>
+</section>
+</div>`;
+
+const selections = Object.fromEntries(SUGGESTIONS.map(s => [s.id, ""]));
+const notes = Object.fromEntries(SUGGESTIONS.map(s => [s.id, ""]));
+
+document.getElementById("overview-rows").innerHTML = SUGGESTIONS.map(s => {
+  const prio = s.priority === "Urgent" || s.priority === "High" ? UI.badge(s.priority, "red") : UI.badge(s.priority, "gold");
+  const rec = s.paths.find(p => p.key === s.recommended);
+  return row([
+    td(`<strong>${s.id}</strong><div style="margin-top:6px">${prio}</div>`, ""),
+    td(`<strong>${s.title}</strong><div class="tiny">${s.area}</div>`),
+    td(s.gap),
+    td(`<strong>${s.recommended}:</strong> ${rec.name}<div class="tiny">Needs: ${s.prereq}</div>`),
+    td(UI.badge("Proposed · unimplemented", "gold"), ""),
+    `<td class="source">${UI.source(s.src, s.srcLabel)}</td>`
+  ]);
+}).join("");
+
+function renderCards() {
+  document.getElementById("cards").innerHTML = SUGGESTIONS.map(s => {
+    const prio = s.priority === "Urgent" || s.priority === "High" ? UI.badge(s.priority, "red") : UI.badge(s.priority, "gold");
+    const opts = [["", "Undecided · review paths first"], ...s.paths.map(p => [p.key, `${p.key}${p.key === s.recommended ? " (Recommended)" : ""} — ${p.name}`]), ["Defer", "Defer / do not implement now"]];
+    return `<div class="card">
+      <div class="meta-row" style="margin:0 0 10px">${prio}<span class="badge neutral">${s.id} · ${s.area}</span>${UI.badge("Awaiting review", "gold")}</div>
+      <h3>${s.title}</h3>
+      <p class="muted">${s.gap}</p>
+      <div style="display:grid;gap:10px;margin:14px 0">
+        ${s.paths.map(p => `<div style="border:1px solid var(--line);border-radius:10px;padding:12px;background:${p.key === s.recommended ? "var(--green-soft)" : "#fafbf9"}">
+          <div><strong>${p.key}${p.key === s.recommended ? " · Recommended" : ""}:</strong> ${p.name}</div>
+          <div class="tiny" style="margin-top:5px"><strong>Pros:</strong> ${p.pros}</div>
+          <div class="tiny" style="margin-top:3px"><strong>Trade-off:</strong> ${p.cons}</div>
+        </div>`).join("")}
+      </div>
+      <div class="tiny" style="margin-bottom:10px"><strong>Prerequisite before implementing:</strong> ${s.prereq} · ${UI.source(s.src, s.srcLabel)}</div>
+      <div class="control" style="margin-top:10px">
+        <label for="sel-${s.id}">Selected path for ${s.id}</label>
+        <select id="sel-${s.id}" data-sid="${s.id}">${UI.options("sel-" + s.id, opts, selections[s.id])}</select>
+      </div>
+      <div class="control" style="margin-top:8px">
+        <label for="note-${s.id}">Optional reviewer note (do not enter PII or exact private bills)</label>
+        <input id="note-${s.id}" data-nid="${s.id}" type="text" placeholder="e.g., Approve after CPA call" value="${notes[s.id].replace(/"/g, "&quot;")}" style="width:100%;padding:8px 10px;border:1px solid #cfd8d0;border-radius:8px;font:inherit;font-size:13px">
+      </div>
+    </div>`;
+  }).join("");
+
+  document.querySelectorAll("[data-sid]").forEach(el => el.addEventListener("change", e => {
+    selections[e.target.dataset.sid] = e.target.value;
+    renderSummary();
+  }));
+  document.querySelectorAll("[data-nid]").forEach(el => el.addEventListener("input", e => {
+    notes[e.target.dataset.nid] = e.target.value;
+    renderSummary();
+  }));
+}
+
+function renderSummary() {
+  const chosen = Object.values(selections).filter(Boolean).length;
+  document.getElementById("chosen-count").textContent = `${chosen} of ${SUGGESTIONS.length} chosen`;
+  document.getElementById("summary-rows").innerHTML = SUGGESTIONS.map(s => {
+    const ch = selections[s.id];
+    const pObj = s.paths.find(p => p.key === ch);
+    const badge = !ch ? UI.badge("Pending review", "gold") : ch === "Defer" ? UI.badge("Deferred", "neutral") : UI.badge(ch, "");
+    const action = !ch ? `Compare paths and confirm prerequisites (${s.prereq})` : ch === "Defer" ? "No change scheduled." : `${pObj ? pObj.name : ch}${notes[s.id] ? " — Note: " + notes[s.id].replace(/</g, "&lt;") : ""}`;
+    return row([
+      td(`<strong>${s.id}</strong>`, ""),
+      td(s.title),
+      td(badge, ""),
+      td(action),
+      `<td class="source">${UI.source(s.src, s.srcLabel)}</td>`
+    ]);
+  }).join("");
+  UI.ensureRowSources();
+}
+
+document.getElementById("applyRecommended").addEventListener("click", () => {
+  SUGGESTIONS.forEach(s => { selections[s.id] = s.recommended; });
+  renderCards();
+  renderSummary();
+});
+document.getElementById("clearChoices").addEventListener("click", () => {
+  SUGGESTIONS.forEach(s => { selections[s.id] = ""; notes[s.id] = ""; });
+  renderCards();
+  renderSummary();
+});
+document.getElementById("downloadPlan").addEventListener("click", () => {
+  const lines = ["# Selected Site & Decision Improvement Paths", "", "Status: Review summary exported locally; no repository files modified.", ""];
+  SUGGESTIONS.forEach(s => {
+    const ch = selections[s.id] || "Pending";
+    const pObj = s.paths.find(p => p.key === ch);
+    lines.push(`## ${s.id}: ${s.title}`);
+    lines.push(`- **Priority:** ${s.priority}`);
+    lines.push(`- **Chosen path:** ${ch}${pObj ? " — " + pObj.name : ""}`);
+    lines.push(`- **Prerequisite:** ${s.prereq}`);
+    if (notes[s.id]) lines.push(`- **Reviewer note:** ${notes[s.id]}`);
+    lines.push("");
+  });
+  const blob = new Blob([lines.join("\n")], { type: "text/markdown" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "selected-improvement-paths.md";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById("downloadJson").addEventListener("click", () => {
+  const payload = SUGGESTIONS.map(s => ({ id: s.id, title: s.title, priority: s.priority, recommended: s.recommended, chosen: selections[s.id] || "Pending", note: notes[s.id] || "" }));
+  const blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "selected-improvement-paths.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+renderCards();
+renderSummary();
+</script>
+</body>
+</html>
