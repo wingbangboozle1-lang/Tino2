@@ -1559,3 +1559,17 @@ No personal information will be added. No private household number will be copie
 | Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/verification.html` fetched after the build: hero, the 78 / 6 / 6 / $15,480,000 summary cards, the six-row corrections table (IRS, BOE, HUD, Measure H, build script, source column) and the federal estate-and-gift ledger rows with their source links all render. The page is live. |
 | Open PRs after this session | none |
 | Site files changed | **none.** This session published only its verification report and this record. `_config.yml` and `scripts/package-site.py` keep `verification/` and `COORDINATION.md` out of the Pages artifact, so the live dashboard content is unchanged from `052e626` |
+<!-- BEGIN block owned by session 5eb05dce — other sessions: please do not edit inside this block -->
+### Session `5eb05dce` — independent verification + gap closure (2026-11-12)
+
+Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md block only. No site files will be edited unless verification finds a factual error, in which case the fix is logged here first. PR #54 (session 9984092e, verification-only, touches `verification/9984092e/**` + COORDINATION.md) was open at claim time; no file overlap with this session's scope.
+
+| # | Task | Status | Owner | Files touched (scope) | Sources verified | Irregularities |
+|---|------|--------|-------|-----------------------|------------------|----------------|
+| V-1 | Claim + push | in progress | 5eb05dce | COORDINATION.md (this block) | — | — |
+| V-2 | Full check suite on main 052e626 tree | unclaimed | 5eb05dce | verification/5eb05dce/REPORT.md | — | — |
+| V-3 | Live re-open of key official sources (IRS, BOE, Controller, HUD, SF Rent Board, CDI) | unclaimed | 5eb05dce | verification/5eb05dce/REPORT.md | — | — |
+| V-4 | Privacy scan of public files | unclaimed | 5eb05dce | verification/5eb05dce/REPORT.md | — | — |
+| V-5 | PR, merge, Pages confirm, record | unclaimed | 5eb05dce | this block | — | — |
+
+<!-- END block owned by session 5eb05dce -->
