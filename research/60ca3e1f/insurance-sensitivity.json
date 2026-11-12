@@ -1,0 +1,452 @@
+{
+ "generated_from": "site/data/model.js + insurance-survey-2026.json",
+ "propertyA": [
+  {
+   "inheritYear": 2040,
+   "case": "no premium at all",
+   "premium2026": 0,
+   "firstYearPremium": 0,
+   "tenYearPremium": 0,
+   "sell": 7683290,
+   "rent": 6272040,
+   "live": 5169080,
+   "sellAheadOfRent": 1411260,
+   "sellAheadOfLive": 2514210,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "household estimate (model)",
+   "premium2026": 1500,
+   "firstYearPremium": 2340,
+   "tenYearPremium": 26790,
+   "sell": 7683290,
+   "rent": 6249830,
+   "live": 5135780,
+   "sellAheadOfRent": 1433470,
+   "sellAheadOfLive": 2547510,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey lowest, 40-yr profile",
+   "premium2026": 1543,
+   "firstYearPremium": 2400,
+   "tenYearPremium": 27560,
+   "sell": 7683290,
+   "rent": 6249190,
+   "live": 5134830,
+   "sellAheadOfRent": 1434100,
+   "sellAheadOfLive": 2548470,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey median, 40-yr profile",
+   "premium2026": 2690,
+   "firstYearPremium": 4190,
+   "tenYearPremium": 48040,
+   "sell": 7683290,
+   "rent": 6232210,
+   "live": 5109360,
+   "sellAheadOfRent": 1451090,
+   "sellAheadOfLive": 2573930,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey median, 70-yr profile",
+   "premium2026": 2741,
+   "firstYearPremium": 4270,
+   "tenYearPremium": 48960,
+   "sell": 7683290,
+   "rent": 6231450,
+   "live": 5108230,
+   "sellAheadOfRent": 1451840,
+   "sellAheadOfLive": 2575060,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey highest, 40-yr profile",
+   "premium2026": 6430,
+   "firstYearPremium": 10020,
+   "tenYearPremium": 114840,
+   "sell": 7683290,
+   "rent": 6176830,
+   "live": 5026340,
+   "sellAheadOfRent": 1506460,
+   "sellAheadOfLive": 2656960,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "no premium at all",
+   "premium2026": 0,
+   "firstYearPremium": 0,
+   "tenYearPremium": 0,
+   "sell": 9125340,
+   "rent": 7421370,
+   "live": 6106680,
+   "sellAheadOfRent": 1703980,
+   "sellAheadOfLive": 3018660,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "household estimate (model)",
+   "premium2026": 1500,
+   "firstYearPremium": 2710,
+   "tenYearPremium": 31060,
+   "sell": 9125340,
+   "rent": 7395620,
+   "live": 6068080,
+   "sellAheadOfRent": 1729720,
+   "sellAheadOfLive": 3057260,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey lowest, 40-yr profile",
+   "premium2026": 1543,
+   "firstYearPremium": 2790,
+   "tenYearPremium": 31950,
+   "sell": 9125340,
+   "rent": 7394880,
+   "live": 6066970,
+   "sellAheadOfRent": 1730460,
+   "sellAheadOfLive": 3058370,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey median, 40-yr profile",
+   "premium2026": 2690,
+   "firstYearPremium": 4860,
+   "tenYearPremium": 55700,
+   "sell": 9125340,
+   "rent": 7375190,
+   "live": 6037460,
+   "sellAheadOfRent": 1750150,
+   "sellAheadOfLive": 3087890,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey median, 70-yr profile",
+   "premium2026": 2741,
+   "firstYearPremium": 4950,
+   "tenYearPremium": 56750,
+   "sell": 9125340,
+   "rent": 7374320,
+   "live": 6036140,
+   "sellAheadOfRent": 1751030,
+   "sellAheadOfLive": 3089200,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey highest, 40-yr profile",
+   "premium2026": 6430,
+   "firstYearPremium": 11610,
+   "tenYearPremium": 133130,
+   "sell": 9125340,
+   "rent": 7310990,
+   "live": 5941210,
+   "sellAheadOfRent": 1814350,
+   "sellAheadOfLive": 3184140,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "no premium at all",
+   "premium2026": 0,
+   "firstYearPremium": 0,
+   "tenYearPremium": 0,
+   "sell": 10838040,
+   "rent": 8782020,
+   "live": 7209270,
+   "sellAheadOfRent": 2056030,
+   "sellAheadOfLive": 3628780,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "household estimate (model)",
+   "premium2026": 1500,
+   "firstYearPremium": 3140,
+   "tenYearPremium": 36000,
+   "sell": 10838040,
+   "rent": 8752170,
+   "live": 7164510,
+   "sellAheadOfRent": 2085880,
+   "sellAheadOfLive": 3673530,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey lowest, 40-yr profile",
+   "premium2026": 1543,
+   "firstYearPremium": 3230,
+   "tenYearPremium": 37040,
+   "sell": 10838040,
+   "rent": 8751310,
+   "live": 7163230,
+   "sellAheadOfRent": 2086730,
+   "sellAheadOfLive": 3674810,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey median, 40-yr profile",
+   "premium2026": 2690,
+   "firstYearPremium": 5630,
+   "tenYearPremium": 64570,
+   "sell": 10838040,
+   "rent": 8728490,
+   "live": 7129010,
+   "sellAheadOfRent": 2109560,
+   "sellAheadOfLive": 3709030,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey median, 70-yr profile",
+   "premium2026": 2741,
+   "firstYearPremium": 5740,
+   "tenYearPremium": 65790,
+   "sell": 10838040,
+   "rent": 8727470,
+   "live": 7127490,
+   "sellAheadOfRent": 2110570,
+   "sellAheadOfLive": 3710550,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey highest, 40-yr profile",
+   "premium2026": 6430,
+   "firstYearPremium": 13460,
+   "tenYearPremium": 154340,
+   "sell": 10838040,
+   "rent": 8654070,
+   "live": 7017430,
+   "sellAheadOfRent": 2183980,
+   "sellAheadOfLive": 3820610,
+   "winner": "sell"
+  }
+ ],
+ "propertyB": [
+  {
+   "case": "household estimate (model)",
+   "premium2026": 1500,
+   "noi2026": 49010,
+   "insurance2026": 1500
+  },
+  {
+   "case": "survey lowest, 70-yr profile",
+   "premium2026": 1413,
+   "noi2026": 49100,
+   "insurance2026": 1410
+  },
+  {
+   "case": "survey median, 70-yr profile",
+   "premium2026": 3191,
+   "noi2026": 47320,
+   "insurance2026": 3190
+  },
+  {
+   "case": "survey highest, 70-yr profile",
+   "premium2026": 10384,
+   "noi2026": 40130,
+   "insurance2026": 10380
+  }
+ ],
+ "statewide": {
+  "averagePremiumPerExposure": {
+   "2018": 733,
+   "2019": 764,
+   "2020": 857,
+   "2021": 934,
+   "2022": 1027,
+   "2023": 1130
+  },
+  "growthPerYear": 9.05,
+  "coverageAGrowthPerYear": 7.14
+ },
+ "growth": [
+  {
+   "inheritYear": 2040,
+   "case": "model: $1,500 at 3%",
+   "growth": 3,
+   "firstYearPremium": 2340,
+   "tenthYearPremium": 3050,
+   "tenYearPremium": 26790,
+   "sellAheadOfRent": 1433470,
+   "sellAheadOfLive": 2547510,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "$1,500 at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 5500,
+   "tenthYearPremium": 12010,
+   "tenYearPremium": 83850,
+   "sellAheadOfRent": 1479210,
+   "sellAheadOfLive": 2616090,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey median at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 9870,
+   "tenthYearPremium": 21540,
+   "tenYearPremium": 150380,
+   "sellAheadOfRent": 1533110,
+   "sellAheadOfLive": 2696910,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "model: $1,500 at 3%",
+   "growth": 3,
+   "firstYearPremium": 2710,
+   "tenthYearPremium": 3530,
+   "tenYearPremium": 31060,
+   "sellAheadOfRent": 1729720,
+   "sellAheadOfLive": 3057260,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "$1,500 at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 8490,
+   "tenthYearPremium": 18530,
+   "tenYearPremium": 129340,
+   "sellAheadOfRent": 1808790,
+   "sellAheadOfLive": 3175800,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey median at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 15230,
+   "tenthYearPremium": 33220,
+   "tenYearPremium": 231950,
+   "sellAheadOfRent": 1904910,
+   "sellAheadOfLive": 3300460,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "model: $1,500 at 3%",
+   "growth": 3,
+   "firstYearPremium": 3140,
+   "tenthYearPremium": 4100,
+   "tenYearPremium": 36000,
+   "sellAheadOfRent": 2085880,
+   "sellAheadOfLive": 3673530,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "$1,500 at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 13100,
+   "tenthYearPremium": 28570,
+   "tenYearPremium": 199510,
+   "sellAheadOfRent": 2220120,
+   "sellAheadOfLive": 3871160,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey median at statewide pace",
+   "growth": 9.05,
+   "firstYearPremium": 23490,
+   "tenthYearPremium": 51240,
+   "tenYearPremium": 357780,
+   "sellAheadOfRent": 2410750,
+   "sellAheadOfLive": 4063460,
+   "winner": "sell"
+  }
+ ],
+ "path": [
+  {
+   "year": 2026,
+   "est3": 1500,
+   "estG": 1500,
+   "med3": 2690,
+   "medG": 2690,
+   "sun3": 3190,
+   "sunG": 3190
+  },
+  {
+   "year": 2030,
+   "est3": 1690,
+   "estG": 2120,
+   "med3": 3030,
+   "medG": 3800,
+   "sun3": 3590,
+   "sunG": 4510
+  },
+  {
+   "year": 2035,
+   "est3": 1960,
+   "estG": 3270,
+   "med3": 3510,
+   "medG": 5870,
+   "sun3": 4160,
+   "sunG": 6960
+  },
+  {
+   "year": 2040,
+   "est3": 2270,
+   "estG": 5050,
+   "med3": 4070,
+   "medG": 9050,
+   "sun3": 4830,
+   "sunG": 10740
+  },
+  {
+   "year": 2045,
+   "est3": 2630,
+   "estG": 7790,
+   "med3": 4720,
+   "medG": 13960,
+   "sun3": 5600,
+   "sunG": 16560
+  },
+  {
+   "year": 2050,
+   "est3": 3050,
+   "estG": 12010,
+   "med3": 5470,
+   "medG": 21540,
+   "sun3": 6490,
+   "sunG": 25550
+  },
+  {
+   "year": 2055,
+   "est3": 3530,
+   "estG": 18530,
+   "med3": 6340,
+   "medG": 33220,
+   "sun3": 7520,
+   "sunG": 39410
+  },
+  {
+   "year": 2060,
+   "est3": 4100,
+   "estG": 28570,
+   "med3": 7350,
+   "medG": 51240,
+   "sun3": 8720,
+   "sunG": 60790
+  }
+ ]
+}
