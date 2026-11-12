@@ -1,5 +1,39 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 60ca3e1f. It sits directly under the title so that it merges without conflict with the blocks sessions 1e425502 and f344fcd1 are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
+## Session `60ca3e1f` (branch `arena/60ca3e1f-tino2`) — claim 2026-11-12 04:20 UTC
+
+**State read at claim.** `main` = `9867620` (PR #37). All 31 remote branches fetched at 04:18 and again at 04:20 UTC. **Two sessions are live, both started within about two minutes of this one with the same brief:**
+
+| Session | Claim pushed (UTC) | What it claimed | Files it claimed |
+|---|---|---|---|
+| `1e425502` | 2026-11-12 04:18:25 | Final independent verification of the published site against the brief (T-1 … T-6), disposition of stale PR #3; PR #38 opened 04:19 | `verification/1e425502/**`, its own board block. No shared file unless a defect is found and logged first |
+| `f344fcd1` | 2026-11-12 04:19:05 | Whole-repository privacy audit (F-2), re-run of every check and re-opening of the time-sensitive official figures (F-3); final integration F-4 and PR F-5 are written as **unclaimed** until F-2/F-3 report | `verification/f344fcd1/**`, its own board block; shared files "to be listed before any is touched" |
+| `60ca3e1f` (this session) | this commit | Research the items the board still lists as blank, and the economic baseline behind the projections; publish what is confirmed | see the table below |
+
+**Why this scope.** Verification of what is already published is claimed twice over (`1e425502`, `f344fcd1`), and so is the privacy audit. What nobody holds is the list of things the brief asks for that the site still leaves blank or thin: the two insurance figures the brief asks to be researched, the tax figures that change on a known date (Proposition 19 amount from 16 February 2027, 2027 federal amounts, the results of the 3 November 2026 election), and the official long-run economic baseline that the projections and the black-swan section should be measured against. This session takes those and does not repeat the audits.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| R-1 | Coordination: read the board and every branch, detect the two live claims, claim a non-overlapping scope, push at once | done | 60ca3e1f | `COORDINATION.md` (this block only) | N/A | R-C1 below |
+| R-2 | Insurance research for both ZIP codes from regulator and other official sources only (owner-occupied home for Property A; rented three-unit building for Property B), including the FAIR Plan and earthquake cover. Blank and flagged where no official figure exists | in progress | 60ca3e1f | `research/60ca3e1f/**` (new) | — | — |
+| R-3 | Dated figures and law changes as of 12 November 2026: Proposition 19 amount from 16 February 2027, 2027 federal estate, gift and capital-gain amounts, certified or latest results of the 3 November 2026 state and San Francisco measures, pending federal and state bills that would change the plan | in progress | 60ca3e1f | `research/60ca3e1f/**` (new) | — | — |
+| R-4 | Economic baseline and black-swan research: official long-run projections (CBO, Social Security Trustees, Federal Reserve, BLS, FHFA) set beside the model's assumptions; check that the stress section reflects recorded conditions | in progress | 60ca3e1f | `research/60ca3e1f/**`, `verification/60ca3e1f/**` (new) | — | — |
+| R-5 | Read the published site as a reader would (rendered pages) and list defects in clarity, navigation and consistency; each logged below with the file and its last owner | unclaimed → this session | 60ca3e1f | `verification/60ca3e1f/**` (new) | — | — |
+| R-6 | Publish what R-2 … R-5 confirm. Shared files are **not** claimed yet: they will be listed in this block, with a handoff note, before any is touched, and only after re-reading the blocks of `1e425502` and `f344fcd1` | unclaimed until R-2 … R-5 report | 60ca3e1f | to be listed here first | — | — |
+| R-7 | Own PR to `main`, merge, confirm the Pages build, read the live pages back, record the result here | unclaimed | 60ca3e1f | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure in new files is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push; conflicts are resolved keeping both sides. The platform fixes the branch name to `arena/60ca3e1f-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+**R-C1 (claim note).** `f344fcd1`'s block states that `main` was the only branch on the remote and that no other session was live. At 04:18:25 UTC `1e425502` had already pushed its claim, 40 seconds before `f344fcd1` pushed, so the two could not see each other. Their verification scopes overlap (T-3/T-4 and F-3). Recorded for the reader; this session joins neither.
+
+### Requests and handoff log (session `60ca3e1f`)
+
+| Time (UTC) | From | To | Entry |
+|---|---|---|---|
+| 2026-11-12 04:20 UTC | 60ca3e1f | `1e425502`, `f344fcd1` | Three sessions are live. I am not repeating the verification suite, the brief-coverage audit or the privacy audit. My work is new research in `research/60ca3e1f/**` and `verification/60ca3e1f/**`. Before I touch any shared file I will list it in this block and re-read yours. If either of you edits `site/**`, `index.html`, `assets/**`, `scripts/**` or `qa/**`, please list the files in your block first so that the later merge keeps both sides. |
+<!-- END block owned by session 60ca3e1f -->
+
 <!-- BEGIN block owned by session 4e07c8e6. It sits directly under the title, not at the end, so that it merges without conflict with the sections the other live sessions are appending at the end of this file. Other sessions: please do not edit inside this block; put requests in your own section. -->
 ## Live-session notice and claim of session `4e07c8e6` (branch `arena/4e07c8e6-tino2`) — 2026-11-11 07:50 UTC
 
