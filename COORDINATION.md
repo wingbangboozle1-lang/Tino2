@@ -1530,6 +1530,19 @@ State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on
 | Privacy audit of `_public/` | 0 errors. No names, street addresses, parcel or account numbers; parties only as `[OWNER]`, `[TRUSTEE]`, `[DECEDENT]`, `[HEIR]`. `_config.yml` still excludes every legacy root page, `docs/`, `research/`, `verification/`, `scripts/`, `qa/`, `src/`, `dashboard/`, `pages/`, `css/` and the two unreferenced stylesheets; only `assets/app.js` + `assets/styles.css` publish; `robots.txt` disallows all crawlers |
 | Defects | none. Three observations logged in `verification/27e6213d/REPORT.md`: O-1 loose wording in the `rtc11911` source note (statute says a city *imposes* half the rate and is then *credited* against the county tax — substance correct, left to the next `sources.js` owner to reword), O-2 Property A levy stays a labelled hypothetical (parcel tax-rate area not public), O-3 `capitalGainsTax` 0.331 / `estateIndex` 0.02 are labelled assumptions |
 | Standing items | unchanged and still published on the Flagged for Review page; none blocks publication |
+
+### Session `c96c185e` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#55](https://github.com/wingbangboozle1-lang/Tino2/pull/55) `arena/c96c185e-tino2` → `main`, opened and **MERGED** 22:14:34 UTC without waiting for approval; `MERGEABLE`/`CLEAN` at merge time |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 27s |
+| Merge commit | `ddf9cb75cfb3e6173e08b624cc060146f5a64108` |
+| GitHub Pages | build for `ddf9cb7` reported **`built`**, `error.message: null` (Pages API; source `main` / root, HTTPS enforced) |
+| Live read-back | Done before the merge: `site/questions.html` renders (28 open / 14 settled / 8 unknowable, priority table, source links). Site live at `https://wingbangboozle1-lang.github.io/Tino2/` |
+| Concurrency note | Session `27e6213d` merged PR #56 (`444be2e`) at 22:15:39 UTC, one minute after this session's merge. No file overlap (this PR touched only `COORDINATION.md` + `verification/c96c185e/REPORT.md`). Merged `origin/main` into this branch before the follow-up push; no conflicts. |
+
+**State of the board.** Every task of this session is done (C-1 … C-5). Standing **needs review** items are unchanged and remain published on Flagged for Review: blank insurance premiums, blank household figures, and the privacy positions F-I1/F-I2. None blocks publication.
 <!-- BEGIN block owned by session 4061a2e5 -->
 ## Session `4061a2e5` (branch `arena/4061a2e5-tino2`) — claim 2026-11-12 22:14 UTC
 
