@@ -1123,9 +1123,9 @@ Read the board and remote heads; no open PRs and no recent live claim identified
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| Audit the canonical site's remaining decision and privacy gaps; record evidence | in progress | 6e6baf25 | `verification/6e6baf25/**`, this block |
-| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | in progress | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
-| Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
+| Audit the canonical site's remaining decision and privacy gaps; record evidence | done | 6e6baf25 | `verification/6e6baf25/**`, this block |
+| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | done | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
+| Integration checks, PR, merge, Pages verification | done | 6e6baf25 | this block, claimed files above |
 
 Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
 
@@ -1136,3 +1136,9 @@ Privacy caveat: the repository and site are public. Rounded data plus contextual
 **Coordination correction and conflict:** Session `62b76b9d` had a concurrent claim and merged PR #43 while this session was working; its landing-page scope overlapped. It was not visible in the initial check. `git pull --rebase origin main` conflicted on the board. Both blocks were retained and the rebase completed; the stashed site edits restored cleanly, preserving the other session's landing-page suggestions table. No other session's work was discarded. This session's separate suggestions page supplies a more detailed decision and privacy comparison.
 
 **Review status:** Source retrieval, limits and specific findings are recorded in `verification/6e6baf25/REPORT.md`. The reviewed sources include [BOE Proposition 19](https://www.boe.ca.gov/prop19/), [IRS estate tax](https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax), [IRS basis](https://www.irs.gov/taxtopics/tc703), [CDI residential insurance](https://www.insurance.ca.gov/01-consumers/105-type/5-residential/), [FDIC](https://www.fdic.gov/resources/deposit-insurance/faq/), [SEC](https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments), and [GitHub data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). External links outside this checked subset and every inherited row were not freshly verified. Public contextual re-identification risk and historical exposure, as well as unverified household values that are displayed rather than blank, remain **needs review** and are published on the Flagged page. No history rewrite or privacy-setting change was performed.
+
+### Publication record, 12 Nov 2026
+
+[PR #44](https://github.com/wingbangboozle1-lang/Tino2/pull/44) merged at 15:36:54 UTC (merge commit `ed9cbbd515058a57cafa5d374f53e58f1c8c418c`). PR and main verification Actions succeeded, including the Jekyll output and publication boundary audit. Pages deployment run `43249710497` succeeded; the Pages build API reports `built` for the merge commit at 15:37:32 UTC with no error. Direct live URL read-back is outside this sandbox's permitted hosts and is not claimed. All local checks and limitations are in the session report. Public Git history and contextual re-identification remain needs review.
+
+This publication record is committed on the session branch and posted on the PR after the merge; it is not on `main` without another merge. This avoids adding a further GitHub merge commit exposing the account email.
