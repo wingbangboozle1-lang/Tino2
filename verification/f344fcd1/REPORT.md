@@ -8,16 +8,16 @@ No household figure is typed in this file. Patterns used for the privacy scan we
 |---|---|---|
 | Unrounded assessed values and tax bills in the 134 tracked files of `main` | None found | [GitHub Docs, sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository) |
 | Personal names, street addresses, parcel numbers, e-mail addresses in tracked files | None found (only government contact addresses inside official citations and tool patterns) | same |
-| Unrounded assessed values in the history of `main` | **42 of 173 commits** still hold them (newest: a merge of 11 Nov 2026 08:06 UTC that carried an old verification report) | same |
-| Saved pull-request copies (`refs/pull/*/head`) | **9 of 37** hold exact assessed values | same |
-| Remote branches | Only `main` remains; the older session branches are deleted (this does not delete their commits) | same |
+| Unrounded assessed values in the history of `main` | **42 of 173 commits** (history of `main` at `9867620`) still hold them (newest: a merge of 11 Nov 2026 08:06 UTC that carried an old verification report) | same |
+| Saved pull-request copies (`refs/pull/*/head`) | **9** hold exact assessed values | same |
+| Remote branch tips | **10 of 32** hold exact assessed values. (This session's first fetch saw only `main` because the working copy was cloned with a single-branch refspec; `git ls-remote` shows 32 branches. The same cause explains the "only `main` exists" note of session `1e425502`.) | same |
 | Commit metadata | **New finding.** 20 merge commits on `main` are authored with the account's primary e-mail address. It appears in no file and not on the site. | [GitHub Docs, commit email](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) |
 
 What a session can and cannot do: it cannot rewrite the history of `main` or delete pull-request copies. From this session on, merges are authored with the account's no-reply address. The remaining steps are the owner's and are listed on the Flagged for Review page.
 
 ## 2. Checks re-run on `main` at `9867620` and again on this branch
 
-`package-site.py`, `check-publication.py --self-test`, `validate.js`, `stress-test.js`, `runtime-test.cjs`, `qa/tools/gate.cjs`: all pass (figures in COORDINATION.md).
+`package-site.py`, `check-publication.py --self-test`, `validate.js`, `stress-test.js`, `runtime-test.cjs`, `qa/tools/gate.cjs`: all pass (figures in COORDINATION.md). Session `1e425502` ran at the same time, re-opened most of the same pages and reached the same results; its work touched only its own directory and the board.
 
 ## 3. Official pages opened on 12 Nov 2026
 
