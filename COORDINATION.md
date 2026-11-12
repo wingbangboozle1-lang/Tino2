@@ -1588,3 +1588,18 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 | V-5 | PR, merge, Pages confirm, record | in progress | 5eb05dce | this block | — | — |
 
 <!-- END block owned by session 5eb05dce -->
+### Session `4061a2e5` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#58](https://github.com/wingbangboozle1-lang/Tino2/pull/58) from `arena/4061a2e5-tino2` to `main`, opened 22:16 UTC and **MERGED** 22:16:46 UTC without waiting for approval |
+| Merge commit | `4b6a5cd094ae82a42569c8a6e27c4a9697387941` |
+| PR-head verification | `Verify public Pages boundary`, run `43318433633`, **success**; the check packaged the canonical site, ran model/stress/source checks, rendered rows, built Jekyll, and rejected unexpected publication files |
+| Pages build for the PR merge | Run `43318434822`, **success**, deployed the Pages site for `4b6a5cd`; API reported no build error and HTTPS remained enforced |
+| Concurrent follow-up merges | PR #59 (`27e6213d`) and PR #57 (`c96c185e`) subsequently added their append-only coordination publication records to `main`. Their Pages builds were re-run and passed; no canonical site files were changed or removed |
+| Final Pages build observed | `pages-build-deployment` run `43318809559` for final `main` `cf10618`, **success**; `Verify public Pages boundary` run `43318810463`, **success**; Pages API reported `built` with `error.message: null`, source `main` / root, HTTPS enforced |
+| Live read-back after final build | **Done.** The live overview, `site/questions-gate.html`, `site/suggestions.html`, `site/review.html`, `site/black-swan.html`, and `site/properties.html` were fetched after deployment. The overview renders the executive summary and Property A inherited / Property B already-owned distinction; the gate renders 40 questions and plan blockers; Suggestions renders 27 proposals and four paths; Review renders the privacy and unverified-input warnings; Black swan renders recorded data and stress paths; Properties renders rounded values, reassessment and cost tables with source links |
+| Open PR handling | Other concurrent verification PRs were left to their owners; this session did not close or merge another session’s PR |
+| Privacy | This session added only a source-linked audit report and coordination metadata. No name, street address, parcel identifier, account identifier, private document, or unrounded household value was added to the canonical site |
+
+**Final handoff.** The dashboard is live at [https://wingbangboozle1-lang.github.io/Tino2/](https://wingbangboozle1-lang.github.io/Tino2/). The audit report is in `verification/4061a2e5/REPORT.md` (repository-only; excluded by `_config.yml`). The existing Flagged for Review page remains the public place for unresolved privacy, insurance, trust, tax-rate, estate-money, rent, and future-law questions. No unverified item was promoted to a fact.
