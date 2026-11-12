@@ -297,37 +297,37 @@ window.LEDGER = [
   "id": "CA-05",
   "topic": "california-law-change",
   "claim": "Proposition 3 (Nov 3, 2026): makes the 10.3% / 11.3% / 12.3% high-income rates permanent instead of expiring in 2031",
-  "value": "Passing - Yes 60.6% in the unofficial count as of Nov 10, 2026 (certification due Dec 11, 2026)",
+  "value": "Passing - Yes 60.7% in the unofficial count as of Nov 11, 2026, 6:51 p.m. (certification due Dec 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - State Ballot Measures, Statewide Results; Official Voter Information Guide, Prop 3",
-  "evidence": "Results table: Prop 3 Yes 7,101,047 (60.6%) / No 4,610,136 (39.4%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
+  "evidence": "Results table (Nov 11, 2026, 6:51 p.m., 23,860/23,860 precincts partially reporting): Prop 3 Yes 7,322,641 (60.7%) / No 4,745,073 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
   "status": "verified",
   "notes": "Unofficial until certified. Relevance: a large gain or rental income in 2040-2050 would still face the higher California brackets.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "CA-06",
   "topic": "california-law-change",
   "claim": "Proposition 42 (Nov 3, 2026): prohibits new state personal property taxes and certain retroactive state taxes",
-  "value": "Passing - Yes 51.5% in the unofficial count as of Nov 10, 2026",
+  "value": "Passing - Yes 51.4% in the unofficial count as of Nov 11, 2026, 6:51 p.m.",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table: Prop 42 Yes 6,024,692 (51.5%) / No 5,673,727 (48.5%).",
+  "evidence": "Results table (Nov 11, 2026, 6:51 p.m.): Prop 42 Yes 6,195,536 (51.4%) / No 5,858,367 (48.6%).",
   "status": "verified",
   "notes": "Unofficial until certified. Text of the measure was not opened this session; effect on any future state estate or inheritance tax is not established here - flagged.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "CA-07",
   "topic": "california-law-change",
   "claim": "Proposition 40 (one-time tax on certain taxpayers) and Proposition 43 (limits on local revenue measures)",
-  "value": "Both failing - Prop 40 No 52.6%; Prop 43 No 57.4% (unofficial, Nov 10, 2026)",
+  "value": "Both failing - Prop 40 No 52.5%; Prop 43 No 57.4% (unofficial, Nov 11, 2026, 6:51 p.m.)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table rows for Props 40 and 43.",
+  "evidence": "Results table (Nov 11, 2026, 6:51 p.m.): Prop 40 Yes 5,780,651 (47.5%) / No 6,377,396 (52.5%); Prop 43 Yes 5,041,104 (42.6%) / No 6,802,234 (57.4%).",
   "status": "verified",
   "notes": "Neither measure changed Proposition 13's 1% rate or 2% cap.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "P13-01",
@@ -407,7 +407,7 @@ window.LEDGER = [
   "source": "San Francisco Rent Board - Current Rates",
   "evidence": "Allowable rent increase table reproduced.",
   "status": "verified",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "SF-05",
@@ -416,9 +416,9 @@ window.LEDGER = [
   "value": "Would temporarily cap banked plus capital-improvement rent increases at 10% per year, for banked increases noticed on or after Sept 15, 2026. Not enacted as of the Rent Board notice posted Nov 9, 2026.",
   "url": "https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit",
   "source": "San Francisco Rent Board - notice posted November 9, 2026",
-  "evidence": "'This legislation has not been enacted and is subject to change.'",
+  "evidence": "'Posted November 9, 2026 ... This legislation has not been enacted and is subject to change.' Re-opened 12 Nov 2026.",
   "status": "verified",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "SF-06",
@@ -931,6 +931,42 @@ window.LEDGER = [
   "source": "California State Board of Equalization - News Release NR 25-02 (March 7, 2025)",
   "evidence": "'Today, the California State Board of Equalization (BOE) released the new amount adjusting the $1 million exclusion for Proposition 19 intergenerational transfers occurring on February 16, 2025, through February 15, 2027. The BOE is required to calculate and publish the adjustment every other year based on the Federal Housing Finance Agency's House Price Index for California. ... the amount increased by 2.15 percent, from $1,022,600 to $1,044,586. ... The notice to County Assessors was issued today in Letter to Assessors No. 2025/009.'",
   "notes": "By the same timetable the amount that starts on 16 February 2027 may not be published before March 2027."
+ },
+ {
+  "id": "CF-04",
+  "topic": "rent-benchmark",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "HUD Small Area Fair Market Rents for the Property A ZIP code (95014), FY2027",
+  "value": "Efficiency $3,040; 1-Bedroom $3,440; 2-Bedroom $4,050; 3-Bedroom $5,440; 4-Bedroom $5,800 (effective Oct 1, 2026)",
+  "url": "https://www.huduser.gov/datasets/fmr/fmr2027/zip-calc?year=2027&zip=95014&cbsasub=METRO41940M41940",
+  "source": "U.S. Department of Housing and Urban Development - FY2027 SAFMR calculation, ZIP 95014 (San Jose-Sunnyvale-Santa Clara HMFA)",
+  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $3,040 / $3,440 / $4,050 / $5,440 / $5,800; 90% FY2026 floor is $5,760 for 4-BR (not binding); ZIP base rent $3,393. Opened and read 12 Nov 2026.",
+  "notes": "4-BR fell 9.2% from FY2026 ($6,390 to $5,800) and 3-BR fell 7.3% ($5,870 to $5,440). Kept as a Decision-page sensitivity selector while keeping the FY2026 base engine intact pending path review."
+ },
+ {
+  "id": "CF-05",
+  "topic": "rent-benchmark",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "HUD Small Area Fair Market Rents for the Property B ZIP code (94122), FY2027",
+  "value": "Efficiency $2,370; 1-Bedroom $2,770; 2-Bedroom $3,410; 3-Bedroom $4,460; 4-Bedroom $5,020 (effective Oct 1, 2026)",
+  "url": "https://www.huduser.gov/datasets/fmr/fmr2027/zip-calc?year=2027&zip=94122&cbsasub=METRO41860MM7360",
+  "source": "U.S. Department of Housing and Urban Development - FY2027 SAFMR calculation, ZIP 94122 (San Francisco HMFA)",
+  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $2,370 / $2,770 / $3,410 / $4,460 / $5,020; step-5 table lists FY2026 FMR figures $2,485 / $2,977 / $3,604 / $4,604 / $4,772; ZIP base rent $2,622. Opened and read 12 Nov 2026.",
+  "notes": "Up slightly from the original FY2026 SAFMR table ($2,730 1-BR / $3,310 2-BR) used in the owner-unit comparison."
+ },
+ {
+  "id": "SF-09",
+  "topic": "sf-tax",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "San Francisco Measure H (Muni parcel tax): preliminary vote and official multifamily rate structure",
+  "value": "Preliminary Nov 10 tally: 74.4% Yes (244,760 Yes / 84,209 No; certification due Dec 11, 2026). Multifamily residential rate: $249 base plus $0.195 per sq ft over 5,000 sq ft (cap $50,000), July 1, 2027 to June 30, 2042, inflation-indexed from July 1, 2028; rent-controlled pass-through up to 50% capped at $65 per unit for pre-June 1, 2027 base rents.",
+  "url": "https://media.api.sf.gov/documents/Title_and_Summary_-_Parcel_Tax_to_Fund_Public_Transit_Operations_002.pdf",
+  "source": "City and County of San Francisco - Ballot Title & Summary (Measure H); SF Department of Elections preliminary count (Nov 10, 2026); OEA Economic Impact Report",
+  "evidence": "Ballot Title & Summary table: Single-Family $129 base (caps/adders above 3,000 and 5,000 sq ft); Multifamily Residential $249 base plus $0.195/sq ft over 5,000 sq ft (max $50,000); Non-Residential $799 base (max $400,000). 'Owners of rent-controlled residential units could pass through up to 50% of the tax to their tenants, capped at $65 per unit, if the initial base rent was set before June 1, 2027.' Opened 12 Nov 2026.",
+  "notes": "Property B's building square footage is unconfirmed and election certification is pending Dec 11, 2026, so no parcel dollar amount is added to the baseline yet."
  }
 ];
 window.SERIES = {"_note": "Official series copied on 2026-11-11 by session f16e6e34. Contains no household data.", "hpi_santa_clara_county": {"source": "FHFA All-Transactions House Price Index, Santa Clara County, CA (FRED ATNHPIUS06085A), annual, 2000=100", "url": "https://fred.stlouisfed.org/series/ATNHPIUS06085A", "rows": [[1975, 9.68], [1976, 11.53], [1977, 14.84], [1978, 17.09], [1979, 20.1], [1980, 24.76], [1981, 27.77], [1982, 26.27], [1983, 28.25], [1984, 29.94], [1985, 32.29], [1986, 34.35], [1987, 36.8], [1988, 44.0], [1989, 58.54], [1990, 59.48], [1991, 56.92], [1992, 55.97], [1993, 54.14], [1994, 53.32], [1995, 54.06], [1996, 55.87], [1997, 62.46], [1998, 70.77], [1999, 76.65], [2000, 100.0], [2001, 110.66], [2002, 111.34], [2003, 113.61], [2004, 122.21], [2005, 150.62], [2006, 165.39], [2007, 164.69], [2008, 148.09], [2009, 127.5], [2010, 127.49], [2011, 123.44], [2012, 126.92], [2013, 141.7], [2014, 161.38], [2015, 174.6], [2016, 191.54], [2017, 199.29], [2018, 222.83], [2019, 218.62], [2020, 212.14], [2021, 222.44], [2022, 257.38], [2023, 273.43], [2024, 288.03], [2025, 286.2]]}, "hpi_san_francisco_county": {"source": "FHFA All-Transactions House Price Index, San Francisco County, CA (FRED ATNHPIUS06075A), annual, 2000=100", "url": "https://fred.stlouisfed.org/series/ATNHPIUS06075A", "rows": [[1975, 10.68], [1976, 12.42], [1977, 15.21], [1978, 17.59], [1979, 21.47], [1980, 26.12], [1981, 27.35], [1982, 25.48], [1983, 29.46], [1984, 30.68], [1985, 33.42], [1986, 37.31], [1987, 42.97], [1988, 54.24], [1989, 66.45], [1990, 67.05], [1991, 63.87], [1992, 62.55], [1993, 60.04], [1994, 58.79], [1995, 58.11], [1996, 58.9], [1997, 63.47], [1998, 71.65], [1999, 78.84], [2000, 100.0], [2001, 114.12], [2002, 120.07], [2003, 126.27], [2004, 142.4], [2005, 173.55], [2006, 185.33], [2007, 185.2], [2008, 174.85], [2009, 159.82], [2010, 156.39], [2011, 148.7], [2012, 153.49], [2013, 170.44], [2014, 197.47], [2015, 218.81], [2016, 241.77], [2017, 252.95], [2018, 271.46], [2019, 275.48], [2020, 257.32], [2021, 257.56], [2022, 286.72], [2023, 283.78], [2024, 291.09], [2025, 292.54]]}, "boe_inflation_factor": {"source": "BOE Letter to Assessors 2026/002: California CPI change and base-year-value factor by roll year", "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf", "rows": [["1976-77", 6.25, 1.02], ["1977-78", 7.169, 1.02], ["1978-79", 8.233, 1.02], ["1979-80", 9.826, 1.02], ["1980-81", 17.316, 1.02], ["1981-82", 7.134, 1.02], ["1982-83", 11.137, 1.02], ["1983-84", 1.033, 1.01], ["1984-85", 5.034, 1.02], ["1985-86", 5.089, 1.02], ["1986-87", 4.374, 1.02], ["1987-88", 2.095, 1.02], ["1988-89", 5.16, 1.02], ["1989-90", 4.73, 1.02], ["1990-91", 4.758, 1.02], ["1991-92", 6.39, 1.02], ["1992-93", 3.039, 1.02], ["1993-94", 3.441, 1.02], ["1994-95", 2.308, 1.02], ["1995-96", 1.194, 1.0119], ["1996-97", 1.115, 1.0111], ["1997-98", 2.399, 1.02], ["1998-99", 2.081, 1.02], ["1999-2000", 1.853, 1.01853], ["2000-01", 3.214, 1.02], ["2001-02", 4.172, 1.02], ["2002-03", 3.215, 1.02], ["2003-04", 2.459, 1.02], ["2004-05", 1.867, 1.01867], ["2005-06", 3.665, 1.02], ["2006-07", 4.596, 1.02], ["2007-08", 2.269, 1.02], ["2008-09", 3.38, 1.02], ["2009-10", 3.477, 1.02], ["2010-11", -0.237, 0.99763], ["2011-12", 0.753, 1.00753], ["2012-13", 2.889, 1.02], ["2013-14", 3.081, 1.02], ["2014-15", 0.454, 1.00454], ["2015-16", 1.998, 1.01998], ["2016-17", 1.525, 1.01525], ["2017-18", 2.619, 1.02], ["2018-19", 2.962, 1.02], ["2019-20", 3.847, 1.02], ["2020-21", 2.98, 1.02], ["2021-22", 1.036, 1.01036], ["2022-23", 5.561, 1.02], ["2023-24", 7.274, 1.02], ["2024-25", 3.181, 1.02], ["2025-26", 2.514, 1.02], ["2026-27", 3.307, 1.02]]}, "federal_exclusion": {"source": "IRS estate tax filing thresholds (2011-2026) and IR-2026-133 (2027)", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax", "rows": [[2011, 5000000], [2012, 5120000], [2013, 5250000], [2014, 5340000], [2015, 5430000], [2016, 5450000], [2017, 5490000], [2018, 11180000], [2019, 11400000], [2020, 11580000], [2021, 11700000], [2022, 12060000], [2023, 12920000], [2024, 13610000], [2025, 13990000], [2026, 15000000], [2027, 15480000]]}, "prop19_amount": {"source": "BOE Letters to Assessors 2023/012 and 2025/009", "url": "https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf", "rows": [["2021-02-16 to 2023-02-15", 1000000, null], ["2023-02-16 to 2025-02-15", 1022600, 2.26], ["2025-02-16 to 2027-02-15", 1044586, 2.15]]}, "cdi_statewide_residential": {"source": "California Department of Insurance, SB 824 residential property experience (all policy forms), statewide", "url": "https://www.insurance.ca.gov/01-consumers/200-wrr/WildfireRiskInfoRpt.cfm", "rows": [[2018, 8334249009, 11375891, 230138], [2019, 9044982611, 11839399, 244019], [2020, 10318255470, 12037936, 264159], [2021, 11410952105, 12222318, 273978], [2022, 12804226026, 12463909, 295495], [2023, 14217212455, 12580970, 324973]]}};
