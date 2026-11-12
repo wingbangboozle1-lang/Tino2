@@ -37,7 +37,10 @@ main.innerHTML = UI.hero("Decision readiness · checked " + R.checked,
 <div id="groups"></div>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Settled</div><h2>Already answered from an official source</h2><p>These do not need research. They are the rules the projection is built on, and each was opened and read rather than recalled.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>The same questions, asked by a second page</h2><p>A second readiness page (session 6a64dc5b) was merged on 12 November 2026. Its 24 questions are kept below in their own IDs, each pointing at the row above that now carries it. Its five "one uncertain input at a time" checks are what the <a href="decision.html">Decision lab</a> already does live, so they are not repeated here.</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question, as the earlier page wrote it</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="carried-q"></tbody></table></div>
+
+    <div class="section-heading"><div><div class="eyebrow">Settled</div><h2>Already answered from an official source</h2><p>These do not need research. They are the rules the projection is built on, and each was opened and read rather than recalled.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Answer, as published</th><th class="wrap">What it means for this decision</th><th>Official source</th></tr></thead><tbody id="answered"></tbody></table></div>
 </section>
 
@@ -123,6 +126,9 @@ document.getElementById("answered").innerHTML = R.answered.map(a =>
   `<tr><td>${a.id}</td><td class="wrap"><strong>${a.q}</strong></td><td class="wrap">${a.answer}</td><td class="wrap">${a.effect}</td>${srcCell(a.src)}</tr>`).join("");
 document.getElementById("unknowable").innerHTML = R.unknowable.map(u =>
   `<tr><td>${u.id}</td><td class="wrap"><strong>${u.q}</strong></td><td class="wrap">${u.why}</td><td class="wrap">${u.handling}</td><td class="wrap">${u.trigger}</td>${srcCell(u.src)}</tr>`).join("");
+document.getElementById("carried-q").innerHTML = R.carried.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2].includes("Q") ? r[2].split(" · ").map(x => `<a href="#${x}">${x}</a>`).join(" · ") : r[2]}</td>${srcCell([r[3]])}</tr>`).join("");
+
 document.getElementById("plan").innerHTML = R.discovery.map(d =>
   `<tr><td>${d.id}</td><td class="wrap"><strong>${d.doc}</strong></td><td class="wrap">${d.where}</td><td class="wrap">${d.closes}</td><td class="wrap">${d.effort}</td>${srcCell(d.src)}</tr>`).join("");
 

@@ -1187,8 +1187,82 @@ No model input, no recommendation, no published figure, no other page's content 
 
 **Rules followed.** No personal information in any committed file; no household figure repeated in this block. Every dollar figure on the new page is an official published amount or the $10 rounding rule. Every table row on the new page carries an official https link; no value was inferred. `origin/main` was merged before every push. Arena pins the branch name, so the session ID is carried in the branch name.
 
+
+### Session `364b453d` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#45](https://github.com/wingbangboozle1-lang/Tino2/pull/45) `arena/364b453d-tino2` → `main`, **MERGED** 15:40:04 UTC without waiting for approval |
+| Merge commit | `30fae97bc5bb0901ef2593a8b83e0d190373a9d9` (parents `4a7e597` and `ed9cbbd`) |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 26s — includes the Jekyll Pages build and the rejection of unexpected files in the real output |
+| GitHub Pages | build for `30fae97` reported **`built`**, `error.message: null`, completed 15:40:48 UTC; the `pages build and deployment` run for `30fae97` succeeded |
+| Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/suggestions.html` opened after the build: the combined page renders with one heading, the privacy-path table, the seven structural improvements, the fifteen-item register, the question tables and the record section. Both sessions' content is present |
+| Open PRs after this session | this record was published by a second, small PR from the same branch, because the brief asks for the result in `COORDINATION.md`; the record is the only change it carries |
+
+**State of the board.** Every task of this session is `done` (S-1 … S-6). What remains is **needs review** and is already published on Flagged for Review: the standing privacy findings for the owner, the FY2027 rent benchmark left blank, and the other blank household figures. None of them blocks publication and none is made worse by this session.
+
 <!-- END block owned by session 364b453d -->
 **Merge note, 12 Nov 2026 (recorded, not hidden).** Two other sessions were live while this one worked: `62b76b9d` and `6e6baf25`. `62b76b9d` merged PR #43 at 15:33 UTC and `6e6baf25` PR #44 at 15:36 UTC, after this session's 15:35 UTC claim read “no open pull requests”. Both had already published a suggestions page and a landing-page suggestions table. The conflict on `site/suggestions.html` was resolved by **combining**, not replacing: their privacy notice, privacy-path table, seven structural improvements, seven questions (kept unchanged in a collapsed block) and closing note remain in full; this session's itemized register, decision-critical questions, sequence and choose-a-path record were added around them. The duplicate navigation entry and the duplicate landing-page card from this session were removed in favour of the published ones, with the published card's wording extended to mention the recorded choice. **Nothing of theirs was discarded.** `origin/main` was merged before the push.
+
+
+<!-- BEGIN block owned by session 6a64dc5b. Appended at the end so it cannot conflict with earlier blocks. Other sessions: please do not edit inside this block; write requests in your own section. -->
+## Session `6a64dc5b` (branch `arena/6a64dc5b-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42). `git fetch --all --prune` at 15:34 UTC returned **only** `origin/main` and `origin/HEAD` — no `arena/*` branch exists on the remote, so no other session is live and no path is held. Suite on `bfb2268` re-run before claiming: `node scripts/validate.js` PASS 1,129 checks across 15 pages and 171 official sources.
+
+**Why this scope.** Every page the brief names already exists and is verified, with one exception: the brief asks for (a) a **section dedicated to suggestions** where someone can review suggestions and choose the best path *before* any change is implemented, and (b) a **clear list of questions, information and answers that must be settled before a decision**, with suggestions for discovering the missing information. A repository-wide search at claim time found the word "suggestion" in no committed file. Nothing is claimed that another session holds; the two new pages are additive and no published figure, plan, ranking or recommendation is changed.
+
+| # | Task | Status | Owner | File scope | Sources | Irregularities |
+|---|------|--------|-------|------------|---------|----------------|
+| S-1 | Coordination: read the board, fetch every remote branch, detect live claims, claim a non-overlapping scope, push at once | done | 6a64dc5b | `COORDINATION.md` (this block only) | N/A | none: no collision |
+| S-2 | Independent verification of the figures that drive the decision, re-opened on official sites on 12 Nov 2026 (not copied from an earlier session's report). Each figure recorded with the official URL, the passage read, and PASS / FAIL / UNVERIFIED | claimed | 6a64dc5b | `verification/6a64dc5b/**` (new) | to be listed per row | to be listed |
+| S-3 | New page **Decision readiness** (`site/questions.html`): every question, piece of information and answer that must be settled before a decision; what is known and unknown; how each gap is closed, by whom, at what cost; the effect on the plan if it stays open | claimed | 6a64dc5b | `site/questions.html` (new) | reuses the existing 155-key official register; new keys only if a new official page is opened | to be listed |
+| S-4 | New page **Suggestions** (`site/suggestions.html`): suggestions for the decision path and for improving the site, each with rationale, evidence link, effort, expected benefit and risk, plus a review-and-choose workflow that records the reader's choice in the browser only | claimed | 6a64dc5b | `site/suggestions.html` (new) | as S-3 | to be listed |
+| S-5 | Wire the two pages in: navigation, landing page, page count and link checks, publication manifest, ledger entries, README | claimed | 6a64dc5b | `assets/app.js`, `index.html`, `scripts/validate.js`, `scripts/runtime-test.cjs` (if a count changes), `scripts/check-publication.py` (if a file must be listed), `qa/ledger.json`, `README.md` | as S-3 | — |
+| S-6 | Own PR to `main`, merge without waiting, confirm the Pages deploy, read the live pages back, record the result here | claimed | 6a64dc5b | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push. The platform fixes the branch name to `arena/6a64dc5b-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+### Session `6a64dc5b` — completion record (12 November 2026)
+
+**Question asked.** Earlier sessions built and verified the three choices and the figures. This session answered the two parts of the brief that had no page: a **suggestions** section where the reader can review suggestions and choose a path before anything is implemented, and a **decision-readiness** register of the questions, information and answers that must be closed first, with suggestions for discovering what is missing. It also re-opened the official sources that drive the decision and recorded each passage itself (S-2), because the brief asks for line-by-line verification against official sources.
+
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| S-1 | Coordination claim | **done** | Claim pushed 15:35 UTC; no other branch on the remote, so no collision |
+| S-2 | Independent verification | **done** | `verification/6a64dc5b/REPORT.md`: 17 sources opened and quoted; 1 irregularity (IREG-1); every row PASS |
+| S-3 | Decision readiness page | **done** | `site/questions.html`: 24 questions in 4 groups, 10 settled answers, 3 blocking, 5 readiness gates, 10-row sensitivity table computed by the published model |
+| S-4 | Suggestions page | **done, scope adjusted** | `site/suggestions.html` was written three times by concurrent sessions. Session `364b453d` published the fullest version on `main` (15-item register, six site changes, question set, approve/defer/decline record). That version is kept unchanged and is the canonical page; this session added one link from it to the new Questions register and did not re-publish its own 20-row register, to avoid two competing lists. `localStorage` only, no network |
+| S-5 | Wiring and checks | **done** | Navigation (2 entries), landing page (2 cards), publication manifest (30 files), validator (17 pages), README, ledger P19-12; `validate.js` PASS 1,168 checks; `package-site.py` + `check-publication.py --self-test` PASS; `runtime-test.cjs` PASS 17 pages / 1,421 rows; `gate.cjs` 0 errors; privacy scan 0 errors |
+| S-6 | PR, merge, Pages | **pending** | To be recorded below once the pull request is merged |
+
+**Concurrent work merged, not replaced.** `main` moved twice while this session worked: `bfb2268` → `ed9cbbd` (sessions `62b76b9d` and `6e6baf25`) → `30fae97` (session `364b453d`). All three had touched the same area, and two had created `site/suggestions.html`. Final resolution, recorded rather than hidden:
+
+| Their work | What happened to it |
+|---|---|
+| `62b76b9d` — conditional-recommendation and privacy wording in `index.html`, two High items on the Flagged page | Kept in full |
+| `6e6baf25` — privacy-path comparison, seven structural improvements, seven questions | Kept in full inside `364b453d`'s page |
+| `364b453d` — 15-item suggestions register, six site changes, question set, approve/defer/decline record | **Kept as the canonical `site/suggestions.html`**, with one added link to the Questions register |
+| This session — two 10-row registers and a second choice record at the same path | Withdrawn to avoid two competing lists and two `localStorage` records. The unique contribution kept is `site/questions.html` (24 questions, 10 settled answers, 5 readiness gates, 10-row sensitivity table), the verification report and ledger entry P19-12 |
+
+Nothing written by another session was removed. The only edit to `364b453d`'s page is the added link sentence; its register, record and wording are unchanged.
+
+**Irregularity published.** IREG-1: the Santa Clara County Assessor page says the Proposition 19 allowance is adjusted "annually", while the Board of Equalization and Letter to Assessors 2026/026 say every other 16 February. The model follows the Board; the item is on `site/review.html` with both links.
+
+**Nothing changed in the published answer.** Base case unchanged: 2045 inheritance, ten-year hold — sell $9,125,340, rent $7,395,620, live $6,068,080. Every sensitivity on the new page keeps selling first.
+
+**Handoff.** No request to another session: no other session is live. The two owner actions that remain outside any session's power are unchanged and already on the Flagged page: the public commit history (exact assessed values and the account e-mail address) and the confirmation of the trust's basis treatment.
+
+### Third collision, same day: `6a64dc5b` (PR #47)
+
+`6a64dc5b` merged a **second readiness page** while this session was fixing the merge markers left by the first two collisions (those markers were committed by this session's own merge and removed in commit "Fix: remove merge markers…"; the fault was this session's, and it is recorded as A-I8 in `verification/a87f8523/REPORT.md`).
+
+**Resolution.** One readiness page remains, built on this session's register, and `6a64dc5b`'s material is on it in substance:
+
+- Its 24 questions are published on `site/questions.html` in their own IDs (A1–D5) with their wording, each mapped to the Q row that now carries it.
+- Six of its questions were not yet in this session's register and are now **Q23–Q28**: how title is actually held and any earlier death, taxable gifts and Form 709, portability, who bears the tax, the actual Rent Board rent roll, and whether Property B is kept for the next generation.
+- Its five "one uncertain input at a time" checks are not duplicated: the Decision lab already runs that comparison live, and the page says so.
+- Its `verification/6a64dc5b/REPORT.md` is untouched; its board block is kept in full above.
 
 ### Second collision, same day: `364b453d` (PR #45)
 

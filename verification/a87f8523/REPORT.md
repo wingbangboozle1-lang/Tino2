@@ -156,3 +156,24 @@ Checks after both merges: `validate.js` 1,183 checks / 17 pages / 173 sources ·
 proposals and questions survive as titles with the detailed reasoning now carried by the mapped S/Q rows. A reader
 who wants the original wording can open `verification/364b453d/REPORT.md` and the git history of this file; the
 public page states where each row came from.
+
+## 9. A-I8: merge markers reached a published page (fixed), and the third collision
+
+**A-I8 — conflict markers were committed to `site/suggestions.html`.** During the first resolution this session
+staged the conflicted file with `git add -A` without editing it, so a commit contained `<<<<<<< HEAD`,
+`=======` and `>>>>>>> origin/main` and, worse, both complete versions of the page in one file. Every automated
+check passed anyway — the scripts ran from the first copy and the row counts simply included the second one — which
+is the important finding: **the checks do not detect merge markers.** The markers were removed and the page rebuilt
+as a single document in commit "Fix: remove merge markers left in site/suggestions.html…". Suggested follow-up
+(not implemented here): add a marker check to `scripts/validate.js`, because a published page must never contain
+one. This is recorded as an irregularity against this session, not against another.
+
+**Third collision.** `6a64dc5b` merged a second readiness page (PR #47) before this session's PR could merge.
+Resolution: its 24 questions are published on `site/questions.html` in their own IDs with mapping to the register;
+six that were not already asked became **Q23–Q28** (title and earlier death, taxable gifts and Form 709,
+portability, who bears the tax, the actual rent roll, keeping Property B for the next generation). Its five
+one-input-at-a-time checks are not repeated because the Decision lab runs them live. Its report and board block
+are untouched.
+
+After the third merge: `validate.js` 1,183 checks / 17 pages; `runtime-test.cjs` rows re-counted; `gate.cjs` 0 errors,
+0 warnings; publication boundary 32 files; base case unchanged.

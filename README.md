@@ -30,6 +30,8 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
 - `site/options.html` — completeness check: hold-then-sell and empty-house cases, depreciation in the rental case, the pre-2021 reassessment rule as a test, estate tax by amount of money, rules by kind of money, and filing steps missing from the checklist (engine in `site/data/options.js`, independent calculation in `verification/0d6ec51e/`)
 - `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
+- `site/questions.html` — decision-readiness register: every question, fact and answer that must be closed before a choice, what is known and missing, how each gap is closed and by whom, the effect if it stays open, and a browser-only readiness checklist
+- `site/suggestions.html` — the review-before-implementation page: privacy paths, seven structural improvements, a 15-item suggestions register with evidence and a suggested order, the decision-critical questions, and an approve/defer/decline record stored only in the browser
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context

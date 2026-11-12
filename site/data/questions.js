@@ -279,7 +279,73 @@ window.READINESS = {
       discover: "Re-run the stress pages when prices, rates or insurance move sharply. Set the triggers in advance.",
       flip: "In the recorded replay of the last 49 years and in a 1970s-style stagflation, keeping the house wins. That is the honest counter-case to the base answer.",
       status: "unknowable"
-    }
+    },
+    {
+      id: "Q23", group: "trust", priority: "High",
+      q: "How is title actually held — community property, joint tenancy, or the trust alone — and did a spouse die earlier?",
+      why: "Title decides whose basis is adjusted and by how much. Community property gets a full adjustment at the first death; joint tenancy and separate property do not, and a prior death may already have fixed part of the basis.",
+      known: "Not supplied. The site models a single death and a full basis reset at that death, which is the most favourable case.",
+      src: ["irsPub551", "prob10800"],
+      missing: "The deed history, the vesting on each deed, the date of any earlier death, and any prior Form 706 or DSUE letter.",
+      discover: "Order a title report from a title company and read the vesting on every deed; ask the CPA whether a prior return set a basis.",
+      flip: "If the house is separate property or joint tenancy with a prior death, part of the gain is taxed twice — at the first death and again at the second — and the sell-first lead narrows.",
+      status: "open"
+    },
+    {
+      id: "Q24", group: "money", priority: "Medium",
+      q: "Were there taxable gifts, and was a Form 709 filed?",
+      why: "Taxable gifts are added back when the estate-tax base is computed, so they reduce the exclusion left at death even though the money has already left the estate.",
+      known: "Not supplied. No gifts are assumed. The 2027 annual exclusion is $20,000 per recipient, so routine family gifts may never have required a return.",
+      src: ["irsEstateTax", "irs706"],
+      missing: "Whether either parent gave more than the annual exclusion to any one person in a year, and whether a Form 709 was filed.",
+      discover: "Ask the parents directly, then have the CPA pull any prior Forms 709 and the current gift-tax computation.",
+      flip: "Each $1,000,000 of unreported taxable gifts can add up to $400,000 of federal tax at the top rate of 40%, which can turn a sale into a forced sale.",
+      status: "open"
+    },
+    {
+      id: "Q25", group: "money", priority: "Medium",
+      q: "Is any of the federal exclusion portable from a spouse who died earlier?",
+      why: "A timely portability election lets the survivor add the first spouse's unused exclusion at the second death. Without it, only one exclusion applies.",
+      known: "Not supplied. The model uses the single published exclusion for the year of death and no portability.",
+      src: ["irsEstateTax", "irs706"],
+      missing: "Whether a spouse died earlier, whether Form 706 was filed for that estate, and the DSUE amount, if any.",
+      discover: "Read the prior Form 706 and any closing letter; the executor or CPA will have them.",
+      flip: "If portability is available the exclusion can roughly double, which can remove the federal question from the decision entirely.",
+      status: "open"
+    },
+    {
+      id: "Q26", group: "money", priority: "Medium",
+      q: "If tax is owed, who pays it: the estate, the trust, or the beneficiary who receives the house?",
+      why: "Apportionment decides whether the house must be sold to pay the tax, or whether other assets cover it. That changes the sell case more than the tax rate does.",
+      known: "Not supplied. No estate tax is modelled as owed, so no payment source is assumed.",
+      src: ["prob10800", "irs706"],
+      missing: "The trust's tax-apportionment clause, the will, and the beneficiary designations that decide where the cash sits.",
+      discover: "Ask the estate attorney to read the apportionment clause and say in one page who bears the tax.",
+      flip: "If the house bears the tax, a sale is forced regardless of the ranking; if the estate's cash bears it, the house can be kept.",
+      status: "open"
+    },
+    {
+      id: "Q27", group: "costs", priority: "Medium",
+      q: "What are the actual rents, lease terms and tenant circumstances in Property B?",
+      why: "The model uses market rent and a statutory increase. A sitting tenant below market, a fixed-term lease or a relocation payment changes both the income and the cost of any change of use.",
+      known: "Not supplied. The site uses the published allowable increase (1.6% for 1 March 2026 to 28 February 2027) and market-comparable rent, not the actual rent roll.",
+      src: ["sfRentRates", "sfRentFee"],
+      missing: "Current rents by unit, lease start and end dates, security deposits, and whether any unit is owner-occupied or vacant.",
+      discover: "Collect the leases and the last twelve months of rent receipts; check any rent-increase notices against the Rent Board's allowable amount.",
+      flip: "If the rent roll is materially below market, the rent case falls and the sell case improves; if a unit can be re-let at market, the reverse.",
+      status: "open"
+    },
+    {
+      id: "Q28", group: "home", priority: "Low",
+      q: "Is Property B to be kept indefinitely, including for the next generation?",
+      why: "The rent case assumes a perpetual hold with borrowing capacity. If B is to be sold or passed on, the comparison changes — and a later sale of B is itself a taxable event whose basis depends on today's decisions.",
+      known: "Not supplied. Property B is modelled as kept and refinanced once, with no sale and no further inheritance event.",
+      src: ["sfRentRates", "irsInherited"],
+      missing: "The long-term intention for Property B, the heir's own estate plan, and whether the three units are to stay in one ownership.",
+      discover: "Ask the household to state the intention in one sentence and date it; revisit it at the same time as the trust review.",
+      flip: "If B is to be sold, the borrowed-money comparison already overstates the rent case at the end; if B is to be inherited again, its basis resets and the family's total tax falls.",
+      status: "open"
+    },
   ],
   answered: [
     {
@@ -377,6 +443,33 @@ window.READINESS = {
     { id: "U07", q: "The heir’s income and filing status in the sale year", why: "Future income, marriage and retirement all change the brackets.", handling: "A 33.1% blended rate is used; the sensitivity shows the effect of the rate on the rent and live cases only.", trigger: "Have a CPA compute the actual year before selling.", src: ["ftbCapGains", "irsTopic409"] },
     { id: "U08", q: "Whether the heir will want to live in the house", why: "A preference, not a fact.", handling: "The live case is shown on money alone, with a note that housing value is excluded.", trigger: "The household decides; the model then prices the choice.", src: ["irsTopic701"] }
   ],
+  carried: [
+    ["A1", "Is the trust revocable, or otherwise included in the federal estate?", "Q01", "irsRevRul20232"],
+    ["A2", "Does the recorded deed name the trustee, and is the house actually in the trust?", "Q01 · Q23", "irsPub551"],
+    ["A3", "How many beneficiaries are there, and may the house pass to one of them?", "Q02", "boeLta2026026"],
+    ["A4", "Was the house the parent's principal residence at death, and will it stay in the family's use?", "Q03 · Q07", "sccProp19"],
+    ["A5", "How is title held, and did the first spouse die earlier?", "Q23", "irsPub551"],
+    ["B1", "What is the total gross estate, less debts?", "Q16 · Q04", "irsEstateTax"],
+    ["B2", "Have there been taxable gifts, and were Forms 709 filed?", "Q24", "irs706"],
+    ["B3", "Is any of the exclusion portable from a deceased spouse?", "Q25", "irsEstateTax"],
+    ["B4", "What kinds of accounts hold the money, and who is the named beneficiary?", "Q16", "irsInherited"],
+    ["B5", "Is there enough cash in the estate to pay estate tax without selling Property A?", "Q18 · Q26", "prob10800"],
+    ["B6", "Who pays the tax: the estate, the trust or the beneficiary?", "Q26", "prob10800"],
+    ["C1", "What would it cost to rebuild Property A?", "Q10", "cdiSurveyCup40_1000"],
+    ["C2", "Will earthquake cover be carried on either property?", "Q11 · Q20", "cdiSurveyEqCup"],
+    ["C3", "What does a landlord policy on Property B cost?", "Q11", "cdiResGuide"],
+    ["C4", "How much of Property A's value is the building, not the land?", "Q07", "irsPub527"],
+    ["C5", "What is Property A's tax-rate area, and what flat charges are on the bill?", "Q06", "boeProp13"],
+    ["C6", "When was the solar system switched on, and which tariff applies?", "Q12", "cpucNem"],
+    ["C7", "What are Property B's flat charges and the parcel tax?", "Q12", "sfpucRates2026"],
+    ["C8", "What are the actual rents, lease terms and tenant circumstances in Property B?", "Q27", "sfRentRates"],
+    ["D1", "Will the household still want to live in the Bay Area in 2040–2050?", "Q19", "irsTopic701"],
+    ["D2", "How much of the household's wealth should stay in one regional housing market?", "Q17 · Q20", "investorRisk"],
+    ["D3", "Is Property B to be kept indefinitely, including for the next generation?", "Q28", "sfRentRates"],
+    ["D4", "What will the household's income and filing status be in the sale year?", "Q09", "irsTopic701"],
+    ["D5", "What result would make the household keep the house?", "Q19", "irsPub527"]
+  ],
+  carriedFrom: "a second readiness page (session 6a64dc5b, merged 12 Nov 2026)",
   discovery: [
     { id: "D01", doc: "Trust document, schedule of assets and distribution clause", where: "Trustee or the parent’s trust attorney", closes: "Q01, Q02, Q04", src: ["probate160617"], effort: "1–2 hours to read with advice" },
     { id: "D02", doc: "Current secured property tax bill and assessor parcel record", where: "Santa Clara County Department of Tax and Collections; assessor", closes: "Q05, Q06, Q07", src: ["sccBill"], effort: "About 30 minutes online" },
