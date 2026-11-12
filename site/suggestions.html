@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Suggestions: a ranked register of concrete ways to improve this decision, with the problem each solves, its effect, its effort and its risk, and a panel to choose a path before anything is implemented."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Suggestions">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="data/suggestions.js"></script><script src="data/questions.js"></script><script src="../assets/app.js"></script>
+<script>
+/* Session 62245584. The Suggestions section the brief asks for: review, compare, then choose.
+   Nothing is implemented here. Every figure is read from the published model at render time. */
+const main = document.getElementById("main");
+const G = window.SUGGESTIONS, M = window.MODEL, Q = window.QUESTIONS;
+const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const money = M.fmtMoney;
+const paths = G.PATHS.map(G.pathReady);
+const blockersFor = plan => Q.blockers(plan).length;
+
+main.innerHTML = UI.hero("Suggestions · reviewed 12 Nov 2026",
+  "What to do next, and how to choose before anything changes",
+  "This is the suggestions section: a ranked register of concrete changes that would improve this decision, each with the problem it solves, the evidence behind it, the effort it takes and the risk it carries. Below it is a panel that compares four paths and shows what each one settles and what it leaves undone, so a path can be chosen and reviewed before any change is implemented. Nothing on this page is advice, and nothing is implemented by reading it.",
+  `<a class="button" href="#choose">Choose a path</a><a class="button secondary" href="questions.html">Questions that block a decision</a><a class="button secondary" href="plan.html">Best plan</a>`) + `<div class="container">
+
+<section class="section"><div class="grid four">
+  <div class="card"><div class="metric">${G.SUGGESTIONS.length}</div><h3>Suggestions</h3><p class="tiny">Each one is attached to a named problem and an official source.</p></div>
+  <div class="card soft"><div class="metric">${G.SUGGESTIONS.filter(s => s.risk <= 2).length}</div><h3>Safe to do without a signature</h3><p class="tiny">Information only, or reversible.</p></div>
+  <div class="card warning"><div class="metric">${G.SUGGESTIONS.filter(s => s.risk === 3).length}</div><h3>Involve a signature or filing</h3><p class="tiny">Read the official route before starting one.</p></div>
+  <div class="card review"><div class="metric">${G.SUGGESTIONS.filter(s => !s.reversible).length}</div><h3>Irrevocable once done</h3><p class="tiny">None of them. The irreversible acts come after a path is chosen.</p></div>
+</div>
+<div class="callout"><strong>Why suggestions and not recommendations.</strong> The brief asks for suggestions so that the best path can be chosen before anything is implemented. These are ordered by how much uncertainty each removes for the effort it takes, not by how much money it might make. Money effects are shown where the published model can compute them, and left as a dash where it cannot, rather than being estimated here.</div>
+</section>
+
+<section class="section" id="choose"><div class="section-heading"><div><div class="eyebrow">Choose before implementing</div><h2>Four paths, and what each one settles</h2><p>Pick one path to see the suggestions it needs, in order, with what it costs you in time and what it leaves undone. Choosing here changes nothing in the model and signs nothing. It writes down a decision so it can be reviewed before work starts.</p></div></div>
+<div class="controls" style="grid-template-columns:minmax(240px,2fr)"><label class="control">Path to review<select id="path">${paths.map(p => `<option value="${p.id}">${p.name}</option>`).join("")}</select></label></div>
+<div id="path-panel"></div>
+<div class="table-wrap"><table><thead><tr><th>Path</th><th class="number">Suggestions</th><th class="number">Longest single step</th><th class="number">Needs a signature or filing</th><th class="number">Irrevocable steps</th><th class="wrap">Leaves undone</th><th>Official framework</th></tr></thead><tbody id="paths"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Question still blocking a decision</th><th class="number">Blocks</th><th class="wrap">What would settle it</th><th>Official route</th></tr></thead><tbody id="blocking"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">The register</div><h2>Every suggestion, in order</h2><p>Ordered by how much uncertainty each removes per unit of effort. The effect column shows a figure only where the published model can compute one; a dash means the effect cannot be quantified from what is known, not that it is zero.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion</th><th class="wrap">Problem it solves</th><th class="wrap">What the model shows</th><th class="wrap">Group</th><th>Effort</th><th>Risk</th><th class="wrap">When</th><th>Official route</th></tr></thead><tbody id="register"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Pairs</div><h2>Where two suggestions pull against each other</h2><p>Not every suggestion points the same way. These are the points where choosing one means accepting the cost of the other, stated plainly rather than averaged away.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th class="wrap">Tension</th><th class="wrap">If you take the first</th><th class="wrap">If you take the second</th><th class="wrap">How the published model answers it</th><th>Official route</th></tr></thead><tbody id="tensions"></tbody></table></div>
+</section>
+
+<section class="section"><div class="grid two">
+  <div class="card highlight"><h3>What choosing a path does not do</h3><p>It does not move money, sign a document, file a form or change the published model. It records which suggestions you want pursued, so that the next step can be reviewed by a person rather than started by accident. Every suggestion above carries the official page that governs it.</p><p><a href="sources.html">Source register →</a></p></div>
+  <div class="card"><h3>Privacy</h3><p>Parties appear only as [OWNER], [TRUSTEE], [DECEDENT] and [HEIR]. The houses appear as Property A (Cupertino, inherited) and Property B (San Francisco, already owned). No name, address, parcel number, account number or document appears here.</p><p><a href="review.html">Privacy positions →</a></p></div>
+</div></section>
+</div>`;
+
+/* The choose-a-path panel. */
+function renderPath() {
+  const p = paths.find(x => x.id === document.getElementById("path").value);
+  const planKey = p.id === "P-02" ? "sell" : p.id === "P-03" ? "rent" : p.id === "P-04" ? "live" : "estate";
+  document.getElementById("path-panel").innerHTML = `<div class="card soft" style="margin:18px 0">
+    <div class="eyebrow">Path under review</div><h3>${p.name}</h3><p>${p.summary}</p>
+    <div class="grid three" style="margin:14px 0">
+      <div><div class="metric-label">Suggested steps</div><div class="metric small">${p.count}</div></div>
+      <div><div class="metric-label">Longest single step</div><div class="metric small">${G.EFFORT[p.longest]}</div></div>
+      <div><div class="metric-label">Questions still open for this plan</div><div class="metric small">${blockersFor(planKey)}</div></div>
+    </div>
+    <p><strong>Leaves undone:</strong> ${p.leaves}</p>
+    <p><strong>When:</strong> ${p.when}</p>
+    <p class="tiny">This panel reads the same engines as the Decision and Questions pages. It does not change the published recommendation, which remains: sell Property A soon after inheriting it.</p>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Suggestion</th><th class="wrap">Why it is in this path</th><th>Effort</th><th>Risk</th><th>Official route</th></tr></thead><tbody>${p.items.map((s, i) => `<tr><td><strong>${i + 1}</strong></td><td class="wrap"><strong>${esc(s.title)}</strong></td><td class="wrap">${esc(G.evidence(s))}</td><td>${G.EFFORT[s.effort]}</td><td>${G.RISK[s.risk]}</td><td class="source">${UI.source(s.src)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+document.getElementById("path").addEventListener("change", renderPath);
+renderPath();
+
+/* Comparison of the four paths. */
+document.getElementById("paths").innerHTML = paths.map(p => `<tr>
+  <td><strong>${p.name}</strong></td>
+  <td class="number">${p.count}</td>
+  <td class="number">${G.EFFORT[p.longest]}</td>
+  <td class="number">${p.blocking}</td>
+  <td class="number">${p.irreversible}</td>
+  <td class="wrap">${p.leaves}</td>
+  <td class="source">${UI.source(p.src)}</td></tr>`).join("");
+
+/* Every question still blocking any plan, with what would settle it. */
+const blockingAll = Q.ALL.filter(q => q.status !== "settled").map(q => ({ ...q, n: q.affects.length })).sort((a, b) => b.n - a.n || a.id.localeCompare(b.id));
+document.getElementById("blocking").innerHTML = blockingAll.map(q => `<tr>
+  <td class="wrap"><strong>${q.id}</strong> ${esc(q.q)}</td>
+  <td class="number">${q.n}</td>
+  <td class="wrap">${esc(q.action)}</td>
+  <td class="source">${UI.source(q.src)}</td></tr>`).join("");
+
+/* Full register. */
+document.getElementById("register").innerHTML = G.SUGGESTIONS.map(s => `<tr>
+  <td><strong>${s.rank}</strong></td>
+  <td class="wrap"><strong>${esc(s.title)}</strong><div class="tiny">${G.KIND[s.id]}</div></td>
+  <td class="wrap">${esc(s.problem)}</td>
+  <td class="wrap">${esc(G.evidence(s))}</td>
+  <td class="wrap">${esc(s.group)}</td>
+  <td>${G.EFFORT[s.effort]}</td>
+  <td>${G.RISK[s.risk]}</td>
+  <td class="wrap">${esc(s.timing)}</td>
+  <td class="source">${UI.source(s.src)}</td></tr>`).join("");
+
+/* Tensions: computed comparisons, not opinions. */
+document.getElementById("tensions").innerHTML = [
+  {
+    t: "Decide quickly, or gather facts first",
+    a: "Deciding quickly captures the basis at death and avoids an empty house losing its cover after 60 days.",
+    b: "Gathering facts first avoids signing a lease or a sale on an unverified input.",
+    m: () => `The model answers it in one direction: every year of waiting lowers the end value. Holding the house one year before selling is behind selling at once for all three inheritance years; the gap widens the longer it is held.`,
+    src: "irsInherited"
+  },
+  {
+    t: "Rent it out, or sell and reinvest",
+    a: "Renting keeps an appreciating asset and produces income, and adds a depreciation benefit the model leaves out entirely.",
+    b: "Selling resets the basis at death, so little gain is taxed, and the proceeds can be diversified.",
+    m: () => `Selling leads renting by ${money(G.gap(2045))} for a 2045 inheritance carried to 2055, and it leads for 2040 and 2050 as well. The lead comes from the reassessment rule, not from the assumed returns alone.`,
+    src: "boeProp19"
+  },
+  {
+    t: "Live in it, or keep the San Francisco unit",
+    a: "Living in Property A costs the bill with no rent coming in, but it qualifies for part of the parent's assessed value.",
+    b: "Living in Property B's third unit keeps both San Francisco rents and leaves Property A free to sell.",
+    m: () => `Living in A finishes last for all three inheritance years. It is the only plan that both pays the bill and gives up income, and the model puts no price on living there.`,
+    src: "boeLta2025009"
+  },
+  {
+    t: "Trust the federal exclusion, or plan for it to change",
+    a: "The exclusion is $15,000,000 for a death in 2026 and $15,480,000 for 2027, indexed after that.",
+    b: "Every amount after 2027 is unknown, and the 2040s amounts are published one year at a time.",
+    m: () => `Property A alone leaves about ${money(M.estateRow(2027).headroom)} of room in 2027. The model projects later amounts as a scenario and labels them as not official, rather than pretending to know them.`,
+    src: "irs2027"
+  }
+].map(x => `<tr><td class="wrap"><strong>${x.t}</strong></td><td class="wrap">${x.a}</td><td class="wrap">${x.b}</td><td class="wrap">${esc(x.m())}</td><td class="source">${UI.source(x.src)}</td></tr>`).join("");
+
+UI.ensureRowSources();
+</script></body></html>

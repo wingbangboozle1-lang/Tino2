@@ -65,6 +65,13 @@
    "links": 0
   },
   {
+   "file": "site/questions.html",
+   "rows": 55,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 14,
+   "links": 0
+  },
+  {
    "file": "site/review.html",
    "rows": 93,
    "rowsWithContextLinkOnly": 0,
@@ -100,6 +107,13 @@
    "links": 0
   },
   {
+   "file": "site/suggestions.html",
+   "rows": 54,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 21,
+   "links": 0
+  },
+  {
    "file": "site/verification.html",
    "rows": 131,
    "rowsWithContextLinkOnly": 0,
@@ -110,13 +124,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 15,
-  "rows": 1327,
-  "rowsWithOwnSource": 1318,
+  "pages": 17,
+  "rows": 1436,
+  "rowsWithOwnSource": 1427,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4818,
-  "officialExactAmounts": 103,
-  "internalLinks": 327,
-  "externalLinks": 1755
+  "amounts": 4853,
+  "officialExactAmounts": 104,
+  "internalLinks": 406,
+  "externalLinks": 1864
  }
 }

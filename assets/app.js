@@ -13,6 +13,8 @@
   const navItems = [
     ["home", home, "Overview"],
     ["plan", prefix + "plan.html", "Best plan"],
+    ["suggestions", prefix + "suggestions.html", "Suggestions"],
+    ["questions", prefix + "questions.html", "Questions"],
     ["decision", prefix + "decision.html", "Decision"],
     ["options", prefix + "options.html", "Other options"],
     ["properties", prefix + "properties.html", "Properties"],
