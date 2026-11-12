@@ -1359,7 +1359,7 @@ The gate page was **renamed** to `site/questions-gate.html` and retitled "Decisi
 **Suite on the merged 18-page tree.** `validate.js` PASS **1,486** checks · `qa/tools/gate.cjs` PASS · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS, 32 files · `src/check_links.py` 0 errors · `privacy_scan.py` 0 errors. Figures recorded in the final publication record below.
 
 **Privacy.** Unchanged and re-checked: no personal information, no household figure typed into `site/data/questions.js`; the value it displays is read from `MODEL.BASE` at render time, which `validate.js` proves by halving the input and asserting the answer moves.
-=======
+
 ### Third collision, same day: `6a64dc5b` (PR #47)
 
 `6a64dc5b` merged a **second readiness page** while this session was fixing the merge markers left by the first two collisions (those markers were committed by this session's own merge and removed in commit "Fix: remove merge markers…"; the fault was this session's, and it is recorded as A-I8 in `verification/a87f8523/REPORT.md`).
@@ -1436,25 +1436,6 @@ This is the collision the board exists to prevent; it happened because their cla
 | Merge conflicts | Two, both from concurrent sessions working the same files; resolved keeping every other session's content (see the table in the completion record above). Nothing of theirs was removed. |
 | Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
 
-**Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
-### Session `62245584` — third conflict, and the final shape of the contribution (12 Nov 2026)
-
-**Third conflict.** `main` moved again to `6c1b6ca` (PRs #46 and #50). Session `a87f8523` had integrated its own `site/data/questions.js` **and** `site/data/suggestions.js` at the same paths this session had used. Three independent attempts at the same two brief requirements converged on two page names.
-
-**Resolution.** Nothing was discarded, and this session's page was reduced to the one thing the other registers do not carry.
-
-| Path | Owner | Content |
-|---|---|---|
-| `site/questions.html` + `site/data/questions.js` (`window.READINESS`) | `6a64dc5b`, `a87f8523` | The readiness register: what is known, what is missing, which office or document supplies it, what each gap moves in the projections, and a 22-question subset with `status: "open"`. |
-| `site/suggestions.html` + `site/data/suggestions.js` | `6e6baf25`, `364b453d`, `a87f8523` | The suggestions register with an approve / defer / decline record held in the browser. |
-| **`site/questions-gate.html` + `site/data/gate.js` (`window.GATE`)** | **this session** | **The blocking layer.** Forty questions grouped in the order the answers must arrive, each marked settled / household input / missing, and a rule the other registers do not have: *a plan is blocked by every question attached to it whose answer is not settled by an official source*. It carries no projection deltas and no duplicate suggestions, so it does not restate either register. The page opens with a section that says, plainly, which page holds what — counts read from `window.READINESS` at render time. |
-
-Engine renamed from `window.QUESTIONS` to `window.GATE` and the file from `site/data/questions.js` to `site/data/gate.js`, so it cannot collide with `a87f8523`'s register again. Navigation now reads **Readiness** (theirs), **Decision gate** (this session's) and **Suggestions** (theirs).
-
-**What this session's contribution is, in one line.** The other two registers record *what* is unknown; this page is the only place that answers *can this plan be decided yet*, and proves it with an enforced rule rather than a stated opinion. The honest result is that no plan can be decided today.
-
-**Suite on the merged 18-page tree.** `validate.js` PASS **1,534** checks across 18 pages and **173** official sources · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,567 rendered rows, 4,875 dollar amounts) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and **34** reviewed public files · `src/check_links.py` 0 errors · Jekyll boundary simulated: published tree exactly equals the manifest, no unlisted file.
-
 **Privacy.** No personal information added. No household figure typed into `site/data/gate.js`; the one value it displays is read from `MODEL.BASE` at render time, and `validate.js` proves this by halving the model input and asserting the answer moves.
 
 ### Session `62245584` — publication record (2026-11-12)
@@ -1485,3 +1466,20 @@ blocks the merge.
 the board showed no live claim at the moment each checked. To prevent a fourth, the next session
 should re-read `git ls-remote` **immediately before its first commit**, not only at claim time: in
 this session more than two hours of `main` movement happened between the claim and the push.
+
+---
+
+## Session `55c16cea` — 2026-11-12 (Reconciled through `origin/main` `cfe1e3b`)
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Verify HUD FY2027 SAFMRs (95014/94122) & Nov 12 official sources; integrate FY2027 HUD, Measure H (`SF-09`), `P19-12` Prop 19 cadence, priority/group filters, CSV checklist download, privacy-path selector & JSON export into `site/data/{questions,suggestions,sources}.js` + `site/{questions,suggestions}.html` while preserving `origin/main` (`cfe1e3b`, incl. `questions-gate.html` + `gate.js`); resolve R-D3 (NOI), R-D4 (internal jargon & duplicate row), R-D5 (12 Nov 2026 check dates); verify, push, merge PR #52 to `main`, confirm Pages deploy | done | 55c16cea | `COORDINATION.md`, `README.md`, `index.html`, `assets/app.js`, `site/{questions,suggestions}.html`, `site/data/{questions,suggestions,sources,model,ledger}.js`, `qa/{ledger.json,gate-report.json}`, `site/{decision,properties,san-francisco,black-swan,stress,options,plan,inheritance,sources,review,verification}.html`, `scripts/{check-publication.py,validate.js}`, `verification/55c16cea/**` |
+
+Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `cfe1e3b`, preserving every block from `6e6baf25`, `364b453d`, `6a64dc5b`, `a87f8523`, `58941d22`, and `62245584`/`693321af` plus all baseline calculations: `sell` $7,683,290 / `rent` $6,249,830 / `live` $5,135,780 at 2040).
+
+### `55c16cea` completion / verification (2026-11-12)
+
+- **Official data verified (`2026-11-12`)**: `CF-04` (HUD FY2027 SAFMR ZIP `95014`: `$5,800` 4BR / `$5,440` 3BR), `CF-05` (HUD FY2027 SAFMR ZIP `94122`: `$2,770` 1BR / `$3,410` 2BR), `SF-09` (SF Measure H Ballot Title & Summary + OEA report: `$249/yr` base + `$0.195/sq ft` over `5,000` sq ft starting 1 July 2027, 50% / `$65/unit` pass-through), `P19-12` (BOE biennial Prop 19 cadence vs. Santa Clara County wording), plus `githubPages`, `cupertinoADU`, and updated `cpucNem`; refreshed `CA-05`/`CA-06`/`CA-07` and `SF-04`/`SF-05`. Total `qa/ledger.json`: `84` entries (`78` verified, `6` open).
+- **Unified `18`-page / `34`-file dashboard**: Preserved `site/data/{questions,suggestions,gate}.js` (`28` open readiness questions `Q01`–`Q28`, `14` settled rules `A01`–`A14`, `8` unknowables, `12` discovery plans, `24` carried-forward Group A–D items, `40`-question blocking `questions-gate.html`, `27` suggestions `S01`–`S27`, `4` bundles, `3` privacy paths, guardrails) and layered in verified FY2027 HUD & SF Measure H data, priority/group filters, blank CSV checklist export, privacy-path selector (`PRIVACY_PATH`), and `.json` export alongside `.md`.
+- **Cross-site & sensitivity improvements**: Decision Lab optional `4BR_2027` (`$5,800`) and `3BR_2027` (`$5,440`) selectors, SF FY2027 `94122` + Measure H details (`san-francisco.html`), `R-D3` NOI expansion, `R-D4` cleanup of `"session"`/`"audit note"`/`"the brief"` public prose + duplicate row removal + `Checked 12 Nov 2026` sorting, and `R-D5` `12 Nov 2026` stamps.
+- **Checks on merged `18`-page tree**: `package-site.py`, `check-publication.py --self-test` (`34` reviewed public files), `validate.js` (`1,561` checks, `18` pages, `177` sources), `stress-test.js`, `runtime-test.cjs` (`18` pages, `1,583` rows), `qa/tools/gate.cjs` (`0` errors, `0` warnings), `privacy_scan.py` (`0` errors), `src/check_links.py` (`0` errors), and `verification/{60ca3e1f,62b76b9d,55c16cea}/*` all PASS.

@@ -185,11 +185,11 @@ window.READINESS = {
       id: "Q14", group: "costs", priority: "High",
       q: "What rent would Property A actually fetch, and what law governs increases?",
       why: "The rented case is the closest alternative to selling, and its income is the HUD benchmark, not a lease. Rent-growth rules decide what that income does over ten years.",
-      known: "HUD’s FY2026 small-area benchmark for the ZIP code is $6,390 a month for four bedrooms and $5,870 for three. The statewide rent cap is 5% plus the change in the cost of living, maximum 10%, for most housing more than 15 years old, subject to exemptions.",
-      src: ["hudA", "caRentCaps", "cupertinoADU"],
-      missing: "A market rent opinion for this house, its condition and size, whether the statewide cap or a local ordinance covers it, and the tenancy terms the heir would offer.",
-      discover: "Two written rental opinions from local agents; read the Attorney General’s rent-cap page and ask the city whether any local ordinance applies. The city also allows an ADU that may be rented but not sold separately — one more way to add income.",
-      flip: "Higher rent narrows the gap to selling but does not close it in the base case; a rent-control exemption would raise the ten-year figure.",
+      known: "Property A's ZIP 95014 baseline is HUD's FY2026 benchmark ($6,390 4BR / $5,870 3BR). HUD's FY2027 benchmark (effective 1 Oct 2026) was verified on 12 Nov 2026 at $5,800 (4BR) and $5,440 (3BR) and is selectable in Decision Lab (`4BR_2027` / `3BR_2027`). For Property B (ZIP 94122), FY2027 SAFMRs are $2,770 (1BR) and $3,410 (2BR). The statewide rent cap is 5% plus the change in the cost of living, maximum 10%, for most housing more than 15 years old, subject to exemptions.",
+      src: ["hudA", "hudA2027", "caRentCaps", "cupertinoADU"],
+      missing: "A market rent opinion for this house, its bedroom count, condition and size, whether the statewide cap or a local ordinance covers it, and the tenancy terms the heir would offer.",
+      discover: "Two written rental opinions from local agents; read the Attorney General’s rent-cap page and ask the city whether any local ordinance applies. Check whether to rebase defaults from FY2026 to FY2027 on the Suggestions page. The city also allows an ADU that may be rented but not sold separately — one more way to add income.",
+      flip: "Lower rent (such as FY2027's $5,800 4BR) narrows rental cash flow and widens selling's lead further; higher rent narrows the gap but does not reverse the ranking in the base case.",
       status: "open"
     },
     {
@@ -371,9 +371,9 @@ window.READINESS = {
     },
     {
       id: "A04",
-      q: "What are the parent-child reassessment conditions and deadlines?",
-      answer: "Principal residence of both parent and child; capped at the factored base year value plus $1,044,586 for transfers to 15 February 2027; homeowners’ exemption within one year; exclusion claim within three years or before a transfer to a third party.",
-      src: ["boeProp19", "boeLta2025009"],
+      q: "What are the parent-child reassessment conditions and deadlines, and how often does the cap reset?",
+      answer: "Principal residence of both parent and child; capped at the factored base year value plus $1,044,586 for transfers from 16 Feb 2025 through 15 Feb 2027; BOE LTA 2026/026 confirms adjustments occur every other 16 February (note: Santa Clara County's summary page reads 'annually'); homeowners' exemption due within one year; exclusion claim within three years or before a third-party transfer.",
+      src: ["boeProp19", "boeLta2025009", "boeLta2026026"],
       effect: "Sets the property tax in the live case and removes it from the rented case."
     },
     {
@@ -431,10 +431,24 @@ window.READINESS = {
       answer: "Nine months after death. The representative may ask for an extension of time to file of up to six months.",
       src: ["irs706"],
       effect: "The first hard deadline in any plan that involves federal estate tax."
+    },
+    {
+      id: "A13",
+      q: "What are HUD's verified FY2027 Small Area FMR benchmarks for both ZIP codes?",
+      answer: "Verified directly 12 Nov 2026 (effective 1 Oct 2026): ZIP 95014 (Cupertino) is $5,800 (4BR) and $5,440 (3BR), down from FY2026 $6,390 / $5,870. ZIP 94122 (SF) is $2,770 (1BR) and $3,410 (2BR), up from $2,730 / $3,310.",
+      src: ["hudA2027", "hudB2027"],
+      effect: "Selectable in Decision Lab (`4BR_2027` / `3BR_2027`); switching to FY2027 lower Property A rents widens selling's lead further."
+    },
+    {
+      id: "A14",
+      q: "What is San Francisco Measure H's multifamily parcel-tax schedule?",
+      answer: "Approved in preliminary counts (certification due 11 Dec 2026). Effective 1 July 2027–30 June 2042 (CPI-adjusted from July 2028): multifamily parcels pay $249/yr base + $0.195/sq ft over 5,000 sq ft ($50,000 cap); up to 50% (max $65/unit) may pass through on pre-June 1, 2027 leases.",
+      src: ["sfMeasureHTerms", "sfMeasureHOea"],
+      effect: "Adds a modest ongoing Property B cost starting July 2027 once official square footage and certification are confirmed; zero effect on the Property A ranking."
     }
   ],
   unknowable: [
-    { id: "U01", q: "The date of death, and therefore the inheritance year", why: "The parent is alive; the brief sets a 2040–2050 window.", handling: "The model runs 2040, 2045 and 2050. Selling leads in all three.", trigger: "Re-run when health or living arrangements change.", src: ["irsInherited"] },
+    { id: "U01", q: "The date of death, and therefore the inheritance year", why: "The parent is alive; planning assumptions set a 2040–2050 window.", handling: "The model runs 2040, 2045 and 2050. Selling leads in all three.", trigger: "Re-run when health or living arrangements change.", src: ["irsInherited"] },
     { id: "U02", q: "Home prices and investment returns after the inheritance", why: "No official body forecasts a 50-year path for one ZIP code.", handling: "Recorded series 1970–2025, 12 scenario replays and 2,000 random histories; break-even rates are published.", trigger: "Re-run the stress pages when prices or rates move sharply.", src: ["fredSJ", "blsCpiHistory"] },
     { id: "U03", q: "Federal and state law in 2040–2050", why: "Legislation cannot be verified before it exists.", handling: "Current law is used everywhere; pending bills are listed as proposals only.", trigger: "Check the watchlist each February and after each election.", src: ["hr1301", "sosInitiative1994"] },
     { id: "U04", q: "The insurance market and the FAIR Plan in 2040", why: "Premiums and insurer appetite change yearly.", handling: "The decision is tested across the regulator’s surveyed range; the rankings do not move.", trigger: "Re-quote at every renewal.", src: ["insurance", "fairPlan"] },
@@ -461,7 +475,7 @@ window.READINESS = {
     ["C4", "How much of Property A's value is the building, not the land?", "Q07", "irsPub527"],
     ["C5", "What is Property A's tax-rate area, and what flat charges are on the bill?", "Q06", "boeProp13"],
     ["C6", "When was the solar system switched on, and which tariff applies?", "Q12", "cpucNem"],
-    ["C7", "What are Property B's flat charges and the parcel tax?", "Q12", "sfpucRates2026"],
+    ["C7", "What are Property B's flat charges and building square footage for Measure H ($249/yr base + $0.195/sq ft)?", "Q12 · A14", "sfMeasureHTerms"],
     ["C8", "What are the actual rents, lease terms and tenant circumstances in Property B?", "Q27", "sfRentRates"],
     ["D1", "Will the household still want to live in the Bay Area in 2040–2050?", "Q19", "irsTopic701"],
     ["D2", "How much of the household's wealth should stay in one regional housing market?", "Q17 · Q20", "investorRisk"],
@@ -469,7 +483,7 @@ window.READINESS = {
     ["D4", "What will the household's income and filing status be in the sale year?", "Q09", "irsTopic701"],
     ["D5", "What result would make the household keep the house?", "Q19", "irsPub527"]
   ],
-  carriedFrom: "a second readiness page (session 6a64dc5b, merged 12 Nov 2026)",
+  carriedFrom: "the 24-question Group A–D readiness checklist (consolidated 12 Nov 2026)",
   discovery: [
     { id: "D01", doc: "Trust document, schedule of assets and distribution clause", where: "Trustee or the parent’s trust attorney", closes: "Q01, Q02, Q04", src: ["probate160617"], effort: "1–2 hours to read with advice" },
     { id: "D02", doc: "Current secured property tax bill and assessor parcel record", where: "Santa Clara County Department of Tax and Collections; assessor", closes: "Q05, Q06, Q07", src: ["sccBill"], effort: "About 30 minutes online" },

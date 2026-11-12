@@ -8,7 +8,7 @@
 <script src="data/questions.js"></script>
 <script src="../assets/app.js"></script>
 <script>
-/* Session a87f8523. A register, not a model: it adds no new dollar figure of its own.
+/* Decision-readiness register, not a model: it adds no new dollar figure of its own.
    Rows come from site/data/questions.js, which carries the source keys. Nothing typed here leaves the browser. */
 const main = document.getElementById("main");
 const R = window.READINESS, M = window.MODEL;
@@ -34,11 +34,20 @@ main.innerHTML = UI.hero("Decision readiness · checked " + R.checked,
   <div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Answer needed</th><th class="wrap">Why first</th><th>Question</th><th>Source</th></tr></thead><tbody id="first"></tbody></table></div>
 </section>
 
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Filter questions</div><h2>Focus by priority or topic</h2></div></div>
+  <div class="controls" style="grid-template-columns:repeat(3,minmax(160px,1fr))">
+    <div class="control"><label for="qPriorityFilter">Filter by priority</label><select id="qPriorityFilter"><option value="All">All priorities (${R.open.length})</option><option value="High">High priority (${R.open.filter(q => q.priority === "High").length})</option><option value="Medium">Medium priority (${R.open.filter(q => q.priority === "Medium").length})</option><option value="Low">Low priority (${R.open.filter(q => q.priority === "Low").length})</option></select></div>
+    <div class="control"><label for="qGroupFilter">Filter by group</label><select id="qGroupFilter"><option value="All">All groups (${R.groups.length})</option>${R.groups.map(g => `<option value="${g.id}">${g.title}</option>`).join("")}</select></div>
+    <div class="control"><label for="downloadChecklist">Offline worksheet</label><button class="button secondary" id="downloadChecklist" type="button" style="width:100%;justify-content:center">Download blank checklist (CSV)</button></div>
+  </div>
+</section>
+
 <div id="groups"></div>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>The same questions, asked by a second page</h2><p>A second readiness page (session 6a64dc5b) was merged on 12 November 2026. Its 24 questions are kept below in their own IDs, each pointing at the row above that now carries it. Its five "one uncertain input at a time" checks are what the <a href="decision.html">Decision lab</a> already does live, so they are not repeated here.</p></div></div>
-    <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question, as the earlier page wrote it</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="carried-q"></tbody></table></div>
+  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>Consolidated Group A–D checklist mapping</h2><p>Every Group A–D readiness item is preserved below under its original ID and mapped to the numbered question row above that carries it. Sensitivity checks are interactive live on the <a href="decision.html">Decision lab</a> (including the optional FY2027 HUD 4-BR selector).</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="carried-q"></tbody></table></div>
 
     <div class="section-heading"><div><div class="eyebrow">Settled</div><h2>Already answered from an official source</h2><p>These do not need research. They are the rules the projection is built on, and each was opened and read rather than recalled.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Answer, as published</th><th class="wrap">What it means for this decision</th><th>Official source</th></tr></thead><tbody id="answered"></tbody></table></div>
@@ -185,6 +194,32 @@ document.getElementById("export").addEventListener("click", () => {
   });
   const text = lines.join("\n");
   downloadOrShow(text, "decision-readiness.md", "export-output");
+});
+
+const qPrio = document.getElementById("qPriorityFilter");
+const qGrp = document.getElementById("qGroupFilter");
+function applyQuestionFilters() {
+  const pv = qPrio.value, gv = qGrp.value;
+  document.querySelectorAll("#groups section.section").forEach(sec => {
+    const gOk = gv === "All" || sec.id === gv;
+    let vis = 0;
+    sec.querySelectorAll("tbody tr").forEach(tr => {
+      const qObj = R.open.find(x => x.id === tr.dataset.q);
+      const show = gOk && qObj && (pv === "All" || qObj.priority === pv);
+      tr.style.display = show ? "" : "none";
+      if (show) vis++;
+    });
+    sec.style.display = vis > 0 ? "" : "none";
+  });
+}
+qPrio.addEventListener("change", applyQuestionFilters);
+qGrp.addEventListener("change", applyQuestionFilters);
+
+document.getElementById("downloadChecklist").addEventListener("click", () => {
+  const esc = s => '"' + String(s).replace(/"/g, '""') + '"';
+  const csv = [["ID", "Priority", "Group", "Question", "What is missing", "How to discover", "Source URLs", "Private notes (fill offline)"]];
+  R.open.forEach(q => csv.push([q.id, q.priority, q.group, q.q, q.missing, q.discover, q.src.map(k => window.SOURCES[k].url).join(" ; "), ""]));
+  downloadOrShow(csv.map(row => row.map(esc).join(",")).join("\n"), "decision-readiness-checklist.csv", "export-output");
 });
 
 fillSelects();

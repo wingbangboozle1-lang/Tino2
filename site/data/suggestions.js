@@ -13,7 +13,7 @@ window.SUGGESTIONS = {
       removes: "The gap between ‘the site has an answer’ and ‘the answer is ready to act on’.",
       closes: [],
       cost: "No charge", risk: "None. It publishes no new private data and changes no model input.",
-      status: "done", note: "Published 12 November 2026 by session a87f8523. Registered on the coordination board before the files were touched."
+      status: "done", note: "Published 12 November 2026 as a coordinated backlog with browser-only choice persistence."
     },
     {
       id: "S02", kind: "research", priority: "High", hours: 4, effort: "3–4 hours",
@@ -98,12 +98,12 @@ window.SUGGESTIONS = {
     },
     {
       id: "S11", kind: "site", priority: "Medium", hours: 2, effort: "2 hours of work",
-      title: "Add a monitoring calendar for the rules that reset",
-      what: "February: the Proposition 19 amount. October: new HUD rents. March: San Francisco’s rent cap and the Rent Board fee. December: the exemption window. Each November: state and local measures. Each renewal: insurance.",
-      removes: "Silent drift: figures that were right when checked and are wrong a year later.",
-      closes: [],
-      cost: "No charge", risk: "A calendar is a reminder, not a verification. Each entry still needs an official page.",
-      status: "proposed", note: "The Sources page lists a revalidation cadence; this would put dates and owners beside it."
+      title: "Choose FY2027 HUD baseline rebase & track scheduled official resets",
+      what: "HUD's FY2027 SAFMRs were verified 12 Nov 2026 (95014: $5,800 4BR / $5,440 3BR; 94122: $2,770 1BR / $3,410 2BR) and SF Measure H's multifamily rate was verified ($249/yr + $0.195/sq ft over 5,000 sq ft from July 2027). FY2027 options (`4BR_2027` / `3BR_2027`) are already selectable in Decision Lab; choose whether to rebase defaults to FY2027 alongside local comps, and track Prop 19 (every other Feb 16), HUD (Oct), and SF Rent Board (Mar / Dec 14).",
+      removes: "Silent drift between FY2026 baseline defaults and verified FY2027 benchmarks.",
+      closes: ["Q14"],
+      cost: "No charge", risk: "Rebasing shifts modeled dollars via one shared input; keep both FY2026 and FY2027 clearly documented.",
+      status: "proposed", note: "FY2027 benchmarks verified 12 Nov 2026 (`hudA2027`, `hudB2027`) and available in Decision Lab."
     },
     {
       id: "S12", kind: "privacy", priority: "High", hours: 1, effort: "15 minutes, plus an owner decision",
@@ -111,7 +111,7 @@ window.SUGGESTIONS = {
       what: "Turn on GitHub’s e-mail privacy setting, then decide what to do about the commits and old branches that still hold exact household figures: a fresh repository, a private repository, or deletion plus a support request.",
       removes: "The only irreversible risk in the project. Nothing on the site fixes it; only the owner can.",
       closes: [],
-      cost: "No charge; a private repository with Pages may need a paid plan", risk: "Rewriting history is irreversible and affects every earlier session’s work.",
+      cost: "No charge; a private repository with Pages may need a paid plan", risk: "Rewriting history is irreversible and affects every published commit in the repository history.",
       status: "proposed", note: "Published on Flagged for Review since 11 November 2026."
     },
     {
@@ -139,7 +139,7 @@ window.SUGGESTIONS = {
       removes: "The risk that the person who needs this most cannot read it on a phone or with a screen reader.",
       closes: [],
       cost: "No charge", risk: "Layout changes can hide a column; the runtime test must be extended to catch it.",
-      status: "proposed", note: "Not audited by this session; it would need a keyboard and screen-reader test."
+      status: "proposed", note: "Needs a formal keyboard and screen-reader audit before layout changes."
     },
     {
       id: "S16", kind: "site", priority: "Low", hours: 2, effort: "2 hours of work",
@@ -193,7 +193,7 @@ window.SUGGESTIONS = {
       removes: "Further disclosure while keeping a public explanation of the method.",
       closes: [],
       cost: "Private hosting may need a paid plan", risk: "Existing history and copies still need a coordinated remediation plan. This proposal performs no history rewrite and changes no access setting.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25 on 12 Nov 2026, with its wording kept."
+      status: "proposed", note: "Privacy-first publication path (S12 / privacy triage)."
     },
     {
       id: "S22", kind: "site", priority: "Medium", hours: 5, effort: "4–6 hours of work",
@@ -202,7 +202,7 @@ window.SUGGESTIONS = {
       removes: "The risk of reading a property-only headroom figure as the amount that can pass tax-free.",
       closes: ["Q04", "Q16"],
       cost: "No charge", risk: "The actual amounts remain unknown and must stay private; the page can show a method and a range, not a liability.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; the readiness register now holds the underlying questions."
+      status: "proposed", note: "The readiness register now holds the underlying asset/gift questions."
     },
     {
       id: "S23", kind: "site", priority: "Medium", hours: 7, effort: "6–8 hours of work",
@@ -211,7 +211,7 @@ window.SUGGESTIONS = {
       removes: "The ambiguity in comparing a plan that ends with a house sale against one that ends with a portfolio that has not been liquidated.",
       closes: ["Q09"],
       cost: "No charge", risk: "Needs account type, acquisition basis, gains, holding period and taxpayer treatment. The existing endpoint-tax sensitivity deliberately overstates part of the tax and is not a tax estimate.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25, which also flagged the endpoint wording on the Best plan and Decision pages."
+      status: "proposed", note: "Companion endpoint wording has already been clarified on Best plan and Decision."
     },
     {
       id: "S24", kind: "site", priority: "High", hours: 3, effort: "3 hours of work",
@@ -220,7 +220,7 @@ window.SUGGESTIONS = {
       removes: "The chance that a reader treats the live-in relief as automatic.",
       closes: ["Q07"],
       cost: "No charge", risk: "Eligibility and the adjusted allowance from February 2027 are unknown; the relationship, trust and residence facts must be confirmed privately with the assessor and counsel.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25."
+      status: "proposed", note: "Linked directly to BOE Proposition 19 guidance and LTA 2026/026."
     },
     {
       id: "S25", kind: "research", priority: "Medium", hours: 4, effort: "3–4 hours",
@@ -229,7 +229,7 @@ window.SUGGESTIONS = {
       removes: "Three modelled costs that are still household guesses rather than documents.",
       closes: ["Q12", "Q13"],
       cost: "An inspection is priced by the inspector; no official price", risk: "A range is not a bill. Keep the records private and distinguish a scenario from a verified cost.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; S02 and S18 are the specific actions."
+      status: "proposed", note: "Pairs directly with S02 (insurance quotes) and S18 (depreciation / bills)."
     },
     {
       id: "S26", kind: "site", priority: "Medium", hours: 4, effort: "4 hours of work",
@@ -238,7 +238,7 @@ window.SUGGESTIONS = {
       removes: "The impression that a central return assumption is a plan.",
       closes: ["Q17"],
       cost: "No charge", risk: "Returns are not guaranteed. Historical replays are not probabilities of future outcomes and must be labelled as such.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25."
+      status: "proposed", note: "Pairs with Black swan historical stress tests and FDIC coverage limits."
     },
     {
       id: "S27", kind: "site", priority: "Low", hours: 3, effort: "3 hours of work",
@@ -247,7 +247,7 @@ window.SUGGESTIONS = {
       removes: "Quiet drift between what the law says and what the page says.",
       closes: ["Q21"],
       cost: "No charge", risk: "An automated check can detect that a page changed but cannot decide its legal effect; a professional must confirm that.",
-      status: "proposed", note: "Carried from the shortlist published by session 6e6baf25; overlaps S11 and S16."
+      status: "proposed", note: "Overlaps S11 and S16."
     }
   ],
   bundles: [
@@ -305,9 +305,9 @@ window.SUGGESTIONS = {
       ["A-02", "Confirm the house is still the parent's principal residence at death", "Q03 · S03", "boeLta2026026"],
       ["A-03", "Get the cost to rebuild and one written homeowners quote at that limit", "S02 · Q10", "cdiSurveyCup40_1000"],
       ["A-04", "Decide whether to carry earthquake cover, and price it", "S02 · Q20", "cdiSurveyEqCup"],
-      ["A-05", "Read the FY2027 rent benchmark for the ZIP code and update the rent input", "S11 · Q14", "hudA"],
+      ["A-05", "Choose whether to rebase published defaults to verified FY2027 HUD benchmarks ($5,800 4BR / $5,440 3BR for 95014; already selectable in Decision Lab)", "S11 · Q14", "hudA2027"],
       ["A-06", "Re-check the Proposition 19 amount when the Board of Equalization publishes it", "S11 · Q07", "boeLta2025009"],
-      ["A-07", "Put every pending law change on a calendar with a named reviewer", "S27 · S11", "hr1301"],
+      ["A-07", "Track pending law & Measure H ($249/yr + $0.195/sq ft verified; check Property B sq ft & Dec 11 certification)", "S27 · S11", "sfMeasureHTerms"],
       ["A-08", "List every asset, owner and beneficiary, then measure federal headroom", "S22 · Q16", "irsEstateTax"],
       ["A-09", "Record the assessor's land and building split, then read the depreciation rules", "S07 · Q06", "irsPub527"],
       ["A-10", "Read the recorded deed and the trust's schedule of assets", "S03 · Q01", "probate160617"],
@@ -339,7 +339,7 @@ window.SUGGESTIONS = {
     ],
     sequence: [
       ["1", "This month · no cost but a meeting", "Answer the four questions that can change the answer: the trust and what it holds, the parent's occupancy and how title is held, the beneficiaries and the money, and whether the heir would live there.", "Q01 · Q02 · Q03 · Q16 · Q19", "irsRevRul20232"],
-      ["2", "Next 90 days · free or low cost", "Replace the four assumptions with quotes and official figures: rebuild cost and a homeowners quote, an earthquake decision and quote, the FY2027 rent benchmark, and the parcel's tax-rate area.", "S02 · S04 · S05 · S25", "cdiSurveyCup40_1000"],
+      ["2", "Next 90 days · free or low cost", "Replace key assumptions with quotes and local records: rebuild cost and homeowners quote, earthquake decision and quote, local rent comps vs. verified FY2027 HUD benchmarks ($5,800 4BR), and the parcel's tax-rate area / square footage.", "S02 · S04 · S05 · S25", "hudA2027"],
       ["3", "Every year, on a fixed date", "Run the calendar, not the whole site: February for the Proposition 19 amount, March for San Francisco's rent changes and the Rent Board fee, October for HUD rents, and the insurance renewal.", "S11 · S27", "boeLta2025009"],
       ["4", "In the inheritance year", "File first, then decide: the 60-day trustee notice, the 150-day change-of-ownership statement, the homeowners' exemption within one year, the exclusion claim within three years, and Form 593 before any closing.", "S09 · S20", "ftb593"],
       ["5", "After implementing anything", "Re-verify, then record the change: an official source, rounded figures, and a note on the Verified facts and this page.", "S01 · S27", "irsEstateTax"]

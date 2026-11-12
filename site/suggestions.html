@@ -9,7 +9,7 @@
 <script src="data/suggestions.js"></script>
 <script src="../assets/app.js"></script>
 <script>
-/* Session a87f8523. Review-and-choose page. Selecting a suggestion only writes to this browser's
+/* Review-and-choose page. Selecting a suggestion only writes to this browser's
    localStorage; it changes no page, no figure and no plan. Nothing typed here leaves the device. */
 const main = document.getElementById("main");
 const G = window.SUGGESTIONS, R = window.READINESS;
@@ -39,8 +39,9 @@ main.innerHTML = UI.hero("Suggestions · reviewed " + G.checked,
 </section>
 
 <section class="section" id="privacy-paths">
-  <div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare the publication options before changing anything</h2><p>These are alternatives, not an assertion that any one is complete protection. Keeping the current public site retains its exposure. This table was published by session 6e6baf25 and is kept here with its wording.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare the publication options before changing anything</h2><p>These are alternatives, not an assertion that any one is complete protection. Keeping the current public site retains its exposure.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th class="wrap">Path</th><th class="wrap">Potential benefit</th><th class="wrap">Trade-off and next check</th><th>Authoritative reference</th></tr></thead><tbody id="privacy-paths-body"></tbody></table></div>
+  <div class="control" style="max-width:460px;margin-top:12px"><label for="privacy-path-select">Recorded privacy path preference (browser-only)</label><select class="s-privacy" id="privacy-path-select" aria-label="Privacy path preference"><option value="">Not decided</option><option value="Path A: Private analysis, public generic examples">Path A: Private analysis, public generic examples</option><option value="Path B: Reduce the public detail">Path B: Reduce the public detail</option><option value="Path C: Retain the current public scenarios">Path C: Retain the current public scenarios</option></select></div>
 </section>
 
 <section class="section">
@@ -62,41 +63,42 @@ main.innerHTML = UI.hero("Suggestions · reviewed " + G.checked,
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>The earlier shortlist of decision questions</h2><p>An earlier session published seven questions in the place this page now occupies. They are kept here in its words, each mapped to the numbered question in the <a href="questions.html">readiness register</a> that now carries it and to the official framework behind it. Nothing was dropped.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>Consolidated decision-question shortlist</h2><p>Seven core decision questions from the earlier review are preserved below and mapped to the numbered question rows on the <a href="questions.html">readiness register</a> and their official frameworks. Nothing was dropped.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th class="wrap">Question</th><th class="wrap">Current answer or status</th><th class="wrap">How to resolve it privately</th><th>Register</th><th>Official framework</th></tr></thead><tbody id="carried"></tbody></table></div>
 </section>
 
 <section class="section" id="reconciled">
-  <div class="section-heading"><div><div class="eyebrow">Three shortlists, reconciled</div><h2>Nothing from the earlier pages was dropped</h2><p>Three sessions produced overlapping suggestions for this page on the same day. The page now holds one backlog; the other two shortlists are listed below in their own IDs and wording, each pointing at the item or question that carries it.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Three shortlists, reconciled</div><h2>Nothing from the earlier pages was dropped</h2><p>All earlier proposal registers and shortlists are unified above into one backlog; each original item is preserved below in its original ID, pointing at the active suggestion or question that carries it.</p></div></div>
 
-  <h3>Fifteen analysis improvements (session 364b453d)</h3>
+  <h3>Fifteen analysis improvements (A-01–A-15)</h3>
   <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Improvement, as it was written</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="recon-analysis"></tbody></table></div>
 
-  <h3>Ten decision questions (session 364b453d)</h3>
+  <h3>Ten decision questions (Q-01–Q-10)</h3>
   <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question, as it was written</th><th class="wrap">Register</th><th>Official reference</th></tr></thead><tbody id="recon-questions"></tbody></table></div>
 
-  <h3>Six site proposals (session 364b453d)</h3>
+  <h3>Six site proposals (B-01–B-06)</h3>
   <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Proposal</th><th class="wrap">Now carried by</th><th>Status</th><th>Reference</th></tr></thead><tbody id="recon-site"></tbody></table></div>
 
   <h3>The suggested sequence</h3>
-  <p class="tiny">The order the second shortlist recommended: front-load the facts that can change the recommendation, and leave the research that only sharpens it until afterwards.</p>
+  <p class="tiny">Recommended execution order: front-load the facts that can change the recommendation, and leave the research that only sharpens it until afterwards.</p>
   <div class="table-wrap"><table><thead><tr><th>Step</th><th class="wrap">When</th><th class="wrap">What to do, and what “done” looks like</th><th class="wrap">Items</th><th>Reference</th></tr></thead><tbody id="recon-sequence"></tbody></table></div>
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What should never be added, however useful it looks</h2><p>These are the rules every session on this repository has followed. A future suggestion that breaks one should be declined.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What should never be added, however useful it looks</h2><p>Every change to this dashboard must respect these standing privacy and verification rules. Any proposal that breaks one should be declined.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th class="wrap">Never</th><th class="wrap">Why</th><th>Reference</th></tr></thead><tbody id="never"></tbody></table></div>
 </section>
 
 <section class="section">
   <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Export the choice</h2><p>The file contains your marks and the official links, and no private data. Saved only in this browser until you export it.</p></div>
-  <div class="controls" style="grid-template-columns:repeat(3,minmax(120px,1fr))">
-    <div class="control"><label for="export">Save this choice</label><button class="button secondary" id="export" type="button">Export a Markdown file</button></div>
+  <div class="controls" style="grid-template-columns:repeat(4,minmax(120px,1fr))">
+    <div class="control"><label for="export">Save Markdown</label><button class="button secondary" id="export" type="button">Export a Markdown file</button></div>
+    <div class="control"><label for="export-json">Save JSON</label><button class="button secondary" id="export-json" type="button">Download (.json)</button></div>
     <div class="control"><label for="print">Keep a copy</label><button class="button secondary" id="print" type="button">Print this page</button></div>
     <div class="control"><label for="reset">Start again</label><button class="button secondary" id="reset" type="button">Reset all marks</button></div>
   </div>
   <pre id="export-output" class="code" style="display:none;white-space:pre-wrap;line-height:1.5;margin-top:14px"></pre>
-  <p class="tiny">To have a chosen suggestion implemented, record it on <span class="code">COORDINATION.md</span> with the files it would touch, then make the change in a new session with the same verification standard: every row source-linked, every figure rounded to $10 or officially published, and every blank left blank.</p>
+  <p class="tiny">Nothing on the site, in the model or in the recommendation changes until a chosen item is confirmed with official sources, rounded to $10 or exact agency figures, and formally recorded.</p>
 </section>
 </div>`;
 
@@ -183,12 +185,14 @@ function renderItems() {
 /* Each suggestion needs a row-level official link even when it is purely a site change:
    the link is the rule the suggestion protects, not a source for the suggestion itself. */
 function sourceFor(i) {
-  const map = { S01: "githubPages", S02: "cdiSurveyCup40_1000", S03: "irsRevRul20232", S04: "sccTaxBook", S05: "caRentCaps", S06: "irsTopic559", S07: "irsPub527", S08: "investorRisk", S09: "probate160617", S10: "boeLta2026026", S11: "boeLta2025009", S12: "githubSensitive", S13: "irsEstateTax", S14: "irsBasis", S15: "githubPages", S16: "irsEstateTax", S17: "cupertinoADU", S18: "irsPub527", S19: "ftb593", S20: "irs706", S21: "githubSensitive", S22: "irsEstateTax", S23: "irsBasis", S24: "boeProp19", S25: "cdiResGuide", S26: "investorRisk", S27: "irsEstateTax" };
+  const map = { S01: "githubPages", S02: "cdiSurveyCup40_1000", S03: "irsRevRul20232", S04: "sccTaxBook", S05: "caRentCaps", S06: "irsTopic559", S07: "irsPub527", S08: "investorRisk", S09: "probate160617", S10: "boeLta2026026", S11: "hudA2027", S12: "githubSensitive", S13: "irsEstateTax", S14: "irsBasis", S15: "githubPages", S16: "irsEstateTax", S17: "cupertinoADU", S18: "irsPub527", S19: "ftb593", S20: "irs706", S21: "githubSensitive", S22: "irsEstateTax", S23: "irsBasis", S24: "boeProp19", S25: "cdiResGuide", S26: "investorRisk", S27: "sfMeasureHTerms" };
   const k = map[i.id];
   return k && window.SOURCES[k] ? [k] : ["boeProp19"];
 }
 function fillSelects() {
   const s = state();
+  const p = document.getElementById("privacy-path-select");
+  if (p) p.value = s.PRIVACY_PATH || "";
   document.querySelectorAll("select.s-choice").forEach(sel => {
     const item = G.items.find(i => i.id === sel.dataset.id);
     sel.value = item.status === "done" ? "done" : (s[sel.dataset.id] || "");
@@ -201,10 +205,11 @@ function renderSelection() {
   const closed = closedQuestions();
   const remaining = R.open.filter(q => !closed.has(q.id));
   const hours = chosen.reduce((a, i) => a + (i.hours || 0), 0);
+  const priv = s.PRIVACY_PATH ? s.PRIVACY_PATH : "Not decided";
   document.getElementById("selection").innerHTML = [
     ["Items in your selection", String(chosen.length), chosen.length ? chosen.map(i => i.id).join(", ") : "None"],
-    ["Readiness questions closed", `${closed.size} of ${openTotal}`, closed.size ? [...closed].sort().join(", ") : "None yet"],
-    ["Household time", `About ${hours} hours`, "Professional time is additional and unpriced here"]
+    ["Readiness questions closed", `${closed.size} of ${openTotal}`, `Privacy path: ${priv}`],
+    ["Household time", `About ${hours} hours`, closed.size ? [...closed].sort().join(", ") : "None yet"]
   ].map(([l, v, n]) => `<div><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
   document.getElementById("selection-note").textContent = remaining.length
     ? `Still unanswered after this selection: ${remaining.map(q => q.id).join(", ")}. Open the readiness register to see what each one needs.`
@@ -225,6 +230,12 @@ document.addEventListener("change", e => {
     const s = state(); s[e.target.dataset.id] = e.target.value; setState(s);
     renderCards(); renderSelection();
   }
+  if (e.target && e.target.id === "privacy-path-select") {
+    const s = state();
+    if (e.target.value) s.PRIVACY_PATH = e.target.value; else delete s.PRIVACY_PATH;
+    setState(s);
+    renderCards(); renderSelection();
+  }
 });
 document.getElementById("reset").addEventListener("click", () => {
   try { localStorage.removeItem(KEY); } catch (e) {}
@@ -237,7 +248,7 @@ document.getElementById("export").addEventListener("click", () => {
   const s = state();
   const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done");
   const closed = closedQuestions();
-  const lines = ["# Suggestions — the household's choice", "", "Exported " + new Date().toISOString().slice(0, 10) + ". Nothing below has been implemented.", ""];
+  const lines = ["# Suggestions — the household's choice", "", "Exported " + new Date().toISOString().slice(0, 10) + ". Nothing below has been implemented.", "Privacy path: " + (s.PRIVACY_PATH || "Not decided"), ""];
   if (!chosen.length) lines.push("_No suggestion was chosen._");
   chosen.forEach(i => {
     lines.push(`## ${i.id} · ${i.title}`);
@@ -248,9 +259,14 @@ document.getElementById("export").addEventListener("click", () => {
     lines.push("");
   });
   lines.push(`Readiness questions closed by this choice: ${closed.size} of ${openTotal}.`);
-  lines.push("Record the choice in COORDINATION.md with the files it would touch before implementing it.");
   const text = lines.join("\n");
   downloadOrShow(text, "suggestions-choice.md", "export-output");
+});
+document.getElementById("export-json").addEventListener("click", () => {
+  const s = state();
+  const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done").map(i => ({ id: i.id, title: i.title, status: i.status === "done" ? "done" : s[i.id] }));
+  const payload = JSON.stringify({ exported: new Date().toISOString(), privacyPath: s.PRIVACY_PATH || "Not decided", chosen, closesQuestions: [...closedQuestions()].sort() }, null, 2) + "\n";
+  downloadOrShow(payload, "suggestions-choice.json", "export-output");
 });
 
 document.getElementById("privacy-paths-body").innerHTML = G.privacyPaths.map(p =>

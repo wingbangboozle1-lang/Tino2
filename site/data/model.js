@@ -31,8 +31,12 @@
     primaryGainExclusion: 250000,
     aRent4BR: 6390,
     aRent3BR: 5870,
+    aRent4BR_2027: 5800,
+    aRent3BR_2027: 5440,
     bRent1BR: 2730,
     bRent2BR: 3310,
+    bRent1BR_2027: 2770,
+    bRent2BR_2027: 3410,
     aWaterMonthly: 125,
     aSolarMonthlyCredit: 15,
     aInsuranceAnnual: 1500,
@@ -158,7 +162,11 @@
     if (option === "live") {
       return { year, market, assessed, propertyTax, water, solarCredit, insurance, maintenance, grossRent: 0, vacancyCost: 0, managementCost: 0, noi: -operatingCost, incomeTax: 0, afterTaxCash: -operatingCost };
     }
-    const monthlyRent = (rentChoice === "3BR" ? config.aRent3BR : config.aRent4BR) * Math.pow(1 + config.rentGrowth, n);
+    const rentStart = rentChoice === "3BR" ? config.aRent3BR
+      : rentChoice === "4BR_2027" ? (config.aRent4BR_2027 || 5800)
+      : rentChoice === "3BR_2027" ? (config.aRent3BR_2027 || 5440)
+      : config.aRent4BR;
+    const monthlyRent = rentStart * Math.pow(1 + config.rentGrowth, n);
     const grossRent = monthlyRent * 12;
     const collected = grossRent * (1 - config.vacancy);
     const vacancyCost = grossRent * config.vacancy;

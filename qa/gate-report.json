@@ -3,9 +3,9 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 36,
+   "rows": 40,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 76,
+   "amounts": 90,
    "links": 0
   },
   {
@@ -19,7 +19,7 @@
    "file": "site/decision.html",
    "rows": 16,
    "rowsWithContextLinkOnly": 3,
-   "amounts": 144,
+   "amounts": 146,
    "links": 0
   },
   {
@@ -73,23 +73,23 @@
   },
   {
    "file": "site/questions.html",
-   "rows": 89,
+   "rows": 91,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 41,
+   "amounts": 55,
    "links": 0
   },
   {
    "file": "site/review.html",
-   "rows": 96,
+   "rows": 95,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 51,
+   "amounts": 58,
    "links": 0
   },
   {
    "file": "site/san-francisco.html",
-   "rows": 26,
+   "rows": 28,
    "rowsWithContextLinkOnly": 6,
-   "amounts": 30,
+   "amounts": 35,
    "links": 0
   },
   {
@@ -101,9 +101,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 204,
+   "rows": 208,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 86,
+   "amounts": 102,
    "links": 0
   },
   {
@@ -117,14 +117,14 @@
    "file": "site/suggestions.html",
    "rows": 84,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 0,
+   "amounts": 7,
    "links": 0
   },
   {
    "file": "site/verification.html",
-   "rows": 132,
+   "rows": 137,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 218,
+   "amounts": 263,
    "links": 0
   }
  ],
@@ -132,12 +132,12 @@
  "warnings": [],
  "totals": {
   "pages": 18,
-  "rows": 1567,
-  "rowsWithOwnSource": 1558,
+  "rows": 1583,
+  "rowsWithOwnSource": 1574,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4875,
-  "officialExactAmounts": 106,
-  "internalLinks": 506,
-  "externalLinks": 2052
+  "amounts": 4985,
+  "officialExactAmounts": 115,
+  "internalLinks": 559,
+  "externalLinks": 2074
  }
 }
