@@ -1120,3 +1120,22 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 | S-6 | Own PR to `main`, merge without waiting, confirm the Pages deploy, read the live pages back, record the result here | claimed | 6a64dc5b | own files + this block | — | — |
 
 **Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders. No household figure is committed unrounded and none is repeated in this block. Every dollar figure is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push. The platform fixes the branch name to `arena/6a64dc5b-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+### Session `6a64dc5b` — completion record (12 November 2026)
+
+**Question asked.** Earlier sessions built and verified the three choices and the figures. This session answered the two parts of the brief that had no page: a **suggestions** section where the reader can review suggestions and choose a path before anything is implemented, and a **decision-readiness** register of the questions, information and answers that must be closed first, with suggestions for discovering what is missing. It also re-opened the official sources that drive the decision and recorded each passage itself (S-2), because the brief asks for line-by-line verification against official sources.
+
+| # | Task | Status | Result |
+|---|------|--------|--------|
+| S-1 | Coordination claim | **done** | Claim pushed 15:35 UTC; no other branch on the remote, so no collision |
+| S-2 | Independent verification | **done** | `verification/6a64dc5b/REPORT.md`: 17 sources opened and quoted; 1 irregularity (IREG-1); every row PASS |
+| S-3 | Decision readiness page | **done** | `site/questions.html`: 24 questions in 4 groups, 10 settled answers, 3 blocking, 5 readiness gates, 10-row sensitivity table computed by the published model |
+| S-4 | Suggestions page | **done** | `site/suggestions.html`: 10 decision suggestions + 10 site suggestions, three-way choice, copy/print record, `localStorage` only, no network |
+| S-5 | Wiring and checks | **done** | Navigation (2 entries), landing page (2 cards), publication manifest (30 files), validator (17 pages), README, ledger P19-12; `validate.js` PASS 1,161 checks; `package-site.py` + `check-publication.py --self-test` PASS; `runtime-test.cjs` PASS 17 pages / 1,392 rows; privacy scan 0 errors |
+| S-6 | PR, merge, Pages | **pending** | To be recorded below once the pull request is merged |
+
+**Irregularity published.** IREG-1: the Santa Clara County Assessor page says the Proposition 19 allowance is adjusted "annually", while the Board of Equalization and Letter to Assessors 2026/026 say every other 16 February. The model follows the Board; the item is on `site/review.html` with both links.
+
+**Nothing changed in the published answer.** Base case unchanged: 2045 inheritance, ten-year hold — sell $9,125,340, rent $7,395,620, live $6,068,080. Every sensitivity on the new page keeps selling first.
+
+**Handoff.** No request to another session: no other session is live. The two owner actions that remain outside any session's power are unchanged and already on the Flagged page: the public commit history (exact assessed values and the account e-mail address) and the confirmation of the trust's basis treatment.

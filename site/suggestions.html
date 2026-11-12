@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Suggestions for the inheritance decision and for improving this site, with evidence, effort, expected effect and a local-only record of the path chosen before any change is implemented."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Suggestions">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="data/options.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const B = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR");
+const baseLead = B.sell.terminal - B.rent.terminal;
+const money = MODEL.fmtMoney;
+function lead(over) { return MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR").sell.terminal - MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR").rent.terminal; }
+const delta = over => { const v = lead(over) - baseLead; return (v >= 0 ? "+" : "−") + money(Math.abs(v)); };
+const sellMinusLive = B.sell.terminal - B.live.terminal;
+const hold = (years, mode) => OPTIONS.holdThenSell(2045, years, mode).vsSellNow;
+
+// Each row: id, suggestion, why / evidence, effort and who, expected effect, risk if skipped, status, source key.
+const decisionRows = [
+  ["D-1", "Confirm, in writing, that the trust is revocable or otherwise included in the estate, and that the recorded deed names the trustee.",
+    "Every projection assumes the heir's basis resets to the value at death. An IRS ruling holds that assets of an irrevocable trust outside the estate keep the old basis; a house not in the trust may go through probate.",
+    "One meeting with the trust attorney; a title report for the deed. Low cost, can start now.",
+    "Protects the starting point of the whole comparison: the sell lead at 2045 is " + money(baseLead) + ". If the basis does not reset, that lead shrinks toward level.",
+    "The plan is priced on a fact that may not be true, and the error is discovered after the sale, when it cannot be fixed.",
+    "Proposed", "irsRevRul20232"],
+  ["D-2", "Obtain a qualified date-of-death appraisal for Property A, and a title report, as soon as a death occurs; keep both with the trust file.",
+    "Basis is fair market value at death, not the assessed value. The sale price and any gain are measured from this number.",
+    "One appraiser and one title company; days to weeks after a death.",
+    "Sets the basis and supports the Form 706 value. An appraisal fee was not supplied, so no cost is shown.",
+    "Basis is guessed from the assessed roll, which is not the legal basis, and the estate file is weaker if the IRS asks.",
+    "Proposed", "irsPub551"],
+  ["D-3", "Do not move into Property A for two years in order to use the $250,000 home-sale exclusion.",
+    "The gain restarts at death, so a short stay uses very little of the exclusion: about $41,430 of the $250,000 in the test on Other options. The stay also stops the house earning rent or being sold.",
+    "No effort; this is a decision not to act.",
+    "Moving in first finishes " + money(-hold(2, 'live')) + " behind selling at once in that test; living in the house for the whole ten years finishes " + money(sellMinusLive) + " behind selling at 2045.",
+    "A costly detour taken for a tax benefit that the basis reset has already largely provided.",
+    "Proposed", "irsHomeSale"],
+  ["D-4", "If the household decides to sell, sell within the first year rather than waiting for a better price.",
+    "Waiting has a measured cost because the portfolio and the house do not grow at the same rate, and sale costs and taxes arrive later. The Other options page prices each year of delay.",
+    "A listing decision; a broker and a date.",
+    "Renting it out for one year first ends " + money(-hold(1, 'rent')) + " lower; leaving it empty for one year ends " + money(-hold(1, 'empty')) + " lower; living in it for one year first ends " + money(-hold(1, 'live')) + " lower.",
+    "The most common way a good plan loses money: waiting for confirmation that never arrives.",
+    "Proposed", "irsInheritedSale"],
+  ["D-5", "If the house is held at all, rent it rather than leave it empty, and check the policy's vacant-home wording first.",
+    "An empty house earns nothing, still costs tax and upkeep, and the state regulator's guide lists losses in a house vacant 60 days or more among those a homeowners policy generally does not cover.",
+    "A letting agent and one call to the insurer.",
+    "Renting beats leaving it empty by about " + money(hold(1, 'empty') - hold(1, 'rent')) + " over the ten-year test. The rent case still trails selling by " + money(baseLead) + ".",
+    "An uninsured loss on an empty house, on top of the lost rent.",
+    "Proposed", "cdiResGuide"],
+  ["D-6", "Price both properties in the same week: a landlord policy for Property B, and homeowner plus earthquake quotes for Property A on the rebuild cost.",
+    "The household's $1,500 figures are guesses. The state survey of a comparable home ranges from $1,543 to $6,430 a year at $1,000,000 of cover.",
+    "Three insurers, three calls, one week.",
+    "At the survey's high end the sell lead widens by " + delta({ aInsuranceAnnual: 6430 }) + "; at the mid-point by " + delta({ aInsuranceAnnual: 2690 }) + ". The ranking does not change.",
+    "B's income and A's holding cost are both carried at a guess, and the guess is presented as a number.",
+    "Proposed", "cdiSurveyCup40_1000"],
+  ["D-7", "Keep the third unit of Property B owner-occupied and file the Rent Board exemption before 14 December 2026.",
+    "The fee is $59.00 per dwelling unit for 2026–27 and applies to vacant units and units occupied by family unless an exemption is approved. The exemption window closes 14 December 2026 and late penalties reach 15%.",
+    "One online form in the October–December window; the owner's unit must not be rented at any time.",
+    "About $59 a year per exempt unit; $177 a year if all three units are billed.",
+    "A small recurring charge and a missed deadline that cannot be fixed retroactively for the current cycle.",
+    "Time-sensitive", "sfRentFee"],
+  ["D-8", "Budget Property B's flat charges separately from the rate, including the new parcel tax once it is certified.",
+    "About 45% of B's current bill is flat items; five of them total $829 for three units. The model applies a rate only, so B's income is overstated by about $1,060 a year.",
+    "Read one bill; read the measure text after certification on 11 December 2026.",
+    "Corrects about $1,060 a year of B's income; no effect on the Property A ranking.",
+    "B looks more profitable than it is, which matters if B ever has to carry the household.",
+    "Proposed", "sfParcelTaxes"],
+  ["D-9", "Put five dates in a calendar today.",
+    "These are the dates on which an official number changes or a window closes.",
+    "Five calendar entries; two minutes.",
+    "11 Dec 2026: state ballot results certified. 14 Dec 2026: Rent Board exemption window. 1 Mar 2027: Rent Board fee due. Mar 2027: the next Proposition 19 amount. Nov 2027: next federal exclusion.",
+    "A stale number is used in a live decision, or a deadline passes.",
+    "Proposed", "boeLta2026"],
+  ["D-10", "If the estate approaches the federal threshold, take advice on yearly gifts and portability before the death, not after.",
+    "The 2027 yearly gift exclusion is $20,000 per recipient and the basic exclusion is $15,480,000. Portability can carry a deceased spouse's unused exclusion to the second death.",
+    "One meeting with an estate attorney; a gifting schedule if it applies.",
+    "Each $1,000,000 kept below the threshold avoids up to $400,000 of federal tax at the top rate.",
+    "A tax that could have been reduced lawfully is paid, and the house may have to be sold to pay it.",
+    "Proposed", "irs2027"]
+];
+
+const siteRows = [
+  ["W-1", "Add Property B's flat charges to the property-tax line, so B's cash flow matches the bill.",
+    "The review found about $1,060 a year of understatement because the model applies a rate only.",
+    "Small change to the model and one page; a session can do it.",
+    "Removes a known bias from the only property the plan keeps.",
+    "A household decision about B is made on a number that is known to be too high.",
+    "Open", "sfParcelTaxes"],
+  ["W-2", "Model depreciation and recapture in the rental case, using the assessor's land and building split.",
+    "The published rental figure includes no depreciation. At a 20–40% building share the ten-year result falls by about $8,320 to $29,120.",
+    "Model change; needs the land and building values (question C4).",
+    "Makes the rent case slightly less attractive; the ranking is unchanged.",
+    "The rent case is flattered, though not enough to change the answer.",
+    "Open", "irsTopic704"],
+  ["W-3", "Add an earthquake-cover switch with a quoted premium and deductible.",
+    "Earthquake is excluded from a homeowners policy and priced separately; the regulator's survey gives a median rate per $1,000 of cover.",
+    "One control and two inputs; needs a quote (question C2).",
+    "Shows the real cost of cover, or the uninsured exposure, instead of leaving both out.",
+    "The largest uninsured risk on the site stays outside the numbers.",
+    "Open", "cdiSurveyEqCup"],
+  ["W-4", "Let the reader choose the long-run inflation line: CBO 2.3%, Federal Reserve 2.0% or Social Security Trustees 2.4%.",
+    "The three official long-run projections differ. The base case uses 2.3% for prices and 3.5% for home prices, which is above all three.",
+    "One selector on the Decision page.",
+    "Shows that the cost side of the plan is not sensitive to which official line is used.",
+    "The reader cannot see whether the choice of baseline matters.",
+    "Open", "cboByNumbers2026"],
+  ["W-5", "Show probability-weighted outcomes beside the count of scenarios won.",
+    "Counting winners treats a $1,000 win and a $500,000 win the same. Twelve scenarios and 2,000 random histories already exist; weights do not.",
+    "One extra column on the Black swan pages.",
+    "Turns a tally into an expected value, which is what a risk-averse household actually needs.",
+    "A plan can look robust because it wins many small cases while losing the large ones.",
+    "Open", "fredSJ"],
+  ["W-6", "Provide a decision record the reader can fill in, copy and print, with every choice stored in the browser only.",
+    "The brief asks for a place to review suggestions and choose a path before implementing changes, with no personal data leaving the device.",
+    "Built into this page.",
+    "A dated record of what was chosen, by whom, and what was rejected, without publishing anything.",
+    "Choices are made verbally and cannot be reviewed later.",
+    "In place", "irsBasis"],
+  ["W-7", "Put the private-document checklist and the questions register on one printable page.",
+    "The inheritance page lists the documents and this site now lists the questions; they are used together with a professional.",
+    "A print stylesheet and one combined view.",
+    "One sheet to take to the attorney, with the question numbers beside each document.",
+    "The same fact is asked for twice, or a document is missed.",
+    "Open", "sfDeath"],
+  ["W-8", "Replace the FY2026 rent benchmark with FY2027 when it can be read, and make the rent an input.",
+    "HUD's FY2027 rents took effect on 1 October 2026. The lookup needs an interactive selection that could not be read, so the model still uses FY2026.",
+    "One lookup and one input; blocked until the official page can be read.",
+    "Keeps the rent within one year of the official benchmark. At ten per cent lower the sell lead moves by " + delta({ aRent4BR: 5750 }) + ".",
+    "The rent is a year stale, though the ranking has survived the tested range.",
+    "Blocked · official page", "hudSafmrIndex"],
+  ["W-9", "Show one 'last checked' date per page, taken from the source register.",
+    "Pages carry different dates in their notes, and a reader cannot tell at a glance which figures were re-opened today.",
+    "Small templating change.",
+    "Makes staleness visible instead of buried in footnotes.",
+    "An old figure is read as current.",
+    "Open", "irs2027"],
+  ["W-10", "Resolve the repository-history privacy exposure.",
+    "Exact assessed values and the account e-mail address remain in public commit history. The current files are clean; history is not.",
+    "Owner action: make the repository private, or start a fresh repository, or purge history with GitHub Support.",
+    "Removes the only privacy issue that a session cannot fix.",
+    "Personal financial history stays publicly readable even though the site itself is anonymous.",
+    "Owner action", "githubCommitEmail"]
+];
+
+const statusBadge = s => s.startsWith("Owner") ? `<span class="badge red">${s}</span>` : s.startsWith("In place") ? `<span class="badge">${s}</span>` : s.startsWith("Blocked") ? `<span class="badge gold">${s}</span>` : s.startsWith("Time") ? `<span class="badge gold">${s}</span>` : `<span class="badge neutral">${s}</span>`;
+
+function rowsHtml(rows, prefix) {
+  return rows.map(r => `<tr>
+    <td>${r[0]}</td>
+    <td class="wrap"><strong>${r[1]}</strong><div class="tiny" style="margin-top:6px">${r[2]}</div></td>
+    <td class="wrap">${r[3]}</td>
+    <td class="wrap">${r[4]}</td>
+    <td class="wrap">${r[5]}</td>
+    <td>${statusBadge(r[6])}</td>
+    <td class="choose">
+      <label><input type="radio" name="${prefix}-${r[0]}" value="do" data-id="${r[0]}" data-label="${r[1].replace(/"/g, "&quot;")}"> Do now</label>
+      <label><input type="radio" name="${prefix}-${r[0]}" value="ask" data-id="${r[0]}" data-label="${r[1].replace(/"/g, "&quot;")}"> Ask a professional</label>
+      <label><input type="radio" name="${prefix}-${r[0]}" value="later" data-id="${r[0]}" data-label="${r[1].replace(/"/g, "&quot;")}"> Not now</label>
+    </td>
+    <td class="source">${UI.source(r[7])}</td>
+  </tr>`).join("");
+}
+
+main.innerHTML = UI.hero(
+  "Suggestions · review, choose, then implement",
+  "What to do next, and how to decide before changing anything",
+  "Two registers: suggestions for the inheritance decision itself, and suggestions for improving this site so the decision is easier to make. Each carries its evidence, the effort it takes, what it is expected to change in the projections and what happens if it is skipped. Mark a choice beside any row; the record at the foot of the page is kept in this browser only, and nothing is sent anywhere.",
+  `<a class="button" href="questions.html">Open questions first</a><a class="button secondary" href="plan.html">The published best path</a><a class="button secondary" href="review.html">Flagged for Review ⚑</a>`
+) + `<div class="container">
+<section class="section">
+  <div class="callout"><strong>The order this page recommends.</strong> Read the suggestions; close the five readiness gates on the <a href="questions.html#gates">Questions</a> page; then choose. Nothing on this page changes the published ranking. Every suggestion either protects the assumptions the ranking rests on or removes a known gap in the numbers; two of them (D-9, D-7) are time-sensitive and should be done this year whatever is decided about Property A.</div>
+  <div class="grid three">
+    <div class="card"><h3>1 · Review</h3><p>Each row gives the source, the effort and the effect. Reject any suggestion that does not earn its effort; the record keeps the rejection, which is as useful as the acceptance.</p></div>
+    <div class="card"><h3>2 · Choose</h3><p>Mark <em>Do now</em>, <em>Ask a professional</em> or <em>Not now</em>. The choice is saved in this browser's local storage, never on a server, and clears with one button.</p></div>
+    <div class="card"><h3>3 · Record</h3><p>Copy or print the decision record and keep it with the private trust file. Revisit it when a question on the register is closed.</p></div>
+  </div>
+</section>
+
+<section class="section" id="decision-suggestions">
+  <div class="section-heading"><div><div class="eyebrow">Register one</div><h2>Suggestions for the decision</h2><p>Ordered by what protects the answer most. The first two are blocking: without them the tax basis, and therefore every projection, is an assumption.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion, with the evidence behind it</th><th class="wrap">Effort and who</th><th class="wrap">Expected effect</th><th class="wrap">If it is skipped</th><th>Status</th><th class="wrap">Your choice</th><th>Official source</th></tr></thead><tbody>
+  ${rowsHtml(decisionRows, "d")}
+  </tbody></table></div>
+</section>
+
+<section class="section" id="site-suggestions">
+  <div class="section-heading"><div><div class="eyebrow">Register two</div><h2>Suggestions for improving this site</h2><p>Each one makes a number more honest or a decision easier to review. “In place” means this session already built it; “Blocked” means an official page or a quote is needed first; “Owner action” cannot be done by a session.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion, with the evidence behind it</th><th class="wrap">Effort and who</th><th class="wrap">Expected effect</th><th class="wrap">If it is skipped</th><th>Status</th><th class="wrap">Your choice</th><th>Official source</th></tr></thead><tbody>
+  ${rowsHtml(siteRows, "w")}
+  </tbody></table></div>
+</section>
+
+<section class="section" id="record">
+  <div class="section-heading"><div><div class="eyebrow">Decision record</div><h2>The path chosen, before anything is implemented</h2><p>Nothing here is submitted. The record is built in this browser from the choices above and can be copied or printed for the private file.</p></div></div>
+  <div class="grid two">
+    <div class="card"><h3>Summary</h3><div id="record-summary"><p class="tiny">No choice recorded yet.</p></div>
+      <div class="meta-row" style="margin-top:14px"><button class="button" id="copy-record" type="button">Copy record</button><button class="button secondary" id="print-record" type="button">Print</button><button class="button secondary" id="clear-record" type="button">Clear</button></div>
+      <p class="tiny" id="copy-status" style="margin-top:10px"></p>
+    </div>
+    <div class="card soft"><h3>What to do with it</h3>
+      <p>Take the record to the trust attorney and the CPA with the private document list on the <a href="inheritance.html">Inheritance</a> page. Close the five gates on the <a href="questions.html#gates">Questions</a> page before signing, selling or moving.</p>
+      <p class="tiny">A suggestion marked “Do now” is not an instruction to act without advice. Items in group A and B of the questions register are legal and tax matters; the site is a model, not advice.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card highlight"><h2>What every suggestion leaves unchanged</h2>
+    <p>Selling Property A soon after inheriting and keeping Property B is still the best path on the published numbers: at a 2045 inheritance the sell case ends at ${money(B.sell.terminal)}, the rent case at ${money(B.rent.terminal)} and the live-in case at ${money(B.live.terminal)}, before tax on the portfolio is counted. The suggestions above either make those numbers more reliable or make the choice easier to review; none of them is a reason to postpone a decision that the numbers already support.</p>
+    <p><a href="plan.html">Read the reasoning behind the ranking →</a></p>
+  </div>
+</section>
+</div>`;
+
+// Local-only choice state.
+(function () {
+  const key = "tino2.suggestions.v1";
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (e) { state = {}; }
+  const summary = document.getElementById("record-summary");
+  const status = document.getElementById("copy-status");
+  const radios = [...document.querySelectorAll('input[type="radio"][data-id]')];
+  const labels = { do: "Do now", ask: "Ask a professional", later: "Not now" };
+
+  function render() {
+    const chosen = Object.entries(state).filter(([, v]) => v);
+    if (!chosen.length) { summary.innerHTML = '<p class="tiny">No choice recorded yet.</p>'; return; }
+    const order = { do: 0, ask: 1, later: 2 };
+    chosen.sort((a, b) => order[a[1]] - order[b[1]] || a[0].localeCompare(b[0]));
+    summary.innerHTML = `<ul class="list">${chosen.map(([id, v]) => {
+      const input = radios.find(r => r.dataset.id === id);
+      return `<li><strong>${id}</strong> · ${labels[v]}<div class="tiny">${input ? input.dataset.label : ""}</div></li>`;
+    }).join("")}</ul><p class="tiny">${chosen.length} of ${new Set(radios.map(r => r.dataset.id)).size} suggestions marked.</p>`;
+  }
+
+  radios.forEach(r => {
+    if (state[r.dataset.id] === r.value) r.checked = true;
+    r.addEventListener("change", () => {
+      state[r.dataset.id] = r.value;
+      try { localStorage.setItem(key, JSON.stringify(state)); } catch (e) { /* private mode */ }
+      render();
+    });
+  });
+
+  document.getElementById("clear-record").addEventListener("click", () => {
+    state = {};
+    radios.forEach(r => { r.checked = false; });
+    try { localStorage.removeItem(key); } catch (e) { /* private mode */ }
+    status.textContent = "Choices cleared in this browser.";
+    render();
+  });
+
+  document.getElementById("print-record").addEventListener("click", () => { window.print(); });
+
+  document.getElementById("copy-record").addEventListener("click", () => {
+    const chosen = Object.entries(state).filter(([, v]) => v);
+    if (!chosen.length) { status.textContent = "Nothing to copy yet."; return; }
+    const text = ["Inheritance decision record — suggestions", "Properties A and B (placeholders). Recorded in the browser; nothing was sent.", ""]
+      .concat(chosen.map(([id, v]) => {
+        const input = radios.find(r => r.dataset.id === id);
+        return `- ${id} [${labels[v]}] ${input ? input.dataset.label : ""}`;
+      }))
+      .concat(["", "Readiness gates still to close: see Questions page.", "Sources: see the source link beside each suggestion on the Suggestions page."]).join("\n");
+    const done = () => { status.textContent = "Record copied. Paste it into a private document; nothing was uploaded."; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallback(text));
+    } else { fallback(text); }
+    function fallback(t) {
+      const area = document.createElement("textarea");
+      area.value = t; area.setAttribute("readonly", "");
+      area.style.position = "fixed"; area.style.opacity = "0";
+      document.body.appendChild(area); area.select();
+      try { document.execCommand("copy"); done(); } catch (e) { status.textContent = "Copying is not available in this browser; select the summary instead."; }
+      document.body.removeChild(area);
+    }
+  });
+
+  render();
+})();
+</script></body></html>
