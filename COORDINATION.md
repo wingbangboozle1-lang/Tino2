@@ -1103,6 +1103,34 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
 
+## Session `58941d22` (branch `arena/58941d22-tino2`) — claim 2026-11-12 — final integration: reader-facing polish + final verification
+
+### Scope
+- Non-overlapping: reader-friendliness of the 15 published pages only (spelling out the `NOI` abbreviation on the two property/SF pages where it first appears as a column/metric label). No model, data, or content change. Confirms the published recommendation and every official claim still hold.
+
+### What was re-verified this session (official sources)
+- **Santa Clara County house-price index (FHFA/FRED ATNHPIUS06085A)** re-opened from the primary table: 7.0% CAGR 1975–2025, 4.3% CAGR 2000–2025, −25% from 2006 peak to 2011 trough — confirms the Best-plan-page and Flagged-for-Review citations. (The San Jose MSA metro series on the index/stress pages is a *different* series, ATNHPIUS41940Q: 6.7% / 4.1% over the same spans; both are official and both citations match their own series.)
+- **IRS estate exclusion**: $15,000,000 for deaths in 2026 (IRS primary "What's new — Estate and gift tax" page, WFTC P.L. 119-21) and $15,480,000 for deaths in 2027 (IR-2026-133 / Rev. Proc. 2026-35 §3.44).
+- **BOE Proposition 19 exclusion** $1,044,586 for transfers 16 Feb 2025 – 15 Feb 2027 (LTA 2025/009).
+- **SF Rent Board** 1.6% covered-unit increase, 4.2% deposit interest, $8,245 relocation, $59 fee for 2026–27 (sf.gov primary pages).
+- **FY2027 HUD SAFMR for 95014** remains unresolvable from any official path (legacy `2026zip_code_calc.odn?year=2027` returns ODBscript errors and blank/$0 values; the FY2027 SPA ignores query params; FY27 spreadsheet HTTP 500; API guesses 404). Item F-I3 stays flagged unverified.
+- **Every one of the 15 pages** re-read for defect/consistency scanning; every table row retains its official source link.
+
+### Changes made (reader-friendliness only)
+- `site/san-francisco.html`: spelled out "NOI (net operating income)" in the metric-label caption on the 2026 NOI card.
+- `site/properties.html`: spelled out "NOI (net operating income)" in the two projection table headers.
+- No change to model inputs, recommendations, or the Flagged-for-Review register.
+
+### Verification on the edited tree
+- `scripts/validate.js`: PASS, 1129 checks, 15 pages, 171 sources; base case 2040→2050 sell $7,683,290 / rent $6,249,830 / live $5,135,780 (unchanged).
+- `scripts/runtime-test.cjs` (jsdom): PASS, 15 rendered pages, 1327 rendered rows source-linked, no runtime errors or broken links.
+
+### Publication record (2026-11-12)
+- Final publication deferred to the end of this turn, after all suites pass.
+
+### Board status after this session
+- Every task of this session is done. Remaining items are **needs review** and are published on the Flagged for Review page (F-I3 FY2027 HUD rent benchmark; F-I1/F-I2 privacy decisions; items other sessions left open). Flagged/unverified items do not block the merge.
+
 ## Session `62b76b9d` — 2026-11-12
 
 | Task | Status | Owner | File scope |
