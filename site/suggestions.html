@@ -1,334 +1,272 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Review-only suggestions for the privacy, decision model and research, the questions that must be answered first, and a local-only record of which path is chosen before anything is implemented."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css">
-<style>
-  /* Page-local controls (session 364b453d). No shared stylesheet change. */
-  .js-choice { width: 100%; min-width: 116px; padding: 7px 8px; border: 1px solid #cfd8d0; background: #fff; border-radius: 8px; color: var(--ink); font: inherit; font-size: 13px; }
-  .js-choice:focus-visible { outline: 3px solid var(--green-2); outline-offset: 2px; }
-  td.choice-cell { min-width: 128px; }
-  details.card > summary { font-weight: 700; cursor: pointer; }
-  @media print { .js-choice { border: 1px solid #999; } details.card { display: block; } }
-</style></head>
-<body data-title="Suggestions and decisions">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Suggestions for improving this decision dashboard: review each proposal, compare four ready-made paths, and choose before anything is built. Nothing is applied by selecting."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Suggestions to review">
 <main id="main"></main><div data-footer></div>
-<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script src="data/sources.js"></script>
+<script src="data/model.js"></script>
+<script src="data/questions.js"></script>
+<script src="data/suggestions.js"></script>
+<script src="../assets/app.js"></script>
 <script>
-/* Page built by session 6e6baf25 (privacy paths, structural improvements, first question set) and
-   extended by session 364b453d (itemized register with official evidence, decision-critical questions,
-   suggested sequence, and an approve/defer/decline record that never leaves the reader's browser).
-   Nothing here changes the published recommendation, a model input or a published figure. */
+/* Session a87f8523. Review-and-choose page. Selecting a suggestion only writes to this browser's
+   localStorage; it changes no page, no figure and no plan. Nothing typed here leaves the device. */
 const main = document.getElementById("main");
-const src = (key, label) => UI.source(key, label);
-const OPTIONS = ["Not decided", "Approve", "Defer", "Decline"];
-const KEY = "tino2.suggestions.v1";
-let chosen = {};
-try { chosen = JSON.parse(window.localStorage.getItem(KEY) || "{}") || {}; } catch (e) { chosen = {}; }
+const G = window.SUGGESTIONS, R = window.READINESS;
+const KEY = "tino2-suggestions-v1";
+const STATUSES = [["", "Not now"], ["chosen", "Chosen"], ["scheduled", "Scheduled"], ["done", "Done"], ["declined", "Not needed"]];
+const kindLabel = k => G.kinds[k] || k;
+const kindBadge = k => `<span class="badge ${k === "privacy" ? "red" : k === "pro" ? "gold" : k === "site" ? "" : "neutral"}">${kindLabel(k)}</span>`;
+const openTotal = R.open.length;
+const srcCell = keys => `<td class="source">${keys.map(k => UI.source(k)).join("")}</td>`;
 
-// Order is the suggested sequence: unblock the facts only the family holds, then price what can be priced, then watch dates.
-const IDEAS = [
-  ["A-01", "Confirm the trust type, and whether the house counts in the parent's estate",
-    "Every plan assumes the heir's tax basis resets to the value at death, which is what makes a prompt sale nearly tax-free. The IRS ruled in 2023 that assets of an irrevocable trust that are not counted in the estate keep the old basis. If that is the case here, the sell plan loses most of its tax advantage and the comparison narrows.",
-    "One meeting", "Now", ["irsRevRul20232", "irsInherited"]],
-  ["A-02", "Confirm the house is still the parent's principal residence at death",
-    "The Proposition 19 family-home exclusion needs the house to remain the parent's home and then the heir's. If it is rented out, held in an entity, or otherwise stops qualifying for the homeowners' exemption, the exclusion is removed and the value is reassessed — the live-in plan's main tax saving disappears.",
-    "One call", "Now", ["boeLta2026026", "boeProp19"]],
-  ["A-03", "Get the cost to rebuild and one written homeowners quote at that limit",
-    "The premium follows the dwelling limit — the cost to rebuild — not the market value. The regulator's comparison tool states that it is not a quote, so the planning input for insurance stays unverified. A written quote also settles the vacancy and earthquake questions in writing.",
-    "Two quotes", "Next 90 days", ["cdiSurveyCup40_1000", "cdiResGuide"]],
-  ["A-04", "Decide whether to carry earthquake cover, and price it",
-    "A homeowners policy generally does not cover earthquake damage; that takes a separate policy. The USGS puts the chance of a magnitude 6.7 or greater earthquake in the Bay Area within 30 years at 72%, and the stress pages model an uninsured loss. A premium is a yearly cost in the live and rent cases but not in the sell case.",
-    "Decision + quote", "Next 90 days", ["cdiSurveyEqCup", "usgsQuake"]],
-  ["A-05", "Read the FY2027 rent benchmark for the ZIP code and update the rent input",
-    "The model uses HUD's FY2026 four-bedroom figure of $6,390 a month, which took effect on 1 October 2025. The FY2027 rents took effect on 1 October 2026 and the ZIP-code lookup for them has not been read. Rent 10% either way does not change the ranking, but it changes the size of the lead, and a stale input compounds every year it stands.",
-    "One lookup", "Next 90 days", ["hudA", "hudSafmrIndex"]],
-  ["A-06", "Re-check the Proposition 19 amount when the Board of Equalization publishes it",
-    "The exclusion adds $1,000,000 to the factored base year value, adjusted every two years. The amount now in force runs through 15 February 2027. The Board published it on 7 March 2025, about three weeks after it took effect, and the site's earlier check of the Board's 2026 letters found none that sets the next amount. Until the new amount is published, later amounts in the model are scenarios, not official figures.",
-    "One check", "March 2027", ["boeLta2025009", "boeLta2026"]],
-  ["A-07", "Put every pending law change on a calendar with a named reviewer",
-    "Several items can move a cost or the rule itself: the certified result of the 3 November 2026 election, the San Francisco parcel tax whose per-parcel amount is not yet published, the proposed cap on banked rent increases (not enacted), and federal bills that would change the estate tax. The site lists them; a calendar makes someone check them.",
-    "One page", "Now", ["sosResults2026", "sfRentProposal", "hr1301"]],
-  ["A-08", "List every asset, owner and beneficiary, then measure federal headroom",
-    "The federal filing threshold is $15,000,000 for a death in 2026 and $15,480,000 for 2027; above it the tax reaches 40%. Property A counts toward the estate and Property B does not, because the heir already owns it. No plan includes estate tax today only because the size and types of the other assets are unknown — that is a gap, not a finding.",
-    "One list", "Now", ["irsEstate", "irs2027", "irs706TableA"]],
-  ["A-09", "Record the assessor's land and building split, then read the depreciation rules",
-    "Depreciation is taken on the building, not the land, so the split decides the deduction in the rent case. The site shows the rent result without depreciation and tests building shares of 20%, 30% and 40%. The ranking does not change, but the after-tax rent does.",
-    "One record", "Before deciding", ["irsTopic704", "irsPub527"]],
-  ["A-10", "Read the recorded deed and the trust's schedule of assets",
-    "If title does not name the trustee, the house goes through probate, and California sets the personal representative's and the attorney's compensation as a statutory percentage of the estate's value. Community-property title also changes the basis when the first spouse dies. Both are cheap to check now and expensive later.",
-    "One request", "Now", ["prob10800", "prob10810"]],
-  ["A-11", "Write the dated obligations into one calendar",
-    "The San Francisco Rent Board fee exemption window closes on 14 December 2026 for the next fee. The Proposition 19 exclusion must be claimed within three years of the transfer or before a sale to a third party, and the homeowners' exemption within one year. A missed date costs money or loses the exclusion permanently.",
-    "One calendar", "Now", ["sfRentFee", "boeProp19", "boeLta2026026"]],
-  ["A-12", "Decide what the San Francisco owner unit is for",
-    "All four plans assume the heir lives in the third unit rent-free. Renting it adds regulated income and makes it hard to reclaim: an owner move-in eviction carries statutory relocation payments, reset every 1 March. Leaving it empty costs the rent it could earn. The site prices only the first and last.",
-    "Decision", "Before inheriting", ["sfRentRates", "caRentCaps"]],
-  ["A-13", "Confirm the solar tariff and interconnection date, then read the current water and power schedules",
-    "The credit the household sees depends on which net-metering tariff the system is on. The regulator's net-metering tariffs are closed to new enrollments and newer systems take a tariff that pays less for exported power. Water and power are billed monthly, and the water bill is the larger and more variable of the two on the household's own figures; the rates are reset by the utility, not fixed for the term.",
-    "One bill + one call", "Next 90 days", ["cpucNem", "sjw2026", "sfpucRates2026"]],
-  ["A-14", "Test the ranking against a lower home-price assumption and write down the break-even",
-    "The gap between selling and keeping the house comes mostly from home prices against a diversified portfolio. The break-even rate is on the Best plan page. Writing down the rate at which the answer flips turns an unknowable forecast into a rule you can monitor.",
-    "One session", "Before deciding", ["fredSccCounty", "investorRisk"]],
-  ["A-15", "Keep every new fact out of this repository",
-    "The repository is public. Deeds, trust documents, bills, leases and account statements belong in a secure professional channel; the site keeps placeholders and rounded figures. Past commits and branches still hold old exact figures, so a private repository or a fresh history is the only complete fix.",
-    "Owner decision", "Now", ["githubSensitive"]]
-];
+main.innerHTML = UI.hero("Suggestions · reviewed " + G.checked,
+  "Improvements to choose from — nothing here is built yet",
+  "Every proposal below is a change to this site or to the information behind it. Each one says what uncertainty it removes, which of the " + openTotal + " readiness questions it closes, what it costs in time, and what it does not fix. Four ready-made paths are grouped at the top so they can be compared before anything is implemented. Choosing here records a preference in this browser; no page, figure or plan changes until the choice is logged and the work is done.",
+  `<a class="button" href="questions.html">Open the readiness register</a><a class="button secondary" href="plan.html">Best plan</a><a class="button secondary" href="review.html">Flagged for Review</a>`) + `<div class="container">
 
-// Changes to the dashboard itself. No model input changes.
-const SITE = [
-  ["B-01", "A dated decision record beside the model", "Built on this page: approve, defer or decline each item and the choice is kept in this browser with a date. Prose and model changes are otherwise invisible after the fact.", "Built", true],
-  ["B-02", "A one-page printable brief for advisers", "Advisers need the assumptions and the question on one page. Today they sit across the Best plan, Properties, Operating costs and Inheritance pages.", "Small", false],
-  ["B-03", "A 'what changed' strip on the landing page", "Every review currently means re-reading sixteen pages to find the one rate that moved. A dated diff of changed figures would shorten it to seconds.", "Small", false],
-  ["B-04", "One assumptions register with a last-checked date and a CSV export", "Inputs are labelled where they are used, but there is no single list of every input, its value, its status and its review date.", "Medium", false],
-  ["B-05", "A deadline calendar with an export", "The dated obligations — Rent Board fee, Proposition 19 claims, insurance renewal, solar true-up — are spread across four pages and none of them can be put into a calendar.", "Medium", false],
-  ["B-06", "A source-freshness dashboard", "Official figures change on known cycles: the IRS each autumn, HUD each 1 October, the San Francisco Rent Board each 1 March, the Board of Equalization every other February. A table of next-check dates would stop a stale figure being carried forward as current.", "Medium", false]
-];
-
-// The decision-critical questions. Everything the site cannot answer is here, with the route that settles it.
-const QUESTIONS = [
-  ["Q-01", "Is the trust revocable, or otherwise counted in the parent's estate?",
-    "Every plan assumes the basis resets at death. The IRS ruled in 2023 that assets of an irrevocable trust outside the estate keep the old basis.",
-    "The trust document, and the trustee's confirmation of what it holds.",
-    "Trust attorney or trustee.",
-    "Revocable or included: the basis resets and selling stays ahead. Irrevocable and outside the estate: tax is owed on the gain since purchase, and the gap narrows.",
-    "irsRevRul20232"],
-  ["Q-02", "Will the house be the parent's principal residence on the date of death?",
-    "The family-home exclusion needs the house to remain the parent's home, then the heir's, and to keep qualifying for the homeowners' exemption.",
-    "Whether it is rented, held in an entity, or vacant, and when.",
-    "County assessor, and the parent's own plans.",
-    "Yes: the exclusion is available if the heir claims it and moves in within one year. No: the house is reassessed in the live-in case as well, and the live-in saving disappears.",
-    "boeLta2026026"],
-  ["Q-03", "How much money is inherited, in what accounts, with which beneficiaries?",
-    "The federal threshold is $15,000,000 for 2026 and $15,480,000 for 2027; above it the tax reaches 40%. Only the parent's own assets count.",
-    "Balances, account types, owners and named beneficiaries; prior gifts above the yearly exclusion.",
-    "Statements and beneficiary designations, read with a tax adviser.",
-    "Below the headroom: no federal estate tax. Above it: 40% of the excess, which no plan currently includes.",
-    "irs706TableA"],
-  ["Q-04", "What would it cost to rebuild, and what will a policy cost at that limit?",
-    "The premium follows the dwelling limit, not the market value. The regulator's comparison tool is not a quote and the planning figure is unverified.",
-    "A rebuild estimate and at least one written quote.",
-    "A builder or insurer, then a broker.",
-    "A quote far above the planning figure raises the cost of holding the house and widens the sell lead; a low quote narrows it slightly.",
-    "cdiResGuide"],
-  ["Q-05", "Will earthquake cover be carried on either property?",
-    "Homeowners policies generally exclude earthquake. The USGS puts 72% probability on a magnitude 6.7 or greater quake in the region within 30 years; the model prices an uninsured loss.",
-    "A decision for each property, and a premium if the answer is yes.",
-    "The insurer, and the state earthquake authority where the insurer does not write it.",
-    "Cover: a known yearly cost in the hold cases and a smaller tail loss. No cover: the tail loss stays uninsured and the cost comparison is unchanged.",
-    "cdiSurveyEqCup"],
-  ["Q-06", "Which solar tariff governs the system, and when does it end?",
-    "The credit depends on the tariff. Net-metering tariffs are closed to new enrollments; newer systems take a tariff that pays less for exported power.",
-    "The interconnection date, the tariff name, and the term.",
-    "The utility bill and the interconnection agreement.",
-    "A legacy net-metering tariff keeps retail-rate credits for its term; a move to net billing cuts the value of exported power.",
-    "cpucNem"],
-  ["Q-07", "Will the heir live in the Cupertino house, or stay in San Francisco?",
-    "The money comparison puts selling first; the live-in cases finish last on money but are the only way to keep the house.",
-    "The decision itself, and its timing against the inheritance.",
-    "The household.",
-    "Live in A: give up the rent-free San Francisco unit and any rent from it. Stay in B: sell A, invest the net proceeds, and keep both units earning.",
-    "irsTopic701"],
-  ["Q-08", "Will the San Francisco owner unit be rented?",
-    "The plans assume the heir lives in it rent-free. Renting it adds regulated income but is hard to undo; an owner move-in eviction carries statutory relocation payments.",
-    "The intent, the timing, and the tenant profile if it is let.",
-    "The household, then the Rent Board rules.",
-    "Rent it: more income, less flexibility, relocation cost to reclaim. Leave it: no income, full flexibility.",
-    "sfRentRates"],
-  ["Q-09", "What share of the property's value is the building?",
-    "Depreciation is taken on the building only, so the split decides the deduction if the house is rented. The site tests 20%, 30% and 40%.",
-    "The assessor's land and improvement values.",
-    "The assessor's roll, or an appraiser's allocation.",
-    "A higher building share improves the after-tax rent case; the ranking does not change at any of the three shares.",
-    "irsTopic704"],
-  ["Q-10", "What home-price growth should be assumed after the inheritance?",
-    "Nobody knows it, and it decides most of the gap between selling and keeping the house. The site shows the recorded metro series and the break-even rate instead of a forecast.",
-    "Nothing that can be discovered; only a rule for monitoring.",
-    "The break-even figure on the Best plan page, reviewed yearly.",
-    "Home prices above the break-even rate favour keeping the house; below it, selling and investing wins.",
-    "fredSccCounty"]
-];
-
-function choice(id) {
-  return `<select class="js-choice" data-choice="${id}" aria-label="Your decision on ${id}">${OPTIONS.map(o => `<option value="${o}" ${(chosen[id] || "Not decided") === o ? "selected" : ""}>${o}</option>`).join("")}</select>`;
-}
-const row = cells => "<tr>" + cells.join("") + "</tr>";
-const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
-const sourceCell = keys => keys.map(k => src(k)).join("<br>");
-
-main.innerHTML = `<section class="hero compact"><div class="container">
-  <div class="eyebrow">Review before implementation</div>
-  <h1>Suggestions, decisions, and the questions that come first</h1>
-  <p class="lead">A prioritized shortlist of possible improvements, not a record of approved work. Compare the benefit, trade-off and evidence before choosing a path. The published recommendation is not changed by anything here: read an item, choose approve, defer or decline, and the record stays in this browser — no account, no server, no analytics. Nothing is implemented until an approved item is acted on with an official source and re-verified.</p>
-  <div class="hero-actions"><a class="button" href="plan.html">See the current comparison</a><a class="button secondary" href="review.html">Open unresolved items</a><a class="button secondary" href="#record">Record a choice</a></div>
-  <div class="meta-row"><span class="badge gold">Proposals only</span>${UI.badge("Selections stay in your browser")}${UI.badge("Sources reviewed 12 Nov 2026")}</div>
-</div></section><div class="container">
-
-<section class="section"><div class="callout warning"><strong>Privacy first:</strong> This is a public website and repository. Labels and $10 rounding reduce direct identification but cannot guarantee anonymity: the combination of location, property characteristics and financial history may be recognizable. Historical commits, branches, pull requests and third-party copies may also retain sensitive data. Do not upload private documents or personal details here. <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub explains the limits of removal</a>.</div></section>
-
-<section class="section"><div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare before changing publication</h2><p>These are alternatives, not an assertion that any is complete protection. Keeping the current public site retains its exposure.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Path</th><th class="wrap">Potential benefit</th><th class="wrap">Trade-off and next check</th><th>Authoritative reference</th></tr></thead><tbody>
-<tr><td><strong>Private analysis, public generic examples</strong><br>Suggested privacy-first direction</td><td class="wrap">Keep household-specific inputs and outputs out of a public product; publish only synthetic examples.</td><td class="wrap">Less personalized public analysis; existing history and copies still need a coordinated remediation plan. Review access controls and all public refs before relying on this path.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · sensitive data removal</a></td></tr>
-<tr><td><strong>Reduce the public detail</strong></td><td class="wrap">Remove household history and granular contextual combinations from current published pages.</td><td class="wrap">A new commit alone does not erase earlier history or copies; generic labels and rounding are not a guarantee of anonymity. Decide what exposure remains acceptable.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · history and copies</a></td></tr>
-<tr><td><strong>Retain current public scenarios</strong></td><td class="wrap">Preserves the most detailed public explanation and model.</td><td class="wrap">The property and household context remains linkable even without names; treat this as an unresolved privacy risk, not as anonymization.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · exposure limitations</a></td></tr>
-</tbody></table></div>
-<p class="tiny">Choosing a path here is a decision for the owner, not something the dashboard can implement. Items A-15 and B-01 are the two in the register below that touch it directly.</p></section>
+<section class="section"><div class="callout review"><strong>Privacy first.</strong> This is a public website built from a public repository. Labels and $10 rounding reduce direct identification but cannot guarantee anonymity: the combination of location, property characteristics and financial history may be recognisable, and historical commits, branches, pull requests and third-party copies can retain data. Do not upload private documents or personal details here. <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub explains the limits of removal</a>. The full list is on <a href="review.html">Flagged for Review</a>.</div></section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Method</div><h2>How to choose a path before anything is implemented</h2><p>Three steps, five rules, and one distinction. The rules are the test every suggestion has to pass; the steps are the order that removes the most uncertainty for the least effort.</p></div></div>
-  <div class="grid three">
-    <div class="card soft"><h3>1 · Unblock what only the family holds</h3><p>The trust document, the deed, the parent's occupancy and the asset list cannot be researched. They are also the only facts that can change the ranking outright. Do these first even though they cost a meeting rather than a click.</p></div>
-    <div class="card soft"><h3>2 · Price what can be priced</h3><p>Insurance, earthquake cover, rebuild cost and the current tariffs all have official benchmarks and free quotes. Each one replaces an assumption with a number, and each one is dated.</p></div>
-    <div class="card soft"><h3>3 · Watch only what has a date</h3><p>Tax thresholds, rent benchmarks and fee windows change on a published cycle. Everything else is a forecast and belongs in the stress tests, not on a watchlist.</p></div>
-  </div>
-  <div class="grid two" style="margin-top:1rem">
-    <div class="card"><h3>The five rules this page applies</h3><ul class="check-list">
-      <li><strong>No personal data, ever.</strong> Placeholders only, in the site and in the repository.</li>
-      <li><strong>A blank stays blank.</strong> An estimate is never relabelled as verified, and nothing is inferred.</li>
-      <li><strong>Every number is rounded to $10</strong> unless a government body publishes the exact amount.</li>
-      <li><strong>Every row links an official source</strong>, or says what would settle it and stops there.</li>
-      <li><strong>Prefer the reversible step</strong> while a fact is missing: a quote, a meeting and a lookup can all be undone by a better fact.</li>
-    </ul></div>
-    <div class="card warning"><h3>What a suggestion is not</h3><p>An approved suggestion is permission to research or build, not a finding. Approving “get an insurance quote” does not change any figure on the site; only the quote, added as a dated input and re-verified, does. Likewise, declining an item does not make the underlying risk go away — it only means the site will keep saying it is unknown.</p><p class="tiny">If an item is time-critical (a filing window, a certification date, a biennial adjustment) it says so in the “When” column, and deferring it is itself a decision worth recording.</p></div>
-  </div>
+  <div class="grid four" id="cards"></div>
+  <div class="callout warning" style="margin-top:18px"><strong>How a suggestion becomes a change.</strong> Read the table, choose a path or a few items, export the choice, and record it on the coordination board with the files it would touch. Only then is anything written. A suggestion marked “Chosen” in this browser has <em>not</em> changed the site, the model or the recommendation.</div>
 </section>
 
-<section class="section"><div class="section-heading"><div><div class="eyebrow">Proposed improvements</div><h2>Seven structural changes, ranked by decision impact</h2><p>Official links explain the relevant framework; they do not verify household facts or endorse these proposals. The register that follows turns the implementable parts into itemized actions with a suggested order and a recorded choice.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Priority / suggestion</th><th class="wrap">Why it helps</th><th class="wrap">Trade-off / evidence needed before implementation</th><th>Reference</th></tr></thead><tbody>
-<tr><td><strong>1 · Separate private data from public examples</strong></td><td class="wrap">Reduces further disclosure while retaining a public explanation of the method.</td><td class="wrap">Requires choosing private hosting and an exposure-remediation plan; no history rewrite or access change has been performed by this proposal.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · cleanup limitations</a></td></tr>
-<tr><td><strong>2 · Make the estate calculation conditional</strong></td><td class="wrap">Show documented estate assets, debts, lifetime gifts and possible elections separately before estimating any estate tax.</td><td class="wrap">Actual amounts remain unknown and must stay private. A single property-only gap is not the amount that can safely be inherited tax-free.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate tax</a></td></tr>
-<tr><td><strong>3 · Match sale endpoints and tax basis</strong></td><td class="wrap">Compare clearly labeled pre-liquidation and after-liquidation portfolio values with property sale proceeds; model basis and taxes consistently.</td><td class="wrap">Requires account type, acquisition basis, gains, holding period and taxpayer-specific tax treatment. The existing endpoint-tax sensitivity deliberately double-counts part of the tax and is not a tax estimate.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis of assets</a></td></tr>
-<tr><td><strong>4 · Add a documented Proposition 19 eligibility branch</strong></td><td class="wrap">Separates a qualifying primary-residence transfer from full reassessment and highlights time-sensitive claims.</td><td class="wrap">Eligibility and the future adjusted allowance are unknown; confirm the relationship, trust and residence facts privately with the assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">California BOE · Proposition 19</a></td></tr>
-<tr><td><strong>5 · Replace cost proxies with reviewed ranges</strong></td><td class="wrap">Insurance, maintenance, water and solar assumptions can materially affect rental cash flow and stress results.</td><td class="wrap">Quotes are property- and coverage-specific, not official public facts. Keep records private; distinguish scenarios from verified bills and review exclusions and deductibles.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5-residential/">California insurance regulator · shopping guidance</a></td></tr>
-<tr><td><strong>6 · Compare investment mixes and downside</strong></td><td class="wrap">Show liquidity, inflation, bad return sequences and concentration alongside the central return assumption.</td><td class="wrap">Returns are not guaranteed. Compare deposit coverage and securities risk; do not label historical replays as probabilities of future outcomes.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · deposit insurance</a></td></tr>
-<tr><td><strong>7 · Add legal and source freshness checks</strong></td><td class="wrap">Keeps enacted rules, proposed changes and archived benchmarks distinct as the inheritance approaches.</td><td class="wrap">Automation can detect changes but cannot determine legal effect or eligibility; confirm each change with a qualified professional and official issuing agency.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · current rates and proposal</a></td></tr>
-</tbody></table></div></section>
+<section class="section" id="paths">
+  <div class="section-heading"><div><div class="eyebrow">Four ways forward</div><h2>Compare the paths, then pick one</h2><p>Each path is a fixed set of proposals. “Choose this path” marks its items as chosen below; it does not start any work.</p></div></div>
+  <div class="grid two" id="bundles"></div>
+  <p class="tiny">Effort is the household’s own time, not a quote. No official price exists for legal, tax or insurance advice, so none is invented here; the cost column says so where that is the case.</p>
+</section>
 
-<section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Suggestions register</div><h2>Fifteen improvements to the analysis, in suggested order</h2><p>Each row states what to do, why it changes or protects the decision, how much effort it takes, when it should happen, and the official page the reasoning rests on. Choose approve, defer or decline in the last column; the summary at the bottom of the page updates as you go.</p></div></div>
-  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion</th><th class="wrap">Why it changes or protects the decision</th><th>Effort</th><th>When</th><th class="wrap">Official evidence</th><th>Your choice</th></tr></thead><tbody>
-  ${IDEAS.map(([id, title, why, effort, when, keys]) => row([td(`<strong>${id}</strong>`, "number"), td(`<strong>${title}</strong>`), td(why), td(effort, "tiny"), td(when, "tiny"), `<td class="source">${sourceCell(keys)}</td>`, `<td class="choice-cell">${choice(id)}</td>`])).join("")}
-  </tbody></table></div>
-  <p class="tiny">Effort is a rough count of the work, not a cost estimate; professional fees are not quoted anywhere on this site. “When” is a suggested window, not a deadline, except where the text names an official date. A-01, A-02, A-08 and A-10 are the four that can change the recommendation rather than sharpen it.</p>
+<section class="section" id="privacy-paths">
+  <div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare the publication options before changing anything</h2><p>These are alternatives, not an assertion that any one is complete protection. Keeping the current public site retains its exposure. This table was published by session 6e6baf25 and is kept here with its wording.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">Path</th><th class="wrap">Potential benefit</th><th class="wrap">Trade-off and next check</th><th>Authoritative reference</th></tr></thead><tbody id="privacy-paths-body"></tbody></table></div>
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Before a decision</div><h2>The questions that must be answered first</h2><p>These are the questions the published analysis cannot settle from the information it has. Each row says what the site already knows, what is missing, where the answer lives, and what changes if the answer goes either way. The wider list, including items that do not affect the ranking, is on <a href="review.html">Flagged for Review</a>. A fuller register — 24 questions in four groups, the ten answers official sources do settle, how each gap is closed and by whom, and five readiness gates — is on <a href="questions.html">Questions</a>. Two further questions from the earlier review — who may distribute the estate and when, and how much risk the heir can accept — are kept unchanged below.</p></div></div>
-  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">What the site has now</th><th class="wrap">What is missing</th><th class="wrap">Where the answer is</th><th class="wrap">If it goes one way, or the other</th><th class="wrap">Official route</th></tr></thead><tbody>
-  ${QUESTIONS.map(([id, q, have, missing, where, either, key]) => row([td(`<strong>${id}</strong>`, "number"), td(`<strong>${q}</strong>`), td(have), td(missing), td(where), td(either), `<td class="source">${src(key)}</td>`])).join("")}
-  </tbody></table></div>
-  <div class="callout"><strong>Only four of these can change the answer.</strong> Q-01 (trust type), Q-02 (occupancy at death), Q-03 (size of the estate) and Q-07 (whether the heir wants to live there) decide which plan is rational. The rest change how much money the chosen plan produces. Q-10 cannot be answered at all; it is monitored against a break-even rate instead.</div>
-  <details class="card" open><summary>Seven questions from the earlier review — kept unchanged, with discovery routes</summary>
-  <p class="tiny">Published on this page on 12 Nov 2026 before the register above was added. A dash means not established from an official source. Obtain private records through secure professional channels, never through this public site.</p>
-  <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Current answer / status</th><th class="wrap">How to resolve privately</th><th>Official framework</th></tr></thead><tbody>
-<tr><td>What may be distributed, when, and by whom?</td><td class="wrap">— Trust terms and title not verified.</td><td class="wrap">Trust attorney and trustee review signed trust, amendments and title.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate inventory</a></td></tr>
-<tr><td>Will the family-home exclusion apply?</td><td class="wrap">— Relationship, residence and trust eligibility not verified. The live-in scenario assumes eligibility; the rental scenario does not.</td><td class="wrap">Confirm facts and filing dates with the county assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">BOE · eligibility and filing</a></td></tr>
-<tr><td>What is the full estate tax exposure?</td><td class="wrap">— Other assets, debts, gifts and available elections are unknown; the future exclusion is a scenario.</td><td class="wrap">Estate CPA inventories assets and debts, prior gifts and any portability election before preparing a calculation.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · taxable estate and filing</a></td></tr>
-<tr><td>What are the correct basis and gain if sold?</td><td class="wrap">— Future appraised value, adjustments, proceeds and taxpayer facts are not verified.</td><td class="wrap">Obtain an appraisal and closing records; have a tax adviser reconcile basis and applicable exclusions.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis</a> · <a href="https://www.irs.gov/taxtopics/tc701">IRS · home sale</a></td></tr>
-<tr><td>What will each property actually cost to insure and maintain?</td><td class="wrap">— Actual premiums and future repairs are unverified; model inputs are illustrative.</td><td class="wrap">Compare owner-occupied and landlord quotes, including deductibles and excluded hazards; obtain inspections and repair estimates.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5/residential/">California insurance regulator · compare coverage</a></td></tr>
-<tr><td>What rental income and restrictions apply?</td><td class="wrap">— Future rent, vacancy and legal treatment of each unit are not verified. Property B is already owned, not inherited in this comparison.</td><td class="wrap">Review leases and unit status privately; obtain a market-rent opinion and check applicable local rules.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · rates</a></td></tr>
-<tr><td>How much risk and liquidity can the heir accept?</td><td class="wrap">— Investment goals, time horizon and account types are unknown.</td><td class="wrap">Discuss allocation, tax, deposit limits and withdrawal needs privately with a qualified adviser.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · coverage</a></td></tr>
-</tbody></table></div></details>
-</section>
-
-<section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Dashboard changes</div><h2>Six suggestions for the site itself</h2><p>These change how the analysis is read, not what it says. None of them alters a model input or a published figure. The first is already built on this page; the rest are proposals.</p></div></div>
-  <div class="grid two">
-  ${SITE.map(([id, title, why, effort, built]) => `<div class="card"><h3>${id} · ${title}</h3>${UI.badge(built ? "Built here" : "Proposed", built ? "" : "gold")}<p>${why}</p><p class="tiny">Effort: ${effort}${built ? " · printing this page keeps your recorded choices" : ""}</p><p class="tiny">${choice(id)}</p></div>`).join("")}
+  <div class="card soft">
+    <div class="eyebrow">Your selection</div>
+    <div class="grid three" id="selection"></div>
+    <p class="tiny" id="selection-note" style="margin-top:12px"></p>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Suggested sequence</div><h2>What to do first, and what “done” looks like</h2><p>An order that front-loads the facts that can change the recommendation and leaves the research that only sharpens it until afterwards.</p></div></div>
-  <div class="timeline">
-    <div class="step"><div class="step-number">1</div><div class="step-body"><div class="deadline">This month · no cost but a meeting</div><h3>Answer the four questions that can change the answer</h3><p>Trust type and what it holds (A-01, A-10); the parent's occupancy and how title is held (A-02); the full asset list with beneficiaries (A-08); and whether the heir would ever live in Cupertino (Q-07). Done when each answer is written down with its date and its source document.</p></div></div>
-    <div class="step"><div class="step-number">2</div><div class="step-body"><div class="deadline">Next 90 days · free or low cost</div><h3>Replace four assumptions with quotes and official figures</h3><p>Rebuild cost and a homeowners quote (A-03); an earthquake decision and quote (A-04); the FY2027 rent benchmark and current tariffs (A-05, A-13); and the break-even home-price rate recorded as a monitoring rule (A-14). Done when each figure on the site is either replaced by a dated official value or still marked unverified on purpose.</p></div></div>
-    <div class="step"><div class="step-number">3</div><div class="step-body"><div class="deadline">Every year, on a fixed date</div><h3>Run the calendar, not the whole site</h3><p>March: the San Francisco Rent Board resets its allowable increase and relocation amounts. October: HUD publishes the next rent benchmark. Autumn: the IRS publishes the next estate exclusion. Every other February: the Board of Equalization adjusts the Proposition 19 amount. December: the Rent Board fee exemption window closes. Done when each date has been checked and the change, if any, is recorded.</p></div></div>
-    <div class="step"><div class="step-number">4</div><div class="step-body"><div class="deadline">In the inheritance year</div><h3>File first, then decide</h3><p>Claim the homeowners' exemption within one year and the intergenerational exclusion within three years or before any sale to a third party. Sell or hold only after the assessed value is confirmed, because the whole comparison turns on which value is enrolled. Done when the assessor's enrolled value matches the plan's assumption.</p></div></div>
-    <div class="step"><div class="step-number">5</div><div class="step-body"><div class="deadline">After implementing anything</div><h3>Re-verify, then record the change</h3><p>An approved suggestion is implemented only with an official source, rounded figures, and a note on <a href="verification.html">Verified facts</a>. Then record here what was done and set the next review date. The decision record is the only artefact that shows why the site says what it says at a given moment.</p></div></div>
-  </div>
-</section>
-
-<section class="section" id="record">
-  <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Choose the path, then print or copy it</h2><p>Your choices are stored only in this browser, under a single key, with the date of the last change. Nothing is transmitted, and clearing the browser data erases them. Print the page to keep a copy with your papers.</p></div></div>
-  <div class="grid two">
-    <div class="card highlight" id="summary-card" aria-live="polite"></div>
-    <div class="card"><h3>What a recorded choice means</h3><ul class="list">
-      <li><strong>Approve</strong> — implement it, using an official source and rounded figures, then note it on Verified facts.</li>
-      <li><strong>Defer</strong> — keep it open deliberately. Say why in the note you keep with your papers; a deferral on a dated item is a decision with a cost.</li>
-      <li><strong>Decline</strong> — the site will keep stating the figure as unknown. That is acceptable only if you accept the uncertainty it leaves.</li>
-    </ul><div class="hero-actions"><button class="button" id="print">Print or save as PDF</button><button class="button secondary" id="copy">Copy the summary</button><button class="button secondary" id="clear">Clear all choices</button></div><p class="tiny" id="status" role="status" style="margin-top:12px"></p></div>
-  </div>
+  <div class="section-heading"><div><div class="eyebrow">The full list</div><h2>Every suggestion, its purpose and its price in time</h2><p>Ordered by priority, then by number. Use the last column to record a choice. For a change to the site, the reference in the last column is the official page the change would serve, not a source for the proposal itself.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion, and what it would do</th><th>Type</th><th class="wrap">Uncertainty it removes</th><th>Closes</th><th>Effort</th><th class="wrap">Direct cost</th><th class="wrap">Risk or limit</th><th>Reference</th><th>Your choice</th></tr></thead><tbody id="items"></tbody></table></div>
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What must not change while these are implemented</h2></div></div>
-  <div class="grid three">
-    <div class="card"><h3>Privacy</h3><p>No names, addresses, parcel numbers, account numbers, trust documents or unrounded household figures enter the repository or the site. The public history is already a finding on <a href="review.html">Flagged for Review</a>.</p></div>
-    <div class="card"><h3>Verification</h3><p>A figure is either published by an official body, linked to that body, or blank. Rounding to $10 is a privacy measure, not a claim of accuracy, and it does not make a household input verified.</p></div>
-    <div class="card"><h3>The recommendation</h3><p>Selling Property A and keeping Property B remains the published base case until a fact changes it. None of these suggestions, implemented alone, changes that result; A-01, A-02, A-03, A-04, A-08 and A-12 are the ones that could.</p></div>
+  <div class="section-heading"><div><div class="eyebrow">Recommendation</div><h2>If only five things are done, do these</h2><p>In this order. They are the five that can change the ranking rather than the margin, and four of them can only be done while the parent is alive.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Do this</th><th class="wrap">Because</th><th class="wrap">What it costs</th><th>Source</th></tr></thead><tbody id="top5"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Carried forward</div><h2>The earlier shortlist of decision questions</h2><p>An earlier session published seven questions in the place this page now occupies. They are kept here in its words, each mapped to the numbered question in the <a href="questions.html">readiness register</a> that now carries it and to the official framework behind it. Nothing was dropped.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">Question</th><th class="wrap">Current answer or status</th><th class="wrap">How to resolve it privately</th><th>Register</th><th>Official framework</th></tr></thead><tbody id="carried"></tbody></table></div>
+</section>
+
+<section class="section" id="reconciled">
+  <div class="section-heading"><div><div class="eyebrow">Three shortlists, reconciled</div><h2>Nothing from the earlier pages was dropped</h2><p>Three sessions produced overlapping suggestions for this page on the same day. The page now holds one backlog; the other two shortlists are listed below in their own IDs and wording, each pointing at the item or question that carries it.</p></div></div>
+
+  <h3>Fifteen analysis improvements (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Improvement, as it was written</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="recon-analysis"></tbody></table></div>
+
+  <h3>Ten decision questions (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question, as it was written</th><th class="wrap">Register</th><th>Official reference</th></tr></thead><tbody id="recon-questions"></tbody></table></div>
+
+  <h3>Six site proposals (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Proposal</th><th class="wrap">Now carried by</th><th>Status</th><th>Reference</th></tr></thead><tbody id="recon-site"></tbody></table></div>
+
+  <h3>The suggested sequence</h3>
+  <p class="tiny">The order the second shortlist recommended: front-load the facts that can change the recommendation, and leave the research that only sharpens it until afterwards.</p>
+  <div class="table-wrap"><table><thead><tr><th>Step</th><th class="wrap">When</th><th class="wrap">What to do, and what “done” looks like</th><th class="wrap">Items</th><th>Reference</th></tr></thead><tbody id="recon-sequence"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What should never be added, however useful it looks</h2><p>These are the rules every session on this repository has followed. A future suggestion that breaks one should be declined.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">Never</th><th class="wrap">Why</th><th>Reference</th></tr></thead><tbody id="never"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Your record</div><h2>Export the choice</h2><p>The file contains your marks and the official links, and no private data. Saved only in this browser until you export it.</p></div>
+  <div class="controls" style="grid-template-columns:repeat(3,minmax(120px,1fr))">
+    <div class="control"><label for="export">Save this choice</label><button class="button secondary" id="export" type="button">Export a Markdown file</button></div>
+    <div class="control"><label for="print">Keep a copy</label><button class="button secondary" id="print" type="button">Print this page</button></div>
+    <div class="control"><label for="reset">Start again</label><button class="button secondary" id="reset" type="button">Reset all marks</button></div>
   </div>
-  <div class="card soft" style="margin-top:18px"><h3>How to use this list</h3><p>Start with the privacy alternatives; then resolve the high-impact unknowns in the <a href="review.html">Flagged for Review</a> register. The current sell-and-reinvest ranking is conditional on modeled assumptions and is not a filing-ready recommendation. Check the <a href="stress.html">black-swan scenarios</a> and the <a href="inheritance.html">inheritance steps</a> before deciding.</p><p class="tiny">This page is a planning aid, not legal, tax, insurance or investment advice. Re-check every official page before acting; the register of sources and their review dates is on <a href="sources.html">Sources</a>.</p></div>
+  <pre id="export-output" class="code" style="display:none;white-space:pre-wrap;line-height:1.5;margin-top:14px"></pre>
+  <p class="tiny">To have a chosen suggestion implemented, record it on <span class="code">COORDINATION.md</span> with the files it would touch, then make the change in a new session with the same verification standard: every row source-linked, every figure rounded to $10 or officially published, and every blank left blank.</p>
 </section>
 </div>`;
 
-function updateSummary() {
-  const counts = { Approve: 0, Defer: 0, Decline: 0 };
-  const approved = [], deferred = [];
-  IDEAS.concat(SITE.map(([id, title]) => [id, title])).forEach(([id, title]) => {
-    const c = chosen[id];
-    if (c === "Approve") { counts.Approve++; approved.push([id, title]); }
-    if (c === "Defer") { counts.Defer++; deferred.push([id, title]); }
-    if (c === "Decline") counts.Decline++;
-  });
-  const total = IDEAS.length + SITE.length;
-  const undecided = total - counts.Approve - counts.Defer - counts.Decline;
-  const stamp = chosen.__updated ? new Date(chosen.__updated).toISOString().slice(0, 10) : "not yet";
-  document.getElementById("summary-card").innerHTML = `<div class="metric-label">Approved · deferred · declined · undecided</div>
-    <div class="metric small">${counts.Approve} · ${counts.Defer} · ${counts.Decline} · ${undecided}</div>
-    <p class="tiny">Last change: ${stamp}. ${counts.Approve === 0 ? "Nothing is approved yet, so nothing should be implemented." : "Only approved items are cleared to implement, and only after an official source is found for each figure they touch."}</p>
-    ${approved.length ? `<p><strong>Approved, in the order they should be done:</strong></p><ol class="list">${approved.map(([id, t]) => `<li>${id} — ${t}</li>`).join("")}</ol>` : ""}
-    ${deferred.length ? `<p><strong>Deferred:</strong></p><ul class="list">${deferred.map(([id, t]) => `<li>${id} — ${t}</li>`).join("")}</ul>` : ""}`;
+/* Download when the browser allows it; otherwise show the text so it can be copied. No network. */
+function downloadOrShow(text, filename, hostId) {
+  try {
+    const blob = new Blob([text], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+    return;
+  } catch (e) { /* fall through */ }
+  const host = document.getElementById(hostId);
+  if (host) { host.style.display = "block"; host.textContent = text; }
 }
 
-function saveChoice(id, value) {
-  if (value === "Not decided") delete chosen[id]; else chosen[id] = value;
-  chosen.__updated = Date.now();
-  try { window.localStorage.setItem(KEY, JSON.stringify(chosen)); } catch (e) { /* private mode: keep in memory */ }
-  updateSummary();
+function state() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
+function setState(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* private mode */ } }
+function chosenIds() {
+  const s = state();
+  return G.items.filter(i => i.status === "done" || ["chosen", "scheduled", "done"].includes(s[i.id])).map(i => i.id);
 }
-
-document.addEventListener("change", event => {
-  const select = event.target.closest("select.js-choice");
-  if (!select) return;
-  saveChoice(select.dataset.choice, select.value);
-});
-
-document.getElementById("print").addEventListener("click", () => window.print());
-document.getElementById("clear").addEventListener("click", () => {
-  if (!window.confirm("Clear every recorded choice in this browser?")) return;
-  chosen = {};
-  try { window.localStorage.removeItem(KEY); } catch (e) {}
-  document.querySelectorAll("select.js-choice").forEach(s => { s.value = "Not decided"; });
-  updateSummary();
-  document.getElementById("status").textContent = "All choices cleared.";
-});
-document.getElementById("copy").addEventListener("click", () => {
-  const lines = ["Suggestions and decisions — recorded " + new Date().toISOString().slice(0, 10)];
-  IDEAS.concat(SITE.map(([id, title]) => [id, title])).forEach(([id, title]) => {
-    const c = chosen[id] || "Not decided";
-    if (c !== "Not decided") lines.push(c + " · " + id + " · " + title);
+function closedQuestions() {
+  const s = state();
+  const set = new Set();
+  G.items.forEach(i => {
+    const st = i.status === "done" ? "done" : (s[i.id] || "");
+    if (st === "chosen" || st === "scheduled" || st === "done") i.closes.forEach(q => set.add(q));
   });
-  if (lines.length === 1) lines.push("No choices recorded.");
-  const text = lines.join("\n");
-  const done = () => { document.getElementById("status").textContent = "Summary copied to the clipboard."; };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done).catch(() => { document.getElementById("status").textContent = "Could not copy; select the summary text and copy it manually."; });
-  } else {
-    const area = document.createElement("textarea");
-    area.value = text; document.body.appendChild(area); area.select();
-    try { document.execCommand("copy"); done(); } catch (e) { document.getElementById("status").textContent = "Could not copy; select the summary text and copy it manually."; }
-    area.remove();
+  return set;
+}
+function renderCards() {
+  const s = state();
+  const picked = G.items.filter(i => ["chosen", "scheduled"].includes(s[i.id])).length;
+  const closed = closedQuestions();
+  const hours = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id])).reduce((a, i) => a + (i.hours || 0), 0);
+  document.getElementById("cards").innerHTML = [
+    ["Suggestions listed", String(G.items.length), `${G.items.filter(i => i.kind === "site").length} site changes · ${G.items.filter(i => i.kind !== "site").length} research or professional`],
+    ["Paths offered", String(G.bundles.length), "Each is a fixed set, not a mixture"],
+    ["Chosen in this browser", String(picked), picked ? "Not implemented — recorded only" : "Nothing chosen yet"],
+    ["Readiness questions they close", `${closed.size} of ${openTotal}`, `About ${hours} hours of household time`]
+  ].map(([l, v, n]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+}
+function renderBundles() {
+  document.getElementById("bundles").innerHTML = G.bundles.map(b => {
+    const closed = new Set(); b.includes.forEach(id => (G.items.find(i => i.id === id) || { closes: [] }).closes.forEach(q => closed.add(q)));
+    return `<div class="card"><div class="eyebrow">${b.id}</div><h3>${b.name}</h3>
+      <p class="muted">${b.audience}</p>
+      <p><strong>Includes ${b.includes.length} item${b.includes.length === 1 ? "" : "s"}:</strong> ${b.includes.join(", ")}</p>
+      <p><strong>Closes ${closed.size} of ${openTotal} readiness questions.</strong> ${b.outcome}</p>
+      <p><strong>Leaves:</strong> ${b.leaves}</p>
+      <p class="tiny"><strong>Effort:</strong> ${b.effort} · <strong>Cost:</strong> ${b.cost}</p>
+      <button class="button secondary" type="button" data-bundle="${b.id}">Choose this path</button></div>`;
+  }).join("");
+  document.querySelectorAll("[data-bundle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const b = G.bundles.find(x => x.id === btn.dataset.bundle);
+      const s = state();
+      G.items.forEach(i => { s[i.id] = b.includes.includes(i.id) ? "chosen" : ""; });
+      setState(s);
+      fillSelects(); renderCards(); renderSelection();
+      document.getElementById("selection-note").textContent = `Path ${b.id} (“${b.name}”) marked. Nothing has been implemented and no figure has changed. Review the list below, adjust individual items if needed, then export the choice.`;
+      const paths = document.getElementById("paths");
+      if (paths && paths.scrollIntoView) paths.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+function renderItems() {
+  document.getElementById("items").innerHTML = G.items.map(i => `<tr data-s="${i.id}">
+    <td>${i.id}<br><span class="badge ${i.priority === "High" ? "red" : i.priority === "Medium" ? "gold" : "neutral"}">${i.priority}</span></td>
+    <td class="wrap"><strong>${i.title}</strong><div class="tiny">${i.what}</div>${i.note ? `<div class="tiny">${i.note}</div>` : ""}</td>
+    <td>${kindBadge(i.kind)}</td>
+    <td class="wrap">${i.removes}</td>
+    <td class="wrap">${i.closes.length ? i.closes.join(", ") : "—"}</td>
+    <td class="wrap">${i.effort}</td>
+    <td class="wrap">${i.cost}</td>
+    <td class="wrap">${i.risk}</td>
+    ${srcCell(sourceFor(i))}
+    <td><select class="s-choice" data-id="${i.id}" aria-label="Choice for ${i.id}">${STATUSES.map(([v, l]) => `<option value="${v}">${l}${i.status === "done" && v === "done" ? " (published)" : ""}</option>`).join("")}</select></td></tr>`).join("");
+  fillSelects();
+}
+/* Each suggestion needs a row-level official link even when it is purely a site change:
+   the link is the rule the suggestion protects, not a source for the suggestion itself. */
+function sourceFor(i) {
+  const map = { S01: "githubPages", S02: "cdiSurveyCup40_1000", S03: "irsRevRul20232", S04: "sccTaxBook", S05: "caRentCaps", S06: "irsTopic559", S07: "irsPub527", S08: "investorRisk", S09: "probate160617", S10: "boeLta2026026", S11: "boeLta2025009", S12: "githubSensitive", S13: "irsEstateTax", S14: "irsBasis", S15: "githubPages", S16: "irsEstateTax", S17: "cupertinoADU", S18: "irsPub527", S19: "ftb593", S20: "irs706", S21: "githubSensitive", S22: "irsEstateTax", S23: "irsBasis", S24: "boeProp19", S25: "cdiResGuide", S26: "investorRisk", S27: "irsEstateTax" };
+  const k = map[i.id];
+  return k && window.SOURCES[k] ? [k] : ["boeProp19"];
+}
+function fillSelects() {
+  const s = state();
+  document.querySelectorAll("select.s-choice").forEach(sel => {
+    const item = G.items.find(i => i.id === sel.dataset.id);
+    sel.value = item.status === "done" ? "done" : (s[sel.dataset.id] || "");
+    sel.disabled = item.status === "done";
+  });
+}
+function renderSelection() {
+  const s = state();
+  const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done");
+  const closed = closedQuestions();
+  const remaining = R.open.filter(q => !closed.has(q.id));
+  const hours = chosen.reduce((a, i) => a + (i.hours || 0), 0);
+  document.getElementById("selection").innerHTML = [
+    ["Items in your selection", String(chosen.length), chosen.length ? chosen.map(i => i.id).join(", ") : "None"],
+    ["Readiness questions closed", `${closed.size} of ${openTotal}`, closed.size ? [...closed].sort().join(", ") : "None yet"],
+    ["Household time", `About ${hours} hours`, "Professional time is additional and unpriced here"]
+  ].map(([l, v, n]) => `<div><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
+  document.getElementById("selection-note").textContent = remaining.length
+    ? `Still unanswered after this selection: ${remaining.map(q => q.id).join(", ")}. Open the readiness register to see what each one needs.`
+    : "Every open question would be closed by this selection. The eight unknowables remain — they are planned around, not solved.";
+}
+document.getElementById("top5").innerHTML = [
+  ["S03", "Read the trust", "It decides whether the basis resets — the reason selling leads. If it does not reset, the answer changes.", "Attorney’s own rate", "irsRevRul20232"],
+  ["S02", "Quote the insurance and the rebuild cost", "Three blank premiums become three written numbers, and the earthquake decision is priced.", "Quotes are free", "cdiSurveyCup40_1000"],
+  ["S04", "Read the tax bill and the rate book", "Replaces the hypothetical levy with the parcel’s actual rate.", "No charge", "sccTaxBook"],
+  ["S08", "Write the investment policy", "The 5% assumption is the largest single lever in the sell case.", "No charge to write", "investorRisk"],
+  ["S20", "Set an answer-by date", "The trust and beneficiary decisions can only be made while the parent is alive.", "No charge", "probate160617"]
+].map(([id, what, why, cost, key], i) => `<tr><td class="number">${i + 1}</td><td class="wrap"><strong>${what}</strong><div class="tiny">${id}</div></td><td class="wrap">${why}</td><td class="wrap">${cost}</td><td class="source">${UI.source(key)}</td></tr>`).join("");
+
+document.getElementById("never").innerHTML = G.never.map(([what, why, key]) => `<tr><td class="wrap"><strong>${what}</strong></td><td class="wrap">${why}</td><td class="source">${UI.source(key)}</td></tr>`).join("");
+
+document.addEventListener("change", e => {
+  if (e.target && e.target.classList.contains("s-choice")) {
+    const s = state(); s[e.target.dataset.id] = e.target.value; setState(s);
+    renderCards(); renderSelection();
   }
 });
+document.getElementById("reset").addEventListener("click", () => {
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  fillSelects(); renderCards();
+  document.getElementById("selection-note").textContent = "Marks cleared. Nothing else changed.";
+  renderSelection();
+});
+document.getElementById("print").addEventListener("click", () => { try { window.print(); } catch (e) {} });
+document.getElementById("export").addEventListener("click", () => {
+  const s = state();
+  const chosen = G.items.filter(i => ["chosen", "scheduled", "done"].includes(s[i.id]) || i.status === "done");
+  const closed = closedQuestions();
+  const lines = ["# Suggestions — the household's choice", "", "Exported " + new Date().toISOString().slice(0, 10) + ". Nothing below has been implemented.", ""];
+  if (!chosen.length) lines.push("_No suggestion was chosen._");
+  chosen.forEach(i => {
+    lines.push(`## ${i.id} · ${i.title}`);
+    lines.push(`- Status: ${i.status === "done" ? "Published" : (STATUSES.find(x => x[0] === s[i.id]) || STATUSES[0])[1]}`);
+    lines.push(`- Type: ${kindLabel(i.kind)} · Effort: ${i.effort} · Cost: ${i.cost}`);
+    lines.push(`- Removes: ${i.removes}`);
+    if (i.closes.length) lines.push(`- Closes questions: ${i.closes.join(", ")}`);
+    lines.push("");
+  });
+  lines.push(`Readiness questions closed by this choice: ${closed.size} of ${openTotal}.`);
+  lines.push("Record the choice in COORDINATION.md with the files it would touch before implementing it.");
+  const text = lines.join("\n");
+  downloadOrShow(text, "suggestions-choice.md", "export-output");
+});
 
-updateSummary();
+document.getElementById("privacy-paths-body").innerHTML = G.privacyPaths.map(p =>
+  `<tr><td class="wrap"><strong>${p.name}</strong>${p.note ? `<div class="tiny">${p.note}</div>` : ""}</td><td class="wrap">${p.benefit}</td><td class="wrap">${p.tradeoff}</td>${srcCell([p.src])}</tr>`).join("");
+
+document.getElementById("carried").innerHTML = G.carried.map(c =>
+  `<tr><td class="wrap">${c.q}</td><td class="wrap">${c.status}</td><td class="wrap">${c.resolve}</td><td class="wrap">${c.closes.map(id => `<a href="questions.html">${id}</a>`).join(", ")}</td>${srcCell(c.src)}</tr>`).join("");
+
+document.getElementById("recon-analysis").innerHTML = G.reconciled.analysis.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2]}</td>${srcCell([r[3]])}</tr>`).join("");
+document.getElementById("recon-questions").innerHTML = G.reconciled.questions.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap"><a href="questions.html">${r[2]}</a></td>${srcCell([r[3]])}</tr>`).join("");
+document.getElementById("recon-site").innerHTML = G.reconciled.site.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2]}</td><td>${r[3]}</td>${srcCell([r[4]])}</tr>`).join("");
+document.getElementById("recon-sequence").innerHTML = G.reconciled.sequence.map(r =>
+  `<tr><td class="number">${r[0]}</td><td class="wrap"><strong>${r[1]}</strong></td><td class="wrap">${r[2]}</td><td class="wrap">${r[3]}</td>${srcCell([r[4]])}</tr>`).join("");
+
+renderCards(); renderBundles(); renderItems(); renderSelection();
 </script></body></html>

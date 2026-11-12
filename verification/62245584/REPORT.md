@@ -49,10 +49,22 @@ ledger entry, not of an independent read this session. Logged as X-I2 below.
 
 ## 3. What the two new pages do, and their rules
 
-### `site/questions-gate.html` — the decision gate
+### `site/questions-gate.html` + `site/data/gate.js` (`window.GATE`) — the decision gate
 
 40 questions in 6 sequential groups. Each question carries an answer, a status, why it decides
 something, what document would settle it, the plans it blocks, and an official source link.
+
+**This is the blocking layer over the readiness register in `site/data/questions.js`.** That
+register, built by sessions `6a64dc5b` and `a87f8523`, holds what is known, what is missing, which
+office supplies it, and what each gap moves in the projections. It records `status: "open"` but does
+not say what an open question blocks. This page supplies only that: the per-plan blocking rule, and
+the order the answers must arrive in. The page opens with a section stating which page holds what,
+with the counts read from `window.READINESS` at render time rather than typed.
+
+Three independent sessions converged on the same two brief requirements, so the final tree carries
+three complementary registers and no duplicated content. The engine was renamed from `window.QUESTIONS`
+to `window.GATE`, and its file from `site/data/questions.js` to `site/data/gate.js`, so it cannot
+collide again.
 
 - **Status vocabulary.** `settled` = an official page fixes it; `household` = it exists only as an
   unverified planning figure; `missing` = nothing in the record answers it, so it is left blank.

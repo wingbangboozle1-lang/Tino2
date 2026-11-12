@@ -66,16 +66,16 @@
   },
   {
    "file": "site/questions-gate.html",
-   "rows": 55,
+   "rows": 57,
    "rowsWithContextLinkOnly": 0,
    "amounts": 14,
    "links": 0
   },
   {
    "file": "site/questions.html",
-   "rows": 44,
+   "rows": 89,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 81,
+   "amounts": 41,
    "links": 0
   },
   {
@@ -101,7 +101,7 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 202,
+   "rows": 204,
    "rowsWithContextLinkOnly": 0,
    "amounts": 86,
    "links": 0
@@ -115,9 +115,9 @@
   },
   {
    "file": "site/suggestions.html",
-   "rows": 42,
+   "rows": 84,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 6,
+   "amounts": 0,
    "links": 0
   },
   {
@@ -132,12 +132,12 @@
  "warnings": [],
  "totals": {
   "pages": 18,
-  "rows": 1476,
-  "rowsWithOwnSource": 1467,
+  "rows": 1567,
+  "rowsWithOwnSource": 1558,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4921,
-  "officialExactAmounts": 107,
-  "internalLinks": 480,
-  "externalLinks": 1926
+  "amounts": 4875,
+  "officialExactAmounts": 106,
+  "internalLinks": 506,
+  "externalLinks": 2052
  }
 }

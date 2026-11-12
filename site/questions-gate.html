@@ -3,11 +3,11 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision gate: forty questions in the order they must be answered, each marked settled, household input or missing, with the blocking rule that says whether living in, renting or selling the house can be decided yet."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
 <body data-title="Decision gate">
 <main id="main"></main><div data-footer></div>
-<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="data/questions.js"></script><script src="../assets/app.js"></script>
+<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="data/questions.js"></script><script src="data/gate.js"></script><script src="../assets/app.js"></script>
 <script>
 /* Session 62245584. The decision gate. Reads its inputs from the published model; holds no household figures. */
 const main = document.getElementById("main");
-const Q = window.QUESTIONS, M = window.MODEL, S = window.SOURCES;
+const Q = window.GATE, M = window.MODEL, S = window.SOURCES;
 const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const td = (h, c = "wrap") => `<td class="${c}">${h}</td>`;
 const badge = st => `<span class="badge ${Q.STATUS[st].badge}">${Q.STATUS[st].short}</span>`;
@@ -43,6 +43,10 @@ main.innerHTML = UI.hero("Decision gate · blocked or ready · 12 Nov 2026",
 
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Do this first</div><h2>The five questions that unlock the most</h2><p>Ordered by how many of the other questions stop being urgent once each is answered. Each has an official route in the table above.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Why it is first</th><th class="number">Plans it blocks</th><th>Official route</th></tr></thead><tbody id="first"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Two registers, one answer</div><h2>How this page relates to the readiness register</h2><p>The brief's question-and-answer requirement is met by two pages that do different jobs. Neither is a substitute for the other, and together they say what is known, where to get what is missing, and whether a decision can be made yet.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Page</th><th class="wrap">What it holds</th><th class="wrap">What it does not do</th><th>Official framework</th></tr></thead><tbody id="relation"></tbody></table></div>
 </section>
 
 <section class="section"><div class="grid two">
@@ -101,6 +105,18 @@ const leverage = Q.ALL
   .sort((a, b) => b.n - a.n || a.id.localeCompare(b.id))
   .slice(0, 5);
 document.getElementById("first").innerHTML = leverage.map(i => `<tr><td><strong>${i.id}</strong> ${esc(i.q)}</td><td class="wrap">${esc(i.why)}</td><td class="number">${i.n}</td><td class="source">${UI.source(i.src)}</td></tr>`).join("");
+
+/* How the two registers relate. Counts are read from the published registers, not typed. */
+document.getElementById("relation").innerHTML = [
+  ["<a href=\"questions.html\">Decision readiness</a>",
+   `What is known, what is missing and which office, document or lookup supplies it — ${window.READINESS.groups.length} groups of questions, with the wording found on the official page for each settled answer. It also shows what each open gap moves in the projections.`,
+   "It does not say, plan by plan, whether a decision can be made yet. Its status field records that a question is open, not what that blocks.",
+   "caTrustNotice"],
+  ["<a href=\"questions-gate.html\">Decision gate</a> (this page)",
+   `Forty questions in the order the answers must arrive, each marked settled, household input or missing, plus the blocking rule: a plan is blocked by every question attached to it that is not settled. ${Q.counts.total} questions, ${Q.counts.missing} with no answer in the record.`,
+   "It does not restate the official wording or repeat what each gap moves in the projections. It links to the register for that.",
+   "boeProp19"]
+].map(r => `<tr><td class="wrap">${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2]}</td><td class="source">${UI.source(r[3])}</td></tr>`).join("");
 
 UI.ensureRowSources();
 </script></body></html>

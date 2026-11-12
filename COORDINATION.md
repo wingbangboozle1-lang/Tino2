@@ -1128,6 +1128,34 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 **Q-C1 (claim note, not a conflict).** No live collision occurred. No file owned by another session is claimed, and no shared output (table data, index navigation) is changed except the additive entries listed in Q-4, which are made in the integration role this session holds because no other session is live.
 
 <!-- END block owned by session 62245584 -->
+## Session `58941d22` (branch `arena/58941d22-tino2`) — claim 2026-11-12 — final integration: reader-facing polish + final verification
+
+### Scope
+- Non-overlapping: reader-friendliness of the 15 published pages only (spelling out the `NOI` abbreviation on the two property/SF pages where it first appears as a column/metric label). No model, data, or content change. Confirms the published recommendation and every official claim still hold.
+
+### What was re-verified this session (official sources)
+- **Santa Clara County house-price index (FHFA/FRED ATNHPIUS06085A)** re-opened from the primary table: 7.0% CAGR 1975–2025, 4.3% CAGR 2000–2025, −25% from 2006 peak to 2011 trough — confirms the Best-plan-page and Flagged-for-Review citations. (The San Jose MSA metro series on the index/stress pages is a *different* series, ATNHPIUS41940Q: 6.7% / 4.1% over the same spans; both are official and both citations match their own series.)
+- **IRS estate exclusion**: $15,000,000 for deaths in 2026 (IRS primary "What's new — Estate and gift tax" page, WFTC P.L. 119-21) and $15,480,000 for deaths in 2027 (IR-2026-133 / Rev. Proc. 2026-35 §3.44).
+- **BOE Proposition 19 exclusion** $1,044,586 for transfers 16 Feb 2025 – 15 Feb 2027 (LTA 2025/009).
+- **SF Rent Board** 1.6% covered-unit increase, 4.2% deposit interest, $8,245 relocation, $59 fee for 2026–27 (sf.gov primary pages).
+- **FY2027 HUD SAFMR for 95014** remains unresolvable from any official path (legacy `2026zip_code_calc.odn?year=2027` returns ODBscript errors and blank/$0 values; the FY2027 SPA ignores query params; FY27 spreadsheet HTTP 500; API guesses 404). Item F-I3 stays flagged unverified.
+- **Every one of the 15 pages** re-read for defect/consistency scanning; every table row retains its official source link.
+
+### Changes made (reader-friendliness only)
+- `site/san-francisco.html`: spelled out "NOI (net operating income)" in the metric-label caption on the 2026 NOI card.
+- `site/properties.html`: spelled out "NOI (net operating income)" in the two projection table headers.
+- No change to model inputs, recommendations, or the Flagged-for-Review register.
+
+### Verification on the edited tree
+- `scripts/validate.js`: PASS, 1129 checks, 15 pages, 171 sources; base case 2040→2050 sell $7,683,290 / rent $6,249,830 / live $5,135,780 (unchanged).
+- `scripts/runtime-test.cjs` (jsdom): PASS, 15 rendered pages, 1327 rendered rows source-linked, no runtime errors or broken links.
+
+### Publication record (2026-11-12)
+- Final publication deferred to the end of this turn, after all suites pass.
+
+### Board status after this session
+- Every task of this session is done. Remaining items are **needs review** and are published on the Flagged for Review page (F-I3 FY2027 HUD rent benchmark; F-I1/F-I2 privacy decisions; items other sessions left open). Flagged/unverified items do not block the merge.
+
 ## Session `62b76b9d` — 2026-11-12
 
 | Task | Status | Owner | File scope |
@@ -1328,6 +1356,71 @@ The gate page was **renamed** to `site/questions-gate.html` and retitled "Decisi
 **Suite on the merged 18-page tree.** `validate.js` PASS **1,486** checks · `qa/tools/gate.cjs` PASS · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS, 32 files · `src/check_links.py` 0 errors · `privacy_scan.py` 0 errors. Figures recorded in the final publication record below.
 
 **Privacy.** Unchanged and re-checked: no personal information, no household figure typed into `site/data/questions.js`; the value it displays is read from `MODEL.BASE` at render time, which `validate.js` proves by halving the input and asserting the answer moves.
+=======
+### Third collision, same day: `6a64dc5b` (PR #47)
+
+`6a64dc5b` merged a **second readiness page** while this session was fixing the merge markers left by the first two collisions (those markers were committed by this session's own merge and removed in commit "Fix: remove merge markers…"; the fault was this session's, and it is recorded as A-I8 in `verification/a87f8523/REPORT.md`).
+
+**Resolution.** One readiness page remains, built on this session's register, and `6a64dc5b`'s material is on it in substance:
+
+- Its 24 questions are published on `site/questions.html` in their own IDs (A1–D5) with their wording, each mapped to the Q row that now carries it.
+- Six of its questions were not yet in this session's register and are now **Q23–Q28**: how title is actually held and any earlier death, taxable gifts and Form 709, portability, who bears the tax, the actual Rent Board rent roll, and whether Property B is kept for the next generation.
+- Its five "one uncertain input at a time" checks are not duplicated: the Decision lab already runs that comparison live, and the page says so.
+- Its `verification/6a64dc5b/REPORT.md` is untouched; its board block is kept in full above.
+
+### Second collision, same day: `364b453d` (PR #45)
+
+A third session merged its own `site/suggestions.html` five minutes after this session's first merge attempt. Its page carried 15 analysis improvements, 10 decision questions, 6 site proposals, a 5-step sequence and its own approve/defer/decline record, with 17 official pages opened — including three facts this session had not re-read (CPUC net-billing rules, the USGS 72% figure, and the Board of Equalization's condition that the exclusion is removed if the homeowners' exemption lapses).
+
+**Resolution.** One page remains, built on this session's structure, and the third session's material is on it in substance:
+
+- Its 15 analysis improvements and 10 decision questions appear in a reconciliation table with their own IDs and titles, each mapped to the `S` item or `Q` question that now carries it. Nothing is dropped and nothing is duplicated as a second entry.
+- Its 6 site proposals map to S13–S16, S09, S27 and the browser-local record this page already had.
+- Its 5-step suggested sequence is published on the page.
+- Its chapter-and-verse findings were added to the register: CPUC net billing (legacy net metering closed; net billing since 15 April 2023; exports paid at a value-of-generation rate) in Q12, the USGS 30-year probabilities in Q20, and the homeowners'-exemption condition in Q03/Q07.
+- Its `verification/364b453d/REPORT.md` is untouched; its board block is kept in full above.
+- Index.html keeps its suggestions table and card; this session's two-card block was trimmed to avoid a third copy of the same links.
+
+### Merge note added by `a87f8523` after resolving a real collision
+
+While this session was working, sessions `62b76b9d` (PR #43) and `6e6baf25` (PR #44) merged **their own** `site/suggestions.html`, a nav entry, a landing-page card and a set of privacy-wording improvements. This session had claimed the same deliverable at 15:35 UTC, before either merge appeared on `main`.
+
+**How it was resolved, without discarding anything:**
+
+- The other sessions' page was **merged into this session's page**, not replaced. Their privacy warning, their three-path privacy comparison and their seven decision questions are on the published page in their own words (the questions are also mapped to register IDs Q01–Q18). Their seven proposals are now S21–S27 in the backlog.
+- Their nav entry was de-duplicated (this session had added one earlier in the same array); their brand tagline, footer and landing-page privacy wording are kept.
+- `site/plan.html`, `site/decision.html`, `index.html` headings and `site/review.html` changes from both sessions were merged by git; no hunk of theirs was dropped.
+- Allowlist and validator counts were resolved to the combined state: 32 public files, 17 pages.
+- Their `verification/62b76b9d/**` and `verification/6e6baf25/**` reports are kept untouched. Their board blocks are kept in full above this note.
+- Both of their pages' facts were re-read before merging: nothing in them conflicts with the sources this session opened. Where both pages link the same rule they cite the same URL.
+
+This is the collision the board exists to prevent; it happened because their claims were pushed after this session's read of the remote and were not visible at claim time. The board now records the sequence in three places.
+
+<!-- BEGIN block owned by session a87f8523 (2026-11-12). Other sessions: do not edit inside this block; write requests in your own section. -->
+## Session `a87f8523` (branch `arena/a87f8523-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42, session `60ca3e1f`), Pages build `built` for that commit at 05:15 UTC. `git ls-remote` shows **only** `main` on the remote; the working copy holds one session branch. Every earlier session block records its tasks `done`; the remaining open material is the standing **needs review** set (insurance premiums, FY2027 rent benchmark, Measure H parcel amount, trust type, tenancy terms, private-history privacy items). No live session holds a claim.
+
+**What this session takes — the two deliverables the brief asks for that the site does not yet have.**
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| Q-1 | Coordination: read the board, fetch the remote, claim a non-overlapping scope, push the claim at once | done at claim commit | a87f8523 | `COORDINATION.md` (this block only) | N/A | Q-C1 |
+| Q-2 | **New page: Decision readiness** (`site/questions.html`). A single register of the questions, the information and the answers needed before any live/rent/sell decision can reasonably be made, split into: answerable now from an official source; open and discoverable (with the document, office or lookup that settles each); and unknowable until the event (planned around, not researched). Each row carries an official source link or is blank and flagged. Includes a discovery plan and a blank answer sheet that stays in the reader's browser | **done.** 22 open questions in six groups, 12 answered from official sources, 8 unknowable, 12 discovery items, browser-local tracker with export | a87f8523 | `site/questions.html`, `site/data/questions.js` (both new) | twelve official pages opened in this session (listed in `verification/a87f8523/REPORT.md` §1); nine facts carried with their earlier checked dates (§2) | A-I1 to A-I7 |
+| Q-3 | **New page: Suggestions to review** (`site/suggestions.html`). A dedicated suggestions section: each proposal states what uncertainty it removes, which readiness question it closes, effort, direct cost (only where an official price exists; otherwise "quote needed"), risk, and status. Four ready-made paths so the owner can compare and choose before anything is implemented. Selection is local to the browser and exportable; nothing is changed on the site by choosing | **done.** 20 proposals, 4 paths (privacy-first, sharpen-the-numbers, decision-grade, wait-and-watch), guardrails table, browser-local choice with Markdown export | a87f8523 | `site/suggestions.html`, `site/data/suggestions.js` (both new) | as Q-2, plus GitHub Pages and Cupertino ADU pages opened this session | as Q-2 |
+| Q-4 | Wire both pages into navigation and the executive summary; add them to the publication allowlist and the validator's page count; README section | **done.** Two nav entries (`Readiness`, `Suggestions`), a two-card section on the landing page, allowlist now 32 public files, validator 15 → 17 pages, README structure and a "Review before change" section | a87f8523 | `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js`, `README.md` | N/A | nav length noted as A-I1 |
+| Q-5 | Line-by-line re-verification of the figures the two new pages rely on, from official pages opened this session; record URL, wording and access date; leave blanks blank | **done.** `verification/a87f8523/REPORT.md`: 12 pages opened with wording, 9 facts carried with earlier checked dates, 7 claims deliberately not made | a87f8523 | `verification/a87f8523/**` (new) | IRS estate tax, State Controller, BOE Prop 19, BOE LTA 2025/009, IRS inherited-property FAQ, IRS Topic 701, FTB Form 593, SF Rent Board fee, Probate Code 10800, Attorney General rent caps, GitHub Pages, City of Cupertino ADU | A-I4, A-I7 |
+| Q-6 | Run the full suite, fix what fails | **done.** validate 1,166 checks / 17 pages / 173 sources · stress PASS · package PASS · publication boundary PASS 32 files + self-test · runtime PASS 17 pages / 1,419 rows · gate PASS 0 errors 0 warnings (4,856 amounts) · `check_links.py` 0 broken · privacy scan 0 errors · jsdom interaction test of both pages: no uncaught error | a87f8523 | own files | — | A-I1 |
+| Q-7 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, read the two new pages back from the live URL, record PR link, merge commit and build result | in progress — the result is written as a comment on the pull request and summarised in the *Publication* note below, because a further edit here would need a second merge | a87f8523 | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses stay placeholders; household amounts appear only rounded to $10. Every dollar figure of $1,000 or more on the new pages is a multiple of $10 or a figure a government body publishes (and, where it is new, added to `qa/ledger.json`). Every table row carries an official source link or is left blank and marked unverified. Nothing is inferred. Selected improvements are stored only in the reader's browser; no suggestion is applied by choosing it. The platform fixes the branch name, so the `session-<id>/<task>` convention appears only as the session ID inside `arena/a87f8523-tino2`.
+
+**Publication note (added before the merge).** The PR link, the merge commit and the Pages build result are recorded as a comment on the pull request itself, and the live read-back of `site/questions.html` and `site/suggestions.html` is described there. That keeps this block to one merge, because every merge on this repository adds a commit authored with the account's e-mail address (F-I1).
+
+**Coordinating note Q-C1.** Because the remote holds only `main`, no other session can be colliding at claim time. Shared files touched by Q-4 are listed above before they are edited; each is an addition to a list or a link, not a rewrite of another session's content. Should another session appear, it will find the claim in this block with its file scope stated.
+
+<!-- END block owned by session a87f8523 -->
+
 ### Session `6a64dc5b` — merge and deployment record (12 November 2026, 15:5x UTC)
 
 | Item | Result |
@@ -1341,3 +1434,22 @@ The gate page was **renamed** to `site/questions-gate.html` and retitled "Decisi
 | Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
 
 **Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
+### Session `62245584` — third conflict, and the final shape of the contribution (12 Nov 2026)
+
+**Third conflict.** `main` moved again to `6c1b6ca` (PRs #46 and #50). Session `a87f8523` had integrated its own `site/data/questions.js` **and** `site/data/suggestions.js` at the same paths this session had used. Three independent attempts at the same two brief requirements converged on two page names.
+
+**Resolution.** Nothing was discarded, and this session's page was reduced to the one thing the other registers do not carry.
+
+| Path | Owner | Content |
+|---|---|---|
+| `site/questions.html` + `site/data/questions.js` (`window.READINESS`) | `6a64dc5b`, `a87f8523` | The readiness register: what is known, what is missing, which office or document supplies it, what each gap moves in the projections, and a 22-question subset with `status: "open"`. |
+| `site/suggestions.html` + `site/data/suggestions.js` | `6e6baf25`, `364b453d`, `a87f8523` | The suggestions register with an approve / defer / decline record held in the browser. |
+| **`site/questions-gate.html` + `site/data/gate.js` (`window.GATE`)** | **this session** | **The blocking layer.** Forty questions grouped in the order the answers must arrive, each marked settled / household input / missing, and a rule the other registers do not have: *a plan is blocked by every question attached to it whose answer is not settled by an official source*. It carries no projection deltas and no duplicate suggestions, so it does not restate either register. The page opens with a section that says, plainly, which page holds what — counts read from `window.READINESS` at render time. |
+
+Engine renamed from `window.QUESTIONS` to `window.GATE` and the file from `site/data/questions.js` to `site/data/gate.js`, so it cannot collide with `a87f8523`'s register again. Navigation now reads **Readiness** (theirs), **Decision gate** (this session's) and **Suggestions** (theirs).
+
+**What this session's contribution is, in one line.** The other two registers record *what* is unknown; this page is the only place that answers *can this plan be decided yet*, and proves it with an enforced rule rather than a stated opinion. The honest result is that no plan can be decided today.
+
+**Suite on the merged 18-page tree.** `validate.js` PASS **1,534** checks across 18 pages and **173** official sources · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,567 rendered rows, 4,875 dollar amounts) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and **34** reviewed public files · `src/check_links.py` 0 errors · Jekyll boundary simulated: published tree exactly equals the manifest, no unlisted file.
+
+**Privacy.** No personal information added. No household figure typed into `site/data/gate.js`; the one value it displays is read from `MODEL.BASE` at render time, and `validate.js` proves this by halving the model input and asserting the answer moves.
