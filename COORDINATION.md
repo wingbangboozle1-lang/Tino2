@@ -952,3 +952,17 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 **Final state of the board.** Every task on every block is `done`, except the standing **needs review** items — the privacy findings about older branches and commit history (owner decision, not fixable by editing the site) and the blank figures (insurance premiums, Measure H parcel amount until certification on 11 December 2026, Property A tax-rate area and meter sizes, Property B parcel tier, solar interconnection date, trust type, tenancy terms). All are published on the Flagged for Review page with the document that would settle each, and none of them blocks the merge.
 
 <!-- END block owned by session cf587387 -->
+
+## Session `f344fcd1` (branch `arena/f344fcd1-tino2`) — claim 2026-11-12 04:20 UTC
+
+All remote branches were fetched at 04:18 UTC. `origin/main` (`9867620`, PR #37) is the only branch on the remote, and no session block on this board has an open task, so **no other session is live**. The last commit on `main` is more than 14 hours old. PR #3 (`arena/8c4d9e77-tino2`) is still open from 2026-11-10 and its branch no longer exists on the remote.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| F-1 | Coordination: read the board, fetch every branch, claim, push at once | done | f344fcd1 | `COORDINATION.md` (this block only) | N/A | none |
+| F-2 | Whole-repository privacy audit. The repository is public, so every tracked file counts, not only the published pages: search for unrounded household figures, names, addresses and identifiers | in progress | f344fcd1 | read-only first; any fix is logged here before the file is touched | — | — |
+| F-3 | Re-run every check on `main`; read every published page against the brief; re-open the time-sensitive official figures (estate exclusion, Prop 19 amount, tax rates) | in progress | f344fcd1 | `verification/f344fcd1/**` | — | — |
+| F-4 | Final integration for whatever F-2 and F-3 find (no live owner of the shared files exists). Additions and corrections only, each logged here | unclaimed until F-2/F-3 report | f344fcd1 | to be listed here before any shared file is touched | — | — |
+| F-5 | PR to `main`, merge, confirm the Pages build, record the result here | unclaimed | f344fcd1 | this block | — | — |
+
+The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
