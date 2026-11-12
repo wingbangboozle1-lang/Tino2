@@ -47,13 +47,13 @@
  {
   "id": "FED-05",
   "topic": "federal-estate",
-  "claim": "What is counted against the threshold",
-  "value": "Gross estate (cash, securities, real estate, insurance, trusts, annuities, business interests) at fair market value, plus adjusted taxable gifts made since 1977; less debts, administration expenses, marital and charitable deductions",
+  "claim": "Federal estate return filing test versus taxable estate",
+  "value": "The filing test generally compares the gross estate plus adjusted taxable gifts and the specific gift tax exemption with the filing threshold. Deductions for debts, administration, qualifying marital transfers and charity are used to calculate the taxable estate and tax, not subtracted in this filing test.",
   "url": "https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax",
   "source": "IRS - Estate tax",
-  "evidence": "'The fair market value of these items is used... The includible property may consist of cash and securities, real estate, insurance, trusts, annuities, business interests and other assets.'",
+  "evidence": "IRS: 'A filing is required if the gross estate of the decedent, increased by the decedent’s adjusted taxable gifts and specific gift tax exemption, is valued at more than the filing threshold'; deductions are discussed separately in arriving at the taxable estate.",
   "status": "verified",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "FED-06",

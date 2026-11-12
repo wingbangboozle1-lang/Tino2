@@ -1,4 +1,5 @@
-# Publish only the canonical dashboard; do not serve legacy private histories.
+# Only the privacy-reviewed public guide is served by Jekyll from main/root.
+# GitHub itself remains public; exclusions are NOT repository access controls.
 exclude:
   - COORDINATION.md
   - README.md
@@ -11,6 +12,8 @@ exclude:
   - qa
   - verification
   - css
+  - site
+  - pages
   - research-portal.html
   - cupertino.html
   - decision.html
@@ -19,9 +22,11 @@ exclude:
   - san-francisco.html
   - sources.html
   - taxes.html
-  - pages
+  - assets/app.js
+  - assets/styles.css
   - assets/style.css
   - assets/style.css-alternate.css
   - assets/app-old.js
   - _public
+  - _site
   - .cache
