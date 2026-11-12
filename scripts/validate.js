@@ -165,5 +165,13 @@ const assets = ["assets/styles.css", "assets/app.js"];
 assets.forEach(file => ok(fs.existsSync(path.join(root, file)), `${file} exists`));
 new vm.Script(fs.readFileSync(path.join(root, "assets/app.js"), "utf8"), {filename: "app.js"}); checks += 1;
 ok(fs.existsSync(path.join(root, "_config.yml")), "GitHub Pages publication exclusions");
+// A merge marker must never reach a published page (A-I8: one did, and every other check still passed).
+const pages = [path.join(root, "index.html"), ...htmlFiles.map(f => (path.isAbsolute(f) ? f : path.join(root, "site", f)))];
+pages.forEach(file => {
+  const text = fs.readFileSync(file, "utf8");
+  const name = path.relative(root, file);
+  ok(!/^<<<<<<< |^>>>>>>> /m.test(text), `${name} contains no merge-conflict marker`);
+  ok(!/^=======$/m.test(text), `${name} contains no conflict separator`);
+});
 console.log(`PASS: ${checks} checks across ${htmlFiles.length} pages and ${Object.keys(SOURCES).length} official sources.`);
 console.log(`Base case 2040→2050: sell ${MODEL.fmtMoney(baseDecision.sell.terminal)}, rent ${MODEL.fmtMoney(baseDecision.rent.terminal)}, live ${MODEL.fmtMoney(baseDecision.live.terminal)}.`);

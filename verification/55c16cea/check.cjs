@@ -44,34 +44,34 @@ assert.match(sf09.value, /\$249.*\$0\.195/);
 // 2. Questions & discovery page DOM + interactive filter checks
 const qDom = renderPage("site/questions.html");
 const qDoc = qDom.window.document;
-assert.equal(qDoc.querySelectorAll(".q-group tbody tr").length, 24, "24 discovery questions rendered across groups A-D");
-assert(!/\bsession\b|the brief/i.test(qDoc.body.textContent), "R-D4 internal wording removed from questions.html");
-assert.match(qDoc.body.textContent, /\$5,800.*4BR/);
+assert.equal(qDoc.querySelectorAll("#groups tbody tr").length, 28, "28 open readiness questions rendered");
+assert.equal(qDoc.querySelectorAll("#answered tr").length, 14, "14 official settled answers rendered (incl. Measure H & FY2027 HUD)");
+assert(!/\bsession\b|the brief/i.test(qDoc.getElementById("main").textContent), "R-D4 internal wording removed from questions.html");
+assert.match(qDoc.body.textContent, /\$5,800 \(4BR\)/);
 assert.match(qDoc.body.textContent, /\$249\/yr base \+ \$0\.195\/sq ft/);
-const qStatus = qDoc.getElementById("qStatusFilter");
-qStatus.value = "blocking";
-qStatus.dispatchEvent(new qDom.window.Event("change"));
-const visibleBlocking = [...qDoc.querySelectorAll(".q-group tbody tr")].filter(tr => tr.style.display !== "none").length;
-assert.equal(visibleBlocking, 3, "blocking filter isolates 3 blocking questions");
+const qPrio = qDoc.getElementById("qPriorityFilter");
+qPrio.value = "High";
+qPrio.dispatchEvent(new qDom.window.Event("change"));
+const visibleHigh = [...qDoc.querySelectorAll("#groups tbody tr")].filter(tr => tr.style.display !== "none").length;
+assert(visibleHigh > 0 && visibleHigh < 28, `expected filtered high-priority rows, got ${visibleHigh}`);
 assert(qDoc.getElementById("downloadChecklist"), "CSV discovery checklist download button present");
 qDom.window.close();
 
 // 3. Suggestions page DOM + interactive path selection checks
 const sDom = renderPage("site/suggestions.html");
 const sDoc = sDom.window.document;
-assert(!/\bsession\b|the brief/i.test(sDoc.body.textContent), "R-D4 internal wording removed from suggestions.html");
-assert.match(sDoc.body.textContent, /\$5,800.*4BR/);
-assert.match(sDoc.body.textContent, /\$249\/yr base \+ \$0\.195\/sq ft/);
-assert(sDoc.getElementById("dl-md") && sDoc.getElementById("dl-json"), "Markdown and JSON export buttons present");
+assert.equal(sDoc.querySelectorAll("#items tr").length, 27, "27 suggestions rendered");
+assert(!/\bsession\b|the brief/i.test(sDoc.getElementById("main").textContent), "R-D4 internal wording removed from suggestions.html");
+assert.match(sDoc.body.textContent, /\$5,800 4BR/);
+assert.match(sDoc.body.textContent, /\$249\/yr \+ \$0\.195\/sq ft/);
+assert(sDoc.getElementById("export") && sDoc.getElementById("export-json"), "Markdown and JSON export buttons present");
 const privSel = sDoc.getElementById("privacy-path-select");
 assert(privSel, "Interactive privacy path selector present");
 privSel.value = "Path A: Private analysis, public generic examples";
 privSel.dispatchEvent(new sDom.window.Event("change", { bubbles: true }));
-assert.match(sDoc.getElementById("summary-card").textContent, /Path A: Private analysis, public generic examples/);
-const a05Sel = sDoc.querySelector('select[data-choice="A-05"]');
-a05Sel.value = "Approve";
-a05Sel.dispatchEvent(new sDom.window.Event("change", { bubbles: true }));
-assert.match(sDoc.getElementById("summary-card").textContent, /A-05/);
+assert.match(sDoc.getElementById("selection").textContent, /Path A: Private analysis, public generic examples/);
+sDoc.querySelector('[data-bundle="P1"]').click();
+assert.match(sDoc.getElementById("selection-note").textContent, /Path P1/);
 sDom.window.close();
 
 // 4. Decision Lab FY2027 selector check

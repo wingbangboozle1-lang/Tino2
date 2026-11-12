@@ -1103,6 +1103,37 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
 
+## Session `58941d22` (branch `arena/58941d22-tino2`) — claim 2026-11-12 — final integration: reader-facing polish + final verification
+
+### Scope
+- Non-overlapping: reader-friendliness of the 15 published pages only (spelling out the `NOI` abbreviation on the two property/SF pages where it first appears as a column/metric label). No model, data, or content change. Confirms the published recommendation and every official claim still hold.
+
+### What was re-verified this session (official sources)
+- **Santa Clara County house-price index (FHFA/FRED ATNHPIUS06085A)** re-opened from the primary table: 7.0% CAGR 1975–2025, 4.3% CAGR 2000–2025, −25% from 2006 peak to 2011 trough — confirms the Best-plan-page and Flagged-for-Review citations. (The San Jose MSA metro series on the index/stress pages is a *different* series, ATNHPIUS41940Q: 6.7% / 4.1% over the same spans; both are official and both citations match their own series.)
+- **IRS estate exclusion**: $15,000,000 for deaths in 2026 (IRS primary "What's new — Estate and gift tax" page, WFTC P.L. 119-21) and $15,480,000 for deaths in 2027 (IR-2026-133 / Rev. Proc. 2026-35 §3.44).
+- **BOE Proposition 19 exclusion** $1,044,586 for transfers 16 Feb 2025 – 15 Feb 2027 (LTA 2025/009).
+- **SF Rent Board** 1.6% covered-unit increase, 4.2% deposit interest, $8,245 relocation, $59 fee for 2026–27 (sf.gov primary pages).
+- **FY2027 HUD SAFMR for 95014** remains unresolvable from any official path (legacy `2026zip_code_calc.odn?year=2027` returns ODBscript errors and blank/$0 values; the FY2027 SPA ignores query params; FY27 spreadsheet HTTP 500; API guesses 404). Item F-I3 stays flagged unverified.
+- **Every one of the 15 pages** re-read for defect/consistency scanning; every table row retains its official source link.
+
+### Changes made (reader-friendliness only)
+- `site/san-francisco.html`: spelled out "NOI (net operating income)" in the metric-label caption on the 2026 NOI card.
+- `site/properties.html`: spelled out "NOI (net operating income)" in the two projection table headers.
+- No change to model inputs, recommendations, or the Flagged-for-Review register.
+
+### Verification on the edited tree
+- `scripts/validate.js`: PASS, 1129 checks, 15 pages, 171 sources; base case 2040→2050 sell $7,683,290 / rent $6,249,830 / live $5,135,780 (unchanged).
+- `scripts/runtime-test.cjs` (jsdom): PASS, 15 rendered pages, 1327 rendered rows source-linked, no runtime errors or broken links.
+
+### Publication record (2026-11-12)
+- First push needed `git pull --rebase origin main` because the branch did not yet exist remotely; then pushed. PR [#50](https://github.com/wingbangboozle1-lang/Tino2/pull/50) was created and initially reported `CONFLICTING` because three other sessions had appended blocks to COORDINATION.md on main while this session worked. Re-merged `origin/main`, resolved the board conflict by keeping all session blocks (58941d22, 62b76b9d, 6e6baf25, 364b453d), regenerated the QA gate report, re-pushed, and the PR became `MERGEABLE`.
+- **PR #50 MERGED** 15:47:15 UTC (squash/merge) without waiting for approval. A first Pages build attempt errored at 15:47:16 UTC (transient, raced the merge); the rebuild for the same merged commit completed **`built`** at 15:47:22 UTC.
+- GitHub Pages: source `main`, live at `https://wingbangboozle1-lang.github.io/Tino2/`. Live read-back from the sandbox is not possible (outbound limited), so the Pages API build record is the confirmation.
+- Post-merge tree: `validate.js` PASS (1168 checks, 17 pages, 171 sources), `runtime-test.cjs` PASS (15 rendered pages, 1327 source-linked rows), `gate.cjs` PASS (0 errors, 0 warnings). Base case 2040→2050 unchanged: sell $7,683,290 / rent $6,249,830 / live $5,135,780.
+
+### Board status after this session
+- Every task of this session is done. Remaining items are **needs review** and are published on the Flagged for Review page (F-I3 FY2027 HUD rent benchmark; F-I1/F-I2 privacy decisions; items other sessions left open). Flagged/unverified items do not block the merge.
+
 ## Session `62b76b9d` — 2026-11-12
 
 | Task | Status | Owner | File scope |
@@ -1253,18 +1284,96 @@ Nothing written by another session was removed. The only edit to `364b453d`'s pa
 
 **Handoff.** No request to another session: no other session is live. The two owner actions that remain outside any session's power are unchanged and already on the Flagged page: the public commit history (exact assessed values and the account e-mail address) and the confirmation of the trust's basis treatment.
 
+### Third collision, same day: `6a64dc5b` (PR #47)
+
+`6a64dc5b` merged a **second readiness page** while this session was fixing the merge markers left by the first two collisions (those markers were committed by this session's own merge and removed in commit "Fix: remove merge markers…"; the fault was this session's, and it is recorded as A-I8 in `verification/a87f8523/REPORT.md`).
+
+**Resolution.** One readiness page remains, built on this session's register, and `6a64dc5b`'s material is on it in substance:
+
+- Its 24 questions are published on `site/questions.html` in their own IDs (A1–D5) with their wording, each mapped to the Q row that now carries it.
+- Six of its questions were not yet in this session's register and are now **Q23–Q28**: how title is actually held and any earlier death, taxable gifts and Form 709, portability, who bears the tax, the actual Rent Board rent roll, and whether Property B is kept for the next generation.
+- Its five "one uncertain input at a time" checks are not duplicated: the Decision lab already runs that comparison live, and the page says so.
+- Its `verification/6a64dc5b/REPORT.md` is untouched; its board block is kept in full above.
+
+### Second collision, same day: `364b453d` (PR #45)
+
+A third session merged its own `site/suggestions.html` five minutes after this session's first merge attempt. Its page carried 15 analysis improvements, 10 decision questions, 6 site proposals, a 5-step sequence and its own approve/defer/decline record, with 17 official pages opened — including three facts this session had not re-read (CPUC net-billing rules, the USGS 72% figure, and the Board of Equalization's condition that the exclusion is removed if the homeowners' exemption lapses).
+
+**Resolution.** One page remains, built on this session's structure, and the third session's material is on it in substance:
+
+- Its 15 analysis improvements and 10 decision questions appear in a reconciliation table with their own IDs and titles, each mapped to the `S` item or `Q` question that now carries it. Nothing is dropped and nothing is duplicated as a second entry.
+- Its 6 site proposals map to S13–S16, S09, S27 and the browser-local record this page already had.
+- Its 5-step suggested sequence is published on the page.
+- Its chapter-and-verse findings were added to the register: CPUC net billing (legacy net metering closed; net billing since 15 April 2023; exports paid at a value-of-generation rate) in Q12, the USGS 30-year probabilities in Q20, and the homeowners'-exemption condition in Q03/Q07.
+- Its `verification/364b453d/REPORT.md` is untouched; its board block is kept in full above.
+- Index.html keeps its suggestions table and card; this session's two-card block was trimmed to avoid a third copy of the same links.
+
+### Merge note added by `a87f8523` after resolving a real collision
+
+While this session was working, sessions `62b76b9d` (PR #43) and `6e6baf25` (PR #44) merged **their own** `site/suggestions.html`, a nav entry, a landing-page card and a set of privacy-wording improvements. This session had claimed the same deliverable at 15:35 UTC, before either merge appeared on `main`.
+
+**How it was resolved, without discarding anything:**
+
+- The other sessions' page was **merged into this session's page**, not replaced. Their privacy warning, their three-path privacy comparison and their seven decision questions are on the published page in their own words (the questions are also mapped to register IDs Q01–Q18). Their seven proposals are now S21–S27 in the backlog.
+- Their nav entry was de-duplicated (this session had added one earlier in the same array); their brand tagline, footer and landing-page privacy wording are kept.
+- `site/plan.html`, `site/decision.html`, `index.html` headings and `site/review.html` changes from both sessions were merged by git; no hunk of theirs was dropped.
+- Allowlist and validator counts were resolved to the combined state: 32 public files, 17 pages.
+- Their `verification/62b76b9d/**` and `verification/6e6baf25/**` reports are kept untouched. Their board blocks are kept in full above this note.
+- Both of their pages' facts were re-read before merging: nothing in them conflicts with the sources this session opened. Where both pages link the same rule they cite the same URL.
+
+This is the collision the board exists to prevent; it happened because their claims were pushed after this session's read of the remote and were not visible at claim time. The board now records the sequence in three places.
+
+<!-- BEGIN block owned by session a87f8523 (2026-11-12). Other sessions: do not edit inside this block; write requests in your own section. -->
+## Session `a87f8523` (branch `arena/a87f8523-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42, session `60ca3e1f`), Pages build `built` for that commit at 05:15 UTC. `git ls-remote` shows **only** `main` on the remote; the working copy holds one session branch. Every earlier session block records its tasks `done`; the remaining open material is the standing **needs review** set (insurance premiums, FY2027 rent benchmark, Measure H parcel amount, trust type, tenancy terms, private-history privacy items). No live session holds a claim.
+
+**What this session takes — the two deliverables the brief asks for that the site does not yet have.**
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| Q-1 | Coordination: read the board, fetch the remote, claim a non-overlapping scope, push the claim at once | done at claim commit | a87f8523 | `COORDINATION.md` (this block only) | N/A | Q-C1 |
+| Q-2 | **New page: Decision readiness** (`site/questions.html`). A single register of the questions, the information and the answers needed before any live/rent/sell decision can reasonably be made, split into: answerable now from an official source; open and discoverable (with the document, office or lookup that settles each); and unknowable until the event (planned around, not researched). Each row carries an official source link or is blank and flagged. Includes a discovery plan and a blank answer sheet that stays in the reader's browser | **done.** 22 open questions in six groups, 12 answered from official sources, 8 unknowable, 12 discovery items, browser-local tracker with export | a87f8523 | `site/questions.html`, `site/data/questions.js` (both new) | twelve official pages opened in this session (listed in `verification/a87f8523/REPORT.md` §1); nine facts carried with their earlier checked dates (§2) | A-I1 to A-I7 |
+| Q-3 | **New page: Suggestions to review** (`site/suggestions.html`). A dedicated suggestions section: each proposal states what uncertainty it removes, which readiness question it closes, effort, direct cost (only where an official price exists; otherwise "quote needed"), risk, and status. Four ready-made paths so the owner can compare and choose before anything is implemented. Selection is local to the browser and exportable; nothing is changed on the site by choosing | **done.** 20 proposals, 4 paths (privacy-first, sharpen-the-numbers, decision-grade, wait-and-watch), guardrails table, browser-local choice with Markdown export | a87f8523 | `site/suggestions.html`, `site/data/suggestions.js` (both new) | as Q-2, plus GitHub Pages and Cupertino ADU pages opened this session | as Q-2 |
+| Q-4 | Wire both pages into navigation and the executive summary; add them to the publication allowlist and the validator's page count; README section | **done.** Two nav entries (`Readiness`, `Suggestions`), a two-card section on the landing page, allowlist now 32 public files, validator 15 → 17 pages, README structure and a "Review before change" section | a87f8523 | `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js`, `README.md` | N/A | nav length noted as A-I1 |
+| Q-5 | Line-by-line re-verification of the figures the two new pages rely on, from official pages opened this session; record URL, wording and access date; leave blanks blank | **done.** `verification/a87f8523/REPORT.md`: 12 pages opened with wording, 9 facts carried with earlier checked dates, 7 claims deliberately not made | a87f8523 | `verification/a87f8523/**` (new) | IRS estate tax, State Controller, BOE Prop 19, BOE LTA 2025/009, IRS inherited-property FAQ, IRS Topic 701, FTB Form 593, SF Rent Board fee, Probate Code 10800, Attorney General rent caps, GitHub Pages, City of Cupertino ADU | A-I4, A-I7 |
+| Q-6 | Run the full suite, fix what fails | **done.** validate 1,166 checks / 17 pages / 173 sources · stress PASS · package PASS · publication boundary PASS 32 files + self-test · runtime PASS 17 pages / 1,419 rows · gate PASS 0 errors 0 warnings (4,856 amounts) · `check_links.py` 0 broken · privacy scan 0 errors · jsdom interaction test of both pages: no uncaught error | a87f8523 | own files | — | A-I1 |
+| Q-7 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, read the two new pages back from the live URL, record PR link, merge commit and build result | in progress — the result is written as a comment on the pull request and summarised in the *Publication* note below, because a further edit here would need a second merge | a87f8523 | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses stay placeholders; household amounts appear only rounded to $10. Every dollar figure of $1,000 or more on the new pages is a multiple of $10 or a figure a government body publishes (and, where it is new, added to `qa/ledger.json`). Every table row carries an official source link or is left blank and marked unverified. Nothing is inferred. Selected improvements are stored only in the reader's browser; no suggestion is applied by choosing it. The platform fixes the branch name, so the `session-<id>/<task>` convention appears only as the session ID inside `arena/a87f8523-tino2`.
+
+**Publication note (added before the merge).** The PR link, the merge commit and the Pages build result are recorded as a comment on the pull request itself, and the live read-back of `site/questions.html` and `site/suggestions.html` is described there. That keeps this block to one merge, because every merge on this repository adds a commit authored with the account's e-mail address (F-I1).
+
+**Coordinating note Q-C1.** Because the remote holds only `main`, no other session can be colliding at claim time. Shared files touched by Q-4 are listed above before they are edited; each is an addition to a list or a link, not a rewrite of another session's content. Should another session appear, it will find the claim in this block with its file scope stated.
+
+<!-- END block owned by session a87f8523 -->
+
+### Session `6a64dc5b` — merge and deployment record (12 November 2026, 15:5x UTC)
+
+| Item | Result |
+|---|---|
+| Pull request | [#47](https://github.com/wingbangboozle1-lang/Tino2/pull/47) — opened 15:38 UTC, merged 15:42:25 UTC |
+| Merge commit | `f925af3` |
+| Check before merge | `Verify public Pages boundary` run on the final head `f4d96d3`: **success** |
+| Pages build after merge | `pages build and deployment` on `e510d34` (the merge plus session `364b453d`'s follow-up PR #48): **success** |
+| Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/site/questions.html` opened after the build: hero, 24-question counts (3 blocking, 16 open, 5 preference), the settled-answers table and group A render with their source links. The Suggestions page carries the added link sentence to the Questions register, and the live navigation shows both entries. |
+| Merge conflicts | Two, both from concurrent sessions working the same files; resolved keeping every other session's content (see the table in the completion record above). Nothing of theirs was removed. |
+| Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
+
+**Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
+
 ---
 
-## Session `55c16cea` — 2026-11-12
+## Session `55c16cea` — 2026-11-12 (Reconciled with `origin/main` `efe6b53`)
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| Verify HUD FY2027 SAFMRs (95014/94122) & Nov 12 official sources; add/reconcile `site/questions.html` (with FY2027 HUD, Measure H, filters & CSV export) and `site/suggestions.html` (preserving `A-01`–`A-15` / `Q-01`–`Q-10` / privacy paths + adding FY2027 `A-05`, Measure H `A-07`, privacy-path selector & `.md`/`.json` exports); resolve R-D3 (NOI), R-D4 (internal jargon & duplicate row), R-D5 (12 Nov 2026 check dates) & update validation/packaging; verify, merge PR #52 to `main`, confirm Pages deploy | done | 55c16cea | `COORDINATION.md`, `index.html`, `assets/app.js`, `site/questions.html`, `site/suggestions.html`, `site/data/sources.js`, `site/data/model.js`, `site/data/ledger.js`, `qa/ledger.json`, `qa/gate-report.json`, `site/{decision,properties,san-francisco,black-swan,stress,options,plan,inheritance,sources,review,verification}.html`, `scripts/{check-publication.py,validate.js}`, `verification/55c16cea/**` |
+| Verify HUD FY2027 SAFMRs (95014/94122) & Nov 12 official sources; integrate FY2027 HUD, Measure H (`SF-09`), `P19-12` Prop 19 cadence, priority/group filters, CSV checklist download, privacy-path selector & JSON export into `site/data/{questions,suggestions,sources}.js` + `site/{questions,suggestions}.html` while preserving `origin/main` (`efe6b53`); resolve R-D3 (NOI), R-D4 (internal jargon & duplicate row), R-D5 (12 Nov 2026 check dates); verify, push, merge PR #52 to `main`, confirm Pages deploy | done | 55c16cea | `COORDINATION.md`, `README.md`, `index.html`, `assets/app.js`, `site/{questions,suggestions}.html`, `site/data/{questions,suggestions,sources,model,ledger}.js`, `qa/{ledger.json,gate-report.json}`, `site/{decision,properties,san-francisco,black-swan,stress,options,plan,inheritance,sources,review,verification}.html`, `scripts/{check-publication.py,validate.js}`, `verification/55c16cea/**` |
 
-Branch: Arena-fixed `arena/55c16cea-tino2` (branched from `bfb2268`, synced with `origin/main` at `8d21bb4` and merged with `origin/main` at `e510d34`). Preserves all baseline `MODEL.BASE` calculations (`sell` $7,683,290 / `rent` $6,249,830 / `live` $5,135,780 at 2040; $9,125,340 / $7,395,620 / $6,068,080 at 2045) and all work merged from `6e6baf25`, `364b453d`, and `6a64dc5b` (`P19-12`, 24-question readiness register, 15-item `A-01`–`A-15` localStorage register, privacy-first caveats, cautious `decision.html`/`plan.html` wording, and `verification/{60ca3e1f,62b76b9d,6e6baf25,364b453d,6a64dc5b}/REPORT.md`).
+Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `efe6b53`, preserving every block from `6e6baf25`, `364b453d`, `6a64dc5b`, `a87f8523`, and `58941d22` plus all baseline calculations: `sell` $7,683,290 / `rent` $6,249,830 / `live` $5,135,780 at 2040).
 
 ### `55c16cea` completion / verification (2026-11-12)
 
-- **Official data verified (`2026-11-12`)**: Added `CF-04` (HUD FY2027 SAFMR ZIP `95014`: `$5,800` 4BR / `$5,440` 3BR / `$4,050` 2BR / `$3,440` 1BR / `$3,040` Eff), `CF-05` (HUD FY2027 SAFMR ZIP `94122`: `$2,770` 1BR / `$3,410` 2BR / `$4,460` 3BR / `$5,020` 4BR / `$2,370` Eff), and `SF-09` (SF Measure H official Ballot Title & Summary + Controller OEA report: `$249/yr` multifamily base + `$0.195/sq ft` over `5,000` sq ft starting 1 July 2027 for 15 years, CPI-adjusted from July 2028, up to 50% / `$65/unit` pass-through); preserved `P19-12` (BOE biennial Prop 19 cadence vs. Santa Clara County wording); refreshed `CA-05`/`CA-06`/`CA-07` (Nov 11 6:51 p.m. CA SOS release) and `SF-04`/`SF-05`. Total `qa/ledger.json` entries: `84` (`78` verified, `6` open).
-- **Reconciled `site/questions.html` & `site/suggestions.html` (`17` canonical public pages, `30` allowlisted files)**: Kept `origin/main`'s complete 24-question Group A–D register, settled-rules table, sensitivity grid, 5 readiness gates, 3 privacy paths, 7 structural changes, `A-01`–`A-15`, `B-01`–`B-06`, `Q-01`–`Q-10`, and `localStorage` choice record while integrating FY2027 HUD benchmarks (`4BR_2027`), SF Measure H verified schedule (`C7`, `A-07`), `P19-12` biennial adjustment clarity, status/group filters, blank CSV checklist export, privacy-path selector (`A-15` / `PRIVACY_PATH`), and `.md`/`.json` downloads.
-- **Sensitivity & cross-site defect fixes**: Exposed optional `4BR_2027` (`$5,800`) and `3BR_2027` (`$5,440`) selectors in `site/decision.html`; surfaced FY2027 `94122` benchmarks and Measure H schedule in `site/san-francisco.html`; resolved `R-D3` (`Net operating income (NOI)` spelled out across all calculation pages), `R-D4` (removed internal `"session"`/`"audit note"`/`"the brief"` wording from public pages & duplicate git-history row in `site/review.html`, fixed `Checked 12 Nov 2026` check-date precedence in `site/sources.html`), and `R-D5` (footer & page verification stamps updated to `12 Nov 2026`).
+- **Official data verified (`2026-11-12`)**: `CF-04` (HUD FY2027 SAFMR ZIP `95014`: `$5,800` 4BR / `$5,440` 3BR), `CF-05` (HUD FY2027 SAFMR ZIP `94122`: `$2,770` 1BR / `$3,410` 2BR), `SF-09` (SF Measure H Ballot Title & Summary + OEA report: `$249/yr` base + `$0.195/sq ft` over `5,000` sq ft starting 1 July 2027, 50% / `$65/unit` pass-through), `P19-12` (BOE biennial Prop 19 cadence vs. Santa Clara County wording), plus `githubPages`, `cupertinoADU`, and updated `cpucNem`; refreshed `CA-05`/`CA-06`/`CA-07` and `SF-04`/`SF-05`. Total `qa/ledger.json`: `84` entries (`78` verified, `6` open).
+- **Unified `site/questions.html` & `site/suggestions.html` (`32` allowlisted public files, `17` HTML pages)**: Preserved `site/data/{questions,suggestions}.js` architecture (28 open questions Q01–Q28 across 6 groups, 14 settled official rules A01–A14, 8 unknowables, 12 discovery plans, 24 carried-forward Group A–D items, 27 proposals S01–S27, 4 bundles P1–P4, 3 privacy paths, 7 carried questions, 15+10+6 reconciled items, guardrails) and layered in verified FY2027 HUD & SF Measure H data, priority/group filters, blank CSV checklist export, privacy-path selector (`PRIVACY_PATH`), and `.json` export alongside `.md`.
+- **Cross-site & sensitivity improvements**: Decision Lab optional `4BR_2027` (`$5,800`) and `3BR_2027` (`$5,440`) selectors, SF FY2027 `94122` + Measure H details (`san-francisco.html`), `R-D3` NOI expansion, `R-D4` cleanup of `"session"`/`"audit note"`/`"the brief"` public prose + duplicate row removal + `Checked 12 Nov 2026` sorting, and `R-D5` `12 Nov 2026` stamps.

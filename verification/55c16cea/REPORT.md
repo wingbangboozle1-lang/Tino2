@@ -7,22 +7,22 @@
      - ZIP `94122` (SF Outer Sunset / Property B): Eff `$2,370`, 1-BR `$2,770`, 2-BR `$3,410`, 3-BR `$4,460`, 4-BR `$5,020` (up from original FY2026 `$2,730`/`$3,310`). Added as `CF-05` (`qa/ledger.json`) and displayed in `site/san-francisco.html`.
    - **San Francisco Measure H** rate schedule verified from the official Ballot Title & Summary PDF and Controller OEA Economic Impact Report (`SF-09`, `sfMeasureHTerms`, `sfMeasureHOea`): 15-year parcel tax effective July 1, 2027–June 30, 2042 (`$249/yr base + $0.195/sq ft` over 5,000 sq ft for multifamily parcels; `$50,000` cap; CPI-adjusted from July 2028; 50% / `$65/unit` tenant pass-through on pre-June 1, 2027 base rents).
    - **CA SOS Unofficial Tallies & SF DOE Re-checks**: Refreshed `CA-05`, `CA-06`, `CA-07` to the Nov 11, 2026 6:51 p.m. release and re-checked `SF-04`, `SF-05`, `sources.js` entries on `2026-11-12`; preserved `P19-12` (BOE biennial Prop 19 adjustment cadence vs. Santa Clara County wording) from `origin/main`. Total ledger entries: `84` (`78` verified, `6` open/not confirmed).
-2. **Pre-Decision Readiness & Discovery Register (`site/questions.html`)**:
-   - Reconciled 24-question Group A–D decision readiness register + 11 official settled answers (including verified FY2027 HUD ZIP `95014` & `94122`, SF Measure H `$249/yr + $0.195/sq ft`, and Prop 19 biennial adjustment `P19-12`) + 11-row sensitivity grid (including `4BR_2027` `$5,800/mo`) + 5 local readiness gates + interactive status/group filters + CSV blank discovery checklist export.
-3. **Interactive Site & Decision Suggestions (`site/suggestions.html`)**:
-   - Reconciled 3 privacy-path comparisons (with interactive `PRIVACY_PATH` local selector), 7 structural improvements, 15-item `A-01`–`A-15` Approve/Defer/Decline `localStorage` register (with updated FY2027 HUD `A-05` & Measure H `A-07` evidence), 10 critical questions `Q-01`–`Q-10`, 6 dashboard proposals `B-01`–`B-06`, 5-step sequence, and Print/Copy/Markdown/JSON exports — zero model changes implemented until an owner approves & verifies inputs.
+2. **Pre-Decision Readiness & Discovery Register (`site/questions.html` + `site/data/questions.js`)**:
+   - Unified 28 open questions across 6 groups (`Q01`–`Q28`), 14 official settled rules (`A01`–`A14`, including verified FY2027 HUD ZIP `95014` & `94122`, SF Measure H `$249/yr + $0.195/sq ft`, and Prop 19 biennial adjustment `P19-12`), 8 unknowables (`U01`–`U08`), 12 discovery tasks (`D01`–`D12`), 24 carried-forward Group A–D items, priority/group filters, Markdown export, and CSV blank discovery checklist download.
+3. **Interactive Site & Decision Suggestions (`site/suggestions.html` + `site/data/suggestions.js`)**:
+   - Unified 27 proposals (`S01`–`S27`), 4 bundles (`P1`–`P4`), 3 privacy-path comparisons (with interactive `PRIVACY_PATH` selector), 7 carried questions, 15+10+6 reconciled items (including updated FY2027 HUD `A-05` & Measure H `A-07`), guardrails, and Markdown/JSON exports — zero model changes implemented until an owner approves & verifies inputs.
 4. **Cross-Site Quality & Defect Cleanup (`R-D3`, `R-D4`, `R-D5`)**:
    - Expanded `Net operating income (NOI)` on first use across `decision.html`, `properties.html`, `san-francisco.html`, `black-swan.html`, and `sources.html`.
    - Cleaned internal `"session"` / `"audit note"` / `"the brief"` wording across public pages, removed duplicate repository-history entry in `site/review.html`, fixed `Checked 12 Nov 2026` check-date precedence in `site/sources.html`, and updated footer and page verification stamps to `12 Nov 2026`.
-   - Updated `scripts/check-publication.py` (`ALLOWED` for 30 public files / 17 pages) and `scripts/validate.js`.
+   - Updated `scripts/check-publication.py` (`ALLOWED` for 32 public files / 17 pages) and `scripts/validate.js`.
 
 ## Verification Results
 - `python3 scripts/package-site.py`: PASS (`Packaged canonical site only`)
-- `python3 scripts/check-publication.py --self-test`: PASS (`30 reviewed public files only`)
-- `node scripts/validate.js`: PASS (`1198 checks across 17 pages and 175 official sources`)
+- `python3 scripts/check-publication.py --self-test`: PASS (`32 reviewed public files only`)
+- `node scripts/validate.js`: PASS (`17 pages and 178 official sources`)
 - `node scripts/stress-test.js`: PASS
-- `node scripts/runtime-test.cjs`: PASS (`17 rendered pages; 1437 rendered rows source-linked`)
-- `node qa/tools/gate.cjs`: PASS (`1437 table rows · 5012 dollar amounts checked · 0 errors · 0 warnings`, output written to `qa/gate-report.json`)
+- `node scripts/runtime-test.cjs`: PASS (`17 rendered pages`)
+- `node qa/tools/gate.cjs`: PASS (`0 errors · 0 warnings`, output written to `qa/gate-report.json`)
 - `node verification/60ca3e1f/check.cjs`: PASS (`78 of 78 checks passed`)
 - `node verification/62b76b9d/test.cjs`: PASS
 - `node verification/55c16cea/check.cjs`: PASS
