@@ -1506,3 +1506,13 @@ Branch: `arena/c96c185e-tino2` (from `main` `052e626`, PR #52). Claim pushed imm
 - **C-3 done.** Fresh official-source verification by this session (details in `verification/c96c185e/REPORT.md` §2): IRS estate thresholds 2011–2026 and 2026/2027 exclusions (IR-2026-133), BOE Prop 19 page + NR 25-02 ($1,044,586), HUD FY2027 SAFMRs 95014/94122, CA Controller no-estate-tax rule, SF Rent Board 1.6% + File 261020 not enacted, CBO 2026–2036 baseline. All MATCH. Insurance premiums correctly blank (CDI surveys are not quotes).
 - **C-4 done.** Privacy audit: placeholders only; no exact household figures in the published tree; household inputs are the brief's own $10-multiple round estimates labeled unverified. Live read-back of `site/questions.html` confirmed the site renders.
 - **C-5 in progress.** PR opened from this branch; merge and Pages-build confirmation to follow. No site file changed — the published tree already met the brief; this PR carries only this verification report and this board record.
+## Session `27e6213d` (branch `arena/27e6213d-tino2`) — claim 2026-11-12 22:13 UTC
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| V-1 | Independent verification pass: re-run full validation suite, spot-check key official figures against live official pages, privacy scan, fix defects found | in progress | `verification/27e6213d/**`, `COORDINATION.md` (this block only); shared files only if a defect is found and listed here first |
+| V-2 | PR to `main`, merge, confirm Pages build | pending | own files + this block |
+
+State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on the board; last session `55c16cea` marked done. This session does not repeat prior research; it verifies the published site line by line and fixes defects only.
+
+**Overlap found at rebase (2026-11-12 22:2x UTC).** While this session ran, `c96c185e` claimed and completed the same class of task (PR #55, merged as `ddf9cb7`) — its board block was not present when this session read the board, so the two passes were independent. Nothing is discarded: both blocks and both verification reports are kept, and this session's PR carries only its own report and record. The two reports agree on every figure they both checked (suite results, base case, IRS/BOE/HUD amounts); this report adds HUD FY2027 at the corrected `/datasets/fmr/fmr2027/zip-calc` URLs, SF FY2026-27 secured rate `1.18162182%`, the SF Rent Board fee amounts and dates, and RTC §§ 11930 / 11911. Duplicate effort, not conflicting work.
