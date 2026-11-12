@@ -15,6 +15,7 @@
     ["plan", prefix + "plan.html", "Best plan"],
     ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["questions", prefix + "questions.html", "Questions"],
+    ["questions-gate", prefix + "questions-gate.html", "Decision gate"],
     ["decision", prefix + "decision.html", "Decision"],
     ["options", prefix + "options.html", "Other options"],
     ["properties", prefix + "properties.html", "Properties"],

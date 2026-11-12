@@ -1,106 +1,194 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision gate: every question that has to be answered before the inherited house can be lived in, rented or sold, with the answer we have, the answer we do not have, and the official route to settle it."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
-<body data-title="Questions and answers">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision readiness: the questions, information and answers that must be settled before choosing to live in, rent or sell Property A, with how each gap can be closed."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Decision readiness">
 <main id="main"></main><div data-footer></div>
-<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="data/questions.js"></script><script src="../assets/app.js"></script>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
 <script>
-/* Session 62245584. The decision gate. Reads its inputs from the published model; holds no household figures. */
 const main = document.getElementById("main");
-const Q = window.QUESTIONS, M = window.MODEL, S = window.SOURCES;
-const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const td = (h, c = "wrap") => `<td class="${c}">${h}</td>`;
-const badge = st => `<span class="badge ${Q.STATUS[st].badge}">${Q.STATUS[st].short}</span>`;
-const affects = item => item.affects.map(p => Q.PLAN_LABEL[p]).join(" · ");
+const B = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR");
+const baseLead = B.sell.terminal - B.rent.terminal;
+function lead(over) {
+  const d = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR");
+  return d.sell.terminal - d.rent.terminal;
+}
+function diff(over) { return lead(over) - baseLead; }
+const money = MODEL.fmtMoney;
+const sign = v => (v >= 0 ? "+" : "−") + money(Math.abs(v));
 
-const counts = Q.counts;
-const readAll = Q.plans.map(p => Q.readiness(p));
-const estateRead = readAll.find(r => r.plan === "estate");
+// What is already settled, by an official source, checked in this session on 12 Nov 2026.
+const settled = [
+  ["Does California tax an inheritance?", "No. For deaths on or after 1 January 2005 no California estate or inheritance tax return is required. California does tax income the inherited assets later produce.", "caEstate", "State Controller, 12 Nov 2026"],
+  ["Is an inheritance income?", "No. The Franchise Tax Board says a gift or inheritance is not included in income; interest, dividends, rent or gain it later produces is taxable.", "ftbInheritance", "FTB, 12 Nov 2026"],
+  ["What can pass free of federal estate tax?", "$15,000,000 for a death in 2026; $15,480,000 for a death in 2027. Above the exclusion the top rate is 40%.", "irs2027", "IRS IR-2026-133, 12 Nov 2026"],
+  ["How much of Property A is excluded on a parent-to-child transfer?", "The parent's taxable value plus $1,044,586 for transfers from 16 February 2025 through 15 February 2027. The cap is reset every other 16 February and the heir must live in the home and claim the exemption.", "boeProp19Amount", "BOE NR 25-02, 12 Nov 2026"],
+  ["How fast can the assessed value grow while the house is owned?", "At most 2% a year under Proposition 13, plus the 1% levy and voter-approved debt. A change of ownership reassesses the property to market value, subject to the exclusion above.", "boeProp13", "BOE Publication 29, 12 Nov 2026"],
+  ["How is the heir's tax basis set?", "Generally the fair market value on the date of death for property included in the estate. That is why a sale soon after death has little gain; it is not the assessed value.", "irsPub551", "IRS Publication 551, 12 Nov 2026"],
+  ["How long does the trustee have to notify beneficiaries and heirs?", "Not later than 60 days after the event requiring notice, when Probate Code §16061.7 applies.", "caTrustNotice", "California Legislative Information, 12 Nov 2026"],
+  ["What rent can Property A earn?", "HUD's FY2026 Small Area FMR for the ZIP code: $5,870 for three bedrooms and $6,390 for four, monthly, before vacancy and management.", "hudA", "HUD, 12 Nov 2026"],
+  ["What does the San Francisco Rent Board charge per unit?", "$59.00 per dwelling unit for 2026–27, due 1 March; an owner-occupied unit is exempt only with an approved request, and the window for the 2027 fee closes 14 December 2026.", "sfRentFee", "SF Rent Board, 12 Nov 2026"],
+  ["What does a Cupertino homeowner policy cost?", "No official premium exists for a specific house. The state regulator's 2026 survey of a made-up 40-year-old Cupertino home with $1,000,000 of dwelling cover shows 35 premiums from $1,543 to $6,430 a year, with a $2,500 deductible.", "cdiSurveyCup40_1000", "Department of Insurance, 12 Nov 2026"]
+];
 
-main.innerHTML = UI.hero("Decision gate · 12 Nov 2026",
-  "What has to be known before the house can be lived in, rented or sold",
-  "This page is the list of questions the brief asked for: what must be answered, what the answer is today, and which answers do not exist yet. It is not a second copy of the Flagged for Review register. That register records what is unknown and what the model does meanwhile; this page records, question by question, whether a decision can reasonably be made yet, and which official document or page would settle it.",
-  `<a class="button" href="suggestions.html">Suggestions to choose a path</a><a class="button secondary" href="review.html">Flagged for Review ⚑</a><a class="button secondary" href="verification.html">Verified facts</a>`) + `<div class="container">
+// Status codes: blocking = the plan cannot be implemented until closed; open = closes with a quote, record or professional answer; partial = some of it is known; preference = only the household can answer.
+const groups = [
+  {
+    id: "A", title: "Title, the trust and the basis reset", intro: "These decide whether a sale is taxed on the value at death or on the gain since the house was bought. The sell plan is built on the first, so they come before any number.",
+    rows: [
+      ["A1", "Is the trust revocable, or otherwise included in the federal estate?", "It decides whether the heir's basis resets at death. Every projection assumes it does.", "An IRS revenue ruling holds that assets of an irrevocable trust that are not counted in the estate keep the old basis. The trust document has not been supplied.", "Read the trust and any amendments; ask the trust attorney one question: is the house included in the gross estate?", "Trust attorney reads the document. One meeting, before 2040.", "If the basis does not reset, a sale is taxed on the gain since purchase. The test on the Other options page shows the sell lead falling toward level when both sides are taxed at the end.", "irsRevRul20232", "blocking"],
+      ["A2", "Does the recorded deed name the trustee, and is the house actually in the trust?", "If not, the house may go through probate and statutory fees apply on its full value.", "Not seen. The household has not provided the deed or the trust's schedule of assets.", "Read the recorded deed and the schedule of assets; a title company can confirm the vesting in one report.", "Title company or county recorder. Low cost, days.", "Probate fees are a statutory percentage of the estate; the table on Other options shows the exposure on Property A's value.", "prob10800", "blocking"],
+      ["A3", "How many beneficiaries are there, and may the house pass to one of them?", "Proposition 19 relief needs at least one eligible transferee to occupy the home; a distribution clause that blocks that removes the relief.", "Number of children and the distribution clause are not known.", "Read the distribution clause; if more than one child inherits, confirm whether the trust permits the home to go to the one who will live in it.", "Trust attorney. One meeting.", "No effect on an immediate sale. It can remove the exemption from a live-in plan, which is already last on money.", "boeLta2026026", "open"],
+      ["A4", "Was the house the parent's principal residence at death, and will it stay in the family's use?", "The Proposition 19 exclusion depends on the parent's home status and on continued use by the heir.", "The house is the family home today. Whether it will still qualify at death is a future fact; a care facility, renting outside the family or holding it in an LLC can end the relief.", "Keep the homeowners' exemption records; ask the assessor before renting the house or changing how title is held.", "Santa Clara County Assessor, before any change of use.", "Removes the exclusion from the live-in path only. The sell path does not use it.", "sccProp19", "open"],
+      ["A5", "How is title held, and did the first spouse die earlier?", "Community property and a prior death change the basis of part of the house and the exclusion available at the second death.", "Not known. No deeds or prior returns supplied.", "Obtain the deed history and any prior Form 706 or DSUE record.", "Title company and CPA.", "Can lower the gain taxed on a future sale; does not reverse the ranking in the tests so far.", "irsPub551", "open"]
+    ]
+  },
+  {
+    id: "B", title: "The money part and federal estate tax", intro: "The inheritance includes money whose amount and account types were not supplied. Whether Form 706 is needed, and whether 40% is owed, depends on this group.",
+    rows: [
+      ["B1", "What is the total gross estate: money, investments, retirement accounts, life insurance, real estate, less debts?", "It decides whether a Form 706 must be filed and whether tax is owed above the exclusion.", "Only Property A is known to be in the estate: about $3,100,000 at the 2026 estimate. Room left under the exclusion after Property A is about " + money(MODEL.estateRow(2026).headroom) + " for a 2026 death and about " + money(MODEL.estateRow(2027).headroom) + " for a 2027 death, on real estate alone.", "Complete an asset and liability inventory with values and beneficiaries for every account.", "Estate attorney or CPA. Weeks; no filing fee.", "If the estate is above the threshold, tax reaches 40% of the excess and could force a sale. No plan includes it because the amount is unknown.", "irs706", "blocking"],
+      ["B2", "Have there been taxable gifts, and were Forms 709 filed?", "Taxable gifts add back to the estate and reduce the exclusion available at death.", "Not known.", "Ask whether either parent made gifts above the yearly exclusion; the 2027 yearly exclusion is $20,000 per recipient.", "Parent, CPA and prior returns.", "Each $1,000,000 of unreported taxable gifts can add up to $400,000 of tax at the top rate.", "irsEstateFAQ", "open"],
+      ["B3", "Is any of the exclusion portable from a deceased spouse?", "A timely portability election can add the first spouse's unused exclusion at the second death.", "Not known whether a prior spouse died or whether Form 706 was filed then.", "Check prior returns and the DSUE amount, if any.", "Estate attorney.", "Can roughly double the exclusion if available; without it the threshold in B1 is the only one.", "irs706", "open"],
+      ["B4", "What kinds of accounts hold the money, and who is the named beneficiary?", "Retirement accounts, life insurance and bank deposits follow different income-tax and estate rules; a named beneficiary can pass outside the trust.", "Not known. The brief describes money but not the accounts.", "List each account: type, owner, balance and named beneficiary.", "Household records plus the institutions.", "Changes who reports the income and when. Retirement accounts inherited by a child generally must be emptied within ten years.", "irsBeneficiary", "open"],
+      ["B5", "Is there enough cash in the estate to pay any estate tax without selling Property A?", "A forced sale sets the timing and may set the price.", "Not known.", "Compare liquid assets with the tax estimate from B1 once the inventory exists.", "Estate attorney and CPA.", "If not, the sale happens on the estate's timetable, not the household's.", "irs706", "open"],
+      ["B6", "Who pays the tax: the estate, the trust or the beneficiary?", "Apportionment clauses decide who bears the tax and can change what the heir actually receives.", "Not seen; the trust's tax clause has not been read.", "Read the apportionment clause with the attorney.", "Trust attorney.", "Can reduce the money available to reinvest after a sale, even when the real-estate decision is unchanged.", "irs706TableA", "open"]
+    ]
+  },
+  {
+    id: "C", title: "The numbers that are still guesses", intro: "Each line below is used in the projections. None is an official figure for these two properties; each can be replaced by a quote or a record. The last column shows what the test does to the answer today.",
+    rows: [
+      ["C1", "What would it cost to rebuild Property A?", "A homeowners limit is the rebuild cost, not the market value, and the premium follows it.", "The state survey shows premiums from $1,543 to $6,430 a year at $1,000,000 of dwelling cover for a made-up 40-year-old Cupertino home. The household's $1,500 is at the bottom of that range.", "Ask a builder or the insurer for a reconstruction-cost estimate, then get a written quote on that limit.", "One quote; an hour plus a call-back.", "At $6,430 a year instead of $1,500 the sell lead over renting widens by " + money(diff({ aInsuranceAnnual: 6430 })) + "; at $2,690 it widens by " + money(diff({ aInsuranceAnnual: 2690 })) + ". The ranking does not change.", "cdiSurveyCup40_1000", "open"],
+      ["C2", "Will earthquake cover be carried on either property?", "A homeowners policy generally excludes earthquake; the cover is separate and priced separately.", "The regulator's survey median rate is $3.10 a year per $1,000 of cover in Cupertino and $3.29 in the Sunset District; at $1,000,000 of cover that is about $3,100 and $3,290.", "Decide, then get a quote including the deductible and the California Earthquake Authority option.", "Two quotes.", "Adds cost if carried; leaves a large uninsured loss if not. The stress pages model the loss without insurance.", "cdiSurveyEqCup", "open"],
+      ["C3", "What does a landlord policy on Property B cost?", "It is a yearly cost against the rent the plan counts.", "The household's guess is $1,500; no landlord quote has been obtained. The same state survey prices owner-occupied policies, not landlord policies.", "Ask three insurers for a landlord policy on a three-unit building, with loss-of-rent cover.", "Three quotes.", "Rent income in the model is net of the guess; a real premium moves B's cash flow, not the A ranking.", "insurance", "open"],
+      ["C4", "How much of Property A's value is the building, not the land?", "Depreciation is taken on the building only, and it is recaptured on sale.", "The assessor's land and improvement split was not supplied.", "Read both values on the assessor's roll, or use an appraiser's allocation.", "County roll lookup, minutes.", "The rental case at 20–40% building share falls by about $8,320 to $29,120 at the end; selling still leads.", "irsTopic704", "open"],
+      ["C5", "What is Property A's tax-rate area, and what flat charges are on the bill?", "The model uses a 1.2% levy. The county rate book's Cupertino-area components add to 1.1636%, plus flat charges.", "Official FY2025-26 rate components are published; the parcel's own rate area and direct charges are not confirmed.", "Read the rate-area number and the fixed charges on the current bill; look both up in the rate book.", "One bill and the rate book.", "About $30 a year per $1,000,000 of assessed value on the rate; the flat charges are small after reassessment.", "sccRateBook2526", "open"],
+      ["C6", "When was the solar system switched on, and which tariff applies?", "The credit is a limited-term benefit, and the panels age.", "A system is installed and the property usually runs a credit. The interconnection date and tariff term are not known.", "Find the permission-to-operate date and the tariff on the utility account.", "Utility account or installer records.", "The model holds the credit flat. If the term ends before 2040 the credit disappears; at $15 a month that is small against the sale lead.", "solar", "open"],
+      ["C7", "What are Property B's flat charges and the new parcel tax?", "B's tax bill cannot be projected as a percentage of assessed value alone; flat items are about 45% of the current bill.", "Five flat items total $829 for three units in FY2025-26. Measure H passed in the preliminary count; its amount for a three-unit parcel is not published.", "Read the direct-charge lines on the bill; after certification on 11 December 2026 read the measure text.", "One bill; one official page after certification.", "The model understates B's bill by about $1,060 a year; no effect on the A ranking.", "sfParcelTaxes", "open"],
+      ["C8", "What are the actual rents, lease terms and tenant circumstances in Property B?", "Rent-controlled increases, vacancy and any relocation obligation set B's income and the cost of ever emptying a unit.", "Two units are let at about $7,150 a month combined; the third is occupied by the owner's household. Tenant ages and lease dates were not supplied.", "Build a rent roll: unit, rent, lease start, increase history, tenant age if relevant to relocation.", "Household records and the Rent Board's current-rates page.", "Changes B's income, which the plan keeps in every case. It does not change the A comparison.", "sfRent", "open"]
+    ]
+  },
+  {
+    id: "D", title: "Questions only the household can answer", intro: "These are preferences, not facts. Each one can overturn a ranking that is correct on money alone, so each should be written down before implementation.",
+    rows: [
+      ["D1", "Will the household still want to live in the Bay Area in 2040–2050?", "Living in Property A avoids buying another home; if the household expects to leave, that value disappears.", "The household lives in San Francisco now and can occupy Property B's third unit.", "Write the intention down for 2040, 2045 and 2050 separately.", "Household decision.", "A move away makes the live-in case weaker than the money already shows: living in A finishes " + money(B.sell.terminal - B.live.terminal) + " behind selling at 2045.", "irsHomeSale", "preference"],
+      ["D2", "How much of the household's wealth should stay in one regional housing market?", "Both houses are in one region; keeping A concentrates earthquake, wildfire-smoke and local-law risk.", "About $4,900,000 of 2026 value sits in two Bay Area properties.", "Set a maximum share of wealth in Bay Area housing, then hold the plan to it.", "Household decision.", "The diversification argument is separate from the return gap and survives every stress test on this site.", "investorRisk", "preference"],
+      ["D3", "Is Property B to be kept indefinitely, including for the next generation?", "It is held in every projection; selling it is not modelled as part of this decision.", "Two units produce about $7,150 a month; the owner's unit is not let.", "Confirm the intention and record it, because it sets the risk the plan accepts.", "Household decision.", "If B might be sold, the comparison changes and a like-kind or other deferral question arises.", "irsLikeKind", "preference"],
+      ["D4", "What will the household's income and filing status be in the sale year?", "The gain rate used is 33.1% combined; a higher income adds the 3.8% federal net investment income tax and can reach the top California bracket.", "The assumption is stated on the Decision page; the household's future income is not known.", "Re-run the model with the expected bracket; ask a CPA to confirm the combined rate.", "CPA; one conversation.", "A 37% combined rate changes the 2045 sell lead by " + sign(diff({ ordinaryTax: 0.37, capitalGainsTax: 0.37 })) + ". The ranking stays.", "irsNIIT", "preference"],
+      ["D5", "What result would make the household keep the house?", "A decision rule set in advance prevents a bad decade from being read as a permanent signal.", "The stress pages show keeping the house wins when local prices outrun a mixed portfolio for a decade.", "Write the rule: for example, sell unless the household intends to live in the house or the trust does not reset basis.", "Household decision, recorded before 2040.", "Without a rule, each new headline becomes a reason to wait; waiting has a measured cost on Other options.", "fredSJ", "preference"]
+    ]
+  }
+];
 
-<section class="section"><div class="grid four">
-  <div class="card"><div class="metric">${counts.total}</div><h3>Questions in the gate</h3><p class="tiny">Every one is attached to at least one plan.</p></div>
-  <div class="card soft"><div class="metric">${counts.settled}</div><h3>Settled by official source</h3><p class="tiny">The law is fixed. These do not change with our views.</p></div>
-  <div class="card warning"><div class="metric">${counts.household}</div><h3>Unverified household input</h3><p class="tiny">Usable for planning; must become a document before money is committed.</p></div>
-  <div class="card review"><div class="metric">${counts.missing}</div><h3>No answer in the record</h3><p class="tiny">A plan that depends on one of these cannot be finalised.</p></div>
-</div>
-<div class="callout warning"><strong>How to read the status column.</strong> <em>Settled</em> means an official page fixes the answer, and the link in the last column is that page. <em>Household input</em> means the answer exists only as an unverified figure supplied for planning; it is rounded to the nearest $10 and is not a document. <em>Missing</em> means nothing in the record answers it, so it is left blank rather than estimated. A blank is deliberate and is never filled in by inference.</div>
+const statusBadge = s => ({
+  blocking: '<span class="badge red">Blocking</span>',
+  open: '<span class="badge gold">Open</span>',
+  partial: '<span class="badge neutral">Partly known</span>',
+  preference: '<span class="badge neutral">Your choice</span>'
+}[s] || '<span class="badge">Answered</span>');
+
+const allRows = groups.flatMap(g => g.rows);
+const counts = {
+  total: allRows.length,
+  blocking: allRows.filter(r => r[8] === "blocking").length,
+  open: allRows.filter(r => r[8] === "open").length,
+  preference: allRows.filter(r => r[8] === "preference").length
+};
+
+// Sensitivity table: one input changed at a time, 2045 inheritance, ten-year hold, everything sold at the end.
+const tests = [
+  ["The base case as published", "—", {}, "boeProp13"],
+  ["Insurance at the survey's mid-point", "$2,690 a year", { aInsuranceAnnual: 2690 }, "cdiSurveyCup40_1000"],
+  ["Insurance at the survey's high end", "$6,430 a year", { aInsuranceAnnual: 6430 }, "cdiSurveyCup40_1000"],
+  ["Rent for Property A ten per cent lower", "$5,750 a month", { aRent4BR: 5750 }, "hudA"],
+  ["Home prices at the low end of the last 25 years", "2.0% a year", { appreciation: 0.02 }, "fredSJ"],
+  ["Home prices at the 50-year local pace", "6.7% a year", { appreciation: 0.067 }, "fredSJ"],
+  ["Portfolio return at the low end", "5.0% before tax", { portfolioGross: 0.05 }, "cboByNumbers2026"],
+  ["Upkeep at 1% of value, not 0.5%", "1.0% a year", { maintenanceA: 0.01 }, "irsRental"],
+  ["Combined tax rate 37%", "37%", { ordinaryTax: 0.37, capitalGainsTax: 0.37 }, "irsNIIT"],
+  ["Cupertino-area rate from the rate book", "1.1636%", { aRate: 0.011636 }, "sccRateBook2526"]
+];
+
+main.innerHTML = UI.hero(
+  "Decision readiness · questions before a choice",
+  "What must be settled before any decision is reasonable",
+  "A register of the questions, information and answers that stand between the household and a defensible choice on Property A. Each row says what is already known, what is missing, how the gap can be closed, who can close it, and what the projections do if it stays open. Nothing here changes the published ranking; it shows how much of it rests on facts that have not been produced.",
+  `<a class="button" href="suggestions.html">Suggestions and choosing a path</a><a class="button secondary" href="review.html">Flagged for Review ⚑</a><a class="button secondary" href="decision.html">Decision lab</a>`
+) + `<div class="container">
+<section class="section">
+  <div class="grid four">
+    <div class="card"><div class="metric-label">Questions on the register</div><div class="metric">${counts.total}</div><p class="tiny">Each one is a fact or a choice that can change the answer.</p></div>
+    <div class="card"><div class="metric-label">Blocking a decision</div><div class="metric">${counts.blocking}</div><p class="tiny">Cannot be closed by an assumption; a document or a professional answer is needed.</p></div>
+    <div class="card"><div class="metric-label">Close with a quote or record</div><div class="metric">${counts.open}</div><p class="tiny">A bill, a quote, the assessor's roll or a tax return is enough.</p></div>
+    <div class="card"><div class="metric-label">Household preference</div><div class="metric">${counts.preference}</div><p class="tiny">No source can answer these; they have to be written down.</p></div>
+  </div>
+  <div class="callout warning"><strong>How to use this page.</strong> Work down each group in order. Group A and B decide what a sale would cost; group C replaces guesses with quotes; group D records the household's own rules. A question marked <em>Open</em> is not a reason to stop planning: the published model already tests the answer both ways. A question marked <em>Blocking</em> is a reason not to sign, sell or move until it is closed.</div>
 </section>
 
-<section class="section"><div class="section-heading"><div><div class="eyebrow">The gate itself</div><h2>Can each plan be decided yet?</h2><p>Four plan groups are tested. A question blocks a plan when its answer is not settled by an official source, because an unverified input cannot carry a decision about money. "The transfer itself" stands ahead of the three uses of the house: no plan is implementable until it is answered.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Plan</th><th class="number">Questions attached</th><th class="number">Settled</th><th class="number">Still blocking</th><th>Can it be implemented now?</th><th class="wrap">What is blocking it</th><th>Official framework</th></tr></thead><tbody id="gate"></tbody></table></div>
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">Already settled</div><h2>Answers that official sources do give</h2><p>Re-opened on 12 November 2026 by this session; the linked page is the authority, not this table.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Answer</th><th class="wrap">Checked</th><th>Official source</th></tr></thead><tbody>
+  ${settled.map(([q, a, key, when]) => `<tr><td class="wrap"><strong>${q}</strong></td><td class="wrap">${a}</td><td class="wrap tiny">${when}</td><td class="source">${UI.source(key)}</td></tr>`).join("")}
+  </tbody></table></div>
 </section>
 
-<section class="section"><div class="section-heading"><div><div class="eyebrow">Read in order</div><h2>The order the questions have to be answered in</h2><p>The groups are sequential, not alphabetical. A question about the sale cannot be answered before the question about the deed, because a house that is not the heir's to sell cannot be sold.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Group</th><th class="number">Questions</th><th class="number">Settled</th><th class="number">Blocking</th><th class="wrap">Why it comes at this point</th></tr></thead><tbody id="order"></tbody></table></div>
+${groups.map(g => `<section class="section" id="group-${g.id}">
+  <div class="section-heading"><div><div class="eyebrow">Group ${g.id}</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Why it decides something</th><th class="wrap">What is known today</th><th class="wrap">What is missing, and how to close it</th><th class="wrap">Who can close it</th><th class="wrap">If it stays open</th><th>Status</th><th>Official rule</th></tr></thead><tbody>
+  ${g.rows.map(r => `<tr><td>${r[0]}</td><td class="wrap"><strong>${r[1]}</strong></td><td class="wrap">${r[2]}</td><td class="wrap">${r[3]}</td><td class="wrap">${r[4]}</td><td class="wrap">${r[5]}</td><td class="wrap">${r[6]}</td><td>${statusBadge(r[8])}</td><td class="source">${UI.source(r[7])}</td></tr>`).join("")}
+  </tbody></table></div>
+</section>`).join("")}
+
+<section class="section">
+  <div class="section-heading"><div><div class="eyebrow">How much the gaps can move the answer</div><h2>One uncertain input at a time</h2><p>Inheritance in 2045, ten years held, everything sold and taxed at the end, Property B kept. Every figure is produced by the same published model as the Decision lab, rounded to $10; change any of these inputs yourself on the <a href="decision.html">Decision</a> page.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th class="wrap">What changes</th><th>Value tested</th><th class="number">Sell and reinvest</th><th class="number">Rent, then sell</th><th class="number">Selling ahead by</th><th class="number">Change from base</th><th>Best path</th><th>Official source</th></tr></thead><tbody>
+  ${tests.map(([label, value, over, key]) => {
+    const d = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045, ...over }, 10, "4BR");
+    const l = d.sell.terminal - d.rent.terminal;
+    const delta = l - baseLead;
+    return `<tr><td class="wrap">${label}</td><td>${value}</td><td class="number">${money(d.sell.terminal)}</td><td class="number">${money(d.rent.terminal)}</td><td class="number">${money(l)}</td><td class="number ${delta >= 0 ? "positive" : "negative"}">${delta === 0 ? "—" : sign(delta)}</td><td>${d.winner === "sell" ? "Sell" : d.winner === "rent" ? "Rent" : "Live in"}</td><td class="source">${UI.source(key)}</td></tr>`;
+  }).join("")}
+  </tbody></table></div>
+  <p class="tiny">The largest single movement in this table is small beside the base-case gap of ${money(baseLead)}. That is why the gaps are worth closing but do not, on their own, reverse the plan. The exception is a fact that changes the tax basis (A1): it is not a sensitivity, it changes the starting point.</p>
 </section>
 
-<div id="groups"></div>
-
-<section class="section"><div class="section-heading"><div><div class="eyebrow">Do this first</div><h2>The five questions that unlock the most</h2><p>Ordered by how many of the other questions stop being urgent once each is answered. Each has an official route in the table above.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Why it is first</th><th class="number">Plans it blocks</th><th>Official route</th></tr></thead><tbody id="first"></tbody></table></div>
+<section class="section" id="gates">
+  <div class="section-heading"><div><div class="eyebrow">Readiness gates</div><h2>Five checks before anything is implemented</h2><p>Tick these off in your own browser. Nothing is stored on a server and nothing is sent anywhere; the ticks are kept in this browser's local storage and can be cleared at any time.</p></div></div>
+  <div class="grid two">
+    <div class="card"><h3>Before a decision is committed</h3>
+      <ul class="check-list" id="gate-list">
+        <li><label><input type="checkbox" data-gate="g1"> The trust is confirmed revocable or otherwise included in the estate (A1).</label></li>
+        <li><label><input type="checkbox" data-gate="g2"> The deed and the schedule of assets show the trustee holds Property A (A2).</label></li>
+        <li><label><input type="checkbox" data-gate="g3"> A complete asset and liability inventory exists, with account types and beneficiaries (B1, B4).</label></li>
+        <li><label><input type="checkbox" data-gate="g4"> Written insurance quotes are in hand: homeowner and earthquake for A, landlord for B (C1–C3).</label></li>
+        <li><label><input type="checkbox" data-gate="g5"> The household's own rules are written down: region, risk share and what would change the answer (D1–D5).</label></li>
+      </ul>
+      <div class="meta-row"><span class="badge" id="gate-count">0 of 5 closed</span></div>
+      <p class="tiny" style="margin-top:12px">A date-of-death appraisal and a title report can only be obtained after a death; the rest can be started now.</p>
+    </div>
+    <div class="card soft"><h3>What to do with the answers</h3>
+      <p>Each closed question replaces an assumption on the Decision page. Record the answer beside its number (A1, B3, C2) so the next review can see what changed.</p>
+      <p>Suggestions for closing each gap, with effort, benefit and who can do it, are on the <a href="suggestions.html">Suggestions</a> page. Items that cannot be closed from an official source stay on <a href="review.html">Flagged for Review</a>.</p>
+      <p class="tiny">This page is a checklist, not advice. A trust attorney, a CPA and the county assessor are the authorities for groups A and B.</p>
+    </div>
+  </div>
 </section>
-
-<section class="section"><div class="grid two">
-  <div class="card highlight"><h3>What this page is not</h3><p>It is not legal, tax or investment advice, and it does not decide anything. It lists what a decision depends on. Every settled answer is the law as published on the official page linked beside it; every blank is the absence of a document, not a guess.</p><p><a href="sources.html">Source register →</a></p></div>
-  <div class="card"><h3>Privacy</h3><p>The parties appear only as [OWNER], [TRUSTEE], [DECEDENT] and [HEIR]. The houses appear as Property A (Cupertino, inherited) and Property B (San Francisco, already owned). No name, street address, parcel number, account number or document is published here or anywhere on this site.</p><p><a href="review.html">Privacy positions and open items →</a></p></div>
-</div></section>
 </div>`;
 
-/* Gate table: one row per plan group. */
-document.getElementById("gate").innerHTML = readAll.map(r => {
-  const top = r.blockers.slice(0, 3).map(b => `<strong>${b.id}</strong> ${esc(b.q)}`).join("<br>");
-  const more = r.blockers.length > 3 ? `<br><span class="tiny">and ${r.blockers.length - 3} more</span>` : "";
-  const verdict = r.ready
-    ? `<span class="badge">Yes — every answer is settled</span>`
-    : `<span class="badge red">No — ${r.blockers.length} answer${r.blockers.length === 1 ? "" : "s"} outstanding</span>`;
-  const srcKey = r.plan === "estate" ? "caTrustNotice" : r.plan === "sell" ? "irsInherited" : r.plan === "rent" ? "boeProp19" : "boeLta2025009";
-  return `<tr><td><strong>${r.label}</strong></td><td class="number">${r.total}</td><td class="number">${r.settled}</td><td class="number"><strong>${r.blockers.length}</strong></td><td>${verdict}</td><td class="wrap">${top || "—"}${more}</td><td class="source">${UI.source(srcKey)}</td></tr>`;
-}).join("");
-
-/* Order table. */
-const ORDER_WHY = {
-  transfer: "Nothing can be sold, lived in or let until it is established what the heir actually owns and when.",
-  tax: "Property tax is the largest single number in the comparison and the one most sensitive to intent.",
-  sell: "The sale is the simplest exit and the benchmark every other plan is measured against.",
-  rent: "Renting changes the property tax rule, so it can only be judged after the tax questions.",
-  live: "Living in the house carries the bill with no rent, so the operating lines matter most here.",
-  estate: "These decide the money behind the house and survive whichever plan is chosen."
-};
-document.getElementById("order").innerHTML = Q.GROUPS.map((g, i) => {
-  const settled = g.items.filter(x => x.status === "settled").length;
-  const blocking = g.items.length - settled;
-  const key = g.id === "transfer" ? "caTrustNotice" : g.id === "tax" ? "boeProp19" : g.id === "sell" ? "irsInherited" : g.id === "rent" ? "hudA" : g.id === "live" ? "insuranceGuide" : "irsEstateTax";
-  return `<tr><td><strong>${i + 1}</strong></td><td class="wrap"><a href="#g-${g.id}">${g.title}</a></td><td class="number">${g.items.length}</td><td class="number">${settled}</td><td class="number">${blocking}</td><td class="wrap">${ORDER_WHY[g.id]}</td><td class="source">${UI.source(key)}</td></tr>`;
-}).join("");
-
-/* One section and table per group. */
-document.getElementById("groups").innerHTML = Q.GROUPS.map(g => `
-<section class="section" id="g-${g.id}"><div class="section-heading"><div><div class="eyebrow">${g.items.filter(x => x.status === "settled").length} of ${g.items.length} settled</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Answer we have today</th><th>Status</th><th class="wrap">Why it decides something</th><th class="wrap">What would settle it</th><th class="wrap">Plans affected</th><th>Official route</th></tr></thead><tbody>${g.items.map(item => `<tr>
-  <td><strong>${item.id}</strong></td>
-  <td class="wrap"><strong>${esc(item.q)}</strong></td>
-  <td class="wrap">${esc(Q.answerOf(item))}</td>
-  <td>${badge(item.status)}</td>
-  <td class="wrap">${esc(item.why)}</td>
-  <td class="wrap">${esc(item.action)}</td>
-  <td class="wrap tiny">${affects(item)}</td>
-  <td class="source">${UI.source(item.src)}</td>
-</tr>`).join("")}</tbody></table></div>
-<p class="tiny">${g.items.filter(x => x.status === "missing").length} of these ${g.items.length} have no answer in the record, and ${g.items.filter(x => x.status === "household").length} rest on an unverified household figure.</p>
-</section>`).join("");
-
-/* Highest-leverage questions. */
-const leverage = Q.ALL
-  .filter(i => i.status !== "settled")
-  .map(i => ({ ...i, n: i.affects.length }))
-  .sort((a, b) => b.n - a.n || a.id.localeCompare(b.id))
-  .slice(0, 5);
-document.getElementById("first").innerHTML = leverage.map(i => `<tr><td><strong>${i.id}</strong> ${esc(i.q)}</td><td class="wrap">${esc(i.why)}</td><td class="number">${i.n}</td><td class="source">${UI.source(i.src)}</td></tr>`).join("");
-
-UI.ensureRowSources();
+// Local-only tick state.
+(function () {
+  const key = "tino2.readiness.v1";
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (e) { state = {}; }
+  const boxes = [...document.querySelectorAll("[data-gate]")];
+  const label = document.getElementById("gate-count");
+  const render = () => { label.textContent = boxes.filter(b => b.checked).length + " of " + boxes.length + " closed"; };
+  boxes.forEach(b => {
+    b.checked = Boolean(state[b.dataset.gate]);
+    b.addEventListener("change", () => {
+      state[b.dataset.gate] = b.checked;
+      try { localStorage.setItem(key, JSON.stringify(state)); } catch (e) { /* private mode */ }
+      render();
+    });
+  });
+  render();
+})();
 </script></body></html>

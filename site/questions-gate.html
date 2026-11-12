@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Decision gate: forty questions in the order they must be answered, each marked settled, household input or missing, with the blocking rule that says whether living in, renting or selling the house can be decided yet."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Decision gate">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/costs.js"></script><script src="data/model.js"></script><script src="data/questions.js"></script><script src="../assets/app.js"></script>
+<script>
+/* Session 62245584. The decision gate. Reads its inputs from the published model; holds no household figures. */
+const main = document.getElementById("main");
+const Q = window.QUESTIONS, M = window.MODEL, S = window.SOURCES;
+const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const td = (h, c = "wrap") => `<td class="${c}">${h}</td>`;
+const badge = st => `<span class="badge ${Q.STATUS[st].badge}">${Q.STATUS[st].short}</span>`;
+const affects = item => item.affects.map(p => Q.PLAN_LABEL[p]).join(" · ");
+
+const counts = Q.counts;
+const readAll = Q.plans.map(p => Q.readiness(p));
+const estateRead = readAll.find(r => r.plan === "estate");
+
+main.innerHTML = UI.hero("Decision gate · blocked or ready · 12 Nov 2026",
+  "What has to be known before the house can be lived in, rented or sold",
+  "Forty questions, in the order the answers have to arrive, with one rule applied to all of them: a plan is blocked by every question attached to it whose answer is not settled by an official source. That rule is what makes the counts on this page mean something, and it is enforced in scripts/validate.js rather than typed in. The companion page <a href=\"questions.html\">Questions to settle</a> is the reference: what the official answers are, what each gap moves in the projections, and who can close it. This page answers a narrower question — can each plan be decided yet, and if not, exactly what is in the way.",
+  `<a class="button" href="questions.html">The official answers</a><a class="button secondary" href="suggestions.html">Suggestions and choose a path</a><a class="button secondary" href="review.html">Flagged for Review ⚑</a>`) + `<div class="container">
+
+<section class="section"><div class="grid four">
+  <div class="card"><div class="metric">${counts.total}</div><h3>Questions in the gate</h3><p class="tiny">Every one is attached to at least one plan.</p></div>
+  <div class="card soft"><div class="metric">${counts.settled}</div><h3>Settled by official source</h3><p class="tiny">The law is fixed. These do not change with our views.</p></div>
+  <div class="card warning"><div class="metric">${counts.household}</div><h3>Unverified household input</h3><p class="tiny">Usable for planning; must become a document before money is committed.</p></div>
+  <div class="card review"><div class="metric">${counts.missing}</div><h3>No answer in the record</h3><p class="tiny">A plan that depends on one of these cannot be finalised.</p></div>
+</div>
+<div class="callout warning"><strong>How to read the status column.</strong> <em>Settled</em> means an official page fixes the answer, and the link in the last column is that page. <em>Household input</em> means the answer exists only as an unverified figure supplied for planning; it is rounded to the nearest $10 and is not a document. <em>Missing</em> means nothing in the record answers it, so it is left blank rather than estimated. A blank is deliberate and is never filled in by inference.</div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">The gate itself</div><h2>Can each plan be decided yet?</h2><p>Four plan groups are tested. A question blocks a plan when its answer is not settled by an official source, because an unverified input cannot carry a decision about money. "The transfer itself" stands ahead of the three uses of the house: no plan is implementable until it is answered.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Plan</th><th class="number">Questions attached</th><th class="number">Settled</th><th class="number">Still blocking</th><th>Can it be implemented now?</th><th class="wrap">What is blocking it</th><th>Official framework</th></tr></thead><tbody id="gate"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Read in order</div><h2>The order the questions have to be answered in</h2><p>The groups are sequential, not alphabetical. A question about the sale cannot be answered before the question about the deed, because a house that is not the heir's to sell cannot be sold.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th class="wrap">Group</th><th class="number">Questions</th><th class="number">Settled</th><th class="number">Blocking</th><th class="wrap">Why it comes at this point</th></tr></thead><tbody id="order"></tbody></table></div>
+</section>
+
+<div id="groups"></div>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Do this first</div><h2>The five questions that unlock the most</h2><p>Ordered by how many of the other questions stop being urgent once each is answered. Each has an official route in the table above.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Why it is first</th><th class="number">Plans it blocks</th><th>Official route</th></tr></thead><tbody id="first"></tbody></table></div>
+</section>
+
+<section class="section"><div class="grid two">
+  <div class="card highlight"><h3>What this page is not</h3><p>It is not legal, tax or investment advice, and it does not decide anything. It lists what a decision depends on. Every settled answer is the law as published on the official page linked beside it; every blank is the absence of a document, not a guess.</p><p><a href="sources.html">Source register →</a></p></div>
+  <div class="card"><h3>Privacy</h3><p>The parties appear only as [OWNER], [TRUSTEE], [DECEDENT] and [HEIR]. The houses appear as Property A (Cupertino, inherited) and Property B (San Francisco, already owned). No name, street address, parcel number, account number or document is published here or anywhere on this site.</p><p><a href="review.html">Privacy positions and open items →</a></p></div>
+</div></section>
+</div>`;
+
+/* Gate table: one row per plan group. */
+document.getElementById("gate").innerHTML = readAll.map(r => {
+  const top = r.blockers.slice(0, 3).map(b => `<strong>${b.id}</strong> ${esc(b.q)}`).join("<br>");
+  const more = r.blockers.length > 3 ? `<br><span class="tiny">and ${r.blockers.length - 3} more</span>` : "";
+  const verdict = r.ready
+    ? `<span class="badge">Yes — every answer is settled</span>`
+    : `<span class="badge red">No — ${r.blockers.length} answer${r.blockers.length === 1 ? "" : "s"} outstanding</span>`;
+  const srcKey = r.plan === "estate" ? "caTrustNotice" : r.plan === "sell" ? "irsInherited" : r.plan === "rent" ? "boeProp19" : "boeLta2025009";
+  return `<tr><td><strong>${r.label}</strong></td><td class="number">${r.total}</td><td class="number">${r.settled}</td><td class="number"><strong>${r.blockers.length}</strong></td><td>${verdict}</td><td class="wrap">${top || "—"}${more}</td><td class="source">${UI.source(srcKey)}</td></tr>`;
+}).join("");
+
+/* Order table. */
+const ORDER_WHY = {
+  transfer: "Nothing can be sold, lived in or let until it is established what the heir actually owns and when.",
+  tax: "Property tax is the largest single number in the comparison and the one most sensitive to intent.",
+  sell: "The sale is the simplest exit and the benchmark every other plan is measured against.",
+  rent: "Renting changes the property tax rule, so it can only be judged after the tax questions.",
+  live: "Living in the house carries the bill with no rent, so the operating lines matter most here.",
+  estate: "These decide the money behind the house and survive whichever plan is chosen."
+};
+document.getElementById("order").innerHTML = Q.GROUPS.map((g, i) => {
+  const settled = g.items.filter(x => x.status === "settled").length;
+  const blocking = g.items.length - settled;
+  const key = g.id === "transfer" ? "caTrustNotice" : g.id === "tax" ? "boeProp19" : g.id === "sell" ? "irsInherited" : g.id === "rent" ? "hudA" : g.id === "live" ? "insuranceGuide" : "irsEstateTax";
+  return `<tr><td><strong>${i + 1}</strong></td><td class="wrap"><a href="#g-${g.id}">${g.title}</a></td><td class="number">${g.items.length}</td><td class="number">${settled}</td><td class="number">${blocking}</td><td class="wrap">${ORDER_WHY[g.id]}</td><td class="source">${UI.source(key)}</td></tr>`;
+}).join("");
+
+/* One section and table per group. */
+document.getElementById("groups").innerHTML = Q.GROUPS.map(g => `
+<section class="section" id="g-${g.id}"><div class="section-heading"><div><div class="eyebrow">${g.items.filter(x => x.status === "settled").length} of ${g.items.length} settled</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">Answer we have today</th><th>Status</th><th class="wrap">Why it decides something</th><th class="wrap">What would settle it</th><th class="wrap">Plans affected</th><th>Official route</th></tr></thead><tbody>${g.items.map(item => `<tr>
+  <td><strong>${item.id}</strong></td>
+  <td class="wrap"><strong>${esc(item.q)}</strong></td>
+  <td class="wrap">${esc(Q.answerOf(item))}</td>
+  <td>${badge(item.status)}</td>
+  <td class="wrap">${esc(item.why)}</td>
+  <td class="wrap">${esc(item.action)}</td>
+  <td class="wrap tiny">${affects(item)}</td>
+  <td class="source">${UI.source(item.src)}</td>
+</tr>`).join("")}</tbody></table></div>
+<p class="tiny">${g.items.filter(x => x.status === "missing").length} of these ${g.items.length} have no answer in the record, and ${g.items.filter(x => x.status === "household").length} rest on an unverified household figure.</p>
+</section>`).join("");
+
+/* Highest-leverage questions. */
+const leverage = Q.ALL
+  .filter(i => i.status !== "settled")
+  .map(i => ({ ...i, n: i.affects.length }))
+  .sort((a, b) => b.n - a.n || a.id.localeCompare(b.id))
+  .slice(0, 5);
+document.getElementById("first").innerHTML = leverage.map(i => `<tr><td><strong>${i.id}</strong> ${esc(i.q)}</td><td class="wrap">${esc(i.why)}</td><td class="number">${i.n}</td><td class="source">${UI.source(i.src)}</td></tr>`).join("");
+
+UI.ensureRowSources();
+</script></body></html>

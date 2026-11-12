@@ -9,7 +9,7 @@ The brief asks for two things. This session checked whether the published site a
 
 | Requirement, in the brief's own words | Found on `main` at `bfb2268` | Action |
 |---|---|---|
-| "a section dedicated for suggestions so someone can review suggestions and choose the best path before implementing any changes" | **Absent.** `grep -ric suggestion site/*.html index.html` returns `0` for all 16 pages. No page, section or data file used the word. | Built `site/suggestions.html` and `site/data/suggestions.js` |
+| "a section dedicated for suggestions so someone can review suggestions and choose the best path before implementing any changes" | **Absent at 15:40 UTC** (`grep -ric suggestion` returned `0` on all 16 pages). Built concurrently by sessions `6e6baf25` and `364b453d` and merged at 15:52 and 16:20 UTC as PRs #44, #45, #47 and #48. **Their page is kept unchanged**; this session's draft was not merged into it. | None from this session |
 | "a clear list of questions, informations and answers that need to be addressed before any decision can be reasonably made" | **Partly absent.** `site/review.html` is an uncertainty register: priority, item, why it matters, current treatment, resolution route. It does not state what the answer is today, nor whether a plan can be decided. | Built `site/questions.html` and `site/data/questions.js` |
 | "Suggestions need to be made to discover missing information" | Absent as a category. | 9 of the 15 suggestions exist specifically to obtain a missing input; each names the document that would settle it. |
 
@@ -49,7 +49,7 @@ ledger entry, not of an independent read this session. Logged as X-I2 below.
 
 ## 3. What the two new pages do, and their rules
 
-### `site/questions.html` — the decision gate
+### `site/questions-gate.html` — the decision gate
 
 40 questions in 6 sequential groups. Each question carries an answer, a status, why it decides
 something, what document would settle it, the plans it blocks, and an official source link.
@@ -63,17 +63,20 @@ something, what document would settle it, the plans it blocks, and an official s
   By plan: the transfer 10 blocking of 12; sell 6 of 14; rent 14 of 20; live 10 of 15.
   **No plan is implementable today**, which is the honest answer and the reason the page exists.
 
-### `site/suggestions.html` — the Suggestions section
+### The Suggestions section — built by other sessions, not by this one
 
-15 suggestions, ranked 1–15 with no gap, each with problem, evidence, effort band, risk band,
-timing, an alternative, and an official source link. Four paths, each a bundle of suggestions, with
-a selector to review a path before anything is implemented.
+Built by sessions `6e6baf25` and `364b453d` in `site/suggestions.html`. This session's separate
+draft — 15 suggestions, 4 paths and a path selector — was written before the conflict was known and
+was **not** merged, because their page already meets the requirement including an approve / defer /
+decline record held only in the reader's browser. `site/data/suggestions.js` was deleted as an
+orphan. The section below is kept as a record of what was checked in the draft, not as a
+description of the published page.
 
 - **Effort** is a time band (under an hour … a professional engagement), not a duration. Bands are
   deliberately **not** added together; the page shows the longest single step in a path instead.
   An earlier draft summed the bands, which was a meaningless number; that was corrected (X-I1).
 - **Risk** is a four-point plain-English scale, not a score.
-- **Reversibility.** No suggestion is marked irreversible. An earlier draft marked the California
+- **Reversibility (draft only).** No suggestion is marked irreversible. An earlier draft marked the California
   withholding suggestion irreversible; it is not, because a withheld amount is recovered as a credit
   on the tax return. Corrected (X-I1).
 - **Money effects are computed, never typed.** Every dollar amount on both new pages is produced by
@@ -120,11 +123,15 @@ also on the Flagged for Review page.
 
 ## 6. Files this session added or changed
 
-Added: `site/questions.html`, `site/data/questions.js`, `site/suggestions.html`,
-`site/data/suggestions.js`, `verification/62245584/REPORT.md` (this file).
+Added: `site/questions-gate.html`, `site/data/questions.js`, `verification/62245584/REPORT.md`
+(this file).
 
-Changed: `assets/app.js` (two navigation entries), `index.html` (two hero buttons and two category
-cards), `scripts/check-publication.py` (four manifest entries), `scripts/validate.js` (page count
-15→17 and the new engine checks), `COORDINATION.md` (this session's block only).
+Changed: `assets/app.js` (navigation entries for the gate and for the other sessions' two pages),
+`index.html` (hero buttons and category cards), `scripts/check-publication.py` (manifest entries;
+one orphan entry removed), `scripts/validate.js` (page count to 18 and the gate assertions),
+`COORDINATION.md` (this session's blocks only).
+
+Deleted: `site/data/suggestions.js` — this session's own orphaned engine, never referenced by any
+published page.
 
 No published figure, plan, recommendation or other session's file was modified.
