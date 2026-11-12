@@ -1483,3 +1483,26 @@ Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `c
 - **Unified `18`-page / `34`-file dashboard**: Preserved `site/data/{questions,suggestions,gate}.js` (`28` open readiness questions `Q01`–`Q28`, `14` settled rules `A01`–`A14`, `8` unknowables, `12` discovery plans, `24` carried-forward Group A–D items, `40`-question blocking `questions-gate.html`, `27` suggestions `S01`–`S27`, `4` bundles, `3` privacy paths, guardrails) and layered in verified FY2027 HUD & SF Measure H data, priority/group filters, blank CSV checklist export, privacy-path selector (`PRIVACY_PATH`), and `.json` export alongside `.md`.
 - **Cross-site & sensitivity improvements**: Decision Lab optional `4BR_2027` (`$5,800`) and `3BR_2027` (`$5,440`) selectors, SF FY2027 `94122` + Measure H details (`san-francisco.html`), `R-D3` NOI expansion, `R-D4` cleanup of `"session"`/`"audit note"`/`"the brief"` public prose + duplicate row removal + `Checked 12 Nov 2026` sorting, and `R-D5` `12 Nov 2026` stamps.
 - **Checks on merged `18`-page tree**: `package-site.py`, `check-publication.py --self-test` (`34` reviewed public files), `validate.js` (`1,561` checks, `18` pages, `177` sources), `stress-test.js`, `runtime-test.cjs` (`18` pages, `1,583` rows), `qa/tools/gate.cjs` (`0` errors, `0` warnings), `privacy_scan.py` (`0` errors), `src/check_links.py` (`0` errors), and `verification/{60ca3e1f,62b76b9d,55c16cea}/*` all PASS.
+
+---
+
+## Session `c96c185e` — final independent verification & publication (2026-11-12)
+
+Branch: `arena/c96c185e-tino2` (from `main` `052e626`, PR #52). Claim pushed immediately on session start; re-checked `git ls-remote` + open PRs just before this commit (no other live claim, no open PRs).
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| C-1 | Coordination: read board, claim non-overlapping scope, push at once | done | c96c185e | `COORDINATION.md` (this block only) | N/A | — |
+| C-2 | Run full local suite on `main` tree (validate, stress, package, publication boundary, runtime, gate, link check) | done — all PASS (see C-5) | c96c185e | `verification/c96c185e/**` (new) | N/A | — |
+| C-3 | Fresh official-source spot verification of load-bearing figures (IRS estate amounts, BOE Prop 19, HUD SAFMRs, CDI, BLS/CBO/Fed baselines, SF Rent Board) vs. site claims; blank+flag anything unconfirmable | in progress | c96c185e | `verification/c96c185e/**` (new) | IRS, BOE, HUD, CDI, BLS, CBO, Federal Reserve, SF Rent Board (official pages only) | TBD |
+| C-4 | Privacy audit of published tree (placeholders only, $10 rounding, no personal info in public files) | in progress | c96c185e | `verification/c96c185e/**` (new) | N/A | TBD |
+| C-5 | Publish: PR to `main`, merge without waiting, confirm Pages build + live read-back, record result here | pending | c96c185e | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties/addresses as placeholders only. Household amounts only rounded to $10; official published amounts cited exactly with source. Every table row carries an official source link or stays blank/unverified. Nothing inferred. Shared site files untouched unless a defect is found and logged here first. `origin/main` merged before every push.
+
+### Session `c96c185e` — completion record (2026-11-12)
+
+- **C-2 done.** Full suite on the `main` tree: `validate.js` PASS (1,561 checks, 18 pages, 177 sources; base case sell $7,683,290 / rent $6,249,830 / live $5,135,780) · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py --self-test` PASS (34 files) · `runtime-test.cjs` PASS (18 pages, 1,583 rows) · `gate.cjs` PASS (0 errors, 0 warnings) · `check_links.py .` PASS (68 pages) · `privacy_scan.py` 0 errors (228 standing warnings, unchanged).
+- **C-3 done.** Fresh official-source verification by this session (details in `verification/c96c185e/REPORT.md` §2): IRS estate thresholds 2011–2026 and 2026/2027 exclusions (IR-2026-133), BOE Prop 19 page + NR 25-02 ($1,044,586), HUD FY2027 SAFMRs 95014/94122, CA Controller no-estate-tax rule, SF Rent Board 1.6% + File 261020 not enacted, CBO 2026–2036 baseline. All MATCH. Insurance premiums correctly blank (CDI surveys are not quotes).
+- **C-4 done.** Privacy audit: placeholders only; no exact household figures in the published tree; household inputs are the brief's own $10-multiple round estimates labeled unverified. Live read-back of `site/questions.html` confirmed the site renders.
+- **C-5 in progress.** PR opened from this branch; merge and Pages-build confirmation to follow. No site file changed — the published tree already met the brief; this PR carries only this verification report and this board record.
