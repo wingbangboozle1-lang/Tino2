@@ -13,8 +13,10 @@
   const navItems = [
     ["home", home, "Overview"],
     ["plan", prefix + "plan.html", "Best plan"],
+    ["questions", prefix + "questions.html", "Readiness"],
     ["decision", prefix + "decision.html", "Decision"],
     ["options", prefix + "options.html", "Other options"],
+    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["properties", prefix + "properties.html", "Properties"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
     ["operating-costs", prefix + "operating-costs.html", "Operating costs"],
@@ -23,7 +25,6 @@
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["sources", prefix + "sources.html", "Sources"],
     ["verification", prefix + "verification.html", "Verified facts"],
-    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["review", prefix + "review.html", "Flagged"]
   ];
   const title = document.body.dataset.title || "Inheritance planning";

@@ -22,15 +22,20 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Structure
 
+- `site/questions.html` — **Decision readiness**: 22 open questions, 12 points already settled by an official source, 8 that no document can settle, a 12-item discovery plan, and a browser-local answer tracker (data in `site/data/questions.js`)
+- `site/suggestions.html` — **Suggestions to review**: 27 proposals with the uncertainty each removes, effort, cost and limits, four ready-made paths the owner can compare and choose before anything is implemented, and the two earlier sessions' shortlists reconciled in their own IDs (data in `site/data/suggestions.js`)
 - `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
 - `site/options.html` — completeness check: hold-then-sell and empty-house cases, depreciation in the rental case, the pre-2021 reassessment rule as a test, estate tax by amount of money, rules by kind of money, and filing steps missing from the checklist (engine in `site/data/options.js`, independent calculation in `verification/0d6ec51e/`)
 - `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
+- `site/questions.html` — decision-readiness register: every question, fact and answer that must be closed before a choice, what is known and missing, how each gap is closed and by whom, the effect if it stays open, and a browser-only readiness checklist
+- `site/suggestions.html` — the review-before-implementation page: privacy paths, seven structural improvements, a 15-item suggestions register with evidence and a suggested order, the decision-critical questions, and an approve/defer/decline record stored only in the browser
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
+- `site/suggestions.html` — the suggestions register: improvements to the analysis and to the dashboard, the questions to answer before deciding, a suggested sequence, and a local-only record of which items were approved, deferred or declined
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
 - `site/review.html` — unresolved items and verification routes
 - `site/data/model.js` — deterministic calculations; full precision retained until display
@@ -38,6 +43,13 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `site/data/sources.js` — official URLs and reviewed notes
 - `assets/` — shared layout, styling, and navigation
 - `scripts/validate.js` — model, syntax, internal-link, and source checks
+
+## Review before change
+
+Two pages exist so that the dashboard can be reviewed rather than rewritten:
+
+- **Decision readiness** separates the questions that are settled by an official source from the ones that are open and discoverable, and from the ones that are unknowable until the event. Every open row names the document, office or lookup that settles it. Marks are stored in the reader's browser only.
+- **Suggestions** is the change backlog. Each proposal states the uncertainty it removes, the readiness questions it would close, the household time it costs, and the limits it does not fix. Choosing a path or an item writes to the browser only; nothing on the site, in the model or in the recommendation changes until the choice is recorded in `COORDINATION.md` and implemented in a later session under the same verification rules.
 
 ## Model conventions
 
