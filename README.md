@@ -22,24 +22,30 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Structure
 
-- `site/questions.html` — **Decision readiness**: 22 open questions, 12 points already settled by an official source, 8 that no document can settle, a 12-item discovery plan, and a browser-local answer tracker (data in `site/data/questions.js`)
-- `site/suggestions.html` — **Suggestions to review**: 27 proposals with the uncertainty each removes, effort, cost and limits, four ready-made paths the owner can compare and choose before anything is implemented, and the two earlier sessions' shortlists reconciled in their own IDs (data in `site/data/suggestions.js`)
-- `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths
 - `index.html` — executive summary and base-case recommendation
+- `site/plan.html` — the household view: sell, rent or live ranked under one set of assumptions, the drivers of the gap, and what would change the ranking
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
 - `site/decision.html` — interactive live/rent/sell model, worked formulas, sensitivities, and CSV export
+- `site/operating-costs.html` — water and wastewater rate build-ups for both properties, the solar tariff term, insurance evidence status, and a national maintenance benchmark
 - `site/options.html` — completeness check: hold-then-sell and empty-house cases, depreciation in the rental case, the pre-2021 reassessment rule as a test, estate tax by amount of money, rules by kind of money, and filing steps missing from the checklist (engine in `site/data/options.js`, independent calculation in `verification/0d6ec51e/`)
-- `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as seven path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
-- `site/questions.html` — decision-readiness register: every question, fact and answer that must be closed before a choice, what is known and missing, how each gap is closed and by whom, the effect if it stays open, and a browser-only readiness checklist
-- `site/suggestions.html` — the review-before-implementation page: privacy paths, seven structural improvements, a 15-item suggestions register with evidence and a suggested order, the decision-critical questions, and an approve/defer/decline record stored only in the browser
+- `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths
+- `site/scenarios.html` — black-swan and real-conditions stress cases: recorded inflation, mortgage, home-price, insurance and earthquake anchors replayed as path-based scenarios, with break-even thresholds and cost/catastrophe sensitivities
+- `site/black-swan.html` — recorded-data black-swan tests: twelve scenarios replayed from official annual series (1970–2025) and a seeded 2,000-path Monte Carlo (engine in `site/data/history-engine.js`)
+- `site/questions.html` — Decision readiness: the 28 open questions, 14 settled rules and 8 unknowables, a 12-item discovery plan, and a browser-local answer tracker (data in `site/data/questions.js`)
+- `site/questions-gate.html` — Decision gate: the blocking layer over the readiness register; 40 questions in the order they must be answered, with the rule that says, for each of sell / rent / live / estate, whether it can be decided yet (data in `site/data/gate.js`)
+- `site/suggestions.html` — Suggestions to review: 27 proposals with the uncertainty each removes, four ready-made paths, privacy paths, and a browser-local approve/defer/decline record (data in `site/data/suggestions.js`)
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
-- `site/suggestions.html` — the suggestions register: improvements to the analysis and to the dashboard, the questions to answer before deciding, a suggested sequence, and a local-only record of which items were approved, deferred or declined
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
-- `site/review.html` — unresolved items and verification routes
+- `site/review.html` — unresolved items and verification routes (Flagged for Review)
+- `site/verification.html` — Verified facts: every law, rate and threshold re-opened on its official page, with the link and the wording found; unconfirmed items are blank and marked
 - `site/data/model.js` — deterministic calculations; full precision retained until display
 - `site/data/scenarios.js` — stress-case engine; reproduces `MODEL.decision()` exactly at base assumptions and adds path-based shocks
+- `site/data/history.js`, `site/data/history-engine.js` — recorded-data engine behind the black-swan page (inputs in `research/data/fred_annual_2026-11-11.csv`)
+- `site/data/options.js`, `site/data/stress.js`, `site/data/costs.js` — completeness-check engine, automatic 50-year paths and operating-cost inputs
+- `site/data/questions.js`, `site/data/suggestions.js`, `site/data/gate.js` — readiness register, suggestions register and decision gate data
+- `site/data/ledger.js` — generated from `qa/ledger.json`; the official figures used on the site
 - `site/data/sources.js` — official URLs and reviewed notes
 - `assets/` — shared layout, styling, and navigation
 - `scripts/validate.js` — model, syntax, internal-link, and source checks
