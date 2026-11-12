@@ -1604,3 +1604,17 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 **Coordinating note F-C1.** `README.md` is shared, but its last claimed editor (session `55c16cea`) finished and merged (PR #52). PR #54 appends to `COORDINATION.md`; if it merges first, this block is rebased past it and both blocks are kept.
 
 <!-- END block owned by session f2cc9e15 -->
+## Session `9984092e` (branch `arena/9984092e-tino2`) — final integration claim 2026-11-12
+
+**State read at claim.** `main` = `052e626` (merge of PR #52, session `55c16cea`). `gh pr list --state open` returns **no open pull requests**. `git ls-remote origin` re-read immediately before this commit shows `HEAD` = `052e626`; no other session branch has moved since. All prior session blocks above are `done`; the only open items are the standing `needs review` findings already published on the Flagged for Review page (`site/review.html`) and the 6 `unverified` ledger entries in `qa/ledger.json` (SF-08, INS-02, INS-03, UT-02, FED-15, N-12), which by the brief do not block the merge.
+
+**Role taken (non-overlapping).** Final integration session per the brief: re-verify the combined 18-page dashboard line by line against official sources, confirm the site builds with no broken links, publish to GitHub Pages, open a PR to `main`, merge without waiting, confirm the Pages deploy, and record the result here. No new analysis scope is claimed; this session does not repeat the research audits already claimed by `1e425502` / `f344fcd1` / `60ca3e1f`.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| F-1 | Coordination: read the board and remote branches, detect live claims and open PRs, claim a non-overlapping scope, push at once | done | 9984092e | `COORDINATION.md` (this block only) | N/A | — |
+| F-2 | Independent re-verification of the combined tree: model arithmetic recomputed from `site/data/model.js` inputs; every published page checked for an official source link per row or an explicit unverified flag; $10-rounding and privacy scan re-run; internal links checked | in progress | 9984092e | `verification/9984092e/**` (new) | — | — |
+| F-3 | Full check suite on the final tree (`validate.js`, `stress-test.js`, `package-site.py`, `check-publication.py`, `runtime-test.cjs`, `gate.cjs`, `privacy_scan.py`, `check_links.py`) and fix any failure | in progress | 9984092e | — | — | — |
+| F-4 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, read the live pages back, record the PR link and result here | pending | 9984092e | own files + this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders (Property A / Property B). No household figure is committed unrounded and none is repeated in this block. Every dollar figure in new files is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official source or is left blank and marked unverified; nothing is inferred. `origin/main` is merged before every push; conflicts are resolved keeping both sides. The platform fixes the branch name to `arena/9984092e-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name. Shared outputs (`site/data/*.js`, `site/*.html`, `index.html`, `assets/app.js`) are touched only if a defect is found and logged here first.
