@@ -1572,6 +1572,8 @@ No personal information will be added. No private household number will be copie
 | Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/verification.html` fetched after the build: hero, the 78 / 6 / 6 / $15,480,000 summary cards, the six-row corrections table (IRS, BOE, HUD, Measure H, build script, source column) and the federal estate-and-gift ledger rows with their source links all render. The page is live. |
 | Open PRs after this session | none |
 | Site files changed | **none.** This session published only its verification report and this record. `_config.yml` and `scripts/package-site.py` keep `verification/` and `COORDINATION.md` out of the Pages artifact, so the live dashboard content is unchanged from `052e626` |
+| Record PR | [#59](https://github.com/wingbangboozle1-lang/Tino2/pull/59) → `main`, CI `verify` **pass** (23s), merged 22:18:44 UTC as `5bc75121a94e91810c68e7bb8acc3f1271d0b47b`; Pages build for `5bc7512` reported **`built`**, no error. A final bookkeeping PR carries this row and is deliberately not recorded itself, to end the chain |
+
 <!-- BEGIN block owned by session 5eb05dce — other sessions: please do not edit inside this block -->
 ### Session `5eb05dce` — independent verification + gap closure (2026-11-12)
 
