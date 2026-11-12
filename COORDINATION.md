@@ -1438,18 +1438,48 @@ This is the collision the board exists to prevent; it happened because their cla
 
 **Privacy.** No personal information added. No household figure typed into `site/data/gate.js`; the one value it displays is read from `MODEL.BASE` at render time, and `validate.js` proves this by halving the model input and asserting the answer moves.
 
+### Session `62245584` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#49](https://github.com/wingbangboozle1-lang/Tino2/pull/49) `arena/693321af-tino2` → `main`, opened 15:41 UTC, **MERGED** 15:50:50 UTC without waiting for approval; `MERGEABLE` at merge time |
+| Conflicts before merge | **Three**, all from `main` moving while this session worked (PRs #44–#48, #50, #51). Each was resolved keeping every session's work in full and logged above. No session's content was discarded. |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 23s — includes the Jekyll build and the rejection of unexpected files in the real Pages output |
+| Merge commit | `4c70e8aaf9d524e470c2815e4ac13aa9c2a364af` |
+| GitHub Pages | build for `4c70e8a` reported **`built`**, `error.message: null`, completed 15:51:30 UTC (Pages API; source `main` / root, legacy builder, HTTPS enforced) |
+| Live-URL read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/questions-gate.html` was fetched after the build and returned the rendered page: title "Decision gate · Planning dashboard", the 40 / 14 / 10 / 16 summary cards, the four-plan gate table (transfer 10 blocking of 12; sell 7 of 14; rent 14 of 20; live 10 of 15), and the six ordered groups. The page is live. |
+| Open PRs after this session | none |
+
+**What was published.** One new page and one new data file: `site/questions-gate.html` and
+`site/data/gate.js`. Every other page on the site, including the two Suggestions pages and the
+readiness register built by other sessions, is theirs and was left unchanged except for the
+navigation entries needed to reach the new page.
+
+**State of the board.** Every task of this session is done. The standing **needs review** items are
+unchanged and remain published on the Flagged for Review page: the two privacy positions for the
+owner (F-I1, F-I2), the FY2027 rent benchmark (F-I3), and the blank figures. This session added five
+further irregularities, X-I1 to X-I5 in `verification/62245584/REPORT.md`; X-I1 was corrected before
+publication, and the rest are recorded there and on the gate page where they affect a row. None
+blocks the merge.
+
+**Suggestion for the next session.** Three sessions built the same two features concurrently because
+the board showed no live claim at the moment each checked. To prevent a fourth, the next session
+should re-read `git ls-remote` **immediately before its first commit**, not only at claim time: in
+this session more than two hours of `main` movement happened between the claim and the push.
+
 ---
 
-## Session `55c16cea` — 2026-11-12 (Reconciled through `origin/main` `4c70e8a`)
+## Session `55c16cea` — 2026-11-12 (Reconciled through `origin/main` `cfe1e3b`)
 
 | Task | Status | Owner | File scope |
 |---|---|---|---|
-| Verify HUD FY2027 SAFMRs (95014/94122) & Nov 12 official sources; integrate FY2027 HUD, Measure H (`SF-09`), `P19-12` Prop 19 cadence, priority/group filters, CSV checklist download, privacy-path selector & JSON export into `site/data/{questions,suggestions,sources}.js` + `site/{questions,suggestions}.html` while preserving `origin/main` (`4c70e8a`, incl. `questions-gate.html` + `gate.js`); resolve R-D3 (NOI), R-D4 (internal jargon & duplicate row), R-D5 (12 Nov 2026 check dates); verify, push, merge PR #52 to `main`, confirm Pages deploy | done | 55c16cea | `COORDINATION.md`, `README.md`, `index.html`, `assets/app.js`, `site/{questions,suggestions}.html`, `site/data/{questions,suggestions,sources,model,ledger}.js`, `qa/{ledger.json,gate-report.json}`, `site/{decision,properties,san-francisco,black-swan,stress,options,plan,inheritance,sources,review,verification}.html`, `scripts/{check-publication.py,validate.js}`, `verification/55c16cea/**` |
+| Verify HUD FY2027 SAFMRs (95014/94122) & Nov 12 official sources; integrate FY2027 HUD, Measure H (`SF-09`), `P19-12` Prop 19 cadence, priority/group filters, CSV checklist download, privacy-path selector & JSON export into `site/data/{questions,suggestions,sources}.js` + `site/{questions,suggestions}.html` while preserving `origin/main` (`cfe1e3b`, incl. `questions-gate.html` + `gate.js`); resolve R-D3 (NOI), R-D4 (internal jargon & duplicate row), R-D5 (12 Nov 2026 check dates); verify, push, merge PR #52 to `main`, confirm Pages deploy | done | 55c16cea | `COORDINATION.md`, `README.md`, `index.html`, `assets/app.js`, `site/{questions,suggestions}.html`, `site/data/{questions,suggestions,sources,model,ledger}.js`, `qa/{ledger.json,gate-report.json}`, `site/{decision,properties,san-francisco,black-swan,stress,options,plan,inheritance,sources,review,verification}.html`, `scripts/{check-publication.py,validate.js}`, `verification/55c16cea/**` |
 
-Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `4c70e8a`, preserving every block from `6e6baf25`, `364b453d`, `6a64dc5b`, `a87f8523`, `58941d22`, and `62245584`/`693321af` plus all baseline calculations: `sell` $7,683,290 / `rent` $6,249,830 / `live` $5,135,780 at 2040).
+Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `cfe1e3b`, preserving every block from `6e6baf25`, `364b453d`, `6a64dc5b`, `a87f8523`, `58941d22`, and `62245584`/`693321af` plus all baseline calculations: `sell` $7,683,290 / `rent` $6,249,830 / `live` $5,135,780 at 2040).
 
 ### `55c16cea` completion / verification (2026-11-12)
 
 - **Official data verified (`2026-11-12`)**: `CF-04` (HUD FY2027 SAFMR ZIP `95014`: `$5,800` 4BR / `$5,440` 3BR), `CF-05` (HUD FY2027 SAFMR ZIP `94122`: `$2,770` 1BR / `$3,410` 2BR), `SF-09` (SF Measure H Ballot Title & Summary + OEA report: `$249/yr` base + `$0.195/sq ft` over `5,000` sq ft starting 1 July 2027, 50% / `$65/unit` pass-through), `P19-12` (BOE biennial Prop 19 cadence vs. Santa Clara County wording), plus `githubPages`, `cupertinoADU`, and updated `cpucNem`; refreshed `CA-05`/`CA-06`/`CA-07` and `SF-04`/`SF-05`. Total `qa/ledger.json`: `84` entries (`78` verified, `6` open).
 - **Unified `18`-page / `34`-file dashboard**: Preserved `site/data/{questions,suggestions,gate}.js` (`28` open readiness questions `Q01`–`Q28`, `14` settled rules `A01`–`A14`, `8` unknowables, `12` discovery plans, `24` carried-forward Group A–D items, `40`-question blocking `questions-gate.html`, `27` suggestions `S01`–`S27`, `4` bundles, `3` privacy paths, guardrails) and layered in verified FY2027 HUD & SF Measure H data, priority/group filters, blank CSV checklist export, privacy-path selector (`PRIVACY_PATH`), and `.json` export alongside `.md`.
 - **Cross-site & sensitivity improvements**: Decision Lab optional `4BR_2027` (`$5,800`) and `3BR_2027` (`$5,440`) selectors, SF FY2027 `94122` + Measure H details (`san-francisco.html`), `R-D3` NOI expansion, `R-D4` cleanup of `"session"`/`"audit note"`/`"the brief"` public prose + duplicate row removal + `Checked 12 Nov 2026` sorting, and `R-D5` `12 Nov 2026` stamps.
+- **Checks on merged `18`-page tree**: `package-site.py`, `check-publication.py --self-test` (`34` reviewed public files), `validate.js` (`1,561` checks, `18` pages, `177` sources), `stress-test.js`, `runtime-test.cjs` (`18` pages, `1,583` rows), `qa/tools/gate.cjs` (`0` errors, `0` warnings), `privacy_scan.py` (`0` errors), `src/check_links.py` (`0` errors), and `verification/{60ca3e1f,62b76b9d,55c16cea}/*` all PASS.
