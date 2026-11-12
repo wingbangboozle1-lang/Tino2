@@ -90,3 +90,18 @@ Branch: Arena-fixed `arena/55c16cea-tino2` (merged with `origin/main` through `0
 
 <!-- END block owned by session cf976834 -->
 
+
+## Session `cf976834` — integration and finalization (2026-11-12)
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| I-1 | Coordination: read the board and `git ls-remote`, claim integration scope (executive summary, suggestions section, questions/info/answers register, black-swan section, year-by-year projections, comparison, inheritance process, tax law analysis, GitHub Pages site, verification, PR/merge/record) | **in progress** | cf976834 | `COORDINATION.md` (this block), `index.html`, `site/*.html`, `site/data/*.js`, `assets/app.js`, `qa/ledger.json`, `scripts/validate.js` | N/A | I-C1 below |
+
+**Scope.** Integration and finalization of the executive summary landing (`index.html`), suggestions section (`site/suggestions.html` + `site/data/suggestions.js`), questions/info/answers register (`site/questions.html` + `site/data/questions.js`), black-swan section (`site/black-swan.html` + `site/data/history-engine.js`), year-by-year projections (`site/properties.html` + `site/data/model.js` + `site/data/costs.js`), live vs rent vs sell-and-reinvest comparison (`site/decision.html` + `site/data/options.js`), inheritance process (`site/inheritance.html`), tax law analysis (`site/estate-tax.html`), GitHub Pages site (`_config.yml`, `scripts/validate.js`, `scripts/package-site.py`), verification (`site/verification.html` + `qa/ledger.json`), PR to `main`, merge without waiting, confirm Pages build, read live pages back, record PR/merge in `COORDINATION.md`.
+
+**Coordinating note I-C1.** Because the remote holds only `main` at `b9e94fb` and no other session is currently claiming the integration scope, this session claims the full integration and finalization. Small frequent commits, `git pull --rebase` before push, resolve conflicts without discarding others' work.
+
+**Privacy.** No personal information in any committed file; parties and addresses stay placeholders (Property A / Property B); household amounts appear only rounded to $10. Every dollar figure of $1,000 or more on the new pages is a multiple of $10 or a figure a government body publishes (and, where it is new, added to `qa/ledger.json`). Every table row carries an official source link or is left blank and flagged unverified. Nothing is inferred.
+
+<!-- END block owned by session cf976834 -->
+
