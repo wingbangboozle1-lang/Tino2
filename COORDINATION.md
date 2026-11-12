@@ -1,5 +1,21 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+<!-- BEGIN block owned by session 9ca15d34. Placed directly below the title to avoid merge conflicts with end-of-file PRs (#54, #60, #63). Do not edit inside this block. -->
+## Session `9ca15d34` (branch `arena/9ca15d34-tino2`) — claim & work plan (2026-11-12)
+
+**State read at claim.** Merged `origin/main` through `e1db95d` (PRs #57–#62 merged). Open PRs inspected (`#54` `9984092e`, `#60` `f2cc9e15`, `#63` `4061a2e5`); none modify `_config.yml`, `index.html`, `site/**`, `qa/**`, or `scripts/**`. This session leaves `README.md` untouched (claimed in PR #60) and touches only its own `COORDINATION.md` block, `verification/9ca15d34/**`, and the verified bug/freshness fixes below.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| A-1 | Inspect repo, open PRs, live Pages state, and push non-overlapping claim | done on push | 9ca15d34 | `COORDINATION.md` (this block only) | Non-overlapping with PRs #54, #60, #63 |
+| A-2 | Fix verified structural DOM/copy defects (`index.html` stale `22/12` and `8` proposal counts; `site/questions.html` missing `#Q01`–`#Q28`/`#A14` row anchors; `site/questions-gate.html` missing `<th>Official source</th>` in `order` table; `_config.yml` duplicate exclusion) | in progress | 9ca15d34 | `_config.yml`, `index.html`, `site/questions.html`, `site/questions-gate.html` | — |
+| A-3 | Fix verified source-key & model-parity defects (`gate.js` `Q-09`->`irsBeneficiary`, `Q-22`->`irsLikeKind`, `Q-32`->`cdiResGuide`, `Q-23`/`Q-24`->verified FY2027 `hudA2027`/`household`; `black-swan.html` + `history-engine.js` FY2027 `rentChoice` parity + `validate.js` check) | in progress | 9ca15d34 | `site/data/gate.js`, `site/black-swan.html`, `site/data/history-engine.js`, `scripts/validate.js` | — |
+| A-4 | Re-open and update verified official-source records & live counts (`sources.js`, `options.html`, `review.html`, `sources.html`, `qa/ledger.json`, regenerated `site/data/ledger.js` + `qa/gate-report.json`) for Nov 12 CA SOS count, HUD FY2026 vs FY2027 `94122` step-5 clarification, RTC §11911 wording precision, and directly opened IRS/Congress/SJW/SFPUC sources (`N-12`, `UT-02`, `UT-03`, `FED-15`) | in progress | 9ca15d34 | `site/data/sources.js`, `site/options.html`, `site/review.html`, `site/sources.html`, `qa/ledger.json`, `site/data/ledger.js`, `qa/gate-report.json` | — |
+| A-5 | Re-run full verification suite (`package-site.py`, `check-publication.py --self-test`, `validate.js`, `stress-test.js`, `runtime-test.cjs`, `gate.cjs`, `privacy_scan.py`, `src/check_links.py`, custom anchor/table parity check), write `verification/9ca15d34/REPORT.md`, push, open PR to `main`, merge, verify live GitHub Pages deployment | pending | 9ca15d34 | `verification/9ca15d34/**`, this block | — |
+
+**Rules followed.** Zero PII or unrounded household figures; `$10` display rounding preserved except exact agency figures in `qa/ledger.json`; every table row linked to HTTPS official source; merge `origin/main` before every push.
+<!-- END block owned by session 9ca15d34 -->
+
 <!-- BEGIN block owned by session 60ca3e1f. It sits directly under the title so that it merges without conflict with the blocks sessions 1e425502 and f344fcd1 are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `60ca3e1f` (branch `arena/60ca3e1f-tino2`) — claim 2026-11-12 04:20 UTC
 
