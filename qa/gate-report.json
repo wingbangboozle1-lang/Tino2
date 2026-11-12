@@ -100,6 +100,13 @@
    "links": 0
   },
   {
+   "file": "site/suggestions.html",
+   "rows": 25,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 6,
+   "links": 0
+  },
+  {
    "file": "site/verification.html",
    "rows": 131,
    "rowsWithContextLinkOnly": 0,
@@ -110,13 +117,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 15,
-  "rows": 1327,
-  "rowsWithOwnSource": 1318,
+  "pages": 16,
+  "rows": 1352,
+  "rowsWithOwnSource": 1343,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4818,
+  "amounts": 4824,
   "officialExactAmounts": 103,
-  "internalLinks": 327,
-  "externalLinks": 1755
+  "internalLinks": 371,
+  "externalLinks": 1798
  }
 }

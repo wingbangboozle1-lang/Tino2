@@ -21,6 +21,7 @@
     ["stress", prefix + "stress.html", "Black swan"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
+    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["sources", prefix + "sources.html", "Sources"],
     ["verification", prefix + "verification.html", "Verified facts"],
     ["review", prefix + "review.html", "Flagged"]
