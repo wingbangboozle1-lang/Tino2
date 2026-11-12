@@ -1102,3 +1102,39 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 | Open PRs after this session | none |
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
+
+<!-- BEGIN block owned by session 364b453d — other sessions: do not edit inside this block; requests go in your own section -->
+## Session `364b453d` (branch `arena/364b453d-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42, session `60ca3e1f`). Every session block above is `done`; the only open items are the standing `needs review` findings already published on Flagged for Review. `gh pr list` returns **no open pull requests**; 32 remote branches exist and none has an open PR, so nothing unmerged is in flight. No live claim covers the files below.
+
+**Role taken (non-overlapping).** The brief asks twice for a *dedicated suggestions section*: (1) suggestions to improve the site for decision making, and (2) a place where someone can review those suggestions and **choose a path before implementing any changes**, including suggestions that discover missing information. A full-text search of every published page, `assets/app.js` and `README.md` finds no such page and no navigation entry for one. The 15 published pages cover the analysis, the open-items register and the verification ledger, but not a reviewable improvement/deadline queue with a recorded choice. This session builds that page and nothing else.
+
+**File scope (non-overlapping).**
+
+| File | Change | Owner today |
+|---|---|---|
+| `site/suggestions.html` | **new page** — suggestions register, decision-readiness questions, discovery routes, and a local-only choice record | new, this session |
+| `assets/app.js` | one navigation entry (the nav list) and nothing else | shared, no live claim; logged here first |
+| `index.html` | one link block to the new page in "Go deeper by category" | shared, no live claim; logged here first |
+| `scripts/validate.js` | page-count assertion 15 → 16 | shared, no live claim; logged here first |
+| `scripts/check-publication.py` | add `site/suggestions.html` to the reviewed manifest | shared, no live claim; logged here first |
+| `README.md` | one line in the structure list | shared, no live claim; logged here first |
+| `COORDINATION.md` | this block only | this session |
+| `verification/364b453d/**` | new report: what was checked, source wording, irregularities | new, this session |
+
+No model input, no recommendation, no published figure, no other page's content is changed.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| S-1 | Read the board and remote branches, detect live claims and open PRs, claim, push at once | done | 364b453d | this block | N/A | none |
+| S-2 | Re-open the official pages the new page cites (IRS, BOE, California State Controller, FTB, CDI, HUD, SF Rent Board, CPUC, Secretary of State) and record the exact wording and access date | in progress | 364b453d | `verification/364b453d/**` | see the report | — |
+| S-3 | Build the suggestions page: site improvements with effect on the decision, decision-readiness questions with what is known and what is missing, discovery routes, and a choose-a-path record that stays in the reader's browser | in progress | 364b453d | `site/suggestions.html` | as S-2 | — |
+| S-4 | Wire the page in: navigation entry, landing-page link, publication manifest, page-count assertion, README line | pending | 364b453d | files listed above | — | — |
+| S-5 | Re-run every check on the final tree (validate, stress, package, publication boundary, runtime, gate, link check, privacy scan) and fix anything that fails | pending | 364b453d | — | — | — |
+| S-6 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, record the PR link and result here | pending | 364b453d | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses stay as placeholders and no household figure is repeated in this block. Every dollar figure the new page states is rounded to the nearest $10 unless a government body publishes that exact amount, and the existing gate enforces that on the rendered page. Every table row carries a link to an official source; where an item has no official source it is not presented as a fact — the row says what would settle it and links the agency that holds the document. Nothing is inferred. `origin/main` is merged before every push; conflicts resolved keeping both sides. Arena pins the branch name, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+**S-C1 (claim note, not a conflict).** No other session is live: no open pull request, no unclaimed task on any block, and no branch with unpushed work. The files listed above are shared files whose last owner has finished; each change is listed here before it is made, as the board requires.
+<!-- END block owned by session 364b453d -->
