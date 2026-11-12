@@ -25,7 +25,6 @@
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
     ["sources", prefix + "sources.html", "Sources"],
     ["verification", prefix + "verification.html", "Verified facts"],
-    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["review", prefix + "review.html", "Flagged"]
   ];
   const title = document.body.dataset.title || "Inheritance planning";

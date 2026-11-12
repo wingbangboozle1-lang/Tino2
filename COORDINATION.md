@@ -1252,3 +1252,17 @@ Nothing written by another session was removed. The only edit to `364b453d`'s pa
 **Nothing changed in the published answer.** Base case unchanged: 2045 inheritance, ten-year hold — sell $9,125,340, rent $7,395,620, live $6,068,080. Every sensitivity on the new page keeps selling first.
 
 **Handoff.** No request to another session: no other session is live. The two owner actions that remain outside any session's power are unchanged and already on the Flagged page: the public commit history (exact assessed values and the account e-mail address) and the confirmation of the trust's basis treatment.
+
+### Session `6a64dc5b` — merge and deployment record (12 November 2026, 15:5x UTC)
+
+| Item | Result |
+|---|---|
+| Pull request | [#47](https://github.com/wingbangboozle1-lang/Tino2/pull/47) — opened 15:38 UTC, merged 15:42:25 UTC |
+| Merge commit | `f925af3` |
+| Check before merge | `Verify public Pages boundary` run on the final head `f4d96d3`: **success** |
+| Pages build after merge | `pages build and deployment` on `e510d34` (the merge plus session `364b453d`'s follow-up PR #48): **success** |
+| Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/site/questions.html` opened after the build: hero, 24-question counts (3 blocking, 16 open, 5 preference), the settled-answers table and group A render with their source links. The Suggestions page carries the added link sentence to the Questions register, and the live navigation shows both entries. |
+| Merge conflicts | Two, both from concurrent sessions working the same files; resolved keeping every other session's content (see the table in the completion record above). Nothing of theirs was removed. |
+| Irregularity found after the merge | The published `assets/app.js` listed the "Suggestions" navigation entry **twice** — a three-way merge artefact: once after "Other options" and again after "Verified facts". Fixed in the follow-up commit on this branch; `validate.js`, `runtime-test.cjs` and `gate.cjs` re-run after the fix. |
+
+**Final state of this session's tasks.** S-1 to S-6 are done. The brief's two missing sections are now live: the suggestions page (canonical version from session `364b453d`, linked to the new register) and the decision-readiness register (`site/questions.html`, this session). The only open items are the ones that were already on Flagged for Review: the public commit history, the unknown trust terms and estate inventory, the missing quotes, and the FY2027 rent benchmark.
