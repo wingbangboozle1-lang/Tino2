@@ -16,6 +16,28 @@
 **Rules followed.** Zero PII or unrounded household figures; `$10` display rounding preserved except exact agency figures in `qa/ledger.json`; every table row linked to HTTPS official source; merge `origin/main` before every push.
 <!-- END block owned by session 9ca15d34 -->
 
+<!-- BEGIN block owned by session 3938fab9. Placed directly under the title so it merges cleanly without conflicting with concurrent sessions appending at the end of COORDINATION.md. Other sessions: please do not edit inside this block; log requests in your own section. -->
+## Session `3938fab9` (branch `arena/3938fab9-tino2`) — claim 2026-11-12 22:15 UTC
+
+**State read at claim.** `main` = `ddf9cb7` (merge of PR #55 from `c96c185e`, verification-only). All remote branches and open PRs inspected before claiming:
+- `9984092e` (open PR #54): claims `verification/9984092e/**` + its own EOF block (re-verification only; no shared files edited).
+- `27e6213d`: claims `verification/27e6213d/**` + its own EOF block (verification pass).
+- `5eb05dce`: claims `verification/5eb05dce/**` + its own EOF block (verification pass).
+- `4061a2e5`: claims `verification/4061a2e5/**` + its own EOF block (independent site audit).
+
+**Non-overlapping scope claimed.** None of the four live sessions claims `research/3938fab9/**`, `verification/3938fab9/**`, or any shared site files. Rather than duplicating a surface-level test-runner pass, this session claims deep research on the remaining open/`unverified` ledger items (`SF-08`, `INS-02`, `INS-03`, `UT-02`, `FED-15`, `N-12`), line-by-line official-source verification of statutory, regulatory, tariff, and tax figures as of 12 November 2026, independent mathematical audit of the model and edge cases across all 18 canonical pages, and narrow follow-up integration only if official sources confirm new facts or reveal defects (and only after re-checking `COORDINATION.md` and remote branches and listing any shared paths here before editing).
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| T-1 | Coordination: inspect remote branches & open PRs, claim non-overlapping scope, push immediately | done | 3938fab9 | `COORDINATION.md` (this block only) | N/A | — |
+| T-2 | Deep line-by-line audit of all 18 canonical pages, `site/data/*.js` engines, `qa/ledger.json`, and independent Python recomputation of projections, taxes, Property A vs Property B ownership distinction, and black-swan stress paths | in progress | 3938fab9 | `verification/3938fab9/**` (new) | to be recorded per item | to be recorded |
+| T-3 | Live official-source verification (`.gov`, `.ca.gov`, official utility/regulator tariffs) for load-bearing rules and the 6 open/`unverified` ledger items (`SF-08`, `INS-02`, `INS-03`, `UT-02`, `FED-15`, `N-12`) | pending | 3938fab9 | `research/3938fab9/**`, `verification/3938fab9/**` (new) | to be recorded per item | to be recorded |
+| T-4 | Narrow, non-conflicting follow-up integration (only if T-2/T-3 confirm official updates or uncover defects; shared files listed here before any edit after confirming no live session claims them) | pending | 3938fab9 | none claimed yet; to be listed before touching | — | — |
+| T-5 | Full validation/privacy/publication/link suite, PR to `main`, merge without waiting, confirm GitHub Pages deployment & live read-back, record result | pending | 3938fab9 | own files + this block | — | — |
+
+**Rules followed.** Strict privacy: placeholders only (`Property A`, `Property B`, `[TRUSTEE]`, `[HEIR]`), zero personal identifiers, zero unrounded household figures anywhere in committed files, `$10` rounding on all decision/projection figures unless an exact amount is published by an official government source and recorded in the ledger. Every table row carries an official `https://` source link or is left blank and flagged unverified; nothing inferred. `git pull --rebase origin main` (or clean merge preserving all concurrent work) before every push. Arena fixes the working branch name to `arena/3938fab9-tino2`.
+<!-- END block owned by session 3938fab9 -->
+
 <!-- BEGIN block owned by session 60ca3e1f. It sits directly under the title so that it merges without conflict with the blocks sessions 1e425502 and f344fcd1 are appending at the end of this file. Other sessions: please do not edit inside this block; write requests in your own section. -->
 ## Session `60ca3e1f` (branch `arena/60ca3e1f-tino2`) — claim 2026-11-12 04:20 UTC
 
