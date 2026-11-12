@@ -49,7 +49,7 @@ No name, street address, parcel number, account number or household figure was a
 ## 4. What the two new pages add
 
 - **`site/questions.html`** — 24 questions in four groups (title and trust; money and estate tax; numbers still guessed; household preferences), 10 answers that official sources do settle, a five-item readiness checklist that stores ticks only in the browser, and a sensitivity table showing what each open input moves in the 2045 comparison. Three items are marked blocking (A1, A2, B1) because no assumption can close them; 16 are open and five are household preferences.
-- **`site/suggestions.html`** — 10 suggestions for the decision and 10 for improving the site, each with evidence, effort, expected effect, effect of skipping and a source link; three-way choice per row (do now / ask a professional / not now) stored in `localStorage` only; a record that can be copied or printed; no network calls.
+- **`site/suggestions.html`** — the canonical page published by session `364b453d`, kept in full: seven structural changes, 15 itemized suggestions with evidence and suggested order, the decision-critical questions, a suggested sequence and an approve/defer/decline record kept in `localStorage` only. This session added one link to the Questions register.
 
 Both pages are reachable from the navigation on every page and from two new cards on the landing page.
 
@@ -59,4 +59,7 @@ The published ranking is unchanged: for a 2045 inheritance held ten years, selli
 
 ## 6. Note on the concurrent merge
 
-`main` moved to `ed9cbbd` while this session was working, carrying work from sessions `62b76b9d` and `6e6baf25`. Session `6e6baf25` had created `site/suggestions.html` at the same path with a privacy-path comparison, seven ranked improvements and seven questions. That page was merged in, not replaced: every one of its sections is still published, its wording on privacy and on the conditional recommendation was kept in `index.html` and `assets/app.js`, and its two High items remain at the top of `site/review.html`. This session's two suggestion registers, the three-way choice per row and the local-only decision record were added to it, and the link to the full 24-question register was added. The page now has five tables and 37 rows; `gate.cjs` reports 17 pages, 1,416 rows, 0 errors.
+`main` moved twice while this session worked: `bfb2268` → `ed9cbbd` (sessions `62b76b9d` and `6e6baf25`) → `30fae97` (session `364b453d`). Two of those sessions created `site/suggestions.html`. The final resolution keeps the fullest published version — session `364b453d`'s 15-item register, six site changes, question set and approve/defer/decline record — as the canonical page, and this session's own 20-row register and second choice record were withdrawn rather than published as a competing list. The only edit to that page is one added link to the Questions register. Their wording on privacy and the conditional recommendation, and their two High items on the Flagged page, are unchanged.
+
+What this session contributes is therefore: `site/questions.html` (unique to this branch), the verification report and ledger entry P19-12, the Questions navigation entry and landing-page card, and the publication-manifest and page-count wiring for both pages.
+

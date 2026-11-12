@@ -108,9 +108,9 @@
   },
   {
    "file": "site/suggestions.html",
-   "rows": 37,
+   "rows": 42,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 33,
+   "amounts": 6,
    "links": 0
   },
   {
@@ -125,12 +125,12 @@
  "warnings": [],
  "totals": {
   "pages": 17,
-  "rows": 1416,
-  "rowsWithOwnSource": 1407,
+  "rows": 1421,
+  "rowsWithOwnSource": 1412,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4934,
-  "officialExactAmounts": 107,
-  "internalLinks": 451,
-  "externalLinks": 1848
+  "amounts": 4907,
+  "officialExactAmounts": 106,
+  "internalLinks": 450,
+  "externalLinks": 1871
  }
 }
