@@ -5,12 +5,12 @@
    "file": "index.html",
    "rows": 32,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 74,
+   "amounts": 76,
    "links": 0
   },
   {
    "file": "site/black-swan.html",
-   "rows": 166,
+   "rows": 170,
    "rowsWithContextLinkOnly": 0,
    "amounts": 463,
    "links": 0
@@ -38,9 +38,9 @@
   },
   {
    "file": "site/operating-costs.html",
-   "rows": 53,
+   "rows": 75,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 16,
+   "amounts": 100,
    "links": 0
   },
   {
@@ -61,14 +61,14 @@
    "file": "site/properties.html",
    "rows": 105,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 522,
+   "amounts": 531,
    "links": 0
   },
   {
    "file": "site/review.html",
-   "rows": 88,
+   "rows": 93,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 39,
+   "amounts": 51,
    "links": 0
   },
   {
@@ -87,9 +87,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 185,
+   "rows": 202,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 54,
+   "amounts": 86,
    "links": 0
   },
   {
@@ -101,9 +101,9 @@
   },
   {
    "file": "site/verification.html",
-   "rows": 118,
+   "rows": 131,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 163,
+   "amounts": 216,
    "links": 0
   }
  ],
@@ -111,12 +111,12 @@
  "warnings": [],
  "totals": {
   "pages": 15,
-  "rows": 1266,
-  "rowsWithOwnSource": 1257,
+  "rows": 1327,
+  "rowsWithOwnSource": 1318,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4626,
-  "officialExactAmounts": 74,
-  "internalLinks": 325,
-  "externalLinks": 1687
+  "amounts": 4818,
+  "officialExactAmounts": 103,
+  "internalLinks": 327,
+  "externalLinks": 1755
  }
 }
