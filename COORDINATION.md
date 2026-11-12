@@ -1543,3 +1543,19 @@ State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on
 | Concurrency note | Session `27e6213d` merged PR #56 (`444be2e`) at 22:15:39 UTC, one minute after this session's merge. No file overlap (this PR touched only `COORDINATION.md` + `verification/c96c185e/REPORT.md`). Merged `origin/main` into this branch before the follow-up push; no conflicts. |
 
 **State of the board.** Every task of this session is done (C-1 … C-5). Standing **needs review** items are unchanged and remain published on Flagged for Review: blank insurance premiums, blank household figures, and the privacy positions F-I1/F-I2. None blocks publication.
+<!-- BEGIN block owned by session 4061a2e5 -->
+## Session `4061a2e5` (branch `arena/4061a2e5-tino2`) — claim 2026-11-12 22:14 UTC
+
+**Scope claimed before work.** Perform an independent final audit of the canonical GitHub Pages source tree after PR #52: inspect the published allowlist and navigation, run the repository's available validation/build/link/privacy checks, inspect the decision model and recommendation for arithmetic/rounding/ownership distinction, and re-open a representative set of official source URLs where network access permits. Record results and any irregularities without changing another session's files.
+
+| Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|---|---|---|---|---|
+| A-1 | Coordination claim and scope record | done | 4061a2e5 | `COORDINATION.md` (this block only) | — | — |
+| A-2 | Independent source, privacy, rendered-boundary and model audit | done | 4061a2e5 | read-only + `verification/4061a2e5/REPORT.md` | 10 representative official source groups re-opened or searched; model ownership distinction and base arithmetic matched | Existing privacy/history, unverified-input, future-law and time-sensitive-source items remain needs review |
+| A-3 | Run all available automated checks and record exact results | done | 4061a2e5 | read-only + `verification/4061a2e5/REPORT.md` | `validate.js`, `stress-test.js`, `runtime-test.cjs`, `gate.cjs`, package, publication self-test and `src/check_links.py` all pass after ignored jsdom install | Repository has no `privacy_scan.py`; manual scan recorded instead |
+| A-4 | Publish findings, including any needs-review items; request shared-file changes before touching them | done | 4061a2e5 | `verification/4061a2e5/REPORT.md` | Report records official links, checks, rounded model outputs, privacy boundary and seven review items | External URL availability is not machine-checked by `src/check_links.py` |
+| A-5 | Integrate only if a narrowly scoped, non-conflicting correction is required; otherwise report that no public edit was needed | done — no public correction required | 4061a2e5 | no shared site files changed | Canonical site already contains the requested executive summary, questions/gate, suggestions, black-swan, source and flagged-review sections | Existing review items are left visible rather than guessed away |
+| A-6 | Rebase/push final report and record completion | in progress | 4061a2e5 | this block + `verification/4061a2e5/REPORT.md` | — | — |
+
+No personal information will be added. No private household number will be copied into this coordination block; any public figures in the report are referenced through the existing rounded model or source ledger. The audit is not a claim that inherited historical branches or public Git history are private; those risks remain review items already documented by earlier sessions.
+<!-- END block owned by session 4061a2e5 -->
