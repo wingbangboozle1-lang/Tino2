@@ -297,37 +297,37 @@ window.LEDGER = [
   "id": "CA-05",
   "topic": "california-law-change",
   "claim": "Proposition 3 (Nov 3, 2026): makes the 10.3% / 11.3% / 12.3% high-income rates permanent instead of expiring in 2031",
-  "value": "Passing - Yes 60.6% in the unofficial count as of Nov 10, 2026 (certification due Dec 11, 2026)",
+  "value": "Passing - Yes 60.7% in the unofficial count as of Nov 11, 2026 (certification due Dec 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - State Ballot Measures, Statewide Results; Official Voter Information Guide, Prop 3",
-  "evidence": "Results table: Prop 3 Yes 7,101,047 (60.6%) / No 4,610,136 (39.4%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
+  "evidence": "Results table as of Nov 11, 2026, 5:17 p.m.: Prop 3 Yes 7,321,144 (60.7%) / No 4,744,362 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
   "status": "verified",
   "notes": "Unofficial until certified. Relevance: a large gain or rental income in 2040-2050 would still face the higher California brackets.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "CA-06",
   "topic": "california-law-change",
   "claim": "Proposition 42 (Nov 3, 2026): prohibits new state personal property taxes and certain retroactive state taxes",
-  "value": "Passing - Yes 51.5% in the unofficial count as of Nov 10, 2026",
+  "value": "Passing - Yes 51.4% in the unofficial count as of Nov 11, 2026",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table: Prop 42 Yes 6,024,692 (51.5%) / No 5,673,727 (48.5%).",
+  "evidence": "Results table as of Nov 11, 2026, 5:17 p.m.: Prop 42 Yes 6,194,559 (51.4%) / No 5,857,252 (48.6%).",
   "status": "verified",
   "notes": "Unofficial until certified. Text of the measure was not opened this session; effect on any future state estate or inheritance tax is not established here - flagged.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "CA-07",
   "topic": "california-law-change",
   "claim": "Proposition 40 (one-time tax on certain taxpayers) and Proposition 43 (limits on local revenue measures)",
-  "value": "Both failing - Prop 40 No 52.6%; Prop 43 No 57.4% (unofficial, Nov 10, 2026)",
+  "value": "Both failing - Prop 40 No 52.5%; Prop 43 No 57.4% (unofficial, Nov 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
   "evidence": "Results table rows for Props 40 and 43.",
   "status": "verified",
   "notes": "Neither measure changed Proposition 13's 1% rate or 2% cap.",
-  "checked": "2026-11-11"
+  "checked": "2026-11-12"
  },
  {
   "id": "P13-01",

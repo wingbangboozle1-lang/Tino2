@@ -1,0 +1,101 @@
+[
+ {
+  "year": 2040,
+  "rentFactor": 0.9,
+  "monthlyRent": 5750,
+  "sell": 7683290,
+  "rent": 6150590,
+  "live": 5135780,
+  "sellTaxedAtEnd": 6701410,
+  "sellAheadOfRent": 1532700,
+  "sellAheadOfRentBothTaxed": 550820
+ },
+ {
+  "year": 2040,
+  "rentFactor": 1,
+  "monthlyRent": 6390,
+  "sell": 7683290,
+  "rent": 6249830,
+  "live": 5135780,
+  "sellTaxedAtEnd": 6701410,
+  "sellAheadOfRent": 1433460,
+  "sellAheadOfRentBothTaxed": 451580
+ },
+ {
+  "year": 2040,
+  "rentFactor": 1.1,
+  "monthlyRent": 7030,
+  "sell": 7683290,
+  "rent": 6349060,
+  "live": 5135780,
+  "sellTaxedAtEnd": 6701410,
+  "sellAheadOfRent": 1334230,
+  "sellAheadOfRentBothTaxed": 352350
+ },
+ {
+  "year": 2045,
+  "rentFactor": 0.9,
+  "monthlyRent": 5750,
+  "sell": 9125340,
+  "rent": 7280530,
+  "live": 6068080,
+  "sellTaxedAtEnd": 7959170,
+  "sellAheadOfRent": 1844810,
+  "sellAheadOfRentBothTaxed": 678640
+ },
+ {
+  "year": 2045,
+  "rentFactor": 1,
+  "monthlyRent": 6390,
+  "sell": 9125340,
+  "rent": 7395620,
+  "live": 6068080,
+  "sellTaxedAtEnd": 7959170,
+  "sellAheadOfRent": 1729720,
+  "sellAheadOfRentBothTaxed": 563550
+ },
+ {
+  "year": 2045,
+  "rentFactor": 1.1,
+  "monthlyRent": 7030,
+  "sell": 9125340,
+  "rent": 7510660,
+  "live": 6068080,
+  "sellTaxedAtEnd": 7959170,
+  "sellAheadOfRent": 1614680,
+  "sellAheadOfRentBothTaxed": 448510
+ },
+ {
+  "year": 2050,
+  "rentFactor": 0.9,
+  "monthlyRent": 5750,
+  "sell": 10838040,
+  "rent": 8614310,
+  "live": 7164510,
+  "sellTaxedAtEnd": 9453000,
+  "sellAheadOfRent": 2223730,
+  "sellAheadOfRentBothTaxed": 838690
+ },
+ {
+  "year": 2050,
+  "rentFactor": 1,
+  "monthlyRent": 6390,
+  "sell": 10838040,
+  "rent": 8752170,
+  "live": 7164510,
+  "sellTaxedAtEnd": 9453000,
+  "sellAheadOfRent": 2085870,
+  "sellAheadOfRentBothTaxed": 700830
+ },
+ {
+  "year": 2050,
+  "rentFactor": 1.1,
+  "monthlyRent": 7030,
+  "sell": 10838040,
+  "rent": 8885530,
+  "live": 7164510,
+  "sellTaxedAtEnd": 9453000,
+  "sellAheadOfRent": 1952510,
+  "sellAheadOfRentBothTaxed": 567470
+ }
+]
