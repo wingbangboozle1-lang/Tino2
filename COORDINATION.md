@@ -1128,3 +1128,123 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 **Q-C1 (claim note, not a conflict).** No live collision occurred. No file owned by another session is claimed, and no shared output (table data, index navigation) is changed except the additive entries listed in Q-4, which are made in the integration role this session holds because no other session is live.
 
 <!-- END block owned by session 62245584 -->
+## Session `62b76b9d` — 2026-11-12
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Independent final review of existing integrated dashboard; improve executive-summary uncertainty and household-cost display rounding; run publication/model checks | in progress | 62b76b9d | `verification/62b76b9d/**`, `index.html` (executive summary wording only), this board block |
+
+The repository already contains the requested integrated site. No open pull requests at claim. Earlier task blocks have subsequent completion records; no current overlapping work identified. The Arena-fixed current branch is used (no alternate branch created). Research facts will not be marked verified unless directly retrieved; restricted network access will be reported. Existing private-history risks are not resolved by display rounding. No private records will be added.
+
+### `62b76b9d` completion / integration
+
+Review and implementation **done**. Source retrieval and precise limits recorded in `verification/62b76b9d/REPORT.md`. Four official pages directly opened (IRS estate tax, BOE Prop 19, CDI residential, GitHub sensitive-data guidance). Existing financial engine unchanged. Landing-page recommendation now conditional; estate-tax omission prominent; dedicated Suggestions table added with discovery/approval gates. Package, publication negative tests, 1,132 validation checks, stress, 15-page runtime (1,331 rows) and privacy gate all pass; own regression passes. Nine calculated rows have context-only source links, not verified official outputs. Historical privacy and missing household facts remain needs review on the existing review page. Generated gate report restored; no overlap with another scope.
+
+First claim push needed `git pull --rebase origin main` because the current branch did not yet exist remotely; succeeded without conflict. Publication pending PR/CI, tracked below.
+
+## Session `6e6baf25` — 2026-11-12 15:32 UTC
+
+Read the board and remote heads; no open PRs and no recent live claim identified. Prior sessions' scopes are complete or needs review. The platform fixes this branch name; a `session-...` branch cannot be created. This session claims the following scope for integration work:
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Audit the canonical site's remaining decision and privacy gaps; record evidence | in progress | 6e6baf25 | `verification/6e6baf25/**`, this block |
+| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | in progress | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
+| Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
+
+Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
+
+**Scope addition, 15:33 UTC:** `site/plan.html` is also claimed for a narrow clarification of endpoint portfolio taxation. No current owner was found. The same correction is planned for `index.html`; neither changes model results.
+
+**Scope addition, 15:34 UTC:** `site/decision.html` is claimed for one narrow correction: the existing tax sensitivity is not a proven bound on the true result. No active owner was found. No model arithmetic will be changed.
+
+**Coordination correction and conflict:** Session `62b76b9d` had a concurrent claim and merged PR #43 while this session was working; its landing-page scope overlapped. It was not visible in the initial check. `git pull --rebase origin main` conflicted on the board. Both blocks were retained and the rebase completed; the stashed site edits restored cleanly, preserving the other session's landing-page suggestions table. No other session's work was discarded. This session's separate suggestions page supplies a more detailed decision and privacy comparison.
+
+**Review status:** Source retrieval, limits and specific findings are recorded in `verification/6e6baf25/REPORT.md`. The reviewed sources include [BOE Proposition 19](https://www.boe.ca.gov/prop19/), [IRS estate tax](https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax), [IRS basis](https://www.irs.gov/taxtopics/tc703), [CDI residential insurance](https://www.insurance.ca.gov/01-consumers/105-type/5-residential/), [FDIC](https://www.fdic.gov/resources/deposit-insurance/faq/), [SEC](https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments), and [GitHub data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). External links outside this checked subset and every inherited row were not freshly verified. Public contextual re-identification risk and historical exposure, as well as unverified household values that are displayed rather than blank, remain **needs review** and are published on the Flagged page. No history rewrite or privacy-setting change was performed.
+
+<!-- BEGIN block owned by session 364b453d — other sessions: do not edit inside this block; requests go in your own section -->
+## Session `364b453d` (branch `arena/364b453d-tino2`) — claim 2026-11-12 15:35 UTC
+
+**State read at claim.** `main` = `bfb2268` (merge of PR #42, session `60ca3e1f`). Every session block above is `done`; the only open items are the standing `needs review` findings already published on Flagged for Review. `gh pr list` returns **no open pull requests**; 32 remote branches exist and none has an open PR, so nothing unmerged is in flight. No live claim covers the files below.
+
+**Role taken (non-overlapping).** The brief asks twice for a *dedicated suggestions section*: (1) suggestions to improve the site for decision making, and (2) a place where someone can review those suggestions and **choose a path before implementing any changes**, including suggestions that discover missing information. A full-text search of every published page, `assets/app.js` and `README.md` finds no such page and no navigation entry for one. The 15 published pages cover the analysis, the open-items register and the verification ledger, but not a reviewable improvement/deadline queue with a recorded choice. This session builds that page and nothing else.
+
+**File scope (non-overlapping).**
+
+| File | Change | Owner today |
+|---|---|---|
+| `site/suggestions.html` | **new page** — suggestions register, decision-readiness questions, discovery routes, and a local-only choice record | new, this session |
+| `assets/app.js` | one navigation entry (the nav list) and nothing else | shared, no live claim; logged here first |
+| `index.html` | one link block to the new page in "Go deeper by category" | shared, no live claim; logged here first |
+| `scripts/validate.js` | page-count assertion 15 → 16 | shared, no live claim; logged here first |
+| `scripts/check-publication.py` | add `site/suggestions.html` to the reviewed manifest | shared, no live claim; logged here first |
+| `README.md` | one line in the structure list | shared, no live claim; logged here first |
+| `COORDINATION.md` | this block only | this session |
+| `verification/364b453d/**` | new report: what was checked, source wording, irregularities | new, this session |
+
+No model input, no recommendation, no published figure, no other page's content is changed.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|------|--------|-------|------------|------------------|----------------|
+| S-1 | Read the board and remote branches, detect live claims and open PRs, claim, push at once | done | 364b453d | this block | N/A | none |
+| S-2 | Re-open the official pages the new page cites (IRS, BOE, California State Controller, FTB, CDI, HUD, SF Rent Board, CPUC, Secretary of State) and record the exact wording and access date | in progress | 364b453d | `verification/364b453d/**` | see the report | — |
+| S-3 | Build the suggestions page: site improvements with effect on the decision, decision-readiness questions with what is known and what is missing, discovery routes, and a choose-a-path record that stays in the reader's browser | in progress | 364b453d | `site/suggestions.html` | as S-2 | — |
+| S-4 | Wire the page in: navigation entry, landing-page link, publication manifest, page-count assertion, README line | pending | 364b453d | files listed above | — | — |
+| S-5 | Re-run every check on the final tree (validate, stress, package, publication boundary, runtime, gate, link check, privacy scan) and fix anything that fails | pending | 364b453d | — | — | — |
+| S-6 | PR to `main`, merge without waiting, confirm the Pages build for the merge commit, record the PR link and result here | pending | 364b453d | this block | — | — |
+
+**Rules this session follows.** No personal information in any committed file; parties and addresses stay as placeholders and no household figure is repeated in this block. Every dollar figure the new page states is rounded to the nearest $10 unless a government body publishes that exact amount, and the existing gate enforces that on the rendered page. Every table row carries a link to an official source; where an item has no official source it is not presented as a fact — the row says what would settle it and links the agency that holds the document. Nothing is inferred. `origin/main` is merged before every push; conflicts resolved keeping both sides. Arena pins the branch name, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
+
+**S-C1 (claim note, not a conflict).** No other session is live: no open pull request, no unclaimed task on any block, and no branch with unpushed work. The files listed above are shared files whose last owner has finished; each change is listed here before it is made, as the board requires.
+
+### Session `364b453d` — completion record (2026-11-12)
+
+| # | Task | Result |
+|---|---|---|
+| S-1 | Claim | done — pushed at 15:35 UTC before any work |
+| S-2 | Official-page re-verification | done — 17 pages opened this session; wording and links in `verification/364b453d/REPORT.md` §2. IRS IR-2026-133 and the IRS estate-tax table ($15,000,000 for 2026, $15,480,000 for 2027), California State Controller (no California estate return after 1 Jan 2005), FTB gifts and inheritance, BOE Proposition 19 page and LTA 2026/026 (value cap and claim deadlines), BOE NR 25-02 (7 March 2025), CDI survey page (not a quote) and CDI Form 401 guide (dwelling limit = rebuild cost; earthquake and 60-day vacancy exclusions), USGS (72% M6.7 in 30 years), HUD FY2026 SAFMR for the ZIP ($6,390 4BR), HUD SAFMR index (FY2027 exists; FY2026 effective 1 Oct 2025), CPUC net metering (closed to new enrollments; net billing since 15 Apr 2023), SF Rent Board current rates and Rent Board fee page (exemption deadline 14 Dec 2026), IRS Rev. Rul. 2023-2 (no basis adjustment for trust assets outside the estate), Prob. Code §10800 |
+| S-3 | Suggestions page built | done — `site/suggestions.html`: 15 analysis suggestions with official evidence, effort and window; 10 decision-critical questions with what is known, what is missing, where the answer is, and both outcomes; 6 dashboard proposals; a 5-step sequence; approve/defer/decline stored only in the reader's browser with print, copy and clear; guardrails. No model input or published figure changed |
+| S-4 | Wiring | done — nav entry in `assets/app.js`; landing-page card in `index.html`; `site/suggestions.html` added to the reviewed manifest in `scripts/check-publication.py`; page-count assertion 15 → 16 in `scripts/validate.js`; one line in `README.md` |
+| S-5 | Checks | done — `validate.js` PASS (1,149 checks, 16 pages, 171 sources; base case unchanged) · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py --self-test` PASS (29 files) · `runtime-test.cjs` PASS (16 pages, 1,352 rows, all source-linked) · `qa/tools/gate.cjs` PASS (0 errors, 0 warnings) · `src/check_links.py .` PASS (64 pages) · `privacy_scan.py` 0 errors, warnings unchanged. Rendered behaviour checked with jsdom: 21 choice controls, selection persists to one `localStorage` key, summary updates, no runtime error |
+| S-6 | Publish | in progress — see the publication record below |
+
+**Irregularities.** (S-I1) The FY2027 HUD rent benchmark is still unread: the 2026-style ZIP address for 2027 returns 404 and the FY2027 section offers an interactive lookup plus an `.xlsx` that this sandbox cannot download; left blank and listed as suggestion A-05. (S-I2) Two wordings were softened after checking — the “2026 letter list” absence is now attributed to the earlier check, and the probate-fee sentence now uses the verified “statutory percentage of the estate's value”. (S-I3) The decision record is per-browser by design; print and copy are the durable paths. (S-I4) Page count and manifest were updated; a later page must update both or the build fails closed. (S-I5) No personal information was added; the standing privacy findings are unchanged. None of these blocks publication.
+
+**Rules followed.** No personal information in any committed file; no household figure repeated in this block. Every dollar figure on the new page is an official published amount or the $10 rounding rule. Every table row on the new page carries an official https link; no value was inferred. `origin/main` was merged before every push. Arena pins the branch name, so the session ID is carried in the branch name.
+
+<!-- END block owned by session 364b453d -->
+**Merge note, 12 Nov 2026 (recorded, not hidden).** Two other sessions were live while this one worked: `62b76b9d` and `6e6baf25`. `62b76b9d` merged PR #43 at 15:33 UTC and `6e6baf25` PR #44 at 15:36 UTC, after this session's 15:35 UTC claim read “no open pull requests”. Both had already published a suggestions page and a landing-page suggestions table. The conflict on `site/suggestions.html` was resolved by **combining**, not replacing: their privacy notice, privacy-path table, seven structural improvements, seven questions (kept unchanged in a collapsed block) and closing note remain in full; this session's itemized register, decision-critical questions, sequence and choose-a-path record were added around them. The duplicate navigation entry and the duplicate landing-page card from this session were removed in favour of the published ones, with the published card's wording extended to mention the recorded choice. **Nothing of theirs was discarded.** `origin/main` was merged before the push.
+
+
+### Session `62245584` — merge conflict, resolution and completion record (12 Nov 2026)
+
+**Conflict, logged as the rules require.** At 15:52 UTC this session's first push met an add/add conflict on `site/suggestions.html`. `origin/main` had moved from `bfb2268` to `30fae97` while this session was working: sessions `6e6baf25` and `364b453d` built a Suggestions page for the same brief requirement and merged it as PR #44 and PR #45. This session's claim was accurate when it was pushed (no live branch had moved since 05:14 UTC); the collision happened after it. **Nothing of the other sessions' work was discarded.**
+
+**How it was resolved, and why.**
+
+| File | Resolution |
+|---|---|
+| `site/suggestions.html` | **Theirs kept byte for byte.** It is their page and it already meets the brief's suggestion requirement in full, including an approve / defer / decline record held only in the reader's browser. This session's draft was **not** merged into it. |
+| `site/questions.html`, `site/data/questions.js` | **This session's, renamed from its original name.** The brief's other requirement — "a clear list of questions, informations and answers … before any decision can reasonably be made" — was still thin on `main`: their page carries ten decision-critical questions; this register carries forty, grouped in the order the answers must arrive, with a blocking rule that says can this plan be decided yet and is enforced in `scripts/validate.js`. The two pages are complementary, not duplicates, and each links the other. |
+| `assets/app.js`, `index.html` | Both sessions' navigation entries kept; one Suggestions entry (theirs) and one Questions entry (this session's). This session's duplicate Suggestions landing card was removed rather than kept twice. |
+| `scripts/check-publication.py`, `scripts/validate.js` | Both sessions' manifest entries kept; page count settled at 17. |
+| `COORDINATION.md` | Both sides kept in full — every block from every session. |
+
+**New finding taken over from the other sessions, verified here.** Their page raised Revenue Ruling 2023-2: assets of an irrevocable trust that are **not** included in the owner's gross estate keep their old basis. This session opened the ruling and confirmed the wording: "the basis of property is its fair market value at the date of the decedent's death" applies to property "acquired from or to have passed from the decedent", and the ruling's issue is precisely whether § 1014 applies where "the trust assets are not includible in the owner's gross estate". Because the whole sell case rests on a step-up at death, this register now marks the basis question (Q-17) as **not settled**, and Q-01 asks the trust question with the basis consequence stated.
+
+| # | Task | Status | Owner | Files |
+|---|---|---|---|---|
+| Q-1 | Coordination, claim, push at once | done | 62245584 | this block |
+| Q-2 | Questions and answers decision gate | done | 62245584 | `site/questions.html`, `site/data/questions.js` |
+| Q-3 | Suggestions section | **done by sessions `6e6baf25` and `364b453d`**; theirs kept unchanged, this session's draft not merged | 6e6baf25 / 364b453d | `site/suggestions.html` |
+| Q-4 | Navigation, landing page, manifest, page count | done | 62245584 | `assets/app.js`, `index.html`, `scripts/check-publication.py`, `scripts/validate.js` |
+| Q-5 | Verify line by line and run the suite | done — results below | 62245584 | `verification/62245584/REPORT.md` |
+| Q-6 | Publish: PR, merge, confirm Pages build, record it | in progress | 62245584 | this block |
+
+**Suite on the merged tree (17 pages).** `validate.js` PASS **1,582** checks · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,430 rendered rows, 4,838 dollar amounts, 104 official exact figures) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and 32 reviewed public files · `src/check_links.py` 66 pages 0 errors · `privacy_scan.py` 0 errors, 198 warnings, none naming this session's files.
+
+**Irregularities.** X-I1 (corrected before publication: an effort figure that summed time bands, and an "irreversible" label on a step that is not), X-I2 (two sources not re-opened here), X-I3 (hypothetical 1.2% levy), X-I4 (rent benchmark one fiscal year behind), X-I5 (the gate's "no plan is implementable" is a conclusion from its own rule, not legal advice). Full record in `verification/62245584/REPORT.md`. None blocks the merge.
+
+**Privacy.** No personal information added. Parties are placeholders; no household figure is typed into either new file — both read `MODEL.BASE` at render time, which `scripts/validate.js` now proves by halving the input and asserting the answer changes.
+
+<!-- END completion record owned by session 62245584 -->

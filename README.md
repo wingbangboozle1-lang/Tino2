@@ -31,6 +31,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
+- `site/suggestions.html` — the suggestions register: improvements to the analysis and to the dashboard, the questions to answer before deciding, a suggested sequence, and a local-only record of which items were approved, deferred or declined
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
 - `site/review.html` — unresolved items and verification routes
 - `site/data/model.js` — deterministic calculations; full precision retained until display

@@ -53,9 +53,9 @@
           q: "Is Property A inside the trust, with title in the trust's name?",
           a: "Not in the record. The brief says the house is expected to pass by trust around 2040–2050; the deed, the schedule of assets and the trust instrument were not supplied.",
           status: "missing",
-          why: "If the house is inside the trust, it passes by the trust's terms and no probate is needed. If it is outside, the estate needs a probate and statutory fees apply to the personal representative and again to the attorney.",
-          action: "Read the deed and the trust's schedule of assets. Ask the [TRUSTEE] for a copy of the current schedule and a preliminary change of ownership report.",
-          src: "caTrustNotice",
+          why: "Two things follow. First, if the house is inside the trust it passes by the trust's terms and no probate is needed; if it is outside, a probate applies statutory fees to the representative and again to the attorney. Second, and larger: the basis reset at death applies only to property included in the gross estate or treated as acquired from the decedent. Property in a revocable trust is treated as acquired from the decedent; assets of an irrevocable trust that are not included in the estate keep the old basis. So a house held in the wrong kind of trust can lose the step-up the whole sell case rests on.",
+          action: "Read the deed and the trust's schedule of assets. Ask the [TRUSTEE] for a copy of the current schedule, and ask the preparer to confirm in writing that the house is included in the gross estate or is in a revocable trust at death.",
+          src: "irsRevRul20232",
           affects: ["estate"]
         },
         {
@@ -225,10 +225,10 @@
         {
           id: "Q-17",
           q: "What is the tax basis of Property A in the heir's hands?",
-          a: "Settled: generally the fair market value on the date of death. Selling for more than that is a taxable gain; selling at that value leaves little or no gain.",
-          status: "settled",
-          why: "This is why selling promptly is cheap on the tax side, and why holding the house for years and then selling is not.",
-          action: "Obtain the date-of-death appraisal as the basis. Keep it with the closing file.",
+          a: "Generally the fair market value on the date of death, so selling for more than that is a taxable gain and selling at that value leaves little or no gain. But this is conditional: the step-up applies to property included in the gross estate or treated as acquired from the decedent. Assets of an irrevocable trust that are not included in the estate keep their old basis, which is the rule in Revenue Ruling 2023-2. Whether the house falls on the right side of that line is question Q-01.",
+          status: "missing",
+          why: "This is the single assumption the whole sell case rests on. If the basis does not step up, a prompt sale is taxed on decades of gain and the lead of selling narrows sharply.",
+          action: "Get Q-01 answered first, then obtain the date-of-death appraisal as the basis and keep it with the closing file.",
           src: "irsInherited",
           affects: ["sell"]
         },
