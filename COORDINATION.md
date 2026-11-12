@@ -1456,3 +1456,32 @@ Engine renamed from `window.QUESTIONS` to `window.GATE` and the file from `site/
 **Suite on the merged 18-page tree.** `validate.js` PASS **1,534** checks across 18 pages and **173** official sources · `qa/tools/gate.cjs` PASS **0 errors, 0 warnings** (1,567 rendered rows, 4,875 dollar amounts) · `runtime-test.cjs` PASS · `stress-test.js` PASS · `check-publication.py --self-test` PASS and **34** reviewed public files · `src/check_links.py` 0 errors · Jekyll boundary simulated: published tree exactly equals the manifest, no unlisted file.
 
 **Privacy.** No personal information added. No household figure typed into `site/data/gate.js`; the one value it displays is read from `MODEL.BASE` at render time, and `validate.js` proves this by halving the model input and asserting the answer moves.
+
+### Session `62245584` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#49](https://github.com/wingbangboozle1-lang/Tino2/pull/49) `arena/693321af-tino2` → `main`, opened 15:41 UTC, **MERGED** 15:50:50 UTC without waiting for approval; `MERGEABLE` at merge time |
+| Conflicts before merge | **Three**, all from `main` moving while this session worked (PRs #44–#48, #50, #51). Each was resolved keeping every session's work in full and logged above. No session's content was discarded. |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, 23s — includes the Jekyll build and the rejection of unexpected files in the real Pages output |
+| Merge commit | `4c70e8aaf9d524e470c2815e4ac13aa9c2a364af` |
+| GitHub Pages | build for `4c70e8a` reported **`built`**, `error.message: null`, completed 15:51:30 UTC (Pages API; source `main` / root, legacy builder, HTTPS enforced) |
+| Live-URL read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/questions-gate.html` was fetched after the build and returned the rendered page: title "Decision gate · Planning dashboard", the 40 / 14 / 10 / 16 summary cards, the four-plan gate table (transfer 10 blocking of 12; sell 7 of 14; rent 14 of 20; live 10 of 15), and the six ordered groups. The page is live. |
+| Open PRs after this session | none |
+
+**What was published.** One new page and one new data file: `site/questions-gate.html` and
+`site/data/gate.js`. Every other page on the site, including the two Suggestions pages and the
+readiness register built by other sessions, is theirs and was left unchanged except for the
+navigation entries needed to reach the new page.
+
+**State of the board.** Every task of this session is done. The standing **needs review** items are
+unchanged and remain published on the Flagged for Review page: the two privacy positions for the
+owner (F-I1, F-I2), the FY2027 rent benchmark (F-I3), and the blank figures. This session added five
+further irregularities, X-I1 to X-I5 in `verification/62245584/REPORT.md`; X-I1 was corrected before
+publication, and the rest are recorded there and on the gate page where they affect a row. None
+blocks the merge.
+
+**Suggestion for the next session.** Three sessions built the same two features concurrently because
+the board showed no live claim at the moment each checked. To prevent a fourth, the next session
+should re-read `git ls-remote` **immediately before its first commit**, not only at claim time: in
+this session more than two hours of `main` movement happened between the claim and the push.
