@@ -1,21 +1,22 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Suggestions for improving the inheritance decision and the dashboard, a local-only record of which to implement, and the questions that must be answered first."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Review-only suggestions for the privacy, decision model and research, the questions that must be answered first, and a local-only record of which path is chosen before anything is implemented."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css">
 <style>
   /* Page-local controls (session 364b453d). No shared stylesheet change. */
   .js-choice { width: 100%; min-width: 116px; padding: 7px 8px; border: 1px solid #cfd8d0; background: #fff; border-radius: 8px; color: var(--ink); font: inherit; font-size: 13px; }
   .js-choice:focus-visible { outline: 3px solid var(--green-2); outline-offset: 2px; }
   td.choice-cell { min-width: 128px; }
-  @media print { .js-choice { border: 1px solid #999; } }
+  details.card > summary { font-weight: 700; cursor: pointer; }
+  @media print { .js-choice { border: 1px solid #999; } details.card { display: block; } }
 </style></head>
 <body data-title="Suggestions and decisions">
 <main id="main"></main><div data-footer></div>
 <script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
 <script>
-/* Session 364b453d. A review-and-choose page: proposals, the evidence behind each one, the questions
-   that must be answered first, and a record of the reader's choice that never leaves this browser.
-   No household figure is stored here, and nothing on this page changes the published recommendation
-   until a suggestion is implemented and re-verified. */
+/* Page built by session 6e6baf25 (privacy paths, structural improvements, first question set) and
+   extended by session 364b453d (itemized register with official evidence, decision-critical questions,
+   suggested sequence, and an approve/defer/decline record that never leaves the reader's browser).
+   Nothing here changes the published recommendation, a model input or a published figure. */
 const main = document.getElementById("main");
 const src = (key, label) => UI.source(key, label);
 const OPTIONS = ["Not decided", "Approve", "Defer", "Decline"];
@@ -153,23 +154,26 @@ const row = cells => "<tr>" + cells.join("") + "</tr>";
 const td = (html, cls = "wrap") => `<td class="${cls}">${html}</td>`;
 const sourceCell = keys => keys.map(k => src(k)).join("<br>");
 
-main.innerHTML = UI.hero("Suggestions · decide before you implement",
-  "What to fix, in what order, and how to record the choice.",
-  "The published recommendation is not changed by anything on this page. This is the queue of improvements to the analysis and to the dashboard, with the official evidence behind each one. Read an item, choose approve, defer or decline, and the record stays in this browser — there is no account, no server and no analytics. Nothing is implemented until you or a later session acts on an approved item and re-verifies the result.",
-  `<a class="button" href="plan.html">Read the plan first</a><a class="button secondary" href="review.html">Open items register</a><a class="button secondary" href="sources.html">Source register</a>`) + `<div class="container">
+main.innerHTML = `<section class="hero compact"><div class="container">
+  <div class="eyebrow">Review before implementation</div>
+  <h1>Suggestions, decisions, and the questions that come first</h1>
+  <p class="lead">A prioritized shortlist of possible improvements, not a record of approved work. Compare the benefit, trade-off and evidence before choosing a path. The published recommendation is not changed by anything here: read an item, choose approve, defer or decline, and the record stays in this browser — no account, no server, no analytics. Nothing is implemented until an approved item is acted on with an official source and re-verified.</p>
+  <div class="hero-actions"><a class="button" href="plan.html">See the current comparison</a><a class="button secondary" href="review.html">Open unresolved items</a><a class="button secondary" href="#record">Record a choice</a></div>
+  <div class="meta-row"><span class="badge gold">Proposals only</span>${UI.badge("Selections stay in your browser")}${UI.badge("Sources reviewed 12 Nov 2026")}</div>
+</div></section><div class="container">
+
+<section class="section"><div class="callout warning"><strong>Privacy first:</strong> This is a public website and repository. Labels and $10 rounding reduce direct identification but cannot guarantee anonymity: the combination of location, property characteristics and financial history may be recognizable. Historical commits, branches, pull requests and third-party copies may also retain sensitive data. Do not upload private documents or personal details here. <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub explains the limits of removal</a>.</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Choose a privacy path first</div><h2>Compare before changing publication</h2><p>These are alternatives, not an assertion that any is complete protection. Keeping the current public site retains its exposure.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Path</th><th class="wrap">Potential benefit</th><th class="wrap">Trade-off and next check</th><th>Authoritative reference</th></tr></thead><tbody>
+<tr><td><strong>Private analysis, public generic examples</strong><br>Suggested privacy-first direction</td><td class="wrap">Keep household-specific inputs and outputs out of a public product; publish only synthetic examples.</td><td class="wrap">Less personalized public analysis; existing history and copies still need a coordinated remediation plan. Review access controls and all public refs before relying on this path.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · sensitive data removal</a></td></tr>
+<tr><td><strong>Reduce the public detail</strong></td><td class="wrap">Remove household history and granular contextual combinations from current published pages.</td><td class="wrap">A new commit alone does not erase earlier history or copies; generic labels and rounding are not a guarantee of anonymity. Decide what exposure remains acceptable.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · history and copies</a></td></tr>
+<tr><td><strong>Retain current public scenarios</strong></td><td class="wrap">Preserves the most detailed public explanation and model.</td><td class="wrap">The property and household context remains linkable even without names; treat this as an unresolved privacy risk, not as anonymization.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · exposure limitations</a></td></tr>
+</tbody></table></div>
+<p class="tiny">Choosing a path here is a decision for the owner, not something the dashboard can implement. Items A-15 and B-01 are the two in the register below that touch it directly.</p></section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Read this first</div><h2>What the site already answers, and what this page adds</h2><p>Four pages carry the decision as it stands. This page does not repeat them; it lists what would make them better and lets you record which changes you want.</p></div></div>
-  <div class="grid four">
-    <div class="card"><div class="metric-label">The recommendation</div><h3>Sell A, keep B</h3><p class="tiny">Inherit the Cupertino house, sell it, invest the net proceeds, and keep living in San Francisco. The reasoning is on <a href="plan.html">Best plan</a>.</p></div>
-    <div class="card"><div class="metric-label">The uncertainty</div><h3>Four facts decide it</h3><p class="tiny">The trust type, the parent's occupancy at death, the size of the rest of the estate, and whether home prices outrun a portfolio. Three are discoverable; the fourth is not.</p></div>
-    <div class="card"><div class="metric-label">The stress test</div><h3>Bad decades included</h3><p class="tiny">Recorded inflation, home-price and market histories are replayed in different orders on <a href="black-swan.html">Recorded data</a> and <a href="stress.html">50-year paths</a>.</p></div>
-    <div class="card"><div class="metric-label">The open items</div><h3>Nothing is hidden</h3><p class="tiny">Every blank, every unverified figure and every official document still to be read is on <a href="review.html">Flagged for Review</a> with the route that settles it.</p></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Method</div><h2>How to choose a path before anything is implemented</h2><p>Five rules, then four steps. The rules are the test every suggestion has to pass; the steps are the order that removes the most uncertainty for the least effort.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Method</div><h2>How to choose a path before anything is implemented</h2><p>Three steps, five rules, and one distinction. The rules are the test every suggestion has to pass; the steps are the order that removes the most uncertainty for the least effort.</p></div></div>
   <div class="grid three">
     <div class="card soft"><h3>1 · Unblock what only the family holds</h3><p>The trust document, the deed, the parent's occupancy and the asset list cannot be researched. They are also the only facts that can change the ranking outright. Do these first even though they cost a meeting rather than a click.</p></div>
     <div class="card soft"><h3>2 · Price what can be priced</h3><p>Insurance, earthquake cover, rebuild cost and the current tariffs all have official benchmarks and free quotes. Each one replaces an assumption with a number, and each one is dated.</p></div>
@@ -187,6 +191,17 @@ main.innerHTML = UI.hero("Suggestions · decide before you implement",
   </div>
 </section>
 
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Proposed improvements</div><h2>Seven structural changes, ranked by decision impact</h2><p>Official links explain the relevant framework; they do not verify household facts or endorse these proposals. The register that follows turns the implementable parts into itemized actions with a suggested order and a recorded choice.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Priority / suggestion</th><th class="wrap">Why it helps</th><th class="wrap">Trade-off / evidence needed before implementation</th><th>Reference</th></tr></thead><tbody>
+<tr><td><strong>1 · Separate private data from public examples</strong></td><td class="wrap">Reduces further disclosure while retaining a public explanation of the method.</td><td class="wrap">Requires choosing private hosting and an exposure-remediation plan; no history rewrite or access change has been performed by this proposal.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub · cleanup limitations</a></td></tr>
+<tr><td><strong>2 · Make the estate calculation conditional</strong></td><td class="wrap">Show documented estate assets, debts, lifetime gifts and possible elections separately before estimating any estate tax.</td><td class="wrap">Actual amounts remain unknown and must stay private. A single property-only gap is not the amount that can safely be inherited tax-free.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate tax</a></td></tr>
+<tr><td><strong>3 · Match sale endpoints and tax basis</strong></td><td class="wrap">Compare clearly labeled pre-liquidation and after-liquidation portfolio values with property sale proceeds; model basis and taxes consistently.</td><td class="wrap">Requires account type, acquisition basis, gains, holding period and taxpayer-specific tax treatment. The existing endpoint-tax sensitivity deliberately double-counts part of the tax and is not a tax estimate.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis of assets</a></td></tr>
+<tr><td><strong>4 · Add a documented Proposition 19 eligibility branch</strong></td><td class="wrap">Separates a qualifying primary-residence transfer from full reassessment and highlights time-sensitive claims.</td><td class="wrap">Eligibility and the future adjusted allowance are unknown; confirm the relationship, trust and residence facts privately with the assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">California BOE · Proposition 19</a></td></tr>
+<tr><td><strong>5 · Replace cost proxies with reviewed ranges</strong></td><td class="wrap">Insurance, maintenance, water and solar assumptions can materially affect rental cash flow and stress results.</td><td class="wrap">Quotes are property- and coverage-specific, not official public facts. Keep records private; distinguish scenarios from verified bills and review exclusions and deductibles.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5-residential/">California insurance regulator · shopping guidance</a></td></tr>
+<tr><td><strong>6 · Compare investment mixes and downside</strong></td><td class="wrap">Show liquidity, inflation, bad return sequences and concentration alongside the central return assumption.</td><td class="wrap">Returns are not guaranteed. Compare deposit coverage and securities risk; do not label historical replays as probabilities of future outcomes.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · deposit insurance</a></td></tr>
+<tr><td><strong>7 · Add legal and source freshness checks</strong></td><td class="wrap">Keeps enacted rules, proposed changes and archived benchmarks distinct as the inheritance approaches.</td><td class="wrap">Automation can detect changes but cannot determine legal effect or eligibility; confirm each change with a qualified professional and official issuing agency.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · current rates and proposal</a></td></tr>
+</tbody></table></div></section>
+
 <section class="section">
   <div class="section-heading"><div><div class="eyebrow">Suggestions register</div><h2>Fifteen improvements to the analysis, in suggested order</h2><p>Each row states what to do, why it changes or protects the decision, how much effort it takes, when it should happen, and the official page the reasoning rests on. Choose approve, defer or decline in the last column; the summary at the bottom of the page updates as you go.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Suggestion</th><th class="wrap">Why it changes or protects the decision</th><th>Effort</th><th>When</th><th class="wrap">Official evidence</th><th>Your choice</th></tr></thead><tbody>
@@ -196,17 +211,28 @@ main.innerHTML = UI.hero("Suggestions · decide before you implement",
 </section>
 
 <section class="section">
-  <div class="section-heading"><div><div class="eyebrow">Before a decision</div><h2>The questions that must be answered first</h2><p>These are the questions the published analysis cannot settle from the information it has. Each row says what the site already knows, what is missing, where the answer lives, and what changes if the answer goes either way. The wider list, including items that do not affect the ranking, is on <a href="review.html">Flagged for Review</a>.</p></div></div>
+  <div class="section-heading"><div><div class="eyebrow">Before a decision</div><h2>The questions that must be answered first</h2><p>These are the questions the published analysis cannot settle from the information it has. Each row says what the site already knows, what is missing, where the answer lives, and what changes if the answer goes either way. The wider list, including items that do not affect the ranking, is on <a href="review.html">Flagged for Review</a>; two further questions from the earlier review — who may distribute the estate and when, and how much risk the heir can accept — are kept unchanged below.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">Question</th><th class="wrap">What the site has now</th><th class="wrap">What is missing</th><th class="wrap">Where the answer is</th><th class="wrap">If it goes one way, or the other</th><th class="wrap">Official route</th></tr></thead><tbody>
   ${QUESTIONS.map(([id, q, have, missing, where, either, key]) => row([td(`<strong>${id}</strong>`, "number"), td(`<strong>${q}</strong>`), td(have), td(missing), td(where), td(either), `<td class="source">${src(key)}</td>`])).join("")}
   </tbody></table></div>
   <div class="callout"><strong>Only four of these can change the answer.</strong> Q-01 (trust type), Q-02 (occupancy at death), Q-03 (size of the estate) and Q-07 (whether the heir wants to live there) decide which plan is rational. The rest change how much money the chosen plan produces. Q-10 cannot be answered at all; it is monitored against a break-even rate instead.</div>
+  <details class="card" open><summary>Seven questions from the earlier review — kept unchanged, with discovery routes</summary>
+  <p class="tiny">Published on this page on 12 Nov 2026 before the register above was added. A dash means not established from an official source. Obtain private records through secure professional channels, never through this public site.</p>
+  <div class="table-wrap"><table><thead><tr><th>Question</th><th class="wrap">Current answer / status</th><th class="wrap">How to resolve privately</th><th>Official framework</th></tr></thead><tbody>
+<tr><td>What may be distributed, when, and by whom?</td><td class="wrap">— Trust terms and title not verified.</td><td class="wrap">Trust attorney and trustee review signed trust, amendments and title.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · estate inventory</a></td></tr>
+<tr><td>Will the family-home exclusion apply?</td><td class="wrap">— Relationship, residence and trust eligibility not verified. The live-in scenario assumes eligibility; the rental scenario does not.</td><td class="wrap">Confirm facts and filing dates with the county assessor and counsel.</td><td><a href="https://www.boe.ca.gov/prop19/">BOE · eligibility and filing</a></td></tr>
+<tr><td>What is the full estate tax exposure?</td><td class="wrap">— Other assets, debts, gifts and available elections are unknown; the future exclusion is a scenario.</td><td class="wrap">Estate CPA inventories assets and debts, prior gifts and any portability election before preparing a calculation.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS · taxable estate and filing</a></td></tr>
+<tr><td>What are the correct basis and gain if sold?</td><td class="wrap">— Future appraised value, adjustments, proceeds and taxpayer facts are not verified.</td><td class="wrap">Obtain an appraisal and closing records; have a tax adviser reconcile basis and applicable exclusions.</td><td><a href="https://www.irs.gov/taxtopics/tc703">IRS · basis</a> · <a href="https://www.irs.gov/taxtopics/tc701">IRS · home sale</a></td></tr>
+<tr><td>What will each property actually cost to insure and maintain?</td><td class="wrap">— Actual premiums and future repairs are unverified; model inputs are illustrative.</td><td class="wrap">Compare owner-occupied and landlord quotes, including deductibles and excluded hazards; obtain inspections and repair estimates.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5/residential/">California insurance regulator · compare coverage</a></td></tr>
+<tr><td>What rental income and restrictions apply?</td><td class="wrap">— Future rent, vacancy and legal treatment of each unit are not verified. Property B is already owned, not inherited in this comparison.</td><td class="wrap">Review leases and unit status privately; obtain a market-rent opinion and check applicable local rules.</td><td><a href="https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit">SF Rent Board · rates</a></td></tr>
+<tr><td>How much risk and liquidity can the heir accept?</td><td class="wrap">— Investment goals, time horizon and account types are unknown.</td><td class="wrap">Discuss allocation, tax, deposit limits and withdrawal needs privately with a qualified adviser.</td><td><a href="https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments">SEC · diversification</a> · <a href="https://www.fdic.gov/resources/deposit-insurance/faq/">FDIC · coverage</a></td></tr>
+</tbody></table></div></details>
 </section>
 
 <section class="section">
   <div class="section-heading"><div><div class="eyebrow">Dashboard changes</div><h2>Six suggestions for the site itself</h2><p>These change how the analysis is read, not what it says. None of them alters a model input or a published figure. The first is already built on this page; the rest are proposals.</p></div></div>
   <div class="grid two">
-  ${SITE.map(([id, title, why, effort, built]) => `<div class="card"><div class="card-head"><h3>${id} · ${title}</h3>${UI.badge(built ? "Built here" : "Proposed", built ? "" : "gold")}</div><p>${why}</p><p class="tiny">Effort: ${effort}${built ? " · printing this page keeps your recorded choices" : ""}</p><p class="tiny">${choice(id)}</p></div>`).join("")}
+  ${SITE.map(([id, title, why, effort, built]) => `<div class="card"><h3>${id} · ${title}</h3>${UI.badge(built ? "Built here" : "Proposed", built ? "" : "gold")}<p>${why}</p><p class="tiny">Effort: ${effort}${built ? " · printing this page keeps your recorded choices" : ""}</p><p class="tiny">${choice(id)}</p></div>`).join("")}
   </div>
 </section>
 
@@ -238,9 +264,9 @@ main.innerHTML = UI.hero("Suggestions · decide before you implement",
   <div class="grid three">
     <div class="card"><h3>Privacy</h3><p>No names, addresses, parcel numbers, account numbers, trust documents or unrounded household figures enter the repository or the site. The public history is already a finding on <a href="review.html">Flagged for Review</a>.</p></div>
     <div class="card"><h3>Verification</h3><p>A figure is either published by an official body, linked to that body, or blank. Rounding to $10 is a privacy measure, not a claim of accuracy, and it does not make a household input verified.</p></div>
-    <div class="card"><h3>The recommendation</h3><p>Selling Property A and keeping Property B remains the published result until a fact changes it. None of these suggestions, implemented alone, changes that result; A-01, A-02, A-03, A-04, A-08 and A-12 are the ones that could.</p></div>
+    <div class="card"><h3>The recommendation</h3><p>Selling Property A and keeping Property B remains the published base case until a fact changes it. None of these suggestions, implemented alone, changes that result; A-01, A-02, A-03, A-04, A-08 and A-12 are the ones that could.</p></div>
   </div>
-  <p class="tiny" style="margin-top:18px">This page is a planning aid, not legal, tax, insurance or investment advice. Re-check every official page before acting; the register of sources and their review dates is on <a href="sources.html">Sources</a>.</p>
+  <div class="card soft" style="margin-top:18px"><h3>How to use this list</h3><p>Start with the privacy alternatives; then resolve the high-impact unknowns in the <a href="review.html">Flagged for Review</a> register. The current sell-and-reinvest ranking is conditional on modeled assumptions and is not a filing-ready recommendation. Check the <a href="stress.html">black-swan scenarios</a> and the <a href="inheritance.html">inheritance steps</a> before deciding.</p><p class="tiny">This page is a planning aid, not legal, tax, insurance or investment advice. Re-check every official page before acting; the register of sources and their review dates is on <a href="sources.html">Sources</a>.</p></div>
 </section>
 </div>`;
 

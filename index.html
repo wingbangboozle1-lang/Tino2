@@ -9,7 +9,7 @@
 </head>
 <body data-title="Overview">
   <noscript><div class="no-script">JavaScript is required for the projections. No data leaves this page; calculations run locally in your browser.</div></noscript>
-  <div class="privacy-strip"><div class="container"><span aria-hidden="true">◈</span><span><strong>Privacy by design.</strong> Properties are labeled A and B. No personal names, street addresses, parcel numbers, account details, or private documents are published.</span></div></div>
+  <div class="privacy-strip"><div class="container"><span aria-hidden="true">◈</span><span><strong>Public site; privacy risk remains.</strong> Property labels and $10 rounding do not guarantee anonymity. Repository history and contextual details may identify the household. <a href="site/review.html">Review the risk</a>.</span></div></div>
   <main>
     <section class="hero"><div class="container">
       <div class="eyebrow">Executive summary · checked 11 November 2026</div>
@@ -24,15 +24,16 @@
         <div class="card highlight">
           <div class="recommendation"><div class="icon" aria-hidden="true">↗</div><div>
             <div class="eyebrow" style="color:var(--lime);margin-bottom:10px">Bottom line</div>
-            <h2 id="recommendation-title">Sell Property A soon after inheriting it, invest the proceeds, and keep Property B.</h2>
+            <h2 id="recommendation-title">Base-case leader: sell Property A, reinvest, and keep Property B.</h2>
             <p id="recommendation-copy"></p>
+            <p><strong>Not an instruction to sell.</strong> The comparison uses unverified household inputs and assumed future returns. No estate-tax allocation is deducted from these strategy totals. Confirm the trust, total estate, actual insurance and lawful rents before making an irreversible decision. <a href="site/review.html">Review the unanswered questions first →</a></p>
           </div></div>
         </div>
         <div class="grid four" id="summary-metrics" style="margin-top:18px"></div>
       </section>
 
       <section class="section">
-        <div class="section-heading"><div><div class="eyebrow">The answer by inheritance year</div><h2>Three choices, carried ten years and turned into money</h2><p>Each choice ends with everything sold and counted: sale costs, tax on the gain, yearly costs, rent and reinvested cash. Property B is kept in all three.</p></div><a class="button secondary" href="site/decision.html">Open the Decision lab</a></div>
+        <div class="section-heading"><div><div class="eyebrow">The answer by inheritance year</div><h2>Three choices, carried ten years and turned into money</h2><p>The hold cases include a sale of Property A at the endpoint, with sale costs and modeled gain tax. The sell-now case shows the portfolio before final liquidation tax; a deliberately conservative extra-tax sensitivity is shown separately. Property B is kept in all three.</p></div><a class="button secondary" href="site/decision.html">Open the Decision lab</a></div>
         <div class="table-wrap"><table><thead><tr><th>Inheritance year</th><th class="number">Value of A at inheritance</th><th class="number">Sell and reinvest</th><th class="number">Rent out, then sell</th><th class="number">Live in, then sell</th><th class="number">Selling ahead of renting by</th><th class="number">Same, if the portfolio is also taxed at the end</th><th>Rule</th></tr></thead><tbody id="by-year"></tbody></table></div>
         <p class="tiny">Base assumptions: home prices +3.5% a year, investments +5% a year after tax, rent and costs +3% a year, 6% sale cost, 33.1% tax on gains, rent from the HUD four-bedroom benchmark for the ZIP code. These are assumptions, not forecasts. “Live in” counts the cost of owning the house and puts no price on living there.</p>
       </section>
@@ -43,9 +44,9 @@
       </section>
 
       <section class="section">
-        <div class="section-heading"><div><div class="eyebrow">The San Francisco property changes the question</div><h2>The heir does not need a second home</h2></div></div>
+        <div class="section-heading"><div><div class="eyebrow">The San Francisco property changes the question</div><h2>An existing home changes the comparison</h2></div></div>
         <div class="grid three">
-          <div class="card"><h3>Living in A is a choice, not a need</h3><p>The heir can live in Property B's third unit and keep both rents (about <strong>$7,150 a month</strong>). Moving into A gives up everything A could earn if sold, which is why it finishes last on money.</p><a href="site/plan.html">Household comparison →</a></div>
+          <div class="card"><h3>Living in A is a choice, not a need</h3><p>The heir can live in Property B's third unit and keep both rents (about <strong>$7,150 a month</strong>). Moving into A gives up everything A could earn if sold, which contributes to its lower modeled terminal wealth. The model does not price the benefit of living in A.</p><a href="site/plan.html">Household comparison →</a></div>
           <div class="card"><h3>One principal residence</h3><p>The Proposition 19 relief needs the heir to move into A within one year and stay. Staying in San Francisco and claiming it is not possible; renting A out gets no relief at all.</p><p id="source-prop19"></p></div>
           <div class="card"><h3>Both houses sit in one region</h3><p>Keeping A doubles the household's exposure to one earthquake, one regional downturn and one state's property-tax law. Selling A moves that part into other assets.</p><a href="site/san-francisco.html">Property B numbers →</a></div>
         </div>
@@ -60,7 +61,7 @@
       <section class="section">
         <div class="section-heading"><div><div class="eyebrow">Costs upon inheriting</div><h2>What Property A costs to hold in the first year</h2></div><a class="button secondary" href="site/properties.html#after-inheritance">Year-by-year tables</a></div>
         <div class="table-wrap"><table><thead><tr><th>Inheritance year</th><th class="number">Property tax now (2026 model)</th><th class="number">Property tax · lived in</th><th class="number">Property tax · rented</th><th class="number">Insurance, water, upkeep less solar credit</th><th class="number">Total · lived in</th><th class="number">Total · rented</th><th>Rule</th></tr></thead><tbody id="costs"></tbody></table></div>
-        <p class="tiny">Property tax is the cost that changes. Today the house is taxed on an assessed value of about $550,540; at the inheritance it is reassessed to market value, less the Proposition 19 amount ($1,044,586 until February 2027, adjusted every two years) only if the heir lives there. Insurance ($1,500 a year) and water ($125 a month) are the household's figures grown 3% a year. No official premium for the home exists. The state regulator's 2026 survey of a made-up Cupertino home runs from about $1,380 to $2,690 a year in the middle of the list, depending on what the house would cost to rebuild; no premium in that range changes the best plan (<a href="site/operating-costs.html">operating costs</a>).</p>
+        <p class="tiny">Reassessment can materially change property tax; insurance, utilities and repairs can also change. Today the house is taxed on an assessed value of about $550,540; at the inheritance it is reassessed to market value, less the Proposition 19 amount ($1,044,586 until February 2027, adjusted every two years) only if the heir lives there. Insurance ($1,500 a year) and water (about $130 a month, rounded for display) are the household's figures grown 3% a year. No official premium for the home exists. The state regulator's 2026 survey of a made-up Cupertino home runs from about $1,380 to $2,690 a year in the middle of the list, depending on what the house would cost to rebuild; the tested premiums in that range do not change the base-case ranking (<a href="site/operating-costs.html">operating costs</a>).</p>
       </section>
 
       <section class="section">
@@ -75,7 +76,7 @@
       </section>
 
       <section class="section">
-        <div class="section-heading"><div><div class="eyebrow">Law changes being discussed</div><h2>Nothing pending changes the answer today</h2></div><a class="button secondary" href="site/sources.html#watchlist">Full watchlist</a></div>
+        <div class="section-heading"><div><div class="eyebrow">Law changes being discussed</div><h2>Current-law model; pending changes need monitoring</h2></div><a class="button secondary" href="site/sources.html#watchlist">Full watchlist</a></div>
         <div class="table-wrap"><table><thead><tr><th>Item</th><th>Status on 11 Nov 2026</th><th class="wrap">Effect on the plan</th><th>Official source</th></tr></thead><tbody id="laws"></tbody></table></div>
       </section>
 
@@ -91,9 +92,20 @@
           <a class="card" href="site/inheritance.html" style="text-decoration:none;color:inherit"><h3>Inheritance steps →</h3><p class="muted">From the trust file to the assessor, the tax returns and the distribution.</p></a>
           <a class="card" href="site/estate-tax.html" style="text-decoration:none;color:inherit"><h3>Estate tax →</h3><p class="muted">Federal, state and local thresholds and the room left, by year.</p></a>
           <a class="card" href="site/sources.html" style="text-decoration:none;color:inherit"><h3>Sources and law watch →</h3><p class="muted">Every official link, the assumptions, and pending law.</p></a>
+          <a class="card" href="site/suggestions.html" style="text-decoration:none;color:inherit"><h3>Suggestions for review →</h3><p class="muted">Compare privacy and model improvements before implementing them, see the key unanswered questions, and record which path you choose — the record stays in your browser.</p></a>
           <a class="card" href="site/verification.html" style="text-decoration:none;color:inherit"><h3>Verified facts →</h3><p class="muted">Each fact with its official page and the wording found.</p></a>
-          <a class="card" href="site/suggestions.html" style="text-decoration:none;color:inherit"><h3>Suggestions and decisions →</h3><p class="muted">Fifteen improvements to the analysis and six to the site, in the order worth doing, with the questions to answer first and a place to record which path you choose.</p></a>
         </div>
+      </section>
+
+      <section class="section" id="suggestions" aria-labelledby="suggestions-title">
+        <div class="section-heading"><div><div class="eyebrow">Suggestions · review before implementation</div><h2 id="suggestions-title">Choose improvements before changing the plan</h2><p>These are proposed workflows, not approved changes or verified household facts. No private documents should be uploaded to this public site. Default calculations continue to run without manual input.</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Priority / proposal</th><th>Question to resolve</th><th>Suggested discovery route</th><th>Approval gate</th><th>Official reference (context, not an endorsement)</th></tr></thead><tbody>
+          <tr><td>Urgent · privacy remediation</td><td>Can public history still identify the household?</td><td>Review historical exposure privately; choose repository privacy or a coordinated history-removal plan.</td><td>Owner authorization before destructive history changes; rounding alone is insufficient.</td><td><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository">GitHub sensitive-data guidance</a></td></tr>
+          <tr><td>High · estate-aware strategy totals</td><td>How much of the estate is actually available after liabilities and estate tax?</td><td>Have the trustee and CPA reconcile assets, taxable gifts, deductions and available exclusion in a private inventory.</td><td>Approve anonymized aggregate assumptions before adding tax allocations to strategy results.</td><td><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax">IRS estate tax</a></td></tr>
+          <tr><td>High · eligibility decision gate</td><td>Would living in A actually qualify for reassessment relief?</td><td>Obtain assessor and attorney review of relationship, trust terms, principal residence and filing deadlines.</td><td>Do not treat the live-in tax scenario as an entitlement until eligibility is established.</td><td><a href="https://www.boe.ca.gov/prop19/">BOE Proposition 19</a></td></tr>
+          <tr><td>High · quote-based cost ranges</td><td>What do suitable homeowner and multi-unit landlord policies cost?</td><td>Seek written replacement-cost and coverage-matched quotes privately; include deductibles and exclusions.</td><td>Review rounded cost ranges before replacing the unverified insurance assumptions.</td><td><a href="https://www.insurance.ca.gov/01-consumers/105-type/5-residential/">California insurance regulator</a></td></tr>
+        </tbody></table></div>
+        <p><a href="site/review.html">Full question, missing-information and discovery register →</a> · <a href="site/decision.html">Compare alternatives without changing the published baseline →</a></p>
       </section>
 
       <section class="section"><div class="card review"><h3>⚑ Flagged for Review</h3><p>Not confirmed from an official source and left blank: both insurance premiums, the tax-rate area and direct charges on each bill, the year the solar system was switched on (its tariff runs 20 years from then), the rent Property A would fetch, the trust's terms, and the money in the estate. Privacy: the site shows rounded figures and no names or addresses, but older branches and the commit history of this public repository still hold exact figures and the account's e-mail address, and need an owner decision. The rent benchmark for Property A is one fiscal year behind.</p><a href="site/review.html">Open the full list with source links →</a></div></section>

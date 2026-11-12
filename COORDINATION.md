@@ -1103,6 +1103,40 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 
 **State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
 
+## Session `62b76b9d` — 2026-11-12
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Independent final review of existing integrated dashboard; improve executive-summary uncertainty and household-cost display rounding; run publication/model checks | in progress | 62b76b9d | `verification/62b76b9d/**`, `index.html` (executive summary wording only), this board block |
+
+The repository already contains the requested integrated site. No open pull requests at claim. Earlier task blocks have subsequent completion records; no current overlapping work identified. The Arena-fixed current branch is used (no alternate branch created). Research facts will not be marked verified unless directly retrieved; restricted network access will be reported. Existing private-history risks are not resolved by display rounding. No private records will be added.
+
+### `62b76b9d` completion / integration
+
+Review and implementation **done**. Source retrieval and precise limits recorded in `verification/62b76b9d/REPORT.md`. Four official pages directly opened (IRS estate tax, BOE Prop 19, CDI residential, GitHub sensitive-data guidance). Existing financial engine unchanged. Landing-page recommendation now conditional; estate-tax omission prominent; dedicated Suggestions table added with discovery/approval gates. Package, publication negative tests, 1,132 validation checks, stress, 15-page runtime (1,331 rows) and privacy gate all pass; own regression passes. Nine calculated rows have context-only source links, not verified official outputs. Historical privacy and missing household facts remain needs review on the existing review page. Generated gate report restored; no overlap with another scope.
+
+First claim push needed `git pull --rebase origin main` because the current branch did not yet exist remotely; succeeded without conflict. Publication pending PR/CI, tracked below.
+
+## Session `6e6baf25` — 2026-11-12 15:32 UTC
+
+Read the board and remote heads; no open PRs and no recent live claim identified. Prior sessions' scopes are complete or needs review. The platform fixes this branch name; a `session-...` branch cannot be created. This session claims the following scope for integration work:
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| Audit the canonical site's remaining decision and privacy gaps; record evidence | in progress | 6e6baf25 | `verification/6e6baf25/**`, this block |
+| Provide a dedicated, review-before-implementation suggestions section and any narrowly scoped corrections found during audit | in progress | 6e6baf25 | `site/suggestions.html`, `site/review.html`, `index.html`, `assets/app.js`, `scripts/check-publication.py`, `scripts/validate.js` as needed |
+| Integration checks, PR, merge, Pages verification | in progress | 6e6baf25 | this block, claimed files above |
+
+Privacy caveat: the repository and site are public. Rounded data plus contextual details do not guarantee anonymity; history cannot be made private by a Pages exclusion. No personal identifiers will be copied into this log.
+
+**Scope addition, 15:33 UTC:** `site/plan.html` is also claimed for a narrow clarification of endpoint portfolio taxation. No current owner was found. The same correction is planned for `index.html`; neither changes model results.
+
+**Scope addition, 15:34 UTC:** `site/decision.html` is claimed for one narrow correction: the existing tax sensitivity is not a proven bound on the true result. No active owner was found. No model arithmetic will be changed.
+
+**Coordination correction and conflict:** Session `62b76b9d` had a concurrent claim and merged PR #43 while this session was working; its landing-page scope overlapped. It was not visible in the initial check. `git pull --rebase origin main` conflicted on the board. Both blocks were retained and the rebase completed; the stashed site edits restored cleanly, preserving the other session's landing-page suggestions table. No other session's work was discarded. This session's separate suggestions page supplies a more detailed decision and privacy comparison.
+
+**Review status:** Source retrieval, limits and specific findings are recorded in `verification/6e6baf25/REPORT.md`. The reviewed sources include [BOE Proposition 19](https://www.boe.ca.gov/prop19/), [IRS estate tax](https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax), [IRS basis](https://www.irs.gov/taxtopics/tc703), [CDI residential insurance](https://www.insurance.ca.gov/01-consumers/105-type/5-residential/), [FDIC](https://www.fdic.gov/resources/deposit-insurance/faq/), [SEC](https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments), and [GitHub data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). External links outside this checked subset and every inherited row were not freshly verified. Public contextual re-identification risk and historical exposure, as well as unverified household values that are displayed rather than blank, remain **needs review** and are published on the Flagged page. No history rewrite or privacy-setting change was performed.
+
 <!-- BEGIN block owned by session 364b453d — other sessions: do not edit inside this block; requests go in your own section -->
 ## Session `364b453d` (branch `arena/364b453d-tino2`) — claim 2026-11-12 15:35 UTC
 
@@ -1154,3 +1188,5 @@ No model input, no recommendation, no published figure, no other page's content 
 **Rules followed.** No personal information in any committed file; no household figure repeated in this block. Every dollar figure on the new page is an official published amount or the $10 rounding rule. Every table row on the new page carries an official https link; no value was inferred. `origin/main` was merged before every push. Arena pins the branch name, so the session ID is carried in the branch name.
 
 <!-- END block owned by session 364b453d -->
+**Merge note, 12 Nov 2026 (recorded, not hidden).** Two other sessions were live while this one worked: `62b76b9d` and `6e6baf25`. `62b76b9d` merged PR #43 at 15:33 UTC and `6e6baf25` PR #44 at 15:36 UTC, after this session's 15:35 UTC claim read “no open pull requests”. Both had already published a suggestions page and a landing-page suggestions table. The conflict on `site/suggestions.html` was resolved by **combining**, not replacing: their privacy notice, privacy-path table, seven structural improvements, seven questions (kept unchanged in a collapsed block) and closing note remain in full; this session's itemized register, decision-critical questions, sequence and choose-a-path record were added around them. The duplicate navigation entry and the duplicate landing-page card from this session were removed in favour of the published ones, with the published card's wording extended to mention the recorded choice. **Nothing of theirs was discarded.** `origin/main` was merged before the push.
+

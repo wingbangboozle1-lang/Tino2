@@ -79,3 +79,27 @@ Rendered behaviour checked separately with jsdom: the page throws no error, show
 - **S-I3 — The record is per-browser.** The approve/defer/decline record lives in `localStorage` and is not durable across devices or private windows. That is deliberate — no account, no server, no analytics — and the page says so and offers print and copy. It is a limitation, not a defect; a durable record would require a personal document kept outside this repository.
 - **S-I4 — Page count and manifest changed.** `scripts/validate.js` asserted fifteen pages and `scripts/check-publication.py` listed 28 files; both were updated for the sixteenth page. Any later session adding a page must do the same, or the build fails closed, which is the intended behaviour.
 - **S-I5 — No personal information was added.** The new page contains placeholders, official rules and official amounts only. The standing privacy findings on Flagged for Review (public history, branches, account e-mail) are unchanged by this session and remain an owner decision.
+
+## 6. Parallel sessions — the conflict and how it was resolved
+
+Two other sessions were live while this one worked, and the claim check did not see them: `62b76b9d` merged PR #43 at 15:33 UTC and `6e6baf25` PR #44 at 15:36 UTC, both after this session's 15:35 UTC claim recorded “no open pull requests”. Between them they had already published a suggestions page, a landing-page suggestions table, and clarifications to the executive summary, `site/plan.html` and `site/decision.html`.
+
+Merging `origin/main` (up to `ed9cbbd`) produced one content conflict in `COORDINATION.md` and one add/add conflict in `site/suggestions.html`; `assets/app.js`, `index.html`, `scripts/validate.js` and `scripts/check-publication.py` auto-merged but left two navigation entries and two landing-page cards for the same page.
+
+Resolution, chosen to keep both sessions' work:
+
+| File | What was done |
+|---|---|
+| `site/suggestions.html` | **Combined, not replaced.** Their privacy notice, privacy-path comparison table, seven structural improvements, seven questions and closing “How to use this list” note remain in full (the questions are kept unchanged inside a collapsed block, with their wording and links). This session's fifteen-item register, ten decision-critical questions, six dashboard proposals, five-step sequence and choose-a-path record were added around them. One hero, one page. |
+| `assets/app.js` | The two nav entries were reduced to the published one; the other session's title and footer wording was kept. |
+| `index.html` | The duplicate card was removed in favour of the published card, whose wording now mentions the recorded choice; all their executive-summary wording changes are intact. |
+| `COORDINATION.md` | Both appended blocks kept in full, theirs first; the conflict and its resolution are recorded inside this session's block. |
+| `scripts/validate.js`, `scripts/check-publication.py` | Both sessions had made the same two edits (16 pages; manifest entry); no conflict remains. |
+
+Nothing of either other session was discarded, and no model figure, model input or published recommendation changed.
+
+## 7. Checks re-run after the merge
+
+`validate.js` PASS (1,151 checks, 16 pages, 171 sources; base case unchanged at sell $7,683,290 / rent $6,249,830 / live $5,135,780) · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py --self-test` PASS (29 files) · `runtime-test.cjs` PASS (16 pages, 1,375 rendered rows, all source-linked, no broken local link) · `qa/tools/gate.cjs` PASS (0 errors, 0 warnings; 4,824 amounts checked) · `src/check_links.py .` PASS (64 pages, 879 table rows) · `privacy_scan.py` 0 errors.
+
+The combined page renders with one `h1`, five tables, forty-two rows and twenty-one choice controls; both sessions' sections are present and the record still persists to one `localStorage` key.
