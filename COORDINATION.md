@@ -1512,7 +1512,7 @@ Branch: `arena/c96c185e-tino2` (from `main` `052e626`, PR #52). Claim pushed imm
 | Task | Status | Owner | File scope |
 |---|---|---|---|
 | V-1 | Independent verification pass: re-run full validation suite, spot-check key official figures against live official pages, privacy scan, fix defects found | done | `verification/27e6213d/**`, `COORDINATION.md` (this block only); shared files only if a defect is found and listed here first |
-| V-2 | PR to `main`, merge, confirm Pages build | in progress | own files + this block |
+| V-2 | PR to `main`, merge, confirm Pages build | done | own files + this block |
 
 State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on the board; last session `55c16cea` marked done. This session does not repeat prior research; it verifies the published site line by line and fixes defects only.
 
@@ -1546,3 +1546,16 @@ State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on
 
 No personal information will be added. No private household number will be copied into this coordination block; any public figures in the report are referenced through the existing rounded model or source ledger. The audit is not a claim that inherited historical branches or public Git history are private; those risks remain review items already documented by earlier sessions.
 <!-- END block owned by session 4061a2e5 -->
+
+
+#### Publication result (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#56](https://github.com/wingbangboozle1-lang/Tino2/pull/56) `arena/27e6213d-tino2` → `main`, mergestate `CLEAN` / `MERGEABLE`, **MERGED** 22:15:39 UTC without waiting for approval |
+| Merge commit | `444be2eaa10c76c58679e171f3d7354555770991` |
+| Merge conflicts | Two, both append-only on `COORDINATION.md`: (a) rebasing onto `main` `ddf9cb7`, where PR #55 (`c96c185e`) landed mid-session; (b) rebasing this record onto `main` `4b6a5cd`, where PR #58 (`4061a2e5`) landed. Each was resolved by keeping **both** sessions' blocks in full. Nothing from `c96c185e` or `4061a2e5` was removed or reworded |
+| CI | Pages build for `444be2e` reported **`built`**, `error.message: null`, at 22:16:37 UTC (Pages API; source `main` / root, HTTPS enforced) |
+| Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/verification.html` fetched after the build: hero, the 78 / 6 / 6 / $15,480,000 summary cards, the six-row corrections table (IRS, BOE, HUD, Measure H, build script, source column) and the federal estate-and-gift ledger rows with their source links all render. The page is live. |
+| Open PRs after this session | none |
+| Site files changed | **none.** This session published only its verification report and this record. `_config.yml` and `scripts/package-site.py` keep `verification/` and `COORDINATION.md` out of the Pages artifact, so the live dashboard content is unchanged from `052e626` |
