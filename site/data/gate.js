@@ -8,9 +8,9 @@
   whose answer is not settled by an official source. It also groups the questions in the
   order the answers must arrive.
 
-  The brief asks for "a clear list of questions, informations and answers that need to be
-  addressed before any decision can be reasonably made" plus "suggestions ... to discover
-  missing information". This file is that list. It is deliberately NOT a copy of the
+  The planning file requires a clear list of questions, facts and answers that need to be
+  addressed before any decision can be reasonably made, plus practical routes to discover
+  missing information. This file is that list. It is deliberately NOT a copy of the
   Flagged for Review register: that register records what is unknown and what the model does
   meanwhile. This file records, question by question, whether the answer is settled, and
   which of the four plans (sell / rent / live / estate) cannot be implemented without it.
@@ -58,7 +58,7 @@
         {
           id: "Q-01",
           q: "Is Property A inside the trust, with title in the trust's name?",
-          a: "Not in the record. The brief says the house is expected to pass by trust around 2040–2050; the deed, the schedule of assets and the trust instrument were not supplied.",
+          a: "Not in the record. The household record says the house is expected to pass by trust around 2040–2050; the deed, the schedule of assets and the trust instrument were not supplied.",
           status: "missing",
           why: "Two things follow. First, if the house is inside the trust it passes by the trust's terms and no probate is needed; if it is outside, a probate applies statutory fees to the representative and again to the attorney. Second, and larger: the basis reset at death applies only to property included in the gross estate or treated as acquired from the decedent. Property in a revocable trust is treated as acquired from the decedent; assets of an irrevocable trust that are not included in the estate keep the old basis. So a house held in the wrong kind of trust can lose the step-up the whole sell case rests on.",
           action: "Read the deed and the trust's schedule of assets. Ask the [TRUSTEE] for a copy of the current schedule, and ask the preparer to confirm in writing that the house is included in the gross estate or is in a revocable trust at death.",
@@ -78,7 +78,7 @@
         {
           id: "Q-03",
           q: "Does the trust give Property A to the heir outright, or does it stay in trust?",
-          a: "Not in the record. The brief treats the heir as the inheritor of the house; the distribution terms were not supplied.",
+          a: "Not in the record. The planning record treats the heir as the inheritor of the house; the distribution terms were not supplied.",
           status: "missing",
           why: "A house that stays in trust is not the heir's to sell, rent or occupy freely, and the trustee's powers decide every later step.",
           action: "Read the distribution article of the trust instrument.",
@@ -88,7 +88,7 @@
         {
           id: "Q-04",
           q: "Are there other beneficiaries or heirs who share in Property A?",
-          a: "Not in the record. The brief names one inheritor; it does not say whether anyone else shares in the house.",
+          a: "Not in the record. The planning record names one inheritor; it does not say whether anyone else shares in the house.",
           status: "missing",
           why: "Sharing changes who must sign, whether a buy-out is needed, and whether a later sale between siblings is itself a reassessable transfer.",
           action: "List every beneficiary and heir, and confirm whether the trust permits a non-pro-rata distribution of the home.",
@@ -108,7 +108,7 @@
         {
           id: "Q-06",
           q: "What is the total gross estate, including cash, securities and the house?",
-          a: "Unknown. The brief says the inheritance includes a considerable amount of money that may exceed the tax-free amount, but gives no figure and no account types.",
+          a: "Unknown. The household record says the inheritance includes a considerable amount of money that may exceed the tax-free amount, but gives no figure and no account types.",
           status: "missing",
           why: "Federal estate tax starts at 40% of everything above the exclusion. Property A alone is far below the exclusion, so the answer turns on the money, not the house.",
           action: "List every account with its type, balance, owner and named beneficiary; add the house and any life insurance the [DECEDENT] owned.",
@@ -148,7 +148,7 @@
         {
           id: "Q-10",
           q: "Are the [DECEDENT] and the [HEIR] citizens or residents of the United States?",
-          a: "Unknown. The brief does not say.",
+          a: "Unknown. The household record does not say.",
           status: "missing",
           why: "Different exclusion amounts and filing rules apply to a nonresident who is not a citizen, and a non-citizen spouse cannot use the unlimited marital deduction the same way.",
           action: "Confirm citizenship and residence for both, before relying on any exclusion figure.",
@@ -205,7 +205,7 @@
         {
           id: "Q-15",
           q: "Does the heir claim Property B as their principal residence?",
-          a: "Yes, on the brief: the heir already owns Property B in San Francisco and can live there without losing rent.",
+          a: "Yes, in the household record: the heir already owns Property B in San Francisco and can live there without losing rent.",
           status: "household",
           why: "A person has one principal residence for this purpose. If the heir stays in San Francisco and claims it, Property A cannot also carry the parent-child relief.",
           action: "Confirm which property will be the principal residence for the year of the transfer, and keep the homeowner exemption claim consistent with it.",
@@ -299,21 +299,21 @@
         {
           id: "Q-23",
           q: "What rent would Property A fetch?",
-          a: () => `A benchmark, not a lease. The model uses ${money(B.aRent4BR)} a month for a four-bedroom home, the federal Small Area Fair Market Rent for the ZIP code in FY2026, and ${money(B.aRent3BR)} for a three-bedroom.`,
+          a: () => `A benchmark, not a lease. The default baseline uses HUD's FY2026 Small Area Fair Market Rent for the ZIP code (${money(B.aRent4BR)} a month 4BR / ${money(B.aRent3BR)} 3BR), and Decision Lab and Black swans also offer the directly verified FY2027 HUD benchmarks (${money(B.aRent4BR_2027)} 4BR / ${money(B.aRent3BR_2027)} 3BR, effective 1 Oct 2026).`,
           status: "household",
           why: "Rent is the revenue line of the rental case. A 10% error moves the ten-year answer by more than a million dollars.",
-          action: "Read the current fiscal year's row for the ZIP code, then replace it with two written appraisals of achievable rent.",
-          src: "hudA",
+          action: "Obtain two written local appraisals of achievable rent and compare against both FY2026 and FY2027 HUD benchmarks.",
+          src: "hudA2027",
           affects: ["rent"]
         },
         {
           id: "Q-24",
-          q: "Is the rent benchmark the current fiscal year?",
-          a: "No. It is one year behind: FY2027 took effect on 1 October 2026 and the model still carries FY2026.",
-          status: "missing",
-          why: "The gap is small against a 3%/yr rent assumption but it is a known, dated defect in the input.",
-          action: "Open the federal rent lookup for the ZIP code and read the FY2027 row.",
-          src: "hudMethod",
+          q: "Should published defaults rebase from FY2026 to verified FY2027 HUD benchmarks?",
+          a: () => `FY2027 Small Area FMRs (effective 1 Oct 2026) were directly verified on HUD's lookup on 12 Nov 2026: ${money(B.aRent4BR_2027)} (4BR) and ${money(B.aRent3BR_2027)} (3BR) vs. FY2026 ${money(B.aRent4BR)} / ${money(B.aRent3BR)}. Both sets are selectable in Decision Lab and Black swans, while the default baseline keeps FY2026 pending an owner decision to rebase.`,
+          status: "household",
+          why: "The FY2027 4BR benchmark is lower (-9.2%), which widens selling's lead further so the ranking does not flip; rebasing all defaults changes baseline modeled dollars across pages.",
+          action: "Obtain local Cupertino rent comps and confirm whether to rebase all published defaults to FY2027 (Suggestion A-05).",
+          src: "hudA2027",
           affects: ["rent"]
         },
         {
@@ -329,7 +329,7 @@
         {
           id: "Q-26",
           q: "What is the heir's other income?",
-          a: "Unknown. The brief gives no figure.",
+          a: "Unknown. The household record gives no figure.",
           status: "missing",
           why: "Rental losses are generally passive and limited; they cannot shelter salary, and the released losses only arrive on a full sale. The 3.8% net investment income tax also depends on income.",
           action: "Model the rental case with the heir's actual income, because the tax result changes with it.",
@@ -366,7 +366,7 @@
         {
           id: "Q-29",
           q: "What would it cost to rebuild Property A?",
-          a: "Unknown. The brief gives no rebuild cost, and the value of the land is not the cost of the house.",
+          a: "Unknown. The household record gives no rebuild cost, and the value of the land is not the cost of the house.",
           status: "missing",
           why: "A homeowners premium follows the dwelling limit, which is the rebuild cost. The state regulator's 2026 survey shows the middle premium roughly doubling between a $500,000 and a $1,000,000 dwelling limit.",
           action: "Ask a builder or an insurer for a rebuild estimate, then get a written quote on that limit.",
@@ -428,7 +428,7 @@
           q: "Does living in Property A really displace anything?",
           a: "No. The heir can live in Property B's third unit without giving up either rent. So living in Property A is a preference, not a housing need.",
           status: "household",
-          why: "This is the distinction the brief asked to see. It is why the 'live in it' plan finishes last on money rather than first.",
+          why: "This is the key distinction for the household comparison: it explains why the 'live in it' plan finishes last on money rather than first.",
           action: "Confirm the third unit in Property B is legally habitable and does not disturb the two tenancies.",
           src: "sfRent",
           affects: ["live"]
