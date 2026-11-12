@@ -1559,3 +1559,19 @@ No personal information will be added. No private household number will be copie
 | Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/verification.html` fetched after the build: hero, the 78 / 6 / 6 / $15,480,000 summary cards, the six-row corrections table (IRS, BOE, HUD, Measure H, build script, source column) and the federal estate-and-gift ledger rows with their source links all render. The page is live. |
 | Open PRs after this session | none |
 | Site files changed | **none.** This session published only its verification report and this record. `_config.yml` and `scripts/package-site.py` keep `verification/` and `COORDINATION.md` out of the Pages artifact, so the live dashboard content is unchanged from `052e626` |
+
+<!-- BEGIN block owned by session fc58dcc8 -->
+## Session `fc58dcc8` (branch `arena/fc58dcc8-tino2`) — claim 2026-11-12
+
+**State read at claim.** `origin/main` = `5bc7512` (PR #59). Open PRs checked (`#54`, `#57`, `#60`, `#61`) touch only `COORDINATION.md`, `verification/*`, and (`#60`) `README.md`. No open PR touches `index.html`, `site/**`, `qa/**`, or `scripts/**`.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| L-1 | Coordination: read board, merge `origin/main`, claim non-overlapping scope, push claim | in progress | fc58dcc8 | `COORDINATION.md` (this block only) | Leaves `README.md` untouched (PR #60) |
+| L-2 | Directly open & verify remaining search-extract / unverified ledger items (`FED-15`, `UT-02`, `SF-08`, `N-12`, plus Nov 12 SOS counts & BOE LTA 2026/026) and rebuild `site/data/ledger.js` | claimed | fc58dcc8 | `qa/ledger.json`, `site/data/ledger.js`, `site/data/sources.js` | Keeps `INS-02`/`INS-03` strictly blank/unverified |
+| L-3 | Fix cross-page consistency & UX defects: `index.html` readiness/suggestions counts, `site/data/gate.js` (`Q-23`/`Q-24` FY2027 parity + remove `"the brief"` prose), `site/questions-gate.html`, `site/black-swan.html` & `site/data/history-engine.js` (`4BR_2027`/`3BR_2027` selectors), `site/options.html` (`p523`/`rp-25-32` status), `site/verification.html`, and `site/review.html` deduplication/updates | claimed | fc58dcc8 | `index.html`, `site/data/gate.js`, `site/questions-gate.html`, `site/data/history-engine.js`, `site/black-swan.html`, `site/options.html`, `site/verification.html`, `site/review.html`, `scripts/validate.js` | Zero changes to base-case deterministic numbers |
+| L-4 | Run full suite (`validate.js`, `stress-test.js`, `package-site.py`, `check-publication.py --self-test`, `runtime-test.cjs`, `qa/tools/gate.cjs`, `check_links.py`, `privacy_scan.py`), record report, merge PR, confirm Pages build & live read-back | claimed | fc58dcc8 | `verification/fc58dcc8/REPORT.md`, this block | — |
+
+**Rules.** No personal information; parties only as placeholders; household amounts rounded to $10; every table row linked to `https://` official sources or left blank/unverified. `origin/main` merged/rebased before pushing.
+<!-- END block owned by session fc58dcc8 -->
+
