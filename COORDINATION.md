@@ -1021,7 +1021,7 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 | F-2 | Whole-repository privacy audit. The repository is public, so every tracked file and the history count | done | f344fcd1 | read-only; report in `verification/f344fcd1/REPORT.md` | [GitHub Docs, sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository) · [GitHub Docs, commit email](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) | F-I1, F-I2 |
 | F-3 | Re-run every check on `main`; read the published pages against the brief; re-open the time-sensitive official figures | done | f344fcd1 | `verification/f344fcd1/**` | Ten official pages opened on 12 Nov 2026 (IRS ×3, State Controller, BOE ×2, SF Rent Board, HUD ×2, Secretary of State, Federal Register); wording and links in `verification/f344fcd1/REPORT.md` | F-I3, F-I4 |
 | F-4 | Final integration of the findings (no live owner of the shared files). Additions and corrections only | done | f344fcd1 | `site/review.html` (4 items added, 1 percentage), `site/data/sources.js` (3 keys appended, 2 notes), `site/sources.html` (2 percentages), `site/data/ledger.js` (CA-05, CA-06, CA-07), `index.html` (one sentence in the Flagged box) | as F-3 | none |
-| F-5 | PR to `main`, merge, confirm the Pages build, record the result here | in progress | f344fcd1 | this block | — | — |
+| F-5 | PR to `main`, merge, confirm the Pages build, record the result here | done — see the publication record below | f344fcd1 | this block | — | none |
 
 The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<id>/<task>` naming cannot be applied; the session ID is in the branch name.
 
@@ -1037,3 +1037,16 @@ The platform fixes the branch name to `arena/f344fcd1-tino2`, so the `session-<i
 ### Checks on this branch (12 Nov 2026)
 
 `package-site.py` PASS · `check-publication.py --self-test` PASS, 28 public files · `validate.js` PASS, 1,092 checks, 15 pages, 154 sources · `stress-test.js` PASS · `runtime-test.cjs` PASS, 15 pages, 1,266 source-linked rows, no broken local link · `qa/tools/gate.cjs` PASS, 0 errors, 0 warnings. The published recommendation and every model figure are unchanged.
+
+### Session `f344fcd1` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#40](https://github.com/wingbangboozle1-lang/Tino2/pull/40) `arena/f344fcd1-tino2` → `main`, **MERGED** 04:29:29 UTC without waiting for approval; `MERGEABLE` / `CLEAN` at merge time |
+| CI on the PR head | `verify` (Verify public Pages boundary) **pass**, including the Jekyll build and the audit of the real Pages output |
+| Merge commit | `30c77719e334d277fc3fd3efab525fe4b2a6968f` |
+| GitHub Pages | build for `30c7771` reported **`built`**, no error, 04:30:07 UTC; `pages build and deployment` run succeeded |
+| Live read-back | **Done.** `https://wingbangboozle1-lang.github.io/Tino2/site/review.html` was opened after the build and shows the four new items (21 high-priority, 88 in total) |
+| Open PRs after this session | none |
+
+**State of the board.** Every task of this session is done. What remains is **needs review** and is published on the Flagged for Review page: the two privacy items for the owner (F-I1, F-I2), the FY2027 rent benchmark left blank (F-I3), and the items other sessions left open.
