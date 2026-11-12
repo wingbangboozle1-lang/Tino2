@@ -9,16 +9,17 @@
   const current = onHome ? "home" : path.split("/").pop().replace(".html", "");
   // One entry per category. Black-swan pages and guidance pages each share a header entry and sub-navigation.
   const stressPages = [["stress", "stress.html", "50-year paths"], ["scenarios", "scenarios.html", "Shock replays"], ["black-swan", "black-swan.html", "Recorded data"]];
-  const guidePages = [["questions", "questions.html", "Questions & discovery"], ["suggestions", "suggestions.html", "Suggestions & paths"]];
+  const guidePages = [["questions", "questions.html", "Readiness"], ["questions-gate", "questions-gate.html", "Decision gate"], ["suggestions", "suggestions.html", "Suggestions"]];
   const inStress = stressPages.some(([id]) => id === current);
   const inGuide = guidePages.some(([id]) => id === current);
   const navItems = [
     ["home", home, "Overview"],
     ["plan", prefix + "plan.html", "Best plan"],
     ["questions", prefix + "questions.html", "Readiness"],
+    ["questions-gate", prefix + "questions-gate.html", "Decision gate"],
+    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["decision", prefix + "decision.html", "Decision"],
     ["options", prefix + "options.html", "Other options"],
-    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["properties", prefix + "properties.html", "Properties"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
     ["operating-costs", prefix + "operating-costs.html", "Operating costs"],

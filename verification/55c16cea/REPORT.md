@@ -14,14 +14,14 @@
 4. **Cross-Site Quality & Defect Cleanup (`R-D3`, `R-D4`, `R-D5`)**:
    - Expanded `Net operating income (NOI)` on first use across `decision.html`, `properties.html`, `san-francisco.html`, `black-swan.html`, and `sources.html`.
    - Cleaned internal `"session"` / `"audit note"` / `"the brief"` wording across public pages, removed duplicate repository-history entry in `site/review.html`, fixed `Checked 12 Nov 2026` check-date precedence in `site/sources.html`, and updated footer and page verification stamps to `12 Nov 2026`.
-   - Updated `scripts/check-publication.py` (`ALLOWED` for 32 public files / 17 pages) and `scripts/validate.js`.
+   - Updated `scripts/check-publication.py` (`ALLOWED` for 34 public files / 18 pages including `site/questions-gate.html` + `site/data/gate.js`) and `scripts/validate.js`.
 
 ## Verification Results
 - `python3 scripts/package-site.py`: PASS (`Packaged canonical site only`)
-- `python3 scripts/check-publication.py --self-test`: PASS (`32 reviewed public files only`)
-- `node scripts/validate.js`: PASS (`17 pages and 178 official sources`)
+- `python3 scripts/check-publication.py --self-test`: PASS (`34 reviewed public files only`)
+- `node scripts/validate.js`: PASS (`18 pages and 177 official sources`)
 - `node scripts/stress-test.js`: PASS
-- `node scripts/runtime-test.cjs`: PASS (`17 rendered pages`)
+- `node scripts/runtime-test.cjs`: PASS (`18 rendered pages`)
 - `node qa/tools/gate.cjs`: PASS (`0 errors · 0 warnings`, output written to `qa/gate-report.json`)
 - `node verification/60ca3e1f/check.cjs`: PASS (`78 of 78 checks passed`)
 - `node verification/62b76b9d/test.cjs`: PASS

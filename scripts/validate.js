@@ -82,7 +82,7 @@ ok(fy27Dec.sell.terminal > fy27Dec.rent.terminal, "FY2027 4BR selector preserves
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 17, "seventeen dashboard pages");
+ok(htmlFiles.length === 18, "eighteen dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
@@ -160,6 +160,56 @@ for (const Y of [2040, 2045, 2050]) {
 near(OPTIONS.probate(1000000), 23000, 1e-6, "Probate Code schedule on $1,000,000");
 near(OPTIONS.estate(2027, 0).startsAt, 15480000 - MODEL.seriesFor("A", 2027).market, 1e-6, "money at which estate tax starts in 2027");
 near(OPTIONS.estate(2027, OPTIONS.estate(2027, 0).startsAt + 1000000).tax, 400000, 1e-6, "40% on the first $1,000,000 above the exclusion");
+
+// Decision gate (site/questions-gate.html, session 62245584). Structural checks only: they prove the
+// register is complete, that every question carries a registered official source, and that no household
+// figure is typed into the engine.
+require(path.join(root, "site/data/gate.js"));
+const QS = window.GATE;
+ok(QS.ALL.length === 40, "forty questions in the decision gate");
+ok(QS.counts.settled + QS.counts.household + QS.counts.missing === QS.counts.total, "question statuses add up");
+ok(QS.counts.total === QS.ALL.length, "question total matches the register");
+ok(QS.plans.length === 4, "four plan groups");
+QS.ALL.forEach(item => {
+  ok(Boolean(SOURCES[item.src]), `question ${item.id} cites a registered official source`);
+  ok(["settled", "household", "missing"].includes(item.status), `question ${item.id} has a defined status`);
+  ok(item.q && item.why && item.action, `question ${item.id} is complete`);
+  ok(item.affects.length > 0 && item.affects.every(p => QS.plans.includes(p)), `question ${item.id} names valid plans`);
+  ok(typeof QS.answerOf(item) === "string" && QS.answerOf(item).length > 20, `question ${item.id} has an answer text`);
+});
+QS.GROUPS.forEach(g => {
+  ok(g.items.length > 0, `group ${g.id} has questions`);
+  ok(g.items.every(i => QS.ALL.find(x => x.id === i.id).group === g.id), `group ${g.id} items are attached to it`);
+});
+QS.plans.forEach(plan => {
+  const r = QS.readiness(plan);
+  const expected = QS.ALL.filter(i => i.affects.includes(plan) && i.status !== "settled").length;
+  ok(r.blockers.length === expected, `${plan} blocker count is the count of unsettled answers`);
+  ok(r.ready === (expected === 0), `${plan} readiness follows its blockers`);
+  ok(r.total > 0, `${plan} has at least one question`);
+  ok(r.settled + r.blockers.length === r.total, `${plan} settled plus blocking equals attached`);
+});
+// A settled answer never blocks a plan, and a missing one always does.
+QS.ALL.forEach(i => i.affects.forEach(plan => {
+  const inBlockers = QS.blockers(plan).some(b => b.id === i.id);
+  ok(inBlockers === (i.status !== "settled"), `question ${i.id} blocks ${plan} exactly when it is unsettled`);
+}));
+ok(QS.ALL.some(i => i.status === "missing") && QS.ALL.some(i => i.status === "settled"), "the gate holds both settled and missing answers");
+
+
+// The figures the gate shows must come from the published model, not from a number typed into the engine.
+[2040, 2045, 2050].forEach(y => {
+  const d = MODEL.decision({ ...MODEL.BASE, inheritYear: y }, 10);
+  ok(d.sell.terminal > d.rent.terminal, `published ranking still holds at ${y}`);
+});
+// Proof that no household amount is typed in: halving the model's value must move the answers.
+const halved = { ...MODEL.BASE, aValue: MODEL.BASE.aValue / 2 };
+const Qbefore = QS.answerOf(QS.ALL.find(i => i.id === "Q-05"));
+global.MODEL.BASE.aValue = halved.aValue;
+const Qafter = QS.answerOf(QS.ALL.find(i => i.id === "Q-05"));
+ok(Qbefore.includes(MODEL.fmtMoney(MODEL.BASE.aValue * 2)) || Qbefore !== Qafter, "question answers are read from the model at render time");
+ok(Qafter !== Qbefore, "property value in the gate follows the model input");
+MODEL.BASE.aValue = halved.aValue * 2;
 
 const assets = ["assets/styles.css", "assets/app.js"];
 assets.forEach(file => ok(fs.existsSync(path.join(root, file)), `${file} exists`));

@@ -65,6 +65,13 @@
    "links": 0
   },
   {
+   "file": "site/questions-gate.html",
+   "rows": 57,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 14,
+   "links": 0
+  },
+  {
    "file": "site/questions.html",
    "rows": 91,
    "rowsWithContextLinkOnly": 0,
@@ -124,13 +131,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 17,
-  "rows": 1526,
-  "rowsWithOwnSource": 1517,
+  "pages": 18,
+  "rows": 1583,
+  "rowsWithOwnSource": 1574,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4971,
-  "officialExactAmounts": 114,
-  "internalLinks": 505,
-  "externalLinks": 2017
+  "amounts": 4985,
+  "officialExactAmounts": 115,
+  "internalLinks": 559,
+  "externalLinks": 2074
  }
 }
