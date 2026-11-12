@@ -976,3 +976,19 @@ Also fixed, found while closing D-I-5: the Black swans page described the break-
 **T-C1 (claim note, not a conflict).** PR #3 is 2 days stale and its content is superseded by the integrated site on `main`. This session will close it with a handoff comment rather than merging it, so the board shows who moved it and why. No live collision occurred.
 
 <!-- END block owned by session 1e425502 -->
+
+### Session `1e425502` — completion record (2026-11-12)
+
+**T-2 Brief-coverage audit: done.** Every brief requirement mapped to a published page (see `verification/1e425502/REPORT.md` §T-2). No gap requires a site edit. The canonical site (15 pages) already covers: executive summary, privacy/placeholders, Cupertino-vs-San Francisco distinction, black-swan/50-year stress, $10 rounding, 2040–2050 live/rent/sell + reinvest, year-by-year value/tax/assessed projections, step-by-step inheritance, operating costs (water/solar/insurance), both properties' histories, best-plan reasoning, law-change watchlist, estate thresholds by year, Flagged for Review, and source-linked tables.
+
+**T-3 Automated suite: done.** On the final tree: `validate.js` PASS 1,086 checks / 15 pages / 151 sources (base case 2040→2050 sell $7,683,290, rent $6,249,830, live $5,135,780) · `stress-test.js` PASS · `package-site.py` PASS · `check-publication.py --self-test` PASS 28 files · `runtime-test.cjs` PASS 15 pages / 1,259 rows · `qa/tools/gate.cjs` PASS 0 errors 0 warnings (4,620 amounts, 74 official exact figures) · `src/check_links.py` 62 pages 0 errors · `privacy_scan.py` 0 errors. The gate/runtime checks need `npm install --prefix .cache/test jsdom@26.1.0` first (T-I2); CI installs it.
+
+**T-4 Official-source re-verification: done, 9 of 9 match.** Re-opened directly 12 Nov 2026: IRS 2026 $15,000,000 and IR-2026-133 2027 $15,480,000 / gift $20,000; BOE Prop 19 value-limit formula and filing deadlines; BOE LTA 2025/009 $1,044,586 (2.15% HPI, next Feb 2027); State Controller no CA estate return after Jan 1, 2005; IRS inherited-basis FMV at death; FTB capital gains as ordinary income; HUD FY2026 SAFMR 95014 3BR $5,870 / 4BR $6,390 (FY2025 $5,850 / $6,370); SF Rent Board $59.00/unit, $29.50 recoverable, Dec 14, 2026 deadline, vacant billed. Wording and URLs in the report. No correction needed; blanks remain blank.
+
+**T-5 Stale PR #3: done.** Read its diff (10 files, 311 insertions, superseded legacy pages). Commented with handoff and closed 12 Nov 2026 without merge; branch retained on remote. No live collision (T-C1).
+
+**T-6 Publish: in progress.** PR from this branch to `main`, merge without waiting, confirm Pages build, record result here.
+
+**Irregularities (T-I1…T-I4).** Standing High privacy findings (older branches/history) unchanged and published on Flagged for Review; jsdom install note; privacy-scan warnings expected; live-URL read-back outside sandbox hosts (Pages API + CI Jekyll build used instead). None blocks the merge.
+
+**Rules followed.** No personal information in any committed file; placeholders for parties and addresses. No household figure repeated in this block. Every dollar figure in new files rounded to $10 unless government-published. Every table row in the new report carries an official source link or is flagged unverified. No file owned by another session was edited. `origin/main` merged before every push; the session ID is carried in the branch name.
