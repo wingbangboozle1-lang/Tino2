@@ -28,7 +28,7 @@ main.innerHTML = UI.hero("Best plan · both properties as one household",
   <div class="callout warning"><strong>A result of a model, not advice.</strong> Values, rents and bills are the household's own inputs rounded to $10; growth rates are assumptions. The ranking depends most on one thing nobody can know: whether Cupertino home prices or a diversified portfolio grows faster after the inheritance. Read the stress check below before acting, and confirm the tax and legal points with professionals.</div>
 </section>
 
-<section class="section"><div class="section-heading"><div><div class="eyebrow">The comparison</div><h2>Four ways to use the two properties</h2><p>Every plan keeps Property B and its two rented units, so that income is the same in all four and is left out. Each plan is carried ${HOLD} years past the inheritance and ends with everything turned into money: sale costs and capital-gain tax paid on the house, yearly costs and rent reinvested. Money in future dollars is also shown in 2026 dollars.</p></div></div>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">The comparison</div><h2>Four ways to use the two properties</h2><p>Every plan keeps Property B and its two rented units, so that income is the same in all four and is left out. Each plan is carried ${HOLD} years past the inheritance. Held houses are sold with modeled sale costs and capital-gain tax; annual cash flows are reinvested. The sell-now portfolio is valued before final liquidation tax, with a conservative extra-tax sensitivity shown separately. Money in future dollars is also shown in 2026 dollars.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Plan</th><th>Property A</th><th>Owner unit in Property B</th><th class="number">Result after ${HOLD} years</th><th class="number">In 2026 dollars</th><th class="number">Gap to best</th><th>Rule that drives the row</th></tr></thead><tbody id="plans"></tbody></table></div>
 <p class="tiny" id="plans-note"></p>
 </section>
@@ -73,8 +73,8 @@ function render() {
   ].map(([l, v, n]) => `<div class="card"><div class="metric-label">${l}</div><div class="metric small">${v}</div><div class="tiny">${n}</div></div>`).join("");
 
   document.getElementById("plans").innerHTML = [
-    ["<strong>1 · Sell A, stay in B</strong>", "Sold in the inheritance year; net proceeds invested", "Heir lives there, as now", r.sell, src("irsInherited", "Basis = value at death")],
-    ["<strong>2 · Rent A out, stay in B</strong>", "Rented; reassessed to full market value", "Heir lives there, as now", r.rent, src("boeProp19", "No exclusion for a rental")],
+    ["<strong>1 · Sell A, stay in B</strong>", "Sold in the inheritance year; net proceeds invested", "Heir lives there in this scenario", r.sell, src("irsInherited", "Basis = value at death")],
+    ["<strong>2 · Rent A out, stay in B</strong>", "Rented; reassessed to full market value", "Heir lives there in this scenario", r.rent, src("boeProp19", "No exclusion for a rental")],
     ["<strong>3 · Move into A, leave the B unit empty</strong>", "Heir's principal residence; partial Prop 19 relief", "Empty", r.live, src("boeLta2026026", "Prop 19 family-home rule")],
     ["<strong>4 · Move into A, rent out the B unit</strong>", "Heir's principal residence; partial Prop 19 relief", "Rented at the HUD one-bedroom benchmark, then rent-controlled", r.liveSF, src("sfRentRates", "SF rent rules")]
   ].map(([plan, a, bUnit, v, source]) => row([td(plan), td(a), td(bUnit), num(`<strong>${money(v)}</strong>`), num(money(real(v))), num(gap(v)), `<td class="source">${source}</td>`])).join("");

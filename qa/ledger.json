@@ -929,5 +929,17 @@
   "source": "California State Board of Equalization - News Release NR 25-02 (March 7, 2025)",
   "evidence": "'Today, the California State Board of Equalization (BOE) released the new amount adjusting the $1 million exclusion for Proposition 19 intergenerational transfers occurring on February 16, 2025, through February 15, 2027. The BOE is required to calculate and publish the adjustment every other year based on the Federal Housing Finance Agency's House Price Index for California. ... the amount increased by 2.15 percent, from $1,022,600 to $1,044,586. ... The notice to County Assessors was issued today in Letter to Assessors No. 2025/009.'",
   "notes": "By the same timetable the amount that starts on 16 February 2027 may not be published before March 2027."
+ },
+ {
+  "id": "P19-12",
+  "topic": "prop19",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Whether the Proposition 19 intergenerational value cap is adjusted annually or every other year",
+  "value": "Every other year. The Board of Equalization's Proposition 19 page describes the limit as current taxable value plus $1,000,000 'as biennially adjusted'; Letter to Assessors 2026/026 defines the excluded amount as the factored base-year value plus $1 million, with the $1 million 'adjusted on February 16, 2023, and every other February 16 thereafter'.",
+  "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf",
+  "source": "BOE Letter to Assessors 2026/026 (3 August 2026), definition 5, and the BOE Proposition 19 comparison table",
+  "evidence": "LTA 2026/026, definition 5: 'The $1 million is adjusted on February 16, 2023, and every other February 16 thereafter. Also known as the \"value cap\".' BOE Proposition 19 page, parent-child table: 'Value limit of current taxable value plus $1,000,000 (as biennially adjusted)'. The Santa Clara County Assessor page says 'adjusted annually beginning in 2023', which conflicts with both; it is listed on Flagged for Review.",
+  "notes": "The model takes one step every second 16 February, which follows the Board. No household figure."
  }
 ]

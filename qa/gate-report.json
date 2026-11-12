@@ -3,7 +3,7 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 32,
+   "rows": 36,
    "rowsWithContextLinkOnly": 0,
    "amounts": 76,
    "links": 0
@@ -65,8 +65,15 @@
    "links": 0
   },
   {
+   "file": "site/questions.html",
+   "rows": 44,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 81,
+   "links": 0
+  },
+  {
    "file": "site/review.html",
-   "rows": 93,
+   "rows": 96,
    "rowsWithContextLinkOnly": 0,
    "amounts": 51,
    "links": 0
@@ -100,23 +107,30 @@
    "links": 0
   },
   {
-   "file": "site/verification.html",
-   "rows": 131,
+   "file": "site/suggestions.html",
+   "rows": 42,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 216,
+   "amounts": 6,
+   "links": 0
+  },
+  {
+   "file": "site/verification.html",
+   "rows": 132,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 218,
    "links": 0
   }
  ],
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 15,
-  "rows": 1327,
-  "rowsWithOwnSource": 1318,
+  "pages": 17,
+  "rows": 1421,
+  "rowsWithOwnSource": 1412,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4818,
-  "officialExactAmounts": 103,
-  "internalLinks": 327,
-  "externalLinks": 1755
+  "amounts": 4907,
+  "officialExactAmounts": 106,
+  "internalLinks": 450,
+  "externalLinks": 1871
  }
 }
