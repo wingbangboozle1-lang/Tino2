@@ -23,7 +23,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 ## Structure
 
 - `site/questions.html` — **Decision readiness**: 22 open questions, 12 points already settled by an official source, 8 that no document can settle, a 12-item discovery plan, and a browser-local answer tracker (data in `site/data/questions.js`)
-- `site/suggestions.html` — **Suggestions to review**: 27 proposals with the uncertainty each removes, effort, cost and limits, plus four ready-made paths the owner can compare and choose before anything is implemented (data in `site/data/suggestions.js`)
+- `site/suggestions.html` — **Suggestions to review**: 27 proposals with the uncertainty each removes, effort, cost and limits, four ready-made paths the owner can compare and choose before anything is implemented, and the two earlier sessions' shortlists reconciled in their own IDs (data in `site/data/suggestions.js`)
 - `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths
 - `index.html` — executive summary and base-case recommendation
 - `site/properties.html` — annual values, assessments, taxes, operating costs, rental economics, and household histories
@@ -33,6 +33,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 - `site/inheritance.html` — trust, assessor, tax-basis, filing, and distribution checklist
 - `site/estate-tax.html` — federal thresholds, real-estate-only headroom, California status, and missing estate inputs
 - `site/san-francisco.html` — Property B rental economics and regulatory context
+- `site/suggestions.html` — the suggestions register: improvements to the analysis and to the dashboard, the questions to answer before deciding, a suggested sequence, and a local-only record of which items were approved, deferred or declined
 - `site/sources.html` — official source register, assumptions, methodology, and legal watchlist
 - `site/review.html` — unresolved items and verification routes
 - `site/data/model.js` — deterministic calculations; full precision retained until display

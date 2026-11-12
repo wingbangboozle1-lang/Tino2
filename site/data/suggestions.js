@@ -297,6 +297,54 @@ window.SUGGESTIONS = {
     { name: "Reduce the public detail", note: "", benefit: "Remove household history and granular contextual combinations from the current published pages.", tradeoff: "A new commit alone does not erase earlier history or copies. Generic labels and rounding are not a guarantee of anonymity; decide what exposure remains acceptable.", src: "githubSensitive" },
     { name: "Retain the current public scenarios", note: "", benefit: "Preserves the most detailed public explanation and model.", tradeoff: "The property and household context remains linkable even without names. Treat this as an unresolved privacy risk, not as anonymisation.", src: "githubSensitive" }
   ],
+  /* Two earlier shortlists that occupied this page before this session's merge. Their IDs and titles are kept
+     and each row points at the item or question that now carries it, so a reader of the old page can find it. */
+  reconciled: {
+    analysis: [
+      ["A-01", "Confirm the trust type, and whether the house counts in the parent's estate", "Q01 · S03", "irsRevRul20232"],
+      ["A-02", "Confirm the house is still the parent's principal residence at death", "Q03 · S03", "boeLta2026026"],
+      ["A-03", "Get the cost to rebuild and one written homeowners quote at that limit", "S02 · Q10", "cdiSurveyCup40_1000"],
+      ["A-04", "Decide whether to carry earthquake cover, and price it", "S02 · Q20", "cdiSurveyEqCup"],
+      ["A-05", "Read the FY2027 rent benchmark for the ZIP code and update the rent input", "S11 · Q14", "hudA"],
+      ["A-06", "Re-check the Proposition 19 amount when the Board of Equalization publishes it", "S11 · Q07", "boeLta2025009"],
+      ["A-07", "Put every pending law change on a calendar with a named reviewer", "S27 · S11", "hr1301"],
+      ["A-08", "List every asset, owner and beneficiary, then measure federal headroom", "S22 · Q16", "irsEstateTax"],
+      ["A-09", "Record the assessor's land and building split, then read the depreciation rules", "S07 · Q06", "irsPub527"],
+      ["A-10", "Read the recorded deed and the trust's schedule of assets", "S03 · Q01", "probate160617"],
+      ["A-11", "Write the dated obligations into one calendar", "S09", "sfRentFee"],
+      ["A-12", "Decide what the San Francisco owner unit is for", "Q19 · Q20", "sfRentRates"],
+      ["A-13", "Confirm the solar tariff and interconnection date, then read the current water and power schedules", "S25 · Q12", "cpucNem"],
+      ["A-14", "Test the ranking against a lower home-price assumption and write down the break-even", "S26 · Q22", "fredSJ"],
+      ["A-15", "Keep every new fact out of this repository", "S21 · S12", "githubSensitive"]
+    ],
+    questions: [
+      ["Q-01", "Is the trust revocable, or otherwise counted in the parent's estate?", "Q01", "irsRevRul20232"],
+      ["Q-02", "Will the house be the parent's principal residence on the date of death?", "Q03", "boeLta2026026"],
+      ["Q-03", "How much money is inherited, in what accounts, with which beneficiaries?", "Q16", "irsEstateTax"],
+      ["Q-04", "What would it cost to rebuild, and what will a policy cost at that limit?", "Q10", "cdiSurveyCup40_1000"],
+      ["Q-05", "Will earthquake cover be carried on either property?", "Q20", "cdiSurveyEqCup"],
+      ["Q-06", "Which solar tariff governs the system, and when does it end?", "Q12", "cpucNem"],
+      ["Q-07", "Will the heir live in the Cupertino house, or stay in San Francisco?", "Q19", "irsTopic701"],
+      ["Q-08", "Will the San Francisco owner unit be rented?", "Q19", "sfRentFee"],
+      ["Q-09", "What share of the property's value is the building?", "Q06 · Q13", "irsPub527"],
+      ["Q-10", "What home-price growth should be assumed after the inheritance?", "Q22", "fredSJ"]
+    ],
+    site: [
+      ["B-01", "A dated decision record beside the model", "The record on this page: choose an item, and the choice is kept in this browser with a date.", "Built here", "githubPages"],
+      ["B-02", "A one-page printable brief for advisers", "S13", "Proposed", "irsEstateTax"],
+      ["B-03", "A 'what changed' strip on the landing page", "S16", "Proposed", "githubPages"],
+      ["B-04", "One assumptions register with a last-checked date and a CSV export", "S14", "Proposed", "irsBasis"],
+      ["B-05", "A deadline calendar with an export", "S09", "Proposed", "probate160617"],
+      ["B-06", "A source-freshness dashboard", "S27", "Proposed", "boeLta2025009"]
+    ],
+    sequence: [
+      ["1", "This month · no cost but a meeting", "Answer the four questions that can change the answer: the trust and what it holds, the parent's occupancy and how title is held, the beneficiaries and the money, and whether the heir would live there.", "Q01 · Q02 · Q03 · Q16 · Q19", "irsRevRul20232"],
+      ["2", "Next 90 days · free or low cost", "Replace the four assumptions with quotes and official figures: rebuild cost and a homeowners quote, an earthquake decision and quote, the FY2027 rent benchmark, and the parcel's tax-rate area.", "S02 · S04 · S05 · S25", "cdiSurveyCup40_1000"],
+      ["3", "Every year, on a fixed date", "Run the calendar, not the whole site: February for the Proposition 19 amount, March for San Francisco's rent changes and the Rent Board fee, October for HUD rents, and the insurance renewal.", "S11 · S27", "boeLta2025009"],
+      ["4", "In the inheritance year", "File first, then decide: the 60-day trustee notice, the 150-day change-of-ownership statement, the homeowners' exemption within one year, the exclusion claim within three years, and Form 593 before any closing.", "S09 · S20", "ftb593"],
+      ["5", "After implementing anything", "Re-verify, then record the change: an official source, rounded figures, and a note on the Verified facts and this page.", "S01 · S27", "irsEstateTax"]
+    ]
+  },
   never: [
     ["Publish a name, street address, parcel number, account number or trust document", "The site is public and indexed. Placeholders are the only safe form.", "sccBill"],
     ["Publish an unrounded household figure or an exact tax bill", "A 4- to 6-digit amount can be searched. Rounding to $10 is the published rule.", "sccBill"],

@@ -67,6 +67,23 @@ main.innerHTML = UI.hero("Suggestions · reviewed " + G.checked,
   <div class="table-wrap"><table><thead><tr><th class="wrap">Question</th><th class="wrap">Current answer or status</th><th class="wrap">How to resolve it privately</th><th>Register</th><th>Official framework</th></tr></thead><tbody id="carried"></tbody></table></div>
 </section>
 
+<section class="section" id="reconciled">
+  <div class="section-heading"><div><div class="eyebrow">Three shortlists, reconciled</div><h2>Nothing from the earlier pages was dropped</h2><p>Three sessions produced overlapping suggestions for this page on the same day. The page now holds one backlog; the other two shortlists are listed below in their own IDs and wording, each pointing at the item or question that carries it.</p></div></div>
+
+  <h3>Fifteen analysis improvements (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Improvement, as it was written</th><th class="wrap">Now carried by</th><th>Official reference</th></tr></thead><tbody id="recon-analysis"></tbody></table></div>
+
+  <h3>Ten decision questions (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Question, as it was written</th><th class="wrap">Register</th><th>Official reference</th></tr></thead><tbody id="recon-questions"></tbody></table></div>
+
+  <h3>Six site proposals (session 364b453d)</h3>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th class="wrap">Proposal</th><th class="wrap">Now carried by</th><th>Status</th><th>Reference</th></tr></thead><tbody id="recon-site"></tbody></table></div>
+
+  <h3>The suggested sequence</h3>
+  <p class="tiny">The order the second shortlist recommended: front-load the facts that can change the recommendation, and leave the research that only sharpens it until afterwards.</p>
+  <div class="table-wrap"><table><thead><tr><th>Step</th><th class="wrap">When</th><th class="wrap">What to do, and what “done” looks like</th><th class="wrap">Items</th><th>Reference</th></tr></thead><tbody id="recon-sequence"></tbody></table></div>
+</section>
+
 <section class="section">
   <div class="section-heading"><div><div class="eyebrow">Guardrails</div><h2>What should never be added, however useful it looks</h2><p>These are the rules every session on this repository has followed. A future suggestion that breaks one should be declined.</p></div></div>
   <div class="table-wrap"><table><thead><tr><th class="wrap">Never</th><th class="wrap">Why</th><th>Reference</th></tr></thead><tbody id="never"></tbody></table></div>
@@ -242,6 +259,15 @@ document.getElementById("privacy-paths-body").innerHTML = G.privacyPaths.map(p =
 
 document.getElementById("carried").innerHTML = G.carried.map(c =>
   `<tr><td class="wrap">${c.q}</td><td class="wrap">${c.status}</td><td class="wrap">${c.resolve}</td><td class="wrap">${c.closes.map(id => `<a href="questions.html">${id}</a>`).join(", ")}</td>${srcCell(c.src)}</tr>`).join("");
+
+document.getElementById("recon-analysis").innerHTML = G.reconciled.analysis.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2]}</td>${srcCell([r[3]])}</tr>`).join("");
+document.getElementById("recon-questions").innerHTML = G.reconciled.questions.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap"><a href="questions.html">${r[2]}</a></td>${srcCell([r[3]])}</tr>`).join("");
+document.getElementById("recon-site").innerHTML = G.reconciled.site.map(r =>
+  `<tr><td>${r[0]}</td><td class="wrap">${r[1]}</td><td class="wrap">${r[2]}</td><td>${r[3]}</td>${srcCell([r[4]])}</tr>`).join("");
+document.getElementById("recon-sequence").innerHTML = G.reconciled.sequence.map(r =>
+  `<tr><td class="number">${r[0]}</td><td class="wrap"><strong>${r[1]}</strong></td><td class="wrap">${r[2]}</td><td class="wrap">${r[3]}</td>${srcCell([r[4]])}</tr>`).join("");
 
 renderCards(); renderBundles(); renderItems(); renderSelection();
 </script></body></html>

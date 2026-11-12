@@ -125,3 +125,34 @@ amounts; publication boundary 32 files. The model, the projection and the recomm
 
 No fact on either merged page was found to conflict with the sources opened in §1; where both pages cite the
 same rule they link the same URL.
+
+## 8. Second collision: session `364b453d` (PR #45), merged while this session was resolving the first
+
+`364b453d` merged its own `site/suggestions.html` five minutes after this session's first merge attempt. Its page
+carried 15 analysis improvements, 10 decision questions, 6 site proposals, a 5-step sequence and its own
+approve/defer/decline record, with 17 official pages opened. Resolution, recorded on the board as well:
+
+- **One page remains.** The third session's 15 improvements and 10 questions are published in a reconciliation
+  table **in their own IDs and words**, each mapped to the S item or Q question that now carries it — nothing
+  dropped, nothing duplicated as a second entry. Its 6 site proposals map to S13–S16, S09 and S27. Its 5-step
+  sequence is published as a table.
+- **Its findings were added to the register.** This session re-opened two of the pages itself to check the wording
+  before adopting them: the CPUC customer-generation page ("These tariffs are closed to new enrollments";
+  "Since April 15, 2023, customers applying for interconnection have taken service on the new net billing tariff";
+  exports paid "at a rate reflecting the value of this generation to the grid") now supports Q12, and the USGS FAQ
+  (Bay Area, 30 years: 72% at magnitude 6.7, 51% at 7, 20% at 7.5) now supports Q20. The Board of Equalization's
+  condition that the exclusion is removed if the home becomes ineligible for the homeowners' or disabled
+  veterans' exemption — from LTA 2026/026, which `364b453d` opened — is stated on Q03 and Q07 against that source.
+- **SEO/index:** `index.html` keeps `364b453d`'s suggestions table and card text; this session's two-card block was
+  shortened and its duplicate grid card removed, so the same page is not linked three times with three
+  descriptions.
+- Its `verification/364b453d/REPORT.md` is untouched; its board block is kept in full.
+
+Checks after both merges: `validate.js` 1,183 checks / 17 pages / 173 sources · `runtime-test.cjs` 17 pages,
+1,495 rows source-linked · `gate.cjs` 0 errors, 0 warnings, 4,856 amounts · publication boundary 32 files ·
+`check_links.py` 66 pages, no broken internal link · base case unchanged.
+
+**Limitation of this resolution, stated plainly.** Two sessions' prose does not survive word-for-word: their
+proposals and questions survive as titles with the detailed reasoning now carried by the mapped S/Q rows. A reader
+who wants the original wording can open `verification/364b453d/REPORT.md` and the git history of this file; the
+public page states where each row came from.
