@@ -77,6 +77,11 @@ near(MODEL.BASE.aRent3BR_2027, 5440, 1e-9, "official FY2027 HUD 95014 3-BR SAFMR
 near(MODEL.BASE.bRent1BR_2027, 2770, 1e-9, "official FY2027 HUD 94122 1-BR SAFMR");
 near(MODEL.BASE.bRent2BR_2027, 3410, 1e-9, "official FY2027 HUD 94122 2-BR SAFMR");
 const fy27Dec = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR_2027");
+const fy27Eng = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), 2045, 10, "4BR_2027");
+near(fy27Eng.rent, fy27Dec.rent.terminal, 0.01, "engine FY2027 4BR reproduces Decision lab");
+const fy27_3Dec = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "3BR_2027");
+const fy27_3Eng = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), 2045, 10, "3BR_2027");
+near(fy27_3Eng.rent, fy27_3Dec.rent.terminal, 0.01, "engine FY2027 3BR reproduces Decision lab");
 ok(fy27Dec.rent.yearly[0].grossRent < MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR").rent.yearly[0].grossRent, "FY2027 4BR selector lowers rental cash flow vs FY2026 base");
 ok(fy27Dec.sell.terminal > fy27Dec.rent.terminal, "FY2027 4BR selector preserves selling lead");
 

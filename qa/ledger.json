@@ -265,8 +265,8 @@
   "source": "IRS Topic no. 414, Rental income and expenses",
   "evidence": "'Depreciation - ... You begin to depreciate your rental property when you place it in service.' 'If you have a rental profit, you may be subject to the net investment income tax (NIIT).'",
   "status": "verified",
-  "notes": "Residential rental recovery period (27.5 years) is in Publication 527; not re-opened this session - flagged.",
-  "checked": "2026-11-11"
+  "notes": "Residential rental 27.5-year GDS straight-line recovery period and $25,000 active-participation offset ($100,000-$150,000 MAGI phaseout) verified directly in IRS Publication 527 HTML (https://www.irs.gov/publications/p527) on 12 Nov 2026.",
+  "checked": "2026-11-12"
  },
  {
   "id": "CA-03",
@@ -295,10 +295,10 @@
   "id": "CA-05",
   "topic": "california-law-change",
   "claim": "Proposition 3 (Nov 3, 2026): makes the 10.3% / 11.3% / 12.3% high-income rates permanent instead of expiring in 2031",
-  "value": "Passing - Yes 60.7% in the unofficial count as of Nov 11, 2026, 6:51 p.m. (certification due Dec 11, 2026)",
+  "value": "Passing - Yes 60.7% in the unofficial count as of Nov 12, 2026, 10:50 a.m. (certification due Dec 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - State Ballot Measures, Statewide Results; Official Voter Information Guide, Prop 3",
-  "evidence": "Results table (Nov 11, 2026, 6:51 p.m., 23,860/23,860 precincts partially reporting): Prop 3 Yes 7,322,641 (60.7%) / No 4,745,073 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
+  "evidence": "Results table (Nov 12, 2026, 10:50 a.m., 23,860/23,860 precincts partially reporting): Prop 3 Yes 7,358,722 (60.7%) / No 4,768,582 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
   "status": "verified",
   "notes": "Unofficial until certified. Relevance: a large gain or rental income in 2040-2050 would still face the higher California brackets.",
   "checked": "2026-11-12"
@@ -307,10 +307,10 @@
   "id": "CA-06",
   "topic": "california-law-change",
   "claim": "Proposition 42 (Nov 3, 2026): prohibits new state personal property taxes and certain retroactive state taxes",
-  "value": "Passing - Yes 51.4% in the unofficial count as of Nov 11, 2026, 6:51 p.m.",
+  "value": "Passing - Yes 51.4% in the unofficial count as of Nov 12, 2026, 10:50 a.m.",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table (Nov 11, 2026, 6:51 p.m.): Prop 42 Yes 6,195,536 (51.4%) / No 5,858,367 (48.6%).",
+  "evidence": "Results table (Nov 12, 2026, 10:50 a.m.): Prop 42 Yes 6,226,483 (51.4%) / No 5,887,134 (48.6%).",
   "status": "verified",
   "notes": "Unofficial until certified. Text of the measure was not opened this session; effect on any future state estate or inheritance tax is not established here - flagged.",
   "checked": "2026-11-12"
@@ -319,10 +319,10 @@
   "id": "CA-07",
   "topic": "california-law-change",
   "claim": "Proposition 40 (one-time tax on certain taxpayers) and Proposition 43 (limits on local revenue measures)",
-  "value": "Both failing - Prop 40 No 52.5%; Prop 43 No 57.4% (unofficial, Nov 11, 2026, 6:51 p.m.)",
+  "value": "Both failing - Prop 40 No 52.4%; Prop 43 No 57.5% (unofficial, Nov 12, 2026, 10:50 a.m.)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table (Nov 11, 2026, 6:51 p.m.): Prop 40 Yes 5,780,651 (47.5%) / No 6,377,396 (52.5%); Prop 43 Yes 5,041,104 (42.6%) / No 6,802,234 (57.4%).",
+  "evidence": "Results table (Nov 12, 2026, 10:50 a.m.): Prop 40 Yes 5,808,868 (47.6%) / No 6,400,441 (52.4%); Prop 43 Yes 5,057,119 (42.5%) / No 6,834,825 (57.5%).",
   "status": "verified",
   "notes": "Neither measure changed Proposition 13's 1% rate or 2% cap.",
   "checked": "2026-11-12"
@@ -563,24 +563,24 @@
   "topic": "utilities",
   "claim": "San Jose Water typical bill in the 2025-27 rate case filing",
   "value": "Average residential bill, 3/4-inch meter, 10 Ccf a month: $107.44 at prior rates; requested $120.62 (2025), $125.44 (2026), $131.12 (2027), before surcharges",
-  "url": "https://www.sjwater.com/GRC2025",
+  "url": "https://www.sjwater.com/grc-2025-27/",
   "source": "San Jose Water - General Rate Case 2025-27",
-  "evidence": "Seen in the search-result extract of the official page: 'the average monthly residential bill with a 3/4-inch meter using 10 Ccf per month would increase by $13.18 (or 12.3%) from $107.44 at present rates, to $120.62 in 2025, by $4.82 (or 4.0%) to $125.44 in 2026, and by $5.68 (or 4.5%) to $131.12 in 2027.'",
-  "status": "unverified",
-  "notes": "These are the amounts REQUESTED in the filing, read from a search extract rather than the opened page; the approved amounts differ (2026 approved increase was about 2.8%). Shown for scale only - flagged.",
-  "checked": "2026-11-11"
+  "evidence": "Opened and verified directly on https://www.sjwater.com/grc-2025-27/ on 12 Nov 2026: 'the average monthly residential bill with a 3/4-inch meter using 10 Ccf per month would increase by $13.18 (or 12.3%) from $107.44 at present rates, to $120.62 in 2025, by $4.82 (or 4.0%) to $125.44 in 2026, and by $5.68 (or 4.5%) to $131.12 in 2027.'",
+  "status": "verified",
+  "notes": "These are the amounts REQUESTED in the 2025-27 rate case filing; CPUC-approved 2026 rates increased ~2.8% on 1 Jan 2026 (see UT-01 and sjwater.com/2026-rates/). Shown for historical rate-case scale only.",
+  "checked": "2026-11-12"
  },
  {
   "id": "UT-03",
   "topic": "utilities",
   "claim": "San Francisco water and sewer rates, fiscal years ending 2027 and 2028",
-  "value": "Proposed schedule effective July 1, 2026: average single-family combined bill up about $21 a month in FY 2027 and $23 a month in FY 2028 (about 12.6% and 12.5% a year)",
-  "url": "https://www.sfpuc.gov/accounts-services/water-power-sewer-rates/proposed-water-sewer-rates-2026/proposition-218-notice",
-  "source": "San Francisco Public Utilities Commission - Proposition 218 notice",
-  "evidence": "'the proposed new rate schedule represents an average combined monthly bill increase of approximately $21 and $23 per month in fiscal years 2027 and 2028 respectively (about 12.6% and 12.5% per year).'",
+  "value": "Commission-adopted schedules effective July 1, 2026 & July 1, 2027 (Resolutions 26-0064 & 26-0066, April 28, 2026); Prop 218 notice estimated average single-family combined bill up about $21/mo in FY 2027 and $23/mo in FY 2028 (+12.6% and +12.5%)",
+  "url": "https://www.sfpuc.gov/sites/default/files/accounts-and-services/Rates_Schedule_Water_Sewer_2026-7.pdf",
+  "source": "San Francisco Public Utilities Commission - FY 2026-27 & FY 2027-28 Adopted Water and Wastewater Schedules",
+  "evidence": "Adopted schedule PDF opened 12 Nov 2026 (Resolutions 26-0064 & 26-0066, April 28, 2026): Schedule W-1A/B ($19.65 5/8-in or $24.93 3/4-in service; MF $12.03/$12.91 per CCF), Wastewater Schedule A ($6.62 + $20.74/discharge unit, 95% MF flow factor), Schedule D stormwater tiers ($12.63/$19.66/$29.55). Older Prop 218 notice page failed to fetch on 12 Nov 2026.",
   "status": "verified",
-  "notes": "The notice describes PROPOSED rates; final adoption was not re-confirmed this session - flagged. Multi-family bills differ from the single-family average.",
-  "checked": "2026-11-11"
+  "notes": "Two-year rate adoption confirmed via official SFPUC adopted schedule PDF; multi-family Property B meter count and parcel tier remain unverified on actual bills.",
+  "checked": "2026-11-12"
  },
  {
   "id": "UT-04",
@@ -597,14 +597,14 @@
  {
   "id": "FED-15",
   "topic": "federal-law-change",
-  "claim": "Bills to repeal the federal estate tax, 119th Congress",
-  "value": "S. 587 and H.R. 1301 (Death Tax Repeal Act), introduced February 13, 2025, referred to committee; no further action shown",
-  "url": "https://www.congress.gov/bill/119th-congress/senate-bill/587/text/is",
-  "source": "Congress.gov - S.587 and H.R.1301",
-  "evidence": "Seen in the search-result extract of congress.gov: 'This bill has the status Introduced'; H.R.1301 'Latest Action: House - 02/13/2025 Referred to the House Committee on Ways and Means.'",
-  "status": "unverified",
-  "notes": "Read from search extracts of the official pages, not the opened pages (congress.gov was not fetched) - flagged for a manual click-through.",
-  "checked": "2026-11-11"
+  "claim": "Bills to repeal or reduce the federal estate tax, 119th Congress",
+  "value": "S. 587 and H.R. 1301 (Death Tax Repeal Act), introduced February 13, 2025; H.R. 601 (Estate Tax Rate Reduction Act), introduced January 22, 2025; all at Introduced status with no further action",
+  "url": "https://www.congress.gov/bill/119th-congress/senate-bill/587/all-actions",
+  "source": "Congress.gov - S.587, H.R.1301, and H.R.601 all-actions",
+  "evidence": "All three Congress.gov action pages opened directly on 12 Nov 2026: S.587 referred to Senate Finance 02/13/2025; H.R.1301 referred to House Ways and Means 02/13/2025; H.R.601 referred to House Ways and Means and Budget 01/22/2025; no subsequent actions on any of the three.",
+  "status": "verified",
+  "notes": "No bill enacted; current law ($15M 2026 / $15.48M 2027) applies.",
+  "checked": "2026-11-12"
  },
  {
   "id": "CF-01",
@@ -687,8 +687,8 @@
   "source": "IRS - Topic no. 409, Capital gains and losses; Topic no. 704, Depreciation",
   "evidence": "Topic 409: 'The portion of any unrecaptured section 1250 gain from selling section 1250 real property is taxed at a maximum 25% rate.' Topic 704 (https://www.irs.gov/taxtopics/tc704): 'Land is never depreciable'. Both opened 11 Nov 2026.",
   "status": "verified",
-  "notes": "The 27.5-year period comes from Publication 527, read from a search extract only; see N-12.",
-  "checked": "2026-11-11"
+  "notes": "The 27.5-year recovery period was subsequently opened and verified directly in IRS Publication 527 HTML (https://www.irs.gov/publications/p527) on 12 Nov 2026.",
+  "checked": "2026-11-12"
  },
  {
   "id": "N-05",
@@ -777,14 +777,14 @@
  {
   "id": "N-12",
   "topic": "federal-income",
-  "claim": "Documents read from the official site's search-result text only, not opened",
-  "value": "",
-  "url": "https://www.irs.gov/pub/irs-pdf/p527.pdf",
-  "source": "IRS Publications 527, 551 and 523; Form 706 instructions Table A; Form 1041-ES; IRS estate-tax FAQ (five-year late route); California Department of Insurance fact sheet",
-  "evidence": "Publication 527: 27.5-year recovery period and the $25,000 allowance reduced above $100,000 and ending at $150,000 of modified adjusted gross income. Publication 551: gift keeps the donor's adjusted basis; community property basis rule. Publication 523: nonqualified use after 2008. Form 706 Table A: 40% of the excess over $1,000,000. Form 1041-ES 2026: 37% over $16,000. Insurance fact sheet (Spanish edition): vacancy, generally more than 60 days.",
-  "status": "unverified",
-  "notes": "Each needs to be opened and read before it is relied on.",
-  "checked": "2026-11-11"
+  "claim": "Six IRS publications and forms formerly cited from search extracts only, now opened and verified directly",
+  "value": "27.5-year GDS rental recovery & $25,000 offset ($100,000-$150,000 MAGI); Table A $345,800 + 40% over $1,000,000; 2026 trust 37% over $16,000; Rev. Proc. 2022-32 5-year late portability",
+  "url": "https://www.irs.gov/publications/p527",
+  "source": "IRS Publications 527 (HTML), 551 (PDF), and 523 (HTML); Form 706 instructions Table A; Form 1041-ES (2026); IRS Estate Tax FAQ",
+  "evidence": "All six opened directly 12 Nov 2026: Pub 527 HTML (p527.pdf link failed fetch) confirms 27.5-year GDS & $25,000 offset phasing out $100,000-$150,000; Pub 551 PDF confirms donor gift basis & CA community-property double step-up; Pub 523 HTML confirms post-2008 nonqualified use & post-May 6, 1997 depreciation; Form 706 Table A confirms $345,800 + 40% over $1,000,000; Form 1041-ES confirms 37% over $16,000; Estate FAQ confirms 5-year late portability. CDI Jan 2026 English guide replaces the Spanish fact sheet (INS-09).",
+  "status": "verified",
+  "notes": "Promoted from earlier unverified search-extract item after opening each source directly on 12 Nov 2026.",
+  "checked": "2026-11-12"
  },
  {
   "id": "INS-04",
@@ -963,8 +963,8 @@
   "value": "Efficiency $2,370; 1-Bedroom $2,770; 2-Bedroom $3,410; 3-Bedroom $4,460; 4-Bedroom $5,020 (effective Oct 1, 2026)",
   "url": "https://www.huduser.gov/datasets/fmr/fmr2027/zip-calc?year=2027&zip=94122&cbsasub=METRO41860MM7360",
   "source": "U.S. Department of Housing and Urban Development - FY2027 SAFMR calculation, ZIP 94122 (San Francisco HMFA)",
-  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $2,370 / $2,770 / $3,410 / $4,460 / $5,020; step-5 table lists FY2026 FMR figures $2,485 / $2,977 / $3,604 / $4,604 / $4,772; ZIP base rent $2,622. Opened and read 12 Nov 2026.",
-  "notes": "Up slightly from the original FY2026 SAFMR table ($2,730 1-BR / $3,310 2-BR) used in the owner-unit comparison."
+  "evidence": "FY2027 SAFMRs By Unit Bedrooms table: $2,370 / $2,770 / $3,410 / $4,460 / $5,020; step-5 line lists metro-wide FY2026 FMR baseline $2,485 / $2,977 / $3,604 / $4,604 / $4,772; ZIP base rent $2,622. Opened and read 12 Nov 2026.",
+  "notes": "Up slightly from ZIP 94122's final FY2026 SAFMR table ($2,730 1-BR / $3,310 2-BR, hudB) used in the owner-unit comparison."
  },
  {
   "id": "SF-09",

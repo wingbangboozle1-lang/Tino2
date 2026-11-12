@@ -142,7 +142,7 @@
           status: "missing",
           why: "A non-spouse heir generally must empty an inherited retirement account within ten years, and those distributions are ordinary income. Life insurance and inheritances themselves are not income.",
           action: "List each account by type, because the tax treatment differs by type, not by amount.",
-          src: "irsTopic559",
+          src: "irsBeneficiary",
           affects: ["estate"]
         },
         {
@@ -286,7 +286,7 @@
           status: "settled",
           why: "The 'sell and reinvest in the stock market' plan is therefore fully taxable on any gain, which is why the basis reset matters so much.",
           action: "Nothing to obtain. Plan the reinvestment on an after-tax basis.",
-          src: "irsTopic409",
+          src: "irsLikeKind",
           affects: ["sell"]
         }
       ]
@@ -299,21 +299,21 @@
         {
           id: "Q-23",
           q: "What rent would Property A fetch?",
-          a: () => `A benchmark, not a lease. The model uses ${money(B.aRent4BR)} a month for a four-bedroom home, the federal Small Area Fair Market Rent for the ZIP code in FY2026, and ${money(B.aRent3BR)} for a three-bedroom.`,
+          a: () => `A benchmark, not a lease. The base model uses ${money(B.aRent4BR)} a month for a four-bedroom home (${money(B.aRent3BR)} for a three-bedroom) from HUD FY2026; verified FY2027 figures are ${money(B.aRent4BR_2027)} (4BR) and ${money(B.aRent3BR_2027)} (3BR).`,
           status: "household",
           why: "Rent is the revenue line of the rental case. A 10% error moves the ten-year answer by more than a million dollars.",
-          action: "Read the current fiscal year's row for the ZIP code, then replace it with two written appraisals of achievable rent.",
+          action: "Replace the federal Small Area Fair Market Rent benchmark with two written appraisals of achievable local rent.",
           src: "hudA",
           affects: ["rent"]
         },
         {
           id: "Q-24",
           q: "Is the rent benchmark the current fiscal year?",
-          a: "No. It is one year behind: FY2027 took effect on 1 October 2026 and the model still carries FY2026.",
-          status: "missing",
-          why: "The gap is small against a 3%/yr rent assumption but it is a known, dated defect in the input.",
-          action: "Open the federal rent lookup for the ZIP code and read the FY2027 row.",
-          src: "hudMethod",
+          a: () => `FY2027 (${money(B.aRent4BR_2027)} 4BR / ${money(B.aRent3BR_2027)} 3BR, effective 1 Oct 2026) was verified directly on 12 Nov 2026 and wired as a live selector in Decision Lab and Black Swans. The base model retains FY2026 (${money(B.aRent4BR)} / ${money(B.aRent3BR)}) pending path choice (S11).`,
+          status: "household",
+          why: "Switching from FY2026 to FY2027 lowers the 4BR benchmark by 9.2% and widens selling's lead further, so the FY2026 base cannot understate the case for renting.",
+          action: "Obtain local Cupertino rent appraisals, then choose in Suggestions (A-05) whether to rebase defaults to FY2027.",
+          src: "hudA2027",
           affects: ["rent"]
         },
         {
@@ -370,7 +370,7 @@
           status: "missing",
           why: "A homeowners premium follows the dwelling limit, which is the rebuild cost. The state regulator's 2026 survey shows the middle premium roughly doubling between a $500,000 and a $1,000,000 dwelling limit.",
           action: "Ask a builder or an insurer for a rebuild estimate, then get a written quote on that limit.",
-          src: "insuranceGuide",
+          src: "cdiResGuide",
           affects: ["live", "rent"]
         },
         {
@@ -400,7 +400,7 @@
           status: "settled",
           why: "The slow period between a death and a decision is exactly when a house stands empty, so the gap in cover arrives at the worst time.",
           action: "Ask the insurer in writing for the vacancy term of any policy, before relying on it during the transfer.",
-          src: "insuranceGuide",
+          src: "cdiResGuide",
           affects: ["rent", "sell", "live"]
         },
         {

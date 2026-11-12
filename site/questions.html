@@ -117,7 +117,7 @@ document.getElementById("groups").innerHTML = R.groups.map(g => {
   return `<section class="section" id="${g.id}">
     <div class="section-heading"><div><div class="eyebrow">${rows.length} question${rows.length === 1 ? "" : "s"}</div><h2>${g.title}</h2><p>${g.intro}</p></div></div>
     <div class="table-wrap"><table><thead><tr><th>#</th><th class="wrap">The question, and why it decides something</th><th class="wrap">What we know now</th><th class="wrap">What is missing</th><th class="wrap">How to discover it</th><th class="wrap">What changes if the answer is different</th><th>Official source</th><th>Your status</th></tr></thead><tbody>${
-      rows.map(q => `<tr data-q="${q.id}"><td>${q.id}<br>${pri(q.priority)}</td><td class="wrap"><strong>${q.q}</strong><div class="tiny">${q.why}</div></td><td class="wrap">${q.known}</td><td class="wrap">${q.missing}</td><td class="wrap">${q.discover}</td><td class="wrap">${q.flip}</td>${srcCell(q.src)}<td><select class="q-status" data-id="${q.id}" aria-label="Status of ${q.id}">${UPDATE_OPTIONS()}</select></td></tr>`).join("")
+      rows.map(q => `<tr id="${q.id}" data-q="${q.id}"><td>${q.id}<br>${pri(q.priority)}</td><td class="wrap"><strong>${q.q}</strong><div class="tiny">${q.why}</div></td><td class="wrap">${q.known}</td><td class="wrap">${q.missing}</td><td class="wrap">${q.discover}</td><td class="wrap">${q.flip}</td>${srcCell(q.src)}<td><select class="q-status" data-id="${q.id}" aria-label="Status of ${q.id}">${UPDATE_OPTIONS()}</select></td></tr>`).join("")
     }</tbody></table></div></section>`;
 }).join("");
 
@@ -132,7 +132,7 @@ function fillSelects() {
 
 /* Answered and unknowable tables */
 document.getElementById("answered").innerHTML = R.answered.map(a =>
-  `<tr><td>${a.id}</td><td class="wrap"><strong>${a.q}</strong></td><td class="wrap">${a.answer}</td><td class="wrap">${a.effect}</td>${srcCell(a.src)}</tr>`).join("");
+  `<tr id="${a.id}"><td>${a.id}</td><td class="wrap"><strong>${a.q}</strong></td><td class="wrap">${a.answer}</td><td class="wrap">${a.effect}</td>${srcCell(a.src)}</tr>`).join("");
 document.getElementById("unknowable").innerHTML = R.unknowable.map(u =>
   `<tr><td>${u.id}</td><td class="wrap"><strong>${u.q}</strong></td><td class="wrap">${u.why}</td><td class="wrap">${u.handling}</td><td class="wrap">${u.trigger}</td>${srcCell(u.src)}</tr>`).join("");
 document.getElementById("carried-q").innerHTML = R.carried.map(r =>

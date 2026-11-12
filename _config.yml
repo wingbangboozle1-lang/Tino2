@@ -22,7 +22,6 @@ exclude:
   - pages
   - assets/style.css
   - assets/style.css-alternate.css
-  - assets/style.css-alternate.css
   - assets/app-old.js
   - _public
   - .cache

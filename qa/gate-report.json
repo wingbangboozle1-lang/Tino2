@@ -12,7 +12,7 @@
    "file": "site/black-swan.html",
    "rows": 170,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 463,
+   "amounts": 467,
    "links": 0
   },
   {
@@ -68,7 +68,7 @@
    "file": "site/questions-gate.html",
    "rows": 57,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 14,
+   "amounts": 20,
    "links": 0
   },
   {
@@ -82,7 +82,7 @@
    "file": "site/review.html",
    "rows": 95,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 58,
+   "amounts": 59,
    "links": 0
   },
   {
@@ -103,7 +103,7 @@
    "file": "site/sources.html",
    "rows": 208,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 102,
+   "amounts": 104,
    "links": 0
   },
   {
@@ -124,7 +124,7 @@
    "file": "site/verification.html",
    "rows": 137,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 263,
+   "amounts": 273,
    "links": 0
   }
  ],
@@ -135,7 +135,7 @@
   "rows": 1583,
   "rowsWithOwnSource": 1574,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4985,
+  "amounts": 5008,
   "officialExactAmounts": 115,
   "internalLinks": 559,
   "externalLinks": 2074

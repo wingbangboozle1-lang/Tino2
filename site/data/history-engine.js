@@ -135,7 +135,10 @@
     for (let t = Y + 1; t <= T; t += 1) sell *= 1 + d.port[t];
     const res = { rent: 0, live: 0, liveSF: 0 };
     const ladder = { rent: MY, live: primaryAssessed };
-    const rentRent = (rentChoice === "3BR" ? B.aRent3BR : B.aRent4BR);
+    const rentRent = rentChoice === "4BR_2027" ? B.aRent4BR_2027
+      : rentChoice === "3BR_2027" ? B.aRent3BR_2027
+      : rentChoice === "3BR" ? B.aRent3BR
+      : B.aRent4BR;
     const sfUnitStart = SF_UNIT_RENT_2026 * 12 * d.rentI[Y];
     let sfUnit = sfUnitStart;
     const yearly = [];
