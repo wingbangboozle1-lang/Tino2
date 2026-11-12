@@ -1116,3 +1116,12 @@ The repository already contains the requested integrated site. No open pull requ
 Review and implementation **done**. Source retrieval and precise limits recorded in `verification/62b76b9d/REPORT.md`. Four official pages directly opened (IRS estate tax, BOE Prop 19, CDI residential, GitHub sensitive-data guidance). Existing financial engine unchanged. Landing-page recommendation now conditional; estate-tax omission prominent; dedicated Suggestions table added with discovery/approval gates. Package, publication negative tests, 1,132 validation checks, stress, 15-page runtime (1,331 rows) and privacy gate all pass; own regression passes. Nine calculated rows have context-only source links, not verified official outputs. Historical privacy and missing household facts remain needs review on the existing review page. Generated gate report restored; no overlap with another scope.
 
 First claim push needed `git pull --rebase origin main` because the current branch did not yet exist remotely; succeeded without conflict. Publication pending PR/CI, tracked below.
+
+### `62b76b9d` publication record — done
+
+- PR [#43](https://github.com/wingbangboozle1-lang/Tino2/pull/43) merged without waiting for approval; merge commit `8d21bb454a1c7694e8076531d73cb770dd8dcf1e`.
+- PR verification run `43249039044` passed, including Jekyll output allowlist audit. Post-merge verification run `43249162829` passed.
+- Pages build/deployment run `43249162199` succeeded (build, deploy and report-build-status all successful) for that merge commit.
+- Live read-back of `https://wingbangboozle1-lang.github.io/Tino2/?release=8d21bb4` confirmed the new conditional headline and adjacent estate-tax caveat; initial uncached root request while deployment was running showed the prior version, so not used as confirmation.
+- Nonblocking CI annotations: upstream actions Node runtime migration and ubuntu-latest image migration. No build failures.
+- This final record is committed on the session branch after the site merge; no extra public-site merge needed for an internal log. The existing Flagged for Review page retains unresolved privacy/household items. No claim of exhaustive legacy line-by-line factual re-verification.
