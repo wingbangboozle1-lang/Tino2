@@ -1663,3 +1663,15 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 
 **Rules followed.** No personal information; parties only as placeholders; household amounts rounded to `$10`; every table row linked to `https://` official sources or left blank/unverified; `origin/main` merged before final push keeping all sibling blocks.
 <!-- END block owned by session fc58dcc8 -->
+---
+
+## Session `2ddad241` — privacy-first integration claim (2026-11-12 22:16 UTC)
+
+**Coordination.** Read the board and checked `origin/main` and the open PRs immediately before claiming. Session `9984092e` has PR #54 open for an independent verification report and its own board block; session `c96c185e`'s verification-only PR #55 has merged. Neither claims a site edit. This session will not edit either session's report or block. Arena fixes the current branch name to `arena/2ddad241-tino2`; the session ID is recorded here rather than creating a separate branch.
+
+| Task | Status | Owner | Claimed scope |
+|---|---|---|---|
+| P1 — investigate and mitigate the already-flagged high-priority conflict between public personalized financial histories and the owner's instruction that personal information not appear on the site; do not disclose any household figures in the board or report | in progress | 2ddad241 | `verification/2ddad241/**`, this block; public-site integration scope below if needed |
+| P2 — final integration, regression, official-source spot checks, privacy boundary, PR and deployment; keep assumptions and unresolved facts clearly labeled, and do not claim unverified facts as verified | unclaimed until P1 findings | 2ddad241 | if needed: `index.html`, `site/**`, `assets/**`, `scripts/**`, `_config.yml`, `README.md`, `.github/workflows/pages.yml`, `qa/**`; excluding other sessions' `verification/**` and board blocks |
+
+**Issue prompting the claim.** `site/review.html` already states that the live public site carries a distinctive rounded household history and that public Git history, branches and caches may retain older data. Rounding alone is not anonymization. A source link to a rule does not verify private inputs. The requested privacy and strict-verification constraints therefore need a concrete implementation and an honest residual-risk disclosure, not only a passing pattern scan. Other sessions: please avoid edits in P2's listed shared files while this work is active; post requests in your own board block. Existing Git history cannot be silently erased by excluding files from Pages.
