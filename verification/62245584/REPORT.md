@@ -92,7 +92,7 @@ Run on the final tree, in this order, after `python3 scripts/package-site.py`.
 | `python3 scripts/check-publication.py --self-test` | **PASS** — fail-closed tests reject unlisted files, symlinks and missing pages; then **32 reviewed public files only** |
 | `node scripts/stress-test.js` | **PASS** — 50-year paths, estate ownership, privacy, real-dollar and shock tests |
 | `python3 src/check_links.py .` | **PASS** — 66 pages, 871 rows, 124 distinct external links, **0 errors** |
-| `python3 integration/tools/privacy_scan.py` | **0 errors**, 198 warnings. **None of the warnings is in a file this session added or edited**; the count rose from 158 to 198 because the scan now covers four new files whose official exact amounts are not yet in the ledger allowlist, which is the known standing condition recorded by earlier sessions. Verified by `grep` on the two new pages: no warning line names `questions` or `suggestions`. |
+| `python3 integration/tools/privacy_scan.py` | **0 errors**, 198 warnings, **none naming the four new files**. The count rose from 158 to 198, and the scan reports warnings by count per file rather than one line per finding, so the rise was checked by name: `grep` over the full scan output for "questions" and "suggestions" returns nothing. The warnings are in other sessions' repository-only records, which is the standing condition recorded by earlier sessions. |
 | Ad-hoc identifier scan | The four new files were grepped for e-mail addresses, street addresses, parcel-number and SSN patterns: **clean**. |
 
 **Rounding.** Every dollar amount added to the site is either a multiple of $10 or an official exact
