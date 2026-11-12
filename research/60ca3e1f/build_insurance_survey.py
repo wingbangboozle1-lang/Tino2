@@ -192,6 +192,46 @@ HOMEOWNERS = {
 
 # Earthquake, single-family profile 901. Value = annual premium per $1,000 of coverage,
 # or the text the survey shows instead ("CEA" = sold through the California Earthquake Authority).
+# Second reading, 2026-11-12 about 04:45 UTC: the same Cupertino location and home age at two lower
+# dwelling amounts. The tool shows different deductibles for these amounts:
+# company: (premium with $1,000 deductible, premium with $2,500 deductible)
+# Only the $2,500 deductible is common to all three dwelling amounts.
+COMPANIES_37 = [
+ "Aegis Security Ins Co", "Amica Mutual Ins Co", "Armed Forces Ins Exch", "ASI Select Ins Corp",
+ "California Automobile Ins Co (Mercury Group)", "California Capital Ins Co (Auto Owners Group)",
+ "California Cas Indemnity Exch", "CSAA Ins Exch", "DB Ins Co. LTD (U.S. Branch)",
+ "Farmers Ins Exchange (Farmers Group)", "Federal Ins Co (Chubb Group)", "General Ins Co of Amer",
+ "Grange Ins Association", "Homesite Ins Co of the Midwest", "Horace Mann Ins Co",
+ "Horace Mann Prop & Cas Ins Co", "Incline Cas Co", "Integon National Ins Co",
+ "Interins Exch of the Automobile Club (AAA)", "MAPFRE Ins Co", "Metromile Ins Co",
+ "Nationwide Mutual Ins Co", "Obsidian Pacific Ins Co", "Pacific Specialty Ins Co",
+ "Privilege Underwriters Reciprocal Exch (PURE)", "Residence Mutual Ins Co (Western Mutual Group)",
+ "Safeco Ins Co of America (Safeco Group)", "Spinnaker Ins Co", "Standard Fire Ins Co (Travelers Group)",
+ "Stillwater Ins Co", "Stillwater Prop & Cas Co", "Sutton National Ins Co",
+ "United Serv Automobile Assn (USAA)", "Universal N Amer (DBA One Alliance N Amer Ins Co)",
+ "US Coastal P&C Ins Co (DBA Pacific Coastal P&C)", "Wawanesa General Ins Co", "Zurich American Ins Co",
+]
+LOWER = {
+ "cupertino_40y_500000": {
+  "location": CUP, "home_age": "40 Years", "coverage": 500000, "profiles": [274, 374],
+  "ded1000": [2212,1777,1644,1748,1102,1156,2975,1388,2311,2040,3043,2618,3883,1587,2400,2866,1449,1306,2205,
+              1591,2517,1635,1449,931,3956,2371,1698,1392,1486,1394,1437,1449,1635,2487,1159,1521,1166],
+  "ded2500": [1902,1626,1484,1570,941,1074,2472,1230,1998,1876,2711,1991,3371,1478,1825,2180,1241,1045,NA,
+              1193,2353,1381,1241,790,3085,2051,1273,1166,1383,1209,1246,1241,NA,2286,982,1298,1077],
+ },
+ "cupertino_40y_750000": {
+  "location": CUP, "home_age": "40 Years", "coverage": 750000, "profiles": [276, 376],
+  "ded1000": [3477,2534,2549,2469,1555,1551,3871,1923,3590,3072,4171,3542,5645,1900,3660,4371,2229,1996,3327,
+              2380,3269,2435,2229,1374,5117,3553,2497,1907,2082,1978,2039,2229,2605,3826,1616,2327,1658],
+  "ded2500": [2990,2330,2274,2238,1326,1453,3271,1706,3098,2844,3685,2731,4901,1769,2847,3400,1903,1610,NA,
+              1785,3063,2066,1903,1167,3980,3074,1874,1591,1942,1715,1767,1903,NA,3548,1383,2017,1530],
+ },
+}
+for _k, _b in LOWER.items():
+    assert len(_b["ded1000"]) == len(_b["ded2500"]) == len(COMPANIES_37) == 37, _k
+# The same 37 companies, in the same order, appear on the $1,000,000 page.
+assert list(HOMEOWNERS["cupertino_40y_1000000"]["rows"]) == COMPANIES_37
+
 EQ_ORDER = ["Aegis Security Ins Co","Amica Mutual Ins Co","Armed Forces Ins Exch","ASI Select Ins Corp",
  "California Automobile Ins Co (Mercury Group)","California Capital Ins Co (Auto Owners Group)",
  "California Cas Indemnity Exch","Coastal Select Ins Co","CSAA Ins Exch","DB Ins Co. LTD (U.S. Branch)",
@@ -243,6 +283,31 @@ for key, loc, vals in (("cupertino", CUP, EQ_CUP), ("sunset", SUN, EQ_SUN)):
         "rows": [{"company": c, "value": v} for c, v in zip(EQ_ORDER, vals)],
     }
     print(f"earthquake {key:10} listed {len(vals)}  rate/1000 priced {len(nums)} low {nums[0]} median {statistics.median(nums)} high {nums[-1]}  CEA {vals.count(C)}  footnotes {vals.count(F)}")
+
+out["homeowners_lower_amounts"] = {}
+for key, block in LOWER.items():
+    s1000, s2500 = stats(block["ded1000"]), stats(block["ded2500"])
+    out["homeowners_lower_amounts"][key] = {
+        "location": block["location"], "home_age": block["home_age"], "coverage": block["coverage"],
+        "profiles": {"deductible_1000": block["profiles"][0], "deductible_2500": block["profiles"][1]},
+        "companies_listed": len(COMPANIES_37),
+        "url": url(block["location"], "HOMEOWNERS", block["home_age"], block["coverage"]),
+        "deductible_1000": s1000, "deductible_2500": s2500,
+        "rows": [{"company": c, "deductible_1000": a, "deductible_2500": b}
+                 for c, a, b in zip(COMPANIES_37, block["ded1000"], block["ded2500"])],
+    }
+    print(f"{key:24} {1000:>6} {s1000['priced']:>6} {s1000['lowest']:>7} {s1000['median']:>8} {s1000['highest']:>8} {s1000['at_or_below_1500']:>6}")
+    print(f"{'':24} {2500:>6} {s2500['priced']:>6} {s2500['lowest']:>7} {s2500['median']:>8} {s2500['highest']:>8} {s2500['at_or_below_1500']:>6}")
+
+# How the surveyed premium moves with the dwelling amount (same location, age and $2,500 deductible).
+scale = {}
+for amount, vals in ((500000, LOWER["cupertino_40y_500000"]["ded2500"]),
+                     (750000, LOWER["cupertino_40y_750000"]["ded2500"]),
+                     (1000000, [a for a, b in HOMEOWNERS["cupertino_40y_1000000"]["rows"].values()])):
+    st = stats(vals)
+    scale[str(amount)] = {**st, "median_per_1000_of_dwelling_cover": round(st["median"] / (amount / 1000), 2)}
+out["cupertino_40y_by_dwelling_amount_deductible_2500"] = scale
+print("Cupertino, 40 years, $2,500 deductible, by dwelling amount:", json.dumps(scale))
 
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "insurance-survey-2026.json")
 with open(path, "w") as fh:

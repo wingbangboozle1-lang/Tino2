@@ -154,3 +154,82 @@
     project(base, rate, years) { return base * Math.pow(1 + rate, years); }
   };
 })();
+
+/* Session 60ca3e1f — California Department of Insurance 2026 premium survey, read on 12 Nov 2026 (append-only block).
+   The survey prices HYPOTHETICAL homes. It is not a quote, and no figure here is a premium for either property.
+   Each row was transcribed from the Department's result page (link in SOURCES under `src`); the transcription
+   and the statistics are in research/60ca3e1f/build_insurance_survey.py. "median" is the middle of the list of
+   insurers that show a premium, calculated here; "lowest" and "highest" are amounts as published. */
+(function () {
+  const P = (place, age, dwelling, listed, priced, lowest, median, highest, atOrBelow1500, src) =>
+    ({ place, age, dwelling, listed, priced, lowest, median, highest, atOrBelow1500, src });
+  const INSURANCE_SURVEY = {
+    readOn: "12 Nov 2026", effective: "1 May 2026", deductible: 2500,
+    profiles: [
+      P("Cupertino", 40, 500000, 37, 35, 790, 1383, 3371, 20, "cdiSurveyCup40_500"),
+      P("Cupertino", 40, 750000, 37, 35, 1167, 2017, 4901, 4, "cdiSurveyCup40_750"),
+      P("Cupertino", 40, 1000000, 37, 35, 1543, 2690, 6430, 0, "cdiSurveyCup40_1000"),
+      P("Cupertino", 70, 1000000, 36, 34, 1598, 2741, 4968, 0, "cdiSurveyCup70_1000"),
+      P("San Francisco · Sunset", 40, 1000000, 37, 35, 1328, 3353, 10384, 1, "cdiSurveySun40_1000"),
+      P("San Francisco · Sunset", 70, 1000000, 36, 34, 1413, 3191, 10384, 1, "cdiSurveySun70_1000")
+    ],
+    // Earthquake, single-family profile: a rate per $1,000 of coverage, not a premium.
+    earthquake: [
+      { place: "Cupertino", listed: 40, withRate: 19, lowest: 1.15, median: 3.10, highest: 15, throughCea: 13, footnotes: 8, src: "cdiSurveyEqCup" },
+      { place: "San Francisco · Sunset", listed: 40, withRate: 19, lowest: 1.13, median: 3.29, highest: 15, throughCea: 13, footnotes: 8, src: "cdiSurveyEqSun" }
+    ],
+    // California FAIR Plan, residential policies in force at 30 September of each year, as published.
+    fairPlan: {
+      years: [2022, 2023, 2024, 2025, 2026], src: "fairPlanZip",
+      rows: [
+        { label: "ZIP 95014 · Property A", counts: [74, 51, 119, 213, 227] },
+        { label: "ZIP 94122 · Property B", counts: [15, 21, 81, 129, 154] },
+        { label: "California", counts: [265909, 320572, 449832, 621234, 665673] }
+      ]
+    },
+    // Statewide earned premium and earned exposures, all residential policy forms, as published (SB 824 workbook).
+    statewide: { from: 2018, to: 2023, premiumFrom: 8334249009, exposuresFrom: 11375891, premiumTo: 14217212455, exposuresTo: 12580970, src: "cdiSb824Workbook" }
+  };
+  INSURANCE_SURVEY.statewide.growth = Math.pow(
+    (INSURANCE_SURVEY.statewide.premiumTo / INSURANCE_SURVEY.statewide.exposuresTo) /
+    (INSURANCE_SURVEY.statewide.premiumFrom / INSURANCE_SURVEY.statewide.exposuresFrom),
+    1 / (INSURANCE_SURVEY.statewide.to - INSURANCE_SURVEY.statewide.from)) - 1;
+
+  /* Re-runs the published model (site/data/model.js, unchanged) for Property A with another 2026 premium and,
+     when `growth` is given, with insurance alone growing at that yearly rate instead of the model's rate.
+     The model reads the premium once for each of the ten rented years and once for each of the ten lived-in years;
+     the Proxy hands it the amount that makes the model's own formula land on the intended premium for that year.
+     If the model reads the premium a different number of times, the result is refused (null) rather than shown. */
+  function insuranceCase(M, inheritYear, premium2026, growth) {
+    const base = { ...M.BASE, inheritYear };
+    let d;
+    if (growth == null) {
+      d = M.decision({ ...base, aInsuranceAnnual: premium2026 }, 10, "4BR");
+    } else {
+      const years = [];
+      for (let pass = 0; pass < 2; pass += 1) for (let t = 1; t <= 10; t += 1) years.push(inheritYear + t);
+      let reads = 0;
+      const cfg = new Proxy(base, { get(target, key) {
+        if (key !== "aInsuranceAnnual") return target[key];
+        const n = years[Math.min(reads, years.length - 1)] - target.startYear;
+        reads += 1;
+        return premium2026 * Math.pow(1 + growth, n) / Math.pow(1 + target.expenseInflation, n);
+      } });
+      d = M.decision(cfg, 10, "4BR");
+      if (reads !== years.length) return null;
+    }
+    const premiums = d.live.yearly.map(r => r.insurance);
+    return {
+      firstYear: premiums[0], tenYears: premiums.reduce((a, b) => a + b, 0),
+      sellAheadOfRent: d.sell.terminal - d.rent.terminal, sellAheadOfLive: d.sell.terminal - d.live.terminal,
+      winner: d.winner
+    };
+  }
+
+  window.COSTS.INSURANCE_SURVEY = INSURANCE_SURVEY;
+  window.COSTS.insuranceCase = insuranceCase;
+})();
+
+/* Session 60ca3e1f — two older notes brought up to date on 2026-11-12. The original wording is kept; a sentence is added. */
+window.SOURCES.ocCdiTool.note += " Read again 12 Nov 2026: the result pages open by direct address and were read for both survey locations; see the survey rows above.";
+window.SOURCES.ocCdiProfiles.note += " Read again 12 Nov 2026: the homeowners profiles run from $250,000 to $1,000,000 of dwelling cover; there is no profile for a rented building of two to four units.";

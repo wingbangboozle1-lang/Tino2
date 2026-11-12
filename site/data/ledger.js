@@ -297,37 +297,37 @@ window.LEDGER = [
   "id": "CA-05",
   "topic": "california-law-change",
   "claim": "Proposition 3 (Nov 3, 2026): makes the 10.3% / 11.3% / 12.3% high-income rates permanent instead of expiring in 2031",
-  "value": "Passing - Yes 60.7% in the unofficial count as of Nov 11, 2026 (certification due Dec 11, 2026)",
+  "value": "Passing - Yes 60.6% in the unofficial count as of Nov 10, 2026 (certification due Dec 11, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - State Ballot Measures, Statewide Results; Official Voter Information Guide, Prop 3",
-  "evidence": "Results table as of Nov 11, 2026, 5:17 p.m.: Prop 3 Yes 7,321,144 (60.7%) / No 4,744,362 (39.3%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
+  "evidence": "Results table: Prop 3 Yes 7,101,047 (60.6%) / No 4,610,136 (39.4%). Voter guide: 'An income tax increase on high-income earners in place since 2012 would become permanent instead of expiring in 2031.'",
   "status": "verified",
   "notes": "Unofficial until certified. Relevance: a large gain or rental income in 2040-2050 would still face the higher California brackets.",
-  "checked": "2026-11-12"
+  "checked": "2026-11-11"
  },
  {
   "id": "CA-06",
   "topic": "california-law-change",
   "claim": "Proposition 42 (Nov 3, 2026): prohibits new state personal property taxes and certain retroactive state taxes",
-  "value": "Passing - Yes 51.4% in the unofficial count as of Nov 11, 2026",
+  "value": "Passing - Yes 51.5% in the unofficial count as of Nov 10, 2026",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
-  "evidence": "Results table as of Nov 11, 2026, 5:17 p.m.: Prop 42 Yes 6,194,559 (51.4%) / No 5,857,252 (48.6%).",
+  "evidence": "Results table: Prop 42 Yes 6,024,692 (51.5%) / No 5,673,727 (48.5%).",
   "status": "verified",
   "notes": "Unofficial until certified. Text of the measure was not opened this session; effect on any future state estate or inheritance tax is not established here - flagged.",
-  "checked": "2026-11-12"
+  "checked": "2026-11-11"
  },
  {
   "id": "CA-07",
   "topic": "california-law-change",
   "claim": "Proposition 40 (one-time tax on certain taxpayers) and Proposition 43 (limits on local revenue measures)",
-  "value": "Both failing - Prop 40 No 52.5%; Prop 43 No 57.4% (unofficial, Nov 11, 2026)",
+  "value": "Both failing - Prop 40 No 52.6%; Prop 43 No 57.4% (unofficial, Nov 10, 2026)",
   "url": "https://electionresults.sos.ca.gov/returns/ballot-measures",
   "source": "California Secretary of State - Statewide Results",
   "evidence": "Results table rows for Props 40 and 43.",
   "status": "verified",
   "notes": "Neither measure changed Proposition 13's 1% rate or 2% cap.",
-  "checked": "2026-11-12"
+  "checked": "2026-11-11"
  },
  {
   "id": "P13-01",
@@ -787,6 +787,150 @@ window.LEDGER = [
   "status": "unverified",
   "notes": "Each needs to be opened and read before it is relied on.",
   "checked": "2026-11-11"
+ },
+ {
+  "id": "INS-04",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "California Department of Insurance 2026 homeowners premium survey: hypothetical 40-year-old home in the Cupertino survey location, $2,500 deductible, at three dwelling limits",
+  "value": "$500,000 dwelling: 35 of 37 insurers show a premium, from $790 to $3,371. $750,000 dwelling: 35 of 37, from $1,167 to $4,901. $1,000,000 dwelling: 35 of 37, from $1,543 to $6,430.",
+  "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,1000000,Y",
+  "source": "California Department of Insurance - 2026 Homeowners Insurance comparison tool, result pages for survey profiles 374, 376 and 377",
+  "evidence": "Each result page states: 'All premiums displayed on this page are annual premiums and are effective as of May 1, 2026. This is not an insurance premium quote.' The page for each dwelling limit lists the same 37 insurers; two of them show no premium at the $2,500 deductible.",
+  "notes": "A hypothetical home, not Property A. The middle of each list (this project's calculation, rounded to $10) is about $1,380, $2,020 and $2,690. The $500,000 and $750,000 pages are reached by changing the amount at the end of the link. Read by session 60ca3e1f; every row is transcribed in research/60ca3e1f/build_insurance_survey.py."
+ },
+ {
+  "id": "INS-05",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Same survey: hypothetical 70-year-old home in the Cupertino survey location, $1,000,000 dwelling limit, $2,500 deductible",
+  "value": "34 of 36 insurers show a premium, from $1,598 to $4,968.",
+  "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,70%20Years,1000000,Y",
+  "source": "California Department of Insurance - 2026 Homeowners Insurance comparison tool, result page for survey profile 387",
+  "evidence": "Result page as above, premiums effective May 1, 2026; 'This is not an insurance premium quote.'",
+  "notes": "A hypothetical home, not Property A. Middle of the list (calculated, rounded to $10): about $2,740."
+ },
+ {
+  "id": "INS-06",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Same survey: hypothetical owner-occupied home in the San Francisco (Sunset District) survey location, $1,000,000 dwelling limit, $2,500 deductible",
+  "value": "40-year-old home: 35 of 37 insurers show a premium, from $1,328 to $10,384. 70-year-old home: 34 of 36, from $1,413 to $10,384.",
+  "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,HOMEOWNERS,70%20Years,1000000,Y",
+  "source": "California Department of Insurance - 2026 Homeowners Insurance comparison tool, result pages for survey profiles 377 and 387",
+  "evidence": "Result pages as above, premiums effective May 1, 2026; 'This is not an insurance premium quote.' The profile list has homeowners, condominium, renters and earthquake profiles; none is for a rented building of two to four units.",
+  "notes": "Context only for Property B, which needs a landlord policy. Middle of each list (calculated, rounded to $10): about $3,350 and $3,190."
+ },
+ {
+  "id": "INS-07",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Same survey: earthquake cover for a single-family home (profile 901), yearly rate per $1,000 of coverage",
+  "value": "Cupertino: 40 insurers listed; 19 show a rate, from 1.15 to 15.00; 13 sell through the California Earthquake Authority; 8 refer to footnotes. San Francisco (Sunset District): 19 show a rate, from 1.13 to 15.00; 13 through the Authority; 8 footnotes.",
+  "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,EARTHQUAKE%20-%20Single%20Family,Y",
+  "source": "California Department of Insurance - 2026 comparison tool, earthquake result pages",
+  "evidence": "The page explains the rate as a cost per thousand dollars of coverage and gives its own example: $2.40 per thousand on $250,000 of coverage is $600 a year.",
+  "notes": "Middle of each list (calculated): 3.10 and 3.29. Earthquake cover is a separate policy and is not in the model."
+ },
+ {
+  "id": "INS-08",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "California FAIR Plan residential policies in force in the two ZIP codes, 30 September 2022 to 30 September 2026",
+  "value": "ZIP 95014: 74, 51, 119, 213, 227. ZIP 94122: 15, 21, 81, 129, 154. California: 265,909; 320,572; 449,832; 621,234; 665,673.",
+  "url": "https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf",
+  "source": "California FAIR Plan - Key Statistics and Data, 'residential policies in force by ZIP Code' (file dated 20 October 2026)",
+  "evidence": "Table rows for 95014 and 94122 and the Total row, columns 'Number of Policies' at 9/30/2022 to 9/30/2026; the published year-over-year percentages agree with the counts.",
+  "notes": "The file gives no count of homes per ZIP code, so no share is stated."
+ },
+ {
+  "id": "INS-09",
+  "topic": "insurance",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "What a California homeowners policy generally leaves out, and what sets the dwelling limit",
+  "value": "Generally not covered: flood, earthquake, earth movement and 'Losses to house vacant for 60 days or more'. The dwelling limit should be the cost to replace the home, not its market value.",
+  "url": "https://www.insurance.ca.gov/01-consumers/105-type/95-guides/03-res/res-ins-guide.cfm",
+  "source": "California Department of Insurance - Residential Insurance: Homeowners and Renters (guide, revised January 2026), English edition",
+  "evidence": "The guide's list of perils generally not covered includes 'Losses to house vacant for 60 days or more'. On the dwelling limit: it 'should be the amount it would cost to replace your home' and 'may have nothing to do with the purchase price or the current market value'. It also says an insurer that sells homeowners cover must offer earthquake cover, and that a FAIR Plan policy is a basic fire policy without liability or theft cover.",
+  "notes": "Replaces the earlier reading from the Spanish edition of a fact sheet (N-12). A guide describes policies in general; the wording of the actual policy governs and was not read."
+ },
+ {
+  "id": "ECO-01",
+  "topic": "economic-baseline",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Congressional Budget Office long-run projections of inflation and the 10-year Treasury rate (February 2026)",
+  "value": "Consumer price index 2.3% a year on average for 2029-2030 and for 2031-2036; PCE price index 2.0%; 10-year Treasury notes 4.3% for 2029-2030 and 4.4% for 2031-2036; real GDP growth 1.8%.",
+  "url": "https://www.cbo.gov/system/files/2026-02/61882-By-the-Numbers.pdf",
+  "source": "Congressional Budget Office - The Budget and Economic Outlook: 2026 to 2036, By the Numbers; and Table 2-1 of the economic projections data file",
+  "evidence": "'The Economic Outlook, by Calendar Year' table: Consumer price index 2.3 and 2.3; PCE price index 2.0 and 2.0; 10-year Treasury notes 4.3 and 4.4; Real GDP 1.8 and 1.8 (annual averages 2029-2030 and 2031-2036).",
+  "notes": "Closes the flag that the 2.3% and 4.4% figures had been read from secondary summaries. The model's recorded-data page uses 2.3% for prices and 4.5% for the safe part of the portfolio."
+ },
+ {
+  "id": "ECO-02",
+  "topic": "economic-baseline",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Congressional Budget Office projection of national home prices (February 2026)",
+  "value": "FHFA house price index, purchase only (1991 Q1 = 100): 438.0 in 2026, 451.0 in 2027, 500.7 in 2030 and 621.1 in 2036.",
+  "url": "https://www.cbo.gov/system/files/2026-02/51135-2026-02-Economic-Projections.xlsx",
+  "source": "Congressional Budget Office - economic projections data file, sheet '2. Calendar Year' (February 2026 baseline forecast)",
+  "evidence": "Row 'FHFA house price index, purchase only | 1991Q1=100', calendar years 2023 to 2036: 396.8, 418.1, 429.6, 438.0, 451.0, 466.5, 483.2, 500.7, 519.0, 538.0, 557.7, 578.1, 599.2, 621.1.",
+  "notes": "From 438.0 to 621.1 over ten years is about 3.6% a year (this project's calculation). The model raises both homes 3.5% a year. The index is national and ends in 2036; it is not a projection for either ZIP code."
+ },
+ {
+  "id": "ECO-03",
+  "topic": "economic-baseline",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Federal Reserve projections of 16 September 2026",
+  "value": "Median PCE inflation 3.7% in 2026, 2.3% in 2027, 2.1% in 2028, 2.0% in 2029 and in the longer run; federal funds rate 4.1% at the end of 2026 and 3.2% in the longer run; real GDP growth 2.0% in the longer run.",
+  "url": "https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20260916.htm",
+  "source": "Federal Reserve - Summary of Economic Projections, 16 September 2026, Table 1",
+  "evidence": "Table 1 medians: 'PCE inflation | 3.7 | 2.3 | 2.1 | 2.0 | 2.0'; 'Federal funds rate | 4.1 | 4.1 | 3.9 | 3.6 | 3.2'; 'Change in real GDP | 2.3 | 2.4 | 2.2 | 2.1 | 2.0'.",
+  "notes": "Inflation in 2026 is running well above the 2.7% the Congressional Budget Office projected in February 2026."
+ },
+ {
+  "id": "ECO-04",
+  "topic": "economic-baseline",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Social Security Trustees long-range assumptions (2026 report)",
+  "value": "Intermediate: consumer prices (CPI-W) 2.4% a year; average covered wage 3.57% a year, 1.14% after inflation; real interest rate 2.3% from 2044. Low-cost and high-cost price assumptions: 3.0% and 1.8%.",
+  "url": "https://www.ssa.gov/oact/TR/2026/II_C_assump.html",
+  "source": "2026 OASDI Trustees Report - section II.C, Table II.C1, Key Assumptions and Summary Measures for Long-Range (75-Year) Projections",
+  "evidence": "Table II.C1: 'Annual percentage change in Consumer Price Index (CPI-W) | 2.4 | 3.0 | 1.8'; 'average OASDI covered wage (nominal) | 3.57 | 4.79 | 2.34'; '(real) | 1.14 | 1.74 | .53'; 'new-issue real interest rate (percent) for years 2044 and later | 2.3 | 2.8 | 1.8'. Measures apply to 2036-2100.",
+  "notes": "The model raises costs and Property A's market rent 3% a year, between the price assumption and the wage assumption."
+ },
+ {
+  "id": "P19-10",
+  "topic": "prop19",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "Whether the Proposition 19 amount that starts on 16 February 2027 has been published",
+  "value": "Not published as of 12 November 2026.",
+  "url": "https://www.boe.ca.gov/proptaxes/2026.htm",
+  "source": "California State Board of Equalization - 2026 Letters To Assessors (list)",
+  "evidence": "The list runs from 2026/001 to 2026/044. No title on the list concerns the amount. Letter 2026/026 is 'Proposition 19 Intergenerational Transfer Exclusion Frequently Asked Questions and Answers' (dated August 3, 2026); its cover letter says the value cap is 'the sum of the property's factored base year value plus $1 million (adjusted every two years)' and gives no new amount.",
+  "notes": "The amount now in force applies to transfers through 15 February 2027 (P19-01). The site keeps the later amount blank. Only the cover letter of 2026/026 was read (2 of 11 sections); the enclosed questions and answers were not read in full. See P19-11 for when the last amount came out."
+ },
+ {
+  "id": "P19-11",
+  "topic": "prop19",
+  "checked": "2026-11-12",
+  "status": "verified",
+  "claim": "When the Board of Equalization published the Proposition 19 amount now in force",
+  "value": "7 March 2025, about three weeks after it took effect on 16 February 2025.",
+  "url": "https://www.boe.ca.gov/news/2025/NR-25-02.htm",
+  "source": "California State Board of Equalization - News Release NR 25-02 (March 7, 2025)",
+  "evidence": "'Today, the California State Board of Equalization (BOE) released the new amount adjusting the $1 million exclusion for Proposition 19 intergenerational transfers occurring on February 16, 2025, through February 15, 2027. The BOE is required to calculate and publish the adjustment every other year based on the Federal Housing Finance Agency's House Price Index for California. ... the amount increased by 2.15 percent, from $1,022,600 to $1,044,586. ... The notice to County Assessors was issued today in Letter to Assessors No. 2025/009.'",
+  "notes": "By the same timetable the amount that starts on 16 February 2027 may not be published before March 2027."
  }
 ];
 window.SERIES = {"_note": "Official series copied on 2026-11-11 by session f16e6e34. Contains no household data.", "hpi_santa_clara_county": {"source": "FHFA All-Transactions House Price Index, Santa Clara County, CA (FRED ATNHPIUS06085A), annual, 2000=100", "url": "https://fred.stlouisfed.org/series/ATNHPIUS06085A", "rows": [[1975, 9.68], [1976, 11.53], [1977, 14.84], [1978, 17.09], [1979, 20.1], [1980, 24.76], [1981, 27.77], [1982, 26.27], [1983, 28.25], [1984, 29.94], [1985, 32.29], [1986, 34.35], [1987, 36.8], [1988, 44.0], [1989, 58.54], [1990, 59.48], [1991, 56.92], [1992, 55.97], [1993, 54.14], [1994, 53.32], [1995, 54.06], [1996, 55.87], [1997, 62.46], [1998, 70.77], [1999, 76.65], [2000, 100.0], [2001, 110.66], [2002, 111.34], [2003, 113.61], [2004, 122.21], [2005, 150.62], [2006, 165.39], [2007, 164.69], [2008, 148.09], [2009, 127.5], [2010, 127.49], [2011, 123.44], [2012, 126.92], [2013, 141.7], [2014, 161.38], [2015, 174.6], [2016, 191.54], [2017, 199.29], [2018, 222.83], [2019, 218.62], [2020, 212.14], [2021, 222.44], [2022, 257.38], [2023, 273.43], [2024, 288.03], [2025, 286.2]]}, "hpi_san_francisco_county": {"source": "FHFA All-Transactions House Price Index, San Francisco County, CA (FRED ATNHPIUS06075A), annual, 2000=100", "url": "https://fred.stlouisfed.org/series/ATNHPIUS06075A", "rows": [[1975, 10.68], [1976, 12.42], [1977, 15.21], [1978, 17.59], [1979, 21.47], [1980, 26.12], [1981, 27.35], [1982, 25.48], [1983, 29.46], [1984, 30.68], [1985, 33.42], [1986, 37.31], [1987, 42.97], [1988, 54.24], [1989, 66.45], [1990, 67.05], [1991, 63.87], [1992, 62.55], [1993, 60.04], [1994, 58.79], [1995, 58.11], [1996, 58.9], [1997, 63.47], [1998, 71.65], [1999, 78.84], [2000, 100.0], [2001, 114.12], [2002, 120.07], [2003, 126.27], [2004, 142.4], [2005, 173.55], [2006, 185.33], [2007, 185.2], [2008, 174.85], [2009, 159.82], [2010, 156.39], [2011, 148.7], [2012, 153.49], [2013, 170.44], [2014, 197.47], [2015, 218.81], [2016, 241.77], [2017, 252.95], [2018, 271.46], [2019, 275.48], [2020, 257.32], [2021, 257.56], [2022, 286.72], [2023, 283.78], [2024, 291.09], [2025, 292.54]]}, "boe_inflation_factor": {"source": "BOE Letter to Assessors 2026/002: California CPI change and base-year-value factor by roll year", "url": "https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf", "rows": [["1976-77", 6.25, 1.02], ["1977-78", 7.169, 1.02], ["1978-79", 8.233, 1.02], ["1979-80", 9.826, 1.02], ["1980-81", 17.316, 1.02], ["1981-82", 7.134, 1.02], ["1982-83", 11.137, 1.02], ["1983-84", 1.033, 1.01], ["1984-85", 5.034, 1.02], ["1985-86", 5.089, 1.02], ["1986-87", 4.374, 1.02], ["1987-88", 2.095, 1.02], ["1988-89", 5.16, 1.02], ["1989-90", 4.73, 1.02], ["1990-91", 4.758, 1.02], ["1991-92", 6.39, 1.02], ["1992-93", 3.039, 1.02], ["1993-94", 3.441, 1.02], ["1994-95", 2.308, 1.02], ["1995-96", 1.194, 1.0119], ["1996-97", 1.115, 1.0111], ["1997-98", 2.399, 1.02], ["1998-99", 2.081, 1.02], ["1999-2000", 1.853, 1.01853], ["2000-01", 3.214, 1.02], ["2001-02", 4.172, 1.02], ["2002-03", 3.215, 1.02], ["2003-04", 2.459, 1.02], ["2004-05", 1.867, 1.01867], ["2005-06", 3.665, 1.02], ["2006-07", 4.596, 1.02], ["2007-08", 2.269, 1.02], ["2008-09", 3.38, 1.02], ["2009-10", 3.477, 1.02], ["2010-11", -0.237, 0.99763], ["2011-12", 0.753, 1.00753], ["2012-13", 2.889, 1.02], ["2013-14", 3.081, 1.02], ["2014-15", 0.454, 1.00454], ["2015-16", 1.998, 1.01998], ["2016-17", 1.525, 1.01525], ["2017-18", 2.619, 1.02], ["2018-19", 2.962, 1.02], ["2019-20", 3.847, 1.02], ["2020-21", 2.98, 1.02], ["2021-22", 1.036, 1.01036], ["2022-23", 5.561, 1.02], ["2023-24", 7.274, 1.02], ["2024-25", 3.181, 1.02], ["2025-26", 2.514, 1.02], ["2026-27", 3.307, 1.02]]}, "federal_exclusion": {"source": "IRS estate tax filing thresholds (2011-2026) and IR-2026-133 (2027)", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax", "rows": [[2011, 5000000], [2012, 5120000], [2013, 5250000], [2014, 5340000], [2015, 5430000], [2016, 5450000], [2017, 5490000], [2018, 11180000], [2019, 11400000], [2020, 11580000], [2021, 11700000], [2022, 12060000], [2023, 12920000], [2024, 13610000], [2025, 13990000], [2026, 15000000], [2027, 15480000]]}, "prop19_amount": {"source": "BOE Letters to Assessors 2023/012 and 2025/009", "url": "https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf", "rows": [["2021-02-16 to 2023-02-15", 1000000, null], ["2023-02-16 to 2025-02-15", 1022600, 2.26], ["2025-02-16 to 2027-02-15", 1044586, 2.15]]}, "cdi_statewide_residential": {"source": "California Department of Insurance, SB 824 residential property experience (all policy forms), statewide", "url": "https://www.insurance.ca.gov/01-consumers/200-wrr/WildfireRiskInfoRpt.cfm", "rows": [[2018, 8334249009, 11375891, 230138], [2019, 9044982611, 11839399, 244019], [2020, 10318255470, 12037936, 264159], [2021, 11410952105, 12222318, 273978], [2022, 12804226026, 12463909, 295495], [2023, 14217212455, 12580970, 324973]]}};

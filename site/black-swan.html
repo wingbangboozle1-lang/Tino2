@@ -55,7 +55,7 @@ main.innerHTML = UI.hero("Black swans · 50-year stress tests", "Growth and infl
 <li>The share-price series excludes dividends; the model adds a flat 2.0-point dividend assumption. The “safe” sleeve earns the 10-year yield with no price change, which understates bond losses such as 2022.</li>
 <li>Portfolio is a fixed 60/40 mix with a 1-point annual tax drag; no rebalancing, fees or sequence-of-withdrawal effects.</li>
 <li>Insurance, lost-decades, tax-regime and Prop 19 repeal scenarios are assumptions, not official projections.</li>
-<li>The 2.3% CPI and 4.4–4.5% yield baselines are read from secondary summaries of CBO’s February 2026 outlook and are flagged for confirmation against CBO’s data tables.</li>
+<li>The 2.3% CPI baseline and CBO’s 4.4% 10-year rate were read in CBO’s own February 2026 tables on 12 Nov 2026. The model uses 4.5% for the safe part of the portfolio, 0.1 point above CBO.</li>
 </ul></div>
 <div class="card"><h3>Method notes</h3><ul class="list">
 <li>Same engine as the Decision lab: with constant rates it reproduces the lab’s results to the cent (verified in <span class="code">scripts/validate.js</span>).</li>
@@ -68,7 +68,11 @@ main.innerHTML = UI.hero("Black swans · 50-year stress tests", "Growth and infl
 
 // ---------- static tables ----------
 document.getElementById("calibration").innerHTML = S.calibration().map(c => `<tr><td>${c.label}${c.note ? ` <span class="tiny">(${c.note})</span>` : ""}</td><td class="number"><strong>${pct(c.value)}</strong></td><td class="number">${c.assumption == null ? "—" : pct(c.assumption)}</td><td class="source">${SRC(c.series)}</td></tr>`).join("") +
-  `<tr><td>CBO long-run CPI inflation / 10-year yield (published projection)</td><td class="number">≈2.3% / ≈4.4%</td><td class="number">${pct(S.BASELINE.cpi)} / ${pct(S.BASELINE.bond)}</td><td class="source">${SRC("cbo")}<div class="tiny">Exact figures unverified at source; flagged</div></td></tr>`;
+  `<tr><td>CBO long-run CPI inflation / 10-year yield (published projection, 2031–2036)</td><td class="number"><strong>2.3% / 4.4%</strong></td><td class="number">${pct(S.BASELINE.cpi)} / ${pct(S.BASELINE.bond)}</td><td class="source">${SRC("cboByNumbers2026")}<div class="tiny">Read in CBO’s own table on 12 Nov 2026</div></td></tr>` +
+  `<tr><td>CBO national home prices, 2026–2036 (published projection) <span class="tiny">(FHFA purchase-only index, 438.0 to 621.1; national, not local)</span></td><td class="number"><strong>${pct(Math.pow(621.1 / 438.0, 1 / 10) - 1)}</strong></td><td class="number">${pct(S.BASELINE.home)}</td><td class="source">${SRC("cboEconData2026")}<div class="tiny">Yearly rate calculated from the two published levels</div></td></tr>` +
+  `<tr><td>Social Security Trustees, long-range consumer prices / average wage (published assumption, 2036–2100)</td><td class="number"><strong>2.4% / 3.6%</strong></td><td class="number">${pct(S.BASELINE.cpi)} prices; ${pct(M.BASE.expenseInflation)} costs and rent</td><td class="source">${SRC("ssaTr2026")}<div class="tiny">Intermediate assumptions, Table II.C1</div></td></tr>` +
+  `<tr><td>Federal Reserve, inflation in 2026 / in the longer run (projection of 16 Sep 2026)</td><td class="number"><strong>3.7% / 2.0%</strong></td><td class="number">${pct(S.BASELINE.cpi)}</td><td class="source">${SRC("fedSep2026")}<div class="tiny">PCE inflation, median projection</div></td></tr>` +
+  `<tr><td>California average home-insurance premium, 2018–2023 (annualized) <span class="tiny">(earned premium per insured home-year, all policy forms)</span></td><td class="number"><strong>${pct(Math.pow((14217212455 / 12580970) / (8334249009 / 11375891), 1 / 5) - 1)}</strong></td><td class="number">${pct(M.BASE.expenseInflation)}</td><td class="source">${SRC("cdiSb824Workbook")}<div class="tiny">Calculated from the published statewide totals</div></td></tr>`;
 document.getElementById("catalogue").innerHTML = S.SCENARIOS.map(sc => `<tr><td><strong>${sc.name}</strong></td><td>${sc.kind === "Assumption" ? UI.badge("Assumption", "gold") : sc.kind === "Baseline" ? UI.badge("Baseline", "neutral") : UI.badge(sc.kind)}</td><td class="wrap">${sc.analog}</td><td class="wrap">${sc.params}</td><td class="wrap">${sc.note}</td><td class="source">${SRC(sc.source)}</td></tr>`).join("");
 const fmtI = v => v == null ? "—" : v.toFixed(v > 100 ? 1 : 2);
 const rows = S.H;

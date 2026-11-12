@@ -1196,5 +1196,457 @@
     }
    ]
   }
+ },
+ "homeowners_lower_amounts": {
+  "cupertino_40y_500000": {
+   "location": "SANTA CLARA CUPERTINO",
+   "home_age": "40 Years",
+   "coverage": 500000,
+   "profiles": {
+    "deductible_1000": 274,
+    "deductible_2500": 374
+   },
+   "companies_listed": 37,
+   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,500000,Y",
+   "deductible_1000": {
+    "priced": 37,
+    "lowest": 931,
+    "median": 1635,
+    "highest": 3956,
+    "at_or_below_1500": 14
+   },
+   "deductible_2500": {
+    "priced": 35,
+    "lowest": 790,
+    "median": 1383,
+    "highest": 3371,
+    "at_or_below_1500": 20
+   },
+   "rows": [
+    {
+     "company": "Aegis Security Ins Co",
+     "deductible_1000": 2212,
+     "deductible_2500": 1902
+    },
+    {
+     "company": "Amica Mutual Ins Co",
+     "deductible_1000": 1777,
+     "deductible_2500": 1626
+    },
+    {
+     "company": "Armed Forces Ins Exch",
+     "deductible_1000": 1644,
+     "deductible_2500": 1484
+    },
+    {
+     "company": "ASI Select Ins Corp",
+     "deductible_1000": 1748,
+     "deductible_2500": 1570
+    },
+    {
+     "company": "California Automobile Ins Co (Mercury Group)",
+     "deductible_1000": 1102,
+     "deductible_2500": 941
+    },
+    {
+     "company": "California Capital Ins Co (Auto Owners Group)",
+     "deductible_1000": 1156,
+     "deductible_2500": 1074
+    },
+    {
+     "company": "California Cas Indemnity Exch",
+     "deductible_1000": 2975,
+     "deductible_2500": 2472
+    },
+    {
+     "company": "CSAA Ins Exch",
+     "deductible_1000": 1388,
+     "deductible_2500": 1230
+    },
+    {
+     "company": "DB Ins Co. LTD (U.S. Branch)",
+     "deductible_1000": 2311,
+     "deductible_2500": 1998
+    },
+    {
+     "company": "Farmers Ins Exchange (Farmers Group)",
+     "deductible_1000": 2040,
+     "deductible_2500": 1876
+    },
+    {
+     "company": "Federal Ins Co (Chubb Group)",
+     "deductible_1000": 3043,
+     "deductible_2500": 2711
+    },
+    {
+     "company": "General Ins Co of Amer",
+     "deductible_1000": 2618,
+     "deductible_2500": 1991
+    },
+    {
+     "company": "Grange Ins Association",
+     "deductible_1000": 3883,
+     "deductible_2500": 3371
+    },
+    {
+     "company": "Homesite Ins Co of the Midwest",
+     "deductible_1000": 1587,
+     "deductible_2500": 1478
+    },
+    {
+     "company": "Horace Mann Ins Co",
+     "deductible_1000": 2400,
+     "deductible_2500": 1825
+    },
+    {
+     "company": "Horace Mann Prop & Cas Ins Co",
+     "deductible_1000": 2866,
+     "deductible_2500": 2180
+    },
+    {
+     "company": "Incline Cas Co",
+     "deductible_1000": 1449,
+     "deductible_2500": 1241
+    },
+    {
+     "company": "Integon National Ins Co",
+     "deductible_1000": 1306,
+     "deductible_2500": 1045
+    },
+    {
+     "company": "Interins Exch of the Automobile Club (AAA)",
+     "deductible_1000": 2205,
+     "deductible_2500": null
+    },
+    {
+     "company": "MAPFRE Ins Co",
+     "deductible_1000": 1591,
+     "deductible_2500": 1193
+    },
+    {
+     "company": "Metromile Ins Co",
+     "deductible_1000": 2517,
+     "deductible_2500": 2353
+    },
+    {
+     "company": "Nationwide Mutual Ins Co",
+     "deductible_1000": 1635,
+     "deductible_2500": 1381
+    },
+    {
+     "company": "Obsidian Pacific Ins Co",
+     "deductible_1000": 1449,
+     "deductible_2500": 1241
+    },
+    {
+     "company": "Pacific Specialty Ins Co",
+     "deductible_1000": 931,
+     "deductible_2500": 790
+    },
+    {
+     "company": "Privilege Underwriters Reciprocal Exch (PURE)",
+     "deductible_1000": 3956,
+     "deductible_2500": 3085
+    },
+    {
+     "company": "Residence Mutual Ins Co (Western Mutual Group)",
+     "deductible_1000": 2371,
+     "deductible_2500": 2051
+    },
+    {
+     "company": "Safeco Ins Co of America (Safeco Group)",
+     "deductible_1000": 1698,
+     "deductible_2500": 1273
+    },
+    {
+     "company": "Spinnaker Ins Co",
+     "deductible_1000": 1392,
+     "deductible_2500": 1166
+    },
+    {
+     "company": "Standard Fire Ins Co (Travelers Group)",
+     "deductible_1000": 1486,
+     "deductible_2500": 1383
+    },
+    {
+     "company": "Stillwater Ins Co",
+     "deductible_1000": 1394,
+     "deductible_2500": 1209
+    },
+    {
+     "company": "Stillwater Prop & Cas Co",
+     "deductible_1000": 1437,
+     "deductible_2500": 1246
+    },
+    {
+     "company": "Sutton National Ins Co",
+     "deductible_1000": 1449,
+     "deductible_2500": 1241
+    },
+    {
+     "company": "United Serv Automobile Assn (USAA)",
+     "deductible_1000": 1635,
+     "deductible_2500": null
+    },
+    {
+     "company": "Universal N Amer (DBA One Alliance N Amer Ins Co)",
+     "deductible_1000": 2487,
+     "deductible_2500": 2286
+    },
+    {
+     "company": "US Coastal P&C Ins Co (DBA Pacific Coastal P&C)",
+     "deductible_1000": 1159,
+     "deductible_2500": 982
+    },
+    {
+     "company": "Wawanesa General Ins Co",
+     "deductible_1000": 1521,
+     "deductible_2500": 1298
+    },
+    {
+     "company": "Zurich American Ins Co",
+     "deductible_1000": 1166,
+     "deductible_2500": 1077
+    }
+   ]
+  },
+  "cupertino_40y_750000": {
+   "location": "SANTA CLARA CUPERTINO",
+   "home_age": "40 Years",
+   "coverage": 750000,
+   "profiles": {
+    "deductible_1000": 276,
+    "deductible_2500": 376
+   },
+   "companies_listed": 37,
+   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,750000,Y",
+   "deductible_1000": {
+    "priced": 37,
+    "lowest": 1374,
+    "median": 2469,
+    "highest": 5645,
+    "at_or_below_1500": 1
+   },
+   "deductible_2500": {
+    "priced": 35,
+    "lowest": 1167,
+    "median": 2017,
+    "highest": 4901,
+    "at_or_below_1500": 4
+   },
+   "rows": [
+    {
+     "company": "Aegis Security Ins Co",
+     "deductible_1000": 3477,
+     "deductible_2500": 2990
+    },
+    {
+     "company": "Amica Mutual Ins Co",
+     "deductible_1000": 2534,
+     "deductible_2500": 2330
+    },
+    {
+     "company": "Armed Forces Ins Exch",
+     "deductible_1000": 2549,
+     "deductible_2500": 2274
+    },
+    {
+     "company": "ASI Select Ins Corp",
+     "deductible_1000": 2469,
+     "deductible_2500": 2238
+    },
+    {
+     "company": "California Automobile Ins Co (Mercury Group)",
+     "deductible_1000": 1555,
+     "deductible_2500": 1326
+    },
+    {
+     "company": "California Capital Ins Co (Auto Owners Group)",
+     "deductible_1000": 1551,
+     "deductible_2500": 1453
+    },
+    {
+     "company": "California Cas Indemnity Exch",
+     "deductible_1000": 3871,
+     "deductible_2500": 3271
+    },
+    {
+     "company": "CSAA Ins Exch",
+     "deductible_1000": 1923,
+     "deductible_2500": 1706
+    },
+    {
+     "company": "DB Ins Co. LTD (U.S. Branch)",
+     "deductible_1000": 3590,
+     "deductible_2500": 3098
+    },
+    {
+     "company": "Farmers Ins Exchange (Farmers Group)",
+     "deductible_1000": 3072,
+     "deductible_2500": 2844
+    },
+    {
+     "company": "Federal Ins Co (Chubb Group)",
+     "deductible_1000": 4171,
+     "deductible_2500": 3685
+    },
+    {
+     "company": "General Ins Co of Amer",
+     "deductible_1000": 3542,
+     "deductible_2500": 2731
+    },
+    {
+     "company": "Grange Ins Association",
+     "deductible_1000": 5645,
+     "deductible_2500": 4901
+    },
+    {
+     "company": "Homesite Ins Co of the Midwest",
+     "deductible_1000": 1900,
+     "deductible_2500": 1769
+    },
+    {
+     "company": "Horace Mann Ins Co",
+     "deductible_1000": 3660,
+     "deductible_2500": 2847
+    },
+    {
+     "company": "Horace Mann Prop & Cas Ins Co",
+     "deductible_1000": 4371,
+     "deductible_2500": 3400
+    },
+    {
+     "company": "Incline Cas Co",
+     "deductible_1000": 2229,
+     "deductible_2500": 1903
+    },
+    {
+     "company": "Integon National Ins Co",
+     "deductible_1000": 1996,
+     "deductible_2500": 1610
+    },
+    {
+     "company": "Interins Exch of the Automobile Club (AAA)",
+     "deductible_1000": 3327,
+     "deductible_2500": null
+    },
+    {
+     "company": "MAPFRE Ins Co",
+     "deductible_1000": 2380,
+     "deductible_2500": 1785
+    },
+    {
+     "company": "Metromile Ins Co",
+     "deductible_1000": 3269,
+     "deductible_2500": 3063
+    },
+    {
+     "company": "Nationwide Mutual Ins Co",
+     "deductible_1000": 2435,
+     "deductible_2500": 2066
+    },
+    {
+     "company": "Obsidian Pacific Ins Co",
+     "deductible_1000": 2229,
+     "deductible_2500": 1903
+    },
+    {
+     "company": "Pacific Specialty Ins Co",
+     "deductible_1000": 1374,
+     "deductible_2500": 1167
+    },
+    {
+     "company": "Privilege Underwriters Reciprocal Exch (PURE)",
+     "deductible_1000": 5117,
+     "deductible_2500": 3980
+    },
+    {
+     "company": "Residence Mutual Ins Co (Western Mutual Group)",
+     "deductible_1000": 3553,
+     "deductible_2500": 3074
+    },
+    {
+     "company": "Safeco Ins Co of America (Safeco Group)",
+     "deductible_1000": 2497,
+     "deductible_2500": 1874
+    },
+    {
+     "company": "Spinnaker Ins Co",
+     "deductible_1000": 1907,
+     "deductible_2500": 1591
+    },
+    {
+     "company": "Standard Fire Ins Co (Travelers Group)",
+     "deductible_1000": 2082,
+     "deductible_2500": 1942
+    },
+    {
+     "company": "Stillwater Ins Co",
+     "deductible_1000": 1978,
+     "deductible_2500": 1715
+    },
+    {
+     "company": "Stillwater Prop & Cas Co",
+     "deductible_1000": 2039,
+     "deductible_2500": 1767
+    },
+    {
+     "company": "Sutton National Ins Co",
+     "deductible_1000": 2229,
+     "deductible_2500": 1903
+    },
+    {
+     "company": "United Serv Automobile Assn (USAA)",
+     "deductible_1000": 2605,
+     "deductible_2500": null
+    },
+    {
+     "company": "Universal N Amer (DBA One Alliance N Amer Ins Co)",
+     "deductible_1000": 3826,
+     "deductible_2500": 3548
+    },
+    {
+     "company": "US Coastal P&C Ins Co (DBA Pacific Coastal P&C)",
+     "deductible_1000": 1616,
+     "deductible_2500": 1383
+    },
+    {
+     "company": "Wawanesa General Ins Co",
+     "deductible_1000": 2327,
+     "deductible_2500": 2017
+    },
+    {
+     "company": "Zurich American Ins Co",
+     "deductible_1000": 1658,
+     "deductible_2500": 1530
+    }
+   ]
+  }
+ },
+ "cupertino_40y_by_dwelling_amount_deductible_2500": {
+  "500000": {
+   "priced": 35,
+   "lowest": 790,
+   "median": 1383,
+   "highest": 3371,
+   "at_or_below_1500": 20,
+   "median_per_1000_of_dwelling_cover": 2.77
+  },
+  "750000": {
+   "priced": 35,
+   "lowest": 1167,
+   "median": 2017,
+   "highest": 4901,
+   "at_or_below_1500": 4,
+   "median_per_1000_of_dwelling_cover": 2.69
+  },
+  "1000000": {
+   "priced": 35,
+   "lowest": 1543,
+   "median": 2690,
+   "highest": 6430,
+   "at_or_below_1500": 0,
+   "median_per_1000_of_dwelling_cover": 2.69
+  }
  }
 }

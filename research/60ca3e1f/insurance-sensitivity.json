@@ -29,6 +29,32 @@
   },
   {
    "inheritYear": 2040,
+   "case": "survey median, 40-yr profile, $500,000 dwelling",
+   "premium2026": 1383,
+   "firstYearPremium": 2150,
+   "tenYearPremium": 24700,
+   "sell": 7683290,
+   "rent": 6251560,
+   "live": 5138380,
+   "sellAheadOfRent": 1431730,
+   "sellAheadOfLive": 2544920,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
+   "case": "survey median, 40-yr profile, $750,000 dwelling",
+   "premium2026": 2017,
+   "firstYearPremium": 3140,
+   "tenYearPremium": 36020,
+   "sell": 7683290,
+   "rent": 6242170,
+   "live": 5124300,
+   "sellAheadOfRent": 1441120,
+   "sellAheadOfLive": 2558990,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2040,
    "case": "survey lowest, 40-yr profile",
    "premium2026": 1543,
    "firstYearPremium": 2400,
@@ -107,6 +133,32 @@
   },
   {
    "inheritYear": 2045,
+   "case": "survey median, 40-yr profile, $500,000 dwelling",
+   "premium2026": 1383,
+   "firstYearPremium": 2500,
+   "tenYearPremium": 28640,
+   "sell": 9125340,
+   "rent": 7397630,
+   "live": 6071090,
+   "sellAheadOfRent": 1727720,
+   "sellAheadOfLive": 3054250,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
+   "case": "survey median, 40-yr profile, $750,000 dwelling",
+   "premium2026": 2017,
+   "firstYearPremium": 3640,
+   "tenYearPremium": 41760,
+   "sell": 9125340,
+   "rent": 7386740,
+   "live": 6054780,
+   "sellAheadOfRent": 1738600,
+   "sellAheadOfLive": 3070570,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2045,
    "case": "survey lowest, 40-yr profile",
    "premium2026": 1543,
    "firstYearPremium": 2790,
@@ -181,6 +233,32 @@
    "live": 7164510,
    "sellAheadOfRent": 2085880,
    "sellAheadOfLive": 3673530,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey median, 40-yr profile, $500,000 dwelling",
+   "premium2026": 1383,
+   "firstYearPremium": 2900,
+   "tenYearPremium": 33200,
+   "sell": 10838040,
+   "rent": 8754500,
+   "live": 7168010,
+   "sellAheadOfRent": 2083550,
+   "sellAheadOfLive": 3670040,
+   "winner": "sell"
+  },
+  {
+   "inheritYear": 2050,
+   "case": "survey median, 40-yr profile, $750,000 dwelling",
+   "premium2026": 2017,
+   "firstYearPremium": 4220,
+   "tenYearPremium": 48410,
+   "sell": 10838040,
+   "rent": 8741880,
+   "live": 7149090,
+   "sellAheadOfRent": 2096160,
+   "sellAheadOfLive": 3688950,
    "winner": "sell"
   },
   {

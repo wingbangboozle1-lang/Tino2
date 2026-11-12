@@ -15,9 +15,13 @@ const fmt = v => (v < 0 ? "-$" : "$") + Math.abs(r10(v)).toLocaleString("en-US")
 const cup = survey.homeowners.cupertino_40y_1000000.deductible_2500;
 const cup70 = survey.homeowners.cupertino_70y_1000000.deductible_2500;
 const sun = survey.homeowners.sunset_70y_1000000.deductible_2500;
+/* Cupertino, 40-year-old home, $2,500 deductible, at three dwelling amounts (labels without an amount are the $1,000,000 profile). */
+const lower = survey.cupertino_40y_by_dwelling_amount_deductible_2500;
 const casesA = [
   ["no premium at all", 0],
   ["household estimate (model)", M.BASE.aInsuranceAnnual],
+  ["survey median, 40-yr profile, $500,000 dwelling", lower["500000"].median],
+  ["survey median, 40-yr profile, $750,000 dwelling", lower["750000"].median],
   ["survey lowest, 40-yr profile", cup.lowest],
   ["survey median, 40-yr profile", cup.median],
   ["survey median, 70-yr profile", cup70.median],
@@ -35,7 +39,7 @@ for (const year of [2040, 2045, 2050]) {
       sellAheadOfRent: r10(d.sell.terminal - d.rent.terminal), sellAheadOfLive: r10(d.sell.terminal - d.live.terminal),
       winner: d.winner };
     out.propertyA.push(row);
-    console.log(`${year}  ${label.padEnd(30)} 2026 premium ${fmt(premium).padStart(7)}  first yr ${fmt(first.insurance).padStart(8)}  10 yrs ${fmt(tenYear).padStart(9)}  sell-rent ${fmt(row.sellAheadOfRent).padStart(11)}  sell-live ${fmt(row.sellAheadOfLive).padStart(11)}  winner ${d.winner}`);
+    console.log(`${year}  ${label.padEnd(48)} 2026 premium ${fmt(premium).padStart(7)}  first yr ${fmt(first.insurance).padStart(8)}  10 yrs ${fmt(tenYear).padStart(9)}  sell-rent ${fmt(row.sellAheadOfRent).padStart(11)}  sell-live ${fmt(row.sellAheadOfLive).padStart(11)}  winner ${d.winner}`);
   }
 }
 console.log("\nPROPERTY B — 2026 net operating income (model, with reserves)");

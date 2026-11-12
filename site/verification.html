@@ -22,7 +22,7 @@ const TOPICS = [
   ["santa-clara-tax", "Santa Clara County property tax"], ["sf-tax", "San Francisco property tax"], ["sf-rent", "San Francisco rent rules"],
   ["federal-income", "Federal income tax on selling or renting"], ["california-income", "California income tax"],
   ["california-law-change", "California law changes · November 2026 ballot"], ["federal-law-change", "Federal proposals"],
-  ["utilities", "Water, sewer and solar"], ["insurance", "Insurance"], ["trust-process", "Trust administration deadlines"], ["history", "Local price history"]
+  ["utilities", "Water, sewer and solar"], ["insurance", "Insurance"], ["economic-baseline", "Official economic projections beside the base case"], ["trust-process", "Trust administration deadlines"], ["rent-benchmark", "Rent benchmark for Property A"], ["history", "Local price history"]
 ];
 
 // ---------- local price history (official FHFA county indexes) ----------
@@ -69,12 +69,12 @@ const DOLLARS = [ // household-supplied, rounded to the nearest $10 as the owner
 const usd = v => v === null ? "—" : "$" + v.toLocaleString("en-US");
 const sign = v => v === null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1).replace(/\.0$/, "") + "%";
 
-main.innerHTML = UI.hero("Verification · official sources re-opened 11 November 2026",
+main.innerHTML = UI.hero("Verification · official sources re-opened 11–12 November 2026",
   "Verified facts, with the link and the wording.",
   "An independent check of the law, rates and thresholds the dashboard relies on. Each row gives the official page and what it says. Where a figure could not be confirmed on an official page, the value is left blank or the row is marked not confirmed. Household dollar amounts are not published here.",
   `<a class="button" href="review.html">Flagged for Review</a><a class="button secondary" href="sources.html">Source register</a><a class="button secondary" href="plan.html">Best plan</a>`) + `<div class="container">
 <section class="section"><div class="grid four">
-<div class="card"><div class="metric-label">Facts confirmed on an official page</div><div class="metric small">${verified.length}</div><div class="tiny">Opened and read on 11 Nov 2026</div></div>
+<div class="card"><div class="metric-label">Facts confirmed on an official page</div><div class="metric small">${verified.length}</div><div class="tiny">Opened and read on 11 or 12 Nov 2026; the date is on each row</div></div>
 <div class="card"><div class="metric-label">Not confirmed · blank or marked</div><div class="metric small">${open.length}</div><div class="tiny">Listed below and on Flagged for Review</div></div>
 <div class="card"><div class="metric-label">Corrections made to the dashboard</div><div class="metric small">4</div><div class="tiny">Two figures, one privacy fix, one label</div></div>
 <div class="card"><div class="metric-label">Newest official figure</div><div class="metric small">$15,480,000</div><div class="tiny">Federal exclusion for deaths in 2027, announced 5 Nov 2026</div></div>
