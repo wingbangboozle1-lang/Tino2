@@ -233,7 +233,7 @@ body+=section('Limitations that can change the answer',table(['Omission or assum
  ('Estate tax','No estate-tax payment, allocation, liquidity need or timing is modeled because the estate is unknown.',source('estate')),
  ('Rental tax','No building/land allocation, depreciation, recapture, passive-loss rules or taxpayer-specific brackets; compare with a CPA.',source('rental')),
  ('Income-tax basis','Uses date-of-death value as basis. Trust or other exceptions can make that wrong.',source('trustbasis')),
- ('Property tax','Rate and future allowance are scenarios; no direct charges, supplemental bills, declining-market relief or construction.',source('prop19')),
+ ('Property tax','Rate and future allowance are scenarios. Decline in value is only a simplified market-value cap; no direct charges, supplemental bills, appeals or new construction are modeled.',source('prop19')),
  ('Insurance and utilities','Flat annual inflation is not an insurance quote or rate forecast. Solar credit is set to zero solely in this invented case.',source('cdi')),
  ('Housing choice','No value for occupying A or any income from changing B’s occupancy; the heir’s preferences are missing.',source('invest')),
  ]))
