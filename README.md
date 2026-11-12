@@ -22,6 +22,7 @@ Open `http://localhost:8080`. There is no build step, package dependency, analyt
 
 ## Structure
 
+- `site/reinvest.html` — **Where the money goes** (session 9caf8551): the option the model left open. Each place the sale proceeds could sit — bank deposits, Treasury bills and notes, California municipal bonds, shares — with its official current rate, tax rule, protection limit and recorded history; the published engine re-run at each after-tax return, the return at which selling stops leading (about 2.8% a year against renting, about 1.1% against living), and the open items left blank (data in `site/data/reinvest.js`; official series and thresholds in `site/data/sources.js`)
 - `site/questions.html` — **Decision readiness**: 22 open questions, 12 points already settled by an official source, 8 that no document can settle, a 12-item discovery plan, and a browser-local answer tracker (data in `site/data/questions.js`)
 - `site/suggestions.html` — **Suggestions to review**: 27 proposals with the uncertainty each removes, effort, cost and limits, four ready-made paths the owner can compare and choose before anything is implemented, and the two earlier sessions' shortlists reconciled in their own IDs (data in `site/data/suggestions.js`)
 - `site/stress.html` — automatic 50-year variable-growth, inflation, crash and disaster paths

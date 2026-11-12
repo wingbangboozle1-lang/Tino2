@@ -72,6 +72,13 @@
    "links": 0
   },
   {
+   "file": "site/reinvest.html",
+   "rows": 42,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 112,
+   "links": 0
+  },
+  {
    "file": "site/review.html",
    "rows": 96,
    "rowsWithContextLinkOnly": 0,
@@ -94,9 +101,9 @@
   },
   {
    "file": "site/sources.html",
-   "rows": 204,
+   "rows": 218,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 86,
+   "amounts": 94,
    "links": 0
   },
   {
@@ -124,13 +131,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 17,
-  "rows": 1510,
-  "rowsWithOwnSource": 1501,
+  "pages": 18,
+  "rows": 1566,
+  "rowsWithOwnSource": 1557,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 4861,
+  "amounts": 4981,
   "officialExactAmounts": 105,
-  "internalLinks": 457,
-  "externalLinks": 1995
+  "internalLinks": 500,
+  "externalLinks": 2074
  }
 }

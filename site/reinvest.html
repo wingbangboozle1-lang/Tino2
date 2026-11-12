@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Where the sale proceeds could go: bank deposits, Treasury bills and notes, California municipal bonds and shares — after-tax return, protection, and what each does to the live, rent or sell comparison."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Where the money goes">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="data/reinvest.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const X = window.REINVEST;
+const res = X.results();
+const inheritDefault = 2045;
+
+const src = (key, label) => UI.source(key, label);
+function blankNote(text) { return `<span class="tiny">${text}</span><br>${UI.badge("Unverified · left blank", "red")}`; }
+
+function homeGrowthCard() {
+  const out = res.map(r => {
+    let lo = 0;
+    let hi = 0.25;
+    for (let i = 0; i < 200; i += 1) {
+      const mid = (lo + hi) / 2;
+      const c = { ...MODEL.BASE, inheritYear: r.year, appreciation: mid };
+      if (MODEL.decision(c, 10).rent.terminal > MODEL.decision(c, 10).sell.terminal) hi = mid;
+      else lo = mid;
+    }
+    return { year: r.year, line: (lo + hi) / 2 };
+  });
+  const w = out[1];
+  return `Holding the portfolio at the published 5% and raising home-price growth, renting the house out overtakes selling once Cupertino prices rise faster than about <strong>${UI.pct(w.line, 1)}</strong> a year (inheritance in ${w.year}; ${UI.pct(out[0].line, 1)} for 2040 and ${UI.pct(out[2].line, 1)} for 2050). The San Jose metro index the site already uses has risen about 6.7% a year over 1976–2025 (${UI.source("fhfaHpi")}), so this is not a far-fetched outcome. It is the one condition under which the recommendation reverses, and the risk is much larger if the money sits in Treasury bills rather than shares, because the home then has to clear a lower bar.`;
+}
+
+main.innerHTML = [
+  UI.hero(
+    "Reinvesting · where the sale proceeds go",
+    "If the house is sold, where does the money go?",
+    `The published plan sells Property A and invests the proceeds at an assumed 5% a year after tax. This page asks the next question: <em>which</em> investment, taxed how, protected how, and what happens to the answer if the money earns less. Every rate below comes from an official page read on 12 November 2026; every dollar figure is produced by the same engine as the Best plan page.`,
+    `<a class="button" href="plan.html">Back to the best plan</a><a class="button secondary" href="decision.html">Change the assumptions</a><a class="button secondary" href="stress.html">Black-swan tests</a>`
+  ),
+  `<section class="section"><div class="callout warning"><strong>Read this first.</strong> The recommendation to sell does not depend on 5%. On the published engine, selling still finishes ahead of renting the house out at an after-tax return of about 2.8% a year, and ahead of living in it at about 1.1%. But a bank account at today's national average, ${UI.pct(0.0025422, 2)} after tax, is <em>below</em> that line: a sale parked in cash would lose to keeping the house. The gap between a cash account and a share portfolio is worth more to this household than the choice between the three plans. That is the finding of this page.</div></section>`,
+  UI.section("The choice the model left open",
+    "The Best plan page carries one number for “invest the proceeds”: 5% a year after tax. Nothing on the site says what that money is invested in. This page fills the gap with the four places a household can put a large sum, each with its official current rate, its tax rule and its protection limit.",
+    `<div class="table-wrap"><table><thead><tr><th>Destination</th><th class="number">Rate today, before tax</th><th class="number">After tax at 33.1%</th><th>How it is taxed</th><th>Protection</th><th>Main risk</th><th>Official source</th><th>Review flag</th></tr></thead><tbody>${
+      X.DESTINATIONS.map(d => `<tr>
+        <td><strong>${d.name}</strong><br><span class="tiny">${d.what}</span></td>
+        <td class="number">${d.grossNow == null ? blankNote("No official figure") : `${UI.pct(d.grossNow, 2)}<br><span class="tiny">${d.grossNote}</span>`}</td>
+        <td class="number">${d.afterTax == null ? blankNote("No official rate") : `<strong>${UI.pct(d.afterTax, 2)}</strong><br><span class="tiny">${d.afterTaxBasis}</span>`}</td>
+        <td class="tiny">${d.taxRule}</td>
+        <td class="tiny">${d.protection}</td>
+        <td class="tiny">${d.risk}</td>
+        <td class="source">${d.grossNow != null ? src(d.grossSource) : ""}${src(d.taxSource)}${d.taxSource2 ? " · " + src(d.taxSource2) : ""}<br><span class="tiny">Protection:</span> ${src(d.protectionSource)}</td>
+        <td class="tiny">${d.flag ? UI.badge("Flagged", "red") + " " + d.flag : "None"}</td>
+      </tr>`).join("")
+    }</tbody></table></div>
+    <p class="tiny">The 33.1% is the model's combined federal-plus-California scenario rate, not a taxpayer-specific calculation. It is applied to every taxable line so the comparison is like for like. Treasury interest is exempt from California tax, so in reality bills and notes keep slightly more than shown — the comparison is therefore conservative in their favour, never overstated. ${UI.source("irsCapGains")} ${UI.source("irsNIIT")}</p>`
+  ),
+  UI.section("What the choice is worth",
+    `Selling Property A at a ${inheritDefault} inheritance frees about ${UI.money(res[1].netSaleProceeds)} after a 6% sale cost. Here is what that sum produces in its first year, before any of it is spent, under each destination.`,
+    `<div class="table-wrap"><table><thead><tr><th>Destination</th><th class="number">Rate before tax</th><th class="number">First-year income before tax</th><th class="number">After tax</th><th class="number">After tax, a month</th><th>Basis</th><th>Official source</th></tr></thead><tbody>${
+      X.incomeRows(inheritDefault).map(r => `<tr><td>${r.label}${r.assumption ? " " + UI.badge("Assumption", "gold") : ""}</td><td class="number">${r.rate == null ? "—" : UI.pct(r.rate, 2)}</td><td class="number">${r.yearIncome == null ? "—" : UI.money(r.yearIncome)}</td><td class="number"><strong>${UI.money(r.afterTaxIncome)}</strong></td><td class="number">${UI.money(r.monthly)}</td><td class="tiny">${r.assumption ? "The site's own assumption, stated after tax. No pre-tax yield is implied." : "Official current benchmark × (1 − 33.1%)"}</td><td class="source">${src(r.source)}</td></tr>`).join("")
+    }</tbody></table></div>
+    <p class="tiny">A ${inheritDefault} inheritance, ten-year endpoint. Principal ${UI.money(res[1].netSaleProceeds)}; the published plan compounds it rather than spending the income. The bank row is the reason this page exists: at the national average savings rate the money earns less than prices are assumed to rise.</p>
+    <div class="callout"><strong>Protection is a separate question from return.</strong> ${UI.money(res[1].netSaleProceeds)} in one savings account is insured only to ${UI.money(250000)}, leaving about ${UI.money(res[1].netSaleProceeds - 250000)} uninsured unless it is split across banks, ownership categories or another destination. Treasury securities carry the full faith and credit of the United States and have no such limit; shares inside a brokerage account carry SIPC protection of ${UI.money(500000)} for custody — not for a fall in value. ${UI.source("fdic")} ${UI.source("sipc")}</div>`
+  ),
+  UI.section("Does the answer survive a lower return?",
+    "The same ten-year comparison on the published engine, at each destination's after-tax rate. Sell, rent and live are recomputed in full — property tax, rent, upkeep, sale costs and capital-gain tax — not scaled from the 5% answer.",
+    res.map(r => `<h3>Inheritance in ${r.year}</h3>
+      <div class="table-wrap"><table><thead><tr><th>Money earns</th><th class="number">After tax</th><th class="number">Sell and reinvest</th><th class="number">Rent out, then sell</th><th class="number">Live in, then sell</th><th class="number">Selling ahead of renting</th><th class="number">Selling ahead of living</th><th>Best on money</th><th>Rate source</th></tr></thead><tbody>${
+        r.rows.map(row => `<tr${row.key === "base" ? ' class="soft-row"' : ""}><td>${row.assumption ? "Assumption: " : ""}${row.label}</td><td class="number">${UI.pct(row.rate, 2)}</td><td class="number">${UI.money(row.sell)}</td><td class="number">${UI.money(row.rent)}</td><td class="number">${UI.money(row.live)}</td><td class="number ${row.sellAheadOfRent < 0 ? "negative" : ""}">${UI.money(row.sellAheadOfRent)}</td><td class="number ${row.sellAheadOfLive < 0 ? "negative" : ""}">${UI.money(row.sellAheadOfLive)}</td><td>${row.winner === "sell" ? "Sell" : row.winner === "rent" ? "Rent" : "Live"}${row.key === "base" ? " " + UI.badge("Published base case", "gold") : ""}</td><td class="source">${src(row.source)}</td></tr>`).join("")
+      }</tbody></table></div>
+      <p class="tiny">Net sale proceeds ${UI.money(r.netSaleProceeds)}; property value at inheritance ${UI.money(r.inheritValue)}. The crossing point for this inheritance year: selling stops leading <strong>renting</strong> below an after-tax return of ${UI.pct(r.breakEvenRent, 2)} a year, and stops leading <strong>living in the house</strong> below ${UI.pct(r.breakEvenLive, 2)}. Both crossing points are above a bank account and below a Treasury bill.</p>`
+    ).join("")
+  ),
+  UI.section("The two ways the answer actually flips",
+    "A lower return is not the only risk. The comparison can flip in two directions, and both can be measured with the same engine.",
+    `<div class="grid two">
+      <div class="card"><h3>1 · If the money earns less than about 2.8%</h3><p>At the national average savings rate the sale proceeds earn ${UI.pct(0.0025422, 2)} after tax. On that rate, renting the house out finishes ahead for every inheritance year tested — by ${UI.money(Math.abs(res[1].rows[0].sellAheadOfRent))} at ${inheritDefault}. The recommendation to sell is therefore <strong>conditional on investing the proceeds</strong>, not on selling for its own sake. Selling and holding cash is the worst of both worlds in this model.</p></div>
+      <div class="card"><h3>2 · If Cupertino prices outrun the portfolio</h3><p>${homeGrowthCard()}</p></div>
+    </div>
+    <p class="tiny">Crossing points computed by bisection on <code>MODEL.decision()</code> with every other assumption held at the published base case; the home-price line is computed from the same engine and is shown as a finding, not as a published figure. The recorded range of Bay Area home-price growth is on the <a href="black-swan.html">Recorded data</a> page.</p>`
+  ),
+  UI.section("What the record actually paid",
+    "Growth and inflation are never steady, so here is what each destination actually did over the longest official window available. These are recorded outcomes, not forecasts, and none of them is used to set the model's 5%.",
+    `<div class="table-wrap"><table><thead><tr><th>Series</th><th class="number">First year</th><th class="number">Last year</th><th class="number">Growth a year</th><th>Worst stretch in the record</th><th>What it means for the plan</th><th>Official source</th></tr></thead><tbody>${
+      X.SERIES.map(s => `<tr>
+        <td>${s.name}</td>
+        <td class="number">${s.first.value.toFixed(2)}${s.unit === "% a year" ? "%" : ""} <span class="tiny">(${s.first.year})</span></td>
+        <td class="number">${s.last.value.toFixed(2)}${s.unit === "% a year" ? "%" : ""} <span class="tiny">(${s.last.year})</span></td>
+        <td class="number">${s.cagr == null ? "—" : UI.pct(s.cagr, 2)}</td>
+        <td class="tiny">${s.worst ? (s.worst.change == null ? `Highest reading ${s.worst.level}% (${s.worst.years})` : `${s.worst.years}: −${(Math.abs(s.worst.change) * 100).toFixed(1)}%`) : "—"}</td>
+        <td class="tiny">${s.note}</td>
+        <td class="source">${src(s.source)}</td>
+      </tr>`).join("")
+    }</tbody></table></div>
+    <div class="callout"><strong>What the record says, and does not say.</strong> Over 55 years United States share prices rose 6.9% a year before dividends and before tax, against prices at 3.9% a year — close to three points a year more, but with a 37% fall from 2007 to 2009 on annual averages and larger falls inside those years. A rolled Treasury bill paid anything from 0.10% to 16.72% depending on the decade: high enough in the early 1980s to beat prices, and almost nothing for a decade after 2008. That unevenness is the honest reason a cash plan feels safe and still loses ground after tax. Neither line is a forecast. The 5% the model assumes for a share portfolio is deliberately <em>below</em> the recorded pre-tax share-price return because it is stated after tax. The <a href="stress.html">50-year paths</a> page already tests the plan against re-ordered versions of these same years. ${UI.source("fredSharePrice")} ${UI.source("fredOneYear")}</div>`
+  ),
+  UI.section("The taxes and limits that decide it",
+    "Every threshold below is a current, published official figure. They are the numbers that make one destination better than another for this household, and the ones to re-read before any money moves.",
+    `<div class="table-wrap"><table><thead><tr><th>Rule</th><th>Current official amount or limit</th><th>Why it matters here</th><th>Official source</th></tr></thead><tbody>${
+      X.THRESHOLDS.map(t => `<tr><td>${t.item}</td><td class="tiny"><strong>${t.value}</strong></td><td class="tiny">${t.why}</td><td class="source">${src(t.source)}${t.source2 ? " · " + src(t.source2) : ""}</td></tr>`).join("")
+    }</tbody></table></div>`
+  ),
+  UI.section("What this page does not know",
+    "Nothing below is inferred or filled in. Each item is left blank, published as a review flag, and given the route that would settle it.",
+    `<div class="table-wrap"><table><thead><tr><th>Open item</th><th>Why it changes the answer</th><th>What would settle it</th><th>Official route</th></tr></thead><tbody>
+      <tr><td>The household's real federal and California marginal rates in the inheritance year</td><td class="tiny">The 33.1% scenario rate is a planning assumption. A lower rate raises every after-tax figure on this page; a higher one lowers them. The ranking does not change because every destination moves together.</td><td class="tiny">Model the return with the household's own bracket and the 3.8% surtax in the first year the money is invested.</td><td class="source">${src("irsCapGains")} · ${src("caSurtax")}</td></tr>
+      <tr><td>The yield a California municipal bond would actually pay this household</td><td class="tiny">A double-exempt California bond can beat a Treasury note on after-tax income at a lower headline yield, or lose to it. Without a real quote the comparison cannot be made.</td><td class="tiny">Get two or three actual California issues with maturity, rating and yield to worst; compare the taxable-equivalent yield with the 4.98% ten-year Treasury.</td><td class="source">${src("caMuniExempt")}</td></tr>
+      <tr><td>The share portfolio's cost, tax drag and location</td><td class="tiny">A fund fee of 0.05% and one of 1% differ by more than the whole gap between bills and notes. Where the shares sit — taxable account or retirement account — changes the after-tax return.</td><td class="tiny">Price the actual fund and account; rerun the Decision lab's after-tax return field with the net figure.</td><td class="source">${src("investorRisk")}</td></tr>
+      <tr><td>The year the money is needed, and how much of it</td><td class="tiny">A sum needed within three years cannot sensibly be in shares; a sum left for thirty years has time to recover a fall. The model assumes ten years and reinvestment of all income.</td><td class="tiny">Write down the planned draw, year by year. Then split the sum by when it is needed rather than by which rate looks best.</td><td class="source">${src("investorRisk")}</td></tr>
+      <tr><td>The estate's size and whether the money arrives inside or outside the trust</td><td class="tiny">If the money pushes the estate over the federal threshold, the tax is paid before anything is invested, which changes the principal on every row.</td><td class="tiny">Inventory the estate privately; see the <a href="estate-tax.html">Estate tax</a> page.</td><td class="source">${src("irsEstate")}</td></tr>
+    </tbody></table></div>
+    <p class="tiny">No official body publishes a forward return for shares, a savings rate for 2045, or a municipal yield for this household. Every such figure on this page is therefore either blank, or labelled as the site's assumption.</p>`
+  )
+].join("");
+
+UI.ensureRowSources();
+</script>
+</body>
+</html>

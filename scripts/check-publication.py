@@ -18,6 +18,8 @@ ALLOWED = {
     'site/operating-costs.html', 'site/options.html',
     'site/questions.html', 'site/suggestions.html',
     'site/data/questions.js', 'site/data/suggestions.js',
+    'site/reinvest.html',
+    'site/data/reinvest.js',
     'site/data/ledger.js', 'site/data/history-engine.js', 'site/data/history.js',
     'site/data/model.js', 'site/data/scenarios.js',
     'site/data/sources.js', 'site/data/stress.js', 'site/data/costs.js',
