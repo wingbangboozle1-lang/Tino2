@@ -1,5 +1,7 @@
 # Only the privacy-reviewed public guide is served by Jekyll from main/root.
 # GitHub itself remains public; exclusions are NOT repository access controls.
+# Disable the default theme so no unreviewed generated theme assets are published.
+theme: null
 exclude:
   - COORDINATION.md
   - README.md

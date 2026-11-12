@@ -12,7 +12,7 @@ script = r'''
 global.window=global;
 require('./guide/data/model.js'); require('./guide/data/stress.js');
 const base=MODEL.BASE, decisions=[];
-for (const year of [2040,2045,2050]) for (const horizon of [10,20,50])
+for (const year of [2040,2045,2050]) for (const horizon of [10,20,30,50])
 for (const growth of [0.02,0.035,0.05]) for (const ret of [0.03,0.05,0.07]) {
   const c={...base,inheritYear:year,appreciation:growth,portfolioNet:ret};
   decisions.push({year,horizon,growth,ret,result:MODEL.decision(c,horizon),b:MODEL.sfAnnual(year,c)});
