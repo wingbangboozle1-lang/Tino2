@@ -1,0 +1,76 @@
+{
+  "session": "3938fab9",
+  "date": "2026-11-12",
+  "checks": 700,
+  "failures": [],
+  "counts": {
+    "sources": 178,
+    "openQ": 28,
+    "answeredQ": 14,
+    "unknowableQ": 8,
+    "suggestions": 27,
+    "gateTotal": 40,
+    "gateSettled": 14,
+    "gateHousehold": 11,
+    "gateMissing": 15
+  },
+  "key_2045_10yr_4BR": {
+    "y": 2045,
+    "h": 10,
+    "rc": "4BR",
+    "sell": 9125340,
+    "sellLiq": 7959170,
+    "rent": 7395620,
+    "live": 6068080,
+    "winner": "sell",
+    "lead": 1729720,
+    "primaryAssessed": 4486260,
+    "allowance": 1473490
+  },
+  "key_2045_10yr_4BR_2027": {
+    "y": 2045,
+    "h": 10,
+    "rc": "4BR_2027",
+    "sell": 9125340,
+    "sellLiq": 7959170,
+    "rent": 7289400,
+    "live": 6068080,
+    "winner": "sell",
+    "lead": 1835940,
+    "primaryAssessed": 4486260,
+    "allowance": 1473490
+  },
+  "sjw_bills": {
+    "6": 108.46,
+    "8": 123.29,
+    "10": 138.12,
+    "12": 152.96,
+    "15": 195.45
+  },
+  "sfpuc_3unit_bills": {
+    "6": 241.61,
+    "9": 336.81,
+    "10": 369.42,
+    "11": 402.03,
+    "12": 434.65
+  },
+  "breakevens": {
+    "home_growth_headline_pct": 7.814,
+    "portfolio_return_headline_pct": 2.8,
+    "home_growth_equal_terms_pct": 5.316,
+    "portfolio_return_equal_terms_pct": 3.965
+  },
+  "depreciation_30pct_2045": {
+    "annual_deduction": 65020,
+    "rent_terminal_with_dep": 7376900,
+    "rent_terminal_published": 7395620,
+    "change": -18720,
+    "sell_still_leads_by": 1748440
+  },
+  "old_prop58_rule_2045": {
+    "rent_now": 7395620,
+    "rent_under_old_rule": 7970960,
+    "sell_lead_under_old_rule": 1154390,
+    "sell_lead_equal_terms_old_rule": -11780
+  }
+}
