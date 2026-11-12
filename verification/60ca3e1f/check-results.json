@@ -245,7 +245,7 @@
    "result": "pass"
   },
   {
-   "check": "no e-mail address, street address or parcel number in the 5 files this session wrote",
+   "check": "no e-mail address, street address or parcel number in the 6 files this session wrote",
    "result": "pass"
   },
   {
@@ -293,7 +293,7 @@
    "result": "pass"
   },
   {
-   "check": "rendered table row shows: $10,380 $40,130",
+   "check": "rendered table row shows: $10,384 $40,130",
    "result": "pass"
   },
   {

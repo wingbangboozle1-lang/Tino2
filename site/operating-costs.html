@@ -64,8 +64,8 @@ const noiB = premium => M.sfAnnual(B0.startYear, { ...B0, bInsuranceAnnual: prem
 const insBRows = [
   [`Household estimate — the figure the model uses`, B0.bInsuranceAnnual, "ocCdiCompare", "No official figure"],
   [`Survey middle, owner-occupied Sunset home, 70 years old, ${m(1000000)} to rebuild`, sun70.median, sun70.src, "Survey result page"],
-  [`Survey highest, same hypothetical home`, sun70.highest, sun70.src, "Survey result page"]
-].map(([label, premium, src, srcLabel]) => `<tr><td class="wrap">${label}</td><td class="number">${m(r10(premium))}</td><td class="number">${m(r10(noiB(premium)))}</td><td class="source">${UI.source(src, srcLabel)}</td></tr>`).join("");
+  [`Survey highest, same hypothetical home, as published`, sun70.highest, sun70.src, "Survey result page", true]
+].map(([label, premium, src, srcLabel, published]) => `<tr><td class="wrap">${label}</td><td class="number">${m(published ? premium : r10(premium))}</td><td class="number">${m(r10(noiB(premium)))}</td><td class="source">${UI.source(src, srcLabel)}</td></tr>`).join("");
 const quakeRows = INS.earthquake.map(q => `<tr><td><strong>${q.place}</strong></td><td class="number">${q.listed}</td><td class="number">${q.withRate}</td><td class="number">${m(q.lowest, 2)}</td><td class="number"><strong>${m(q.median, 2)}</strong></td><td class="number">${m(q.highest, 2)}</td><td class="number">${q.throughCea}</td><td class="number">${q.footnotes}</td><td class="source">${UI.source(q.src, "Survey result page")}</td></tr>`).join("");
 const fairRows = INS.fairPlan.rows.map(f => `<tr><td><strong>${f.label}</strong></td>${f.counts.map(n => `<td class="number">${n.toLocaleString("en-US")}</td>`).join("")}<td class="number">${(f.counts[f.counts.length - 1] / f.counts[0]).toFixed(1)} times</td><td class="source">${UI.source(INS.fairPlan.src, "Policies in force by ZIP code")}</td></tr>`).join("");
 
