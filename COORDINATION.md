@@ -1516,3 +1516,16 @@ Branch: `arena/c96c185e-tino2` (from `main` `052e626`, PR #52). Claim pushed imm
 State read at claim: `main` = `052e626` (PR #52). No open PRs. No live claims on the board; last session `55c16cea` marked done. This session does not repeat prior research; it verifies the published site line by line and fixes defects only.
 
 **Overlap found at rebase (2026-11-12 22:2x UTC).** While this session ran, `c96c185e` claimed and completed the same class of task (PR #55, merged as `ddf9cb7`) — its board block was not present when this session read the board, so the two passes were independent. Nothing is discarded: both blocks and both verification reports are kept, and this session's PR carries only its own report and record. The two reports agree on every figure they both checked (suite results, base case, IRS/BOE/HUD amounts); this report adds HUD FY2027 at the corrected `/datasets/fmr/fmr2027/zip-calc` URLs, SF FY2026-27 secured rate `1.18162182%`, the SF Rent Board fee amounts and dates, and RTC §§ 11930 / 11911. Duplicate effort, not conflicting work.
+
+### `27e6213d` completion record — independent verification (V-1, V-2)
+
+| Step | Result |
+|---|---|
+| Task | V-1 independent verification pass: full suite re-run, nine official figures re-opened live, privacy audit of the published artifact, defect hunt |
+| Files touched | `verification/27e6213d/REPORT.md`, this block only. **No shared file edited** — no defect required one |
+| Suite re-run | `validate.js` PASS (1,561 checks, 18 pages, 177 sources); `stress-test.js` PASS; `package-site.py` PASS; `check-publication.py --self-test` PASS (34 public files); `runtime-test.cjs` PASS (18 pages, 1,583 rows); `qa/tools/gate.cjs` PASS (0 errors, 0 warnings, 4,985 amounts); `privacy_scan.py` 0 errors |
+| Base case reproduced | sell $7,683,290 / rent $6,249,830 / live $5,135,780 at 2040→2050 |
+| Official re-checks (live, 12 Nov 2026) | IRS IR-2026-133 2027 exclusion $15,480,000 (2026: $15,000,000); BOE NR 25-02 Prop 19 $1,044,586; HUD FY2027 SAFMR 95014 ($5,440 3BR / $5,800 4BR) and 94122 ($2,770 1BR / $3,410 2BR); SF secured rate FY2026-27 1.18162182%; SF Rent Board fee $59/unit, 50% recovery, 1 March, 14 Dec 2026 exemption deadline; CA State Controller — no estate tax for deaths on/after 1 Jan 2005; RTC § 11930 death-transfer exemption; RTC § 11911 $0.55/$500 |
+| Privacy audit of `_public/` | 0 errors. No names, street addresses, parcel or account numbers; parties only as `[OWNER]`, `[TRUSTEE]`, `[DECEDENT]`, `[HEIR]`. `_config.yml` still excludes every legacy root page, `docs/`, `research/`, `verification/`, `scripts/`, `qa/`, `src/`, `dashboard/`, `pages/`, `css/` and the two unreferenced stylesheets; only `assets/app.js` + `assets/styles.css` publish; `robots.txt` disallows all crawlers |
+| Defects | none. Three observations logged in `verification/27e6213d/REPORT.md`: O-1 loose wording in the `rtc11911` source note (statute says a city *imposes* half the rate and is then *credited* against the county tax — substance correct, left to the next `sources.js` owner to reword), O-2 Property A levy stays a labelled hypothetical (parcel tax-rate area not public), O-3 `capitalGainsTax` 0.331 / `estateIndex` 0.02 are labelled assumptions |
+| Standing items | unchanged and still published on the Flagged for Review page; none blocks publication |
