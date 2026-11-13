@@ -1718,3 +1718,27 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 - Rebase conflicts onto PR #66's merged `main` involved append-only coordination, the old personalized root page and the old README. The board was preserved from both sides; the root and README were intentionally replaced for the privacy-safe guide, with the old root saved outside Git. Other session files and report blocks were preserved. `qa/ledger.json` FED-05 and its generated duplicate were corrected to distinguish the filing test from taxable-estate deductions; their legacy paths remain excluded from Pages.
 - **High priority still open:** the public repository itself, its history, PRs, branches, forks and caches can still expose earlier household-derived details. GitHub's coordinated sensitive-data-removal process and collaborator action are needed; this session did not rewrite history or delete others' work.
 - **Publication hardening still open:** Pages remains in legacy `main`/root Jekyll mode. An attempt to switch its source to the provided allowlist-based Actions workflow was denied with HTTP 403, `Resource not accessible by integration`; no settings change occurred. Legacy Pages builds can deploy independently of the CI audit, so future unchecked root changes can leak data. This follow-up disables the default Jekyll theme so the full output can be compared byte-for-byte against the manifest, but that audit is still not a deployment gate in legacy mode. A repository administrator can select **GitHub Actions** as the Pages source and run the provided workflow on `main`; see README. The GitHub connection needs Pages and administration write permissions if that setting is to be changed through the API.
+
+---
+
+## Session `76e91231` (branch `arena/76e91231-tino2`) — claim 2026-11-13 06:45 UTC
+
+**State read at claim.** `origin/main` = `5f64fb8` (merge of PR #69, session `2ddad241`). `git rev-parse HEAD` equals `origin/main`; no rebase needed. Open pull requests: **#70** (`arena/a29630ce-tino2`, *"verification report and public guide publication readiness"*, opened 06:41 UTC, files `COORDINATION.md` + `verification/a29630ce/REPORT.md` only) and **#63** (`arena/4061a2e5-tino2`, idle since 2026-11-12 22:21 UTC, 8 h with no commits — eligible for takeover under the 60-minute rule, but its content is a superseded bookkeeping record). Session `a29630ce` owns a **verification report and its own board block only**; it claims no site file. This session therefore takes the **site improvement scope** and will not edit `verification/a29630ce/**` or PR #70's block.
+
+**Scope of this session (non-overlapping):**
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| T-1 | Claim, push at once, rebase before every push | done on push | 76e91231 | this block only |
+| T-2 | **Verification pass.** Re-open official sources for every rule figure the public guide publishes; record any mismatch; add a machine-readable official-figure ledger the build checks against | in progress | 76e91231 | `guide/figures/**` (new), `scripts/**` |
+| T-3 | **Repo line-by-line review.** Identify household-derived values still tracked in the public repository; report location, type and remediation route. Do **not** reprint any household value in the report | in progress | 76e91231 | `verification/76e91231/**` (new) |
+| T-4 | **Missing-information discovery.** Publish a discovery register: for each unknown needed to decide, the question, why it blocks the decision, the exact document or source that answers it, who holds it, and a lead-time estimate | in progress | 76e91231 | `guide/**`, `scripts/build-guide.py` |
+| T-5 | **Decision dashboard.** Improve the site for decision-making: a prior-probability / breakeven view, a readiness scorecard, and clearer separation of verified law from unknown facts | in progress | 76e91231 | `guide/**`, `assets/safe.*`, `scripts/**` |
+| T-6 | **Real-conditions baseline.** Replace the single straight-line assumption with an observed-inflation baseline that cites official series and states plainly what is and is not known past the official projection horizon | in progress | 76e91231 | `guide/**`, `guide/data/**`, `scripts/**` |
+| T-7 | Re-run every check, PR to `main`, merge without waiting, confirm the Pages build and read the live pages back | pending | 76e91231 | this block |
+
+**Rules this session follows.** No personal information and no household-derived amount in any committed file, report, board row or PR body. Parties appear only as placeholders. Any number derived from the owner's brief stays unpublished; where an analysis needs a figure the site uses a clearly labelled invented example. Every published table row carries an official `https://` source or is left blank and flagged unverified at `guide/review.html`. `git pull --rebase` before every push; conflicts resolved keeping both sides in full.
+
+**Coordination note T-C1.** Prior sessions' `verification/**`, `site/**`, `docs/**`, `pages/**`, `research/**`, `qa/**` and `integration/**` trees are **retained unchanged** except where T-3's report must describe them by path, type and count only. Requests to change files outside this scope go in this block, not into the other tree.
+
+**Coordination note T-C2 (PR #63).** PR #63 is 8 hours idle. It is **not** merged, **not** force-closed and **not** edited by this session; it is recorded here so the next session knows it is stale and superseded by #69. No takeover was needed because it claims no file this session needs.
