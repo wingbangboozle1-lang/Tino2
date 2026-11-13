@@ -3,6 +3,14 @@ const {JSDOM,VirtualConsole}=require('../.cache/test/node_modules/jsdom');
 const fs=require('fs'),path=require('path'),assert=require('assert');
 const root=path.resolve('_public');
 const pages=['index.html',...fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html')).map(f=>'guide/'+f)];
+// Dollar amounts published exactly by a government body. Each was re-read on
+// 13 Nov 2026 against the official page that publishes it; the passage and the
+// URL are recorded in verification/b2418dfa/REPORT.md. These are published
+// rates, not household figures, so they are shown exactly rather than mis-rounded.
+const OFFICIAL_AMOUNTS=new Map([
+ [249,'SFMTA Proposition H FY 2027-28 multifamily base amount'],
+ [129,'SFMTA Proposition H FY 2027-28 single-family base amount'],
+]);
 const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com']);
 let rows=0, checks=0;
 function check(ok,msg){checks++;assert(ok,msg);}
@@ -48,7 +56,7 @@ function inspect(dom,file){
  const text=doc.body.textContent;
  for(const match of text.matchAll(/\$\s*(\d{1,3}(?:,\d{3})+|\d+)(?![\d,])/g)){
   const amount=Number(match[1].replace(/,/g,''));
-  check(amount%10===0,file+' non-$10 dollar amount: '+match[0]);
+  check(amount%10===0||OFFICIAL_AMOUNTS.has(amount),file+' non-$10 dollar amount: '+match[0]);
  }
  check(!/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i.test(text),file+' email in rendered text');
 }
@@ -82,6 +90,39 @@ for(const file of pages){
   check(Math.abs(early.rent-late.rent)>1,'Cash flow sequencing changes rental outcome');
   check(S.run('crisis')[0].assessed===S.run('crisis')[0].market,'Early crash models a temporary decline in assessment');
   check(d.querySelectorAll('#stress-years tbody tr').length===250,'All stress annual rows rendered');
+ }
+ if(file==='guide/questions.html'){
+  const d=dom.window.document;
+  const heads=[...d.querySelectorAll('thead th')].map(th=>th.textContent.trim());
+  check(heads.includes('Answer already known from official sources'),'Questions register states the rule-level answer');
+  check(heads.includes('Household answer'),'Questions register keeps the household answer separate');
+  const table=[...d.querySelectorAll('table')].find(t=>[...t.querySelectorAll('thead th')].some(th=>th.textContent.trim()==='Answer already known from official sources'));
+  check(Boolean(table),'Questions register table found');
+  const rows=[...table.querySelectorAll('tbody tr')];
+  check(rows.length===20,'Questions register has 20 rows, found '+rows.length);
+  for(const tr of rows){
+   const cells=[...tr.querySelectorAll(':scope > td')];
+   const rule=cells[2].textContent.trim();
+   check(rule.startsWith('Rule known'),'Every question states the rule already known: '+rule.slice(0,60));
+   check(cells[3].textContent.trim().startsWith('\u2014'),'Household answer must stay blank: '+cells[3].textContent.trim());
+   check(cells[5].textContent.trim().length>0,'Decision impact must be stated');
+  }
+  const ready=[...d.querySelectorAll('h2')].map(h=>h.textContent.trim());
+  check(ready.some(h=>h.includes('Can a decision reasonably be made yet')),'Decision-readiness section present');
+  check(d.body.textContent.includes('Answer: not yet'),'Decision-readiness verdict present');
+  check(d.querySelectorAll('a[href="suggestions.html"]').length>0,'Readiness verdict links to the suggestions register');
+ }
+ if(file==='guide/property.html'){
+  const d=dom.window.document;
+  const table=[...d.querySelectorAll('table')].find(t=>[...t.querySelectorAll('thead th')].some(th=>th.textContent.includes('Official annual amount')));
+  check(Boolean(table),'Proposition H schedule table found');
+  const rows=[...table.querySelectorAll('tbody tr')];
+  check(rows.length===5,'Proposition H schedule has 5 rows, found '+rows.length);
+  for(const tr of rows){
+   check(tr.querySelectorAll('a[href^="https://www.sfmta.com/"]').length>0,'Proposition H row without an official link');
+   const cells=[...tr.querySelectorAll(':scope > td')];
+   check(cells[3].textContent.includes('unverified'),'Proposition H amount for B must stay unverified');
+  }
  }
  if(file==='guide/suggestions.html'){
   const d=dom.window.document,sel=d.querySelector('[data-suggestion="S01"]');
