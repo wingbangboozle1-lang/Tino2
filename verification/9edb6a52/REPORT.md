@@ -52,13 +52,14 @@ Verified live by prior sessions whose board entries and reports record the dates
 | `python3 scripts/test-model-reference.py` | PASS — 108 decision configurations + 250 stress years; 10,236 arithmetic comparisons |
 | `python3 scripts/package-site.py` | PASS — 18 reviewed guide files packaged; legacy site excluded |
 | `python3 scripts/check-publication.py --self-test` | PASS — missing/extra/altered/symlinked/hard-linked files rejected |
-| `node scripts/test-guide.cjs` | PASS — 10 rendered pages, 649 source-linked rows, 9,061 checks |
+| `node scripts/test-guide.cjs` | PASS — 10 rendered pages, 649 source-linked rows / 9,061 checks before the concurrent PR #72 merged; re-run after rebase: 10 pages, 656 rows / 9,188 checks |
 | `node scripts/privacy-audit.cjs` | PASS — no legacy input/history tokens or common identifiers (not proof of anonymity) |
 | CI `Verify public Pages boundary` on current `main` | SUCCESS (run 43380470762, includes the Chromium/WCAG browser stage which this sandbox does not run locally) |
 
 ## 6. Irregularities and handoffs (none block merge; public items also live on `guide/review.html`)
 
 1. **Stale PR #63 takeover.** `4061a2e5`'s record PR (opened 2026-11-12 22:20 UTC, no activity since) had become `CONFLICTING` against `main`. Closed on 13 Nov 2026 with a handoff comment; its publication-record text preserved verbatim at the end of `COORDINATION.md`, credited to `4061a2e5`. Facts recorded there: PR #58 merged as `4b6a5cd` (22:16:46 UTC, 2026-11-12), verification run `43318433633` success, Pages build `43318434822` success.
+   - *Note on a duplicate handoff:* session `b2418dfa` (PR #72) also listed PR #63's takeover (its V-5) — both sessions detected the same stale PR within minutes. This session closed PR #63 first (comment at ~06:56 UTC 2026-11-13, before session `b2418dfa`'s block reached main); the handoff is documented in both sessions' blocks and in the PR comment. No site or data impact.
 2. **Pages source hardening still unavailable.** Retried the Pages-source switch to the Actions workflow on 13 Nov 2026: HTTP 403 `Resource not accessible by integration` (same as sessions 2ddad241 and a29630ce). Pages remains in legacy `main`/root Jekyll mode; a repository administrator must make that change. The Jekyll-output audit continues to gate what is published.
 3. **Public repository history.** Earlier public branches, PRs and caches may still expose prior legacy material. Rounding, exclusions or later deletion do not remove those copies. Coordination with collaborators and GitHub's sensitive-data-removal process remains necessary (flagged on `guide/review.html`; outside any session's reach).
 4. **Household-specific facts.** Real values (property values, bills, insurance, rent, trust terms, estate composition) remain blank/unverified by design; the guide's figures are synthetic examples and cannot establish a personal best plan.
@@ -66,3 +67,13 @@ Verified live by prior sessions whose board entries and reports record the dates
 ## 7. Publication
 
 PR from `arena/9edb6a52-tino2` to `main` follows this report; merged without waiting for approval per the owner's instructions. Pages deployment and live read-back are recorded in this session's block in `COORDINATION.md`.
+
+## 8. Mid-session concurrent merge (PR #72) and re-verification
+
+While this session was verifying, session `b2418dfa` merged PR #72 into `main` (`8bdcf7d`): rule-level answers and a decision-readiness verdict on `guide/questions.html`, the SFMTA Proposition H FY 2027-28 schedule on `guide/property.html`, updated watchlist rows, a corrected Proposition 19 cadence flag, and a 13 Nov 2026 review stamp; `scripts/build-guide.py` and `scripts/test-guide.cjs` updated accordingly. Actions taken by this session:
+
+- Rebased `arena/9edb6a52-tino2` onto `8bdcf7d`, resolving the append-only `COORDINATION.md` conflict by keeping both sessions' blocks in full (no work discarded on either side).
+- Re-read the changed pages and reviewed the PR #72 diff (`9771c8e..8bdcf7d`, 11 files, all additive/hedged; no synthetic figure or model input changed).
+- Independently re-verified the newly published Proposition H figures against the live SFMTA page (13 Nov 2026): multifamily $249 up to 5,000 sq ft, then $0.195/sq ft (max $50,000); single-family $129 up to 3,000 sq ft, then $0.42/sq ft over 3,000; voters approved 3 Nov 2026; first tax on FY 2027-28 bills; senior/SRO exemptions with June 1 application deadline. All MATCH the page; Property B's own amount remains blank/unverified as published.
+- Re-ran the full local suite on the merged tree: all PASS (Section 5, updated counts).
+- Findings unchanged: no factual, privacy or link defects found in the combined artifact.
