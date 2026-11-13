@@ -1,12 +1,7 @@
-# Only the privacy-reviewed public dashboard is served by Jekyll from main/root.
+# Only the privacy-reviewed public guide is served by Jekyll from main/root.
 # GitHub itself remains public; exclusions are NOT repository access controls.
 # Disable the default theme so no unreviewed generated theme assets are published.
 theme: null
-# The reviewed dashboard: index.html + site/** + the two shared assets those pages load.
-include:
-  - site
-  - assets/app.js
-  - assets/styles.css
 exclude:
   - COORDINATION.md
   - README.md
@@ -19,8 +14,8 @@ exclude:
   - qa
   - verification
   - css
+  - site
   - pages
-  - guide
   - research-portal.html
   - cupertino.html
   - decision.html
@@ -29,11 +24,11 @@ exclude:
   - san-francisco.html
   - sources.html
   - taxes.html
+  - assets/app.js
+  - assets/styles.css
   - assets/style.css
   - assets/style.css-alternate.css
   - assets/app-old.js
-  - assets/safe.css
-  - assets/safe.js
   - _public
   - _site
   - .cache
