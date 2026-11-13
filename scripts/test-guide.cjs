@@ -11,7 +11,7 @@ const OFFICIAL_AMOUNTS=new Map([
  [249,'SFMTA Proposition H FY 2027-28 multifamily base amount'],
  [129,'SFMTA Proposition H FY 2027-28 single-family base amount'],
 ]);
-const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com']);
+const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.cbo.gov','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.sfpuc.gov','www.sf.gov']);
 let rows=0, checks=0;
 function check(ok,msg){checks++;assert(ok,msg);}
 function open(file){
@@ -31,7 +31,8 @@ function inspect(dom,file){
  const doc=dom.window.document;
  check(Boolean(doc.querySelector('nav[aria-label]')),file+' accessible navigation missing');
  check(doc.querySelector('h1')!==null,file+' missing heading');
- check(doc.querySelectorAll('nav a').length===10,file+' incomplete navigation');
+ const navCount=doc.querySelectorAll('nav a').length;
+ check(navCount===new Set(fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html'))).size+1,file+' incomplete navigation: '+navCount);
  check(doc.querySelector('meta[name=referrer][content=no-referrer]')!==null,file+' referrer policy missing');
  check(!doc.querySelector('form,input,textarea,iframe'),file+' unexpected data input or embed');
  for(const th of doc.querySelectorAll('thead th')) check(th.getAttribute('scope')==='col',file+' missing column scope');
@@ -123,6 +124,42 @@ for(const file of pages){
    const cells=[...tr.querySelectorAll(':scope > td')];
    check(cells[3].textContent.includes('unverified'),'Proposition H amount for B must stay unverified');
   }
+ }
+ if(file==='guide/conditions.html'){
+  const d=dom.window.document,C=dom.window.CONDITIONS,i=C.inflation,p13=C.prop13;
+  check(d.querySelectorAll('#band-table tr').length===C.BANDS.length,'Every scenario band renders');
+  check(d.querySelectorAll('#compound-table tr').length===4,'Compounding table renders');
+  check(d.querySelectorAll('#breakeven-table tr').length===6,'Break-even table renders');
+  check(d.querySelectorAll('#cost-table tr').length===4,'Cost-structure table renders');
+  const ys=Object.keys(C.CPI_ANNUAL).map(Number).sort((a,b)=>a-b);
+  const ch=[];for(let k=1;k<ys.length;k++)ch.push(C.CPI_ANNUAL[ys[k]]/C.CPI_ANNUAL[ys[k-1]]-1);
+  const mean=ch.reduce((a,b)=>a+b,0)/ch.length;
+  check(Math.abs(mean-i.mean)<1e-12,'CPI mean recomputes from the stored annual series');
+  check(ch.length===i.count,'CPI change count matches the series');
+  check(Math.abs(Math.min(...ch)-i.min)<1e-12 && Math.abs(Math.max(...ch)-i.max)<1e-12,'CPI range recomputes');
+  check(ch.filter(x=>x>0.03).length===i.above(0.03),'Years above 3% recomputes');
+  check(C.PROP13_FACTORS.length===51 && p13.count===51,'51 published assessment years');
+  check(C.PROP13_FACTORS.filter(f=>Math.abs(f-1.02)<1e-9).length===40 && p13.atCap===40,'40 years at the 2% cap');
+  check(C.PROP13_FACTORS.filter(f=>f<1).length===1,'Exactly one negative inflation year');
+  const b=C.BANDS.find(x=>x.key==='high');
+  check(Math.abs(C.project(b,24,0).inflationMultiple-Math.pow(1.04,24))<1e-9,'Band projection exponent 24y');
+  check(Math.abs(C.project(b,50,0).inflationMultiple-Math.pow(1.04,50))<1e-9,'Band projection exponent 50y');
+  check(C.round10(1234)===1230 && C.round10(-1236)===-1240,'round10 behaviour');
+ }
+ if(file==='guide/brief.html'){
+  const d=dom.window.document,B=dom.window.BREAKEVEN;
+  check(d.querySelectorAll('#boundary-body tr').length===B.GROWTH.length,'Boundary grid rows');
+  check(d.querySelectorAll('#threshold-body tr').length===B.GROWTH.length,'Break-even rows');
+  check(d.querySelectorAll('#sensitivity-body tr').length===B.GROWTH.length+B.RETURNS.length+1,'Sensitivity rows including reference');
+  const g=0.035, low=B.evaluate(g,0,24), mid=B.evaluate(g,0.05,24);
+  check(['sell','rent','live'].includes(low.winner) && ['sell','rent','live'].includes(mid.winner),'Boundary winners are valid labels');
+  check(low.winner!=='sell','A zero portfolio return must not favour selling on these inputs');
+  check(mid.winner==='sell','The middle case favours selling on these inputs');
+  let sawSell=false, monotone=true;
+  for(const r of B.RETURNS){const w=B.evaluate(g,r,24).winner; if(w==='sell')sawSell=true; else if(sawSell)monotone=false;}
+  check(monotone,'Selling becomes dominant at higher returns and never reverts');
+  const be=B.sellBreakeven(g,24);
+  check(be.threshold!==null && B.evaluate(g,be.threshold,24).winner==='sell','Break-even point actually leads with selling');
  }
  if(file==='guide/suggestions.html'){
   const d=dom.window.document,sel=d.querySelector('[data-suggestion="S01"]');

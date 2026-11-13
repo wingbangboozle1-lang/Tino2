@@ -1791,6 +1791,30 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 
 ---
 
+## Session `76e91231` (branch `arena/76e91231-tino2`) — claim 2026-11-13 06:45 UTC
+
+**State read at claim.** `origin/main` = `5f64fb8` (merge of PR #69, session `2ddad241`). `git rev-parse HEAD` equals `origin/main`; no rebase needed. Open pull requests: **#70** (`arena/a29630ce-tino2`, *"verification report and public guide publication readiness"*, opened 06:41 UTC, files `COORDINATION.md` + `verification/a29630ce/REPORT.md` only) and **#63** (`arena/4061a2e5-tino2`, idle since 2026-11-12 22:21 UTC, 8 h with no commits — eligible for takeover under the 60-minute rule, but its content is a superseded bookkeeping record). Session `a29630ce` owns a **verification report and its own board block only**; it claims no site file. This session therefore takes the **site improvement scope** and will not edit `verification/a29630ce/**` or PR #70's block.
+
+**Scope of this session (non-overlapping):**
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| T-1 | Claim, push at once, rebase before every push | done on push | 76e91231 | this block only |
+| T-2 | **Verification pass.** Re-open official sources for every rule figure the public guide publishes; record any mismatch; add a machine-readable official-figure ledger the build checks against | in progress | 76e91231 | `guide/figures/**` (new), `scripts/**` |
+| T-3 | **Repo line-by-line review.** Identify household-derived values still tracked in the public repository; report location, type and remediation route. Do **not** reprint any household value in the report | in progress | 76e91231 | `verification/76e91231/**` (new) |
+| T-4 | **Missing-information discovery.** Publish a discovery register: for each unknown needed to decide, the question, why it blocks the decision, the exact document or source that answers it, who holds it, and a lead-time estimate | in progress | 76e91231 | `guide/**`, `scripts/build-guide.py` |
+| T-5 | **Decision dashboard.** Improve the site for decision-making: a prior-probability / breakeven view, a readiness scorecard, and clearer separation of verified law from unknown facts | in progress | 76e91231 | `guide/**`, `assets/safe.*`, `scripts/**` |
+| T-6 | **Real-conditions baseline.** Replace the single straight-line assumption with an observed-inflation baseline that cites official series and states plainly what is and is not known past the official projection horizon | in progress | 76e91231 | `guide/**`, `guide/data/**`, `scripts/**` |
+| T-7 | Re-run every check, PR to `main`, merge without waiting, confirm the Pages build and read the live pages back | pending | 76e91231 | this block |
+
+**Rules this session follows.** No personal information and no household-derived amount in any committed file, report, board row or PR body. Parties appear only as placeholders. Any number derived from the owner's brief stays unpublished; where an analysis needs a figure the site uses a clearly labelled invented example. Every published table row carries an official `https://` source or is left blank and flagged unverified at `guide/review.html`. `git pull --rebase` before every push; conflicts resolved keeping both sides in full.
+
+**Coordination note T-C1.** Prior sessions' `verification/**`, `site/**`, `docs/**`, `pages/**`, `research/**`, `qa/**` and `integration/**` trees are **retained unchanged** except where T-3's report must describe them by path, type and count only. Requests to change files outside this scope go in this block, not into the other tree.
+
+**Coordination note T-C2 (PR #63).** PR #63 is 8 hours idle. It is **not** merged, **not** force-closed and **not** edited by this session; it is recorded here so the next session knows it is stale and superseded by #69. No takeover was needed because it claims no file this session needs.
+
+---
+
 ## Session `a29630ce` (branch `arena/a29630ce-tino2`) — claim 2026-11-13
 
 **State read at claim.** `main` = `5f64fb8` (merge of PR #69). Working tree clean; branch in sync with `origin/main`. The public guide lives under `guide/` with `index.html`, 9 guide pages, `guide/data/` engines and a source table. Legacy household-derived material remains in `site/`, `docs/`, `research/`, `verification/` and is excluded from the public artifact by `_config.yml`.
@@ -1806,3 +1830,19 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 | W-5 | Open PR to `main`, merge without waiting, confirm GitHub Pages build & live read-back; record PR link and merge result in this block | done | a29630ce | own files + this block | PR #70 merged as 13a91551; Pages status `built`, source `main`/`/`, HTTPS enforced | Live read-back OK: https://wingbangboozle1-lang.github.io/Tino2/ (homepage, taxes, suggestions render with official sources) |
 
 **Rules this session follows.** No personal information in any committed file; parties/addresses as placeholders only; household amounts rounded to `$10` or left blank/unverified; every published rule figure linked to an `https://` official source or flagged unverified; nothing inferred; `origin/main` merged before every push; never edit another session's claimed files without logging here first.
+
+### Session `76e91231` — merge with concurrent work (2026-11-13)
+
+**What happened.** While this session held an unpushed claim, PR #70 (`a29630ce`, verification report) and PR #72 (`b2418dfa`, rule-level answers + readiness gate + Proposition H schedule) merged to `main`. A rebase attempt hit an append-only conflict; a first resolution took this session's side of `scripts/build-guide.py` and therefore **dropped `b2418dfa`'s questions register**. That was caught before anything was pushed, the rebase was aborted, and the merge redone as a `git merge` with a three-way resolution that keeps **both** sides. Recorded here because a discarded block is exactly what the brief forbids.
+
+| Conflict | Resolution |
+|---|---|
+| `COORDINATION.md` | Append-only. Both session blocks retained in full, no rewording. |
+| `scripts/build-guide.py` — questions page | `b2418dfa`'s 20-question register, rule-known column and readiness counts are preserved **first**; this session's discovery register now **appends** to the same `body` instead of replacing it. One page, both registers. |
+| `scripts/build-guide.py` — sources list | Union of both sides' rows. |
+| `guide/*.html`, `index.html` | Generated files. Regenerated from the merged generator rather than hand-merged; the generator is the single source of truth. |
+| `scripts/test-guide.cjs` | `main`'s Proposition H and register checks kept; this session's conditions/brief suites, manifest-derived nav count and extended official-host allowlist re-added. |
+
+**A finding from the merge, worth noting.** The new official-figure gate (`scripts/check-figures.py`) immediately failed on a seven-figure amount introduced by the other session's content. The correct response was not to exempt it: I opened the FDIC page, confirmed the $1,250,000 trust-account limit as of 1 April 2024, and added ledger record `FDIC-TRUST-LIMIT`. The gate then passed honestly. This is the intended behaviour — the gate does not care which session wrote a number.
+
+**Result.** All checks green after the merge: `package-site` 25 reviewed files; `check-publication --self-test` PASS; `check-figures` 28 records / 27 verified / 1 explicitly unverified; `test-guide` 12 pages, 790 source-linked rows, 10,037 rendered checks; `test-model-reference` 108 configurations and 250 stress years; `privacy-audit` PASS; `check-generated` PASS.

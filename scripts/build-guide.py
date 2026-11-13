@@ -40,6 +40,16 @@ S={
  'hr1301':('Congress.gov · H.R. 1301','https://www.congress.gov/bill/119th-congress/house-bill/1301'),
  'sb284':('CA Legislature · SB 284 status','https://leginfo.legislature.ca.gov/faces/billStatusClient.xhtml?bill_id=202520260SB284'),
  'github':('GitHub · sensitive data removal','https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository'),
+ 'prop13factor':('BOE · 2026-27 inflation factor (LTA 2026/002)','https://www.boe.ca.gov/proptaxes/pdf/lta26002.pdf'),
+ 'prop13cap':('BOE · how property is assessed','https://boe.ca.gov/proptaxes/pdf/lta25023.pdf'),
+ 'cpiHistory':('BLS CPI-U via FRED · CPIAUCNS','https://fred.stlouisfed.org/series/CPIAUCNS'),
+ 'pmms':('Freddie Mac · mortgage rates','https://www.freddiemac.com/pmms'),
+ 'census':('Census Bureau · new housing characteristics','https://www.census.gov/construction/chars/'),
+ 'cdieq':('CA Department of Insurance · earthquake','https://www.insurance.ca.gov/01-consumers/105-type/95-guides/03-res/eq-ins.cfm'),
+ 'fairplan':('CA FAIR Plan','https://www.cfpnet.com/'),
+ 'pge':('PG&E · solar billing','https://www.pge.com/en/clean-energy/solar/getting-started-with-solar/solar-billing-plan.html'),
+ 'sjwc':('San Jose Water · tariffs','https://www.sjwater.com/'),
+ 'sfpuc':('SFPUC · water and sewer rates','https://www.sfpuc.gov/sites/default/files/accounts-and-services/Rates_Schedule_Water_Sewer_2026-7.pdf'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -50,7 +60,7 @@ def table(headers,rows):
     return '<div class="table-wrap"><table><thead><tr>'+h+'</tr></thead><tbody>'+r+'</tbody></table></div>'
 def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
-PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
+PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('brief','What decides it','guide/brief.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
 def page(key,title,lead,body,scripts=(),home=False):
     base='' if home else '../'
     nav=''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in PAGES)
@@ -70,9 +80,24 @@ body+=section('What matters most',table(['Issue','What is known or needs verific
  ('Estate tax','Federal exposure depends on the whole decedent’s estate, prior taxable gifts, deductions, credits and elections. Actual headroom is unknown.',source('estate')),
  ('Risk and liquidity','A concentrated home and a portfolio face different risks. Diversification reduces some risks but does not guarantee a profit or prevent loss.',source('invest')),
  ]),'01 / decision context')
+body+=section('The finding, in one paragraph','''<p>On every set of invented assumptions this site tests, <strong>selling the inherited residence and reinvesting the net proceeds leads</strong> once the portfolio earns a modest net return, and it leads by a wide margin in the middle case. The reason is structural rather than a matter of market timing: a property that is rented rather than occupied carries a property tax bill computed on a reassessed market value, plus upkeep that rises with price, and on this model those two lines exceed the rent. The live strategy avoids part of the tax but gives up the rent, so it trails both. What actually changes the answer is not the return assumption — it is whether a basis step-up applies, whether family-home relief is available, and whether the trust permits a sale at all.</p><p><a href="guide/brief.html">See the decision boundary, and what would have to be true for a holding strategy to win →</a></p>''','03 / the finding')
+
+body+=section('Readiness scorecard',table(['Fact that decides the decision','Status','Who holds the answer','Discovery step','Official framework'],[
+ ('Does the trust permit a sale of the residence?','<span class="tag warn">Unverified</span>','Trustee or drafting attorney','<a href="guide/questions.html">Register D01 and D02</a>',source('notice')),
+ ('Is the residence titled in the trust?','<span class="tag warn">Unverified</span>','County recorder, trustee','<a href="guide/questions.html">Register D02</a>',source('ownership')),
+ ('Will basis step up to date-of-death value?','<span class="tag warn">Unverified</span>','Tax counsel','<a href="guide/questions.html">Register D03</a>',source('trustbasis')),
+ ('Is family-home relief available?','<span class="tag warn">Unverified</span>','County assessor, recipient','<a href="guide/questions.html">Register D04</a>',source('prop19')),
+ ('Is the estate above the federal filing threshold?','<span class="tag warn">Unverified</span>','Counsel, personal representative','<a href="guide/questions.html">Register D05</a>',source('estate')),
+ ('What is the date-of-death value?','<span class="tag warn">Unverified</span>','Qualified appraiser','<a href="guide/questions.html">Register D06</a>',source('basis')),
+ ('Do the San Francisco leases and unit status hold?','<span class="tag warn">Unverified</span>','Owner files, Rent Board','<a href="guide/questions.html">Register D07</a>',source('sfRent')),
+ ('What is the achievable rent floor?','<span class="tag warn">Unverified</span>','Property manager, comparables','<a href="guide/questions.html">Register D10</a>',source('hud')),
+ ])+'<p class="tiny">Zero of eight resolved. Each row links to the register entry that names the exact document, who holds it, and a typical lead time. The register has sixteen entries in total; these eight are the ones that can change the answer.</p>','04 / readiness')
+
 body+=section('Explore the guide',cards([
  ('01 / compare','Live, rent or sell','See assumptions, same-endpoint results and yearly costs for a fictional case.','guide/decision.html'),
+ ('01b / boundary','What decides it','Which inputs flip the ranking, and what would have to be true for a holding strategy to win.','guide/brief.html'),
  ('02 / uncertainty','Black-swan paths','Stress 50 years with inflation, crashes and a disaster; inspect every year.','guide/stress.html'),
+ ('02b / evidence','Real conditions','The observed inflation and assessment record, the official projection horizon, and the scenario bands.','guide/conditions.html'),
  ('03 / rules','Tax &amp; inheritance','Separate federal estate tax, income-tax basis, reassessment and trustee steps.','guide/tax.html'),
  ('04 / readiness','Questions to resolve','A prioritized list of missing records, answers and discovery routes.','guide/questions.html'),
  ('05 / improvements','Suggestions to review','Choose or defer ideas without applying them to the site or the analysis.','guide/suggestions.html'),
@@ -182,7 +207,109 @@ body+=section('Can a decision reasonably be made yet?','''<div class="grid three
  <div class="card"><div class="eyebrow">Priority 3 · recheck at the time</div><h3>'''+str(priority_counts['3'])+''' open</h3><p class="muted">Law, prices and conditions that cannot be known now and must be rechecked near the event.</p></div>
 </div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one.</div>''')
 body+=section('Questions, answers and discovery',table(['Priority','Question','Answer already known from official sources','Household answer','How to discover privately','Decision impact','Official framework'],[(a,b,c,d,e,f,source(g)) for a,b,c,d,e,f,g in questions]))
-page('questions','What must be answered first?','A clear register of the answers that official sources already give, the facts that are still missing, and how to find each one without publishing personal information.',body)
+
+# ---------------------------------------------------------------- discovery register
+# Each row: (id, priority, question, why_it_blocks, document_or_source, holder, lead_time, official_link_key, gate)
+# The gate marks whether the answer can change the ranking on the comparison page.
+DISCOVERY=[
+ ('D01','1','What kind of trust is it, who is trustee, and does the instrument give the trustee power to sell the residence?',
+  'Selling may not be a decision available to the beneficiary at all. If the trustee must sell, or must keep the property for another beneficiary, the comparison is moot.',
+  'The signed trust instrument, every amendment, and the schedule of assets. Ask counsel to confirm the trustee’s powers and any requirement to hold or divide the property in kind.',
+  'Settlor, trustee, or the estate-planning attorney who drafted it','Weeks; potentially months if the attorney is unavailable','notice','Ranking-changing'),
+ ('D02','1','Is the residence actually titled in the trust, or is it still in individual names with a pour-over will?',
+  'Title controls who can convey, and it drives both the basis question and the reassessment question. A trust that names the house but does not hold title can force probate.',
+  'A current grant deed and a preliminary title report. A title company will produce the report for a modest fee, and it shows every recorded interest.',
+  'County recorder; the trustee; a title company','Days for the recorded deed; one to two weeks for a title report','ownership','Ranking-changing'),
+ ('D03','1','Did the decedent retain a power that causes the residence to be included in the gross estate, and therefore to receive a basis step-up?',
+  'If basis does not step up, an immediate sale produces a taxable gain that can consume a large share of the proceeds. This single answer can flip sell from first to last.',
+  'Trust instrument plus the decedent’s Forms 709 and 706 if any were filed, reviewed by a tax attorney. Rev. Rul. 2023-2 is the IRS example of a grantor-trust pattern that did not receive an adjustment.',
+  'Tax counsel; the decedent’s accountant; the trustee’s records','One to three weeks for a written opinion','trustbasis','Ranking-changing'),
+ ('D04','1','Was the residence the decedent’s principal residence, and can an eligible child occupy it within one year?',
+  'Prop 19 family-home relief requires occupancy by an eligible transferee. Without it the base resets to market value and the annual tax can multiply.',
+  'The decedent’s last filed homeowners’ exemption record at the county assessor, plus a documented occupancy plan from the recipient.',
+  'Santa Clara County Assessor; the recipient’s own decision','Days for the exemption record; the occupancy plan is a family decision','prop19','Ranking-changing'),
+ ('D05','1','What is the complete gross estate, including prior taxable gifts and any spousal exclusion available?',
+  'Federal estate tax is assessed on the whole estate, not on this house. Without the total, no headroom exists and no tax can be estimated. Portability must be elected on a timely return.',
+  'A confidential estate inventory prepared with counsel: every account, policy, real property, business interest, debt, prior gift and the decedent’s marital history.',
+  'Personal representative or trustee; counsel; financial institutions','Two to six weeks, longer if accounts are hard to trace','estate','Ranking-changing'),
+ ('D06','1','What is the date-of-death fair market value of the residence?',
+  'Basis, reassessment and the estate filing all reference this value. An appraisal prepared for the estate is the defensible record; a later one is not the same number.',
+  'A qualified retrospective appraisal as of the date of death, with the comparable sales attached.',
+  'Licensed appraiser, engaged by the trustee or counsel','Two to four weeks after engagement','basis','Ranking-changing'),
+ ('D07','1','What are the current leases, occupancy and rent-control status of each unit in the San Francisco property?',
+  'Existing tenancy and coverage determine lawful rent, notice requirements and whether the owner can occupy a unit at all. The premise of two rents plus a free unit is unverified.',
+  'Signed leases, rent history, security deposit records, and the Rent Board’s unit history. Relocation rules apply to some owner move-ins.',
+  'The owner’s own files; SF Rent Board records','Days for the owner’s own files; one to two weeks for Rent Board history','sfRent','Ranking-changing'),
+ ('D08','2','What are the actual assessed values, tax-rate areas and direct charges on both parcels?',
+  'A single blended percentage hides parcel-specific direct charges, bond levies and any special assessments. It also hides the actual assessed value the county uses.',
+  'The current secured tax bill for each parcel, showing the rate area and every direct charge as a separate line.',
+  'Santa Clara County Tax Collector; SF Treasurer & Tax Collector','Days; both publish online bill lookup','prop13','Ranking-changing'),
+ ('D09','2','What would it cost to insure each property, for each occupancy, including or excluding earthquake?',
+  'Premium is a real recurring cost and, more importantly, coverage determines whether an earthquake or water loss is a balance-sheet event or an inconvenience.',
+  'Binding quotes for a homeowners form on the residence and a landlord form on the multi-unit property, each with and without earthquake coverage, plus a FAIR Plan comparison if the standard market declines.',
+  'Licensed brokers; the California FAIR Plan','One to three weeks; longer in a tight market','cdieq','Ranking-changing'),
+ ('D10','2','What is the achievable market rent for the residence, and what would professional management cost?',
+  'The rent break-even table shows the rental only works above a rent floor. Whether that floor is achievable is the single most important rental input.',
+  'Three or more comparable active and recently signed leases within a short radius, plus two management quotes expressed as a percentage of collected rent.',
+  'Licensed property managers; public listing data; HUD small-area fair market rents as a floor check only','One week','hud','Ranking-changing'),
+ ('D11','2','Will the solar interconnection still produce a credit, and under which tariff?',
+  'A credit today is a function of the interconnection date and the applicable tariff. A future true-up, fixed charge or export rate change can turn a small credit into a cost.',
+  'The interconnection agreement, the annual true-up statement, and the current tariff sheet.',
+  'PG&E; the system owner’s records','Days to weeks','solar','Cost-changing'),
+ ('D12','2','What repairs, replacements and capital items are likely in the next ten years?',
+  'Roof, foundation, sewer line, electrical panel and seismic retrofit are lumpy costs that a percentage-of-value maintenance assumption cannot capture.',
+  'A professional inspection, plus a disclosed list of past permits and any retrofit records. Ask for a reserve study if available.',
+  'Licensed inspector; permit records at the city','Two to four weeks','rental','Cost-changing'),
+ ('D13','2','What are the recipients’ own income, filing status and other income sources?',
+  'Capital-gain rates, passive-loss limits, net investment income tax and bracket effects are personal. A flat rate is a teaching assumption, not a tax computation.',
+  'Prior-year returns and a scenario prepared by a CPA, not a public calculator.',
+  'The recipients’ own CPA','One to two weeks','rental','Cost-changing'),
+ ('D14','3','What is the family’s actual preference about living in the residence?',
+  'Living there has real value that this model deliberately omits: imputed rent, proximity, continuity. A financial ranking can be correct and still be the wrong decision.',
+  'A documented family discussion of needs, timeline and alternatives, written down before the numbers are shown.',
+  'The family','Immediate, but must precede the decision','invest','Preference'),
+ ('D15','3','What investment policy will govern the proceeds if the property is sold?',
+  'A portfolio return assumption is doing enormous work in every result on this site. Without a written policy, the return is a guess dressed as a plan.',
+  'A short written investment policy statement stating target allocation, risk tolerance, liquidity needs and rebalancing rule.',
+  'The recipients, with an adviser if desired','One to two weeks','fdic','Preference'),
+ ('D16','3','Which specific bills are moving, and what would each do?',
+  'Proposed law is not law. A bill that changes family-home transfer rules or repeals the federal estate tax changes the answer, but only once enacted.',
+  'The official status page for each bill, checked before the decision, not months earlier.',
+  'Congress.gov and the California Legislature, via the links in the register','Ongoing; a few minutes each','hr1301','Watchlist'),
+]
+DISCOVERY_PRIORITY={
+ '1':'<span class="tag">P1</span> Blocks the decision. A different answer can reverse the ranking.',
+ '2':'<span class="tag">P2</span> Changes a cost materially but is unlikely to reverse the ranking alone.',
+ '3':'<span class="tag">P3</span> Preference, policy or watchlist. Necessary for a real decision, not for the arithmetic.'
+}
+body+='<div class="callout"><strong>This section exists to close the gap between a model and a decision.</strong> The comparison page is arithmetic on invented inputs. A real decision needs the facts below. For each one, this register states the question, why the answer can change the outcome, the specific document or source that answers it, who physically holds that document, and how long it usually takes. <strong>Do not enter any answer on this site.</strong> Keep the completed register offline.</div>'
+body+=section('How to read the priority column',table(['Priority','Meaning','How to treat it','Official framework'],[
+ ('P1','Blocks the decision. A different answer can reverse the ranking.','Resolve before comparing strategies seriously. Eight items.',source('notice')),
+ ('P2','Changes a cost materially but is unlikely to reverse the ranking alone.','Resolve before committing capital or signing anything. Six items.',source('prop13')),
+ ('P3','Preference, policy or watchlist. Necessary for a real decision, not for the arithmetic.','Resolve as part of the decision, not before the analysis. Three items.',source('invest')),
+ ]))
+rows=[]
+for (i,p,q,why,doc,who,lead,link,gate) in DISCOVERY:
+    rows.append((DISCOVERY_PRIORITY[p],'<strong id="'+i+'">'+q+'</strong>',why,doc,who,lead,source(link),gate))
+body+=section('Discovery register',table(['Priority','Question','Why it blocks the decision','Document or source that answers it','Who holds it','Typical lead time','Official framework','Gate'],rows))
+body+=section('The four facts that decide the ranking','''<p>Most of the register above improves accuracy. Four items can change which strategy wins, and they should be resolved in this order.</p>''')
+body+=section('Order of resolution','<div class="grid two">'+''.join(
+ '<div class="card"><div class="eyebrow">Step %d</div><h3>%s</h3><p class="muted">%s</p></div>'%(n,t,d)
+ for n,t,d in [
+  (1,'Does the trust permit a sale?','D01 and D02. If the trustee cannot or must not sell, the rest of the comparison is academic.'),
+  (2,'Is there a basis step-up?','D03. An unadjusted basis turns an immediate sale from a low-tax event into a large one, which can lose the sale its first place.'),
+  (3,'Is family-home relief available?','D04. Without occupancy, the assessed base resets to market value; on the invented example that raises the first-year property tax by about half.'),
+  (4,'Is the estate over the filing threshold?','D05. If it is, estate tax and liquidity become constraints that no strategy comparison on this site models.')]
+)+'</div>')
+body+=section('What to do with the answers',table(['If the answer is','Then','Because','Official context'],[
+ ('The trustee must sell','Stop comparing. The decision is about timing, price and net proceeds.','The comparison assumes a choice that does not exist.',source('notice')),
+ ('No basis step-up','Re-run every sell scenario with a large taxable gain before ranking anything.','The sale strategy loses much of its advantage when the gain is taxed.',source('trustbasis')),
+ ('No family-home relief','Model the residence at full market reassessment, which is what the comparison page’s rent column already does.','The live column understates tax if relief is unavailable.',source('prop19')),
+ ('The estate exceeds the filing threshold','Add a liquidity review before choosing to keep the property.','Estate tax can force a sale regardless of preference.',source('estate')),
+ ('The rent floor is not achievable','Treat renting as a cost-carrying choice, not an income strategy.','The break-even table on the real-conditions page shows the floor.',source('prop13')),
+ ]))
+page('questions','What must be answered first?','Two registers in one place: the answers official sources already give, and the facts that are still missing, with the exact document that resolves each one, who holds it, and how long it takes.',body)
+
 
 suggestions=[
  ('S01','Critical','Contain the prior public-data exposure','Coordinate a history and pull-request cleanup; keep private case data out of public commits.','Protects household privacy; Pages exclusions alone do not remove public Git copies.','github'),
@@ -233,11 +360,26 @@ page('review','Flagged for review.','Unknown facts, modeling limitations and the
 sources=[
  ('Property tax','BOE Proposition 19','Qualifying transfers, value cap and timing.','boe'),('Property tax','BOE fact sheet','Move-in, exemption and claim filing details.','prop19'),('Property tax','BOE LTA 2025/009','Exact 2025–2027 allowance and adjustment cadence.','allowance'),('Property tax','BOE LTA 2025/023','Prop 13 assessment and rate mechanics.','prop13'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),
  ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability.','estate'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','State estate tax-return requirements.','ftb'),
- ('Administration','Probate Code §16061.7','When trustee notification is required.','notice'),('Administration','Revenue and Taxation Code §480','Death-related ownership reporting.','ownership'),('Local context','SF Rent Board','Current allowable increases and proposal notice.','sfRent'),('Local context','SF Treasurer','2026–27 secured property tax rate; direct charges may be additional.','sfTax'),('Local context','SFMTA','Proposition H parcel-tax schedule, exemptions and dates.','sfMuni'),('Local context','SF Department of Elections','Preliminary election results.','sfElection'),('Local context','SFPUC','Water and sewer schedules.','sfWater'),('Local context','City of Cupertino','Water service systems.','water'),('Local context','PG&E','Solar billing plan and true-up.','solar'),('Local context','California Department of Insurance','Premium comparison surveys, not quotes.','cdi'),('Local context','CA Department of Insurance','Earthquake coverage and exclusions.','quake'),('Local context','HUD','Small-area fair market rents, not a property quote.','hud'),
+ ('Administration','Probate Code §16061.7','When trustee notification is required.','notice'),('Administration','Revenue and Taxation Code §480','Death-related ownership reporting.','ownership'),('Local context','SF Rent Board','Current allowable increases and proposal notice.','sfRent'),('Local context','SF Treasurer','2026–27 secured property tax rate; direct charges may be additional.','sfTax'),('Local context','SFMTA','Proposition H parcel-tax details.','sfMuni'),('Local context','SF Department of Elections','Preliminary election results.','sfElection'),('Local context','SFPUC','Water and sewer schedules.','sfWater'),('Local context','City of Cupertino','Water service systems.','water'),('Local context','PG&E','Solar billing plan and true-up.','solar'),('Local context','California Department of Insurance','Premium comparison surveys, not quotes.','cdi'),('Local context','CA Department of Insurance','Earthquake coverage and exclusions.','quake'),('Local context','HUD','Small-area fair market rents, not a property quote.','hud'),
+ ('Observed series','BLS CPI-U via FRED (CPIAUCNS)','Annual-average inflation record used on the real-conditions page.','cpiHistory'),('Observed series','Freddie Mac PMMS','Observed 30-year fixed mortgage benchmark.','pmms'),('Observed series','BOE LTA 2026/002','2026-27 Prop 13 inflation factor and the 51-year factor history.','prop13factor'),
  ('Risk','CBO','2026–2036 economic baseline; not a 50-year property forecast.','cbo'),('Risk','BLS','Recorded 2022 CPI and electricity inflation.','bls'),('Risk','FHFA','House-price index data and methods.','hpi'),('Risk','USGS','Bay Area earthquake outlook 2014–2043.','usgs'),('Risk','SEC Investor.gov','Diversification and investing risks.','invest'),('Risk','FDIC','Deposit insurance categories and limits.','fdic'),('Law watch','Congress.gov','Federal H.R. 1301 bill status.','hr1301'),('Law watch','California Legislature','SB 284 status and history.','sb284'),('Privacy','GitHub documentation','Removal, PR references and copies.','github'),
 ]
 body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register below was re-opened and the wording the guide attributes to it was checked on 13 November 2026; recheck the underlying documents and date-specific details before relying on them.</div>'
 body+=section('Source register',table(['Category','Agency or source','What it supports','Official link'],[(a,b,c,source(d)) for a,b,c,d in sources]))
+body+=section('How each official figure was checked',table(['Check','What it does','What it does not do','Official context'],[
+ ('Machine-readable ledger','Every official rule figure the guide publishes is recorded in a public ledger with its source URL, the exact published value, the form shown on the site, and the date it was re-opened.','It does not prove the value is still current on the day you read it, and it does not verify any household figure.',source('estate27')),
+ ('Build gate','The build fails if a seven-figure amount appears on a published page without a ledger record, or if a ledger record is marked verified without an official https source.','It cannot detect a value that was verified once and has since changed at the agency.',source('prop19')),
+ ('Rounding disclosure','Where a published amount is rounded to the nearest $10, the page says so and the ledger keeps the exact official value so a reader can match it.','Rounding does not anonymize: a multi-year series can be matched even after rounding.',source('prop13')),
+ ('Deliberately unverified','An item that could not be confirmed at an official source is left blank on the page and recorded as unverified in the ledger.','It stays open until someone opens the official document and records it.',source('github')),
+ ]))+'<p class="tiny">Last full re-read of official sources: 13 November 2026. The guide states a review date rather than promising currency. Laws, exemption amounts and local rates change.</p>'
+body+=section('What is deliberately left blank',table(['Blank item','Why it is blank','Where to find the real value privately','Official context'],[
+ ('Market value of either property','No appraisal has been published to this site, and publishing one would breach the privacy rule.','Independent appraisal and comparable sales, kept offline.',source('basis')),
+ ('Actual property-tax bill and assessed value','Parcel-specific and household-specific.','The county secured tax bill for each parcel.',source('prop13')),
+ ('Insurance premium and coverage','A quote is not a public document.','Binding quotes from licensed brokers, including or excluding earthquake.',source('cdieq')),
+ ('Rent roll and lease terms','Private contracts.','Signed leases and the local rent board history.',source('sfRent')),
+ ('Estate inventory and any estate-tax headroom','The whole estate is unknown.','A confidential inventory prepared with counsel.',source('estate')),
+ ('Date-of-death value','An event that has not occurred.','A retrospective appraisal as of the actual date.',source('basis')),
+ ])+'<p class="tiny">Each blank is recorded as unverified rather than filled with an estimate. The build fails if a seven-figure official amount appears without a ledger record, and the ledger itself records one item as explicitly unverified rather than guessing.</p>','05 / blanks')
 page('sources','Sources and verification.','Direct links to official agencies and primary materials, organized by subject for manual review.',body)
 
 body='''<div class="callout warning"><strong>Fictional values, not your household’s figures.</strong> This example was invented for a public site. Its numerical results cannot establish the best personal plan. Official links support the rules or risk context, not the synthetic inputs or projections.</div>'''
@@ -274,3 +416,66 @@ body+=section('Five paths',table(['Path','Synthetic shocks','Context only'],[
 body+=section('Same-endpoint outcomes','''<p>The starting 2045 property value, rent, costs, sale fee and tax rates come from the <a href="decision.html">default fictional example</a>, not the comparison page’s current control selections. After 2045, rent grows 2.5% and vacancy is 5% except during listed shocks. Water and insurance follow each path’s inflation, plus the listed premium shocks; maintenance follows modeled home value. B is treated the same across choices and is not included. No estate-tax payment or financing is modeled.</p><p>Nominal amounts are rounded to $10. Real figures are divided by cumulative inflation and expressed in 2045 dollars. Living results omit the value of housing services; negative reserves assume externally funded costs.</p><div class="table-wrap"><table><thead><tr><th scope="col">Scenario</th><th scope="col">Sell · nominal / real</th><th scope="col">Rent · nominal / real</th><th scope="col">Live · nominal / real</th><th scope="col">Context only</th></tr></thead><tbody id="stress-results"></tbody></table></div>''')
 body+=section('Audit every year','''<p>Expand a path to inspect all 50 annual rates and outputs. The model caps annual factor growth at 2% and uses the lesser of market value and factored base as a simplified decline-in-value proxy; actual lien dates, assessment appeals, new construction and supplemental bills are not modeled. The disaster repair is charged to both property-holding strategies. Each portfolio rate is a hypothetical net proxy with no separate liquidation tax. Income tax on positive rental cash is a flat scenario; depreciation and recapture are omitted.</p><div id="stress-years"></div>''')
 page('stress','A straight line is not a forecast.','Five variable 50-year scenarios put inflation, investment returns, housing cycles and an uninsured disaster into the same comparison.',body,['guide/data/model.js','guide/data/stress.js','guide/data/stress-page.js'])
+
+# ---------------------------------------------------------------- real conditions
+body='<div class="callout warning"><strong>Observed history, stated as history.</strong> Every figure on this page is a published official statistic, or a statistic this site computed from a published series with the arithmetic shown. None of it is a forecast. The scenario bands further down are invented planning assumptions, clearly labelled, and they are not predictions.</div>'
+body+=section('Why a straight line is the wrong planning tool',table(['What the record shows','Evidence','Why it changes a decision','Source'],[
+ ('Inflation is not a constant','Over the 35 complete years from 1991 to 2025, annual CPI-U change averaged 2.62%, ranged from −0.36% to 8.00%, and exceeded 3% in 10 of those years.','A single 3% cost assumption is reasonable in the middle and badly wrong at both ends. Costs that compound quietly for 24 years magnify that error.',source('cpiHistory')),
+ ('Two recent years broke the pattern','CPI-U rose 4.70% in 2021, 8.00% in 2022 and 4.12% in 2023 as annual averages, after a decade mostly under 2%.','A planner who calibrates on 2010–2020 understates cost growth; one who calibrates on 2021–2023 overstates it. Both are extrapolation errors.',source('cpiHistory')),
+ ('The tax base is capped, prices are not','Proposition 13 limits the annual adjustment to a property’s factored base year value to 2%. Across the 51 published assessment years from 1976-77 to 2026-27 the factor hit the full 2% cap in 40 years, was lower 11 times, and compounded at about 1.81% a year.','The assessed base and the market price diverge over time by design. Modeling them with the same growth rate is a structural error, not a rounding error.',source('prop13factor')),
+ ('Official projections stop long before the horizon','CBO’s February 2026 baseline runs 2026 to 2036 and projects PCE inflation returning to roughly 2% around 2030.','A 2045 or 2050 transfer sits far outside any official projection. Anything shown for those years is a scenario, whoever produces it.',source('cbo')),
+ ('Regional hazard is priced separately','USGS estimated a 72% chance of at least one magnitude 6.7 or greater earthquake somewhere in the Bay region between 2014 and 2043.','Standard homeowners policies generally exclude earthquake damage, so an uninsured loss is a genuine balance-sheet event rather than a premium line.',source('usgs')),
+ ('Borrowing is not cheap','Freddie Mac’s survey averaged 7.11% for a 30-year fixed rate as of 12 November 2026.','Any plan that assumes borrowing against a property to fund a repair or a purchase has to clear that hurdle. No borrowing is modeled here.',source('pmms')),
+ ]))
+rows=[]
+for y,ch in [(1991,'4.24%'),(1995,'2.81%'),(2000,'3.38%'),(2005,'3.39%'),(2008,'3.84%'),(2009,'−0.36%'),(2010,'1.64%'),(2015,'0.12%'),(2020,'1.23%'),(2021,'4.70%'),(2022,'8.00%'),(2023,'4.12%'),(2024,'2.95%'),(2025,'2.63%')]:
+    rows.append((str(y),ch,'Annual average, not seasonally adjusted, computed from the published series.',source('cpiHistory','Published CPI series')))
+body+=section('The inflation record, selected years',table(['Year','Annual CPI-U change','Note','Source'],rows)+'<p class="tiny">Annual averages, not seasonally adjusted. Computed from the published series; 2026 is excluded because the year is incomplete. The years shown are chosen for range, not to support a trend claim. The full 35-year series is in the data file.</p>')
+body+=section('Two rates that move differently',table(['Quantity','Long-run observed behavior','Official basis','Source'],[
+ ('Market price of a home','Not published as a national constant. Regional indexes exist; a single parcel is not an index.','FHFA publishes house-price indexes; they are not a forecast for one house.',source('hpi')),
+ ('Assessed value used for tax','Capped at 2% a year absent a reassessment event, and the assessor enrolls the lower of the factored base or market value.','BOE LTA 2026/002 and the Pub 800-10 information sheet.',source('prop13')),
+ ('Effect on the decision','If market growth outruns the 2% assessed cap, an owner who keeps the protected base pays tax on a shrinking fraction of value. A sale resets that base for the buyer, not for this household.','This is the mechanical reason the live-versus-rent gap widens over time.',source('prop13cap')),
+ ('Effect of a reassessment event','A transfer that does not qualify for relief resets the base to market value, which can multiply the tax bill in one year.','Prop 19 relief has occupancy, timing and filing conditions.',source('prop19')),
+ ]))
+body+=section('Scenario bands used on this site','<p>These five rates are planning assumptions. Three of them are invented bands; the 2% rate is the official statutory cap, used here as a scenario rather than as a price forecast. The table is generated from the data file so the rates cannot drift from the numbers used elsewhere.</p><div class="table-wrap"><table><thead><tr><th scope="col">Band</th><th scope="col">Assumed annual inflation</th><th scope="col">Price level after 24 years</th><th scope="col">Price level after 50 years</th><th scope="col">Status</th><th scope="col">Context only</th></tr></thead><tbody id="band-table"></tbody></table></div>')
+body+=section('What compounding actually does to a cost','<p>The same four rates, applied to one unit of cost. The right-hand column is the part most planning documents omit: a nominal balance is not purchasing power. These are multipliers on an index, not dollar estimates.</p><div class="table-wrap"><table><thead><tr><th scope="col">Annual inflation</th><th scope="col">Cost multiplier after 24 years</th><th scope="col">Cost multiplier after 50 years</th><th scope="col">Purchasing power of 1,000,000 units after 24 years</th><th scope="col">Context only</th></tr></thead><tbody id="compound-table"></tbody></table></div>')
+body+=section('The observation that most affects the ranking','<p>In the invented example on the comparison page, the rental strategy is <strong>cash-negative before income tax</strong> at the assumed growth rate. The property tax line alone, computed on a reassessed market value, is larger than the modeled operating margin. That is not a quirk of the arithmetic; it is what full reassessment does to a long-held California property at today’s price-to-rent ratio.</p><p>The table below finds the gross monthly rent the rental would need just to cover operating costs, before financing and income tax, expressed in today’s money so it can be compared with an actual rent roll. If the achievable rent is below that line, renting loses to selling for reasons that have nothing to do with investment returns.</p><div class="table-wrap"><table><thead><tr><th scope="col">Quantity, first full year after transfer</th><th scope="col">Invented example</th><th scope="col">What it means</th><th scope="col">Source</th></tr></thead><tbody id="breakeven-table"></tbody></table></div><p class="tiny">All values are from the invented teaching example and are rounded to $10. They are not a rent estimate for any property. The comparison is the point: the rent the model assumes against the rent the model’s own cost structure requires.</p>')
+body+=section('Where the operating cost goes','<p>Shares below are computed from the invented example for its first full year after transfer and rounded to a whole percent, so they will not sum exactly to 100. The shape is what matters: property tax and upkeep dominate, and utilities are a minor line for this property type.</p><div class="table-wrap"><table><thead><tr><th scope="col">Component</th><th scope="col">Live strategy</th><th scope="col">Rent strategy</th><th scope="col">Rule or source</th></tr></thead><tbody id="cost-table"></tbody></table></div>')
+body+=section('What this page cannot tell you',table(['Limit','Why','What would resolve it','Source'],[
+ ('Whether prices or rents will rise','No official 25-year projection exists, and none is claimed here.','Local comparables and a documented investment policy, reviewed periodically.',source('cbo')),
+ ('What this household would actually pay','The inputs are invented. A real bill depends on the parcel, the rate area and the reassessment outcome.','The county tax bill and an appraisal, kept private.',source('prop13')),
+ ('Whether insurance is obtainable','Availability and price in an earthquake and wildfire state are not determined by a rate filing alone.','Binding quotes, and an explicit decision about earthquake coverage.',source('cdieq')),
+ ('What the trust actually requires','A trust is a private document.','Counsel’s reading of the signed instrument.',source('trustbasis')),
+ ('What future law will be','Bills in this space move every session.','Recheck the watchlist before acting.',source('hr1301')),
+ ]))
+page('conditions','A straight line is not a forecast.','The observed inflation and assessment record, the official projection horizon, and the scenario bands this site uses, kept separate from each other.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/conditions-page.js'])
+
+# ---------------------------------------------------------------- decision brief
+body='<div class="callout warning"><strong>A decision brief, not a recommendation.</strong> Everything below is arithmetic on invented values, produced by the same model as the comparison page. Its purpose is to show <em>which unknown facts would change the answer</em>, so the reader knows where to spend effort. It is not advice about any real household, and it does not rank real properties.</div>'
+body+=section('The answer is decided by four inputs, not forty',table(['Input','Range tested on this site','Where the answer sits','What it means for effort','Official framework'],[
+ ('Whether the trust permits a sale','Not a number. A legal fact.','If the trustee cannot or must not sell, every other input is irrelevant.','Resolve first. See the discovery register, D01 and D02.',source('notice')),
+ ('Whether basis steps up','Not a number. A legal and factual test.','An immediate sale is low-tax with a step-up and heavily taxed without one.','Resolve second. See D03.',source('trustbasis')),
+ ('Whether family-home relief applies','Occupancy, timing and filing conditions.','Without relief the assessed base resets to market value; on the invented 2045 example that raises the first-year property tax by about half.','Resolve third. See D04.',source('prop19')),
+ ('Portfolio return versus home growth','Return: 0% to 10%. Growth: 0% to 7%.','Selling leads once the net portfolio return clears roughly 3%, at every growth rate tested.','This is the input most reports argue about, and on this model it matters least.',source('pmms')),
+ ])+'<p class="tiny">The last row is the finding worth reading twice: the portfolio rate that makes selling lead is low and stable across home-price growth, because the holding strategies are carrying a large reassessed tax bill plus upkeep. Arguing about 3% versus 5% home appreciation changes far less than establishing whether a step-up or relief applies.</p>')
+
+body+=section('Decision boundary: which strategy leads', '<p>The grid below runs every combination of home-price growth and net portfolio return the comparison page exposes, for a 24-year hold after a 2045 transfer. Each cell shows the leading strategy for that pair of assumptions. The point is the shape, not any single cell.</p><div class="grid four" style="margin-bottom:1rem"><div class="control"><label for="be-year">Illustrative transfer year</label><select id="be-year"><option>2040</option><option selected>2045</option><option>2050</option></select></div><div class="control"><label for="be-horizon">Years after transfer</label><select id="be-horizon"><option>10</option><option selected>24</option><option>50</option></select></div></div><div class="table-wrap"><table><thead id="boundary-head"></thead><tbody id="boundary-body"></tbody></table></div><p class="tiny">S = sell and reinvest, R = rent then sell, L = live then sell. Every cell is a separate run of the model. No estate tax, financing, depreciation, recapture or value of occupying the home is modeled, so the boundary is a teaching illustration rather than a boundary for a real household.</p>')
+
+body+=section('Break-even return by home-price growth','<p>Read this as: at a given assumption about home prices, how strong does the portfolio have to be before selling leads? A low threshold means selling is robust to a weak market in the assumptions.</p><div class="table-wrap"><table><thead><tr><th scope="col">Assumed annual home-price growth</th><th scope="col">Net portfolio return at which selling starts to lead</th><th scope="col">Interpretation</th><th scope="col">Context only</th></tr></thead><tbody id="threshold-body"></tbody></table>')
+
+body+=section('Which assumption actually flips the answer','<p>Each row moves one assumption away from the middle of its range and holds the other constant. A row that changes the leading strategy is an input the decision is genuinely sensitive to; a row that does not is an input a report can stop arguing about.</p><div class="table-wrap"><table><thead><tr><th scope="col">Assumption moved</th><th scope="col">Value tested</th><th scope="col">Leading strategy</th><th scope="col">Does the answer change</th><th scope="col">Context only</th></tr></thead><tbody id="sensitivity-body"></tbody></table>')
+
+body+=section('The comparison is not close in the middle case',table(['Measure, invented example','Sell','Rent','Live','What the gap is','Official context'],[
+ ('Value at the endpoint, 24 years after a 2045 transfer','Highest','Second','Third','Holding strategies pay reassessed property tax plus upkeep from the first year; the sale proceeds compound without either.',source('prop13')),
+ ('Cash in the first full year','Portfolio change, not a distribution','Negative before income tax','Most negative','A rental whose rent is below its cost structure is a cost, not an income.',source('rental')),
+ ('What the model leaves out','Basis risk if no step-up applies','Value of a future step-up is not credited; depreciation and recapture omitted','Imputed rent and any relief are not valued','The omissions are asymmetric: they could favor either holding strategy.',source('trustbasis')),
+ ]))
+
+body+=section('What would have to be true for a holding strategy to lead',table(['For renting to lead','For living there to lead','Official context'],[
+ ('The net portfolio return must be below about 3% at the assumed growth rate. In the observed inflation record, a 3% nominal return on a diversified portfolio would be a weak outcome over 24 years, but it is not impossible.','Living must be valued at more than its modeled cash cost, and family-home relief must actually apply, otherwise the tax gap widens each year.',source('invest')),
+ ('Rent must clear the break-even floor shown on the real-conditions page. On the invented inputs it does not by about 6%.','The household must intend to occupy for years, not months, because the relief and the exclusion both depend on duration.',source('prop19')),
+ ('The property would need to keep appreciating faster than the portfolio net of a reassessed tax bill, which on these inputs requires unusually high price growth and unusually weak returns together.','A sale later still faces the same gain and transaction costs, so living there defers rather than avoids the comparison.',source('residence')),
+ ]))
+page('brief','What actually decides it.','A decision-boundary view: which inputs flip the ranking, which ones a report can stop arguing about, and what would have to be true for a holding strategy to win.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/brief-page.js'])
+
+
