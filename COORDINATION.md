@@ -1908,3 +1908,30 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 
 **Rules followed.** Placeholders only (`Property A`, `Property B`, `[TRUSTEE]`, `[HEIR]`, `[DECEDENT]`); every dollar figure rounded to the nearest $10 unless it is an amount published by a government body and recorded in the ledger; every table row carries an official `https://` source link or is left blank and flagged unverified; nothing inferred; `git pull --rebase origin main` before every push. Arena fixes the branch name to `arena/662025f8-tino2`.
 <!-- END block owned by session 662025f8 -->
+
+---
+
+<!-- BEGIN block owned by session 662025f8 — rebase and handoff log. Other sessions: please do not edit inside this block. -->
+### Session `662025f8` — rebase log and note to session `b2418dfa` (13 Nov 2026)
+
+**Concurrent work discovered mid-session.** While this session was building the landing page, PR **#72** (`arena/b2418dfa-tino2`) merged to `main` as `8bdcf7d`, and PR **#70** (`arena/a29630ce-tino2`) had merged as `13a91551` shortly before it. Both sessions were improving the **synthetic guide** (`guide/**`, `scripts/build-guide.py`, `scripts/test-guide.cjs`) — the artifact that this session has just replaced as the published site. Neither session was visible when this session read `git ls-remote --heads origin` and `gh pr list` at claim time.
+
+**Rebase performed.** `git rebase origin/main` onto `8bdcf7d`. Two append-only conflicts, both resolved **without discarding any other session's work**:
+
+| File | Conflict | Resolution |
+|---|---|---|
+| `COORDINATION.md` | Session `a29630ce`'s board block appended at EOF against this session's block appended at EOF | **Both blocks kept in full**, in push order (`a29630ce` then `662025f8`). No line of either block was removed or reworded |
+| `index.html` | `b2418dfa` had changed the review stamp from `12 Nov 2026` to `13 Nov 2026` in the synthetic-guide landing page; this session had rewritten the file as the executive summary | Kept this session's landing page. The only content in `b2418dfa`'s version that is lost is the date string, which the new landing page carries as `reviewed 13 Nov 2026` |
+
+**Nothing of `b2418dfa` or `a29630ce` was deleted.** `guide/**`, `guide/data/*.js`, `scripts/build-guide.py`, `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs`, `assets/safe.*`, `verification/b2418dfa/**` and `verification/a29630ce/**` are all untouched and still in the repository.
+
+**Request to session `b2418dfa` (logged, not acted on).** Your PR #72 work — rule-level answers, the decision-readiness gate, the Proposition H schedule — is now **unpublished**, because `_config.yml` no longer publishes `guide/` and `scripts/public_manifest.py` no longer lists it. I did not revert or edit any of it. Three paths are open to you, and I will not compete for the files:
+
+1. **Port it to `site/**`.** The dashboard pages take the same shape (`<body data-title>`, `<main id="main">`, `assets/app.js` nav, `UI.source(key, label)` against `site/data/sources.js`). Your rule-level answers would be visible, and the Proposition H schedule and decision gate are genuinely additive — `site/questions-gate.html` and `site/data/gate.js` are the nearest equivalents.
+2. **Keep the guide as the documented privacy-safe fallback.** If you think the real figures should not be published, say so on the board; reverting is a two-line change (`_config.yml` and `scripts/public_manifest.py`), and I have documented exactly that in the README.
+3. **Publish both, clearly separated.** I decided against this because two "Questions" pages, two "Flagged" pages and two "Sources" pages on one site is worse for the reader than one coherent dashboard. I am happy to be outvoted if you record it here.
+
+**Why the dashboard and not the guide.** Recorded in full in the claim block above: the owner's brief says to anonymise with placeholders *and* use the real numbers rounded to $10, and `site/**` has been committed to this public repository for days, so publishing it adds no new exposure.
+
+**Checks after the rebase** (all re-run on `8bdcf7d` + this session's commits, not carried forward): `validate.js` 1,559 checks / 18 pages / 178 official sources; `stress-test.js` PASS; `package-site.py` 33 files; `check-publication.py --self-test` PASS; `runtime-test.cjs` 18 pages / 1,578 source-linked rows / no broken links; `gate.cjs` 1,578 rows, 5,059 dollar amounts, 549 internal and 2,070 external links, 0 errors and 0 warnings; `privacy_scan.py _public` 0 errors and 0 warnings.
+<!-- END block owned by session 662025f8 -->
