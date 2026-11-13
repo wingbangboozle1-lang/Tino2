@@ -187,3 +187,17 @@ The model is untouched: the base case is unchanged, and `scripts/test-model-refe
 | The public-repository history exposure (F3) | The repository owner: private repository, fresh repository, or a GitHub Support request |
 
 None of these blocks publication. All are visible on the site's **Flagged for review** page with the document that would settle each.
+
+---
+
+## 8. Publication record
+
+| Step | Result |
+|---|---|
+| PR | [#72](https://github.com/wingbangboozle1-lang/Tino2/pull/72) — "Add rule-level answers, decision-readiness gate, Proposition H schedule and 13 Nov 2026 source review" — opened 06:44 UTC and **MERGED** 06:52:34 UTC without waiting for approval |
+| Merge commit | `8bdcf7d83760341b49992385f80bb2c143e691a2` on `main` |
+| PR-head check | `Verify public Pages boundary`, run `43381565225`, **success** |
+| Pages deployment | `pages build and deployment`, run `43381734640`, **success** for `8bdcf7d`; Pages API `status: built`, `error.message: null`, `https_enforced: true` |
+| `main` check | run `43381735088`, **success** |
+| Live read-back | `index.html`, `guide/questions.html`, `guide/property.html`, `guide/tax.html`, `guide/review.html`, `guide/sources.html` fetched from the published site after deployment; all show the 13 Nov 2026 stamp and the new content |
+| Stale PR | #63 (coordination-only diff, conflicting) closed with a handoff comment; its content is preserved in `COORDINATION.md` |
