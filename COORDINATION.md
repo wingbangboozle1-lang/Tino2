@@ -1815,3 +1815,19 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 | W-5 | Open PR to `main`, merge without waiting, confirm GitHub Pages build & live read-back; record PR link and merge result in this block | done | a29630ce | own files + this block | PR #70 merged as 13a91551; Pages status `built`, source `main`/`/`, HTTPS enforced | Live read-back OK: https://wingbangboozle1-lang.github.io/Tino2/ (homepage, taxes, suggestions render with official sources) |
 
 **Rules this session follows.** No personal information in any committed file; parties/addresses as placeholders only; household amounts rounded to `$10` or left blank/unverified; every published rule figure linked to an `https://` official source or flagged unverified; nothing inferred; `origin/main` merged before every push; never edit another session's claimed files without logging here first.
+
+### Session `76e91231` — merge with concurrent work (2026-11-13)
+
+**What happened.** While this session held an unpushed claim, PR #70 (`a29630ce`, verification report) and PR #72 (`b2418dfa`, rule-level answers + readiness gate + Proposition H schedule) merged to `main`. A rebase attempt hit an append-only conflict; a first resolution took this session's side of `scripts/build-guide.py` and therefore **dropped `b2418dfa`'s questions register**. That was caught before anything was pushed, the rebase was aborted, and the merge redone as a `git merge` with a three-way resolution that keeps **both** sides. Recorded here because a discarded block is exactly what the brief forbids.
+
+| Conflict | Resolution |
+|---|---|
+| `COORDINATION.md` | Append-only. Both session blocks retained in full, no rewording. |
+| `scripts/build-guide.py` — questions page | `b2418dfa`'s 20-question register, rule-known column and readiness counts are preserved **first**; this session's discovery register now **appends** to the same `body` instead of replacing it. One page, both registers. |
+| `scripts/build-guide.py` — sources list | Union of both sides' rows. |
+| `guide/*.html`, `index.html` | Generated files. Regenerated from the merged generator rather than hand-merged; the generator is the single source of truth. |
+| `scripts/test-guide.cjs` | `main`'s Proposition H and register checks kept; this session's conditions/brief suites, manifest-derived nav count and extended official-host allowlist re-added. |
+
+**A finding from the merge, worth noting.** The new official-figure gate (`scripts/check-figures.py`) immediately failed on a seven-figure amount introduced by the other session's content. The correct response was not to exempt it: I opened the FDIC page, confirmed the $1,250,000 trust-account limit as of 1 April 2024, and added ledger record `FDIC-TRUST-LIMIT`. The gate then passed honestly. This is the intended behaviour — the gate does not care which session wrote a number.
+
+**Result.** All checks green after the merge: `package-site` 25 reviewed files; `check-publication --self-test` PASS; `check-figures` 28 records / 27 verified / 1 explicitly unverified; `test-guide` 12 pages, 790 source-linked rows, 10,037 rendered checks; `test-model-reference` 108 configurations and 250 stress years; `privacy-audit` PASS; `check-generated` PASS.
