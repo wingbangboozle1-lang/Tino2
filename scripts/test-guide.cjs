@@ -84,6 +84,58 @@ for(const file of pages){
   check(S.run('crisis')[0].assessed===S.run('crisis')[0].market,'Early crash models a temporary decline in assessment');
   check(d.querySelectorAll('#stress-years tbody tr').length===250,'All stress annual rows rendered');
  }
+ if(file==='guide/conditions.html'){
+  const d=dom.window.document,C=dom.window.CONDITIONS,i=C.inflation,p13=C.prop13;
+  check(d.querySelectorAll('#band-table tr').length===C.BANDS.length,'Every scenario band renders');
+  check(d.querySelectorAll('#compound-table tr').length===4,'Compounding table renders');
+  check(d.querySelectorAll('#breakeven-table tr').length===6,'Break-even table renders');
+  check(d.querySelectorAll('#cost-table tr').length===4,'Cost-structure table renders');
+  // The derived statistics must equal a recomputation from the stored series.
+  const ys=Object.keys(C.CPI_ANNUAL).map(Number).sort((a,b)=>a-b);
+  const ch=[];for(let k=1;k<ys.length;k++)ch.push(C.CPI_ANNUAL[ys[k]]/C.CPI_ANNUAL[ys[k-1]]-1);
+  const mean=ch.reduce((a,b)=>a+b,0)/ch.length;
+  check(Math.abs(mean-i.mean)<1e-12,'CPI mean recomputes from the stored annual series');
+  check(ch.length===i.count,'CPI change count matches the series');
+  check(Math.abs(Math.min(...ch)-i.min)<1e-12 && Math.abs(Math.max(...ch)-i.max)<1e-12,'CPI range recomputes');
+  check(ch.filter(x=>x>0.03).length===i.above(0.03),'Years above 3% recomputes');
+  // Prop 13 factor history must match the official letter: 51 rows, 40 at the 2% cap.
+  check(C.PROP13_FACTORS.length===51 && p13.count===51,'51 published assessment years');
+  check(C.PROP13_FACTORS.filter(f=>Math.abs(f-1.02)<1e-9).length===40 && p13.atCap===40,'40 years at the 2% cap');
+  check(C.PROP13_FACTORS.filter(f=>f<1).length===1,'Exactly one negative inflation year');
+  // Exponents are computed, not asserted: verify two closed forms.
+  const b=C.BANDS.find(x=>x.key==='high');
+  check(Math.abs(C.project(b,24,0).inflationMultiple-Math.pow(1.04,24))<1e-9,'Band projection exponent 24y');
+  check(Math.abs(C.project(b,50,0).inflationMultiple-Math.pow(1.04,50))<1e-9,'Band projection exponent 50y');
+  // Rounding rule: every published dollar is a multiple of 10.
+  check(C.round10(1234)===1230 && C.round10(-1236)===-1240,'round10 behaviour');
+ }
+ if(file==='guide/brief.html'){
+  const d=dom.window.document,B=dom.window.BREAKEVEN;
+  check(d.querySelectorAll('#boundary-body tr').length===B.GROWTH.length,'Boundary grid rows');
+  check(d.querySelectorAll('#threshold-body tr').length===B.GROWTH.length,'Break-even rows');
+  check(d.querySelectorAll('#sensitivity-body tr').length===B.GROWTH.length+B.RETURNS.length+1,'Sensitivity rows including reference');
+  // The leading strategy must be one of the three known labels, and moving the
+  // portfolio return to zero must not leave "sell" winning at the default growth.
+  const g=0.035, low=B.evaluate(g,0,24), mid=B.evaluate(g,0.05,24);
+  check(['sell','rent','live'].includes(low.winner) && ['sell','rent','live'].includes(mid.winner),'Boundary winners are valid labels');
+  check(low.winner!=='sell','A zero portfolio return must not favour selling on these inputs');
+  check(mid.winner==='sell','The middle case favours selling on these inputs');
+  // Monotonicity: raising the return must never make selling less likely at fixed growth.
+  let sawSell=false, monotone=true;
+  for(const r of B.RETURNS){const w=B.evaluate(g,r,24).winner; if(w==='sell')sawSell=true; else if(sawSell)monotone=false;}
+  check(monotone,'Selling becomes dominant at higher returns and never reverts');
+  // Break-even search agrees with the grid it summarises.
+  const be=B.sellBreakeven(g,24);
+  check(be.threshold!==null && B.evaluate(g,be.threshold,24).winner==='sell','Break-even point actually leads with selling');
+ }
+ if(file==='guide/questions.html'){
+  const d=dom.window.document;
+  const rows=d.querySelectorAll('tbody tr');
+  check(rows.length>=16,'Discovery register has at least sixteen entries');
+  const text=d.body.textContent;
+  for(const t of ['Who holds it','Typical lead time','Document or source that answers it','Gate'])
+    check(text.includes(t),'Discovery register column present: '+t);
+ }
  if(file==='guide/suggestions.html'){
   const d=dom.window.document,sel=d.querySelector('[data-suggestion="S01"]');
   sel.value='consider';sel.dispatchEvent(new dom.window.Event('change'));
