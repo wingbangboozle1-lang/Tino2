@@ -312,6 +312,17 @@
       "source_id": "",
       "verified": false,
       "note": "UNVERIFIED. Widely repeated in title-company closing-cost guides, but no Santa Clara County Clerk-Recorder or County ordinance page was opened and read on the check date. The town conveyance add-on varies by city. The guide therefore models sale costs as a single invented percentage and does not publish this rate as a verified figure. Left in the register as an open verification task."
+    },
+    {
+      "id": "FDIC-TRUST-LIMIT",
+      "topic": "Deposit insurance",
+      "claim": "Maximum FDIC deposit insurance coverage for a trust owner with five or more beneficiaries",
+      "official_exact": "$1,250,000 per owner for all trust accounts at the same bank",
+      "display_rounded": "$1,250,000",
+      "source_url": "https://www.fdic.gov/resources/deposit-insurance/brochures/insured-deposits",
+      "source_id": "fdic",
+      "verified": true,
+      "note": "FDIC 'Your Insured Deposits': as of April 1, 2024 the maximum coverage for a trust owner with five or more beneficiaries is $1,250,000 per owner for all trust accounts (POD/ITF, revocable and irrevocable) held at the same bank. The page also states coverage does not cover investments, even if bought at an insured bank."
     }
   ]
 }

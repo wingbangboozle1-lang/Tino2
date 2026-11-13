@@ -207,7 +207,7 @@ body+=section('Can a decision reasonably be made yet?','''<div class="grid three
  <div class="card"><div class="eyebrow">Priority 3 · recheck at the time</div><h3>'''+str(priority_counts['3'])+''' open</h3><p class="muted">Law, prices and conditions that cannot be known now and must be rechecked near the event.</p></div>
 </div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one.</div>''')
 body+=section('Questions, answers and discovery',table(['Priority','Question','Answer already known from official sources','Household answer','How to discover privately','Decision impact','Official framework'],[(a,b,c,d,e,f,source(g)) for a,b,c,d,e,f,g in questions]))
-page('questions','What must be answered first?','A clear register of the answers that official sources already give, the facts that are still missing, and how to find each one without publishing personal information.',body)
+
 # ---------------------------------------------------------------- discovery register
 # Each row: (id, priority, question, why_it_blocks, document_or_source, holder, lead_time, official_link_key, gate)
 # The gate marks whether the answer can change the ranking on the comparison page.
@@ -282,7 +282,7 @@ DISCOVERY_PRIORITY={
  '2':'<span class="tag">P2</span> Changes a cost materially but is unlikely to reverse the ranking alone.',
  '3':'<span class="tag">P3</span> Preference, policy or watchlist. Necessary for a real decision, not for the arithmetic.'
 }
-body='<div class="callout"><strong>This section exists to close the gap between a model and a decision.</strong> The comparison page is arithmetic on invented inputs. A real decision needs the facts below. For each one, this register states the question, why the answer can change the outcome, the specific document or source that answers it, who physically holds that document, and how long it usually takes. <strong>Do not enter any answer on this site.</strong> Keep the completed register offline.</div>'
+body+='<div class="callout"><strong>This section exists to close the gap between a model and a decision.</strong> The comparison page is arithmetic on invented inputs. A real decision needs the facts below. For each one, this register states the question, why the answer can change the outcome, the specific document or source that answers it, who physically holds that document, and how long it usually takes. <strong>Do not enter any answer on this site.</strong> Keep the completed register offline.</div>'
 body+=section('How to read the priority column',table(['Priority','Meaning','How to treat it','Official framework'],[
  ('P1','Blocks the decision. A different answer can reverse the ranking.','Resolve before comparing strategies seriously. Eight items.',source('notice')),
  ('P2','Changes a cost materially but is unlikely to reverse the ranking alone.','Resolve before committing capital or signing anything. Six items.',source('prop13')),
@@ -308,7 +308,7 @@ body+=section('What to do with the answers',table(['If the answer is','Then','Be
  ('The estate exceeds the filing threshold','Add a liquidity review before choosing to keep the property.','Estate tax can force a sale regardless of preference.',source('estate')),
  ('The rent floor is not achievable','Treat renting as a cost-carrying choice, not an income strategy.','The break-even table on the real-conditions page shows the floor.',source('prop13')),
  ]))
-page('questions','What must be answered first?','A register of the facts that are missing, why each one can change the answer, the exact document that resolves it, who holds that document, and how long it takes.',body)
+page('questions','What must be answered first?','Two registers in one place: the answers official sources already give, and the facts that are still missing, with the exact document that resolves each one, who holds it, and how long it takes.',body)
 
 
 suggestions=[
