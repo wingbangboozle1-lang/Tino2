@@ -372,6 +372,14 @@ body+=section('How each official figure was checked',table(['Check','What it doe
  ('Rounding disclosure','Where a published amount is rounded to the nearest $10, the page says so and the ledger keeps the exact official value so a reader can match it.','Rounding does not anonymize: a multi-year series can be matched even after rounding.',source('prop13')),
  ('Deliberately unverified','An item that could not be confirmed at an official source is left blank on the page and recorded as unverified in the ledger.','It stays open until someone opens the official document and records it.',source('github')),
  ]))+'<p class="tiny">Last full re-read of official sources: 13 November 2026. The guide states a review date rather than promising currency. Laws, exemption amounts and local rates change.</p>'
+body+=section('What is deliberately left blank',table(['Blank item','Why it is blank','Where to find the real value privately','Official context'],[
+ ('Market value of either property','No appraisal has been published to this site, and publishing one would breach the privacy rule.','Independent appraisal and comparable sales, kept offline.',source('basis')),
+ ('Actual property-tax bill and assessed value','Parcel-specific and household-specific.','The county secured tax bill for each parcel.',source('prop13')),
+ ('Insurance premium and coverage','A quote is not a public document.','Binding quotes from licensed brokers, including or excluding earthquake.',source('cdieq')),
+ ('Rent roll and lease terms','Private contracts.','Signed leases and the local rent board history.',source('sfRent')),
+ ('Estate inventory and any estate-tax headroom','The whole estate is unknown.','A confidential inventory prepared with counsel.',source('estate')),
+ ('Date-of-death value','An event that has not occurred.','A retrospective appraisal as of the actual date.',source('basis')),
+ ])+'<p class="tiny">Each blank is recorded as unverified rather than filled with an estimate. The build fails if a seven-figure official amount appears without a ledger record, and the ledger itself records one item as explicitly unverified rather than guessing.</p>','05 / blanks')
 page('sources','Sources and verification.','Direct links to official agencies and primary materials, organized by subject for manual review.',body)
 
 body='''<div class="callout warning"><strong>Fictional values, not your household’s figures.</strong> This example was invented for a public site. Its numerical results cannot establish the best personal plan. Official links support the rules or risk context, not the synthetic inputs or projections.</div>'''
