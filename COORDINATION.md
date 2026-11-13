@@ -1,5 +1,18 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+## Session `9edb6a52` (branch `arena/9edb6a52-tino2`) — claim 2026-11-13 06:50 UTC
+
+**State read at claim.** `origin/main` = `9771c8e` (merge of PR #71). Open PRs checked immediately before claiming: only #63 (`4061a2e5`, append-only coordination record touching only `COORDINATION.md`, last updated 2026-11-12 22:21 UTC — idle far beyond the 60-minute handoff window). Diff `5f64fb8..9771c8e` contains only coordination records and a verification report, so the published Pages artifact (`index.html` + `guide/**`) is unchanged since session `a29630ce`'s verification of it. This session is fixed to `arena/9edb6a52-tino2` by the platform and does all work there.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| V-1 | Independent line-by-line re-verification of the live published guide against official sources; live read-back of the deployed Pages site; full local test suite run on current `main` | done | 9edb6a52 | `verification/9edb6a52/**`, this block | 18 decision-critical items re-opened live on 13 Nov 2026, all MATCH; 0 defects found in the published artifact; full suite PASS (see `verification/9edb6a52/REPORT.md`) |
+| V-2 | Pages publication hardening: retry switching the Pages source to the allowlisted Actions workflow | done | 9edb6a52 | this block (API attempt only; no file changes) | HTTP 403 `Resource not accessible by integration` again on 13 Nov 2026; connection lacks Pages/admin write. Remains flagged for a repository administrator (consistent with sessions 2ddad241 and a29630ce) |
+| V-3 | Handoff review of stale open PR #63 (append-only record from `4061a2e5`, idle >60 min) | done | 9edb6a52 | this block | PR #63 had become `CONFLICTING` against `main`; closed 13 Nov 2026 with a handoff comment; its record text preserved verbatim at the end of `COORDINATION.md`, credited to `4061a2e5` (facts: PR #58 merged `4b6a5cd` 22:16:46 UTC 2026-11-12; verification run `43318433633` success; Pages build `43318434822` success) |
+| V-4 | Write `verification/9edb6a52/REPORT.md`, open PR to `main`, merge without waiting, confirm GitHub Pages build & live read-back, record PR link + merge result in this block | in progress | 9edb6a52 | `verification/9edb6a52/**`, this block | Report written; PR follows this commit |
+
+**Rules followed.** Placeholders only (`Property A`/`Property B`); zero household figures or personal identifiers; `$10` rounding respected; every shared-file edit logged in this block before it happens; `origin/main` merged before every push; never mark verified without checking the official source and linking it.
+
 <!-- BEGIN block owned by session b2418dfa. Placed directly below the title so it merges cleanly against end-of-file appends. Do not edit inside this block; log requests in your own section. -->
 ## Session `b2418dfa` (branch `arena/b2418dfa-tino2`) — claim 2026-11-13
 
@@ -75,7 +88,6 @@
 * **Local evidence (before the owner's fix).** `test-guide.cjs` PASS (12 rendered pages / 796 source-linked rows / 10,065 checks), `privacy-audit.cjs` PASS, `check-generated.py` PASS (12 pages), `package-site.py` PASS (25 reviewed files), `check-publication.py --self-test` PASS, `test-model-reference.py` PASS (108 configurations / 250 stress years / 10,236 comparisons), and an axe-core run over all twelve packaged pages in jsdom reported no structural WCAG A/AA violation. The real-Chromium half of the browser test cannot run in this sandbox (no `libnss3.so` for the bundled Chromium); it runs in CI.
 
 <!-- END block owned by session b2418dfa -->
-
 <!-- BEGIN block owned by session 9ca15d34. Placed directly below the title to avoid merge conflicts with end-of-file PRs (#54, #60, #63). Do not edit inside this block. -->
 ## Session `9ca15d34` (branch `arena/9ca15d34-tino2`) — claim & work plan (2026-11-12)
 
@@ -1852,3 +1864,23 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 **A finding from the merge, worth noting.** The new official-figure gate (`scripts/check-figures.py`) immediately failed on a seven-figure amount introduced by the other session's content. The correct response was not to exempt it: I opened the FDIC page, confirmed the $1,250,000 trust-account limit as of 1 April 2024, and added ledger record `FDIC-TRUST-LIMIT`. The gate then passed honestly. This is the intended behaviour — the gate does not care which session wrote a number.
 
 **Result.** All checks green after the merge: `package-site` 25 reviewed files; `check-publication --self-test` PASS; `check-figures` 28 records / 27 verified / 1 explicitly unverified; `test-guide` 12 pages, 790 source-linked rows, 10,037 rendered checks; `test-model-reference` 108 configurations and 250 stress years; `privacy-audit` PASS; `check-generated` PASS.
+
+---
+
+<!-- BEGIN record preserved verbatim from stale PR #63 (session 4061a2e5), appended by session 9edb6a52 on 2026-11-13 after closing that PR under the 60-minute handoff rule. No edits to the content. -->
+### Session `4061a2e5` — publication record (2026-11-12)
+
+| Step | Result |
+|---|---|
+| PR | [#58](https://github.com/wingbangboozle1-lang/Tino2/pull/58) from `arena/4061a2e5-tino2` to `main`, opened 22:16 UTC and **MERGED** 22:16:46 UTC without waiting for approval |
+| Merge commit | `4b6a5cd094ae82a42569c8a6e27c4a9697387941` |
+| PR-head verification | `Verify public Pages boundary`, run `43318433633`, **success**; the check packaged the canonical site, ran model/stress/source checks, rendered rows, built Jekyll, and rejected unexpected publication files |
+| Pages build for the PR merge | Run `43318434822`, **success**, deployed the Pages site for `4b6a5cd`; API reported no build error and HTTPS remained enforced |
+| Concurrent follow-up merges | PR #59 (`27e6213d`) and PR #57 (`c96c185e`) subsequently added their append-only coordination publication records to `main`. Their Pages builds were re-run and passed; no canonical site files were changed or removed |
+| Final Pages build observed | `pages-build-deployment` run `43318809559` for final `main` `cf10618`, **success**; `Verify public Pages boundary` run `43318810463`, **success**; Pages API reported `built` with `error.message: null`, source `main` / root, HTTPS enforced |
+| Live read-back after final build | **Done.** The live overview, `site/questions-gate.html`, `site/suggestions.html`, `site/review.html`, `site/black-swan.html`, and `site/properties.html` were fetched after deployment. The overview renders the executive summary and Property A inherited / Property B already-owned distinction; the gate renders 40 questions and plan blockers; Suggestions renders 27 proposals and four paths; Review renders the privacy and unverified-input warnings; Black swan renders recorded data and stress paths; Properties renders rounded values, reassessment and cost tables with source links |
+| Open PR handling | Other concurrent verification PRs were left to their owners; this session did not close or merge another session's PR |
+| Privacy | This session added only a source-linked audit report and coordination metadata. No name, street address, parcel identifier, account identifier, private document, or unrounded household value was added to the canonical site |
+
+**Final handoff.** The dashboard is live at [https://wingbangboozle1-lang.github.io/Tino2/](https://wingbangboozle1-lang.github.io/Tino2/). The audit report is in `verification/4061a2e5/REPORT.md` (repository-only; excluded by `_config.yml`). The existing Flagged for Review page remains the public place for unresolved privacy, insurance, trust, tax-rate, estate-money, rent, and future-law questions. No unverified item was promoted to a fact.
+<!-- END preserved record -->
