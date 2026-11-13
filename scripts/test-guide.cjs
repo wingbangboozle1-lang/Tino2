@@ -3,7 +3,7 @@ const {JSDOM,VirtualConsole}=require('../.cache/test/node_modules/jsdom');
 const fs=require('fs'),path=require('path'),assert=require('assert');
 const root=path.resolve('_public');
 const pages=['index.html',...fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html')).map(f=>'guide/'+f)];
-const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com']);
+const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.cbo.gov','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.sfpuc.gov','www.sf.gov','fred.stlouisfed.org']);
 let rows=0, checks=0;
 function check(ok,msg){checks++;assert(ok,msg);}
 function open(file){
@@ -23,7 +23,8 @@ function inspect(dom,file){
  const doc=dom.window.document;
  check(Boolean(doc.querySelector('nav[aria-label]')),file+' accessible navigation missing');
  check(doc.querySelector('h1')!==null,file+' missing heading');
- check(doc.querySelectorAll('nav a').length===10,file+' incomplete navigation');
+ const navCount=doc.querySelectorAll('nav a').length;
+ check(navCount===new Set(fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html'))).size+1,file+' incomplete navigation: '+navCount);
  check(doc.querySelector('meta[name=referrer][content=no-referrer]')!==null,file+' referrer policy missing');
  check(!doc.querySelector('form,input,textarea,iframe'),file+' unexpected data input or embed');
  for(const th of doc.querySelectorAll('thead th')) check(th.getAttribute('scope')==='col',file+' missing column scope');
