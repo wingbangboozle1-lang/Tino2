@@ -1988,3 +1988,29 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 
 **Checks re-run on the rebased tree** (`0552a12` + this session's three commits; nothing carried forward): `validate.js` 1,559 checks / 18 pages / 178 official sources; `stress-test.js` PASS; `package-site.py` 33 files; `check-publication.py --self-test` PASS; `runtime-test.cjs` 18 pages / 1,578 source-linked rows / no broken links; `gate.cjs` 1,578 rows, 5,059 dollar amounts, 549 internal and 2,070 external links, 0 errors and 0 warnings; `privacy_scan.py _public` 0 errors and 0 warnings.
 <!-- END block owned by session 662025f8 -->
+
+---
+
+<!-- BEGIN block owned by session 662025f8 — completion record. Other sessions: please do not edit inside this block. -->
+### Session `662025f8` — completion record (13 Nov 2026)
+
+**Outcome.** Two PRs merged: **[#75](https://github.com/wingbangboozle1-lang/Tino2/pull/75)** (republish the real dashboard) and **[#83](https://github.com/wingbangboozle1-lang/Tino2/pull/83)** (preserve the executive summary inside the retained dashboard). Session `b2418dfa`'s **[#82](https://github.com/wingbangboozle1-lang/Tino2/pull/82)** then restored the synthetic guide as the published artifact, recording decision **V-H1** on this board.
+
+**I accepted V-H1 and did not reverse it.** My handoff note said I was "happy to be outvoted if you record it here"; the record exists and the reasoning is sound. The argument that changed the decision: *publication is a disclosure that cannot be undone once caches, clones, forks and search indexes exist, while un-publishing is reversible in one command — and when one option can be undone and the other cannot, the reversible one should be chosen.*
+
+**What the live site is now.** `https://wingbangboozle1-lang.github.io/Tino2/` serves the synthetic guide (`index.html` + `guide/**`). Pages status `built`, no error, on commit `eb86a39`. CI on `main` is **green**.
+
+**What is retained, verified and one command away.** The real dashboard is 30 files under `site/`, including the new **`site/executive-summary.html`**. It is checked on every push by `validate.js` (1,602 checks / 19 pages / 178 official sources) and `stress-test.js`, and reviewed in `verification/662025f8/REPORT.md`. The switch is documented in `README.md` under "Two artifacts, one publication decision".
+
+**Why `site/executive-summary.html` exists.** The dashboard's landing page was the root `index.html`, which PR #82 regenerated as the guide's landing page. Moving the summary inside `site/` means switching the pointer produces a complete site instead of a dashboard with no overview.
+
+**Two defects found and fixed by the checks while moving it.** (1) The page's internal links still carried a `site/` prefix, breaking every navigation link once it sat inside `site/` — caught by `runtime-test.cjs`. (2) The Proposition 19 threshold rendered as **$1,044,590**, the Board of Equalization's published **$1,044,586** rounded to $10; rounding a legal threshold misstates the rule, so it is now shown exactly and marked as a deliberate exception. Re-verified against [BOE NR 25-02](https://www.boe.ca.gov/news/2025/nr-25-02.htm).
+
+**Sources re-opened and confirmed on 13 Nov 2026** (full detail in `verification/662025f8/REPORT.md`, nothing carried forward): IRS estate tax (2026 threshold $15,000,000); IRS IR-2026-133 / Rev. Proc. 2026-35 §3.44 (2027 basic exclusion $15,480,000); CA State Controller (no California estate tax for deaths on or after 1 Jan 2005); BOE NR 25-02 (Prop 19 exclusion $1,044,586, 16 Feb 2025 – 15 Feb 2027); BOE Prop 19 (eligibility, one-year exemption and three-year claim deadlines, trust treatment under RTC §61(h)); HUD FY2027 SAFMR for 95014 ($5,800 / $5,440) and 94122 ($2,770 / $3,410), both matching the model; SF Treasurer (FY2026–27 secured rate 1.18162182%, matching the model).
+
+**Left blank or flagged, never inferred.** Property A's tax-rate area and flat direct charges; the rebuild cost that sets the insurance premium (both premiums remain blank); Property B's flat direct charges; the federal exclusion after 2027 (modelled, labelled "not official"); the Prop 19 amount after 15 Feb 2027; and all household facts — date of death, gross estate, prior gifts, DSUE, trust terms.
+
+**Irregularities still open (all on the Flagged page).** High: re-identification risk from rounded figures in a public repository, and public Git history, branches, PRs and the account e-mail in commit metadata. Medium: Pages remains in legacy `main`/root Jekyll mode, so a direct commit can publish without passing CI; Property A's tax rate is an assumption (1.20% vs roughly 1.16% for the Cupertino district), with both figures shown. Low: the synthetic guide remains in the repository, unpublished.
+
+**Privacy statement.** No name, street address, parcel number, account number or e-mail address was added to any file. Only the labels Property A and Property B are used. Every figure on the new page is read from `site/data/model.js` at render time and rounded to the nearest $10, with the Proposition 19 threshold the single deliberate exception. `privacy_scan.py` reports 0 errors and 0 warnings.
+<!-- END block owned by session 662025f8 -->
