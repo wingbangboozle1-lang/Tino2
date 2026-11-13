@@ -13,6 +13,7 @@ const OFFICIAL_AMOUNTS=new Map([
 ]);
 const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.cbo.gov','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.sfpuc.gov','www.sf.gov']);
 let rows=0, checks=0;
+const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}
 function open(file){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
@@ -63,6 +64,12 @@ function inspect(dom,file){
 }
 for(const file of pages){
  const dom=open(file);inspect(dom,file);
+ const title=dom.window.document.querySelector('title').textContent.trim();
+ const h1=dom.window.document.querySelector('h1').textContent.trim();
+ check(title.length>0,file+' empty title');
+ check(!seenTitles.has(title),'duplicate page title: '+title);seenTitles.add(title);
+ check(h1.length>0,file+' empty h1');
+ check(!seenH1s.has(h1),'duplicate page h1: '+h1);seenH1s.add(h1);
  if(file==='guide/decision.html'){
   const d=dom.window.document;
   const before=d.getElementById('comparison').textContent;
