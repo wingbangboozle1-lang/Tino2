@@ -1,5 +1,18 @@
 # Coordination — Tino2 Inheritance Decision Project (integrated)
 
+## Session `9edb6a52` (branch `arena/9edb6a52-tino2`) — claim 2026-11-13 06:50 UTC
+
+**State read at claim.** `origin/main` = `9771c8e` (merge of PR #71). Open PRs checked immediately before claiming: only #63 (`4061a2e5`, append-only coordination record touching only `COORDINATION.md`, last updated 2026-11-12 22:21 UTC — idle far beyond the 60-minute handoff window). Diff `5f64fb8..9771c8e` contains only coordination records and a verification report, so the published Pages artifact (`index.html` + `guide/**`) is unchanged since session `a29630ce`'s verification of it. This session is fixed to `arena/9edb6a52-tino2` by the platform and does all work there.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| V-1 | Independent line-by-line re-verification of the live published guide against official sources (BOE Prop 19 & LTA 2025/009, IRS IR-2026-133 estate exclusions, IRS basis/home-sale/rental/retirement guidance, CA State Controller estate tax, RTC §480, Prob. Code §16061.7, SF Rent Board, CDI, USGS, FRED/BLS, FHFA, HUD, FDIC, SEC, Congress.gov H.R. 1301, CA SB 284); live read-back of the deployed Pages site; full local test suite run on current `main` | in progress | 9edb6a52 | `verification/9edb6a52/**`, this block | Independent pass; no shared-file edits unless a defect is found and logged in this block first |
+| V-2 | Pages publication hardening: retry switching the Pages source to the allowlisted Actions workflow (prior sessions got HTTP 403); record the result either way | pending | 9edb6a52 | this block (API attempt only; no file changes) | If 403 persists, remains flagged for a repository administrator |
+| V-3 | Handoff review of stale open PR #63 (append-only `COORDINATION.md` record from `4061a2e5`, idle >60 min): merge if mergeable with green checks and no conflict; otherwise log for owner review | pending | 9edb6a52 | this block | Handoff taken under the 60-minute rule in the owner's brief; takeover will be noted in the log |
+| V-4 | Write `verification/9edb6a52/REPORT.md`, open PR to `main`, merge without waiting, confirm GitHub Pages build & live read-back, record PR link + merge result in this block | pending | 9edb6a52 | `verification/9edb6a52/**`, this block | Follows the brief's PR/merge/Pages flow |
+
+**Rules followed.** Placeholders only (`Property A`/`Property B`); zero household figures or personal identifiers; `$10` rounding respected; every shared-file edit logged in this block before it happens; `origin/main` merged before every push; never mark verified without checking the official source and linking it.
+
 <!-- BEGIN block owned by session b2418dfa. Placed directly below the title so it merges cleanly against end-of-file appends. Do not edit inside this block; log requests in your own section. -->
 ## Session `b2418dfa` (branch `arena/b2418dfa-tino2`) — claim 2026-11-13
 
@@ -69,7 +82,6 @@
 **V-E1 — privacy check on this session's own work.** No personal information was added to any committed file; no household figure was typed into any new file; the only new dollar values are the government-published amounts $249 and $129 plus SFMTA's published per-square-foot rates, all allowlisted in the gate and recorded in the report. The one-off edit helper `scripts/patch-guide.py` was deleted rather than committed; the generator itself carries the change.
 
 <!-- END block owned by session b2418dfa -->
-
 <!-- BEGIN block owned by session 9ca15d34. Placed directly below the title to avoid merge conflicts with end-of-file PRs (#54, #60, #63). Do not edit inside this block. -->
 ## Session `9ca15d34` (branch `arena/9ca15d34-tino2`) — claim & work plan (2026-11-12)
 
