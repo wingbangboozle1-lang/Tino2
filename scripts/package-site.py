@@ -24,4 +24,4 @@ for relative in sorted(PUBLIC_FILES):
     shutil.copyfile(src, dst)
 # This marker exists only inside the explicit artifact, never at repository root.
 (out / '.nojekyll').touch()
-print(f'PASS: packaged {len(PUBLIC_FILES)} reviewed guide files; legacy site excluded.')
+print(f'PASS: packaged {len(PUBLIC_FILES)} reviewed dashboard files; guide/ and legacy trees excluded.')

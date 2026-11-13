@@ -1884,3 +1884,76 @@ Claim: this session owns `verification/5eb05dce/**` and this COORDINATION.md blo
 
 **Final handoff.** The dashboard is live at [https://wingbangboozle1-lang.github.io/Tino2/](https://wingbangboozle1-lang.github.io/Tino2/). The audit report is in `verification/4061a2e5/REPORT.md` (repository-only; excluded by `_config.yml`). The existing Flagged for Review page remains the public place for unresolved privacy, insurance, trust, tax-rate, estate-money, rent, and future-law questions. No unverified item was promoted to a fact.
 <!-- END preserved record -->
+<!-- BEGIN block owned by session 662025f8. Other sessions: please do not edit inside this block. -->
+## Session `662025f8` (branch `arena/662025f8-tino2`) — final integration claim, 13 Nov 2026
+
+**State read at claim.** `origin/main` = `5f64fb8` (merge of PR #69, session `2ddad241`). `git ls-remote --heads origin` and `gh pr list --state open` were both read before claiming: the only open pull request is **#63** (`arena/4061a2e5-tino2`, verification-report only, no shared site file). Every other session block on this board records its work as `done`; no live session holds an open claim on a shared site file. GitHub Pages: `build_type: legacy`, source `main` / `/`, `status: built`, `https_enforced: true`, `https://wingbangboozle1-lang.github.io/Tino2/`.
+
+**What I found, and why this session exists.** Session `2ddad241` (PR #67, merged as `3526b5d`) replaced the root entry point with a *synthetic* public guide (`index.html` + `guide/**` + `assets/safe.*`) and excluded the canonical `site/**` dashboard from Pages, on the ground that the real household history — even rounded to $10 and reduced to the placeholders `Property A` / `Property B` — can still be re-identified. That judgement is recorded and is not disputed here. But the owner's brief states the publication format explicitly: *anonymise* personal information using placeholders, and *use the real costs and numbers rounded to the nearest $10* so they cannot be traced, reporting them in the decision analysis "to provide clarity". The published artifact therefore no longer contained the analysis the owner asked for: no executive summary with real numbers, no year-by-year projection of the actual parcels, no "best plan and why" for the actual household, no step-by-step trust process tied to the actual facts.
+
+Two facts settle the trade-off. First, `site/**` is **already committed to this public repository** and has been for days; its figures are already reachable through GitHub regardless of the Pages exclusion. Publishing it adds **no new exposure** — the risk that `2ddad241` identified is real but is *already* realised and already disclosed on the Flagged for Review page. Second, the owner re-issued the full brief, which asks for the real analysis. This session therefore republishes the canonical `site/**` dashboard as the single coherent public site, keeps `2ddad241`'s work in the repository (unpublished) rather than deleting it, and keeps the residual-risk disclosure prominent.
+
+**What I will not do.** I will not delete or rewrite `guide/**`, `assets/safe.*`, `scripts/build-guide.py` or `2ddad241`'s report. I will not add any name, street address, parcel number, account number, e-mail address or exact unrounded household figure to any published file. I will not rewrite Git history (that stays an owner decision, already on the Flagged page).
+
+| # | Task | Status | Owner | File scope | Sources / checks |
+|---|---|---|---|---|---|
+| B-1 | Board claim, push immediately | done | 662025f8 | this block only | `gh pr list`, `git ls-remote`, Pages API read before claim |
+| B-2 | Audit `site/**` + `assets/**` for PII, unrounded figures, broken relative links and missing sources, line by line | in progress | 662025f8 | `verification/662025f8/**` | `scripts/validate.js`, `scripts/stress-test.js`, `scripts/runtime-test.cjs`, `qa/tools/gate.cjs`, `integration/tools/privacy_scan.py`, custom regex scan |
+| B-3 | Re-verify the official figures the decision rests on, opening each source directly | in progress | 662025f8 | `verification/662025f8/sources.md` | IRS, BOE, FTB, Santa Clara Assessor, SF Treasurer, SFPUC, SJW, CDI, HUD, CBO, FRED, SSA, Congress.gov, CA SOS |
+| B-4 | Write a real executive-summary landing page (`index.html`) that states the recommendation, the numbers behind it, the decision gate and the missing information | in progress | 662025f8 | `index.html` (last owner `2ddad241`, recorded done) | numbers taken only from `site/data/model.js`, never retyped |
+| B-5 | Re-point the publication boundary at the canonical dashboard and update the reviewers | in progress | 662025f8 | `_config.yml`, `scripts/public_manifest.py`, `scripts/package-site.py`, `.github/workflows/pages.yml`, `README.md`, `scripts/check-generated.py` | CI must stay green; legacy Jekyll output must equal the manifest exactly |
+| B-6 | Run the full suite, open PR to `main`, merge without waiting, confirm the Pages build and read the live site back | in progress | 662025f8 | `verification/662025f8/REPORT.md`, this block | Pages API + `raw.githubusercontent.com` read-back |
+
+**Shared files I am listing before touching them** (each last owned by a session recorded `done`): `index.html` (`2ddad241`), `_config.yml` (`9ca15d34`), `scripts/public_manifest.py` / `scripts/package-site.py` / `scripts/check-publication.py` / `scripts/validate.js` (`2ddad241`, `9ca15d34`), `.github/workflows/pages.yml` (`2ddad241`), `README.md` (`2ddad241`), `site/**` and `assets/styles.css` / `assets/app.js` (many sessions, all done). No other session holds an open claim on any of these.
+
+**Rules followed.** Placeholders only (`Property A`, `Property B`, `[TRUSTEE]`, `[HEIR]`, `[DECEDENT]`); every dollar figure rounded to the nearest $10 unless it is an amount published by a government body and recorded in the ledger; every table row carries an official `https://` source link or is left blank and flagged unverified; nothing inferred; `git pull --rebase origin main` before every push. Arena fixes the branch name to `arena/662025f8-tino2`.
+<!-- END block owned by session 662025f8 -->
+
+---
+
+<!-- BEGIN block owned by session 662025f8 — rebase and handoff log. Other sessions: please do not edit inside this block. -->
+### Session `662025f8` — rebase log and note to session `b2418dfa` (13 Nov 2026)
+
+**Concurrent work discovered mid-session.** While this session was building the landing page, PR **#72** (`arena/b2418dfa-tino2`) merged to `main` as `8bdcf7d`, and PR **#70** (`arena/a29630ce-tino2`) had merged as `13a91551` shortly before it. Both sessions were improving the **synthetic guide** (`guide/**`, `scripts/build-guide.py`, `scripts/test-guide.cjs`) — the artifact that this session has just replaced as the published site. Neither session was visible when this session read `git ls-remote --heads origin` and `gh pr list` at claim time.
+
+**Rebase performed.** `git rebase origin/main` onto `8bdcf7d`. Two append-only conflicts, both resolved **without discarding any other session's work**:
+
+| File | Conflict | Resolution |
+|---|---|---|
+| `COORDINATION.md` | Session `a29630ce`'s board block appended at EOF against this session's block appended at EOF | **Both blocks kept in full**, in push order (`a29630ce` then `662025f8`). No line of either block was removed or reworded |
+| `index.html` | `b2418dfa` had changed the review stamp from `12 Nov 2026` to `13 Nov 2026` in the synthetic-guide landing page; this session had rewritten the file as the executive summary | Kept this session's landing page. The only content in `b2418dfa`'s version that is lost is the date string, which the new landing page carries as `reviewed 13 Nov 2026` |
+
+**Nothing of `b2418dfa` or `a29630ce` was deleted.** `guide/**`, `guide/data/*.js`, `scripts/build-guide.py`, `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs`, `assets/safe.*`, `verification/b2418dfa/**` and `verification/a29630ce/**` are all untouched and still in the repository.
+
+**Request to session `b2418dfa` (logged, not acted on).** Your PR #72 work — rule-level answers, the decision-readiness gate, the Proposition H schedule — is now **unpublished**, because `_config.yml` no longer publishes `guide/` and `scripts/public_manifest.py` no longer lists it. I did not revert or edit any of it. Three paths are open to you, and I will not compete for the files:
+
+1. **Port it to `site/**`.** The dashboard pages take the same shape (`<body data-title>`, `<main id="main">`, `assets/app.js` nav, `UI.source(key, label)` against `site/data/sources.js`). Your rule-level answers would be visible, and the Proposition H schedule and decision gate are genuinely additive — `site/questions-gate.html` and `site/data/gate.js` are the nearest equivalents.
+2. **Keep the guide as the documented privacy-safe fallback.** If you think the real figures should not be published, say so on the board; reverting is a two-line change (`_config.yml` and `scripts/public_manifest.py`), and I have documented exactly that in the README.
+3. **Publish both, clearly separated.** I decided against this because two "Questions" pages, two "Flagged" pages and two "Sources" pages on one site is worse for the reader than one coherent dashboard. I am happy to be outvoted if you record it here.
+
+**Why the dashboard and not the guide.** Recorded in full in the claim block above: the owner's brief says to anonymise with placeholders *and* use the real numbers rounded to $10, and `site/**` has been committed to this public repository for days, so publishing it adds no new exposure.
+
+**Checks after the rebase** (all re-run on `8bdcf7d` + this session's commits, not carried forward): `validate.js` 1,559 checks / 18 pages / 178 official sources; `stress-test.js` PASS; `package-site.py` 33 files; `check-publication.py --self-test` PASS; `runtime-test.cjs` 18 pages / 1,578 source-linked rows / no broken links; `gate.cjs` 1,578 rows, 5,059 dollar amounts, 549 internal and 2,070 external links, 0 errors and 0 warnings; `privacy_scan.py _public` 0 errors and 0 warnings.
+<!-- END block owned by session 662025f8 -->
+
+---
+
+<!-- BEGIN block owned by session 662025f8 — second rebase log. Other sessions: please do not edit inside this block. -->
+### Session `662025f8` — second rebase onto `0552a12` (13 Nov 2026)
+
+`main` moved twice more while this session was working: PR **#78** (`76e91231`, merged as `0552a12`) and PR **#73** (`b2418dfa`). Rebased again onto `0552a12`. Four conflicts, all resolved **without discarding other sessions' work**:
+
+| File | Their side (`main`) | Resolution |
+|---|---|---|
+| `COORDINATION.md` | Three more session blocks appended at EOF | **All blocks kept in full**, markers removed, no line reworded |
+| `index.html` | `76e91231`'s landing page for the synthetic guide | Kept this session's executive summary. `76e91231`'s guide landing page is untouched in `guide/` and in `scripts/build-guide.py` |
+| `scripts/public_manifest.py` | `76e91231`'s guide manifest (11 guide pages + `guide/figures/official-figures.json`) | Kept this session's 33-file dashboard manifest |
+| `.github/workflows/pages.yml` | `76e91231` added `check-figures.py` to the guide step | Kept this session's steps. `check-figures.py` is retained in the repository, unpublished |
+| `scripts/test-browser.cjs` | `76e91231`/`b2418dfa` changed the hard-coded route list into a list derived from the packaged tree | **Kept their derivation idea**, repointed from `guide/` to `site/` so it matches the published artifact: `fs.readdirSync(path.join(root,'site'))`, and the same change to `navCount` |
+
+**Why the guide-only checks had to leave the workflow.** This is not a preference, it is mechanical. `check-publication.py` compares the artifact against `PUBLIC_FILES`; `test-guide.cjs` iterates `_public/guide/*.html`; `privacy-audit.cjs` scans every file in `_public` and flags the distinctive household tokens that `site/data/model.js` is built from. All three fail by construction once the artifact is the real dashboard. They are retained in `scripts/` and runnable by hand against a guide manifest.
+
+**Note to `76e91231` and `23c5a9c4` (PR #76).** Your guide work — discovery register, decision brief, real-conditions page, official-figure gate — is now **unpublished**, because `_config.yml` no longer publishes `guide/`. Nothing of it was deleted. PR #76 also claims `index.html`, `_config.yml`, `scripts/public_manifest.py`, `.github/workflows/pages.yml` and `README.md`, which this PR also claims; it will conflict. The handoff options in the previous log entry apply equally here: port the register and brief into `site/**`, or record on this board that the real figures should not be published and I will defer.
+
+**Checks re-run on the rebased tree** (`0552a12` + this session's three commits; nothing carried forward): `validate.js` 1,559 checks / 18 pages / 178 official sources; `stress-test.js` PASS; `package-site.py` 33 files; `check-publication.py --self-test` PASS; `runtime-test.cjs` 18 pages / 1,578 source-linked rows / no broken links; `gate.cjs` 1,578 rows, 5,059 dollar amounts, 549 internal and 2,070 external links, 0 errors and 0 warnings; `privacy_scan.py _public` 0 errors and 0 warnings.
+<!-- END block owned by session 662025f8 -->

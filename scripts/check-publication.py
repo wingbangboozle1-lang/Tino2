@@ -61,7 +61,7 @@ if __name__ == '__main__':
             assert any('Symlink' in x for x in audit(fixture)); unexpected.unlink()
             os.link(fixture/'index.html',unexpected)
             assert any('Hard link' in x for x in audit(fixture)); unexpected.unlink()
-            page=fixture/'guide/decision.html'
+            page=fixture/'site/decision.html'
             original=page.read_bytes(); page.write_bytes(original+b'\n<!-- tamper test -->')
             assert any('Altered' in x for x in audit(fixture)); page.unlink()
             assert any('Missing' in x for x in audit(fixture))

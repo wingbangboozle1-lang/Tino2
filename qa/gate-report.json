@@ -1,11 +1,11 @@
 {
- "checked": "2026-11-12",
+ "checked": "2026-11-13",
  "pages": [
   {
    "file": "index.html",
-   "rows": 40,
+   "rows": 30,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 90,
+   "amounts": 135,
    "links": 0
   },
   {
@@ -80,7 +80,7 @@
   },
   {
    "file": "site/review.html",
-   "rows": 94,
+   "rows": 95,
    "rowsWithContextLinkOnly": 0,
    "amounts": 58,
    "links": 0
@@ -132,12 +132,12 @@
  "warnings": [],
  "totals": {
   "pages": 18,
-  "rows": 1587,
-  "rowsWithOwnSource": 1578,
+  "rows": 1578,
+  "rowsWithOwnSource": 1569,
   "rowsWithContextLinkOnly": 9,
-  "amounts": 5014,
-  "officialExactAmounts": 120,
-  "internalLinks": 560,
-  "externalLinks": 2080
+  "amounts": 5059,
+  "officialExactAmounts": 118,
+  "internalLinks": 549,
+  "externalLinks": 2070
  }
 }
