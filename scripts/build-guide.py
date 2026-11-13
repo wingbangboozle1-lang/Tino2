@@ -349,6 +349,12 @@ sources=[
 ]
 body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Rules and source availability were reviewed on 12 November 2026; recheck the underlying documents and date-specific details before relying on them.</div>'
 body+=section('Source register',table(['Category','Agency or source','What it supports','Official link'],[(a,b,c,source(d)) for a,b,c,d in sources]))
+body+=section('How each official figure was checked',table(['Check','What it does','What it does not do','Official context'],[
+ ('Machine-readable ledger','Every official rule figure the guide publishes is recorded in a public ledger with its source URL, the exact published value, the form shown on the site, and the date it was re-opened.','It does not prove the value is still current on the day you read it, and it does not verify any household figure.',source('estate27')),
+ ('Build gate','The build fails if a seven-figure amount appears on a published page without a ledger record, or if a ledger record is marked verified without an official https source.','It cannot detect a value that was verified once and has since changed at the agency.',source('prop19')),
+ ('Rounding disclosure','Where a published amount is rounded to the nearest $10, the page says so and the ledger keeps the exact official value so a reader can match it.','Rounding does not anonymize: a multi-year series can be matched even after rounding.',source('prop13')),
+ ('Deliberately unverified','An item that could not be confirmed at an official source is left blank on the page and recorded as unverified in the ledger.','It stays open until someone opens the official document and records it.',source('github')),
+ ]))+'<p class="tiny">Last full re-read of official sources: 13 November 2026. The guide states a review date rather than promising currency. Laws, exemption amounts and local rates change.</p>'
 page('sources','Sources and verification.','Direct links to official agencies and primary materials, organized by subject for manual review.',body)
 
 body='''<div class="callout warning"><strong>Fictional values, not your household’s figures.</strong> This example was invented for a public site. Its numerical results cannot establish the best personal plan. Official links support the rules or risk context, not the synthetic inputs or projections.</div>'''
