@@ -305,13 +305,13 @@
     {
       "id": "SCCTRANSFER-TAX",
       "topic": "Local context",
-      "claim": "Santa Clara County documentary transfer tax is $0.55 per $500 of value, equivalent to $1.10 per $1,000",
-      "official_exact": "$1.10 per $1,000",
-      "display_rounded": "flagged unverified",
-      "source_url": "",
-      "source_id": "",
-      "verified": false,
-      "note": "UNVERIFIED. Widely repeated in title-company closing-cost guides, but no Santa Clara County Clerk-Recorder or County ordinance page was opened and read on the check date. The town conveyance add-on varies by city. The guide therefore models sale costs as a single invented percentage and does not publish this rate as a verified figure. Left in the register as an open verification task."
+    "claim": "Santa Clara County documentary transfer tax is $0.55 per $500 of value, equivalent to $1.10 per $1,000",
+    "official_exact": "$0.55 per $500 or fractional portion of real property value",
+    "display_rounded": "$1.10 per $1,000",
+    "source_url": "https://clerkrecorder.santaclaracounty.gov/recording-documents/recording-real-estate",
+    "source_id": "scc-recording",
+    "verified": true,
+    "note": "VERIFIED 2026-11-13 (was unverified). The County Clerk-Recorder 'Recording real estate' page states the documentary transfer tax is computed at $.55 per $500 or fractional portion of real property value; $1.10 per $1,000 is the exact equivalent. The same page states San Jose, Palo Alto and Mountain View add $1.65 per $500 (R&T Code 11911), so the town add-on varies by city. The guide still does not publish this rate as a table row; sale costs remain a single invented percentage on the synthetic example."
     },
     {
       "id": "FDIC-TRUST-LIMIT",

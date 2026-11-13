@@ -448,7 +448,7 @@ body+=section('What this page cannot tell you',table(['Limit','Why','What would 
  ('What the trust actually requires','A trust is a private document.','Counsel’s reading of the signed instrument.',source('trustbasis')),
  ('What future law will be','Bills in this space move every session.','Recheck the watchlist before acting.',source('hr1301')),
  ]))
-page('conditions','A straight line is not a forecast.','The observed inflation and assessment record, the official projection horizon, and the scenario bands this site uses, kept separate from each other.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/conditions-page.js'])
+page('conditions','The record, not a trend line.','The observed inflation and assessment record, the official projection horizon, and the scenario bands this site uses, kept separate from each other.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/conditions-page.js'])
 
 # ---------------------------------------------------------------- decision brief
 body='<div class="callout warning"><strong>A decision brief, not a recommendation.</strong> Everything below is arithmetic on invented values, produced by the same model as the comparison page. Its purpose is to show <em>which unknown facts would change the answer</em>, so the reader knows where to spend effort. It is not advice about any real household, and it does not rank real properties.</div>'
