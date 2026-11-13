@@ -28,23 +28,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify generated pages and model arithmetic
+      - name: Verify the dashboard model, pages and official sources
         run: |
           test ! -e .nojekyll
-          python3 scripts/check-generated.py
-          python3 scripts/check-figures.py
-          python3 scripts/test-model-reference.py
-      - name: Package and audit the reviewed public guide
+          node scripts/validate.js
+          node scripts/stress-test.js
+      - name: Package and audit the reviewed public dashboard
         run: |
           python3 scripts/package-site.py
           python3 scripts/check-publication.py --self-test
       - name: Install isolated test dependencies (never published)
         run: npm install --prefix .cache/test --no-audit --no-fund --ignore-scripts jsdom@26.1.0 playwright-core@1.49.1 @sparticuz/chromium@131.0.1 axe-core@4.10.3
-      - name: Verify rendered pages, sources, controls and privacy regressions
+      - name: Verify rendered pages, row sources, controls and privacy regressions
         run: |
-          node scripts/test-guide.cjs
-          node scripts/privacy-audit.cjs
-          node scripts/test-browser.cjs
+          node scripts/runtime-test.cjs
+          node qa/tools/gate.cjs
+          python3 integration/tools/privacy_scan.py _public
       # Continue checking the existing branch/root Jekyll output as a safety
       # fallback, even when the configured Pages source uses Actions.
       - name: Build the legacy GitHub Pages Jekyll output
