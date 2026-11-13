@@ -80,9 +80,24 @@ body+=section('What matters most',table(['Issue','What is known or needs verific
  ('Estate tax','Federal exposure depends on the whole decedent’s estate, prior taxable gifts, deductions, credits and elections. Actual headroom is unknown.',source('estate')),
  ('Risk and liquidity','A concentrated home and a portfolio face different risks. Diversification reduces some risks but does not guarantee a profit or prevent loss.',source('invest')),
  ]),'01 / decision context')
+body+=section('The finding, in one paragraph','''<p>On every set of invented assumptions this site tests, <strong>selling the inherited residence and reinvesting the net proceeds leads</strong> once the portfolio earns a modest net return, and it leads by a wide margin in the middle case. The reason is structural rather than a matter of market timing: a property that is rented rather than occupied carries a property tax bill computed on a reassessed market value, plus upkeep that rises with price, and on this model those two lines exceed the rent. The live strategy avoids part of the tax but gives up the rent, so it trails both. What actually changes the answer is not the return assumption — it is whether a basis step-up applies, whether family-home relief is available, and whether the trust permits a sale at all.</p><p><a href="guide/brief.html">See the decision boundary, and what would have to be true for a holding strategy to win →</a></p>''','03 / the finding')
+
+body+=section('Readiness scorecard',table(['Fact that decides the decision','Status','Who holds the answer','Discovery step','Official framework'],[
+ ('Does the trust permit a sale of the residence?','<span class="tag warn">Unverified</span>','Trustee or drafting attorney','<a href="guide/questions.html">Register D01 and D02</a>',source('notice')),
+ ('Is the residence titled in the trust?','<span class="tag warn">Unverified</span>','County recorder, trustee','<a href="guide/questions.html">Register D02</a>',source('ownership')),
+ ('Will basis step up to date-of-death value?','<span class="tag warn">Unverified</span>','Tax counsel','<a href="guide/questions.html">Register D03</a>',source('trustbasis')),
+ ('Is family-home relief available?','<span class="tag warn">Unverified</span>','County assessor, recipient','<a href="guide/questions.html">Register D04</a>',source('prop19')),
+ ('Is the estate above the federal filing threshold?','<span class="tag warn">Unverified</span>','Counsel, personal representative','<a href="guide/questions.html">Register D05</a>',source('estate')),
+ ('What is the date-of-death value?','<span class="tag warn">Unverified</span>','Qualified appraiser','<a href="guide/questions.html">Register D06</a>',source('basis')),
+ ('Do the San Francisco leases and unit status hold?','<span class="tag warn">Unverified</span>','Owner files, Rent Board','<a href="guide/questions.html">Register D07</a>',source('sfRent')),
+ ('What is the achievable rent floor?','<span class="tag warn">Unverified</span>','Property manager, comparables','<a href="guide/questions.html">Register D10</a>',source('hud')),
+ ])+'<p class="tiny">Zero of eight resolved. Each row links to the register entry that names the exact document, who holds it, and a typical lead time. The register has sixteen entries in total; these eight are the ones that can change the answer.</p>','04 / readiness')
+
 body+=section('Explore the guide',cards([
  ('01 / compare','Live, rent or sell','See assumptions, same-endpoint results and yearly costs for a fictional case.','guide/decision.html'),
+ ('01b / boundary','What decides it','Which inputs flip the ranking, and what would have to be true for a holding strategy to win.','guide/brief.html'),
  ('02 / uncertainty','Black-swan paths','Stress 50 years with inflation, crashes and a disaster; inspect every year.','guide/stress.html'),
+ ('02b / evidence','Real conditions','The observed inflation and assessment record, the official projection horizon, and the scenario bands.','guide/conditions.html'),
  ('03 / rules','Tax &amp; inheritance','Separate federal estate tax, income-tax basis, reassessment and trustee steps.','guide/tax.html'),
  ('04 / readiness','Questions to resolve','A prioritized list of missing records, answers and discovery routes.','guide/questions.html'),
  ('05 / improvements','Suggestions to review','Choose or defer ideas without applying them to the site or the analysis.','guide/suggestions.html'),
@@ -259,7 +274,7 @@ body+=section('How to read the priority column',table(['Priority','Meaning','How
  ]))
 rows=[]
 for (i,p,q,why,doc,who,lead,link,gate) in DISCOVERY:
-    rows.append((DISCOVERY_PRIORITY[p],'<strong>'+q+'</strong>',why,doc,who,lead,source(link),gate))
+    rows.append((DISCOVERY_PRIORITY[p],'<strong id="'+i+'">'+q+'</strong>',why,doc,who,lead,source(link),gate))
 body+=section('Discovery register',table(['Priority','Question','Why it blocks the decision','Document or source that answers it','Who holds it','Typical lead time','Official framework','Gate'],rows))
 body+=section('The four facts that decide the ranking','''<p>Most of the register above improves accuracy. Four items can change which strategy wins, and they should be resolved in this order.</p>''')
 body+=section('Order of resolution','<div class="grid two">'+''.join(
