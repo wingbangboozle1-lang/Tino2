@@ -50,9 +50,10 @@ Verified live by prior sessions whose board entries and reports record the dates
 |---|---|
 | `python3 scripts/check-generated.py` | PASS — 10 generated public pages up to date |
 | `python3 scripts/test-model-reference.py` | PASS — 108 decision configurations + 250 stress years; 10,236 arithmetic comparisons |
-| `python3 scripts/package-site.py` | PASS — 18 reviewed guide files packaged; legacy site excluded |
+| `python3 scripts/package-site.py` | PASS — 25 reviewed guide files packaged after PR #74; legacy site excluded (18 files before PR #72/#74) |
 | `python3 scripts/check-publication.py --self-test` | PASS — missing/extra/altered/symlinked/hard-linked files rejected |
-| `node scripts/test-guide.cjs` | PASS — 10 rendered pages, 649 source-linked rows / 9,061 checks before the concurrent PR #72 merged; re-run after rebase: 10 pages, 656 rows / 9,188 checks |
+| `node scripts/test-guide.cjs` | PASS — 10 pages / 649 rows / 9,061 checks before concurrent merges; 656 rows / 9,188 checks after PR #72; **12 pages / 796 rows / 10,065 checks** on the final tree (PR #73/#74 included) |
+| `python3 scripts/check-figures.py` | PASS — 28 ledger records, 27 verified, 1 explicitly unverified; every seven-figure published amount has a ledger record |
 | `node scripts/privacy-audit.cjs` | PASS — no legacy input/history tokens or common identifiers (not proof of anonymity) |
 | CI `Verify public Pages boundary` on current `main` | SUCCESS (run 43380470762, includes the Chromium/WCAG browser stage which this sandbox does not run locally) |
 
@@ -77,3 +78,19 @@ While this session was verifying, session `b2418dfa` merged PR #72 into `main` (
 - Independently re-verified the newly published Proposition H figures against the live SFMTA page (13 Nov 2026): multifamily $249 up to 5,000 sq ft, then $0.195/sq ft (max $50,000); single-family $129 up to 3,000 sq ft, then $0.42/sq ft over 3,000; voters approved 3 Nov 2026; first tax on FY 2027-28 bills; senior/SRO exemptions with June 1 application deadline. All MATCH the page; Property B's own amount remains blank/unverified as published.
 - Re-ran the full local suite on the merged tree: all PASS (Section 5, updated counts).
 - Findings unchanged: no factual, privacy or link defects found in the combined artifact.
+
+## 9. Second concurrent merge (PRs #73/#74) and final re-verification
+
+Before this session's PR could be opened, PR #73 (`b2418dfa` publication record) and PR #74 (`76e91231`) also merged: the guide gained `guide/brief.html` and `guide/conditions.html`, an official-figures ledger (`guide/figures/official-figures.json`) with a new `scripts/check-figures.py` gate, expanded sources and nav. Actions taken:
+
+- Rebased again onto `43b1b29` (PR #74 merge), resolving the append-only `COORDINATION.md` conflict at end-of-file while keeping every block on both sides (including `76e91231`'s conflict log).
+- Re-ran the full suite on the final tree: all PASS, including the new figures gate (Section 5).
+- Independently re-verified the newly published FDIC figure live (13 Nov 2026): FDIC "Your Insured Deposits" — as of 1 April 2024, a trust owner with five or more beneficiaries has a maximum of $1,250,000 per owner for all trust accounts at the same bank. MATCH to ledger record `FDIC-TRUST-LIMIT`.
+- Spot-checked the two new pages' role: they add the brief's conditions register and source-register notes; no household figure, no changed synthetic input, no new unlinked row.
+- The publication record for session `a29630ce`'s PR #70, and the merge/deploy chain PR #70 → #71, are already recorded in `verification/a29630ce/REPORT.md` and the board; nothing was lost in any of this session's conflict resolutions.
+
+## 10. Bottom line for the owner
+
+- The live site at https://wingbangboozle1-lang.github.io/Tino2/ is the privacy-reviewed guide only (12 pages, 796 source-linked rows), serving the executive summary, live/rent/sell comparison, black-swan stress paths, property roles, tax and inheritance rules with current 2026/2027 amounts, the trust step-by-step, the questions register with rule-level answers and decision-readiness verdict, the suggestions register, the flagged-for-review page and the sources register.
+- Every rule figure this session checked matched its official source; household-specific facts remain blank by design and are listed for private verification.
+- Two items still require the repository owner/administrator (both flagged on `guide/review.html`): (1) public Git history may retain earlier legacy material — coordinate sensitive-data removal; (2) switching Pages to the Actions publication mode requires admin rights (403 for this connection).
