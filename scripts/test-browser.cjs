@@ -4,6 +4,9 @@ const {chromium}=require('../.cache/test/node_modules/playwright-core');
 const executable=require('../.cache/test/node_modules/@sparticuz/chromium');
 const fs=require('fs'),path=require('path'),http=require('http'),assert=require('assert/strict');
 const root=path.resolve('_public');
+// Navigation length is derived, not hardcoded: adding a reviewed page used to
+// break this smoke test while the site itself was correct.
+const navCount=fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html')).length+1;
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.txt':'text/plain; charset=utf-8'};
 const server=http.createServer((req,res)=>{
   const decoded=decodeURIComponent(new URL(req.url,'http://test').pathname);
@@ -22,10 +25,13 @@ const server=http.createServer((req,res)=>{
   const page=await context.newPage(), errors=[],external=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('request',r=>{if(!r.url().startsWith(origin+'/'))external.push(r.url());});
-  for(const route of ['/','/guide/decision.html','/guide/stress.html','/guide/property.html','/guide/tax.html','/guide/process.html','/guide/questions.html','/guide/suggestions.html','/guide/review.html','/guide/sources.html']){
+  // Every reviewed page is smoked, derived from the packaged tree so a new page
+  // cannot be silently skipped.
+  const routes=['/',...fs.readdirSync(path.join(root,'guide')).filter(f=>f.endsWith('.html')).sort().map(f=>'/guide/'+f)];
+  for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});
    assert.equal(response.status(),200,route);
-   assert.equal(await page.locator('nav a').count(),10,route+' navigation');
+   assert.equal(await page.locator('nav a').count(),navCount,route+' navigation');
    assert(await page.locator('h1').isVisible(),route+' heading');
    const broken=await page.locator('tbody tr').evaluateAll(rows=>rows.filter(r=>!r.querySelector('a[href^="https://"]')).length);
    assert.equal(broken,0,route+' source links');
