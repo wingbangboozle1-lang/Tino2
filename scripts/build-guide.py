@@ -60,7 +60,7 @@ def table(headers,rows):
     return '<div class="table-wrap"><table><thead><tr>'+h+'</tr></thead><tbody>'+r+'</tbody></table></div>'
 def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
-PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
+PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('brief','What decides it','guide/brief.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
 def page(key,title,lead,body,scripts=(),home=False):
     base='' if home else '../'
     nav=''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in PAGES)
@@ -267,7 +267,7 @@ body+=section('Order of resolution','<div class="grid two">'+''.join(
  for n,t,d in [
   (1,'Does the trust permit a sale?','D01 and D02. If the trustee cannot or must not sell, the rest of the comparison is academic.'),
   (2,'Is there a basis step-up?','D03. An unadjusted basis turns an immediate sale from a low-tax event into a large one, which can lose the sale its first place.'),
-  (3,'Is family-home relief available?','D04. Without occupancy, the assessed base resets to market value and the annual property tax roughly multiplies.'),
+  (3,'Is family-home relief available?','D04. Without occupancy, the assessed base resets to market value; on the invented example that raises the first-year property tax by about half.'),
   (4,'Is the estate over the filing threshold?','D05. If it is, estate tax and liquidity become constraints that no strategy comparison on this site models.')]
 )+'</div>')
 body+=section('What to do with the answers',table(['If the answer is','Then','Because','Official context'],[
@@ -403,4 +403,33 @@ body+=section('What this page cannot tell you',table(['Limit','Why','What would 
  ('What future law will be','Bills in this space move every session.','Recheck the watchlist before acting.',source('hr1301')),
  ]))
 page('conditions','A straight line is not a forecast.','The observed inflation and assessment record, the official projection horizon, and the scenario bands this site uses, kept separate from each other.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/conditions-page.js'])
+
+# ---------------------------------------------------------------- decision brief
+body='<div class="callout warning"><strong>A decision brief, not a recommendation.</strong> Everything below is arithmetic on invented values, produced by the same model as the comparison page. Its purpose is to show <em>which unknown facts would change the answer</em>, so the reader knows where to spend effort. It is not advice about any real household, and it does not rank real properties.</div>'
+body+=section('The answer is decided by four inputs, not forty',table(['Input','Range tested on this site','Where the answer sits','What it means for effort','Official framework'],[
+ ('Whether the trust permits a sale','Not a number. A legal fact.','If the trustee cannot or must not sell, every other input is irrelevant.','Resolve first. See the discovery register, D01 and D02.',source('notice')),
+ ('Whether basis steps up','Not a number. A legal and factual test.','An immediate sale is low-tax with a step-up and heavily taxed without one.','Resolve second. See D03.',source('trustbasis')),
+ ('Whether family-home relief applies','Occupancy, timing and filing conditions.','Without relief the assessed base resets to market value; on the invented 2045 example that raises the first-year property tax by about half.','Resolve third. See D04.',source('prop19')),
+ ('Portfolio return versus home growth','Return: 0% to 10%. Growth: 0% to 7%.','Selling leads once the net portfolio return clears roughly 3%, at every growth rate tested.','This is the input most reports argue about, and on this model it matters least.',source('pmms')),
+ ])+'<p class="tiny">The last row is the finding worth reading twice: the portfolio rate that makes selling lead is low and stable across home-price growth, because the holding strategies are carrying a large reassessed tax bill plus upkeep. Arguing about 3% versus 5% home appreciation changes far less than establishing whether a step-up or relief applies.</p>')
+
+body+=section('Decision boundary: which strategy leads', '<p>The grid below runs every combination of home-price growth and net portfolio return the comparison page exposes, for a 24-year hold after a 2045 transfer. Each cell shows the leading strategy for that pair of assumptions. The point is the shape, not any single cell.</p><div class="grid four" style="margin-bottom:1rem"><div class="control"><label for="be-year">Illustrative transfer year</label><select id="be-year"><option>2040</option><option selected>2045</option><option>2050</option></select></div><div class="control"><label for="be-horizon">Years after transfer</label><select id="be-horizon"><option>10</option><option selected>24</option><option>50</option></select></div></div><div class="table-wrap"><table><thead id="boundary-head"></thead><tbody id="boundary-body"></tbody></table></div><p class="tiny">S = sell and reinvest, R = rent then sell, L = live then sell. Every cell is a separate run of the model. No estate tax, financing, depreciation, recapture or value of occupying the home is modeled, so the boundary is a teaching illustration rather than a boundary for a real household.</p>')
+
+body+=section('Break-even return by home-price growth','<p>Read this as: at a given assumption about home prices, how strong does the portfolio have to be before selling leads? A low threshold means selling is robust to a weak market in the assumptions.</p><div class="table-wrap"><table><thead><tr><th scope="col">Assumed annual home-price growth</th><th scope="col">Net portfolio return at which selling starts to lead</th><th scope="col">Interpretation</th><th scope="col">Context only</th></tr></thead><tbody id="threshold-body"></tbody></table>')
+
+body+=section('Which assumption actually flips the answer','<p>Each row moves one assumption away from the middle of its range and holds the other constant. A row that changes the leading strategy is an input the decision is genuinely sensitive to; a row that does not is an input a report can stop arguing about.</p><div class="table-wrap"><table><thead><tr><th scope="col">Assumption moved</th><th scope="col">Value tested</th><th scope="col">Leading strategy</th><th scope="col">Does the answer change</th><th scope="col">Context only</th></tr></thead><tbody id="sensitivity-body"></tbody></table>')
+
+body+=section('The comparison is not close in the middle case',table(['Measure, invented example','Sell','Rent','Live','What the gap is','Official context'],[
+ ('Value at the endpoint, 24 years after a 2045 transfer','Highest','Second','Third','Holding strategies pay reassessed property tax plus upkeep from the first year; the sale proceeds compound without either.',source('prop13')),
+ ('Cash in the first full year','Portfolio change, not a distribution','Negative before income tax','Most negative','A rental whose rent is below its cost structure is a cost, not an income.',source('rental')),
+ ('What the model leaves out','Basis risk if no step-up applies','Value of a future step-up is not credited; depreciation and recapture omitted','Imputed rent and any relief are not valued','The omissions are asymmetric: they could favor either holding strategy.',source('trustbasis')),
+ ]))
+
+body+=section('What would have to be true for a holding strategy to lead',table(['For renting to lead','For living there to lead','Official context'],[
+ ('The net portfolio return must be below about 3% at the assumed growth rate. In the observed inflation record, a 3% nominal return on a diversified portfolio would be a weak outcome over 24 years, but it is not impossible.','Living must be valued at more than its modeled cash cost, and family-home relief must actually apply, otherwise the tax gap widens each year.',source('invest')),
+ ('Rent must clear the break-even floor shown on the real-conditions page. On the invented inputs it does not by about 6%.','The household must intend to occupy for years, not months, because the relief and the exclusion both depend on duration.',source('prop19')),
+ ('The property would need to keep appreciating faster than the portfolio net of a reassessed tax bill, which on these inputs requires unusually high price growth and unusually weak returns together.','A sale later still faces the same gain and transaction costs, so living there defers rather than avoids the comparison.',source('residence')),
+ ]))
+page('brief','What actually decides it.','A decision-boundary view: which inputs flip the ranking, which ones a report can stop arguing about, and what would have to be true for a holding strategy to win.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/brief-page.js'])
+
 

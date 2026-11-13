@@ -2,9 +2,10 @@
 PUBLIC_FILES = {
     'index.html', 'robots.txt', 'assets/safe.css', 'assets/safe.js',
     *('guide/' + name + '.html' for name in (
-        'decision', 'stress', 'conditions', 'property', 'tax', 'process',
+        'decision', 'stress', 'conditions', 'brief', 'property', 'tax', 'process',
         'questions', 'suggestions', 'review', 'sources')),
     *('guide/data/' + name + '.js' for name in (
         'model', 'stress', 'conditions', 'breakeven',
-        'decision-page', 'stress-page', 'tax-page', 'conditions-page')),
+        'decision-page', 'stress-page', 'tax-page', 'conditions-page',
+        'brief-page')),
 }
