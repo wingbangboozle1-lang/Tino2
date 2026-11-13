@@ -17,8 +17,8 @@ figure is rounded to $10 before publication.
 # ---------------------------------------------------------------------------
 A = {
     'label': 'Property A · Cupertino home (future trust inheritance)',
-    'market_2026': 3_100_000,          # supplied estimate, $1,000 rounding
-    'assessed_2026': 550_000,          # supplied tax record, $1,000 rounding
+    'market_2026': 2_990_000,          # supplied estimate, $1,000 rounding
+    'assessed_2026': 549_000,          # supplied tax record, $1,000 rounding
     'assessed_rounding': 1_000,        # record-derived field: coarser on purpose
     'tax_rate': 0.01335,               # observed effective rate; see RATE_A note
     'water_month': 130,                # supplied band $100-$150, midpoint
@@ -33,10 +33,10 @@ A = {
 
 B = {
     'label': 'Property B · San Francisco three-unit building (already owned)',
-    'market_2026': 1_800_000,          # supplied estimate, $1,000 rounding
-    'assessed_2026': 116_500,          # supplied tax record + 2% factor, $100 rounding
+    'market_2026': 1_790_000,          # supplied estimate, $1,000 rounding
+    'assessed_2026': 119_000,          # supplied tax record + 2% factor, $100 rounding
     'tax_rate': 0.0118162182,          # official FY2026-27 secured rate
-    'rent_month_two_units': 7_150,     # supplied
+    'rent_month_two_units': 7_000,     # supplied
     'rent_month_third_unit': 2_770,    # planning, FY2027 HUD SAFMR 1-bedroom
     'water_month': 360,                # supplied band $330-$400, midpoint
     'electric_month': 50,              # supplied band $30-$70, midpoint

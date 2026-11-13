@@ -9,11 +9,11 @@
   });
   const choices=document.querySelectorAll('[data-suggestion]');
   if(!choices.length) return;
-  const key='tino2-public-suggestions-v2';
+  const key='tino2-public-suggestions-v3';
   let saved={};
   try{saved=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(e){saved={};}
   choices.forEach(el=>{
-    if(['consider','defer','decline','privacy','decision','risk','presentation'].includes(saved[el.dataset.suggestion])) el.value=saved[el.dataset.suggestion];
+    if(['adopt','adapt','defer','decline'].includes(saved[el.dataset.suggestion])) el.value=saved[el.dataset.suggestion];
     el.addEventListener('change',()=>{
       saved[el.dataset.suggestion]=el.value;
       try{localStorage.setItem(key,JSON.stringify(saved));document.getElementById('save-status').textContent='Selection saved in this browser only.';}

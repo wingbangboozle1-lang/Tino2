@@ -12,6 +12,16 @@ const HORIZON = 20;
 /* Projections 2026-2076. */
 out.projection = MODEL.projection({}).years;
 
+/* Central assumptions, read from the model so they cannot drift from it. */
+out.assumptions = {
+  inflation: MODEL.BASE.inflation,
+  homeGrowth: MODEL.BASE.homeGrowth,
+  portfolio: MODEL.BASE.portfolio,
+  fee: MODEL.BASE.fee,
+  rentGrowth: MODEL.BASE.rentGrowth,
+  insuranceGrowth: MODEL.BASE.insuranceGrowth
+};
+
 /* Transfer comparison at three candidate years. */
 out.transfers = [2040, 2045, 2050].map((y) => {
   const t = MODEL.transfer(MODEL.settings({}), y);
@@ -81,10 +91,6 @@ out.aYearOne = {
   rent: MODEL.holdA(c, t, TRANSFER + 1, 'rent')
 };
 out.bYearOne = out.sf[0];
-
-fs.writeFileSync(path.join(__dirname, 'data', 'snapshot.json'),
-  JSON.stringify(out, null, 1));
-console.log('wrote scripts/data/snapshot.json (no household data)');
 
 /* ------------------------------------------------------------------ *
  * Real-condition analysis from published series (qa/series.json).     *

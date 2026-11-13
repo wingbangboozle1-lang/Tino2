@@ -11,7 +11,7 @@
     end: 2076,
     /* Property A: Cupertino home, anticipated trust inheritance. */
     a: {
-      market: 3100000, assessed: 550000, rate: 0.01335,
+      market: 2990000, assessed: 549000, rate: 0.01335,
       waterMonth: 130, electricMonth: -10, insuranceYear: 2200,
       insuranceGrowth: 0.038, maintenance: 0.0075, rentMonth: 6500,
       vacancy: 0.05, management: 0.08,
@@ -19,8 +19,8 @@
     },
     /* Property B: San Francisco three-unit building, already owned. */
     b: {
-      market: 1800000, assessed: 116500, rate: 0.0118162182,
-      rentTwo: 7150, rentThird: 2770, waterMonth: 360, electricMonth: 50,
+      market: 1790000, assessed: 119000, rate: 0.0118162182,
+      rentTwo: 7000, rentThird: 2770, waterMonth: 360, electricMonth: 50,
       insuranceYear: 3600, maintenance: 0.0100, vacancy: 0.04,
       management: 0.05, landShare: 0.35, parcelFixed: 830, rentFee: 177
     },

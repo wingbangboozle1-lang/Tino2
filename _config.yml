@@ -5,6 +5,7 @@ theme: null
 exclude:
   - COORDINATION.md
   - README.md
+  - _config.yml
   - docs
   - research
   - src
