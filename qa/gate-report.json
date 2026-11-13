@@ -3,9 +3,9 @@
  "pages": [
   {
    "file": "index.html",
-   "rows": 30,
+   "rows": 13,
    "rowsWithContextLinkOnly": 0,
-   "amounts": 135,
+   "amounts": 0,
    "links": 0
   },
   {
@@ -27,6 +27,13 @@
    "rows": 56,
    "rowsWithContextLinkOnly": 0,
    "amounts": 196,
+   "links": 0
+  },
+  {
+   "file": "site/executive-summary.html",
+   "rows": 30,
+   "rowsWithContextLinkOnly": 0,
+   "amounts": 135,
    "links": 0
   },
   {
@@ -131,13 +138,13 @@
  "errors": [],
  "warnings": [],
  "totals": {
-  "pages": 18,
-  "rows": 1578,
-  "rowsWithOwnSource": 1569,
+  "pages": 19,
+  "rows": 1591,
+  "rowsWithOwnSource": 1582,
   "rowsWithContextLinkOnly": 9,
   "amounts": 5059,
   "officialExactAmounts": 119,
-  "internalLinks": 549,
-  "externalLinks": 2070
+  "internalLinks": 603,
+  "externalLinks": 2083
  }
 }

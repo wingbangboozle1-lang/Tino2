@@ -33,6 +33,8 @@ git checkout 22b7e69 -- _config.yml scripts/public_manifest.py scripts/package-s
     scripts/check-publication.py scripts/test-browser.cjs .github/workflows/pages.yml index.html
 ```
 
+The dashboard now carries its executive summary as a page inside the dashboard itself, `site/executive-summary.html`, so switching to it produces a complete site rather than a page that has to be re-created. It states the recommendation, the three paths carried to the same endpoint, year-by-year values, assessments and tax bills for both properties, first-year holding costs, the federal estate-tax thresholds, and the six questions that must be answered before the recommendation holds — every figure read from `site/data/model.js` at render time, every table row linked to an official source.
+
 That is an **owner decision**, not a technical one: it re-publishes household-derived figures to a public web page. The guide stays the default until the owner says otherwise. Two notes for whoever does it: the dashboard state does **not** run `scripts/check-generated.py` in CI (its workflow verifies the dashboard with `validate.js` and `stress-test.js` instead), and `python3 scripts/build-guide.py` would overwrite the dashboard's root `index.html` with the guide's landing page, so do not run it in that state.
 
 

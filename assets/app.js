@@ -14,6 +14,7 @@
   const inGuide = guidePages.some(([id]) => id === current);
   const navItems = [
     ["home", home, "Overview"],
+    ["executive-summary", prefix + "executive-summary.html", "Executive summary"],
     ["plan", prefix + "plan.html", "Best plan"],
     ["questions", prefix + "questions.html", "Readiness"],
     ["questions-gate", prefix + "questions-gate.html", "Decision gate"],

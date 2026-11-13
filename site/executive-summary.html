@@ -120,23 +120,23 @@ document.getElementById("rowsEstate").innerHTML = [2026, 2027, 2030, 2040, 2050]
 }).join("");
 
 document.getElementById("cards").innerHTML = [
-  ["Best plan", "site/plan.html", "Why selling leads, the size of the gap, the stress check across twelve economic worlds, and the conditions under which another plan wins."],
-  ["Decision lab", "site/decision.html", "Change the inheritance year, holding period, growth, rent and tax assumptions and see the arithmetic, not just the winner."],
-  ["Black swans", "site/black-swan.html", "Fifty years of real economic conditions: stagflation, a 2008-shaped crash at the transfer date, an insurance repricing, an earthquake, and 2,000 seeded paths."],
-  ["Shock replays", "site/scenarios.html", "Seven named stress cases run side by side, with break-even home growth and break-even portfolio return."],
-  ["Properties", "site/properties.html", "Costs on inheriting, the insurance and utility research behind them, and the supplied tax history for both parcels."],
-  ["Operating costs", "site/operating-costs.html", "Insurance, water, electricity, solar and maintenance for both properties against official tariffs and surveys."],
-  ["SF property", "site/san-francisco.html", "Property B on its own: rent roll, tax history, direct charges and the rent rules that bind it."],
-  ["Estate tax", "site/estate-tax.html", "Federal estate-tax thresholds, the filing test versus taxable-estate deductions, and portability."],
-  ["Trust steps", "site/inheritance.html", "How the inheritance would actually run, step by step, with the four separate statutory clocks."],
-  ["Questions", "site/questions.html", "Every open question, prioritised: what is settled by an official source, what is a household input, and what no document can settle."],
-  ["Decision gate", "site/questions-gate.html", "Forty questions scored against four plans, so it is clear which facts block which decision."],
-  ["Suggestions", "site/suggestions.html", "Proposed improvements to the analysis and the site, priced in time, with a choose-or-defer control. Nothing is applied automatically."],
-  ["Flagged for review", "site/review.html", "Blank cells, contradictory official wording, time-sensitive figures and the residual privacy exposure of this repository."],
-  ["Sources", "site/sources.html", "The full register of official sources, what each one establishes, and when it was last opened."],
-  ["Verified facts", "site/verification.html", "Line-by-line ledger of every figure confirmed against an official publication."],
-  ["Other options", "site/options.html", "Different holding periods, depreciation, the pre-Proposition-19 rule, probate fees and estate-tax sensitivity."],
-  ["50-year paths", "site/stress.html", "Year-by-year inspection of any single economic path over the full fifty-year horizon."]
+  ["Best plan", "plan.html", "Why selling leads, the size of the gap, the stress check across twelve economic worlds, and the conditions under which another plan wins."],
+  ["Decision lab", "decision.html", "Change the inheritance year, holding period, growth, rent and tax assumptions and see the arithmetic, not just the winner."],
+  ["Black swans", "black-swan.html", "Fifty years of real economic conditions: stagflation, a 2008-shaped crash at the transfer date, an insurance repricing, an earthquake, and 2,000 seeded paths."],
+  ["Shock replays", "scenarios.html", "Seven named stress cases run side by side, with break-even home growth and break-even portfolio return."],
+  ["Properties", "properties.html", "Costs on inheriting, the insurance and utility research behind them, and the supplied tax history for both parcels."],
+  ["Operating costs", "operating-costs.html", "Insurance, water, electricity, solar and maintenance for both properties against official tariffs and surveys."],
+  ["SF property", "san-francisco.html", "Property B on its own: rent roll, tax history, direct charges and the rent rules that bind it."],
+  ["Estate tax", "estate-tax.html", "Federal estate-tax thresholds, the filing test versus taxable-estate deductions, and portability."],
+  ["Trust steps", "inheritance.html", "How the inheritance would actually run, step by step, with the four separate statutory clocks."],
+  ["Questions", "questions.html", "Every open question, prioritised: what is settled by an official source, what is a household input, and what no document can settle."],
+  ["Decision gate", "questions-gate.html", "Forty questions scored against four plans, so it is clear which facts block which decision."],
+  ["Suggestions", "suggestions.html", "Proposed improvements to the analysis and the site, priced in time, with a choose-or-defer control. Nothing is applied automatically."],
+  ["Flagged for review", "review.html", "Blank cells, contradictory official wording, time-sensitive figures and the residual privacy exposure of this repository."],
+  ["Sources", "sources.html", "The full register of official sources, what each one establishes, and when it was last opened."],
+  ["Verified facts", "verification.html", "Line-by-line ledger of every figure confirmed against an official publication."],
+  ["Other options", "options.html", "Different holding periods, depreciation, the pre-Proposition-19 rule, probate fees and estate-tax sensitivity."],
+  ["50-year paths", "stress.html", "Year-by-year inspection of any single economic path over the full fifty-year horizon."]
 ].map(([title, href, text]) => `<div class="card soft"><h3>${title}</h3><p class="muted">${text}</p><p><a class="button secondary" href="${href}">Open</a></p></div>`).join("");
 
 UI.ensureRowSources();

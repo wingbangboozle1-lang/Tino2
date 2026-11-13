@@ -92,7 +92,7 @@ ok(fy27Dec.sell.terminal > fy27Dec.rent.terminal, "FY2027 4BR selector preserves
 
 // HTML syntax, internal links and source references.
 const htmlFiles = [path.join(root, "index.html"), ...fs.readdirSync(path.join(root, "site")).filter(f => f.endsWith(".html")).map(f => path.join(root, "site", f))];
-ok(htmlFiles.length === 18, "eighteen dashboard pages");
+ok(htmlFiles.length === 19, "nineteen dashboard pages");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   ok(html.includes('name="viewport"'), `${path.basename(file)} responsive viewport`);
