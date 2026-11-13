@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Executive summary: comparing a possible Cupertino trust inheritance with an already-owned San Francisco three-unit property, with source-linked projections and a decision gate."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Executive summary">
+<main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const M = window.MODEL, B = M.BASE, f = M.fmtMoney, pct = M.fmtPct;
+const d40 = M.decision({ ...B, inheritYear: 2040 }, 10, "4BR");
+const d45 = M.decision({ ...B, inheritYear: 2045 }, 10, "4BR");
+const d50 = M.decision({ ...B, inheritYear: 2050 }, 10, "4BR");
+const SF26 = M.sfAnnual(2026);
+
+main.innerHTML = UI.hero("Executive summary · reviewed 13 Nov 2026", "Two properties, one decision: what the numbers say, and what is still unknown.",
+  "Property A is the anticipated Cupertino trust inheritance. Property B is the San Francisco three-unit property the heir already owns — it is not part of the decedent's estate, and that distinction drives every number below. Every dollar figure is rounded to the nearest $10. No name, street address, parcel number or account number appears anywhere on this site.",
+  `<a class="button" href="questions.html">See what must be answered first</a><a class="button secondary" href="decision.html">Open the decision lab</a>`)
+  + `<div class="container">
+
+<section class="section"><div class="grid four" id="headline"></div>
+<p class="tiny">Property A figures are the model's base case: ${pct(B.appreciation)} a year home-price growth, ${pct(B.assessmentGrowth, 0)} a year assessment growth, ${pct(M.afterTaxPortfolioReturn(), 0)} after-tax portfolio return, inheritance in 2040, sold ten years later. These are assumptions, not forecasts. Property B rent is the supplied two-unit figure of ${f(B.bRentMonthly)} a month; the third unit is treated as available to the owner rather than rented, and that premise is supplied rather than verified.</p></section>
+
+<section class="section"><div class="card highlight"><div class="eyebrow">The working recommendation</div>
+<h2>Sell Property A at the transfer and reinvest the net proceeds — but do not commit until six facts are confirmed.</h2>
+<p>In the base case, selling and reinvesting finishes <strong>${f(d40.sell.terminal - d40.rent.terminal)}</strong> ahead of renting it for ten years, and <strong>${f(d40.sell.terminal - d40.live.terminal)}</strong> ahead of living in it. The ranking holds at every inheritance year tested (2030, 2035, 2040, 2045, 2050) and survives most — but not all — of the recorded-history stress cases on the <a href="black-swan.html">black-swan page</a>.</p>
+<p>The reason is mechanical. In the first full year after a 2040 inheritance, renting Property A leaves about <strong>${f(d40.rent.yearly[0].afterTaxCash)}</strong> of after-tax cash once tax, water, insurance, maintenance, vacancy and management are paid. The same capital, if sold and invested, returns about <strong>${f(d40.sell.firstYearCash)}</strong> a year. A house worth ${f(B.aValue)} today that throws off ${f(d40.rent.yearly[0].afterTaxCash)} of spendable cash is a low-yielding asset, and the model does not treat that as a close call.</p>
+<p><strong>The recommendation is conditional.</strong> Six facts in the <a href="questions-gate.html">decision gate</a> are still blank, and each one can move the answer: the full gross estate and prior gifts; the trust's distribution terms; Property A's tax-rate area; the rebuild cost that sets the insurance premium; Property A's lawful bedroom count; and whether the transferee will occupy Property A as a principal residence. Confirm those first. The numbers here are a starting position, not a conclusion, and they are not legal, tax, insurance or investment advice.</p>
+<div class="hero-actions"><a class="button" href="plan.html">Why selling leads, and what reverses it</a><a class="button secondary" href="questions-gate.html">Open the decision gate</a></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">01 / the three paths</div>
+<h2>Live in it, rent it, or sell — carried to the same endpoint</h2>
+<p>All three start at the same moment and finish ten years later, so the comparison is like-for-like. Amounts are nominal future dollars, rounded to the nearest $10.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Strategy</th><th class="number">Inherit 2040</th><th class="number">Inherit 2045</th><th class="number">Inherit 2050</th><th>What drives it</th><th>Official rule</th></tr></thead><tbody>
+<tr><td><strong>Sell &amp; reinvest</strong></td><td class="number">${f(d40.sell.terminal)}</td><td class="number">${f(d45.sell.terminal)}</td><td class="number">${f(d50.sell.terminal)}</td><td>Net proceeds of ${f(d40.sell.initialNet)} after ${pct(B.saleCost, 0)} sale cost, compounded at ${pct(M.afterTaxPortfolioReturn(), 0)} after tax</td><td class="source">${UI.source("irsInheritedSale", "IRS · sale of inherited property")}</td></tr>
+<tr><td>Rent, then sell</td><td class="number">${f(d40.rent.terminal)}</td><td class="number">${f(d45.rent.terminal)}</td><td class="number">${f(d50.rent.terminal)}</td><td>After-tax rent of ${f(d40.rent.yearly[0].afterTaxCash)} in year one plus the later sale, net of ${f(d40.rent.capitalGainsTax)} capital-gain tax</td><td class="source">${UI.source("irsRental", "IRS Pub 527 · residential rental")}</td></tr>
+<tr><td>Live, then sell</td><td class="number">${f(d40.live.terminal)}</td><td class="number">${f(d45.live.terminal)}</td><td class="number">${f(d50.live.terminal)}</td><td>Saves ${f(d40.transfer.primarySavings)} a year of property tax under Proposition 19 but costs ${f(-d40.live.yearly[0].afterTaxCash)} a year to occupy; ${f(d40.live.gainExclusion)} home-sale exclusion applied</td><td class="source">${UI.source("boeProp19", "BOE · Proposition 19")}</td></tr>
+<tr><td><strong>Sell advantage over renting</strong></td><td class="number">${f(d40.sell.terminal - d40.rent.terminal)}</td><td class="number">${f(d45.sell.terminal - d45.rent.terminal)}</td><td class="number">${f(d50.sell.terminal - d50.rent.terminal)}</td><td>Widens as the inheritance is delayed, because the low-yielding asset is held for a decade either way</td><td class="source">${UI.source("investorRisk", "SEC · diversification and risk")}</td></tr>
+</tbody></table></div>
+<p class="tiny">"Live" does not add the value of the housing received, so it is understated as a pure financial comparison and is the right choice for non-financial reasons more often than the table suggests. The ${f(d40.live.gainExclusion)} exclusion applies only if the endpoint is at least two years after the transfer and the ownership and use tests are met. No depreciation, passive-loss benefit, mortgage or transaction timing is modelled. See <a href="decision.html">the decision lab</a> for the year-by-year arithmetic and <a href="options.html">other options</a> for different holding periods, depreciation, and the pre-Proposition-19 rule.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">02 / Property A · Cupertino, ZIP 95014</div>
+<h2>Value, assessment and tax bill, projected by year</h2>
+<p>Assessed value grows at the Proposition 13 cap of ${pct(B.assessmentGrowth, 0)} a year while ownership does not change. Market value is the model's ${pct(B.appreciation)} assumption. Property tax applies the model's ${pct(B.aRate, 2)} combined levy — the parcel's tax-rate area is <strong>not confirmed</strong>, which is why the item is flagged rather than asserted.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Projected market value</th><th class="number">Assessed value if not reassessed</th><th class="number">Property tax if not reassessed</th><th class="number">Assessed value after full reassessment</th><th class="number">Property tax after full reassessment</th><th class="number">Property tax if Proposition 19 applies</th><th>Official rule</th></tr></thead><tbody id="rowsA"></tbody></table></div>
+<p class="tiny">A full reassessment sets the assessed value to market value at the date of transfer. Proposition 19 relief — if the transferee occupies the home as a principal residence and files in time — holds the assessed value to market value minus the exclusion amount, which is <strong>$1,044,586</strong> for transfers from 16 February 2025 through 15 February 2027 and is adjusted every second 16 February. (This is one of the few figures shown exactly rather than rounded: it is a legal threshold published by the Board of Equalization, and rounding it would misstate the rule.) Later amounts in the table are modelled, not published.</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">03 / Property B · San Francisco, ZIP 94122 — already owned</div>
+<h2>Why the existing property changes the answer</h2>
+<p>Property B is owned by the heir, not the decedent. It does not enter the estate, it is not reassessed by the inheritance, and its Proposition 13 assessment of ${f(SF26.assessed)} is a permanently low tax base. The supplied premise is two rented units at ${f(B.bRentMonthly)} a month with a third unit available to the owner without displacing those rents.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Projected market value</th><th class="number">Assessed value</th><th class="number">Property tax</th><th class="number">Gross rent, two units</th><th class="number">Water</th><th class="number">Electricity</th><th class="number">Insurance</th><th class="number">Maintenance</th><th class="number">Net operating income</th><th>Official rule</th></tr></thead><tbody id="rowsB"></tbody></table></div>
+<p class="tiny">San Francisco's adopted secured rate for FY2026–27 is ${pct(B.bRate, 4)}. The real bill also carries flat direct charges that the model does not project — see the <a href="review.html">flagged item</a> — so the tax column understates it. Maintenance is ${pct(B.maintenanceB, 0)} of market value; water, electricity and insurance grow ${pct(B.expenseInflation, 0)} a year; the Rent Board fee is ${f(SF26.fee)} a year. Rent grows at ${pct(B.sfRentGrowth, 1)} a year, the Rent Board's current allowable increase.</p>
+</section>
+
+<section class="section"><div class="grid two">
+<div><div class="card"><div class="eyebrow">04 / holding costs</div><h3>Property A, first full year after a 2040 inheritance</h3>
+<div class="table-wrap"><table><thead><tr><th>Cost</th><th class="number">Rented</th><th class="number">Owner-occupied</th><th>Basis</th><th>Official source</th></tr></thead><tbody>
+<tr><td>Property tax</td><td class="number">${f(d40.rent.yearly[0].propertyTax)}</td><td class="number">${f(d40.live.yearly[0].propertyTax)}</td><td>Full reassessment versus Proposition 19 relief</td><td class="source">${UI.source("boeProp19Amount", "BOE · exclusion amount")}</td></tr>
+<tr><td>Water</td><td class="number">${f(d40.rent.yearly[0].water)}</td><td class="number">${f(d40.live.yearly[0].water)}</td><td>Supplied $100–$150 a month, inflating ${pct(B.expenseInflation, 0)} a year</td><td class="source">${UI.source("waterA", "San Jose Water · AL 628A")}</td></tr>
+<tr><td>Electricity, net of solar</td><td class="number">${f(-d40.rent.yearly[0].solarCredit)}</td><td class="number">${f(-d40.live.yearly[0].solarCredit)}</td><td>Supplied $10–$20 a month credit; held flat, deliberately not projected</td><td class="source">${UI.source("solar", "PG&E · net energy metering")}</td></tr>
+<tr><td>Insurance</td><td class="number">${f(d40.rent.yearly[0].insurance)}</td><td class="number">${f(d40.live.yearly[0].insurance)}</td><td>Household estimate of ${f(B.aInsuranceAnnual)}; <strong>unverified</strong></td><td class="source">${UI.source("cdiSurveyCup40_1000", "CDI · premium survey")}</td></tr>
+<tr><td>Repairs and maintenance</td><td class="number">${f(d40.rent.yearly[0].maintenance)}</td><td class="number">${f(d40.live.yearly[0].maintenance)}</td><td>${pct(B.maintenanceA, 1)} of market value a year</td><td class="source">${UI.source("irsRental", "IRS · rental expenses")}</td></tr>
+<tr><td><strong>Total holding cost</strong></td><td class="number">${f(d40.rent.yearly[0].propertyTax + d40.rent.yearly[0].water + d40.rent.yearly[0].insurance + d40.rent.yearly[0].maintenance - d40.rent.yearly[0].solarCredit)}</td><td class="number">${f(-d40.live.yearly[0].noi)}</td><td>Sum of the rows above</td><td class="source">${UI.source("insuranceGuide", "CDI · residential guide")}</td></tr>
+</tbody></table></div>
+<p class="tiny">The state regulator's 2026 survey of a made-up 40-year-old Cupertino home puts the middle premium at about ${f(1380)} a year to rebuild at ${f(500000)}, ${f(2020)} at ${f(750000)} and ${f(2690)} at ${f(1000000)}. The rebuild cost of Property A was not supplied, so the ${f(B.aInsuranceAnnual)} estimate is neither confirmed nor ruled out. No earthquake premium is modelled for either property.</p>
+</div></div>
+
+<div><div class="card review"><div class="eyebrow">05 / thresholds</div><h3>Inheritance and estate tax</h3>
+<p><strong>No California estate or inheritance tax.</strong> The State Controller confirms that no California estate-tax return is required for deaths on or after 1 January 2005.</p>
+<p><strong>No federal inheritance tax</strong> on the person who receives property. The federal <em>estate</em> tax is charged on the decedent's estate before distribution.</p>
+<div class="table-wrap"><table><thead><tr><th>Year of death</th><th class="number">Federal basic exclusion</th><th class="number">Property A in the estate</th><th class="number">Room left for other assets</th><th>Status</th><th>Official source</th></tr></thead><tbody id="rowsEstate"></tbody></table></div>
+<p class="tiny">Amounts after 2027 are indexed at an assumed ${pct(B.estateIndex, 0)} a year — <strong>not</strong> an official projection. Above the exclusion the top federal rate is 40%. Property B is left out because the heir already owns it. The "room left" column is <strong>real-estate-only headroom, not taxable-estate headroom</strong>: it ignores every other asset, all debts, administration expenses, prior taxable gifts and any unused exclusion of a deceased spouse. Cash, retirement accounts, life insurance and brokerage balances can push an estate over the threshold even when the house alone does not. <a href="estate-tax.html">Estate tax page →</a></p>
+</div></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">06 / what is missing</div>
+<h2>Six questions that must be answered before the recommendation holds</h2>
+<p>Every row below is blank today. Each names the document or professional that supplies the answer, and each is tracked in the <a href="questions-gate.html">decision gate</a> with a readiness score for every plan.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Question</th><th>Why it changes the answer</th><th>How to find out</th><th>Official rule</th></tr></thead><tbody>
+<tr><td>What is the decedent's full gross estate, including prior taxable gifts and any deceased-spouse unused exclusion?</td><td>The house alone leaves ${f(M.estateRow(2026).headroom)} of headroom in 2026, but cash and retirement accounts can erase it and trigger the 40% federal rate</td><td>Estate attorney and CPA inventory every account, liability and prior Form 709</td><td class="source">${UI.source("irsEstateFAQ", "IRS · estate tax FAQ")}</td></tr>
+<tr><td>What does the trust actually say — distribution terms, trustee powers, and whether an uneven distribution is allowed?</td><td>Proposition 19 relief and any decision to keep the house depend on who receives what; with more than one child the distribution clause controls</td><td>Trust attorney reads the instrument and every amendment</td><td class="source">${UI.source("caTrustNotice", "Probate Code §16061.7")}</td></tr>
+<tr><td>What is Property A's tax-rate area, and what flat direct charges are on the bill?</td><td>The model uses ${pct(B.aRate, 2)}; the parcel's true rate and its flat charges are unconfirmed and change the holding cost directly</td><td>Read the tax-rate area number on the secured bill, then look it up in the county rate book</td><td class="source">${UI.source("sccTaxBook", "Santa Clara · tax rate book")}</td></tr>
+<tr><td>What would it cost to rebuild Property A?</td><td>The dwelling limit, not market value, sets the insurance premium; at ${f(1000000)} to rebuild, no surveyed insurer comes in at ${f(B.aInsuranceAnnual)}</td><td>A builder's replacement-cost estimate, then a written quote on that limit</td><td class="source">${UI.source("insuranceGuide", "CDI · what sets a premium")}</td></tr>
+<tr><td>How many lawful bedrooms does Property A have, and what rent would it actually command?</td><td>HUD's ${f(B.aRent4BR)} four-bedroom and ${f(B.aRent3BR)} three-bedroom benchmarks differ by ${f((B.aRent4BR - B.aRent3BR) * 12)} a year of gross rent; the FY2027 figures are lower still</td><td>Independent rent opinion, plus a check of the lawful configuration and permit history</td><td class="source">${UI.source("hudA2027", "HUD · FY2027 SAFMR 95014")}</td></tr>
+<tr><td>Will the transferee occupy Property A as a principal residence and file in time?</td><td>Without occupancy and a timely claim the assessment jumps to full market value — about ${f(d40.transfer.primarySavings)} a year more tax at a 2040 transfer</td><td>Confirm transferor and transferee eligibility, then the one-year exemption and three-year claim deadlines</td><td class="source">${UI.source("boeProp19", "BOE · Prop 19 deadlines")}</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">07 / navigate</div><h2>Every page in the dashboard</h2></div></div>
+<div class="grid three" id="cards"></div></section>
+
+<section class="section"><div class="callout review"><strong>Privacy and reliability limits.</strong> No name, street address, parcel number, account number or e-mail address appears on this site; the two properties are labelled Property A and Property B, and every dollar figure is rounded to the nearest $10. Rounding is not anonymisation: a rounded financial history attached to a known location can still identify a household. This repository is <strong>public</strong>, and its earlier commits, branches and pull requests may contain material that does not appear on these pages — a Pages exclusion is not access control. Nothing here is legal, tax, insurance or investment advice, and a link to an official rule does not verify a household figure. <a href="review.html">Read the full list of limits →</a></div></section>
+
+</div>`;
+
+document.getElementById("headline").innerHTML = [
+  ["Property A · projected value 2040", f(M.seriesFor("A", 2040).market), "Cupertino, ZIP 95014 · model assumption"],
+  ["Property B · projected value 2040", f(M.seriesFor("B", 2040).market), "San Francisco, ZIP 94122 · already owned"],
+  ["Federal estate-tax exclusion 2027", f(M.estateRow(2027).exclusion), "IRS · official, Rev. Proc. 2026-35"],
+  ["Sell advantage over renting, 2040", f(d40.sell.terminal - d40.rent.terminal), "Base case · ten-year holding period"]
+].map(([label, value, note]) => `<div class="card soft"><div class="metric-label">${label}</div><div class="metric small">${value}</div><p class="tiny">${note}</p></div>`).join("");
+
+document.getElementById("rowsA").innerHTML = [2030, 2035, 2040, 2045, 2050].map(y => {
+  const s = M.seriesFor("A", y);
+  const inh = M.inheritanceValues(y);
+  return `<tr><td>${y}</td><td class="number">${f(s.market)}</td><td class="number">${f(s.assessed)}</td><td class="number">${f(s.tax)}</td><td class="number">${f(inh.fullAssessed)}</td><td class="number">${f(inh.fullTax)}</td><td class="number">${f(inh.primaryTax)}</td><td class="source">${UI.source("boeProp13", "BOE Pub 29 · Prop 13")}</td></tr>`;
+}).join("");
+
+document.getElementById("rowsB").innerHTML = [2026, 2030, 2040, 2050].map(y => {
+  const r = M.sfAnnual(y);
+  return `<tr><td>${y}</td><td class="number">${f(r.market)}</td><td class="number">${f(r.assessed)}</td><td class="number">${f(r.propertyTax)}</td><td class="number">${f(r.grossRent)}</td><td class="number">${f(r.water)}</td><td class="number">${f(r.electricity)}</td><td class="number">${f(r.insurance)}</td><td class="number">${f(r.maintenance)}</td><td class="number">${f(r.noi)}</td><td class="source">${UI.source("sfTaxRate", "SF · adopted tax rate")}</td></tr>`;
+}).join("");
+
+document.getElementById("rowsEstate").innerHTML = [2026, 2027, 2030, 2040, 2050].map(y => {
+  const e = M.estateRow(y);
+  const src = y >= 2027 ? UI.source("irs2027", "IRS · IR-2026-133") : UI.source("irsEstate", "IRS · estate tax");
+  return `<tr><td>${y}</td><td class="number">${f(e.exclusion)}</td><td class="number">${f(e.a)}</td><td class="number">${f(e.headroom)}</td><td>${y <= 2027 ? "Official" : "Modelled, not official"}</td><td class="source">${src}</td></tr>`;
+}).join("");
+
+document.getElementById("cards").innerHTML = [
+  ["Best plan", "plan.html", "Why selling leads, the size of the gap, the stress check across twelve economic worlds, and the conditions under which another plan wins."],
+  ["Decision lab", "decision.html", "Change the inheritance year, holding period, growth, rent and tax assumptions and see the arithmetic, not just the winner."],
+  ["Black swans", "black-swan.html", "Fifty years of real economic conditions: stagflation, a 2008-shaped crash at the transfer date, an insurance repricing, an earthquake, and 2,000 seeded paths."],
+  ["Shock replays", "scenarios.html", "Seven named stress cases run side by side, with break-even home growth and break-even portfolio return."],
+  ["Properties", "properties.html", "Costs on inheriting, the insurance and utility research behind them, and the supplied tax history for both parcels."],
+  ["Operating costs", "operating-costs.html", "Insurance, water, electricity, solar and maintenance for both properties against official tariffs and surveys."],
+  ["SF property", "san-francisco.html", "Property B on its own: rent roll, tax history, direct charges and the rent rules that bind it."],
+  ["Estate tax", "estate-tax.html", "Federal estate-tax thresholds, the filing test versus taxable-estate deductions, and portability."],
+  ["Trust steps", "inheritance.html", "How the inheritance would actually run, step by step, with the four separate statutory clocks."],
+  ["Questions", "questions.html", "Every open question, prioritised: what is settled by an official source, what is a household input, and what no document can settle."],
+  ["Decision gate", "questions-gate.html", "Forty questions scored against four plans, so it is clear which facts block which decision."],
+  ["Suggestions", "suggestions.html", "Proposed improvements to the analysis and the site, priced in time, with a choose-or-defer control. Nothing is applied automatically."],
+  ["Flagged for review", "review.html", "Blank cells, contradictory official wording, time-sensitive figures and the residual privacy exposure of this repository."],
+  ["Sources", "sources.html", "The full register of official sources, what each one establishes, and when it was last opened."],
+  ["Verified facts", "verification.html", "Line-by-line ledger of every figure confirmed against an official publication."],
+  ["Other options", "options.html", "Different holding periods, depreciation, the pre-Proposition-19 rule, probate fees and estate-tax sensitivity."],
+  ["50-year paths", "stress.html", "Year-by-year inspection of any single economic path over the full fifty-year horizon."]
+].map(([title, href, text]) => `<div class="card soft"><h3>${title}</h3><p class="muted">${text}</p><p><a class="button secondary" href="${href}">Open</a></p></div>`).join("");
+
+UI.ensureRowSources();
+</script>
+</body>
+</html>
