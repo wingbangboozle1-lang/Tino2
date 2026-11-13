@@ -201,3 +201,26 @@ None of these blocks publication. All are visible on the site's **Flagged for re
 | `main` check | run `43381735088`, **success** |
 | Live read-back | `index.html`, `guide/questions.html`, `guide/property.html`, `guide/tax.html`, `guide/review.html`, `guide/sources.html` fetched from the published site after deployment; all show the 13 Nov 2026 stamp and the new content |
 | Stale PR | #63 (coordination-only diff, conflicting) closed with a handoff comment; its content is preserved in `COORDINATION.md` |
+
+---
+
+## 9. Publication record (final)
+
+| Step | Result |
+|---|---|
+| PRs merged by this session | [#72](https://github.com/wingbangboozle1-lang/Tino2/pull/72) `8bdcf7d` · [#73](https://github.com/wingbangboozle1-lang/Tino2/pull/73) `7bbe278` · [#77](https://github.com/wingbangboozle1-lang/Tino2/pull/77) `dc9ca23` · [#81](https://github.com/wingbangboozle1-lang/Tino2/pull/81) `17fdbf9` · [#82](https://github.com/wingbangboozle1-lang/Tino2/pull/82) `23e2233` |
+| PR closed | #63 — stale and conflicting, coordination-only diff, content preserved in `COORDINATION.md` |
+| PRs left to their owners | #76 and #83 — conflicting, unreviewed third-party changes; a privacy review was posted on #76 |
+| Final Pages deployment | run `43384365448`, **success**; Pages API `status: built`, `error.message: null`, `https_enforced: true` |
+| Final `main` check | run `43384366144`, **success** |
+| Published artifact | 26 files — `index.html`, 12 `guide/` pages, `guide/data/`, `guide/figures/`, `assets/safe.*`, `robots.txt`, `.nojekyll` |
+| Published-site scan | No household marker in the package: no ZIP code, no stated value, no stated rent, no stated insurance or utility figure |
+| Live read-back | The landing page, Properties page, Questions page, Taxes page, Sources page and Flagged page were fetched after the deployment and show the 13 Nov 2026 stamp and this session's content |
+
+### Final check log on the merged tree
+
+`check-generated.py` PASS (12 pages) · `check-figures.py` PASS (28 ledger records, 27 verified, 1 explicitly unverified) · `test-model-reference.py` PASS (108 configurations, 250 stress years, 10,236 comparisons) · `package-site.py` PASS (25 reviewed files) · `check-publication.py --self-test` PASS · `test-guide.cjs` PASS (12 rendered pages, 796 source-linked rows, 10,065 checks) · `privacy-audit.cjs` PASS · `validate.js` PASS (1,561 checks, 18 pages, 178 official sources, retained dashboard) · `stress-test.js` PASS (retained dashboard) · `src/check_links.py` PASS (0 broken internal links).
+
+### The publication decision
+
+Session `662025f8` merged PR #75, re-pointing Pages at a dashboard built from the household's own inputs. The integration session restored the privacy-safe boundary (PR #82) because the owner's instruction is unconditional — research-supplied personal information must never appear on the published site — and because un-publishing is reversible while publishing is not. The dashboard, its data, its ledger, its report and its board record are all retained in the repository, still verified on every push, and one documented command republishes it if the owner decides that is what they want. The reasoning is in `README.md` ("Two artifacts, one publication decision") and in `COORDINATION.md` (V-H1, V-H2).

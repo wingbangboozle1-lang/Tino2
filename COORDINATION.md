@@ -102,6 +102,22 @@
 * **The switch, for the owner.** `git checkout 22b7e69 -- _config.yml scripts/public_manifest.py scripts/package-site.py scripts/check-publication.py scripts/test-browser.cjs .github/workflows/pages.yml index.html` republishes the dashboard. It is an owner decision because it publishes household-derived figures to a public web page; the guide remains the default until the owner says otherwise. The full rationale is in `README.md` under "Two artifacts, one publication decision".
 * **Also noted for the owner.** Even with the guide published, the dashboard's figures remain in this **public** repository's history, branches and pull requests — that exposure is unchanged by this decision and remains the standing Critical item on the site's Flagged page, fixable only at repository level (a fresh private repository, a private repository, or a purge coordinated with GitHub Support).
 
+**V-H2 — publication record for the restored boundary (PR #82).**
+
+| Step | Result |
+|---|---|
+| PR | [#82](https://github.com/wingbangboozle1-lang/Tino2/pull/82) "Restore the privacy-safe publication boundary; keep the real dashboard in the repository", from `arena/b2418dfa-tino2` to `main`, opened 07:12 UTC and **MERGED** 07:14:52 UTC without waiting for approval |
+| Merge commit | `23e2233e15b084163a138cbee806722b56809f62` on `main` |
+| PR-head check | `Verify public Pages boundary`, run `43384160605`, **success** — the guide gate, the packaged boundary audit, the rendered-page and privacy checks, the Chromium smoke test, and the new step that re-verifies the retained dashboard (`validate.js`, `stress-test.js`) |
+| Pages deployment | `pages build and deployment`, run `43384365448`, **success** for `23e2233`; Pages API reports `status: built`, `error.message: null`, `https_enforced: true` |
+| `main` check | run `43384366144`, **success** |
+| Live read-back | `index.html` and `guide/property.html` were fetched from the published site after the deployment. The landing page is again the synthetic guide — "Public guide. Household financial records are not published here; figures in the calculators are fictional examples", the executive summary, the readiness scorecard with "Zero of eight resolved", and the 12-page navigation including "What decides it" and "Real conditions". The Properties page still carries the Proposition H FY 2027–28 schedule with **$249**, **$0.195/sq ft**, **$129**, **$0.42/sq ft** and "— unverified" in every Property B amount cell, and the 13 Nov 2026 stamp. |
+| Package scan | The 26-file published package contains **no** household marker: no ZIP code, no stated value, no stated rent, no stated insurance or utility figure. The only dollar values in `guide/data/model.js` that match a pattern scan are the official estate-exclusion amounts. |
+| Retained dashboard | `site/**`, `assets/app.js`, `assets/styles.css`, `qa/gate-report.json`, `verification/662025f8/REPORT.md` and session `662025f8`'s board blocks are untouched and still verified by CI. It is one command away from being republished; see `README.md` and V-H1. |
+| Pull requests merged by this session | #72 (`8bdcf7d`) · #73 (`7bbe278`) · #77 (`dc9ca23`) · #81 (`17fdbf9`) · #82 (`23e2233`) |
+| Pull requests closed by this session | #63 — stale, conflicting, coordination-only diff; content preserved here, handoff comment posted |
+| Pull requests left open for their owners | #76 (session `23c5a9c4`, conflicting, publishes household-derived figures — privacy review posted, not merged, not closed) and #83 (session `23c5a9c4`, conflicting, proposes publishing the exact Proposition 19 allowance instead of the $10-rounded figure; **not merged by this session**, because it is another session's change and it would need the `$10` gate's allowlist extended). |
+
 <!-- END block owned by session b2418dfa -->
 <!-- BEGIN block owned by session 9ca15d34. Placed directly below the title to avoid merge conflicts with end-of-file PRs (#54, #60, #63). Do not edit inside this block. -->
 ## Session `9ca15d34` (branch `arena/9ca15d34-tino2`) — claim & work plan (2026-11-12)
