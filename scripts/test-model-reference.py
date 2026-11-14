@@ -18,7 +18,10 @@ for (const growth of [0.02,0.035,0.05]) for (const ret of [0.03,0.05,0.07]) {
   decisions.push({year,horizon,growth,ret,result:MODEL.decision(c,horizon),b:MODEL.sfAnnual(year,c)});
 }
 const paths=Object.fromEntries(Object.keys(STRESS.paths).map(k=>[k,STRESS.run(k)]));
-console.log(JSON.stringify({base,decisions,paths}));
+const phased={};
+for(const k of Object.keys(STRESS.paths)) for(const m of [24,36]) for(const y of [.01,.03,.05])
+  phased[`${k}-${m}-${y}`]=STRESS.phased(k,m,y);
+console.log(JSON.stringify({base,decisions,paths,phased}));
 '''
 obj=json.loads(subprocess.check_output(['node','-e',script],text=True))
 b=obj['base']
@@ -124,4 +127,21 @@ for key,rows in obj['paths'].items():
                            ('priceIndex',index),('cash',cash),('sell',sell),('rent',rent_end),('live',live_end),
                            ('realSell',sell/index),('realRent',rent_end/index),('realLive',live_end/index)]:
             near(row[name],value,f'{key} year {t} {name}')
-print(f'PASS: independently reconstructed {len(obj["decisions"])} decision configurations and 250 stress years; {checks} unrounded arithmetic comparisons.')
+
+for key,rows in obj['paths'].items():
+    initial=transfer(2045,{**b,'inheritYear':2045})[0]*(1-b['saleCost'])
+    for months in (24,36):
+        for treasury_rate in (.01,.03,.05):
+            immediate=staged=initial
+            phased=obj['phased'][f'{key}-{months}-{treasury_rate}']
+            for t,(source,actual) in enumerate(zip(rows,phased),1):
+                exposure=0 if t<=months//12 else .5 if t==months//12+1 else 1
+                immediate*=1+source['portfolio']
+                staged*=((1-exposure)*(1+treasury_rate)+exposure*(1+source['portfolio']))
+                for name,value in [('equityExposure',exposure),('immediate',immediate),('staged',staged),
+                                   ('realImmediate',immediate/source['priceIndex']),
+                                   ('realStaged',staged/source['priceIndex']),
+                                   ('difference',staged-immediate),
+                                   ('realDifference',(staged-immediate)/source['priceIndex'])]:
+                    near(actual[name],value,f'{key} phased {months}m/{treasury_rate:.0%} year {t} {name}')
+print(f'PASS: independently reconstructed {len(obj["decisions"])} decision configurations, 250 stress years, and 1,500 phased-investment years; {checks} unrounded arithmetic comparisons.')

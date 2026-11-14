@@ -11,7 +11,7 @@ const OFFICIAL_AMOUNTS=new Map([
  [249,'SFMTA Proposition H FY 2027-28 multifamily base amount'],
  [129,'SFMTA Proposition H FY 2027-28 single-family base amount'],
 ]);
-const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.cbo.gov','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.sfpuc.gov','www.sf.gov']);
+const hosts=new Set(['www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.cbo.gov','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.sfpuc.gov','www.sf.gov','www.treasurydirect.gov']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}
@@ -98,6 +98,22 @@ for(const file of pages){
   check(Math.abs(early.rent-late.rent)>1,'Cash flow sequencing changes rental outcome');
   check(S.run('crisis')[0].assessed===S.run('crisis')[0].market,'Early crash models a temporary decline in assessment');
   check(d.querySelectorAll('#stress-years tbody tr').length===250,'All stress annual rows rendered');
+  check(d.querySelectorAll('#phase-summary tr').length===5,'Five phased-investment stress outcomes rendered');
+  check(d.querySelectorAll('#phase-years tr').length===12,'Early and late crash windows both rendered');
+  check(d.querySelector('#phase-months') && d.querySelector('#treasury-proxy'),'Phased-investment what-if controls exist');
+  for(const months of [24,36]) for(const yieldRate of [.01,.03,.05]) for(const k of Object.keys(S.paths)){
+   const p=S.phased(k,months,yieldRate);
+   check(p.length===50 && p.every(x=>Number.isFinite(x.staged)&&Number.isFinite(x.immediate)),'Finite phased comparison '+k+'/'+months+'/'+yieldRate);
+   check(p[0].equityExposure===0 && p[months/12-1].equityExposure===0,'Treasury-only during parking '+k+'/'+months);
+   check(p[months/12].equityExposure===.5 && p[months/12+1].equityExposure===1,'12-month phase-in then stocks '+k+'/'+months);
+  }
+  const early24=S.phased('crisis',24,.03),early36=S.phased('crisis',36,.03),late36=S.phased('late',36,.03);
+  check(early24[0].staged>early24[0].immediate,'Parking can soften first-year crash loss');
+  check(early36.at(-1).equityExposure===1 && late36[47].equityExposure===1,'Late crash occurs after both phase-in periods');
+  const before=d.querySelector('#phase-summary').textContent;
+  d.getElementById('phase-months').value='36';d.getElementById('phase-months').dispatchEvent(new dom.window.Event('change'));
+  check(d.querySelector('#phase-summary').textContent!==before,'Parking-period control updates outcomes');
+  check([...d.querySelectorAll('#phase-summary tr,#phase-years tr')].every(r=>r.querySelector('a[href^="https://www.treasurydirect.gov/"]')),'Phased tables link TreasuryDirect official sources');
  }
  if(file==='guide/questions.html'){
   const d=dom.window.document;
