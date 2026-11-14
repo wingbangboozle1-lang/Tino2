@@ -48,20 +48,24 @@ Other sources in the new pages were verified in earlier sessions and are recorde
 | `python3 scripts/package-site.py` | PASS, 28 reviewed guide files packaged; legacy site excluded |
 | `python3 scripts/check-publication.py --self-test` | PASS |
 | `python3 scripts/check-publication.py --directory _public` | PASS, publication matches 28 reviewed files plus build marker |
-| `node scripts/test-guide.cjs` | PASS, 15 rendered pages, 851 source-linked table rows, 10,749 checks |
+| `node scripts/test-guide.cjs` | PASS, 15 rendered pages, 871 source-linked table rows, 11,060 checks |
 | `node scripts/privacy-audit.cjs` | PASS (not proof of anonymity) |
 | `python3 scripts/check-figures.py` | PASS, 28 ledger records verified; every seven-figure published amount has a ledger record |
-| `python3 scripts/test-model-reference.py` | PASS, 108 configurations, 250 stress years, 10,236 comparisons |
+| `python3 scripts/test-model-reference.py` | PASS, 108 configurations, 250 stress years, 1,500 phased-investment years, 20,736 comparisons |
 | `python3 scripts/test-phased.py` | PASS, 110 checks against an independent tranche reconstruction |
 | Public-text scan for addresses, parcel numbers, emails | No matches |
 
 Not run locally: the Jekyll pass `check-publication.py --jekyll` on `_site` (needs the CI Jekyll build). It is part of `.github/workflows/pages.yml` and will run on the PR.
 
-## 5. Changes outside the claimed file list
+## 5. Merge with session 00503c24 (main at 8c3c739)
+
+After this branch was cut, session 00503c24 merged PRs #89 and #90 to `main`. Both touched the same stress page, generator, and tests. Resolution: its synthetic phased-investment section (Treasury rates 1%, 3%, 5%; simplified 50/50 phase-in) is kept unchanged. This session's entry-risk section follows it and opens with a note that it uses observed yields and the official 1929 and 2008 declines, so the two are not compared directly. The early-crash row keeps its "stylized analogue" wording; the cycle row keeps this session's relabel. The COORDINATION.md blocks of both sessions are kept in order.
+
+## 6. Changes outside the claimed file list
 
 - `scripts/test-guide.cjs`: the approved host list gained `www.federalreservehistory.org` (Federal Reserve history) and `home.treasury.gov` (Treasury par yields). Both are official government publishers, and both are cited for the new stress and entry-test figures. This is a one-line allowlist change, logged here and in COORDINATION.md.
 
-## 6. Open items (also on Flagged for Review)
+## 7. Open items (also on Flagged for Review)
 
 - Form 1041 due date: not in the IRS text read; secondary sites say 15 April.
 - Proposition 19 claim periods: BOE FAQ text not re-read.
