@@ -2,7 +2,7 @@
 (function () {
   const paths = {
     baseline: {name:'Changing-cycle baseline', source:'blsCPI'},
-    crisis: {name:'Early housing / equity crash', source:'investorRisk'},
+    crisis: {name:'Early deep crash (stylized)', source:'investorRisk'},
     inflation: {name:'Stagflation and insurance squeeze', source:'blsCPI'},
     late: {name:'Late crash / sequence risk', source:'investorRisk'},
     disaster: {name:'Uninsured repair and rent interruption', source:'insuranceResidential'}
@@ -59,5 +59,24 @@
     }
     return rows;
   }
-  window.STRESS={paths,rates,run};
+  function phased(key, parkingMonths=24, treasuryRate=0.03) {
+    if(!paths[key]) throw new Error('Unknown stress path');
+    if(![24,36].includes(parkingMonths)) throw new Error('Parking period must be 24 or 36 months');
+    if(![0.01,0.03,0.05].includes(treasuryRate)) throw new Error('Treasury proxy must be 1%, 3%, or 5%');
+    const rows=run(key), initial=MODEL.inheritanceValues(2045).market*(1-MODEL.BASE.saleCost);
+    let immediate=initial, staged=initial;
+    const waitYears=parkingMonths/12;
+    return rows.map((r,i)=>{
+      const t=i+1;
+      // One illustrative 12-month phase-in follows the selected waiting period.
+      // A 3M–2Y ladder's actual maturities, yields, taxes and prices are not modeled.
+      const equityExposure=t<=waitYears?0:t===waitYears+1?0.5:1;
+      immediate*=1+r.portfolio;
+      staged*=((1-equityExposure)*(1+treasuryRate)+equityExposure*(1+r.portfolio));
+      return {year:r.year,portfolioReturn:r.portfolio,treasuryProxy:treasuryRate,equityExposure,
+        immediate,staged,realImmediate:immediate/r.priceIndex,realStaged:staged/r.priceIndex,
+        difference:staged-immediate,realDifference:(staged-immediate)/r.priceIndex};
+    });
+  }
+  window.STRESS={paths,rates,run,phased};
 })();
