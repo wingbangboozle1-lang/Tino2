@@ -74,6 +74,7 @@ After this branch was cut, session 00503c24 merged PRs #89 and #90 to `main`. Bo
 - Form 706 basic exclusion table and California estate-tax status: not verified.
 - Reinvestment-risk definition: not captured from an official page.
 - Crash shapes: illustrative templates built from Fed peak-to-trough declines; not index history.
+- Entry test structure: each template recovers from its trough at a constant rate. Tranches bought after the trough therefore grow like the no-crash path, so the 2008 park-24 row equals the no-crash park-24 row. This is disclosed on the Black swans page and checked in test-phased.py (113 checks). A recovery that stays below its earlier trend is not modelled.
 - Early-crash path and cycle shape: assumptions.
 
 No figure in the new pages is a household value. Every dollar amount is rounded to $10 unless it is an official amount; the one official amount beyond that (the $15,000,000 threshold) has a ledger record.

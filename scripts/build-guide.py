@@ -177,7 +177,8 @@ PHASED_SECTION_HTML = (
     + '<h3>Reinvestment risk on the parked money</h3>'
     + '<p>The parking yield is the reinvestment variable. Read the rows as: a lower yield on proceeds parked for 24 months lowers their value at year 10, in every template.</p>'
     + reinvest_table()
-    + '<p class="tiny">What the test does not show: a fast, V-shaped recovery such as 2008 favours investing all now. A slow decline and recovery favours waiting. Phasing is therefore a choice about which risk the household prefers to carry, not a forecast. Reviewers should confirm the templates against official index history before relying on exact figures.</p>',
+    + '<div class="callout warning"><strong>Read the 2008 park-24 row carefully.</strong> The template recovers from its trough at a constant rate, so every tranche bought after the trough grows exactly like the no-crash path. For that reason the 2008 park-24 values equal the no-crash park-24 values. The test shows the crash only through tranches bought before the trough. It does not model a recovery that stays below its earlier trend, which would change the result and is not included.</div>'
+        + '<p class="tiny">What the test does not show: a fast, V-shaped recovery such as 2008 favours investing all now. A slow decline and recovery favours waiting. Phasing is therefore a choice about which risk the household prefers to carry, not a forecast. Reviewers should confirm the templates against official index history before relying on exact figures.</p>',
     '03 / entry risk')
 )
 
