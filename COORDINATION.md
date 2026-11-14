@@ -2078,3 +2078,17 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 ### Session `00503c24` — overlap / handoff note (14 Nov 2026)
 
 During follow-up work on a print sheet, glossary and grouped navigation, rebasing onto newly updated `origin/main` conflicted in `COORDINATION.md`. Inspection showed session `b33f5f9e` had completed the same requested scope in PR [#91](https://github.com/wingbangboozle1-lang/Tino2/pull/91), which had merged to `main` while this follow-up was in progress. The incoming main contains its generated adviser sheet, glossary, deadline timeline, grouped menu, first-screen decision gate, phased-entry work and verification report. I stopped the rebase, retained the incoming main tree and its records, and did not merge my duplicate local P-2 implementation. The duplicate unpushed edits were superseded, not applied; no work from `b33f5f9e` was discarded. This branch keeps the already-merged PR #89 phased-investing feature; its PR and Pages result remain recorded above. The combined tree is rechecked by CI before this handoff record is merged.
+
+## Session `bb1eb451` — mixed property paths after PR #91 integration (14 Nov 2026)
+
+**Coordination:** PR #91 was merged to `main` as `72ed78f`; PR #92 added entry-risk clarifications and merged as `5cadc9b`; PR #93 recorded the overlap handoff and merged as `2c2f0a2`. The grouped navigation, glossary, timeline, attorney/CPA sheet, first-screen decision facts and observed-yield monthly phased-entry model are canonical shared implementation. This branch was synchronized to current `main` and did not resubmit or replace those features. The distinct code scope is the mixed live/rent-then-sell comparison. The older annual phased-entry implementation on this branch was intentionally not carried forward; the merged observed-rate monthly model remains authoritative. PR #88's glossary/first-screen overlap is already covered by main. PR #94 is open for this mixed-path delta.
+
+| Task | Status | Scope |
+|---|---|---|
+| Synchronize this branch after PR #91/#92/#93 | done | Based on current `origin/main`; retain only distinct mixed property paths |
+| Add mixed live/rent-then-sell control and endpoint comparison | done | `scripts/build-guide.py`, `guide/data/model.js`, `guide/data/decision-page.js`, generated decision page |
+| Independently test mixed-path arithmetic and source-linked output | done | `scripts/test-model-reference.py`, `scripts/test-guide.cjs` |
+| Run publication, figure, privacy, model, rendered-page and validation checks; open PR | done | PR [#94](https://github.com/wingbangboozle1-lang/Tino2/pull/94); local checks pass; results in `verification/bb1eb451/REPORT.md` |
+| Browser smoke/accessibility/print pagination | blocked | Chromium startup fails due to missing `libnss3.so`; not represented as passed |
+
+**Privacy and assumptions:** No household-specific data was added. Property B remains already owned; only the inherited example property is run through mixed paths. All modeled values remain synthetic. The existing household-history/public-repository exposure is not resolved by this work. The privacy scan passing is not proof of anonymity. No deployment was run.

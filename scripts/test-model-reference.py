@@ -11,17 +11,18 @@ import subprocess
 script = r'''
 global.window=global;
 require('./guide/data/model.js'); require('./guide/data/stress.js');
-const base=MODEL.BASE, decisions=[];
+const base=MODEL.BASE, decisions=[], mixed=[];
 for (const year of [2040,2045,2050]) for (const horizon of [10,20,30,50])
 for (const growth of [0.02,0.035,0.05]) for (const ret of [0.03,0.05,0.07]) {
   const c={...base,inheritYear:year,appreciation:growth,portfolioNet:ret};
   decisions.push({year,horizon,growth,ret,result:MODEL.decision(c,horizon),b:MODEL.sfAnnual(year,c)});
+  for(const option of ['rent','live']) for(const exitYears of [2,5,10]) mixed.push({year,horizon,growth,ret,option,exitYears,result:MODEL.mixedDecision(option,exitYears,c,horizon)});
 }
 const paths=Object.fromEntries(Object.keys(STRESS.paths).map(k=>[k,STRESS.run(k)]));
 const phased={};
 for(const k of Object.keys(STRESS.paths)) for(const m of [24,36]) for(const y of [.01,.03,.05])
   phased[`${k}-${m}-${y}`]=STRESS.phased(k,m,y);
-console.log(JSON.stringify({base,decisions,paths,phased}));
+console.log(JSON.stringify({base,decisions,mixed,paths,phased}));
 '''
 obj=json.loads(subprocess.check_output(['node','-e',script],text=True))
 b=obj['base']
@@ -90,6 +91,25 @@ for row in obj['decisions']:
     near(row['b']['noi'],noi,'B NOI')
     near(row['b']['assessed'],b_assessed,'B assessment')
 
+for row in obj['mixed']:
+    y,h,g,ret,option,exit_years=(row['year'],row['horizon'],row['growth'],row['ret'],row['option'],row['exitYears'])
+    c={**b,'inheritYear':y,'appreciation':g,'portfolioNet':ret}
+    result=row['result'];market,_,_,_=transfer(y,c)
+    cash=0
+    for t in range(1,exit_years+1):
+        flow=holding(y+t,option,c)
+        near(result['yearly'][t-1]['afterTaxCash'],flow,'mixed annual cash')
+        cash=cash*(1+ret)+flow
+    final_market,_=series_a(y+exit_years,c)
+    realized=final_market*(1-c['saleCost'])
+    gain=max(0,realized-market)
+    exclusion=min(c['primaryGainExclusion'],gain) if option=='live' and exit_years>=2 else 0
+    tax=max(0,gain-exclusion)*c['capitalGainsTax']
+    near(result['cashReserve'],cash,'mixed cash reserve')
+    near(result['finalSale'],realized-tax,'mixed sale proceeds')
+    near(result['capitalGainsTax'],tax,'mixed gain tax')
+    near(result['terminal'],(cash+realized-tax)*(1+ret)**(h-exit_years),'mixed endpoint')
+
 homes=[.04,.05,.02,-.04,0,.06,.04,.03,.04,.03]
 portfolios=[.08,.10,.03,-.12,.02,.13,.07,.05,.06,.06]
 prices=[.025,.03,.04,.035,.02,.025,.03,.025,.02,.025]
@@ -144,4 +164,4 @@ for key,rows in obj['paths'].items():
                                    ('difference',staged-immediate),
                                    ('realDifference',(staged-immediate)/source['priceIndex'])]:
                     near(actual[name],value,f'{key} phased {months}m/{treasury_rate:.0%} year {t} {name}')
-print(f'PASS: independently reconstructed {len(obj["decisions"])} decision configurations, 250 stress years, and 1,500 phased-investment years; {checks} unrounded arithmetic comparisons.')
+print(f'PASS: independently reconstructed {len(obj["decisions"])} decision configurations, {len(obj["mixed"])} mixed-path configurations, 250 stress years, and 1,500 phased-investment years; {checks} unrounded arithmetic comparisons.')

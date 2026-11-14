@@ -19,6 +19,7 @@
   const pct=(x,maximumFractionDigits=2)=>(100*x).toLocaleString('en-US',{maximumFractionDigits})+'%';
   function render(){
     const y=Number(document.getElementById('transfer-year').value), horizon=Number(document.getElementById('hold-years').value);
+    const mixedYears=Number(document.getElementById('mixed-years').value);
     const growth=Number(document.getElementById('home-growth').value), ret=Number(document.getElementById('portfolio-return').value);
     const c={...B,inheritYear:y,appreciation:growth,portfolioNet:ret};
     const d=M.decision(c,horizon);
@@ -43,6 +44,13 @@
     document.getElementById('comparison').innerHTML=['sell','rent','live'].map(k=>{
       const a=d[k], cash=k==='sell'?`${money(a.firstYearCash)} portfolio change (not a distribution)`:money(a.firstYearCash);
       return tr([`<strong>${names[k]}</strong>`,money(a.initialNet),cash,`<strong>${money(a.terminal)}</strong>`,src(k==='sell'?'invest':k==='rent'?'rent':'boe','Rule / risk context')]);
+    }).join('');
+    document.getElementById('mixed-comparison').innerHTML=['rent','live'].map(option=>{
+      const m=M.mixedDecision(option,mixedYears,c,horizon), remaining=horizon-mixedYears;
+      const cashAtEnd=m.cashReserve*Math.pow(1+ret,remaining);
+      const saleAtEnd=m.finalSale*Math.pow(1+ret,remaining);
+      const label=option==='rent'?`Rent for ${mixedYears} years, then sell`:`Live for ${mixedYears} years, then sell`;
+      return tr([`<strong>${label}</strong>`,`${mixedYears} years`,money(cashAtEnd),money(saleAtEnd),`<strong>${money(m.terminal)}</strong>`,src(option==='rent'?'rent':'residence','Tax / rule context')]);
     }).join('');
     let arows='', brows='';
     for(let year=2026;year<=2076;year++){

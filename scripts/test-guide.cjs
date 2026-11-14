@@ -83,6 +83,11 @@ for(const file of pages){
   check(M.estateRow(2026,{...c,bValue:c.bValue*10}).combined===c.aValue,'Already-owned B is excluded from donor estate example');
   check(M.fmtMoney(125)==='$130' && M.fmtMoney(-125)==='−$130' && M.fmtMoney(null)==='—','Rounding and unknown handling');
   check(!Number.isNaN(d10.rent.terminal)&&!Number.isNaN(d10.live.terminal),'Finite strategy results');
+  check(d.querySelectorAll('#mixed-comparison tr').length===2,'Rent-then-sell and live-then-sell paths render');
+  const mixedBefore=d.querySelector('#mixed-comparison').textContent;
+  d.getElementById('mixed-years').value='10';d.getElementById('mixed-years').dispatchEvent(new dom.window.Event('change'));
+  check(d.querySelector('#mixed-comparison').textContent!==mixedBefore,'Mixed-path hold-period control changes outcomes');
+  check([...d.querySelectorAll('#mixed-comparison tr')].every(r=>r.querySelector('a[href^="https://www.irs.gov/"]')),'Every mixed-path row cites official tax context');
   inspect(dom,file+' (changed controls)');
  }
  if(file==='guide/stress.html'){

@@ -69,7 +69,7 @@ For a full Chromium smoke test when browser dependencies are available, install 
 ## Structure and publication
 
 - `index.html`, `guide/*.html` — public overview, comparison, 50-year stresses, properties, tax, trust steps, questions, suggestions, review flags and sources.
-- `guide/data/*.js`, `assets/safe.*` — fictional scenario engines, presentation and local-only suggestion choices.
+- `guide/data/*.js`, `assets/safe.*` — fictional scenario engines, including rent-then-sell and live-then-sell paths, presentation and local-only suggestion choices.
 - `scripts/build-guide.py` — deterministic page generator; regenerate and commit the resulting HTML when edited.
 - `scripts/public_manifest.py`, `scripts/package-site.py` — explicit publication allowlist and packager.
 - `scripts/check-publication.py`, `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs` — boundary, rendered-page, independent arithmetic and privacy-regression checks.

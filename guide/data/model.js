@@ -129,6 +129,30 @@
     result.winner = ['sell', 'rent', 'live'].sort((a, b) => result[b].terminal - result[a].terminal)[0];
     return result;
   }
+  function mixedDecision(option, exitYears, config = BASE, horizon = 10) {
+    if (!['rent', 'live'].includes(option) || !Number.isInteger(exitYears) || exitYears < 1 ||
+      !Number.isInteger(horizon) || exitYears > horizon || !Number.isInteger(config.inheritYear))
+      throw new Error('Invalid mixed-path settings');
+    const transferYear=config.inheritYear, inherited=inheritanceValues(transferYear,config), ret=config.portfolioNet;
+    let reserve=0;const yearly=[];
+    for(let t=1;t<=exitYears;t++){
+      const row=annualA(transferYear+t,option,config);
+      reserve=reserve*(1+ret)+row.afterTaxCash;yearly.push(row);
+    }
+    const exitYear=transferYear+exitYears;
+    const finalMarket=seriesFor('A',exitYear,config).market;
+    const realized=finalMarket*(1-config.saleCost);
+    const gain=Math.max(0,realized-inherited.market);
+    // This is conditional on actual eligibility; the example does not determine it.
+    const exclusion=option==='live'&&exitYears>=2?Math.min(config.primaryGainExclusion,gain):0;
+    const capitalGainsTax=Math.max(0,gain-exclusion)*config.capitalGainsTax;
+    const finalSale=realized-capitalGainsTax;
+    const terminal=(reserve+finalSale)*Math.pow(1+ret,horizon-exitYears);
+    return {option,exitYears,initialNet:0,firstYearCash:yearly[0].afterTaxCash,
+      cashReserve:reserve,finalSale,finalMarket,capitalGainsTax,gainExclusion:exclusion,
+      terminal,yearly};
+  }
+
   function sfAnnual(year, config = BASE) {
     const n = year - config.startYear, series = seriesFor('B', year, config);
     const grossRent = futureValue(config.bRentMonthly * 12, config.sfRentGrowth, n);
@@ -150,5 +174,5 @@
     return { year, a, b, combined: a, exclusion };
   }
   window.MODEL = { BASE, round10, fmtMoney, futureValue, prop19Steps, modelAllowance,
-    seriesFor, inheritanceValues, annualA, decision, sfAnnual, estateRow };
+    seriesFor, inheritanceValues, annualA, decision, mixedDecision, sfAnnual, estateRow };
 })();
