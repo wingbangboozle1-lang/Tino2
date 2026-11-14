@@ -2064,3 +2064,5 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 - I-C: The brief asks for the household's own figures to appear on the site. The standing privacy decision (README, sessions 662025f8 and 330ce4c5) keeps them off the public site. This session did not reverse that decision.
 - I-D: G-3 (phased entry, 1929/2008) is blocked. No official, machine-readable 1929–1932 equity-index or Treasury-bill series is identified in the verified source set. Inventing one would break the verification rule.
 - I-E: G-4 (pre-rounding history scrub) is an owner decision and was not performed. See README "Important privacy incident".
+
+**PR opened (not merged):** https://github.com/wingbangboozle1-lang/Tino2/pull/88, held for owner review because G-3 and G-4 are blocked. Merge condition in the brief ("all tasks done") is not yet met.
