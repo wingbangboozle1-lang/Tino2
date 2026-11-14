@@ -28,7 +28,11 @@ walk(root);
 const pages=['index.html',...fs.readdirSync(root+'/guide').filter(x=>x.endsWith('.html')).map(x=>'guide/'+x)];
 for(const file of pages){
   const dom=new JSDOM(fs.readFileSync(path.join(root,file),'utf8'),{runScripts:'outside-only',url:'https://example.org/Tino2/'+file});
-  for(const s of dom.window.document.querySelectorAll('script'))dom.window.eval(fs.readFileSync(path.resolve(root,path.dirname(file),s.getAttribute('src')),'utf8'));
+  for(const s of dom.window.document.querySelectorAll('script')){
+    const src=s.getAttribute('src');
+    // Inline scripts carry the generated example values; evaluate them as the browser would.
+    dom.window.eval(src?fs.readFileSync(path.resolve(root,path.dirname(file),src),'utf8'):s.textContent);
+  }
   if(dollarCollision(dom.window.document.body.textContent))bad.push(file+': legacy number in rendered dollars');
   if(dom.window.document.querySelector('form,input,textarea,iframe,script[src^="https:"],img[src^="https:"]'))bad.push(file+': input or external automatic resource');
   dom.window.close();
