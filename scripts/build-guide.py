@@ -6,6 +6,15 @@ import re
 
 ROOT=Path(__file__).resolve().parents[1]
 S={
+ 'dgs3m':('FRED · 3-month Treasury bill (DGS3MO)','https://fred.stlouisfed.org/series/DGS3MO'),
+ 'dgs2':('FRED · 2-year Treasury note (DGS2)','https://fred.stlouisfed.org/series/DGS2'),
+ 'cg409':('IRS · Topic 409 capital gains','https://www.irs.gov/taxtopics/tc409'),
+ 'niit559':('IRS · Topic 559 net investment income tax','https://www.irs.gov/taxtopics/tc559'),
+ 'form706':('IRS · About Form 706','https://www.irs.gov/forms-pubs/about-form-706'),
+ 'i706':('IRS · Instructions for Form 706 (07/2026)','https://www.irs.gov/instructions/i706'),
+ 'usc6075':('U.S. Code · 26 U.S.C. §6075 (Cornell LII copy)','https://www.law.cornell.edu/uscode/text/26/6075'),
+ 'sccTax':('Santa Clara County · Property Tax (DTAC)','https://www.santaclaracountyca.org/Property_Tax.html'),
+ 'ftbSchedule':('FTB · 2025 Form 540 rate schedules (PDF)','https://www.ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf'),
  'boe':('California BOE · Prop 19','https://www.boe.ca.gov/prop19/'),
  'prop19':('California BOE · fact sheet','https://www.boe.ca.gov/pdf/pub801.pdf'),
  'allowance':('BOE · 2025/009','https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf'),
@@ -74,13 +83,14 @@ def table(headers,rows):
 def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
 PAGE_GROUPS=[
- ('Decide',[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
+ ('Decide',[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('paths','Paths, mixed and pure','guide/paths.html'),('whatif','What-if controls','guide/whatif.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
  ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
  ('Evidence &amp; terms',[('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('glossary','Glossary','guide/glossary.html'),('sources','Sources','guide/sources.html')]),
  ('Act',[('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
 ]
 PAGES=[item for _,group in PAGE_GROUPS for item in group]
 def page(key,title,lead,body,scripts=(),home=False):
+    body=AP.attach(body)
     base='' if home else '../'
     nav=''.join(f'<div class="navgroup" role="group" aria-label="{gname}"><span class="navlabel" aria-hidden="true">{gname}</span>'+''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in items)+'</div>' for gname,items in PAGE_GROUPS)
     links=''.join(f'<script defer src="{base}{s}"></script>' for s in ['assets/safe.js',*scripts])
@@ -94,6 +104,8 @@ def cards(items):
 # ---- b33f5f9e additions: phased entry, reinvestment risk, first-screen answer, new pages ----
 import sys as _sys
 _sys.path.insert(0, str(ROOT / 'scripts'))
+import analysis_pages as AP  # illustrative-example pages; household figures never used
+CTX={'S':S,'table':table,'section':section,'source':source}
 import phased_model as PM
 
 def money(v):
@@ -458,6 +470,7 @@ body+=section('Suggested paths',table(['Path','What it prioritizes','Trade-off',
  ]))
 body+='<div class="control" style="max-width:420px"><label for="chosen-path">Optional path to review (browser only)</label><select id="chosen-path" data-suggestion="PATH"><option value="">Not decided</option><option value="privacy">Privacy first</option><option value="decision">Decision first</option><option value="risk">Risk first</option><option value="presentation">Presentation first</option></select></div>'
 body+=section('Suggestions register',table(['ID','Priority','Suggestion','Proposed action','Decision benefit','Reference','Your choice'],rows)+'<p id="save-status" class="tiny" aria-live="polite">Selections, if made, stay in this browser only.</p><button class="button secondary" id="clear-selections" type="button">Clear selections</button>')
+body+=AP.suggestions_block(CTX)
 page('suggestions','Suggestions to review, not automatic changes.','Consider the options, record a local choice if useful, and choose a path before implementing discretionary improvements.',body)
 
 body=section('Unresolved items',table(['Priority','Issue','Current treatment','Next step','Reference'],[
@@ -482,6 +495,7 @@ body=section('Unresolved items',table(['Priority','Issue','Current treatment','N
  ('Medium','Early-crash path and cycle row are assumptions','The first-three-years path on the Black swans page and the 10-year cycle shape are assumptions. The CPI series shows annual rates, not a cycle.','Keep the path labelled as illustrative; do not cite CPI as evidence of a cycle.',source('cpiHistory')),
  ]))
 body+='<div class="callout review"><strong>Important:</strong> A passing privacy scan cannot prove anonymity or clean previously published history. GitHub warns that commits may remain reachable through pull requests, caches, forks and clones. Do not put personal information, private links or financial documents in this repository.</div>'
+body+=AP.review_block(CTX)
 page('review','Flagged for review.','Unknown facts, modeling limitations and the remaining public-history privacy incident are visible here; none should be mistaken for a verified value.',body)
 
 sources=[
@@ -491,7 +505,8 @@ sources=[
  ('Observed series','BLS CPI-U via FRED (CPIAUCNS)','Annual-average inflation record used on the real-conditions page.','cpiHistory'),('Observed series','Freddie Mac PMMS','Observed 30-year fixed mortgage benchmark.','pmms'),('Observed series','BOE LTA 2026/002','2026-27 Prop 13 inflation factor and the 51-year factor history.','prop13factor'),
  ('Risk','CBO','2026–2036 economic baseline; not a 50-year property forecast.','cbo'),('Risk','BLS','Recorded 2022 CPI and electricity inflation.','bls'),('Risk','FHFA','House-price index data and methods.','hpi'),('Risk','USGS','Bay Area earthquake outlook 2014–2043.','usgs'),('Risk','SEC Investor.gov','Diversification and investing risks.','invest'),('Risk','FDIC','Deposit insurance categories and limits.','fdic'),('Investment','TreasuryDirect bills','Bill maturities, redemption and federal/state/local tax treatment.','treasuryBills'),('Investment','TreasuryDirect notes','2-year notes and marketable security terms.','treasuryNotes'),('Investment','TreasuryDirect pricing','Market-price variation with yield and interest rate.','treasuryPricing'),('Law watch','Congress.gov','Federal H.R. 1301 bill status.','hr1301'),('Law watch','California Legislature','SB 284 status and history.','sb284'),('Privacy','GitHub documentation','Removal, PR references and copies.','github'),
 ]
-body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register below was re-opened and the wording the guide attributes to it was checked on 13 November 2026; recheck the underlying documents and date-specific details before relying on them.</div>'
+body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register below was re-opened and the wording the guide attributes to it was checked on 13 November 2026, except the rows added on 14 November 2026, which were opened on that date; recheck the underlying documents and date-specific details before relying on them.</div>'
+sources+=AP.SOURCES_ADD
 body+=section('Source register',table(['Category','Agency or source','What it supports','Official link'],[(a,b,c,source(d)) for a,b,c,d in sources]))
 body+=section('How each official figure was checked',table(['Check','What it does','What it does not do','Official context'],[
  ('Machine-readable ledger','Every official rule figure the guide publishes is recorded in a public ledger with its source URL, the exact published value, the form shown on the site, and the date it was re-opened.','It does not prove the value is still current on the day you read it, and it does not verify any household figure.',source('estate27')),
@@ -507,6 +522,9 @@ body+=section('What is deliberately left blank',table(['Blank item','Why it is b
  ('Estate inventory and any estate-tax headroom','The whole estate is unknown.','A confidential inventory prepared with counsel.',source('estate')),
  ('Date-of-death value','An event that has not occurred.','A retrospective appraisal as of the actual date.',source('basis')),
  ])+'<p class="tiny">Each blank is recorded as unverified rather than filled with an estimate. The build fails if a seven-figure official amount appears without a ledger record, and the ledger itself records one item as explicitly unverified rather than guessing.</p>','05 / blanks')
+AP.write_js(ROOT)
+page('paths','Paths, including mixed ones.','Three pure choices and three mixed paths, compared across four stress tests with break-even points. Example inputs only.',AP.paths_body(CTX))
+page('whatif','What-if controls.','Change the stress test, horizon, parking period, parked-cash yield or equity return and see the effect on each path.',AP.whatif_body(CTX),['guide/data/whatif-page.js'])
 page('sources','Sources and verification.','Direct links to official agencies and primary materials, organized by subject for manual review.',body)
 
 body='''<div class="callout warning"><strong>Fictional values, not your household’s figures.</strong> This example was invented for a public site. Its numerical results cannot establish the best personal plan. Official links support the rules or risk context, not the synthetic inputs or projections.</div>'''

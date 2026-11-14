@@ -10,9 +10,12 @@ const pages=['index.html',...fs.readdirSync(path.join(root,'guide')).filter(f=>f
 const OFFICIAL_AMOUNTS=new Map([
  [249,'SFMTA Proposition H FY 2027-28 multifamily base amount'],
  [129,'SFMTA Proposition H FY 2027-28 single-family base amount'],
+ [742953,'FTB 2025 Form 540 Schedule X top-bracket threshold, single (read 14 Nov 2026)'],
+ [1485906,'FTB 2025 Form 540 Schedule Y top-bracket threshold, joint (read 14 Nov 2026)'],
+ [1010417,'FTB 2025 Form 540 Schedule Z top-bracket threshold, head of household (read 14 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
-const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov']);
+const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}

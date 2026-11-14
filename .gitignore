@@ -2,3 +2,6 @@ _public/
 .cache/
 _site/
 __pycache__/
+
+# Household analysis outputs (never committed; see COORDINATION.md L-D1)
+private/

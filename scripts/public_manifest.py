@@ -5,9 +5,9 @@ PUBLIC_FILES = {
     *('guide/' + name + '.html' for name in (
         'decision', 'stress', 'conditions', 'brief', 'property', 'tax', 'process',
         'questions', 'suggestions', 'review', 'sources',
-        'glossary', 'timeline', 'attorney-cpa')),
+        'glossary', 'timeline', 'attorney-cpa', 'paths', 'whatif')),
     *('guide/data/' + name + '.js' for name in (
         'model', 'stress', 'conditions', 'breakeven',
         'decision-page', 'stress-page', 'tax-page', 'conditions-page',
-        'brief-page')),
+        'brief-page', 'whatif-page')),
 }
