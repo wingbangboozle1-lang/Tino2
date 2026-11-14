@@ -71,4 +71,14 @@ for t in M.TEMPLATES:
     v = [M.simulate(t, 'park_24', y, 0.04)['value_end'] for y in (M.YIELDS['low'], M.YIELDS['base'], M.YIELDS['high'])]
     ok(v[0] <= v[1] <= v[2], 'end value rises with the parking yield')
 
+# Known structural result, disclosed on the page: the template recovers from its trough at a constant rate,
+# so tranches bought after the trough (2008: month 17) grow exactly like the no-crash path. The 2008 park-24
+# result therefore equals the no-crash park-24 result. The check fails if the model changes this silently.
+for rec in (0.04, 0.08):
+    ok(abs(M.simulate('2008', 'park_24', M.YIELDS['base'], rec)['value_end'] - M.simulate('none', 'park_24', M.YIELDS['base'], rec)['value_end']) < 1e-6,
+       'post-trough tranches share the no-crash growth path (2008, park 24)')
+# A 1929 park-24 result must differ, because its tranches are bought before the trough at month 34.
+ok(abs(M.simulate('1929', 'park_24', M.YIELDS['base'], 0.04)['value_end'] - M.simulate('none', 'park_24', M.YIELDS['base'], 0.04)['value_end']) > 1000,
+   '1929 park-24 differs from the no-crash control (purchases before the trough)')
+
 print(f'PASS: phased model reproduced by an independent tranche reconstruction; {checks} checks.')
