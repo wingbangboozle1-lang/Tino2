@@ -2064,10 +2064,13 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 | # | Task | Status | Owner | File scope |
 |---|---|---|---|---|
 | X-1 | Claim the board, push immediately | **done** on push of this block | b33f5f9e | this block only |
-| X-2 | Gap audit of the published guide against the brief; list every missing item and every source-to-claim mismatch | in progress | b33f5f9e | `verification/b33f5f9e/REPORT.md` (new) |
-| X-3 | Grouped menu and glossary page | in progress | b33f5f9e | `scripts/build-guide.py`, `scripts/public_manifest.py`, `guide/glossary.html` (new) |
-| X-4 | One-page printable Attorney & CPA briefing sheet | in progress | b33f5f9e | `guide/attorney-cpa.html` (new) |
-| X-5 | Deadline timeline | in progress | b33f5f9e | `guide/timeline.html` (new) |
-| X-6 | Phased-investing path and 1929 / 2008 entry tests; reinvestment-risk callout | in progress | b33f5f9e | `scripts/phased_model.py` (new), `scripts/test-phased.py` (new), `guide/stress.html` |
-| X-7 | First-screen "what would change the answer" | in progress | b33f5f9e | `index.html` |
+| X-2 | Gap audit of the published guide against the brief; list every missing item and every source-to-claim mismatch | **done** 14 Nov 2026 | b33f5f9e | `verification/b33f5f9e/REPORT.md` (new) |
+| X-3 | Grouped menu and glossary page | **done** 14 Nov 2026 | b33f5f9e | `scripts/build-guide.py`, `scripts/public_manifest.py`, `guide/glossary.html` (new) |
+| X-4 | One-page printable Attorney & CPA briefing sheet | **done** 14 Nov 2026 | b33f5f9e | `guide/attorney-cpa.html` (new) |
+| X-5 | Deadline timeline | **done** 14 Nov 2026 | b33f5f9e | `guide/timeline.html` (new) |
+| X-6 | Phased-investing path and 1929 / 2008 entry tests; reinvestment-risk callout | **done** 14 Nov 2026 | b33f5f9e | `scripts/phased_model.py` (new), `scripts/test-phased.py` (new), `guide/stress.html` |
+| X-7 | First-screen "what would change the answer" | **done** 14 Nov 2026 | b33f5f9e | `index.html` |
 | X-8 | Verify every new source, run the full suite, open PR to `main`, merge without waiting, confirm Pages | not started | b33f5f9e | `verification/b33f5f9e/**`, this block |
+
+**Handoff log, session b33f5f9e (14 Nov 2026).** X-2 to X-7 complete; report `verification/b33f5f9e/REPORT.md`. Changes: grouped menu (four groups); glossary, timeline and Attorney & CPA pages added; phased-entry section and reinvestment-risk table on the Black swans page; "what would change the answer" on the overview. Two source mismatches in the Black swans page were relabelled as illustrative; a crash-date claim was removed. `scripts/public_manifest.py` lists the three new pages. **Out-of-scope edit:** `scripts/test-guide.cjs` host allowlist gained `www.federalreservehistory.org` and `home.treasury.gov`, both official publishers. Full local suite passes (see report §4). Open items are on the Flagged for Review page; none blocks the merge.
+
