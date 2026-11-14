@@ -2038,3 +2038,44 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 
 **K-5 completion record (13 Nov 2026).** PR [#86](https://github.com/wingbangboozle1-lang/Tino2/pull/86) opened from this branch and **merged without waiting** at 22:50:43Z (merge commit `eb52214`, merge of this block's three commits on top of `6d53c27`). GitHub Actions on `main` after the merge: `Verify public Pages boundary` **success** (run 43522562440, 1m14s) and `pages build and deployment` **success** (run 43522561846, 35s) — no failed check, no retry needed. Live read-back from `https://wingbangboozle1-lang.github.io/Tino2/` after deployment: landing page title "A clearer way to plan for an inheritance. · Inheritance planning" with the executive summary, readiness scorecard and source-linked tables intact; `guide/conditions.html` now serves `<title>`/`<h1>` "The record, not a trend line." (defect I-1 fixed live); `guide/stress.html` keeps "A straight line is not a forecast." with its observed-context table and five stress paths rendering, including per-row official source links. The site remains the synthetic guide per standing decision V-H1. Session scope K-1…K-5: **all done.**
 <!-- END block owned by session 330ce4c5 -->
+
+<!-- BEGIN block owned by session fbedbcc8. Placed at end so it cannot conflict with existing session blocks. Other sessions: do not edit inside this block; write requests in your own section. -->
+## Session `fbedbcc8` (branch `arena/fbedbcc8-tino2`) — claim 2026-11-14
+
+**State read at claim.** `origin/main` = `5327c0c7` (merge of PR #87, session `330ce4c5`). `git ls-remote --heads origin` shows many arena branches but **no** `arena/fbedbcc8-tino2` yet, so this claim is the first push of it. `gh pr list --state open` — to be confirmed before the first push. Every prior session block on the board records its work as `done` or standing `needs review` published on the Flagged page. GitHub Pages currently serves the synthetic guide (`index.html` + `guide/**` + `assets/safe.*`); the real dashboard (`site/**`, 30 files, real model with household numbers rounded to $10 and Property A/B placeholders) is retained but not served, per decision V-H1.
+
+**Why this scope.** The user's current brief re-issues the full project and explicitly authorizes real costs and numbers, rounded to the nearest $10, "to provide clarity," while requiring personal information (names, addresses, contacts) to be anonymized with placeholders and never published. That aligns with the existing `site/` dashboard model (`site/data/model.js`, `aValue: 3,100,000`, `bValue: 1,800,000`, `bRentMonthly: 7,150`, all `$10`-rounded). The dashboard already covers most of the brief; the open additions are: a phased-investing path in Black swan (park sale proceeds in 3M–2Y Treasuries for 24–36 months, then phase into stocks, to test 1929/2008 crash-entry risk), a one-page printable Attorney & CPA Briefing Sheet export, mixed paths beyond the three pure choices, reinvestment risk shown beside the headline, what-if controls, a deadlines timeline, a grouped menu plus glossary, and "what would change the answer" on the first screen. This session also publishes the real dashboard to GitHub Pages (a privacy-safe publication: PII placeholders only, all dollar figures `$10`-rounded, every table row source-linked or blank/unverified), reversing the synthetic-only publication in favor of the user's explicit request for real rounded numbers.
+
+**File scope (non-overlapping where possible; shared publication files listed before touch):**
+- `site/data/model.js` — add phased-investing and mixed-path model functions
+- `site/data/stress.js`, `site/data/scenarios.js` — phased-investing stress paths (Treasuries then equities, 1929/2008 entry windows)
+- `site/decision.html` — reinvestment risk beside headline; what-if controls; mixed-path selector
+- `site/executive-summary.html` — "what would change the answer" prominence on first screen
+- `site/briefing-sheet.html` — NEW: one-page printable Attorney & CPA Briefing Sheet
+- `site/timeline.html` — NEW: deadlines timeline
+- `site/glossary.html` — NEW: glossary
+- `site/properties.html`, `site/plan.html`, `site/suggestions.html`, `site/questions-gate.html`, `site/review.html` — cross-links only, additive
+- `assets/app.js` — grouped navigation menu + glossary entry
+- `assets/styles.css` — print styles for the briefing sheet; dashboard polish
+- `_config.yml`, `scripts/public_manifest.py` — publication boundary switch to `site/` (shared; logged here before touch)
+- `scripts/check-publication.py`, `scripts/validate.js`, `scripts/stress-test.js`, `scripts/runtime-test.cjs` — validation coverage for new pages (shared; logged here)
+- `verification/fbedbcc8/**` (new) — line-by-line verification report and source checks
+- `COORDINATION.md` (this block only)
+
+**Rules this session follows.** No personal information and no household-derived amount beyond the `$10`-rounded model inputs already in `site/data/model.js`; parties and addresses appear only as placeholders (`Property A`, `Property B`, `[TRUSTEE]`, `[HEIR]`). Every dollar figure added is rounded to the nearest $10 unless a government body publishes that exact amount (then it is shown exactly, as with the $1,044,586 Proposition 19 allowance). Every table row carries an official `https://` source link or is left blank and flagged unverified — nothing is inferred or filled in. `origin/main` is merged before every push; conflicts are resolved keeping both sides. The platform fixes the branch name to `arena/fbedbcc8-tino2`, so the `session-<id>/<task>` convention cannot be applied; the session ID is in the branch name.
+
+| # | Task | Status | Owner | File scope | Sources verified | Irregularities |
+|---|---|---|---|---|---|---|
+| F-1 | Coordination: read the board, fetch remote state, open PRs and Pages state, claim non-overlapping scope, push claim at once | in progress | fbedbcc8 | `COORDINATION.md` (this block only) | N/A | — |
+| F-2 | Phased-investing model: park sale proceeds in 3M–2Y Treasuries for 24–36 months after inheritance, then phase into stocks; model 1929/2008 crash-entry risk | unclaimed→in progress | fbedbcc8 | `site/data/model.js`, `site/data/stress.js`, `site/data/scenarios.js` | Treasury maturity/return context (TreasuryDirect), historical crash windows | — |
+| F-3 | Mixed paths beyond sell / rent / live (e.g. live then sell at year N, rent then sell at year N, phased investing then full equity) | unclaimed→in progress | fbedbcc8 | `site/data/model.js`, `site/decision.html` | model arithmetic only | — |
+| F-4 | Reinvestment risk shown beside the headline on the decision lab | unclaimed→in progress | fbedbcc8 | `site/decision.html` | market-return context | — |
+| F-5 | One-page printable Attorney & CPA Briefing Sheet export | unclaimed→in progress | fbedbcc8 | `site/briefing-sheet.html`, `assets/styles.css` | rule figures from official sources | — |
+| F-6 | Deadlines timeline page (trust notice, change-in-ownership, Prop 19 occupancy/claim, estate return, rent-board dates) | unclaimed→in progress | fbedbcc8 | `site/timeline.html` | Probate Code §16061.7, RTC §480, BOE Prop 19, IRS Form 706, SF Rent Board | — |
+| F-7 | Glossary page; grouped navigation menu | unclaimed→in progress | fbedbcc8 | `site/glossary.html`, `assets/app.js` | defined terms only | — |
+| F-8 | "What would change the answer" prominence on the first (executive summary) screen | unclaimed→in progress | fbedbcc8 | `site/executive-summary.html` | model outputs | — |
+| F-9 | Publication switch: serve `site/` dashboard (privacy-safe: PII placeholders, $10 rounding, source-linked rows) instead of synthetic guide | unclaimed→in progress | fbedbcc8 | `_config.yml`, `scripts/public_manifest.py`, `index.html` root landing | publication gate | V-H1 reversal requested by user brief |
+| F-10 | Line-by-line verification of every official figure and source link on new/changed pages; run full suite | unclaimed→in progress | fbedbcc8 | `verification/fbedbcc8/**`, `scripts/validate.js`, `scripts/stress-test.js`, `scripts/runtime-test.cjs`, `scripts/check-publication.py` | official sources per row | — |
+| F-11 | PR to `main`, merge without waiting, confirm GitHub Pages build, live read-back, record PR link and result here | unclaimed→in progress | fbedbcc8 | own files + this block | — | — |
+
+**Coordination note F-C1.** No live session holds a claim at the moment of this push. `arena/fbedbcc8-tino2` does not exist on the remote; the first push creates it. Publication-boundary files (`_config.yml`, `scripts/public_manifest.py`) are shared — I list them here before touching them and will re-merge `origin/main` before every push, keeping any concurrent session's work intact.
