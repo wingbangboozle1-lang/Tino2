@@ -53,6 +53,16 @@ S={
  'pge':('PG&E · solar billing','https://www.pge.com/en/clean-energy/solar/getting-started-with-solar/solar-billing-plan.html'),
  'sjwc':('San Jose Water · tariffs','https://www.sjwater.com/'),
  'sfpuc':('SFPUC · water and sewer rates','https://www.sfpuc.gov/sites/default/files/accounts-and-services/Rates_Schedule_Water_Sewer_2026-7.pdf'),
+ 'fed1929':('Federal Reserve History · Stock Market Crash of 1929','https://www.federalreservehistory.org/essays/stock-market-crash-of-1929'),
+ 'fed2008':('Federal Reserve History · The Great Recession','https://www.federalreservehistory.org/essays/great-recession-of-200709'),
+ 'treasury':('U.S. Treasury · daily par yield curve, November 2026','https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202611'),
+ 'rtc480':('CA Revenue &amp; Taxation Code §480','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=480.'),
+ 'rtc2617':('CA Revenue &amp; Taxation Code §2617','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2617.'),
+ 'rtc2618':('CA Revenue &amp; Taxation Code §2618','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2618.'),
+ 'irs706about':('IRS · About Form 706','https://www.irs.gov/forms-pubs/about-form-706'),
+ 'irs706i':('IRS · Instructions for Form 706','https://www.irs.gov/instructions/i706'),
+ 'irs1041about':('IRS · About Form 1041','https://www.irs.gov/forms-pubs/about-form-1041'),
+ 'dca':('SEC Investor.gov · dollar-cost averaging','https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -63,10 +73,16 @@ def table(headers,rows):
     return '<div class="table-wrap"><table><thead><tr>'+h+'</tr></thead><tbody>'+r+'</tbody></table></div>'
 def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
-PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('brief','What decides it','guide/brief.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
+PAGE_GROUPS=[
+ ('Decide',[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
+ ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
+ ('Evidence &amp; terms',[('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('glossary','Glossary','guide/glossary.html'),('sources','Sources','guide/sources.html')]),
+ ('Act',[('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
+]
+PAGES=[item for _,group in PAGE_GROUPS for item in group]
 def page(key,title,lead,body,scripts=(),home=False):
     base='' if home else '../'
-    nav=''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in PAGES)
+    nav=''.join(f'<div class="navgroup" role="group" aria-label="{gname}"><span class="navlabel" aria-hidden="true">{gname}</span>'+''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in items)+'</div>' for gname,items in PAGE_GROUPS)
     links=''.join(f'<script defer src="{base}{s}"></script>' for s in ['assets/safe.js',*scripts])
     hero=f'''<section class="hero{' compact' if not home else ''}"><div class="container"><div class="eyebrow">Inheritance decision guide · reviewed 13 Nov 2026</div><h1>{title}</h1><p class="lead">{lead}</p><div class="meta"><span class="pill">Private facts withheld</span><span class="pill">Official sources linked</span><span class="pill warn">Examples are synthetic</span></div></div></section>'''
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><title>{escape(re.sub(r'<[^>]*>', ' ', title))} · Inheritance planning</title><link rel="stylesheet" href="{base}assets/safe.css">{links}</head><body><a class="skip" href="#main">Skip to content</a><header class="header"><div class="container topbar"><a class="brand" href="{base}index.html"><span class="brand-mark">H</span><span>Inheritance planning<small>PUBLIC GUIDE · FICTIONAL EXAMPLES</small></span></a><button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button><nav class="nav" id="navigation" aria-label="Main navigation">{nav}</nav></div></header><div class="notice"><div class="container"><strong>Public guide.</strong> Household financial records are not published here; figures in the calculators are fictional examples, not personal estimates. <a href="{base}guide/review.html">Important privacy limits →</a></div></div><noscript><div class="no-js">Tables of rules are available without JavaScript. Projection tables and suggestion choices require JavaScript.</div></noscript><main id="main">{hero}<div class="container">{body}</div></main><footer class="footer"><div class="container footer-inner"><div><strong>Inheritance planning</strong><br>Educational scenarios, not legal, tax, insurance or investment advice.</div><div>Source review: 13 Nov 2026 · <a href="{base}guide/sources.html">Sources</a> · <a href="{base}guide/review.html">Flagged for review</a><br>Never upload personal records to this public repository.</div></div></footer></body></html>'''
@@ -75,7 +91,105 @@ def page(key,title,lead,body,scripts=(),home=False):
 def cards(items):
     return '<div class="grid three">'+''.join(f'<a class="card card-link" href="{url}"><div class="eyebrow">{tag}</div><h3>{title}</h3><p class="muted">{desc}</p><span class="arrow">Explore →</span></a>' for tag,title,desc,url in items)+'</div>'
 
-body='''<section class="section"><div class="card highlight"><div class="eyebrow" style="color:#d1e8b1">Executive summary</div><h2>Make the decision after the critical facts are known.</h2><p>Property A is the anticipated Cupertino trust inheritance. Property B is an already-owned San Francisco three-unit property, not automatically part of the decedent’s estate. The planning premise is that two units are rented and a third is available for the owner; occupying that unit does not displace the other two rents. This premise is supplied, not independently verified. B’s value and continuing rent must be modeled separately.</p><p><strong>Working direction:</strong> compare selling A and investing the net proceeds with renting it, while keeping B; consider living in A if the household values that residence and meets all conditions for reassessment relief. Do not treat any example as the best plan for a real household.</p><div class="actions"><a class="button secondary" href="guide/questions.html">See the decision questions</a><a class="button secondary" href="guide/decision.html">Explore the example</a></div></div></section>'''
+# ---- b33f5f9e additions: phased entry, reinvestment risk, first-screen answer, new pages ----
+import sys as _sys
+_sys.path.insert(0, str(ROOT / 'scripts'))
+import phased_model as PM
+
+def money(v):
+    return f"${PM.round10(v):,}"
+
+def money_range(vals):
+    lo, hi = min(vals), max(vals)
+    return money(lo) if PM.round10(lo) == PM.round10(hi) else f"{money(lo)} – {money(hi)}"
+
+REC_LO, REC_HI = PM.RECOVERY['slow'], PM.RECOVERY['fast']
+
+def _year10(template, strategy, y=None):
+    y = PM.YIELDS['base'] if y is None else y
+    return [PM.simulate(template, strategy, y, r)['value_end'] for r in (REC_LO, REC_HI)]
+
+def _at36(template, strategy):
+    return [PM.simulate(template, strategy, PM.YIELDS['base'], r)['value_36'] for r in (REC_LO, REC_HI)]
+
+def _worst(template, strategy):
+    return [PM.simulate(template, strategy, PM.YIELDS['base'], r)['worst_36'] for r in (REC_LO, REC_HI)]
+
+STRAT_LABEL = {
+    'sell_now_all': 'Invest all now (baseline at the peak)',
+    'mixed_third': 'Mixed: one-third now; two-thirds parked 24 months, then phased in over 12',
+    'park_24': 'Park 24 months, then phase in over 12',
+    'park_36': 'Park 36 months, then phase in over 12',
+    'cash_only': 'Cash only, no stock exposure (reference)',
+}
+
+def reinvest_table():
+    rows = []
+    for label, y, src in [
+        ('Stress: parking yield falls to 2.50%', PM.YIELDS['low'], source('treasury', 'Treasury · stress rate, not an observation')),
+        ('Observed 3-month rate, 13 Nov 2026: 4.32%', PM.YIELDS['base'], source('treasury')),
+        ('Observed 2-year rate, 13 Nov 2026: 4.88%', PM.YIELDS['high'], source('treasury')),
+    ]:
+        rows.append((label,
+                     money_range(_year10('1929', 'park_24', y)),
+                     money_range(_year10('2008', 'park_24', y)),
+                     money_range(_year10('none', 'park_24', y)),
+                     src))
+    return table(['Parking yield for the proceeds', '1929-style entry, park 24 months', '2008-style entry, park 24 months', 'No-crash control, park 24 months', 'Source'], rows)
+
+REINVEST_OVERVIEW_HTML = (
+    '<p>Proceeds that wait before they are invested earn the parking yield, and their value at the end depends on that yield. '
+    'The observed U.S. Treasury par yields on 13 Nov 2026 were 4.32% for 3 months and 4.88% for 2 years. The 2.50% row is a stress '
+    'assumption for falling short rates, not an observation. Only the parking yield changes between rows. Values are per $100,000 of proceeds, '
+    'after 10 years, with post-trough growth between 4% and 8% a year.</p>'
+    + reinvest_table()
+    + '<p class="tiny">The sell, rent and live comparison on the Compare page uses its own net return assumptions. This table isolates the parking yield on sale proceeds only. See <a href="guide/brief.html">What decides it</a> for the break-even return.</p>'
+)
+
+_phase_rows = []
+for k in ['sell_now_all', 'mixed_third', 'park_24', 'park_36', 'cash_only']:
+    _phase_rows.append((
+        STRAT_LABEL[k],
+        money_range(_worst('1929', k)), money_range(_at36('1929', k)), money_range(_year10('1929', k)),
+        money_range(_worst('2008', k)), money_range(_at36('2008', k)), money_range(_year10('2008', k)),
+        source('fed1929', 'Fed 1929') + ' · ' + source('fed2008', 'Fed 2008') + ' · ' + source('treasury', 'Treasury'),
+    ))
+
+_ctrl_rows = []
+for k in ['sell_now_all', 'mixed_third', 'park_24', 'park_36']:
+    base_lo, base_hi = _year10('none', 'sell_now_all')
+    v = _year10('none', k)
+    cost = [a - b for a, b in zip(v, [base_lo, base_hi])]
+    _ctrl_rows.append((STRAT_LABEL[k], money_range(v), money_range(cost), source('treasury', 'Treasury · parking yield') + ' · growth range is an assumption, not an official figure'))
+
+PHASED_SECTION_HTML = (
+    section('Entry risk after a sale: invest now or phase in?',
+    '<div class="callout warning"><strong>An entry-risk test, not a forecast.</strong> Phasing changes the price paid for the proceeds. It does not predict when a crash starts. The table compares starting at a market peak with waiting, using two crash shapes from the official record and a no-crash control.</div>'
+    '<p><strong>A second view, on observed rates.</strong> The section above uses synthetic Treasury rates. This one uses the observed 3-month and 2-year Treasury yields on 13 Nov 2026 and the official 1929 and 2008 declines. The two are different tests and are not directly comparable.</p>'
+    '<p>Two official declines anchor the crash shapes. The Federal Reserve reports an 89 percent decline in stock prices from the 1929 peak to the trough (<a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1929" rel="noopener noreferrer">Fed 1929 ↗</a>). It also reports that the S&amp;P 500 fell 57 percent from its October 2007 peak to its March 2009 trough (<a href="https://www.federalreservehistory.org/essays/great-recession-of-200709" rel="noopener noreferrer">Fed 2008 ↗</a>). The 1929 template takes 34 months to reach its low and the 2008 template takes 17. Between peak and trough the path is a smooth geometric decline, not the actual index history. After the low, both shapes and the no-crash control grow at 4% or 8% a year. Those growth rates are assumptions, shown as a range.</p>'
+    '<p>The proceeds are <strong>per $100,000 and invented</strong>. Parked money earns the observed 3-month Treasury rate of 4.32%. Stocks are bought in 12 equal monthly tranches when the phasing begins. The <strong>mixed path</strong> puts one-third in at once and holds the rest for 24 months, then phases it in. The pure choices bracket it.</p>'
+    '<h3>Crash entries: worst point, month 36, and year 10</h3>'
+    + table(['Strategy', '1929 · worst point, first 36 months', '1929 · month 36', '1929 · year 10', '2008 · worst point, first 36 months', '2008 · month 36', '2008 · year 10', 'Source'], _phase_rows)
+    + '<p class="tiny">Ranges show post-trough growth of 4% (lower value) to 8% (higher value). The worst point is the lowest portfolio value in months 0 to 36, marked to market.</p>'
+    + '<h3>The cost of waiting when markets rise</h3>'
+    + '<p>The control has no crash: the index grows at the same 4% to 8% range. Against it, the cost of each waiting strategy is the difference from investing all now.</p>'
+    + table(['Strategy, no-crash control', 'Year 10 value', 'Difference from investing all now', 'Source'], _ctrl_rows)
+    + '<h3>Reinvestment risk on the parked money</h3>'
+    + '<p>The parking yield is the reinvestment variable. Read the rows as: a lower yield on proceeds parked for 24 months lowers their value at year 10, in every template.</p>'
+    + reinvest_table()
+    + '<p class="tiny">What the test does not show: a fast, V-shaped recovery such as 2008 favours investing all now. A slow decline and recovery favours waiting. Phasing is therefore a choice about which risk the household prefers to carry, not a forecast. Reviewers should confirm the templates against official index history before relying on exact figures.</p>',
+    '03 / entry risk')
+)
+
+WWCA=section('What would change the answer',table(['If this turns out to be true','Then the answer moves toward','Why it moves the answer','Official reference'],[
+ ('The trust terms, not the planning premise, control what happens to the residence','A different path (sell, rent or live) from the one assumed','The trust terms are not in any official source here; counsel must read them.',source('notice')),
+ ('Basis differs from the date-of-death value (for example, an alternate valuation election)','A different taxable gain on a later sale','The IRS FAQ states the general rule (fair market value on the date of death) and the alternate-valuation exception.',source('basis')),
+ ('Family-home relief (Proposition 19) applies to the transfer','Whether the household lives in the home becomes the question for counsel and the CPA','The BOE describes the relief for a principal residence; the conditions are confirmed privately.',source('boe')),
+ ('The estate is above the 2026 federal filing threshold of $15,000,000','A federal return and a possible estate tax','Filing and tax depend on the whole gross estate, not just this home.',source('irs706i')),
+ ('A crash comes right after a sale','Phasing in over 24 to 36 months, if the entry price matters more than early growth','Phasing changes the price paid for the proceeds; the test is on the Black swans page.',source('fed2008')),
+ ('Parking yields fall after the sale','A smaller lead for selling; check the break-even return on What decides it','Proceeds held in short Treasuries earn what the market pays on the day they are reinvested.',source('treasury')),
+ ]),'00 / first screen')
+body=WWCA+'''<section class="section"><div class="card highlight"><div class="eyebrow" style="color:#d1e8b1">Executive summary</div><h2>Make the decision after the critical facts are known.</h2><p>Property A is the anticipated Cupertino trust inheritance. Property B is an already-owned San Francisco three-unit property, not automatically part of the decedent’s estate. The planning premise is that two units are rented and a third is available for the owner; occupying that unit does not displace the other two rents. This premise is supplied, not independently verified. B’s value and continuing rent must be modeled separately.</p><p><strong>Working direction:</strong> compare selling A and investing the net proceeds with renting it, while keeping B; consider living in A if the household values that residence and meets all conditions for reassessment relief. Do not treat any example as the best plan for a real household.</p><div class="actions"><a class="button secondary" href="guide/questions.html">See the decision questions</a><a class="button secondary" href="guide/decision.html">Explore the example</a></div></div></section>'''
 body+=section('What matters most',table(['Issue','What is known or needs verification','Official reference'],[
  ('Different ownership','A is the anticipated Cupertino inheritance; B is the already-owned San Francisco property. The stated two rentals and owner-available third unit are a planning premise, not independently verified. Count B in the decedent’s estate only if facts create a relevant ownership or other includible interest.',source('estate','Estate-rule context only')),
  ('Property tax','An eligible family-home transfer may qualify for limited Proposition 19 relief. Renting out A rather than occupying it generally does not satisfy that family-home condition.',source('boe')),
@@ -85,6 +199,7 @@ body+=section('What matters most',table(['Issue','What is known or needs verific
  ]),'01 / decision context')
 body+=section('The finding, in one paragraph','''<p>On every set of invented assumptions this site tests, <strong>selling the inherited residence and reinvesting the net proceeds leads</strong> once the portfolio earns a modest net return, and it leads by a wide margin in the middle case. The reason is structural rather than a matter of market timing: a property that is rented rather than occupied carries a property tax bill computed on a reassessed market value, plus upkeep that rises with price, and on this model those two lines exceed the rent. The live strategy avoids part of the tax but gives up the rent, so it trails both. What actually changes the answer is not the return assumption — it is whether a basis step-up applies, whether family-home relief is available, and whether the trust permits a sale at all.</p><p><a href="guide/brief.html">See the decision boundary, and what would have to be true for a holding strategy to win →</a></p>''','03 / the finding')
 
+body+=section('Reinvestment risk, beside the headline',REINVEST_OVERVIEW_HTML,'03b / reinvestment')
 body+=section('Readiness scorecard',table(['Fact that decides the decision','Status','Who holds the answer','Discovery step','Official framework'],[
  ('Does the trust permit a sale of the residence?','<span class="tag warn">Unverified</span>','Trustee or drafting attorney','<a href="guide/questions.html">Register D01 and D02</a>',source('notice')),
  ('Is the residence titled in the trust?','<span class="tag warn">Unverified</span>','County recorder, trustee','<a href="guide/questions.html">Register D02</a>',source('ownership')),
@@ -356,6 +471,14 @@ body=section('Unresolved items',table(['Priority','Issue','Current treatment','N
  ('Medium','Future laws, exemption amounts and returns','Future values are assumptions; proposals are not law.','Recheck official law and prices near the decision date.',source('estate27')),
  ('Medium','Local provider and quote availability','The exact water provider and insurance product cannot be determined from a generic area. An owner-occupied multiunit property may have more than one policy option.','Verify address privately and ask insurers for product eligibility.',source('water')),
  ('Medium','Two official pages describe the Proposition 19 adjustment cadence differently','The Santa Clara County Assessor page says the one-million-dollar allowance is adjusted “annually beginning in 2023”. The Board of Equalization says the amount is adjusted “every other February 16”, and Letter to Assessors 2025/009 applied one step for the February 2025–February 2027 period. The guide follows the Board.','Use the Board’s Letter to Assessors for the amount and its date; the assessor’s page is a local summary and should not be read as the governing rule.',source('boe')+' · '+source('county')),
+ ('Medium','Form 1041 due date not confirmed from IRS text','The IRS About Form 1041 page was opened, but the due-date text was not on it. Secondary sites give April 15 for calendar-year estates and trusts; the guide does not use that date.','Re-read the Form 1041 instructions and the statute on the IRS site, then enter the date if confirmed.',source('irs1041about')),
+ ('High','Proposition 19 claim periods not confirmed from BOE text','The one-year homeowners’ exemption claim and the three-year exclusion claim are not entered as dates on the Timeline or the attorney sheet until the BOE FAQ text is re-read.','Re-open the BOE Proposition 19 FAQ and confirm the periods before any filing.',source('boe')),
+ ('Medium','Santa Clara County installment dates not read from the county site','The timeline uses the state dates in RTC §2617 and §2618. The county page was not re-read, and secondary sites were not used as the source.','Confirm the county’s stated due dates on its official page.',source('county')),
+ ('Medium','Federal exclusion ledger label conflict','The figures ledger lists $15,000,000 under two labels: a 2026 basic exclusion and a 2026 filing threshold. The IRS page supports $15,000,000 as the filing threshold, not as the basic exclusion amount.','Re-read the Form 706 instructions basic-exclusion table and correct the ledger label before any reuse.',source('irs706i')),
+ ('Medium','Form 706 basic exclusion table and California estate-tax status','Neither was verified in this review. The guide states the federal filing threshold only.','Read the Form 706 instructions table and an official California source before stating either.',source('estate')),
+ ('Medium','Reinvestment risk: no verified definition','The term appears as a label on the Black swans page, but no official definition has been captured.','Find an official definition before adding it to the glossary.',source('dca')),
+ ('Medium','Crash shapes are illustrative, not index history','The 1929 and 2008 paths on the Black swans page are smooth templates built from the Federal Reserve’s peak-to-trough declines. The post-trough growth rates are assumptions.','Compare the templates with official index history before relying on exact figures.',source('fed1929')),
+ ('Medium','Early-crash path and cycle row are assumptions','The first-three-years path on the Black swans page and the 10-year cycle shape are assumptions. The CPI series shows annual rates, not a cycle.','Keep the path labelled as illustrative; do not cite CPI as evidence of a cycle.',source('cpiHistory')),
  ]))
 body+='<div class="callout review"><strong>Important:</strong> A passing privacy scan cannot prove anonymity or clean previously published history. GitHub warns that commits may remain reachable through pull requests, caches, forks and clones. Do not put personal information, private links or financial documents in this repository.</div>'
 page('review','Flagged for review.','Unknown facts, modeling limitations and the remaining public-history privacy incident are visible here; none should be mistaken for a verified value.',body)
@@ -410,7 +533,7 @@ body+=section('Observed context',table(['Evidence','Why it matters','Official so
  ('Investment risk','Diversification can reduce certain risks but neither guarantees returns nor prevents loss.',source('invest')),
  ]))
 body+=section('Five paths',table(['Path','Synthetic shocks','Context only'],[
- ('Changing cycle','Repeated 10-year pattern: home, portfolio and inflation rates vary, including a down year. Annual rates appear below.',source('bls')),
+ ('Changing cycle (illustrative)','An assumed 10-year pattern in home, portfolio and inflation rates, including a down year. The annual CPI rates below are official; the cycle shape is not.',source('cpiHistory')),
  ('Early deep crash','First three years: home −25%, −10%, +4%; portfolio −35%, −10%, +12%; rent falls 5% annually and vacancy is 20%. This is a stylized stress analogue, not a literal reconstruction of 1929 or 2008.',source('invest')),
  ('Late crash','The same three-year shock occurs in the last three years. Underlying returns are aligned with the early case so the two contain the same set of annual rates, though cash-flow timing differs.',source('invest')),
  ('Stagflation and insurance','First five years: home 0%, portfolio 1%, inflation 8%, rent growth 2%; insurance doubles at the start.',source('bls')),
@@ -418,6 +541,8 @@ body+=section('Five paths',table(['Path','Synthetic shocks','Context only'],[
  ]))
 body+=section('Black-swan sale-proceeds path: phase into stocks','''<p><strong>Question:</strong> if a fictional heir sells at transfer, does holding net proceeds in a short U.S. Treasury ladder for 24 or 36 months, then moving into stocks over 12 months, reduce the damage from an early crash compared with investing immediately? Choose a waiting period and a flat annual Treasury-return proxy. The model runs the choice through all five paths; the early and late crash comparisons are highlighted.</p><div class="controls"><label for="phase-months">Treasury parking period<select id="phase-months"><option value="24">24 months</option><option value="36">36 months</option></select></label><label for="treasury-proxy">Illustrative annual Treasury return<select id="treasury-proxy"><option value="0.01">1% proxy</option><option value="0.03" selected>3% proxy</option><option value="0.05">5% proxy</option></select></label></div><div class="callout warning"><strong>Reinvestment and duration risk belong beside the headline.</strong> Treasury bills mature in 4–52 weeks (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-bills/" rel="noopener noreferrer">TreasuryDirect bills ↗</a>); Treasury notes include 2-year securities (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-notes/" rel="noopener noreferrer">TreasuryDirect notes ↗</a>). A ladder therefore returns principal at different dates, and maturing proceeds must be reinvested at then-available yields. The 1%, 3% and 5% rates here are invented flat sensitivities, not current yields or forecasts; the model does not simulate individual maturities, taxes, fees, changing rates, market-price losses on early sale, or inflation surprises. A fixed-income position can lose purchasing power, and its market value can fluctuate if sold before maturity (<a href="https://www.treasurydirect.gov/marketable-securities/understanding-pricing/" rel="noopener noreferrer">TreasuryDirect pricing ↗</a>). Treasury interest is federally taxable and generally exempt from state and local income taxes (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-bills/" rel="noopener noreferrer">TreasuryDirect tax treatment ↗</a>); obtain tax advice for actual holdings.</div><p>The phase-in is an explicit simplifying assumption: after the selected wait, half of the portfolio earns that year’s scenario stock return and half earns the Treasury proxy for one year; it is fully in the stock proxy the following year. This is annual arithmetic, not a quarterly trading schedule. No probabilities are assigned. The stress path is not a historical replay of 1929 or 2008.</p><div class="table-wrap"><table><thead><tr><th scope="col">Path / selected plan</th><th scope="col">Immediate stock investment at endpoint · nominal / real</th><th scope="col">Treasury parking + phase-in · nominal / real</th><th scope="col">Phased minus immediate · nominal / real</th><th scope="col">Source context</th></tr></thead><tbody id="phase-summary"></tbody></table></div><h3>Crash windows: early-entry years 1–6 and late-entry years 45–50</h3><div class="table-wrap"><table><thead><tr><th scope="col">Path / year</th><th scope="col">Scenario stock return</th><th scope="col">Treasury proxy</th><th scope="col">Stock exposure in phase path</th><th scope="col">Immediate · nominal</th><th scope="col">Phased · nominal</th><th scope="col">Difference</th><th scope="col">Source context</th></tr></thead><tbody id="phase-years"></tbody></table></div>''')
 body+=section('Same-endpoint property strategies','''<p>The starting 2045 property value, rent, costs, sale fee and tax rates come from the <a href="decision.html">default fictional example</a>, not the comparison page’s current control selections. After 2045, rent grows 2.5% and vacancy is 5% except during listed shocks. Water and insurance follow each path’s inflation, plus the listed premium shocks; maintenance follows modeled home value. B is treated the same across choices and is not included. No estate-tax payment or financing is modeled.</p><p>Nominal amounts are rounded to $10. Real figures are divided by cumulative inflation and expressed in 2045 dollars. Living results omit the value of housing services; negative reserves assume externally funded costs.</p><div class="table-wrap"><table><thead><tr><th scope="col">Scenario</th><th scope="col">Sell · nominal / real</th><th scope="col">Rent · nominal / real</th><th scope="col">Live · nominal / real</th><th scope="col">Context only</th></tr></thead><tbody id="stress-results"></tbody></table></div>''')
+body+=PHASED_SECTION_HTML
+
 body+=section('Audit every year','''<p>Expand a path to inspect all 50 annual rates and outputs. The model caps annual factor growth at 2% and uses the lesser of market value and factored base as a simplified decline-in-value proxy; actual lien dates, assessment appeals, new construction and supplemental bills are not modeled. The disaster repair is charged to both property-holding strategies. Each portfolio rate is a hypothetical net proxy with no separate liquidation tax. Income tax on positive rental cash is a flat scenario; depreciation and recapture are omitted.</p><div id="stress-years"></div>''')
 page('stress','A straight line is not a forecast.','Five variable 50-year scenarios put inflation, investment returns, housing cycles and an uninsured disaster into the same comparison.',body,['guide/data/model.js','guide/data/stress.js','guide/data/stress-page.js'])
 
@@ -482,4 +607,80 @@ body+=section('What would have to be true for a holding strategy to lead',table(
  ]))
 page('brief','What actually decides it.','A decision-boundary view: which inputs flip the ranking, which ones a report can stop arguing about, and what would have to be true for a holding strategy to win.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/brief-page.js'])
 
+# ---- Glossary: every definition is tied to an official page that was opened on 14 Nov 2026 ----
+GLOSSARY=[
+ ('Basis (income-tax)','The starting figure for gain or loss on a later sale. For inherited property the IRS FAQ gives the general rule as fair market value on the date of death, with an alternate-valuation exception.','Decides the tax on any later sale of the inherited home. Assessed value is a different number.',source('basis')),
+ ('Change in ownership (property tax)','A transfer that can reset assessed value to current market value unless an exclusion applies.','Determines whether the property-tax bill resets after the transfer.',source('boe')),
+ ('Change-in-ownership statement','The signed form filed with the county recorder or assessor for a transfer of real property. For a transfer by reason of death through a trust, it is filed within 150 days after the date of death.','Sets a hard filing date that the trustee or transferee must meet.',source('rtc480')),
+ ('Date of death','The date the owner died.','Starts the deadlines on the Timeline page.',source('estate')),
+ ('Dollar-cost averaging','Investing equal amounts at regular intervals regardless of market ups and downs; the investor buys more shares when prices are low and fewer when they are high.','The phased path in the entry-risk test is a form of dollar-cost averaging.',source('dca')),
+ ('Family-home transfer (Proposition 19)','A transfer of a principal residence from parent to child, where the child makes it a principal residence. The BOE page sets a value limit built from the factored base-year value plus an allowance. The allowance is adjusted over time; the current amount is not stated here (see Flagged for Review).','The main route to limited reassessment for an inherited home. The guide does not conclude that it applies.',source('boe')),
+ ('Federal filing threshold','The gross-estate amount above which a federal estate tax return is required. The IRS page lists $15,000,000 for a 2026 death.','Determines whether a federal return is needed at all.',source('estate')+' · '+source('irs706i')),
+ ('Form 706','The federal estate and generation-skipping transfer tax return. The executor uses it to figure the estate tax.','The return the CPA and attorney must decide whether to file.',source('irs706about')),
+ ('Form 1041','The income-tax return for a decedent\u2019s estate or trust. It reports income, deductions, gains and distributions to beneficiaries.','Governs trust and estate income once the property is held outside the decedent.',source('irs1041about')),
+ ('Form 4768','The application for an automatic 6-month extension of time to file Form 706.','Used to request the automatic 6-month extension of time to file. It is the form the IRS names for that request.',source('irs706i')),
+ ('Peak-to-trough decline','The fall from a market\u2019s highest level to its lowest level before the next recovery. Example: the 1929 decline the Federal Reserve reports as 89 percent.','The measure used to build the 1929 and 2008 crash shapes.',source('fed1929')),
+ ('Probate Code §16061.7 notice','A trustee notice to beneficiaries and heirs, due not later than 60 days following the triggering event, subject to the section\u2019s exceptions.','Sets the notice clock that runs in parallel with the estate and tax filings.',source('notice')),
+ ('Reassessment','Setting a new taxable value for property. The BOE guidance states that a family home that stops being the owner\u2019s principal residence receives a new taxable value.','The step that can move the property-tax line sharply after the transfer.',source('boe')),
+ ('Residential rental property','IRS Publication 527 is titled Residential Rental Property; the guide does not restate its rules.','Relevant to Property B, which the planning premise treats as rented.',source('rental')),
+ ('Treasury par yield (Constant Maturity)','The yield the U.S. Treasury publishes for a given maturity, derived from the daily par yield curve. Used here for the 3-month and 2-year rates.','The observed parking yields on 13 November 2026 come from this series.',source('treasury')),
+]
 
+body=section('Terms used in this guide',table(['Term','Plain meaning','Why it matters here','Official source'],[(a,b,c,d) for a,b,c,d in GLOSSARY])+'<p class="tiny">Each term links to an official page. Definitions are plain-language summaries of the page named in the source column, not legal advice. Reinvestment risk is used on the Black swans page as a label; no official definition has been captured yet, so it is not defined here. See Flagged for Review.</p>')
+page('glossary','Plain words for the decision.','Terms that recur across the guide, each with the official page it comes from. Use them to read the Compare, Black swans and Trust steps pages.',body)
+
+# ---- Timeline: dated deadlines in order, each opened on an official page on 14 Nov 2026 ----
+body=section('When each deadline falls',table(['When (from the event)','Deadline or event','Who acts','Why it matters here','Official source'],[
+ ('Day 0 · date of death','Valuation date for the federal estate accounting and the date-of-death value used for basis.','Executor or trustee; qualified appraiser','Every later figure in the Trust steps depends on documenting this value.',source('estate')+' · '+source('basis')),
+ ('Within 60 days following the triggering event','Trustee notification to beneficiaries and heirs (Probate Code §16061.7(f)), subject to the section’s exceptions.','Trustee','Runs on its own clock. Not every trust triggers it; the guide does not assume that it does.',source('notice')),
+ ('Within 150 days after death','Change-in-ownership statement for real property transferred by reason of death, including through a trust (RTC §480(b)).','Trustee, or transferee, with the county recorder or assessor where the property lies','The county filing for the Cupertino transfer if it is held in trust. Confirm the county and the form with counsel.',source('rtc480')),
+ ('Within 9 months after death','Form 706 due, if a return is required; the IRS states the due date as 9 months after the date of death.','Executor, with the CPA','Required only above the federal filing threshold ($15,000,000 for a 2026 death). Form 4768 gives an automatic 6-month extension of time to file.',source('irs706i')),
+ ('Each year: 1 November, first installment','Property-tax first installment for the secured tax year. Delinquent after 5 p.m. on 10 December, with a 10 percent penalty.','Owner or trustee','Applies to the bill on either property. The bill amount is not in this guide because it is a private figure.',source('rtc2617')),
+ ('Proposition 19 claim periods','Homeowners’ exemption and exclusion claims after a family-home transfer. The filing periods are not yet re-read from BOE text; see Flagged for Review.','Transferee and counsel','Not entered as a date until the BOE text is confirmed.',source('boe')),
+ ('Each year: 1 February, second installment','Property-tax second installment. Delinquent after 5 p.m. on 10 April, with a 10 percent penalty.','Owner or trustee','Same bill as above; missing either date adds a penalty.',source('rtc2618')),
+]),'Dated steps')
+body+='<div class="callout warning"><strong>Not on this timeline yet.</strong> The Form 1041 due date for the estate or trust, and the San Francisco parcel-tax deadlines, have not been re-read from official text in this review. They are listed on the Flagged page for verification before any filing decision.</div>'
+page('timeline','Deadlines in order.','The dated steps that can move the decision, from the date of death to the Proposition 19 claim deadlines. Each row links to the official rule.',body,['guide/data/model.js'] if False else [])
+
+# ---- Attorney & CPA one-page sheet: synthetic structure, placeholders only, prints on one page ----
+PRINT_CSS='''<style>@media print{@page{size:letter;margin:.4in}.header,.notice,.footer,.hero,.no-print,.skip,noscript{display:none!important}body{background:#fff;font-size:8.6pt;line-height:1.25}main{padding:0}.container{width:100%}.brief-sheet{padding:0}.brief-sheet h2{font-size:10.5pt;margin:5px 0 2px}.brief-sheet p,.brief-sheet li{margin:1px 0}.brief-sheet ul{margin:2px 0 3px;padding-left:14px}.brief-sheet .section{padding:2px 0}.brief-sheet table{font-size:7.8pt}.brief-sheet th,.brief-sheet td{padding:2px 4px}.brief-sheet .tiny{font-size:7.2pt}.brief-sheet a{color:#000;text-decoration:none}.brief-sheet .print-head{display:block!important}}
+@media screen{.print-head{display:none}}</style>'''
+def _li(items):
+    return '<ul>'+''.join('<li>'+x+'</li>' for x in items)+'</ul>'
+sheet=(
+ PRINT_CSS+'<div class="brief-sheet">'
+ '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 14 Nov 2026</strong></div>'
+ '<p class="tiny">For [ATTORNEY] and [CPA]. A structure built on invented figures. The household’s own facts go to counsel privately under placeholders such as [DECEDENT], [TRUSTEE], [PROPERTY A] and [PROPERTY B]. Educational, not legal or tax advice.</p>'
+ + section('Facts to confirm privately',_li([
+   'Date of death, and the date-of-death value of [PROPERTY A] from a qualified appraiser (see '+source('basis')+').',
+   'Whether [PROPERTY A] is titled in [TRUSTEE]’s trust, and what the trust allows for a sale of the residence (see '+source('notice')+').',
+   'Title, leases and unit status of [PROPERTY B], which the planning premise treats as two rented units and one available to the owner (see '+source('estate','Estate-rule context')+').',
+   'Gross estate, adjusted taxable gifts and any elections, compared with the federal filing threshold (see '+source('irs706i')+').',
+ ]))
+ + section('Questions for the attorney',_li([
+   'Does the trust allow sale of [PROPERTY A], or does it require another distribution? Which trust clauses control?',
+   'Who files the change-in-ownership statement for [PROPERTY A], and by when? The statutory window for a transfer through a trust is 150 days from death ('+source('rtc480')+').',
+   'Does a trustee notification apply, and what is the 60-day service date? ('+source('notice')+')',
+   'Does any interest in [PROPERTY B] fall within the decedent’s estate, given how it is titled? ('+source('estate','Estate-rule context')+')',
+ ]))
+ + section('Questions for the CPA',_li([
+   'Confirm the income-tax basis of [PROPERTY A]: the IRS FAQ gives the general rule (fair market value on the date of death) and the alternate-valuation exception. ('+source('basis')+')',
+   'Should a Form 706 be filed? If the return is not ready, the Form 4768 extension is 6 months from the 9-month due date ('+source('irs706i')+').',
+   'Which returns does the trust or estate file, and on what dates? The Form 1041 due date is still to be confirmed from IRS text ('+source('irs1041about')+').',
+   'What rental income and depreciation rules apply to [PROPERTY B]? ('+source('rental')+')',
+   'Which Proposition 19 claims apply to the transfer, and their filing periods? The periods are not yet confirmed from BOE text. ('+source('boe')+')',
+ ]))
+ + section('Figures used, rounded to $10 unless an official amount',table(['Figure','Value','Source'],[
+   ('Federal filing threshold, 2026 death','$15,000,000 (official)',source('estate')),
+   ('Treasury par yields, 13 Nov 2026','3-month 4.32%; 2-year 4.88%',source('treasury')),
+   ('Crash shapes used in the test','1929: −89% over 34 months · 2008: −57% over 17 months',source('fed1929')+' · '+source('fed2008')),
+   ('Entry test, per $100,000, year 10','Invest all now '+money_range(_year10('2008','sell_now_all'))+' · park 24 then phase '+money_range(_year10('2008','park_24'))+' (2008-style)',source('fed2008')),
+ ]))
+ + section('What would change this advice',_li([
+   'A different trust clause, title, or basis answer from counsel or the CPA (see the questions above).',
+   'A different filing position for the estate, or a federal threshold change after the date of death.',
+   'A different parking yield, or a different post-trough growth view; the test shows the sensitivity, not a forecast.',
+ ]))
+ + '</div>'
+)
+page('attorney-cpa','Attorney &amp; CPA briefing sheet.','One printable page for counsel and the tax adviser. Placeholders replace every private fact; figures are rounded to $10 unless an official amount.',sheet)
