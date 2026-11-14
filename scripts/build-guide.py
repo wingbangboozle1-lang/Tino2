@@ -60,7 +60,7 @@ def table(headers,rows):
     return '<div class="table-wrap"><table><thead><tr>'+h+'</tr></thead><tbody>'+r+'</tbody></table></div>'
 def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
-PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('brief','What decides it','guide/brief.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
+PAGES=[('overview','Overview','index.html'),('decision','Compare','guide/decision.html'),('stress','Black swans','guide/stress.html'),('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('conditions','Real conditions','guide/conditions.html'),('brief','What decides it','guide/brief.html'),('questions','Questions','guide/questions.html'),('suggestions','Suggestions','guide/suggestions.html'),('glossary','Glossary','guide/glossary.html'),('review','Flagged','guide/review.html'),('sources','Sources','guide/sources.html')]
 def page(key,title,lead,body,scripts=(),home=False):
     base='' if home else '../'
     nav=''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in PAGES)
@@ -73,6 +73,13 @@ def cards(items):
     return '<div class="grid three">'+''.join(f'<a class="card card-link" href="{url}"><div class="eyebrow">{tag}</div><h3>{title}</h3><p class="muted">{desc}</p><span class="arrow">Explore →</span></a>' for tag,title,desc,url in items)+'</div>'
 
 body='''<section class="section"><div class="card highlight"><div class="eyebrow" style="color:#d1e8b1">Executive summary</div><h2>Make the decision after the critical facts are known.</h2><p>Property A is the anticipated Cupertino trust inheritance. Property B is an already-owned San Francisco three-unit property, not automatically part of the decedent’s estate. The planning premise is that two units are rented and a third is available for the owner; occupying that unit does not displace the other two rents. This premise is supplied, not independently verified. B’s value and continuing rent must be modeled separately.</p><p><strong>Working direction:</strong> compare selling A and investing the net proceeds with renting it, while keeping B; consider living in A if the household values that residence and meets all conditions for reassessment relief. Do not treat any example as the best plan for a real household.</p><div class="actions"><a class="button secondary" href="guide/questions.html">See the decision questions</a><a class="button secondary" href="guide/decision.html">Explore the example</a></div></div></section>'''
+body+=section('What would change the answer',table(['Input that decides it','Why it can flip the ranking','Where to resolve it'],[
+ ('Whether the trust permits a sale of the residence','Not a number. If a sale is not permitted, no other input matters.','<a href="guide/questions.html">Register D01 and D02</a> · '+source('notice','Trustee notice duties · Prob. Code §16061.7')),
+ ('Whether basis steps up to date-of-death value','Sets the taxable gain on a later sale. Without a step-up, the gain is measured from the original basis.',source('basis')),
+ ('Whether family-home relief applies','Without relief, the assessed value is reset to market value at transfer, which raises the first-year property tax.',source('boe')),
+ ('Whether the estate exceeds the federal filing threshold','Determines whether a federal estate tax return is required. The threshold is set by the year of death.',source('estate')),
+ ('Portfolio return against home-price growth','The ranking flips near a net portfolio return the model computes; that is a model result, not an official figure. The SEC notes that diversification can reduce risk but does not forecast returns.',source('invest')+' · <a href="guide/brief.html">What decides it</a>'),
+])+'<p class="tiny">Each row is explained on the decision-boundary page. Rule text is taken from the linked official source; values are fictional examples.</p>','00 / first answer')
 body+=section('What matters most',table(['Issue','What is known or needs verification','Official reference'],[
  ('Different ownership','A is the anticipated Cupertino inheritance; B is the already-owned San Francisco property. The stated two rentals and owner-available third unit are a planning premise, not independently verified. Count B in the decedent’s estate only if facts create a relevant ownership or other includible interest.',source('estate','Estate-rule context only')),
  ('Property tax','An eligible family-home transfer may qualify for limited Proposition 19 relief. Renting out A rather than occupying it generally does not satisfy that family-home condition.',source('boe')),
@@ -479,3 +486,36 @@ body+=section('What would have to be true for a holding strategy to lead',table(
 page('brief','What actually decides it.','A decision-boundary view: which inputs flip the ranking, which ones a report can stop arguing about, and what would have to be true for a holding strategy to win.',body,['guide/data/conditions.js','guide/data/model.js','guide/data/breakeven.js','guide/data/brief-page.js'])
 
 
+
+# ---------------------------------------------------------------- glossary
+# Every definition below restates wording read from the linked official page on 14 Nov 2026.
+# Terms without an official definition are deliberately not listed.
+body='<div class="callout"><strong>Rule-level terms only.</strong> Each definition paraphrases the linked official page, which is the authority. None of these terms carries a household figure. Terms whose official wording was not re-read are left out rather than defined from memory.</div>'
+body+=section('Property-tax terms',table(['Term','Meaning, as the official source states it','Source'],[
+ ('Change in ownership','A transfer of a present interest substantially equal in value to a fee interest. The BOE page gives purchase or inheritance of a property as examples.',source('prop13')),
+ ('Base year value (BYV)','The market value established when a change in ownership or new construction occurs, unless an exclusion applies.',source('prop13')),
+ ('Factored base year value (FBYV)','The base year value adjusted each year by a California CPI-based inflation factor, not to exceed 2%.',source('prop13')),
+ ('Assessed value','The dollar value a County Assessor assigns to a property for property-tax purposes.',source('prop13')),
+ ('Market value','The price a property would bring to its owner if offered for sale on the open market.',source('prop13')),
+ ('Proposition 8 decline-in-value','When market value falls below the FBYV on the January 1 lien date, the Assessor enrolls the lower market value. The assessed value can then rise by more than 2% a year, but never above the FBYV.',source('prop13')),
+ ('Proposition 19','Approved 3 Nov 2020. Limits which transfers of a family home keep the lower base year value. Current law requires the transferee to use the property as a principal residence, and it removes the exclusion for other real property. Effective 16 Feb 2021.',source('boe')),
+ ('Homeowners’ exemption','An exemption that reduces the assessed value subject to tax. The Proposition 19 table notes a filing deadline of one year after transfer.',source('boe')),
+]),'property tax')
+body+=section('Inheritance and estate-tax terms',table(['Term','Meaning, as the official source states it','Source'],[
+ ('Fair market value at death','The generally applicable basis of inherited property: its fair market value on the date of the decedent’s death.',source('basis')),
+ ('Alternate valuation date','An option, available only if an estate tax return is filed and the executor elects it, to use fair market value on a different date for basis.',source('basis')),
+ ('Schedule A to Form 8971','If the recipient receives this schedule, the recipient may be required to report a basis consistent with the estate-tax value.',source('basis')),
+ ('Gross estate','Everything the decedent owned or had certain interests in at death, valued at fair market value, including real estate and trusts.',source('estate')),
+ ('Filing threshold','The amount above which an estate tax return is required, set by year of death. The IRS table lists $15,000,000 for 2026.',source('estate')),
+ ('Unified credit','The credit by which the computed estate tax is reduced.',source('estate')),
+ ('Portability','For a decedent survived by a spouse, an election on a timely filed return to pass unused exemption to the surviving spouse.',source('estate')),
+ ('Form 706','The United States Estate (and Generation-Skipping Transfer) Tax Return.',source('basis')),
+]),'inheritance')
+body+=section('Home-sale and reporting terms',table(['Term','Meaning, as the official source states it','Source'],[
+ ('Home-sale exclusion','Up to $250,000 of gain from the sale of a main home may be excluded, or up to $500,000 on a joint return, if the ownership and use tests are met.',source('residence')),
+ ('Ownership and use tests','Ownership for at least 24 months, and use as a residence for at least 24 months, in the 5 years ending on the sale date.',source('residence')),
+ ('Installment sale','A sale under a contract that provides for all or part of the price to be paid in a later year. The exclusion remains available.',source('residence')),
+ ('Form 1099-S','The informational return reporting real-estate proceeds. A sale reported on it must be reported on the return even if the gain is excludable.',source('residence')),
+]),'sale and reporting')
+body+=section('Not yet defined from an official source','<p>The following terms are used in the guide but their official definitions have not been re-read for this glossary, so they are not defined here: <strong>reinvestment risk</strong>, <strong>sequence-of-returns risk</strong>, <strong>real return</strong>, <strong>break-even</strong>. They remain open for the next source review.</p>')
+page('glossary','Plain-language terms, from the official rule.','Each term is defined from its linked official source. Terms without an official definition are listed as open, not guessed.',body)
