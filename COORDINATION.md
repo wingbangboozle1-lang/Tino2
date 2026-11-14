@@ -2088,7 +2088,7 @@ During follow-up work on a print sheet, glossary and grouped navigation, rebasin
 | Synchronize this branch after PR #91/#92/#93 | done | Based on current `origin/main`; retain only distinct mixed property paths |
 | Add mixed live/rent-then-sell control and endpoint comparison | done | `scripts/build-guide.py`, `guide/data/model.js`, `guide/data/decision-page.js`, generated decision page |
 | Independently test mixed-path arithmetic and source-linked output | done | `scripts/test-model-reference.py`, `scripts/test-guide.cjs` |
-| Run publication, figure, privacy, model, rendered-page and validation checks; open PR | done | PR [#94](https://github.com/wingbangboozle1-lang/Tino2/pull/94); local checks pass; no GitHub checks reported for latest head; manual dispatch returned HTTP 403; see `verification/bb1eb451/REPORT.md` |
+| Run publication, figure, privacy, model, rendered-page and validation checks; open PR | done | PR [#94](https://github.com/wingbangboozle1-lang/Tino2/pull/94); local checks pass; PR verify run [#43647077610](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/43647077610) passed on implementation commit `3f7a60c`; following commit is documentation-only; see `verification/bb1eb451/REPORT.md` |
 | Browser smoke/accessibility/print pagination | blocked | Chromium startup fails due to missing `libnss3.so`; not represented as passed |
 
 **Privacy and assumptions:** No household-specific data was added. Property B remains already owned; only the inherited example property is run through mixed paths. All modeled values remain synthetic. The existing household-history/public-repository exposure is not resolved by this work. The privacy scan passing is not proof of anonymity. No deployment was run.
