@@ -2038,3 +2038,18 @@ Two facts settle the trade-off. First, `site/**` is **already committed to this 
 
 **K-5 completion record (13 Nov 2026).** PR [#86](https://github.com/wingbangboozle1-lang/Tino2/pull/86) opened from this branch and **merged without waiting** at 22:50:43Z (merge commit `eb52214`, merge of this block's three commits on top of `6d53c27`). GitHub Actions on `main` after the merge: `Verify public Pages boundary` **success** (run 43522562440, 1m14s) and `pages build and deployment` **success** (run 43522561846, 35s) — no failed check, no retry needed. Live read-back from `https://wingbangboozle1-lang.github.io/Tino2/` after deployment: landing page title "A clearer way to plan for an inheritance. · Inheritance planning" with the executive summary, readiness scorecard and source-linked tables intact; `guide/conditions.html` now serves `<title>`/`<h1>` "The record, not a trend line." (defect I-1 fixed live); `guide/stress.html` keeps "A straight line is not a forecast." with its observed-context table and five stress paths rendering, including per-row official source links. The site remains the synthetic guide per standing decision V-H1. Session scope K-1…K-5: **all done.**
 <!-- END block owned by session 330ce4c5 -->
+
+## Session `83d6cb9b` (branch `arena/83d6cb9b-tino2`) — claim 2026-11-14
+
+**State read at claim.** Branch base `5327c0c` (merge of PR #87, session `330ce4c5`). Open PRs: none. The published guide is the synthetic guide (`index.html` + `guide/**`); the household dashboard under `site/**` stays unpublished per the standing decision in the README. The brief's household figures (ZIP codes, values, rents, costs, tax history) are **not** written into any committed file in this session.
+
+**Gap check against the brief (what the published guide lacks):** glossary; "what would change the answer" on the first screen; a 1929/2008 crash-entry case and a phased 24–36-month Treasury-to-equity path; grouped navigation; what-if controls on the public pages; pre-rounding Git history scrub.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| G-1 | Glossary page of rule-level terms, each linked to a source already in the registry and re-read this session | in progress | 83d6cb9b | `scripts/build-guide.py` (nav + glossary section), `guide/glossary.html` (generated) | — |
+| G-2 | "What would change the answer" block on the public overview | in progress | 83d6cb9b | `scripts/build-guide.py` (overview body), `index.html` (generated) | — |
+| G-3 | Phased-entry (24–36 month Treasury ladder) and 1929/2008 entry-risk path | blocked | 83d6cb9b | none yet | Needs a verifiable historical price and T-bill series that an official source publishes; not started, so no figures are shown |
+| G-4 | Pre-rounding Git history scrub | blocked — owner decision | 83d6cb9b | none | Destructive, cross-session history rewrite of a public repo with ~60 remote branches and open coordination history. Needs explicit owner approval and a coordinated plan. Not performed |
+
+**Rules followed.** Branch fixed to `arena/83d6cb9b-tino2` (the platform fixes the branch name; the `session-<id>/<task>` convention is carried as the session ID). Every new link is an existing registry entry, re-fetched this session before use. No household figure typed anywhere.
