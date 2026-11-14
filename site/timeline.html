@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Deadlines timeline for the Cupertino trust inheritance: trustee notice, change-in-ownership statement, Proposition 19 occupancy and claim deadlines, federal estate-tax return, Rent Board and Proposition H dates."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Deadlines timeline"><main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+main.innerHTML = UI.hero("Deadlines timeline", "Clocks that run after the inheritance", "Statutory and filing deadlines that apply to a California trust inheritance of the Cupertino home (Property A) and the ongoing obligations on the already-owned San Francisco property (Property B). Dates are illustrative and depend on the actual date of death, the trust instrument and local practice — confirm each with counsel before relying on it. Amounts are rounded to the nearest $10 where a dollar figure appears.")
++ `<div class="container">
+<section class="section"><div class="section-heading"><div><div class="eyebrow">A · After the decedent's death (trust administration)</div><h2>Trustee and estate clocks</h2><p>These run from the date of death or the triggering event and are the items most likely to be missed. Property B (already owned by the heir) is not part of the decedent's estate and does not start these clocks.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Deadline</th><th>Trigger</th><th>What happens</th><th>Official reference</th></tr></thead><tbody id="rowsTrust"></tbody></table></div>
+<p class="tiny">A trust does not by itself avoid administration: the successor trustee must still accept the role, give required notices, file the change-in-ownership statement and keep certified records. ${UI.source("probate160617", "Probate Code §16061.7")} ${UI.source("rtc480", "RTC §480")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">A · Proposition 19 family-home relief</div><h2>Occupancy and filing windows</h2><p>These apply only if the transferee is an eligible child and makes the Cupertino home their principal residence. Renting the home out instead generally does not satisfy the family-home condition.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Deadline</th><th>Requirement</th><th>Effect if missed</th><th>Official reference</th></tr></thead><tbody id="rowsProp19"></tbody></table></div>
+<p class="tiny">The exclusion amount is $1,044,586 for transfers from 16 February 2025 through 15 February 2027, adjusted every second 16 February; later amounts are unknown. ${UI.source("boeProp19Amount", "BOE · exclusion amount")} ${UI.source("boeProp19", "BOE · Proposition 19")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">A · Federal estate tax</div><h2>Form 706 and related filings</h2><p>Estate tax is charged on the decedent's estate before distribution — there is no federal inheritance tax on the person who receives property. No California estate-tax return is required for deaths on or after 1 January 2005.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Deadline</th><th>Requirement</th><th>Applies when</th><th>Official reference</th></tr></thead><tbody id="rowsEstate"></tbody></table></div>
+<p class="tiny">The 2026 federal basic exclusion is $15,000,000 and the 2027 exclusion is $15,480,000; the top rate above the exclusion is 40%. Portability of a deceased spouse's unused exclusion must be elected on a timely Form 706. ${UI.source("irsEstate", "IRS · estate tax")} ${UI.source("irs2027", "IRS · 2027 adjustments")} ${UI.source("ftbInheritance", "CA Controller · estate tax")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">B · San Francisco obligations (already owned)</div><h2>Rent Board, parcel tax and recurring dates</h2><p>These affect Property B regardless of the inheritance and must be calendared separately.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Deadline / date</th><th>Requirement</th><th>Applies to</th><th>Official reference</th></tr></thead><tbody id="rowsB"></tbody></table></div>
+<p class="tiny">SF Proposition H was approved by voters on 3 November 2026 per SFMTA; the election office still labels results preliminary. The FY 2027–28 multifamily schedule is $249 up to 5,000 sq ft then $0.195/sq ft over 5,000 capped at $50,000; single-family $129 up to 3,000 sq ft then $0.42/sq ft over 3,000. The amount for B depends on parcel facts that are not public and is left unverified. ${UI.source("sfMeasureH", "SFMTA · Proposition H")} ${UI.source("sfMeasureH", "SF Dept. of Elections")} ${UI.source("sfRent", "SF Rent Board")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">How to use this timeline</div><h2>Confirmation checklist</h2></div></div>
+<div class="grid two">
+<div class="card"><div class="eyebrow">Before acting</h3>
+<ul class="list"><li>Obtain the date of death and read the trust instrument and every amendment.</li><li>Confirm title (is the home actually in the trust?).</li><li>Calendar the 60-day trustee notice and 150-day change-in-ownership statement.</li><li>If claiming Prop 19, confirm occupancy within one year and file the exemption in time.</li><li>Decide whether Form 706 is required or desirable for portability.</li></ul>
+<p class="tiny">${UI.source("probate160617", "Probate Code §16061.7")} ${UI.source("irsEstate", "IRS · estate tax")}</p></div>
+<div class="card"><div class="eyebrow">Ongoing (Property B)</h3>
+<ul class="list"><li>Track Rent Board annual increase dates and any exemption deadlines.</li><li>Confirm Proposition H parcel type and taxable building area once certified.</li><li>Keep insurance, water and electricity current on all three units.</li></ul>
+<p class="tiny">${UI.source("sfRent", "SF Rent Board")} ${UI.source("sfMeasureH", "SFMTA · Proposition H")}</p></div>
+</div>
+<p class="tiny">No name, street address, parcel number or account number appears on this page. Nothing here is legal, tax or investment advice; a link to an official rule does not verify a household figure. <a href="review.html" class="source-link">Flagged for review ↗</a></p>
+</div>`;
+
+document.getElementById("rowsTrust").innerHTML = [
+  ["Within 60 days of the triggering event","Trustee serves written notice on beneficiaries and heirs when a revocable trust becomes irrevocable because of a settlor's death (and certain other events)","Trustee","UI.source('notice','Probate Code §16061.7')"],
+  ["Within 150 days for qualifying nonprobate death transfers","Trustee or transferee files the change-in-ownership statement with the county where the property is located (probate follows the inventory-and-appraisal deadline instead)","County assessor / recorder","UI.source('ownership','RTC §480')"],
+  ["At the triggering event","Successor trustee accepts the role, safeguards the home, arranges insurance, retains certified records through private channels","Trustee","UI.source('notice','Probate Code §16061.7')"],
+  ["Promptly","Arrange insurance on the inherited home; confirm liens, beneficiaries and required notices with counsel before any transfer or sale","Trustee + counsel","UI.source('trustbasis','IRS Rev. Rul. 2023-2')"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${UI.source(r[3], r[4])}</td></tr>`).join("");
+
+document.getElementById("rowsTrust").innerHTML = [
+  ["Within 60 days of the triggering event","Trustee serves written notice on beneficiaries and heirs when a revocable trust becomes irrevocable because of a settlor's death (and certain other events)","Trustee","notice","Probate Code §16061.7"],
+  ["Within 150 days for qualifying nonprobate death transfers","Trustee or transferee files the change-in-ownership statement with the county where the property is located (probate follows the inventory-and-appraisal deadline instead)","County assessor / recorder","ownership","RTC §480"],
+  ["At the triggering event","Successor trustee accepts the role, safeguards the home, arranges insurance, retains certified records through private channels","Trustee","notice","Probate Code §16061.7"],
+  ["Promptly","Arrange insurance on the inherited home; confirm liens, beneficiaries and required notices with counsel before any transfer or sale","Trustee + counsel","trustbasis","IRS Rev. Rul. 2023-2"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${UI.source(r[3], r[4])}</td></tr>`).join("");
+
+document.getElementById("rowsProp19").innerHTML = [
+  ["Within one year of transfer","Eligible transferee makes the home their principal residence","Without it, family-home relief is generally unavailable and the base resets to market value","boeProp19","BOE · Prop 19"],
+  ["Within one year of transfer","File the homeowners' or disabled veterans' exemption claim","Exclusion starts in the year the claim is filed if late","boeProp19","BOE · Prop 19"],
+  ["Within three years (and before transfer to a third party)","File BOE-19-P or the applicable claim for the parent-child exclusion","Late or missed filing can affect when relief begins","boeProp19","BOE · Prop 19"],
+  ["Within six months of a supplemental/escape assessment notice","A claim can also be timely within this window","Keeps the claim alive after a reassessment event","boeProp19","BOE · Prop 19"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${UI.source(r[3], r[4])}</td></tr>`).join("");
+
+document.getElementById("rowsEstate").innerHTML = [
+  ["Nine months after the date of death","File federal Form 706 estate-tax return (or request an extension)","Required if the gross estate plus adjusted taxable gifts exceeds the filing threshold; may also be filed to elect portability","irsEstate","IRS · estate tax"],
+  ["15 months after death (with extension)","Extended Form 706 filing deadline","Same as above; an extension to file is not automatically an extension to pay","irsEstate","IRS · estate tax"],
+  ["After death","File the decedent's final Form 1041 income return and any state income returns","As applicable to the estate","irsEstate","IRS · estate tax"],
+  ["No California estate-tax return","For deaths on or after 1 January 2005","California does not impose an estate tax; other jurisdictions' taxes are separate","ftb","CA Controller · estate tax"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${UI.source(r[3], r[4])}</td></tr>`).join("");
+
+document.getElementById("rowsB").innerHTML = [
+  ["1 March 2026–28 February 2027","General annual allowable rent increase of 1.6% for covered San Francisco rent-controlled units","Covered units in Property B","sfRent","SF Rent Board · current rates"],
+  ["14 December 2026","Exemption deadline noted on the Rent Board's 9 November 2026 notice for pending File 261020","Covered units, if the proposal were enacted","sfRent","SF Rent Board"],
+  ["Autumn 2027","First Proposition H parcel-tax bills mailed (FY 2027–28)","Property B (parcel type / area not public → amount unverified)","sfMeasureH","SFMTA · Proposition H"],
+  ["1 June each year","Exemption application deadline for the coming fiscal year (qualifying senior owners, SRO parcels, untaxed parcels)","Property B if an exemption may apply","sfMeasureH","SFMTA · Proposition H"],
+  ["Annually","Water, electricity, insurance and property tax on all units","Property B","sfWater","SFPUC · water and sewer rates"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${UI.source(r[3], r[4])}</td></tr>`).join("");
+</script></body></html>

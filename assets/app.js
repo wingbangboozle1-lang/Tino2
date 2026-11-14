@@ -14,16 +14,23 @@
   const inGuide = guidePages.some(([id]) => id === current);
   const navItems = [
     ["home", home, "Overview"],
+    ["__group__", null, "Decide"],
     ["executive-summary", prefix + "executive-summary.html", "Executive summary"],
     ["plan", prefix + "plan.html", "Best plan"],
-    ["questions", prefix + "questions.html", "Readiness"],
-    ["questions-gate", prefix + "questions-gate.html", "Decision gate"],
-    ["suggestions", prefix + "suggestions.html", "Suggestions"],
-    ["decision", prefix + "decision.html", "Decision"],
+    ["decision", prefix + "decision.html", "Decision lab"],
     ["options", prefix + "options.html", "Other options"],
+    ["__group__", null, "Property"],
     ["properties", prefix + "properties.html", "Properties"],
     ["san-francisco", prefix + "san-francisco.html", "SF property"],
     ["operating-costs", prefix + "operating-costs.html", "Operating costs"],
+    ["__group__", null, "Tools & timeline"],
+    ["briefing-sheet", prefix + "briefing-sheet.html", "Briefing sheet (print)"],
+    ["timeline", prefix + "timeline.html", "Deadlines timeline"],
+    ["glossary", prefix + "glossary.html", "Glossary"],
+    ["__group__", null, "Readiness & sources"],
+    ["questions", prefix + "questions.html", "Readiness"],
+    ["questions-gate", prefix + "questions-gate.html", "Decision gate"],
+    ["suggestions", prefix + "suggestions.html", "Suggestions"],
     ["stress", prefix + "stress.html", "Black swan"],
     ["inheritance", prefix + "inheritance.html", "Inheritance"],
     ["estate-tax", prefix + "estate-tax.html", "Estate tax"],
@@ -38,7 +45,7 @@
   header.innerHTML = `<div class="container header-inner">
     <a class="brand" href="${home}" aria-label="Dashboard overview"><span class="brand-mark">H</span><span>Inheritance planning<small>Placeholder labels · 2026</small></span></a>
     <button class="menu-button" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
-    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => `<a href="${href}" ${(id === current || (id === "stress" && inStress)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
+    <nav class="nav" aria-label="Main navigation">${navItems.map(([id, href, label]) => id === "__group__" ? `<div class="nav-group">${label}</div>` : `<a href="${href}" ${(id === current || (id === "stress" && inStress)) ? 'class="active" aria-current="page"' : ""}>${label}${id === "review" ? " ⚑" : ""}</a>`).join("")}</nav>
   </div>${inStress ? `<div class="container subnav" aria-label="Black swan pages"><span class="tiny">Black swan and economic scenarios:</span> ${stressPages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}${inGuide ? `<div class="container subnav" aria-label="Decision readiness and site suggestions"><span class="tiny">Decision readiness &amp; improvement paths:</span> ${guidePages.map(([id, href, label]) => `<a href="${href}" ${id === current ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>` : ""}`;
   document.body.prepend(header);
   const menu = header.querySelector(".menu-button");

@@ -1,14 +1,36 @@
 #!/usr/bin/env python3
-"""Fail if committed HTML differs from the deterministic public guide generator."""
+"""Verify every file in the public review boundary exists as a readable file.
+
+The public artifact is the hand-authored decision dashboard under site/ (plus the
+root landing page and its assets). It is not produced by build-guide.py, so this
+check replaces the old "committed HTML matches the generator" comparison with a
+manifest-existence check. package-site.py performs the real packaging validation.
+"""
 from pathlib import Path
-import subprocess, sys
+import sys
 from public_manifest import PUBLIC_FILES
 
-root=Path(__file__).resolve().parents[1]
-pages=sorted(name for name in PUBLIC_FILES if name.endswith('.html'))
-before={name:(root/name).read_bytes() if (root/name).is_file() else None for name in pages}
-subprocess.run([sys.executable, str(root/'scripts/build-guide.py')], cwd=root, check=True)
-changed=[name for name in pages if before[name] != (root/name).read_bytes()]
-if changed:
-    raise SystemExit('Generated pages were stale; regenerated: '+', '.join(changed))
-print(f'PASS: {len(pages)} generated public pages are up to date.')
+root = Path(__file__).resolve().parents[1]
+errors = []
+for relative in sorted(PUBLIC_FILES):
+    parts = Path(relative).parts
+    src = root / relative
+    unsafe = (
+        not parts
+        or Path(relative).is_absolute()
+        or '..' in parts
+        or any((root.joinpath(*parts[:n])).is_symlink() for n in range(1, len(parts) + 1))
+        or not src.is_file()
+        or not src.resolve().is_relative_to(root)
+        or src.stat().st_nlink > 1
+    )
+    if unsafe:
+        errors.append(f'Missing or unsafe publication source: {relative}')
+    elif src.stat().st_size == 0:
+        errors.append(f'Empty publication source: {relative}')
+
+if errors:
+    for e in errors:
+        print('::error title=Publication boundary::' + e)
+    raise SystemExit(1)
+print(f'PASS: {len(PUBLIC_FILES)} reviewed public boundary sources are present.')

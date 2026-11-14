@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Glossary of real estate, inheritance and tax terms used across the inheritance planning dashboard."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"></head>
+<body data-title="Glossary"><main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+main.innerHTML = UI.hero("Glossary", "Terms used across this dashboard", "Plain-language definitions of the real-estate, inheritance and tax terms that appear on the site. These are general descriptions, not legal definitions; official sources are linked where available.")
++ `<div class="container">
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Property and ownership</div><h2>Core concepts</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Plain-language meaning</th><th>Why it matters here</th><th>Official reference</th></tr></thead><tbody id="rowsCore"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">California property tax</div><h2>Proposition 13 and Proposition 19</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Plain-language meaning</th><th>Why it matters here</th><th>Official reference</th></tr></thead><tbody id="rowsProp"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Inheritance and tax</div><h2>Estate, basis and transfer</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Plain-language meaning</th><th>Why it matters here</th><th>Official reference</th></tr></thead><tbody id="rowsTax"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Rental and San Francisco local</div><h2>Operating terms</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Plain-language meaning</th><th>Why it matters here</th><th>Official reference</th></tr></thead><tbody id="rowsLocal"></tbody></table></div>
+</section>
+
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Investing and risk</div><h2>Portfolio terms</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Plain-language meaning</th><th>Why it matters here</th><th>Official reference</th></tr></thead><tbody id="rowsInvest"></tbody></table></div>
+</section>
+
+<p class="tiny">No name, street address, parcel number or account number appears on this page. Nothing here is legal, tax, insurance or investment advice; a link to an official rule does not verify a household figure. <a href="review.html" class="source-link">Flagged for review ↗</a></p>
+</div>`;
+
+function srcIf(key){ if(key==="—") return "—"; const m=String(key).match(/^UI\.source\('([A-Za-z0-9]+)'/); return m ? UI.source(m[1]) : UI.source(key); }
+document.getElementById("rowsCore").innerHTML = [
+  ["Property A","Placeholder label for the anticipated Cupertino trust inheritance (ZIP 95014).","Keeps the household's actual address off the public site.","—"],
+  ["Property B","Placeholder label for the San Francisco three-unit property already owned by the heir (ZIP 94122).","Already-owned property is not part of the decedent's estate.","—"],
+  ["Stepped-up basis","Income-tax basis of inherited property is generally its fair market value at the date of death.","The whole sell-versus-hold ranking rests on this applying to Property A.","UI.source('basis','IRS · inherited basis')"],
+  ["Change in ownership","A transfer that can trigger a reassessment of property tax to market value.","Inheriting the Cupertino home can reset its assessment unless an exclusion applies.","UI.source('boeProp13','BOE · Prop 13')"],
+  ["Testate / intestate","Dying with a valid will (testate) or without one (intestate).","Determines how property passes if it is not held in a trust.","—"],
+  ["Decedent","The person who has died and whose estate is being administered.","Used throughout to refer to the prior owner of Property A.","—"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${srcIf(r[3])}</td></tr>`).join("");
+
+document.getElementById("rowsProp").innerHTML = [
+  ["Proposition 13","1978 California measure capping the property-tax rate at 1% plus voter-approved debt and limiting annual assessment growth to 2% absent reassessment.","Sets the low assessed base on both properties; inheritance can end that protection.","UI.source('boeProp13','BOE · Prop 13')"],
+  ["Proposition 19","2020 measure limiting parent-child reassessment relief to family homes the transferee occupies, with a $1,044,586 value allowance (2025–27).","Determines whether keeping the Cupertino home keeps its low assessment or resets to full market value.","UI.source('boeProp19','BOE · Prop 19')"],
+  ["Base year value","The assessed value established when a property is acquired or newly constructed.","Inheritance usually sets a new base year value at market value unless an exclusion applies.","UI.source('prop13factor','BOE · assessment factor')"],
+  ["Factored base year value","The base year value increased each year by the inflation factor (capped at 2%).","What the tax bill is based on between reassessment events.","UI.source('prop13factor','BOE · assessment factor')"],
+  ["Reassessment","Resetting assessed value to market value after a change in ownership or new construction.","A reassessed Cupertino home at today's prices would carry a much higher tax bill.","UI.source('boeProp13','BOE · Prop 13')"],
+  ["Homeowners' exemption","A $7,000 reduction in assessed value for an owner-occupied principal residence.","Required for Proposition 19 family-home relief and reduces the tax bill directly.","UI.source('sccTaxBook','Santa Clara County Assessor')"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${srcIf(r[3])}</td></tr>`).join("");
+
+document.getElementById("rowsTax").innerHTML = [
+  ["Estate tax","Federal tax on the decedent's estate before distribution; not a tax on the person who inherits.","Applies only if the gross estate exceeds the exclusion ($15,000,000 for 2026 deaths).","UI.source('irsEstate','IRS · estate tax')"],
+  ["Inheritance tax","A tax on the person who receives property. The federal government has none; California has none.","No inheritance tax applies to either property here.","UI.source('irsEstate','IRS · estate tax')"],
+  ["Basic exclusion","The amount of an estate exempt from federal estate tax ($15,000,000 in 2026, $15,480,000 in 2027).","Sets the estate-tax headroom shown on the dashboard.","UI.source('irs2027','IRS · 2027 adjustments')"],
+  ["Capital-gain tax","Tax on the profit when an asset is sold for more than its basis.","Applies when the inherited home is later sold, measured from the stepped-up basis.","UI.source('irsBasis','IRS · basis')"],
+  ["Home-sale exclusion","Up to $250,000 ($500,000 qualifying joint filers) of gain excluded on a principal-residence sale, if ownership and use tests are met.","May apply if the heir lives in Property A for at least two years before selling.","UI.source('irsHomeSale','IRS · sale of home')"],
+  ["Form 706","Federal estate-tax return, generally due nine months after death.","Determines whether the estate must file and whether portability is elected.","UI.source('irsEstate','IRS · estate tax')"],
+  ["Portability","A surviving spouse's ability to use a deceased spouse's unused estate-tax exclusion.","Can double the exclusion for a married couple; must be elected on a timely return.","UI.source('irsEstate','IRS · estate tax')"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${srcIf(r[3])}</td></tr>`).join("");
+
+document.getElementById("rowsLocal").innerHTML = [
+  ["Rent control (San Francisco)","Limits annual rent increases on covered units; the general allowable increase is 1.6% from 1 March 2026 to 28 February 2027.","Bounds how much rent on Property B's rented units can lawfully rise.","UI.source('sfRent','SF Rent Board · current rates')"],
+  ["Proposition H","San Francisco parcel tax approved by voters 3 November 2026, funding Muni, running FY 2027–28 through FY 2041–42.","A new recurring charge on Property B; amount unverified until parcel facts are confirmed.","UI.source('sfMuni','SFMTA · Proposition H')"],
+  ["Net operating income (NOI)","Gross rent minus vacancy, management, property tax, utilities, insurance and maintenance.","The dashboard's cash measure for Property B; excludes income tax and financing.","—"],
+  ["Vacancy / management","Assumed shares of collected rent lost to empty units (5%) and paid to a manager (8%).","Operating-cost assumptions, not quotes.","—"],
+  ["Rent Board fee","Annual per-unit registration fee on covered rental units.","Included in Property B's operating costs.","UI.source('sfRent','SF Rent Board')"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${r[3] ? srcIf(r[3]) : "—"}</td></tr>`).join("");
+
+document.getElementById("rowsInvest").innerHTML = [
+  ["After-tax portfolio return","The investment return remaining after a modeled tax drag (base case 5% net from 6% gross minus 1 point).","Used to compound sale proceeds in the sell-and-reinvest strategy.","UI.source('investorRisk','SEC · diversification')"],
+  ["Reinvestment risk","The risk that proceeds must be reinvested at lower returns than expected, especially right after a market peak.","Why the phased-investing path parks sale proceeds in short-term Treasuries first.","UI.source('treasuryDirect','TreasuryDirect')"],
+  ["Treasury bill / note","A short-term U.S. government debt instrument issued at auction (bills up to 52 weeks; notes 2–10 years).","The assumed parking place for sale proceeds before phasing into equities.","UI.source('treasuryDirect','TreasuryDirect')"],
+  ["Dollar-cost averaging","Investing a fixed amount at regular intervals rather than a lump sum.","The mechanism by which sale proceeds are phased from Treasuries into equities.","—"],
+  ["Maximum drawdown","The largest peak-to-trough fall in a portfolio over the period shown.","The dashboard shows drawdown for lump-sum versus phased entry under a crash test.","—"],
+  ["Diversification","Spreading investments across assets to reduce certain risks; it does not guarantee a profit or prevent loss.","The structural reason selling a concentrated home can beat holding it.","UI.source('investorRisk','SEC · diversification')"]
+].map(r => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td class="source">${r[3] ? srcIf(r[3]) : "—"}</td></tr>`).join("");
+</script></body></html>

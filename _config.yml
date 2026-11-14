@@ -14,8 +14,11 @@ exclude:
   - qa
   - verification
   - css
-  - site
   - pages
+  - guide
+  - guide/
+  - assets/safe.css
+  - assets/safe.js
   - research-portal.html
   - cupertino.html
   - decision.html
@@ -24,8 +27,6 @@ exclude:
   - san-francisco.html
   - sources.html
   - taxes.html
-  - assets/app.js
-  - assets/styles.css
   - assets/style.css
   - assets/style.css-alternate.css
   - assets/app-old.js

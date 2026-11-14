@@ -16,11 +16,22 @@ main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or 
 <div class="control"><label for="netReturn">After-tax portfolio return</label><select id="netReturn">${UI.options("netReturn", [[0.03,"3.0% · savings / Treasuries after tax"],[0.05,"5.0% · balanced stock/bond base"],[0.07,"7.0% · equity-heavy growth"]], 0.05)}</select></div>
 <div class="control"><label for="rentChoice">Property A rent benchmark</label><select id="rentChoice">${UI.options("rentChoice", [["4BR","4BR · $6,390 (FY2026 base)"],["3BR","3BR · $5,870 (FY2026)"],["4BR_2027","4BR · $5,800 (FY2027 HUD)"],["3BR_2027","3BR · $5,440 (FY2027 HUD)"]], "4BR")}</select></div>
 <div class="control"><label for="capitalGainsTax">Capital-gain tax scenario</label><select id="capitalGainsTax">${UI.options("capitalGainsTax", [[0.20,"20.0%"],[0.331,"33.1% · base"],[0.40,"40.0%"]], 0.331)}</select></div>
+<div class="control"><label for="treasuryMonths">Treasuries parking (months after sale)</label><select id="treasuryMonths">${UI.options("treasuryMonths", [[24,"24 months"],[30,"30 months · base"],[36,"36 months"]], 30)}</select></div>
+<div class="control"><label for="phaseMonths">Phase into equities over (months)</label><select id="phaseMonths">${UI.options("phaseMonths", [[6,"6 months"],[12,"12 months · base"],[24,"24 months"]], 12)}</select></div>
+<div class="control"><label class="control-row"><input type="checkbox" id="crashTest" /> Crash entry test (1929/2008-style: −40% equities over first 18 months)</label></div>
+<div class="control"><label for="mixedHoldYears">Hold home, then sell (years)</label><select id="mixedHoldYears">${UI.options("mixedHoldYears", [[0,"Sell at once"],[2,"Live/rent 2 yrs"],[5,"Live/rent 5 yrs"],[10,"Live/rent 10 yrs"]], 0)}</select></div>
+<div class="control"><label for="mixedOption">…then sell: held as</label><select id="mixedOption">${UI.options("mixedOption", [["rent","Rented"],["live","Lived in"]], "rent")}</select></div>
 </div>
-<p class="tiny">Fixed assumptions: 2% assessment growth; 3% expense and Property A rent growth; 6% sale cost; 5% vacancy; 8% management; maintenance 0.5% of market value; 33.3% tax on positive Net operating income (NOI). Portfolio net return = 6% gross minus 1-point tax drag in the base case; changing net return changes gross by the same amount. These are assumptions, not official forecasts.</p>
+<p class="tiny">Fixed assumptions: 2% assessment growth; 3% expense and Property A rent growth; 6% sale cost; 5% vacancy; 8% management; maintenance 0.5% of market value; 33.3% tax on positive Net operating income (NOI). Portfolio net return = 6% gross minus 1-point tax drag in the base case; changing net return changes gross by the same amount. Short-term Treasury / cash parking earns a modeled 4% after tax, then the equity portfolio resumes. These are assumptions, not official forecasts.</p>
 <div id="recommendation" class="card highlight"></div>
+<div id="phased-risk" class="card review"></div>
 </section>
 <section class="section"><div class="grid three" id="strategy-cards"></div></section>
+<section class="section"><div class="section-heading"><div><div class="eyebrow">Phased-investing path</div><h2>Sell, park in Treasuries, then phase into equities</h2><p>Instead of putting the full sale proceeds into equities at once, park them in short-term Treasuries for 24–36 months, then phase into the equity portfolio. This softens 1929/2008 crash-entry risk: a lump-sum equity entry takes any early crash in full, while a phased path keeps part of the money out of equities during the entry window.</p></div></div>
+<div class="grid three" id="phased-cards"></div>
+<div class="table-wrap"><table><thead><tr><th>Entry method</th><th class="number">Terminal value</th><th class="number">Max drawdown</th><th class="number">Softening vs lump sum</th><th>Basis</th></tr></thead><tbody id="phased-table"></tbody></table></div>
+<p class="tiny">The phased path is a planning test, not a forecast. A longer Treasury parking period avoids more of an early equity crash but also gives up more equity upside when markets rise. Reinvestment risk is shown beside the headline above.</p>
+</section>
 <section class="section"><div class="section-heading"><div><div class="eyebrow">Terminal wealth bridge</div><h2 id="comparison-title"></h2><p>All amounts are nominal future dollars, rounded to the nearest $10. “Cash reserve” includes reinvested annual cash flow; negative living costs compound as an opportunity cost.</p></div></div>
 <div class="table-wrap"><table><thead><tr><th>Strategy</th><th class="number">Initial net sale</th><th class="number">First-year property tax</th><th class="number">First-year after-tax cash</th><th class="number">Cash reserve at endpoint</th><th class="number">Net terminal property sale</th><th class="number">Terminal capital-gain tax</th><th class="number">Financial position</th><th>Tax rule</th></tr></thead><tbody id="comparison"></tbody></table></div>
 <p class="tiny">“Initial net sale” is invested immediately in the sell case. “Net terminal property sale” is after sale costs and capital-gain tax. The sell case assumes no further liquidation tax beyond its annual after-tax return proxy. First-year cash in the sell case is portfolio return, not rental cash flow.</p>
@@ -39,22 +50,36 @@ main.innerHTML = UI.hero("Decision lab · Property A", "Live in it, rent it, or 
 </div></section>
 </div>`;
 
-const ids = ["inheritYear", "horizon", "appreciation", "netReturn", "rentChoice", "capitalGainsTax"];
+const ids = ["inheritYear", "horizon", "appreciation", "netReturn", "rentChoice", "capitalGainsTax", "treasuryMonths", "phaseMonths", "mixedHoldYears", "mixedOption"];
 let latest;
-function value(id) { const el = document.getElementById(id); return id === "rentChoice" ? el.value : Number(el.value); }
+function value(id) {
+  const el = document.getElementById(id);
+  if (id === "crashTest") return el.checked;
+  if (id === "rentChoice" || id === "mixedOption") return el.value;
+  return Number(el.value);
+}
 function config() {
   const net = value("netReturn");
-  return {...MODEL.BASE, inheritYear: value("inheritYear"), appreciation: value("appreciation"), portfolioGross: net + 0.01, portfolioTaxDrag: 0.01, capitalGainsTax: value("capitalGainsTax")};
+  return {...MODEL.BASE, inheritYear: value("inheritYear"), appreciation: value("appreciation"), portfolioGross: net + 0.01, portfolioTaxDrag: 0.01, capitalGainsTax: value("capitalGainsTax"), treasuryMonths: value("treasuryMonths"), phaseMonths: value("phaseMonths")};
 }
 function moneyCell(v) { return `<td class="number ${v < 0 ? "negative" : ""}">${UI.money(v)}</td>`; }
 function render() {
   const c = config(), h = value("horizon"), rentChoice = value("rentChoice");
-  const r = MODEL.decision(c, h, rentChoice); latest = {r,c,h,rentChoice};
+  const r = MODEL.decision(c, h, rentChoice);
+  const phased = MODEL.phasedInvesting(c, h, c.treasuryMonths, c.phaseMonths);
+  const crash = value("crashTest");
+  const crashTest = crash ? MODEL.phasedCrashTest(c, h, 18, -0.40, c.treasuryMonths, c.phaseMonths) : null;
+  const mixedHold = value("mixedHoldYears");
+  const mixed = mixedHold > 0 ? MODEL.mixedPath(c, h, mixedHold, value("mixedOption"), rentChoice) : null;
+  latest = {r,c,h,rentChoice,phased,crashTest,mixed};
   const end = c.inheritYear + h;
   const saleLead = r.sell.terminal - r.rent.terminal;
   document.getElementById("comparison-title").textContent = `${c.inheritYear} inheritance → ${end} endpoint`;
   document.getElementById("annual-intro").textContent = `First projection year is ${c.inheritYear + 1}. Rental and live cases reset to their respective post-inheritance assessments in ${c.inheritYear}; sell-and-reinvest is shown in the terminal bridge above.`;
-  document.getElementById("recommendation").innerHTML = `<div class="recommendation"><div class="icon">${saleLead >= 0 ? "↗" : "⌂"}</div><div><div class="eyebrow" style="color:var(--lime)">Selected scenario</div><h2>${saleLead >= 0 ? "Sell and reinvest leads on financial value." : "Rent, then sell leads on financial value."}</h2><p>${saleLead >= 0 ? `Selling leads renting by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.` : `Renting leads selling by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.`} Sell: ${UI.money(r.sell.terminal)} · Rent: ${UI.money(r.rent.terminal)} · Live: ${UI.money(r.live.terminal)}. The live result excludes housing service and possible Property B owner-unit income, so do not rank it as a like-for-like lifestyle choice.</p></div></div>`;
+  // headline: winner plus reinvestment risk beside it
+  const reinvestRisk = r.sell.terminalAfterLiquidation;
+  const reinvestGap = reinvestRisk - r.rent.terminal;
+  document.getElementById("recommendation").innerHTML = `<div class="recommendation"><div class="icon">${saleLead >= 0 ? "↗" : "⌂"}</div><div><div class="eyebrow" style="color:var(--lime)">Selected scenario</div><h2>${saleLead >= 0 ? "Sell and reinvest leads on financial value." : "Rent, then sell leads on financial value."}</h2><p>${saleLead >= 0 ? `Selling leads renting by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.` : `Renting leads selling by <strong>${UI.money(Math.abs(saleLead))}</strong> at ${end}.`} Sell: ${UI.money(r.sell.terminal)} · Rent: ${UI.money(r.rent.terminal)} · Live: ${UI.money(r.live.terminal)}. The live result excludes housing service and possible Property B owner-unit income, so do not rank it as a like-for-like lifestyle choice.</p><div class="reinvest"><strong>Reinvestment risk beside the headline.</strong> If the sale proceeds were also taxed on all embedded portfolio growth at the ${UI.pct(c.capitalGainsTax)} scenario rate when liquidated (deliberately conservative: it double-counts the annual drag), the sell case would be worth <strong>${UI.money(reinvestRisk)}</strong>, which is ${reinvestGap >= 0 ? "still ahead of" : "behind"} rent-then-sell by <strong>${UI.money(Math.abs(reinvestGap))}</strong>. A crash right after inheritance, or a low-return entry window, narrows or reverses the gap — see the phased-investing path and crash test below.</div></div></div>`;
   document.getElementById("strategy-cards").innerHTML = ["sell","rent","live"].map(key => {
     const x = r[key], best = key === r.winner;
     const notes = {
@@ -64,18 +89,39 @@ function render() {
     };
     return `<div class="card ${best ? "soft" : ""}"><div class="meta-row" style="margin:0 0 12px">${UI.badge(x.option)}${best ? UI.badge("Highest financial total") : ""}</div><div class="metric small">${UI.money(x.terminal)}</div><p class="muted">${notes[key]}</p><div class="tiny">${key === "sell" ? `Starts with ${UI.money(x.initialNet)} invested.` : `Endpoint cash reserve: ${UI.money(x.cashReserve)}.`}</div></div>`;
   }).join("");
-  document.getElementById("comparison").innerHTML = ["sell","rent","live"].map(key => {
-    const x = r[key];
-    return `<tr><td><strong>${x.option}</strong></td>${moneyCell(x.initialNet)}${moneyCell(x.firstYearTax)}${moneyCell(x.firstYearCash)}${moneyCell(x.cashReserve)}${moneyCell(x.finalSale)}${moneyCell(x.capitalGainsTax)}<td class="number"><strong>${UI.money(x.terminal)}</strong></td><td class="source">${UI.source(key === "live" ? "irsHomeSale" : "irsBasis", key === "live" ? "Basis + home sale" : "Stepped-up basis")}</td></tr>`;
+
+  // phased-investing cards and table
+  document.getElementById("phased-cards").innerHTML = [
+    [`Lump-sum equities at once`, UI.money(phased.netProceeds * Math.pow(1 + c.portfolioGross - 0.01, h)), "Full equity exposure from month 1; takes any early crash in full."],
+    [`Parked ${c.treasuryMonths} mo in Treasuries`, UI.money(phased.terminal), `${Math.round(100 * c.treasuryMonths/12)} months at ${UI.pct(c.treasuryRate)}, then phased into equities over ${c.phaseMonths} months.`],
+    [`Crash softening (phased vs lump)`, crashTest ? UI.money(crashTest.softening) : "—", crashTest ? `Check the box to apply a ${UI.pct(-crashTest.crashEquityDrawdown)} equity drawdown over the first ${crashTest.crashMonths} months.` : ""]
+  ].map(([label, value, note]) => `<div class="card soft"><div class="metric-label">${label}</div><div class="metric small">${value}</div><p class="tiny">${note}</p></div>`).join("");
+
+  document.getElementById("phased-table").innerHTML = [
+    [`Lump-sum equity entry`, UI.money(crashTest ? crashTest.lumpTerminal : phased.netProceeds * Math.pow(1 + c.portfolioGross - 0.01, h)), crashTest ? UI.money(Math.round(crashTest.lumpMaxDrawdown * 10000) / 1000) : "—", crashTest ? UI.money(0) : "—", "100% equities from month 1"],
+    [`Phased: Treasuries → equities`, UI.money(phased.terminal), UI.money(Math.round(phased.maxDrawdown * 10000) / 1000), crashTest ? UI.money(crashTest.softening) : "—", `${c.treasuryMonths} months Treasuries, ${c.phaseMonths} months phase-in`]
+  ].map(row => `<tr><td><strong>${row[0]}</strong></td>${moneyCell(row[1])}${moneyCell(row[2])}${moneyCell(row[3])}<td class="source">${UI.source("treasuryDirect", "TreasuryDirect · short-term rates context")}</td></tr>`).join("");
+
+  document.getElementById("comparison").innerHTML = (mixed ? ["sell","rent","live",`mixed-${mixed.option}`] : ["sell","rent","live"]).map(key => {
+    const x = key.startsWith("mixed") ? {option: `Hold ${mixedHold} yrs (${mixed.option}), then sell`, terminal: mixed.terminal, initialNet: 0, firstYearTax: 0, firstYearCash: 0, cashReserve: mixed.reserveAtSell, finalSale: mixed.saleNet, capitalGainsTax: mixed.capitalGainsTax} : r[key];
+    return `<tr><td><strong>${x.option}</strong></td>${moneyCell(x.initialNet)}${moneyCell(x.firstYearTax)}${moneyCell(x.firstYearCash)}${moneyCell(x.cashReserve)}${moneyCell(x.finalSale)}${moneyCell(x.capitalGainsTax)}<td class="number"><strong>${UI.money(x.terminal)}</strong></td><td class="source">${UI.source(key === "live" || key.startsWith("mixed-live") ? "irsHomeSale" : "irsBasis", key === "live" || key.startsWith("mixed-live") ? "Basis + home sale" : "Stepped-up basis")}</td></tr>`;
   }).join("");
+  if (mixed) {
+    const mixedNote = `<tr><td colspan="9" class="source tiny">Mixed path: hold the home as ${mixed.option} for ${mixedHold} years, then sell and reinvest for the remaining ${mixed.yearsAfterHold} years. Capital-gain tax on the later sale: ${UI.money(mixed.capitalGainsTax)}; home-sale exclusion applied: ${UI.money(mixed.gainExclusion)}. Holding first delays but does not avoid the eventual reassessment and sale.</td></tr>`;
+    document.querySelector("#comparison tbody").innerHTML += mixedNote;
+  }
   document.getElementById("annual").innerHTML = r.rent.yearly.map((x, i) => {
     const live = r.live.yearly[i];
     const hudKey = rentChoice.endsWith("_2027") ? "hudA2027" : "hudA";
     return `<tr><td>${x.year}</td>${moneyCell(x.market)}${moneyCell(x.assessed)}${moneyCell(x.propertyTax)}${moneyCell(x.grossRent)}${moneyCell(x.noi)}${moneyCell(x.afterTaxCash)}${moneyCell(live.propertyTax)}${moneyCell(live.afterTaxCash)}<td class="source">${UI.source(hudKey, "HUD + scenario model")}</td></tr>`;
   }).join("");
-  const liq = r.sell.terminalAfterLiquidation;
-  const liqLead = liq - r.rent.terminal;
-  document.getElementById("liqcheck").innerHTML = `<strong>Tax-symmetric check.</strong> The sell result above leaves the portfolio’s unrealized growth untaxed, while the rent and live cases pay capital-gain tax when the house is sold at the endpoint. If the portfolio were also liquidated at the endpoint with the same ${UI.pct(c.capitalGainsTax)} scenario rate applied to all growth (deliberately conservative: it double-counts the annual tax drag), sell-and-reinvest would be <strong>${UI.money(liq)}</strong>, which is ${liqLead >= 0 ? "still ahead of" : "behind"} rent-then-sell by <strong>${UI.money(Math.abs(liqLead))}</strong>. These two scenarios are not guaranteed bounds: actual portfolio taxes, basis, investment returns and taxpayer circumstances can make the result higher or lower. Obtain a taxpayer-specific calculation. If the portfolio is never sold and passes at death, the date-of-death basis rule generally removes embedded gains for it as well as for real estate (IRS Pub. 551) — a planning question for a tax professional. <a href="black-swan.html">See how this changes under economic shocks →</a>`;
+  if (crashTest) {
+    document.getElementById("liqcheck").innerHTML = `<strong>Crash-entry test (${UI.pct(-crashTest.crashEquityDrawdown)} equities over the first ${crashTest.crashMonths} months).</strong> Lump-sum equity entry ends at <strong>${UI.money(crashTest.lumpTerminal)}</strong> with a max drawdown of about ${UI.pct(crashTest.lumpMaxDrawdown, 0)}; the phased path (${crashTest.treasuryMonths} months in Treasuries, then phased in) ends at <strong>${UI.money(crashTest.phasedTerminal)}</strong> with a max drawdown of about ${UI.pct(crashTest.phasedMaxDrawdown, 0)}. Phasing softens the entry by <strong>${UI.money(crashTest.softening)}</strong> because only the already-phased-in equity slice is exposed to the crash — the Treasury-parked share is not. Reinvestment risk is therefore material: entering equities at a market peak can cost years of compounding, which is the argument for the 24–36 month Treasury parking period. <a href="black-swan.html">See the full stress library →</a>`;
+  } else {
+    const liq = r.sell.terminalAfterLiquidation;
+    const liqLead = liq - r.rent.terminal;
+    document.getElementById("liqcheck").innerHTML = `<strong>Tax-symmetric check.</strong> The sell result above leaves the portfolio’s unrealized growth untaxed, while the rent and live cases pay capital-gain tax when the house is sold at the endpoint. If the portfolio were also liquidated at the endpoint with the same ${UI.pct(c.capitalGainsTax)} scenario rate applied to all growth (deliberately conservative: it double-counts the annual tax drag), sell-and-reinvest would be <strong>${UI.money(liq)}</strong>, which is ${liqLead >= 0 ? "still ahead of" : "behind"} rent-then-sell by <strong>${UI.money(Math.abs(liqLead))}</strong>. These two scenarios are not guaranteed bounds: actual portfolio taxes, basis, investment returns and taxpayer circumstances can make the result higher or lower. Obtain a taxpayer-specific calculation. If the portfolio is never sold and passes at death, the date-of-death basis rule generally removes embedded gains for it as well as for real estate (IRS Pub. 551) — a planning question for a tax professional. <a href="black-swan.html">See how this changes under economic shocks →</a>`;
+  }
   const netSale = r.transfer.market * (1 - c.saleCost);
   const gain = r.rent.amountRealized - r.transfer.market;
   document.getElementById("formulas").innerHTML = `
@@ -91,9 +137,12 @@ function render() {
 }
 ids.forEach(id => document.getElementById(id).addEventListener("change", () => { render(); UI.ensureRowSources(); }));
 document.getElementById("reset").addEventListener("click", () => {
-  const defaults = {inheritYear:2040,horizon:10,appreciation:0.035,netReturn:0.05,rentChoice:"4BR",capitalGainsTax:0.331};
-  ids.forEach(id => document.getElementById(id).value = defaults[id]); render(); UI.ensureRowSources();
+  const defaults = {inheritYear:2040,horizon:10,appreciation:0.035,netReturn:0.05,rentChoice:"4BR",capitalGainsTax:0.331,treasuryMonths:30,phaseMonths:12,mixedHoldYears:0,mixedOption:"rent"};
+  ids.forEach(id => document.getElementById(id).value = defaults[id]);
+  document.getElementById("crashTest").checked = false;
+  render(); UI.ensureRowSources();
 });
+document.getElementById("crashTest").addEventListener("change", () => { render(); UI.ensureRowSources(); });
 document.getElementById("print").addEventListener("click", () => window.print());
 document.getElementById("download").addEventListener("click", () => {
   const {r} = latest;

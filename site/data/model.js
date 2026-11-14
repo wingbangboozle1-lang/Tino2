@@ -48,7 +48,13 @@
     prop19Amount: 1044586,
     estateExclusion: 15000000,      // official, decedents dying in 2026 (IRS)
     estateExclusion2027: 15480000,  // official, decedents dying in 2027 (IRS IR-2026-133; Rev. Proc. 2026-35 sec. 3.44)
-    estateIndex: 0.02               // assumption for 2028 onward only
+    estateIndex: 0.02,              // assumption for 2028 onward only
+    // Phased-investing path: after selling the inherited home, park the net proceeds in
+    // short-term Treasuries / cash for 24-36 months, then phase into equities. These are
+    // planning assumptions, not Treasury forecasts; the point is to test crash-entry risk.
+    treasuryRate: 0.04,             // after-tax short-term Treasury / cash-equivalent assumption
+    treasuryMonths: 30,             // default parking period after the sale (24-36 months)
+    phaseMonths: 12                 // months to dollar-cost-average from Treasuries into equities
   };
 
   // Household history as supplied, every dollar figure rounded to the nearest $10 (owner's rule).
@@ -266,9 +272,175 @@
     });
   }
 
+  /* ------------------------------------------------------------------ phased investing
+     Sell the inherited home at transfer, park the net proceeds in short-term Treasuries /
+     cash for `treasuryMonths` (default 30), then dollar-cost-average into equities over
+     `phaseMonths`. This softens the risk of inheriting into a 1929- or 2008-style crash:
+     a full lump-sum equity entry takes the crash immediately, while a phased path keeps
+     part of the money in short-term instruments during the entry window. All figures are
+     planning assumptions, not Treasury or market forecasts. Currency rounded to $10 at display.
+  */
+  function phasedInvesting(config = BASE, horizon = 10, treasuryMonths = config.treasuryMonths, phaseMonths = config.phaseMonths) {
+    const inheritYear = config.inheritYear;
+    const inherited = inheritanceValues(inheritYear, config);
+    const netProceeds = inherited.market * (1 - config.saleCost);
+    const months = horizon * 12;
+    const treasuryMonthly = config.treasuryRate / 12;
+    const equityMonthly = config.portfolioGross / 12; // phased path buys the same equity proxy
+    let balance = netProceeds;
+    const rows = [];
+    let peak = balance;
+    let maxDrawdown = 0;
+    for (let m = 1; m <= months; m += 1) {
+      const year = inheritYear + Math.floor((m - 1) / 12);
+      let monthlyRate, status, equityFraction = 0;
+      if (m <= treasuryMonths) {
+        monthlyRate = treasuryMonthly;
+        status = 'Treasuries';
+      } else if (m <= treasuryMonths + phaseMonths) {
+        equityFraction = (m - treasuryMonths) / phaseMonths;
+        monthlyRate = (1 - equityFraction) * treasuryMonthly + equityFraction * equityMonthly;
+        status = `Phasing ${Math.round(equityFraction * 100)}%`;
+      } else {
+        monthlyRate = equityMonthly;
+        status = 'Equities';
+      }
+      balance *= 1 + monthlyRate;
+      if (balance > peak) peak = balance;
+      const dd = (peak - balance) / peak;
+      if (dd > maxDrawdown) maxDrawdown = dd;
+      rows.push({ month: m, year, balance, status, equityFraction });
+    }
+    return {
+      mode: 'phased',
+      netProceeds,
+      treasuryMonths,
+      phaseMonths,
+      treasuryRate: config.treasuryRate,
+      equityRate: config.portfolioGross,
+      terminal: balance,
+      maxDrawdown,
+      rows
+    };
+  }
+
+  /* Crash-entry test: apply a sharp equity drawdown over the first `crashMonths` after
+     inheritance (e.g. a 1929/2008-style entry), then resume the assumed rates. Compares
+     lump-sum equity entry versus the phased path so the reader can see how much of the
+     crash the parking period avoids. */
+  function phasedCrashTest(config = BASE, horizon = 10, crashMonths = 18, crashEquityDrawdown = -0.40, treasuryMonths = config.treasuryMonths, phaseMonths = config.phaseMonths) {
+    const c = { ...config };
+    const inherited = inheritanceValues(c.inheritYear, c);
+    const netProceeds = inherited.market * (1 - c.saleCost);
+    const months = horizon * 12;
+    const treasuryMonthly = c.treasuryRate / 12;
+    const equityMonthly = c.portfolioGross / 12;
+    const crashMonthly = crashEquityDrawdown / crashMonths;
+
+    // Lump sum: everything in equities from month 1.
+    let lump = netProceeds, lumpPeak = lump, lumpMaxDD = 0;
+    const lumpRows = [];
+    for (let m = 1; m <= months; m += 1) {
+      const monthly = m <= crashMonths ? crashMonthly : equityMonthly;
+      lump *= 1 + monthly;
+      if (lump > lumpPeak) lumpPeak = lump;
+      const dd = (lumpPeak - lump) / lumpPeak;
+      if (dd > lumpMaxDD) lumpMaxDD = dd;
+      lumpRows.push({ month: m, year: c.inheritYear + Math.floor((m - 1) / 12), balance: lump, status: 'Equities' });
+    }
+
+    // Phased: Treasuries for `treasuryMonths`, then phase into equities; the crash only
+    // hits the equity fraction that has already been phased in during the crash window.
+    let phased = netProceeds, phasedPeak = phased, phasedMaxDD = 0;
+    const phasedRows = [];
+    for (let m = 1; m <= months; m += 1) {
+      let monthlyRate, equityFraction = 0, status;
+      if (m <= treasuryMonths) {
+        monthlyRate = treasuryMonthly; status = 'Treasuries';
+      } else if (m <= treasuryMonths + phaseMonths) {
+        equityFraction = (m - treasuryMonths) / phaseMonths;
+        status = `Phasing ${Math.round(equityFraction * 100)}%`;
+      } else {
+        equityFraction = 1; status = 'Equities';
+      }
+      const equityPart = m <= crashMonths ? crashMonthly : equityMonthly;
+      const treasuryPart = treasuryMonthly;
+      monthlyRate = (1 - equityFraction) * treasuryPart + equityFraction * equityPart;
+      // The crash applies to the equity slice; Treasury slice keeps its rate.
+      const blended = m <= crashMonths
+        ? (1 - equityFraction) * treasuryMonthly + equityFraction * crashMonthly
+        : monthlyRate;
+      phased *= 1 + blended;
+      if (phased > phasedPeak) phasedPeak = phased;
+      const dd = (phasedPeak - phased) / phasedPeak;
+      if (dd > phasedMaxDD) phasedMaxDD = dd;
+      phasedRows.push({ month: m, year: c.inheritYear + Math.floor((m - 1) / 12), balance: phased, status, equityFraction });
+    }
+
+    return {
+      mode: 'phased-crash',
+      netProceeds,
+      crashMonths,
+      crashEquityDrawdown,
+      treasuryMonths,
+      phaseMonths,
+      lumpTerminal: lump,
+      lumpMaxDrawdown: lumpMaxDD,
+      phasedTerminal: phased,
+      phasedMaxDrawdown: phasedMaxDD,
+      softening: lump - phased, // positive = phased ends ahead after the crash entry
+      lumpRows,
+      phasedRows
+    };
+  }
+
+  /* Mixed paths: hold the inherited home (rent or live) for `holdYears`, then sell and
+     reinvest the net proceeds for the remainder of the horizon. Compares staying put for
+     a defined period against selling at once. */
+  function mixedPath(config = BASE, horizon = 10, holdYears = 2, option = 'rent', rentChoice = '4BR') {
+    const c = { ...config, inheritYear: config.inheritYear };
+    const inheritYear = c.inheritYear;
+    const holdEnd = inheritYear + holdYears;
+    const yearsAfterHold = horizon - holdYears;
+    if (yearsAfterHold < 0) throw new Error('holdYears exceeds horizon');
+
+    // Phase 1: hold (rent or live) for holdYears.
+    let reserve = 0;
+    const holdRows = [];
+    for (let t = 1; t <= holdYears; t += 1) {
+      const row = annualA(inheritYear + t, option, c, rentChoice);
+      reserve = reserve * (1 + c.portfolioGross - 0.01) + row.afterTaxCash;
+      holdRows.push(row);
+    }
+
+    // Phase 2: sell at the end of the hold period and reinvest for the remaining years.
+    const finalMarket = seriesFor('A', holdEnd, c).market;
+    const realized = finalMarket * (1 - c.saleCost);
+    const gain = Math.max(0, realized - inheritanceValues(inheritYear, c).market);
+    const exclusion = option === 'live' && holdYears >= 2 ? Math.min(c.primaryGainExclusion, gain) : 0;
+    const capitalGainsTax = Math.max(0, gain - exclusion) * c.capitalGainsTax;
+    const saleNet = realized - capitalGainsTax;
+    const portfolioReturn = c.portfolioGross - 0.01;
+    const terminal = saleNet * Math.pow(1 + portfolioReturn, yearsAfterHold) + reserve * Math.pow(1 + portfolioReturn, yearsAfterHold);
+
+    return {
+      mode: `mixed-${option}`,
+      holdYears,
+      option,
+      holdRows,
+      reserveAtSell: reserve,
+      saleNet,
+      capitalGainsTax,
+      gainExclusion: exclusion,
+      yearsAfterHold,
+      terminal
+    };
+  }
+
   window.MODEL = {
     BASE, historyA, historyB, round10, fmtMoney, fmtExact, fmtPct, futureValue,
     modelAllowance, prop19Steps, seriesFor, inheritanceValues, annualA, afterTaxPortfolioReturn,
-    decision, sfAnnual, estateRow, historyChecks
+    decision, sfAnnual, estateRow, historyChecks,
+    phasedInvesting, phasedCrashTest, mixedPath
   };
 })();

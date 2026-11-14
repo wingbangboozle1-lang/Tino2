@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="One-page Attorney &amp; CPA Briefing Sheet: inherited Cupertino property (Property A) versus already-owned San Francisco property (Property B), with rounded figures and open questions."><meta name="robots" content="noindex,nofollow,noarchive"><link rel="stylesheet" href="../assets/styles.css"><style>
+/* Print-only adjustments for the briefing sheet */
+@media print {
+  body { background: #fff; color: #000; }
+  .no-print, .button, nav, header, footer, .meta-row { display: none !important; }
+  .card { border: 1px solid #000; background: #fff; box-shadow: none; break-inside: avoid; }
+  table { border: 1px solid #000; }
+  th { background: #eee !important; color: #000; }
+  a { color: #000; text-decoration: none; }
+  a::after { content: " [" attr(href) "]"; font-size: 75%; }
+  .source a::after { content: ""; }
+  section { break-inside: avoid; page-break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+.sheet-title { font-size: 19px; margin: 0 0 2px; }
+.sheet-sub { font-size: 12px; color: #52675f; margin: 0 0 14px; }
+.grid-two { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 700px) { .grid-two { grid-template-columns: 1fr; } }
+</style></head>
+<body data-title="Attorney &amp; CPA Briefing Sheet"><main id="main"></main><div data-footer></div>
+<script src="data/sources.js"></script><script src="data/model.js"></script><script src="../assets/app.js"></script>
+<script>
+const main = document.getElementById("main");
+const M = window.MODEL, B = M.BASE, f = M.fmtMoney, pct = M.fmtPct;
+const d40 = M.decision({ ...B, inheritYear: 2040 }, 10, "4BR");
+const d45 = M.decision({ ...B, inheritYear: 2045 }, 10, "4BR");
+const d50 = M.decision({ ...B, inheritYear: 2050 }, 10, "4BR");
+const SF26 = M.sfAnnual(2026);
+
+main.innerHTML = UI.hero("Attorney &amp; CPA Briefing Sheet · one page, printable", "Inherited trust property (Property A) versus already-owned property (Property B)", "Prepared for the attorney and tax adviser advising on the anticipated Cupertino trust inheritance. Figures are the model's $10-rounded base case, not an appraisal or tax return. Property labels are placeholders; no name, street address, parcel number or account number appears here. <button class=\"button no-print\" onclick=\"window.print()\">Print this sheet</button>")
++ `<div class="container">
+<section class="section"><div class="section-heading"><div><h2>1 · Scope and roles</h2></div></div>
+<div class="grid-two">
+<div class="card"><div class="eyebrow">Property A · Cupertino, ZIP 95014</h3>
+<p class="metric-label">Anticipated trust inheritance (transfer not yet occurred)</p>
+<p class="tiny">Model value ${f(B.aValue)} · assessed ${f(B.aAssessed)} · combined levy ${pct(B.aRate, 2)}. First-year holding cost after a 2040 inheritance: rented ${f(d40.rent.yearly[0].propertyTax + d40.rent.yearly[0].water + d40.rent.yearly[0].insurance + d40.rent.yearly[0].maintenance - d40.rent.yearly[0].solarCredit)}, owner-occupied ${f(-d40.live.yearly[0].noi)}. ${UI.source("sccTaxBook", "Santa Clara County Assessor")}</p></div>
+<div class="card"><div class="eyebrow">Property B · San Francisco, ZIP 94122</h3>
+<p class="metric-label">Already owned by the heir — not part of the decedent's estate</p>
+<p class="tiny">Model value ${f(B.bValue)} · assessed ${f(SF26.assessed)} · tax ${f(SF26.propertyTax)} · gross rent (two units) ${f(SF26.grossRent)} a year · NOI ${f(SF26.noi)}. Premise: two rented units plus a third unit available to the owner without displacing those rents — supplied, not verified. ${UI.source("sfTaxRate", "SF Treasurer · adopted rate")}</p></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><h2>2 · Bottom line at a glance</h2></div></div>
+<div class="grid-two">
+<div class="card soft"><div class="metric-label">Base case recommendation</h3>
+<p><strong>Sell Property A at transfer and reinvest the net proceeds.</strong> In the base case (2040 transfer, sold ten years later) selling finishes <strong>${f(d40.sell.terminal - d40.rent.terminal)}</strong> ahead of renting and <strong>${f(d40.sell.terminal - d40.live.terminal)}</strong> ahead of living in it. The ranking holds at 2045 and 2050 transfers too. ${UI.source("investorRisk", "SEC · diversification")}</p></div>
+<div class="card soft"><div class="metric-label">Reinvestment risk beside the headline</h3>
+<p>If sale proceeds are also taxed on all embedded portfolio growth at the ${pct(B.capitalGainsTax)} scenario rate when liquidated, sell is worth <strong>${f(d40.sell.terminalAfterLiquidation)}</strong> — still ahead of renting by <strong>${f(Math.max(0, d40.sell.terminalAfterLiquidation - d40.rent.terminal))}</strong> in the base case, but the gap narrows sharply in a crash-entry year. A 24–36 month Treasury parking period then phased into equities softens 1929/2008 entry risk. See the decision lab. ${UI.source("treasuryDirect", "TreasuryDirect")}</p></div>
+</div></section>
+
+<section class="section"><div class="section-heading"><div><h2>3 · Value, assessment and tax — Property A by year</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Projected market value</th><th class="number">Assessed if not reassessed</th><th class="number">Tax if not reassessed</th><th class="number">Assessed after full reassessment</th><th class="number">Tax after full reassessment</th><th class="number">Tax if Prop 19 applies</th></tr></thead><tbody id="rowsA"></tbody></table></div>
+<p class="tiny">A full reassessment sets assessed value to market value at transfer. Proposition 19 relief — transferee occupies as principal residence and files in time — holds assessed value to market value minus the exclusion (<strong>$1,044,586</strong> for transfers 16 Feb 2025–15 Feb 2027, adjusted every second 16 February; shown exactly as a legal threshold). Later amounts are modeled, not published. ${UI.source("boeProp19Amount", "BOE · exclusion amount")} ${UI.source("boeProp13", "BOE · Prop 13")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><h2>4 · Property B operating summary (already owned)</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year</th><th class="number">Market value</th><th class="number">Assessed value</th><th class="number">Property tax</th><th class="number">Gross rent (2 units)</th><th class="number">Water</th><th class="number">Electricity</th><th class="number">Insurance</th><th class="number">Maintenance</th><th class="number">NOI</th></tr></thead><tbody id="rowsB"></tbody></table></div>
+<p class="tiny">B is not reassessed by the inheritance and does not enter the decedent's estate. San Francisco adopted secured rate ${pct(B.bRate, 4)}; the real bill also carries flat direct charges not projected here (flagged). Rent grows at the Rent Board's current allowable ${pct(B.sfRentGrowth, 1)} a year. ${UI.source("sfRent", "SF Rent Board")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><h2>5 · Estate and inheritance tax thresholds</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>Year of death</th><th class="number">Federal basic exclusion</th><th class="number">Property A in estate</th><th class="number">Real-estate-only headroom</th><th>California estate tax</th><th>Status</th></tr></thead><tbody id="rowsEstate"></tbody></table></div>
+<p class="tiny">No federal inheritance tax on the recipient; federal <em>estate</em> tax is charged on the decedent's estate before distribution. Top federal rate 40% above the exclusion. No California estate-tax return for deaths on or after 1 January 2005. Property B is excluded because the heir already owns it. Headroom is real-estate-only — cash, retirement accounts, life insurance, debts and administration expenses can erase it. ${UI.source("irsEstate", "IRS · estate tax")} ${UI.source("irs2027", "IRS · 2027 adjustments")} ${UI.source("ftbInheritance", "CA Controller · estate tax")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><h2>6 · Questions that must be answered before the recommendation holds</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Why it changes the answer</th><th>Who holds / how to verify</th><th class="source">Official rule</th></tr></thead><tbody id="rowsQ"></tbody></table></div>
+<p class="tiny">Tracked in the decision gate with a readiness score for every plan. Do not enter answers on this site. ${UI.source("probate160617", "Probate Code §16061.7")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><h2>7 · Step-by-step trust inheritance (outline)</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>When</th><th>Step</th><th>Official reference</th></tr></thead><tbody id="rowsSteps"></tbody></table></div>
+<p class="tiny">A checklist, not a substitute for the trust instrument, county instructions or professional advice. ${UI.source("rtc480", "RTC §480")} ${UI.source("boeProp19", "BOE · Prop 19")}</p>
+</section>
+
+<section class="section"><div class="section-heading"><div><h2>8 · Sources and limits</h2></div></div>
+<p class="tiny">Every figure above is rounded to the nearest $10 unless shown exactly as a published legal threshold. Rounding is not anonymisation. This repository is public; earlier commits, branches and pull requests may contain material not on these pages. Nothing here is legal, tax, insurance or investment advice; a link to an official rule does not verify a household figure. <a href="review.html" class="source-link">Flagged for review ↗</a> <a href="sources.html" class="source-link">Source register ↗</a></p>
+</section>
+</div>`;
+
+document.getElementById("rowsA").innerHTML = [2030, 2035, 2040, 2045, 2050].map(y => {
+  const s = M.seriesFor("A", y); const inh = M.inheritanceValues(y);
+  return `<tr><td>${y}</td><td class="number">${f(s.market)}</td><td class="number">${f(s.assessed)}</td><td class="number">${f(s.tax)}</td><td class="number">${f(inh.fullAssessed)}</td><td class="number">${f(inh.fullTax)}</td><td class="number">${f(inh.primaryTax)}</td></tr>`;
+}).join("");
+
+document.getElementById("rowsB").innerHTML = [2026, 2030, 2040, 2050].map(y => {
+  const r = M.sfAnnual(y);
+  return `<tr><td>${y}</td><td class="number">${f(r.market)}</td><td class="number">${f(r.assessed)}</td><td class="number">${f(r.propertyTax)}</td><td class="number">${f(r.grossRent)}</td><td class="number">${f(r.water)}</td><td class="number">${f(r.electricity)}</td><td class="number">${f(r.insurance)}</td><td class="number">${f(r.maintenance)}</td><td class="number">${f(r.noi)}</td></tr>`;
+}).join("");
+
+document.getElementById("rowsEstate").innerHTML = [2026, 2027, 2030, 2040, 2050].map(y => {
+  const e = M.estateRow(y);
+  return `<tr><td>${y}</td><td class="number">${f(e.exclusion)}</td><td class="number">${f(e.a)}</td><td class="number">${f(e.headroom)}</td><td>None (no CA estate-tax return for deaths on/after 1 Jan 2005)</td><td>${y <= 2027 ? "Official" : "Modeled, not official"}</td></tr>`;
+}).join("");
+
+const Q = [
+  ["What does the trust actually say?", "Distribution terms, trustee sale power, uneven distribution — controls who may keep or sell", "Trust attorney reads the signed instrument and amendments", "caTrustNotice", "Probate Code §16061.7"],
+  ["Is the home titled in the trust?", "Title controls who can convey; drives basis and reassessment questions", "Current grant deed + preliminary title report; county recorder", "rtc480", "RTC §480"],
+  ["Does basis step up to date-of-death value?", "No step-up → an immediate sale is taxed on the gain since purchase", "Tax attorney reviews trust + decedent's Forms 709/706", "irsRevRul20232", "IRS Rev. Rul. 2023-2"],
+  ["Was it the decedent's principal residence; can a child move in within 1 year?", "Determines Prop 19 family-home relief vs full reassessment", "County assessor exemption record + recipient's occupancy plan", "boeProp19", "BOE · Prop 19"],
+  ["Full gross estate, prior taxable gifts, spousal exclusion?", "House alone leaves headroom; other assets can trigger the 40% federal rate", "Estate attorney + CPA confidential inventory", "irsEstate", "IRS · estate tax"],
+  ["Date-of-death fair market value?", "Sets basis, reassessment and the estate filing", "Qualified retrospective appraisal, kept private", "basis", "IRS · inherited basis"]
+];
+document.getElementById("rowsQ").innerHTML = Q.map((q, i) => `<tr><td>${i+1}</td><td><strong>${q[0]}</strong></td><td>${q[1]}</td><td>${q[2]}</td><td class="source">${UI.source(q[3], q[4])}</td></tr>`).join("");
+
+const STEPS = [
+  ["Before transfer","Locate the signed trust, amendments, deed, property schedule and beneficiary designations; confirm ownership and estate inclusion privately","irsRevRul20232","IRS Rev. Rul. 2023-2"],
+  ["At the triggering event","Successor trustee accepts the role, safeguards the home, arranges insurance, retains certified records privately","probate160617","Probate Code §16061.7"],
+  ["Within 60 days when required","Trustee notifies beneficiaries and heirs after an applicable triggering event (revocable trust becomes irrevocable on a settlor's death)","probate160617","Probate Code §16061.7"],
+  ["Within 150 days for qualifying nonprobate death transfers","Trustee/transferee files the change-in-ownership statement with the county","rtc480","RTC §480"],
+  ["Within one year (family-home relief)","Eligible transferee moves in and files the homeowners' or disabled veterans' exemption; exemption starts at transfer if timely","boeProp19","BOE · Prop 19"],
+  ["Claim the exclusion","File BOE-19-P or applicable claim generally within three years and before transfer to a third party","boeProp19","BOE · Prop 19"],
+  ["By applicable federal deadline","Determine whether Form 706 is required or desirable for portability; check Form 1041 and final income returns","irsEstate","IRS · estate tax"],
+  ["Only after the review","Compare sale / rent / live on equal horizons, after documented costs and taxes, following trust authority and local rental rules","irsRental","IRS Pub 527 · rental property"]
+];
+document.getElementById("rowsSteps").innerHTML = STEPS.map(s => `<tr><td>${s[0]}</td><td>${s[1]}</td><td class="source">${UI.source(s[2], s[3])}</td></tr>`).join("");
+</script></body></html>

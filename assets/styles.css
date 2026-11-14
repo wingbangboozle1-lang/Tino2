@@ -154,3 +154,31 @@ tr:hover td { background: #fafbf9; }
 details.card > summary { cursor: pointer; }
 details.card[open] > summary { margin-bottom: 8px; }
 @media print { .subnav { display: none; } }
+
+/* Reinvestment-risk callout beside the decision headline (session fbedbcc8) */
+.reinvest{margin-top:12px;padding:12px 16px;background:var(--gold-bg);border:1px solid #f0ddbc;border-radius:10px;color:#6b4f2a;font-size:13.5px;line-height:1.5}
+.reinvest strong{color:#855a1f}
+
+/* Checkbox-style control row */
+.control-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.control-row input{accent-color:var(--green2);width:16px;height:16px;min-width:16px;min-height:16px}
+
+/* Grouped navigation sub-labels */
+.nav-group{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:7px 10px 3px;text-transform:uppercase}
+
+/* Briefing-sheet print refinements */
+.sheet-title{font-size:19px;margin:0 0 2px}
+.sheet-sub{font-size:12px;color:var(--muted);margin:0 0 14px}
+.grid-two{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media (max-width:700px){.grid-two{grid-template-columns:1fr}}
+@media print{
+  .no-print,.button,nav,header,footer,.subnav,.controls{display:none!important}
+  body{background:#fff;color:#000}
+  .card,.table-wrap{border:1px solid #000;background:#fff;box-shadow:none;break-inside:avoid}
+  table{border:1px solid #000}
+  th{background:#eee!important;color:#000}
+  a{color:#000;text-decoration:none}
+  .source a::after{content:""}
+  section{break-inside:avoid;page-break-inside:avoid}
+  h2{break-after:avoid}
+}
