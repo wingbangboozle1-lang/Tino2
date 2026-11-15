@@ -38,6 +38,14 @@ jobs:
         run: |
           python3 scripts/package-site.py
           python3 scripts/check-publication.py --self-test
+      # The published artifact has its own $10 and source-link gates. This one covers the
+      # rest of the repository, because a public repository is searchable at HEAD: a ZIP
+      # code or an un-rounded household figure in the retained legacy tree is findable even
+      # though no page serves it. See scripts/privacy-gate.py.
+      - name: Gate every tracked file for identifiers and un-rounded amounts
+        run: |
+          python3 scripts/privacy-gate.py --self-test
+          python3 scripts/privacy-gate.py
       - name: Install isolated test dependencies (never published)
         run: npm install --prefix .cache/test --no-audit --no-fund --ignore-scripts jsdom@26.1.0 playwright-core@1.49.1 @sparticuz/chromium@131.0.1 axe-core@4.10.3
       - name: Verify rendered pages, sources, controls and privacy regressions

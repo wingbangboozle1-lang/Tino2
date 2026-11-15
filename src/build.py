@@ -19,8 +19,8 @@ FLAGS: list[tuple[str, str, str, str]] = []   # (area, item, why, link html)
 SHORT = {"irs_2027": "IRS IR-2026-133", "irs_rp2635": "Rev. Proc. 2026-35", "irs_estate": "IRS estate tax", "irs_i706": "IRS Form 706 instr.",
          "irs_gifts": "IRS inheritance FAQ", "irs_p551": "IRS Pub. 551", "irs_tc701": "IRS Topic 701", "irs_tc409": "IRS Topic 409",
          "irs_tc559": "IRS Topic 559", "irs_p527": "IRS Pub. 527", "congress_hr1301": "Congress.gov H.R.1301", "cbo": "CBO outlook",
-         "tsp": "TSP fund returns", "fred_sj": "FHFA HPI San Jose", "fred_sf": "FHFA HPI San Francisco", "hud_a": "HUD SAFMR 95014",
-         "hud_b": "HUD SAFMR 94122", "ftb_cg": "FTB capital gains", "ftb_5805": "FTB rate schedules", "sco": "State Controller",
+         "tsp": "TSP fund returns", "fred_sj": "FHFA HPI San Jose", "fred_sf": "FHFA HPI San Francisco", "hud_a": "HUD SAFMR [ZIP-A]",
+         "hud_b": "HUD SAFMR [ZIP-B]", "ftb_cg": "FTB capital gains", "ftb_5805": "FTB rate schedules", "sco": "State Controller",
          "rtc13301": "RTC §13301", "boe_p19": "BOE Prop 19", "lta25009": "BOE LTA 2025/009", "lta26026": "BOE LTA 2026/026",
          "lta26002": "BOE LTA 2026/002", "pub800": "BOE Pub. 800-1", "boe_hoe": "BOE homeowners' exemption", "boe502d": "BOE-502-D",
          "prob16061": "Probate Code §16061.7", "sos_ccrov": "SOS memo 26138", "sos_results": "SOS returns", "vg3": "Voter guide Prop 3",
@@ -94,7 +94,7 @@ def page(fn: str, title: str, lead: str, body: str) -> None:
 <link rel="stylesheet" href="static/style.css"></head>
 <body>
 <header><div class="wrap"><a class="brand" href="index.html">Inheritance decision dashboard</a>
-<span class="tag">Property A · Cupertino 95014 &nbsp;|&nbsp; Property B · San Francisco 94122</span></div>
+<span class="tag">Property A · Cupertino [ZIP-A] &nbsp;|&nbsp; Property B · San Francisco [ZIP-B]</span></div>
 <nav><div class="wrap">{nav}</div></nav></header>
 <main class="wrap">
 <h1>{title}</h1><p class="lead">{lead}</p>
@@ -178,7 +178,7 @@ def history(rows, key):
 
 
 def build_properties():
-    head = ["Item", "Property A · Cupertino 95014", "Property B · San Francisco 94122", "Status", "Source / where to confirm"]
+    head = ["Item", "Property A · Cupertino [ZIP-A]", "Property B · San Francisco [ZIP-B]", "Status", "Source / where to confirm"]
     rows = [
         ["Estimated market value, Nov 2026", money(m.A["fmv"]), money(m.B["fmv"]), B("U"), L("scc_asr", "sf_tax")],
         ["Latest assessed value in the brief", money(m.A["av_2026"]) + " (2026)", money(m.B["av_2025"]) + " (2025)", B("U"), L("scc_asr", "sf_tax")],
@@ -238,8 +238,8 @@ def build_projections():
     flag("Utilities", "Solar credit after the legacy net-metering period", "Net-metering 2.0 customers keep the tariff for 20 years from interconnection. The interconnection date is unknown, so the credit is held flat in the yearly table and set to $0 in the decision model.", L("cpuc_nem"))
     flag("Projections", "Home-value scenarios are history, not forecasts", "Low, base and high are the 20-, 10- and 30-year annualized changes in a metro-wide index. A single house can differ widely.", L("fred_sj", "fred_sf"))
     body = legend() + "<h2>Assumptions behind every row</h2>" + table(["Assumption", "Value", "Basis", "Status", "Source"], assum) + \
-        "<h2>Property A · Cupertino 95014, year by year</h2><p>Costs as they would be for the <b>current owner</b>, with no change of ownership. What happens to the tax at inheritance is on the <a href='property-tax.html'>property tax page</a>. Negative electricity is a credit.</p>" + table(ha, ra, "num") + \
-        "<h2>Property B · San Francisco 94122, year by year</h2><p>Net income = rent from two units minus property tax, insurance, water, electricity and maintenance, before income tax, for the current owner.</p>" + table(hb, rb, "num")
+        "<h2>Property A · Cupertino [ZIP-A], year by year</h2><p>Costs as they would be for the <b>current owner</b>, with no change of ownership. What happens to the tax at inheritance is on the <a href='property-tax.html'>property tax page</a>. Negative electricity is a credit.</p>" + table(ha, ra, "num") + \
+        "<h2>Property B · San Francisco [ZIP-B], year by year</h2><p>Net income = rent from two units minus property tax, insurance, water, electricity and maintenance, before income tax, for the current owner.</p>" + table(hb, rb, "num")
     page("projections.html", "Year-by-year projections, 2026–2050", "House value, assessed value, property tax, insurance, water, electricity and maintenance for each year, under stated assumptions.", body)
 
 
@@ -514,7 +514,7 @@ def build_index():
         ("Federal estate exclusion", "$15,000,000", "2026, per person; no California tax"),
     ]) + f"""
 <h2>Executive summary</h2>
-<p><b>The decision.</b> Property A (Cupertino 95014, about {money(m.A['fmv'])} today) is expected to pass through a trust between 2040 and 2050. On the numbers, the best plan is to <b>sell it within about a year of inheriting, reinvest the proceeds in a diversified mix, and keep Property B</b> (San Francisco 94122) as the family home and rental.</p>
+<p><b>The decision.</b> Property A (Cupertino [ZIP-A], about {money(m.A['fmv'])} today) is expected to pass through a trust between 2040 and 2050. On the numbers, the best plan is to <b>sell it within about a year of inheriting, reinvest the proceeds in a diversified mix, and keep Property B</b> (San Francisco [ZIP-B]) as the family home and rental.</p>
 <p><b>Why.</b> Three rules drive the result. First, an inherited house takes a new tax basis equal to its value at death, so selling promptly produces little or no capital gain. Second, California reassesses an inherited home: the tax bill of about {money(m.tax_current_owner('A', y))} a year in {y} becomes {money(m.tax_full('A', y))} if the house is rented and {money(m.tax_A_live(y))} even if the Heir moves in and claims the family-home exclusion. Third, at benchmark rents the house would net only about {money(f_rent['net'])} a year after that tax, insurance and upkeep, which is {pct(f_rent['net'] / m.fmv('A', y))} of a {money(m.fmv('A', y))} asset.</p>
 <p><b>The test.</b> Selling beats renting whenever the reinvested money earns more than {pct(min(be_rent_base), 1)}–{pct(max(be_rent_base), 1)} a year (base home-price growth of {pct(G['A']['base'])}). Selling came out ahead in {wins['sell']} of {len(grid)} combinations of inheritance year, home-price growth and investment return. It lost only where the money earned the 4.65% government-securities return while Cupertino prices grew at the base or high rate, so <b>money that would sit in savings is better left in the house, rented out</b>.</p>
 <p><b>Property B.</b> Keep it. It nets about {money(m.noi_B(2026))} a year today and houses the family in the third unit. If it is inherited as well it will be reassessed, lifting its tax from about {money(m.tax_current_owner('B', y))} to {money(m.tax_full('B', y))} a year in {y}; its income yield on value stays above Property A's (see the comparison table on the Decision page).</p>

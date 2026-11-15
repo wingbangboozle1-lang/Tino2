@@ -225,11 +225,11 @@
    "result": "pass"
   },
   {
-   "check": "FAIR Plan ZIP 95014 · Property A: the four published yearly changes match the counts",
+   "check": "FAIR Plan ZIP [ZIP-A] · Property A: the four published yearly changes match the counts",
    "result": "pass"
   },
   {
-   "check": "FAIR Plan ZIP 94122 · Property B: the four published yearly changes match the counts",
+   "check": "FAIR Plan ZIP [ZIP-B] · Property B: the four published yearly changes match the counts",
    "result": "pass"
   },
   {

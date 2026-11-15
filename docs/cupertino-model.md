@@ -1,4 +1,4 @@
-# Cupertino House — Projection Model (95014)
+# Cupertino House — Projection Model ([ZIP-A])
 
 ## Inputs
 - Market value Nov 2026 (owner estimate): $3,100,000 — UNVERIFIED (owner-provided).

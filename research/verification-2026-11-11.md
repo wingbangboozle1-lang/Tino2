@@ -10,8 +10,8 @@ Rule applied: a value is "verified" only if read on an official page in this ses
 | California estate tax | No return for deaths on/after 2005-01-01 | https://www.sco.ca.gov/ardtax_estate_tax.html | Confirmed |
 | Prop 19 value cap, 2025-02-16 to 2027-02-15 | $1,044,586 (from $1,022,600); next adjustment 2027-02-16; indexed to FHFA California HPI | https://www.boe.ca.gov/news/2025/nr-25-02.htm | Confirmed. Earlier note that only secondary sources confirmed this is now resolved |
 | Prop 19 formula, trust rule, continual use | Excluded amount = factored base-year value + cap; trust vesting at death is the change in ownership; homeowners' exemption within 1 year | https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf and https://www.boe.ca.gov/prop19/ | Confirmed (LTA 2026/026 dated 2026-08-03) |
-| HUD FY2026 SAFMR 95014 | 3BR $5,870; 4BR $6,390 (also 2BR $4,440) | https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&year=2026 | Confirmed; matches model |
-| HUD FY2026 SAFMR 94122 | 1BR $2,730; 2BR $3,310 | https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=94122&year=2026 | Confirmed; matches model |
+| HUD FY2026 SAFMR [ZIP-A] | 3BR $5,870; 4BR $6,390 (also 2BR $4,440) | https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-A]&year=2026 | Confirmed; matches model |
+| HUD FY2026 SAFMR [ZIP-B] | 1BR $2,730; 2BR $3,310 | https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-B]&year=2026 | Confirmed; matches model |
 | SF allowable rent increase | 1.6% (2026-03-01 to 2027-02-28), based on 60% of Bay Area CPI-U | https://www.sf.gov/reports/march-2023/learn-about-rent-increases-san-francisco | Confirmed |
 | SF Rent Board fee 2026-27 | $59.00 per dwelling unit; 50% recoverable from tenants | https://www.sf.gov/rent-board-fee | Confirmed; model's two-unit $118 matches |
 | SF pending law | File No. 261020 would cap banked + capital-improvement increases at 10%/yr; not enacted | https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit | Watchlist item added |

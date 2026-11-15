@@ -12,7 +12,7 @@
 
 | Item | Cupertino house | San Francisco house |
 |------|----------------|---------------------|
-| ZIP code | 95014 (Santa Clara County) | 94122 Outer Sunset (San Francisco County) |
+| ZIP code | [ZIP-A] (Santa Clara County) | [ZIP-B] [DISTRICT-B] (San Francisco County) |
 | Estimated market value | $3,100,000 | $1,800,000 |
 | Current tax assessment | $550,540 (2026) | $114,250 (2025) |
 | Current property tax bill | $7,210 (2025, user-provided) | $2,440 (2025, user-provided) |
@@ -20,7 +20,7 @@
 | Rental income | None | ≈ $7,150/month (2 units, user-provided) |
 | Water cost | $100–$150/month (user estimate) | $330–$400/month all 3 units (user estimate — unverified) |
 | Electricity | Solar installed; ≈ $0 cost, $10–$20/month credit claimed (user-reported — unverified under NEM 3.0) | $30–$70/month (user estimate — unverified) |
-| Home insurance | ≈ $1,500/yr (user guess); research range ≈ $676–$1,489/yr for 95014 | ≈ $1,500/yr (user guess); CA landlord average ≈ $1,700/yr |
+| Home insurance | ≈ $1,500/yr (user guess); research range ≈ $676–$1,490/yr for [ZIP-A] | ≈ $1,500/yr (user guess); CA landlord average ≈ $1,700/yr |
 
 ---
 

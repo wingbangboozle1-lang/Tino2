@@ -77,10 +77,10 @@ near(MODEL.modelAllowance(2030), 1044586 * Math.pow(1.035, 2), 1e-6, "Prop 19 am
 near(MODEL.modelAllowance(2040), 1044586 * Math.pow(1.035, 7), 1e-6, "Prop 19 amount: seven biennial steps by 2040");
 near(MODEL.estateRow(2027).exclusion, 15480000, 1e-9, "official 2027 federal basic exclusion (IRS IR-2026-133)");
 near(MODEL.estateRow(2026).exclusion, 15000000, 1e-9, "official 2026 federal basic exclusion");
-near(MODEL.BASE.aRent4BR_2027, 5800, 1e-9, "official FY2027 HUD 95014 4-BR SAFMR");
-near(MODEL.BASE.aRent3BR_2027, 5440, 1e-9, "official FY2027 HUD 95014 3-BR SAFMR");
-near(MODEL.BASE.bRent1BR_2027, 2770, 1e-9, "official FY2027 HUD 94122 1-BR SAFMR");
-near(MODEL.BASE.bRent2BR_2027, 3410, 1e-9, "official FY2027 HUD 94122 2-BR SAFMR");
+near(MODEL.BASE.aRent4BR_2027, 5800, 1e-9, "official FY2027 HUD [ZIP-A] 4-BR SAFMR");
+near(MODEL.BASE.aRent3BR_2027, 5440, 1e-9, "official FY2027 HUD [ZIP-A] 3-BR SAFMR");
+near(MODEL.BASE.bRent1BR_2027, 2770, 1e-9, "official FY2027 HUD [ZIP-B] 1-BR SAFMR");
+near(MODEL.BASE.bRent2BR_2027, 3410, 1e-9, "official FY2027 HUD [ZIP-B] 2-BR SAFMR");
 const fy27Dec = MODEL.decision({ ...MODEL.BASE, inheritYear: 2045 }, 10, "4BR_2027");
 const fy27Eng = SC.simulate(SC.buildPath(SC.SCENARIOS[0]), 2045, 10, "4BR_2027");
 near(fy27Eng.rent, fy27Dec.rent.terminal, 0.01, "engine FY2027 4BR reproduces Decision lab");

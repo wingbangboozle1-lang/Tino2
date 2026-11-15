@@ -1,8 +1,8 @@
 # Decision Analysis: Live In, Rent, or Sell — Cupertino House
 
 ## Decision context
-- Cupertino house (95014) expected to be inherited via trust around 2040–2050 (planning midpoint 2045).
-- Owners already have a primary residence in San Francisco (94122) — a 3-unit property with 2 rented units earning ≈ $7,150/month and very low Prop 13 property tax.
+- Cupertino house ([ZIP-A]) expected to be inherited via trust around 2040–2050 (planning midpoint 2045).
+- Owners already have a primary residence in San Francisco ([ZIP-B]) — a 3-unit property with 2 rented units earning ≈ $7,150/month and very low Prop 13 property tax.
 - Inheritance includes "a considerable amount of money" (amount unknown — placeholder [INHERITANCE_ASSETS]).
 - Goal: maximize profit, minimize cost. All figures rounded to nearest $10. Projections flagged where based on assumptions.
 

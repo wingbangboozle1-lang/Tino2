@@ -27,7 +27,7 @@ const OFFICIAL_AMOUNTS=new Map([
  [10384,'CDI survey SF-Sunset 40y/70y highest (read 12 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
-const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu']);
+const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}
@@ -199,6 +199,17 @@ for(const file of pages){
   check(monotone,'Selling becomes dominant at higher returns and never reverts');
   const be=B.sellBreakeven(g,24);
   check(be.threshold!==null && B.evaluate(g,be.threshold,24).winner==='sell','Break-even point actually leads with selling');
+ }
+ if(file==='guide/summary.html'){
+  const d=dom.window.document;
+  const h2=[...d.querySelectorAll('h2')].map(x=>x.textContent.trim());
+  for(const want of ['Read this first','The four facts that decide it','The numbers that carry the weight','Deadlines the family controls','What would change this summary','Where to read next'])
+   check(h2.includes(want),'executive summary missing section: '+want);
+  const nums=[...d.querySelectorAll('table')].find(t=>[...t.querySelectorAll('thead th')].some(th=>th.textContent.trim()==='Status of the number'));
+  check(Boolean(nums),'executive summary figure table found');
+  check(nums.querySelectorAll('tbody tr').length>=10,'executive summary must carry at least ten sourced figures');
+  check([...nums.querySelectorAll('tbody tr')].every(r=>/Official|Observation|Computed|Model output/.test(r.textContent)),'every executive-summary figure is labelled with its status');
+  check(d.querySelectorAll('a[href="questions.html"]').length>0 && d.querySelectorAll('a[href="stress.html"]').length>0,'executive summary links onward to the registers');
  }
  if(file==='guide/suggestions.html'){
   const d=dom.window.document,sel=d.querySelector('[data-suggestion="S01"]');

@@ -185,7 +185,7 @@ window.READINESS = {
       id: "Q14", group: "costs", priority: "High",
       q: "What rent would Property A actually fetch, and what law governs increases?",
       why: "The rented case is the closest alternative to selling, and its income is the HUD benchmark, not a lease. Rent-growth rules decide what that income does over ten years.",
-      known: "Property A's ZIP 95014 baseline is HUD's FY2026 benchmark ($6,390 4BR / $5,870 3BR). HUD's FY2027 benchmark (effective 1 Oct 2026) was verified on 12 Nov 2026 at $5,800 (4BR) and $5,440 (3BR) and is selectable in Decision Lab (`4BR_2027` / `3BR_2027`). For Property B (ZIP 94122), FY2027 SAFMRs are $2,770 (1BR) and $3,410 (2BR). The statewide rent cap is 5% plus the change in the cost of living, maximum 10%, for most housing more than 15 years old, subject to exemptions.",
+      known: "Property A's ZIP [ZIP-A] baseline is HUD's FY2026 benchmark ($6,390 4BR / $5,870 3BR). HUD's FY2027 benchmark (effective 1 Oct 2026) was verified on 12 Nov 2026 at $5,800 (4BR) and $5,440 (3BR) and is selectable in Decision Lab (`4BR_2027` / `3BR_2027`). For Property B (ZIP [ZIP-B]), FY2027 SAFMRs are $2,770 (1BR) and $3,410 (2BR). The statewide rent cap is 5% plus the change in the cost of living, maximum 10%, for most housing more than 15 years old, subject to exemptions.",
       src: ["hudA", "hudA2027", "caRentCaps", "cupertinoADU"],
       missing: "A market rent opinion for this house, its bedroom count, condition and size, whether the statewide cap or a local ordinance covers it, and the tenancy terms the heir would offer.",
       discover: "Two written rental opinions from local agents; read the Attorney General’s rent-cap page and ask the city whether any local ordinance applies. Check whether to rebase defaults from FY2026 to FY2027 on the Suggestions page. The city also allows an ADU that may be rented but not sold separately — one more way to add income.",
@@ -435,7 +435,7 @@ window.READINESS = {
     {
       id: "A13",
       q: "What are HUD's verified FY2027 Small Area FMR benchmarks for both ZIP codes?",
-      answer: "Verified directly 12 Nov 2026 (effective 1 Oct 2026): ZIP 95014 (Cupertino) is $5,800 (4BR) and $5,440 (3BR), down from FY2026 $6,390 / $5,870. ZIP 94122 (SF) is $2,770 (1BR) and $3,410 (2BR), up from $2,730 / $3,310.",
+      answer: "Verified directly 12 Nov 2026 (effective 1 Oct 2026): ZIP [ZIP-A] (Cupertino) is $5,800 (4BR) and $5,440 (3BR), down from FY2026 $6,390 / $5,870. ZIP [ZIP-B] (SF) is $2,770 (1BR) and $3,410 (2BR), up from $2,730 / $3,310.",
       src: ["hudA2027", "hudB2027"],
       effect: "Selectable in Decision Lab (`4BR_2027` / `3BR_2027`); switching to FY2027 lower Property A rents widens selling's lead further."
     },

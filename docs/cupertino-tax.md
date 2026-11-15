@@ -1,13 +1,13 @@
-# Cupertino (ZIP 95014) Property Tax — Research Record
+# Cupertino (ZIP [ZIP-A]) Property Tax — Research Record
 
 ## Property (owner-provided)
-- Address: withheld — placeholder [CUPERTINO_PROPERTY]. ZIP 95014, Santa Clara County.
+- Address: withheld — placeholder [CUPERTINO_PROPERTY]. ZIP [ZIP-A], Santa Clara County.
 - Estimated market value Nov 2026: $3,100,000 (owner estimate — unverified).
 - Tax assessment and tax history: owner-provided records (see table below) — not independently verified against county records.
 
 ## Tax rate context (sources vary; none are the county's official rate card)
 - Proposition 13 base rate: 1% of assessed value + voter-approved bonds (verified, CA BOE — see prop13-prop19.md).
-- Third-party estimate: median effective property tax rate for Cupertino 95014 ≈ 1.25% (Ownwell, based on Santa Clara County records) — non-official aggregator, flagged.
+- Third-party estimate: median effective property tax rate for Cupertino [ZIP-A] ≈ 1.25% (Ownwell, based on Santa Clara County records) — non-official aggregator, flagged.
 - Implied rate from owner's own bills (tax ÷ assessment): ≈ 1.32–1.34% in recent years (computed from owner-provided table; flagged — derived, not an official rate).
 - Official rate source to verify: Santa Clara County Assessor / Department of Tax and Collections tax rate areas — not fetched; flagged.
 

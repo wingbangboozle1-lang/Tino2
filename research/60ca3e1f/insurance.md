@@ -25,8 +25,8 @@ Premiums in force on 1 May 2026, new policy, $2,500 deductible. "Middle" is the 
 | Cupertino, 40 years old, $750,000 to rebuild | 35 of 37 | $1,167 | $2,020 | $4,901 | 4 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,750000,Y) |
 | Cupertino, 40 years old, $1,000,000 to rebuild | 35 of 37 | $1,543 | $2,690 | $6,430 | 0 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,1000000,Y) |
 | Cupertino, 70 years old, $1,000,000 to rebuild | 34 of 36 | $1,598 | $2,740 | $4,968 | 0 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,70%20Years,1000000,Y) |
-| San Francisco Sunset, 40 years old, $1,000,000 to rebuild | 35 of 37 | $1,328 | $3,350 | $10,384 | 1 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,HOMEOWNERS,40%20Years,1000000,Y) |
-| San Francisco Sunset, 70 years old, $1,000,000 to rebuild | 34 of 36 | $1,413 | $3,190 | $10,384 | 1 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,HOMEOWNERS,70%20Years,1000000,Y) |
+| San Francisco Sunset, 40 years old, $1,000,000 to rebuild | 35 of 37 | $1,328 | $3,350 | $10,384 | 1 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,40%20Years,1000000,Y) |
+| San Francisco Sunset, 70 years old, $1,000,000 to rebuild | 34 of 36 | $1,413 | $3,190 | $10,384 | 1 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,70%20Years,1000000,Y) |
 
 Every row of every page is in `build_insurance_survey.py`; the statistics are in `insurance-survey-2026.json`.
 
@@ -43,7 +43,7 @@ The survey gives a yearly rate for each $1,000 of cover, not a premium. Single-f
 | Survey location | Insurers listed | Showing a rate | Lowest | Middle | Highest | Sell through the California Earthquake Authority | Refer to footnotes | Official source |
 |---|---|---|---|---|---|---|---|---|
 | Cupertino | 40 | 19 | $1.15 | $3.10 | $15.00 | 13 | 8 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,EARTHQUAKE%20-%20Single%20Family,Y) |
-| San Francisco Sunset | 40 | 19 | $1.13 | $3.29 | $15.00 | 13 | 8 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,EARTHQUAKE%20-%20Single%20Family,Y) |
+| San Francisco Sunset | 40 | 19 | $1.13 | $3.29 | $15.00 | 13 | 8 | [result page](https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],EARTHQUAKE%20-%20Single%20Family,Y) |
 
 The page's own example: $2.40 per thousand on $250,000 of cover is $600 a year. By the same arithmetic $3.10 on $1,000,000 is $3,100 a year. The model has no earthquake premium.
 
@@ -53,8 +53,8 @@ Residential FAIR Plan policies in force at 30 September, as published.
 
 | Area | 2022 | 2023 | 2024 | 2025 | 2026 | Official source |
 |---|---|---|---|---|---|---|
-| ZIP 95014 | 74 | 51 | 119 | 213 | 227 | [FAIR Plan, policies in force by ZIP code](https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf) |
-| ZIP 94122 | 15 | 21 | 81 | 129 | 154 | [same file](https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf) |
+| ZIP [ZIP-A] | 74 | 51 | 119 | 213 | 227 | [FAIR Plan, policies in force by ZIP code](https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf) |
+| ZIP [ZIP-B] | 15 | 21 | 81 | 129 | 154 | [same file](https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf) |
 | California | 265,909 | 320,572 | 449,832 | 621,234 | 665,673 | [same file](https://www.cfpnet.com/wp-content/uploads/2026/10/CFP-5-yr-PIF-Zip-FY26-DWE-261020.pdf) |
 
 The file does not give the number of homes in a ZIP code, so no share is stated. The Department's guide describes a FAIR Plan policy as a basic fire policy without liability or theft cover.

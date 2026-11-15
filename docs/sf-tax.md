@@ -1,7 +1,7 @@
-# San Francisco (Outer Sunset, ZIP 94122) Property Tax — Research Record
+# San Francisco ([DISTRICT-B], ZIP [ZIP-B]) Property Tax — Research Record
 
 ## Property (owner-provided)
-- Address: withheld — placeholder [SF_PROPERTY]. ZIP 94122, San Francisco County.
+- Address: withheld — placeholder [SF_PROPERTY]. ZIP [ZIP-B], San Francisco County.
 - 3 livable units; 2 currently rented; 1 unit not rented. Owner can live at the property as primary residence without losing rental income.
 - Estimated market value Nov 2026: $1,800,000 (owner estimate — unverified).
 - Monthly rental income: ≈ $7,150 across 2 rented units (owner-provided — unverified).

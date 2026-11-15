@@ -1,6 +1,6 @@
 # Decision Model: Projections & Scenario Analysis
 
-**Properties:** Cupertino CA 95014 (≈ $3,100,000 est. Nov 2026) | San Francisco CA 94122 (≈ $1,800,000 est. Nov 2026)  
+**Properties:** Cupertino CA [ZIP-A] (≈ $3,100,000 est. Nov 2026) | San Francisco CA [ZIP-B] (≈ $1,800,000 est. Nov 2026)  
 **Inheritance window:** ≈ 2040–2050; modeling uses transfer year **2045** (midpoint, 19 years from Nov 2026)  
 **Prepared by:** session-arena | **All dollar figures rounded to nearest $10**  
 **Status:** in progress → done

@@ -42,7 +42,7 @@ Each published rule figure in the public guide was re-opened against the live of
 | Law-change watchlist | present | `guide/tax.html` (H.R. 1301, SB 284, SF Prop H, SF File 261020) |
 | Sources page; every table row linked to official source or left blank/unverified | present | `guide/sources.html`; tests assert every row has an approved-agency https:// source |
 
-**Privacy note:** The user's stated real property values (e.g. Cupertino 95014, SF 94122 estimates) are household case inputs. Per the privacy instruction they are treated as unverified and are NOT published; the guide uses clearly-labeled fictional example values. Real figures must be confirmed privately and must not be committed.
+**Privacy note:** The user's stated real property values (e.g. Cupertino [ZIP-A], SF [ZIP-B] estimates) are household case inputs. Per the privacy instruction they are treated as unverified and are NOT published; the guide uses clearly-labeled fictional example values. Real figures must be confirmed privately and must not be committed.
 
 ## 4. Test results (all PASS)
 
