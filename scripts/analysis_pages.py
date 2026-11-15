@@ -234,12 +234,13 @@ WHATIF_JS = r"""
     var best = Object.keys(row).reduce(function(a,b){ return row[a] >= row[b] ? a : b; });
     var st = document.getElementById('wi-status');
     var lb = document.querySelector('[data-wi-label="' + best + '"]');
-    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. '+PROVENANCE;
+    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. ' + '__PROVENANCE__';
   }
   els.forEach(function(e){ e.addEventListener('change', refresh); });
   refresh();
 })();
 """
+WHATIF_JS = WHATIF_JS.replace('__PROVENANCE__', PROVENANCE.replace('\\', '\\\\').replace("'", "\\'"))
 
 
 # ---------------------------------------------------------------- flagged additions and suggestions
