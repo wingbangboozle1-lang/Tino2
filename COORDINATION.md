@@ -2244,8 +2244,30 @@ During follow-up work on a print sheet, glossary and grouped navigation, rebasin
 |---|---|---|---|---|---|
 | I-1 | Claim the board, push the claim at once | done on push | 22232d36 | `COORDINATION.md` (this block) | — |
 | I-2 | Re-run full local suite on current tree | done | 22232d36 | `scripts/`, `guide/`, `assets/safe.*` | test-model-reference PASS; package-site PASS; check-publication PASS; privacy-audit PASS; test-guide PASS |
-| I-3 | Open PR from `arena/22232d36-tino2` to `main`, merge without waiting | pending | 22232d36 | this block | — |
-| I-4 | Confirm GitHub Pages build and deployment on the merge commit | pending | 22232d36 | this block | Pages source is legacy `main`/`/`; `_config.yml` exclusions control the artifact |
-| I-5 | Read back the live pages and record PR link + merge result | pending | 22232d36 | this block | Live URL: https://wingbangboozle1-lang.github.io/Tino2/ |
+| I-3 | Open PR from `arena/22232d36-tino2` to `main`, merge without waiting | done | 22232d36 | this block | PR #106, merged as merge commit `5e60530d` at 2026-11-15 |
+| I-4 | Confirm GitHub Pages build and deployment on the merge commit | done | 22232d36 | this block | Pages build `1371694882` status `built`, no errors, commit `5e60530d4b` |
+| I-5 | Read back the live pages and record PR link + merge result | done | 22232d36 | this block | Live read-back of `https://wingbangboozle1-lang.github.io/Tino2/` and `/guide/summary.html` confirmed: first-screen "what would change", executive summary, reinvestment risk beside headline, official source links, privacy notice, $10 rounding |
 
 **Rules this session follows.** No household figure, ZIP code, parcel number, address or name is added to any committed file. Every published table row keeps a link to an official `https://` source or is left blank and flagged — nothing is inferred. No history rewriting (shallow clone, 70+ remote branches). Privacy gate `scripts/privacy-gate.py` run before push.
+
+### Session `22232d36` — completion record, 15 Nov 2026
+
+**Merged:** PR [#106](https://github.com/wingbangboozle1-lang/Tino2/pull/106) — "Session 22232d36: final integration and Pages publication" — merged to `main` as merge commit `5e60530d` without waiting for approval.
+
+**Verification on the merge commit:**
+- `test-model-reference.py` — PASS: 108 configurations, 250 stress years, 1,500 phased-investment years, 20,736 comparisons
+- `package-site.py` — PASS: 32 reviewed guide files packaged, legacy excluded
+- `check-publication.py --self-test` — PASS: publication boundary intact
+- `privacy-audit.cjs` — PASS: no raw pre-rounding household tokens, ZIPs, or identifiers
+- `test-guide.cjs` — PASS: 18 rendered pages, 1,039 source-linked rows, 12,377 checks
+- `privacy-gate.py --self-test` — PASS
+
+**Pages deployment:**
+- Build `1371694882`: status `built`, no errors, commit `5e60530d4b`
+- Live read-back confirmed: homepage and `/guide/summary.html` render correctly with first-screen "what would change", executive summary, reinvestment risk beside headline, official source links, privacy notice, and $10 rounding.
+
+**Suite on the merged tree (all PASS):** test-model-reference · package-site + check-publication · test-guide · privacy-audit · privacy-gate.
+
+**No new irregularities introduced.** Standing review flags remain on the guide's Flagged page (`guide/review.html`) and are not blocking.
+
+**Owner decisions still open:** L-D2 (pre-rounding history scrub — runbook on the Flagged page, needs repository administrator), and the residual re-identification risk disclosure. Privacy gate blocks any identifier re-introduction on future pushes.
