@@ -378,6 +378,44 @@
    "verified": true,
    "checked": "2026-11-15",
    "note": "Read directly from the 2025 California Tax Rate Schedules PDF on 15 Nov 2026: Schedule X 12.30% at and over $742,953; Schedule Y 12.30% at and over $1,485,906; Schedule Z 12.30% at and over $1,010,417. These are published government thresholds, so the site shows them exactly instead of rounding them to $10; the $10 rule applies to household and model amounts."
+  },
+  {
+   "id": "CA-BHST-1M",
+   "topic": "California income tax",
+   "claim": "California Form 540 line 62 Behavioral Health Services Tax: 1% on California taxable income above $1,000,000, computed on the whole-dollar excess; added on top of the regular rate schedule",
+   "official_exact": "1% of the excess over $1,000,000",
+   "display_rounded": "1% of the excess over $1,000,000",
+   "source_url": "https://www.ftb.ca.gov/forms/2025/2025-540-instructions.html",
+   "source_id": "ftb",
+   "extra_source_url": "https://www.ftb.ca.gov/forms/2025/2025-540-booklet.pdf",
+   "verified": true,
+   "checked": "2026-11-15",
+   "note": "FTB 2025 Instructions for Form 540, Line 62, read 15 Nov 2026: taxable income from line 19 less $1,000,000, multiplied by 1%. The Mental Health Services Act was renamed the Behavioral Health Services Act for taxable years beginning on or after 1 January 2025 (FTB Tax News, March 2026). California taxes capital gains as ordinary income, so a large gain pushing taxable income above $1M faces the 12.3% top bracket plus this 1% surcharge (13.3% combined on that slice)."
+  },
+  {
+   "id": "CA-CAPITAL-GAINS-ORDINARY",
+   "topic": "California income tax",
+   "claim": "California does not grant a preferential rate for long-term capital gains; gains are taxed as ordinary income under the graduated rate schedule, subject to the 1% Behavioral Health Services Tax above $1,000,000",
+   "official_exact": "text rule",
+   "display_rounded": "text rule",
+   "source_url": "https://www.ftb.ca.gov/forms/2025/2025-540-instructions.html",
+   "source_id": "ftb",
+   "verified": true,
+   "checked": "2026-11-15",
+   "note": "FTB 2025 Form 540 instructions, read 15 Nov 2026: California computes tax on California taxable income using the rate schedules; capital gains are included in ordinary income. Combined with CA-RATE-SCHEDULE-2025 and CA-BHST-1M, the top combined marginal rate on a gain above $1M of taxable income is 13.3% (12.30% + 1.00%)."
+  },
+  {
+   "id": "SCC-RATE-BOOK",
+   "topic": "Santa Clara County property tax",
+   "claim": "Santa Clara County publishes a Compilation of Tax Rates & Information each fiscal year; the rate is limited to 1% of assessed value plus voter-approved bond indebtedness, and the county is divided into 816 Tax Rate Areas whose first two digits identify the city or unincorporated area; the lien date is January 1",
+   "official_exact": "1% base + bonds; 816 TRAs; lien date Jan 1",
+   "display_rounded": "1% base + bonds; 816 TRAs; lien date Jan 1",
+   "source_url": "https://controller.santaclaracounty.gov/property-tax-distribution/property-tax-rate-book",
+   "source_id": "sccTax",
+   "extra_source_url": "https://files.santaclaracounty.gov/exjcpb1531/2025-11/tax-rate-book-2025-2026.pdf",
+   "verified": true,
+   "checked": "2026-11-15",
+   "note": "SCC Controller-Treasurer Property Tax Rate Book page, read 15 Nov 2026. The FY2025-26 book states the 1% limit, voter-approved bond add-ons, 816 Tax Rate Areas, and January 1 lien date. The exact TRA rate for a specific parcel cannot be read from the published book without the parcel's TRA number; the bill's effective rate (including direct charges) is owner-stated and flagged."
   }
  ],
  "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here."
