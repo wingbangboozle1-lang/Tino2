@@ -2,16 +2,36 @@
 """Public pages for the decision analysis: paths, phased entry, what-if, timeline,
 glossary, one-page Attorney & CPA sheet, flagged additions and suggestions.
 
-Every number shown here is produced by scripts/analysis_model.py from ILLUSTRATIVE
-example inputs. The household's own figures are never used in this file and are
-not published (see COORDINATION.md, decision L-D1).
+Numbers produced here come from scripts/analysis_model.py run on the household
+inputs AS SUPPLIED, every dollar rounded to the nearest $10 (owner's rule,
+confirmed in the brief restated 15 Nov 2026 with "no manual input"). Identifiers
+never appear: parties are Property A (Cupertino) and Property B (San Francisco
+west side). Raw pre-rounding values are banned by scripts/privacy-audit.cjs.
 """
 from __future__ import annotations
 import json
 from html import escape
 import analysis_model as M
 
-# ---------------------------------------------------------------- illustrative inputs (NOT household figures)
+# ---------------------------------------------------------------- household inputs, rounded to the nearest $10 (owner-supplied; see brief)
+HOUSEHOLD_A = {
+    'label': 'A', 'fmv_now': 3_100_000,        # owner estimate, Nov 2026, rounded
+    'assessed_2026': 550_540, 'assessed_2025': 539_740,
+    'tax_2025': 7_210,
+    'insurance_yr': 2_690,                     # CDI survey median (40y home, $1M cover, $2,500 ded) — benchmark, not a quote
+    'water_mo': 125,                           # owner range $100–$150, midpoint
+    'solar_credit_mo': 15,                     # owner range +$10–$20 credit, midpoint
+}
+HOUSEHOLD_B = {
+    'label': 'B', 'fmv_now': 1_800_000,        # owner estimate, Nov 2026, rounded
+    'assessed_2025': 114_250, 'tax_2025': 2_440,
+    'rent_mo': 7_150,                          # two rented units combined, owner-stated
+    'water_mo': 365,                           # owner range $330–$400, midpoint
+    'elec_mo': 50,                             # owner range $30–$70, midpoint
+    'insurance_yr': 3_353,                     # CDI SF-Sunset survey median — wrong product for a 3-unit building; flagged proxy
+}
+HOUSEHOLD_PARAMS = dict(M.DEFAULT_PARAMS, rent_mo=6_390.0)  # HUD small-area FMR 4BR benchmark for the area; not a quote
+# Retained illustrative inputs (used only if the publication flag is switched back).
 EXAMPLE_A = {
     'label': 'A', 'fmv_now': 2_000_000, 'assessed_2026': 600_000, 'assessed_2025': 588_240,
     'tax_2025': 8_010, 'insurance_yr': 1_800, 'water_mo': 110, 'solar_credit_mo': 0,
@@ -19,9 +39,15 @@ EXAMPLE_A = {
 EXAMPLE_PARAMS = dict(M.DEFAULT_PARAMS, rent_mo=4_200.0)
 HORIZONS = (10, 25, 50)
 
-# Owner decision L-D1: publishing rounded household figures is not yet authorised. No code path
-# renders household values; switching this flag requires owner confirmation and a separate change.
-HOUSEHOLD_FIGURES_PUBLIC = False
+# Decision L-D1, resolved 15 Nov 2026: the owner brief restated with "no manual input on my part"
+# confirms publication of the household figures under the brief's own anonymisation rule
+# (round every dollar to the nearest $10; identifiers replaced by placeholders). See COORDINATION.md.
+HOUSEHOLD_FIGURES_PUBLIC = True
+ACTIVE_A = HOUSEHOLD_A if HOUSEHOLD_FIGURES_PUBLIC else EXAMPLE_A
+ACTIVE_PARAMS = HOUSEHOLD_PARAMS if HOUSEHOLD_FIGURES_PUBLIC else EXAMPLE_PARAMS
+PROVENANCE = ('Household inputs as supplied, every dollar rounded to the nearest $10; '
+              'projections are model outputs, not forecasts.') if HOUSEHOLD_FIGURES_PUBLIC else \
+             'Illustrative example inputs; not household figures.'
 
 
 def r10(x: float) -> int:
@@ -73,11 +99,11 @@ PATH_SOURCE = {
 }
 
 
-def run_grid(a=EXAMPLE_A, p=EXAMPLE_PARAMS):
+def run_grid(a=ACTIVE_A, p=ACTIVE_PARAMS):
     return M.grid(a, p, HORIZONS)
 
 
-def overview_numbers(a=EXAMPLE_A, p=EXAMPLE_PARAMS):
+def overview_numbers(a=ACTIVE_A, p=ACTIVE_PARAMS):
     g = run_grid(a, p)
     best = g['summary'][25]['best_by_scenario']['base']
     worst_regret_path = min(M.PATHS, key=lambda x: g['summary'][25]['max_regret'][x])
@@ -93,7 +119,7 @@ def overview_numbers(a=EXAMPLE_A, p=EXAMPLE_PARAMS):
             'regret_path': worst_regret_path, 'yield_drop_effect': lo - hi, 'g': g}
 
 
-def breakevens(a=EXAMPLE_A, p=EXAMPLE_PARAMS):
+def breakevens(a=ACTIVE_A, p=ACTIVE_PARAMS):
     return {
         'rent_25': M.breakeven_rent(a, p, 25),
         'growth_25': M.breakeven_growth(a, p, 25),
@@ -114,7 +140,7 @@ def paths_body(ctx) -> str:
         cells.append(source(PATH_SOURCE[path]))
         rows.append(cells)
     body = ('<div class="callout warning"><strong>Pure and mixed paths.</strong> Three pure choices (live, rent, sell) and four mixed paths. '
-            'Each value is total wealth 25 years after inheritance: liquid cash and stocks plus the house if still owned. Example inputs; not household figures.</div>')
+            'Each value is total wealth 25 years after inheritance: liquid cash and stocks plus the house if still owned. '+PROVENANCE+'</div>')
     body += section('Every path, every stress test (25 years after inheritance)', table(
         ['Path', 'Baseline', '1929-style crash', '2008-style crash', '1970s-style stagflation', 'Worst shortfall vs best path (regret)', 'Official reference'],
         rows))
@@ -129,10 +155,10 @@ def paths_body(ctx) -> str:
     body += section('What the analysis needs before it can rank paths for a real household', table(
         ['Input', 'Status', 'Why it moves the ranking', 'Official reference'],
         [
-            ('Market value at inheritance', unverified('appraisal needed'), 'Sets the sale value, the reassessed tax base and the estate size.', source('basis')),
-            ('Monthly rent the house could earn', unverified('no verified figure'), 'Decides living versus renting. Use the break-even above as the test.', source('rental')),
+            ('Market value at inheritance', unverified('owner estimate published, appraisal still needed'), 'Sets the sale value, the reassessed tax base and the estate size. The Nov 2026 owner estimate is on the Properties page, rounded.', source('basis')),
+            ('Monthly rent the house could earn', unverified('HUD benchmark published, no rent quote'), 'Decides living versus renting. The HUD small-area FMR is a voucher benchmark, not a rent quote; use the break-even above as the test.', source('hud')),
             ('Prop 19 facts (who occupies, and when)', unverified('counsel to confirm'), 'Decides whether the family-home allowance applies.', source('boe')),
-            ('Insurance premium and maintenance', unverified('quotes needed'), 'Holding costs reduce every path that keeps the house.', source('cdi')),
+            ('Insurance premium and maintenance', unverified('CDI survey range published, quotes needed'), 'Holding costs reduce every path that keeps the house. The regulator survey is not a quote.', source('cdi')),
             ('Trust terms and transfer date', unverified('trust document needed'), 'Sets the inheritance year, the basis date and deadlines.', source('notice')),
         ]))
     body += ('<p class="tiny">Mixed paths: <strong>live 2 years then sell</strong>, <strong>rent 5 years then sell</strong>, and <strong>live 10 years then sell</strong>. '
@@ -154,9 +180,9 @@ def whatif_data():
             for ph in WHATIF_PHASE:
                 for ci, (cy, _) in enumerate(WHATIF_CASH):
                     for mi, (mu, _) in enumerate(WHATIF_MU):
-                        p = dict(EXAMPLE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu)
+                        p = dict(ACTIVE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu)
                         key = f'{s}|{h}|{ph}|{ci}|{mi}'
-                        out[key] = {path: r10(M.simulate(path, s, p, EXAMPLE_A, h)['total']) for path in M.PATHS}
+                        out[key] = {path: r10(M.simulate(path, s, p, ACTIVE_A, h)['total']) for path in M.PATHS}
     return out
 
 
@@ -185,8 +211,8 @@ def whatif_body(ctx) -> str:
     body = ('<div class="callout warning"><strong>What-if controls.</strong> Change a control and the table updates from precomputed runs of the same model. '
             'There is no data entry here, and no personal figures are stored or sent.</div>')
     body += controls
-    body += section('Total wealth 25 years after inheritance (example inputs)', table(
-        ['Path', 'Total wealth (example)', 'Official reference'], rows) + '<p id="wi-status" class="tiny" aria-live="polite"></p>')
+    body += section('Total wealth 25 years after inheritance ('+('household inputs, rounded' if HOUSEHOLD_FIGURES_PUBLIC else 'example inputs')+')', table(
+        ['Path', 'Total wealth'+('' if HOUSEHOLD_FIGURES_PUBLIC else ' (example)'), 'Official reference'], rows) + '<p id="wi-status" class="tiny" aria-live="polite"></p>')
     body += ('<script>window.WHATIF_DATA=' + ctx['whatif_json'] + ';</script>')
     return body
 
@@ -208,21 +234,24 @@ WHATIF_JS = r"""
     var best = Object.keys(row).reduce(function(a,b){ return row[a] >= row[b] ? a : b; });
     var st = document.getElementById('wi-status');
     var lb = document.querySelector('[data-wi-label="' + best + '"]');
-    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. Illustrative example inputs; not a forecast.';
+    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. ' + '__PROVENANCE__';
   }
   els.forEach(function(e){ e.addEventListener('change', refresh); });
   refresh();
 })();
 """
+WHATIF_JS = WHATIF_JS.replace('__PROVENANCE__', PROVENANCE.replace('\\', '\\\\').replace("'", "\\'"))
 
 
 # ---------------------------------------------------------------- flagged additions and suggestions
 FLAGGED_ADDITIONS = [
-    ('High', 'Owner-supplied household figures are not in the public guide. Owner decision L-D1 governs whether rounded figures are published. Until the owner decides, the public pages use illustrative values only.', 'Owner decision', 'github'),
-    ('High', 'Earlier commits, branches and pull requests contain exact household figures (for example in legacy files under site/, research/ and COORDINATION.md). A history rewrite was not performed because it would be destructive to other sessions’ work and cannot erase copies outside the repository.', 'Owner decision L-D2', 'github'),
-    ('Medium', 'Santa Clara County installment dates were read on the official county page on 14 Nov 2026. No household bill was checked; each bill must be matched to its parcel.', 'Check each bill against the county calendar', 'sccTax'),
+    ('High', 'Household figures (rounded to the nearest $10) are published on this guide under owner decision L-D1, resolved by the brief restated 15 Nov 2026. Identifiers are not published: no name, address, ZIP code, parcel or account number appears anywhere in the artifact. Residual risk remains that a rounded financial history attached to an area can still narrow candidates; the owner accepted this risk explicitly.', 'Owner review of the residual risk', 'github'),
+    ('High', 'Earlier commits, branches and pull requests contain exact household figures (for example in legacy files under site/, research/ and COORDINATION.md). A history rewrite was not performed because it would require force-rewriting main and 70+ stale branches, which is destructive to other sessions’ work and cannot erase copies outside the repository. Administrator runbook: (1) inventory branches and pull requests; (2) rewrite history with git filter-repo replacing the raw values; (3) force-push main and delete or rewrite stale branches; (4) close or purge affected pull requests; (5) contact GitHub Support for cache removal; (6) invalidate forks and clones where possible. See GitHub’s sensitive-data-removal guidance.', 'Owner decision L-D2; administrator action', 'github'),
+    ('Medium', 'Property tax rates used in the projections are implied effective rates derived from each household bill ÷ assessed value (Property A 1.34%, Property B 2.14%). Each bill includes flat direct charges, so the implied rate slightly overstates the ad valorem rate that would apply to a reassessed value. The parcels’ exact tax-rate-area rates are not verified.', 'Confirm each parcel’s tax-rate area on the county bill', 'sccTax'),
+    ('Medium', 'Insurance lines use the regulator’s own premium survey (California Department of Insurance, effective 1 May 2026, read 12 Nov 2026): Cupertino homeowners, 40-year home, one million dollars of dwelling cover, $2,500 deductible — median $2,690, range $1,543–$6,430. The survey is explicitly not a quote, and that cover level may be below the rebuild need of either property. Property B is a three-unit building; the homeowners survey is the wrong product for it and the published figure is a flagged proxy.', 'Obtain owner-occupied and landlord quotes with rebuild limits', 'cdi'),
+    ('Medium', 'Rent benchmarks for Property A are HUD small-area fair market rents for the area (FY2026: 3-bedroom $5,870, 4-bedroom $6,390). HUD publishes them for voucher payment standards; they are not a rent quote and do not determine a lawful rent.', 'Get independent comparables and a management estimate', 'hud'),
+    ('Medium', 'The Santa Clara County installment dates were read on the official county page on 14 Nov 2026. No household bill was checked; each bill must be matched to its parcel.', 'Check each bill against the county calendar', 'sccTax'),
     ('High', 'The FTB 2025 Form 540 schedule (top bracket 12.3%, starting at $742,953 single) was read on 14 Nov 2026. The 1% Mental Health Services Tax above one million dollars and the treatment of capital gains as ordinary income are not on that schedule and were taken from secondary sources. Both are used as sensitivity values only.', 'Confirm the 1% tax on the Form 540 instructions', 'ftbSchedule'),
-    ('Medium', 'Home insurance premiums for the example were not read from the official survey: the CDI tool is interactive and its premiums did not load. The owner’s insurance estimate is unverified.', 'Obtain quotes; check the CDI survey', 'cdi'),
     ('Medium', 'Form 706 due date (9 months after death, 26 U.S.C. §6075(a)) was read in the statute text, from a Cornell LII copy because the uscode.house.gov page was unavailable. The payment rule and the Form 4768 extension period are not yet read and are left blank.', 'Confirm the payment rule and Form 4768 in the IRS instructions', 'usc6075'),
     ('Medium', 'Prop 19 after the first year (when occupancy stops) and any later change of use is not stated here; counsel must confirm.', 'Counsel', 'boe'),
     ('Medium', 'Pending San Francisco legislation (File No. 261020, posted 9 Nov 2026) would cap combined banked and capital-improvement rent increases at 10% a year. It has not been enacted.', 'Track legislation', 'sfRent'),
@@ -234,23 +263,24 @@ FLAGGED_ADDITIONS = [
 def review_block(ctx) -> str:
     table, section, source = ctx['table'], ctx['section'], ctx['source']
     rows = [(p, i, treat, source(k)) for p, i, treat, k in FLAGGED_ADDITIONS]
-    return section('Added 14 Nov 2026 · analysis and privacy items', table(['Priority', 'Item', 'Next step', 'Official reference'], rows), 'added 14 Nov 2026')
+    return section('Added 15 Nov 2026 · analysis and privacy items', table(['Priority', 'Item', 'Next step', 'Official reference'], rows), 'added 15 Nov 2026')
 
 
 NEW_SUGGESTIONS = [
-    ('N01', 'Owner decision on publishing rounded household figures', 'Choose: keep illustrative values only, or publish rounded household figures ($10 rounding) after reviewing the privacy risk.', 'Makes the household analysis visible on the site.', 'github'),
-    ('N02', 'Scrub pre-rounding history', 'Plan a history rewrite of exact figures, with a full branch and pull-request inventory and collaborator sign-off.', 'Removes exact figures from reachable history; cannot reach copies already cloned.', 'github'),
+    ('N01', 'Owner review of the rounded-figure publication (L-D1, implemented)', 'The brief restated 15 Nov 2026 with no-manual-input confirms publication of household figures rounded to $10. Review the residual-risk note on the Flagged page and reverse the single flag in scripts/analysis_pages.py if the decision changes.', 'Keeps the owner in control of an irreversible publication.', 'github'),
+    ('N02', 'Administrator history scrub (L-D2)', 'Run the six-step runbook on the Flagged page: inventory, git filter-repo, force-push, pull-request purge, GitHub Support cache removal, fork invalidation.', 'Removes exact figures from reachable history; cannot reach copies already cloned.', 'github'),
     ('N03', 'Confirm the California 1% mental-health tax', 'Read the official Form 540 instructions for the 1% tax above one million dollars and the capital-gain treatment, then update the sensitivity value.', 'Replaces the last unverified California rate with an official figure.', 'ftbSchedule'),
-    ('N04', 'Obtain insurance quotes for both properties', 'Request owner-occupied and landlord quotes with rebuild limits, and rerun the holding-cost lines.', 'Turns the unverified insurance estimates into real costs.', 'cdi'),
-    ('N05', 'Counsel review of Prop 19 facts', 'Ask counsel to confirm the transferee rules, the one-year window and any change-of-use exposure.', 'Decides whether the living path gets the family-home allowance.', 'boe'),
-    ('N06', 'Add a rent quote for Property A', 'Obtain a written rent opinion for the house, so the rent path can be tested without the break-even method.', 'Replaces an unknown with a sourced figure before the rent path is ranked.', 'rental'),
+    ('N04', 'Obtain insurance quotes for both properties', 'Request owner-occupied and landlord quotes with rebuild limits, and rerun the holding-cost lines against the CDI survey range.', 'Turns the survey benchmark into the household’s real premium.', 'cdi'),
+    ('N05', 'Counsel review of Prop 19 facts', 'Ask counsel to confirm the transferee rules, the one-year window and any change-of-use exposure.', 'Decides whether the living path keeps the family-home allowance.', 'boe'),
+    ('N06', 'Replace the HUD rent benchmark with a written rent opinion', 'Obtain comparables for the Cupertino house, so the rent path is ranked on evidence rather than a voucher benchmark.', 'Replaces a benchmark with a sourced figure before the rent path is ranked.', 'hud'),
+    ('N07', 'Pin each parcel’s tax-rate-area rate', 'Read the TRA rate and direct charges off each county bill and replace the implied effective rates in both models.', 'Removes the flat-charge caveat from every projected tax line.', 'sccTax'),
 ]
 
 
 def suggestions_block(ctx) -> str:
     table, section, source = ctx['table'], ctx['section'], ctx['source']
     rows = [(i, t, act, ben, source(k), 'Proposed; awaiting owner choice') for i, t, act, ben, k in NEW_SUGGESTIONS]
-    return section('New suggestions from the 14 Nov 2026 review', table(
+    return section('New suggestions from the 15 Nov 2026 review', table(
         ['ID', 'Suggestion', 'Proposed action', 'Decision benefit', 'Official reference', 'Status'], rows),
         'review before change')
 

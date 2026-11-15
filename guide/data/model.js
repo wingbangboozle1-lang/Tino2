@@ -1,20 +1,27 @@
-/* Public teaching example. Every property amount is invented; none is a household input.
-   Official sources explain rules, not these assumptions. Values are not forecasts. */
+/* Household inputs as supplied by the owner, every dollar rounded to the nearest $10.
+   Owners are placeholders: Property A (Cupertino), Property B (San Francisco west side).
+   Scenario knobs (growth, returns, tax rates) are labelled assumptions, not forecasts.
+   Official sources explain rules and benchmarks; owner-stated figures are flagged. */
 (function () {
   const BASE = Object.freeze({
     startYear: 2026,
-    aValue: 2400000, aAssessed: 800000,
-    bValue: 1200000, bAssessed: 612000,
-    aRate: 0.012, bRate: 0.0118162182,
+    aValue: 3100000, aAssessed: 550540,          // owner-stated Nov 2026 value; 2026 factored base
+    bValue: 1800000, bAssessed: 114250,          // owner-stated Nov 2026 value; 2025 factored base (latest supplied)
+    aRate: 7210 / 539740,                        // implied from the 2025 bill ÷ assessed value; bill includes flat direct charges
+    bRate: 2440 / 114250,                        // implied from the 2025 bill ÷ assessed value; bill includes flat direct charges
     appreciation: 0.035, assessmentGrowth: 0.02,
     expenseInflation: 0.03, rentGrowth: 0.03, sfRentGrowth: 0.016,
     portfolioNet: 0.05, saleCost: 0.055, vacancy: 0.07, management: 0.085,
     maintenanceA: 0.0075, maintenanceB: 0.0125,
-    ordinaryTax: 0.30, capitalGainsTax: 0.25, primaryGainExclusion: 250000,
-    aRentMonthly: 5200, bRentMonthly: 4200,
-    aWaterMonthly: 200, aSolarMonthlyCredit: 0, aInsuranceAnnual: 2800,
-    bWaterMonthly: 220, bElectricMonthly: 100, bInsuranceAnnual: 3000,
-    bFeeAnnual: 120,
+    ordinaryTax: 0.30, capitalGainsTax: 0.361, primaryGainExclusion: 250000,
+    // capitalGainsTax = 20% federal top + 3.8% NIIT + 12.3% CA top (verified components;
+    // the CA 1% mental-health surcharge is excluded pending verification — see Flagged).
+    aRentMonthly: 6390, bRentMonthly: 7150,      // A: HUD small-area FMR 4BR benchmark, not a quote. B: owner-stated, two units.
+    aWaterMonthly: 125, aSolarMonthlyCredit: 15, // owner ranges $100–$150 and a $10–$20 credit, midpoints
+    aInsuranceAnnual: 2690,                      // CDI survey median (40y home, $1M cover, $2,500 ded) — not a quote
+    bWaterMonthly: 365, bElectricMonthly: 50,    // owner ranges $330–$400 and $30–$70, midpoints
+    bInsuranceAnnual: 3353,                      // CDI SF-Sunset survey median — wrong product for a 3-unit building; flagged proxy
+    bFeeAnnual: 120,                             // invented placeholder; SF fees not verified
     // Official 2025–Feb 2027 allowance and 2026/2027 basic exclusions;
     // later amounts are hypothetical indexation, not published IRS/BOE figures.
     prop19Amount: 1044586,

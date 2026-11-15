@@ -23,15 +23,15 @@
     const c={...B,inheritYear:y,appreciation:growth,portfolioNet:ret};
     const d=M.decision(c,horizon);
     const assumptions=[
-      ['A · starting market / assessment',`${money(c.aValue)} / ${money(c.aAssessed)}`,'Invented 2026 values; no appraisal or bill.',src('tax')],
-      ['B · starting market / assessment',`${money(c.bValue)} / ${money(c.bAssessed)}`,'Invented 2026 values; B is already owned, not inherited.',src('tax')],
+      ['A · starting market / assessment',`${money(c.aValue)} / ${money(c.aAssessed)}`,'Owner-stated Nov 2026 values, rounded to $10; not verified against an appraisal or bill.',src('tax')],
+      ['B · starting market / assessment',`${money(c.bValue)} / ${money(c.bAssessed)}`,'Owner-stated Nov 2026 values, rounded to $10. B is already owned by the heir, not part of the transfer.',src('tax')],
       ['Both · home growth / assessment growth',`${pct(growth)} / ${pct(c.assessmentGrowth)}`,'Scenario rates; the 2% cap is not a guaranteed actual increase. Assessment is capped at modeled market value.',src('tax')],
-      ['A · assumed ad valorem rate',pct(c.aRate),'Invented combined rate; excludes direct and supplemental charges.',src('tax')],
-      ['B · ad valorem rate',pct(c.bRate,8),'The 2026–27 SF secured rate is held constant as a future scenario; excludes direct charges.',src('sfTax')],
-      ['A · rent / vacancy / management',`${money(c.aRentMonthly)} per month / ${pct(c.vacancy)} / ${pct(c.management)}`,'Invented 2026 rent; 3% annual growth. Vacancy applies to gross rent; management applies after vacancy.',src('rent')],
-      ['A · water / insurance / maintenance',`${money(c.aWaterMonthly)} monthly / ${money(c.aInsuranceAnnual)} yearly / ${pct(c.maintenanceA)} of market value yearly`,'Invented 2026 costs; water and insurance grow 3% a year. Solar credit and electricity expense are zero in this example, not verified.',src('water','Water context')+' · '+src('insurance','Insurance context')],
-      ['B · rent / water / electricity / insurance',`${money(c.bRentMonthly)} monthly / ${money(c.bWaterMonthly)} monthly / ${money(c.bElectricMonthly)} monthly / ${money(c.bInsuranceAnnual)} yearly`,'Invented 2026 amounts. Rent is the combined amount from two rented units; the owner-available unit is not rented. 1.6% annual rent growth is only a continuing scenario.',src('sf','Rent-rule context')+' · '+src('sfWater','Utility context')],
-      ['B · maintenance / reserves / annual fee',`${pct(c.maintenanceB)} of value / ${pct(c.vacancy)} vacancy / ${pct(c.management)} management / ${money(c.bFeeAnnual)} yearly`,'Invented 2026 amounts; annual fee and utilities grow 3%. Vacancy applies to gross rent, management after vacancy.',src('rent')],
+      ['A · assumed ad valorem rate',pct(c.aRate),'Implied rate: 2025 bill ÷ 2025 assessed value. The bill includes flat direct charges, so this slightly overstates the ad valorem rate on a reassessed value.',src('tax')],
+      ['B · implied tax rate',pct(c.bRate,4),'Implied rate: 2025 bill ÷ 2025 assessed value; includes flat direct charges.',src('sfTax')],
+      ['A · rent / vacancy / management',`${money(c.aRentMonthly)} per month / ${pct(c.vacancy)} / ${pct(c.management)}`,'A rent is the HUD small-area FMR 4BR benchmark for the area, not a quote; 3% annual growth. Vacancy applies to gross rent; management applies after vacancy.',src('rent')],
+      ['A · water / insurance / maintenance',`${money(c.aWaterMonthly)} monthly / ${money(c.aInsuranceAnnual)} yearly / ${pct(c.maintenanceA)} of market value yearly`,'Owner ranges used at midpoints (water $100-$150; solar credit $10-$20 credit). Insurance is the CDI survey median, not a quote. Water and insurance grow 3% a year.',src('water','Water context')+' · '+src('insurance','Insurance context')],
+      ['B · rent / water / electricity / insurance',`${money(c.bRentMonthly)} monthly / ${money(c.bWaterMonthly)} monthly / ${money(c.bElectricMonthly)} monthly / ${money(c.bInsuranceAnnual)} yearly`,'Owner-stated amounts, rounded to $10. Rent is the combined amount from two rented units; the owner-available third unit is not rented. 1.6% annual rent growth is only a continuing scenario.',src('sf','Rent-rule context')+' · '+src('sfWater','Utility context')],
+      ['B · maintenance / reserves / annual fee',`${pct(c.maintenanceB)} of value / ${pct(c.vacancy)} vacancy / ${pct(c.management)} management / ${money(c.bFeeAnnual)} yearly`,'Maintenance rates are assumptions. The annual fee is an unverified placeholder. Utilities grow 3%. Vacancy applies to gross rent, management after vacancy.',src('rent')],
       ['Sale cost / portfolio return',`${pct(c.saleCost)} / ${pct(ret)} annual net proxy`,'Invented assumptions, not quotes or forecasts. No additional portfolio liquidation tax.',src('invest')],
       ['Income / capital-gain tax rates',`${pct(c.ordinaryTax)} / ${pct(c.capitalGainsTax)}`,'Flat combined scenario rates; no rental depreciation, recapture, loss benefit or taxpayer-specific brackets.',src('rent')],
       ['Primary-residence exclusion',`${money(c.primaryGainExclusion)} assumed at endpoint`,'Assumes the use and other requirements are met; real eligibility is not automatic.',src('residence')],
@@ -39,7 +39,7 @@
     ];
     document.getElementById('assumptions').innerHTML=assumptions.map(tr).join('');
     const names={sell:'Sell and reinvest',rent:'Rent then sell',live:'Live then sell'};
-    document.getElementById('winner').innerHTML=`<h3>In this fictional setup: ${names[d.winner]} leads.</h3><p>That is a calculation for invented assumptions, not advice or a personalized result. The transfer is modeled in ${y} and the comparison ends in ${y+horizon}. Change assumptions and review the omitted costs before drawing conclusions.</p>`;
+    document.getElementById('winner').innerHTML=`<h3>On these inputs: ${names[d.winner]} leads.</h3><p>Household inputs are rounded to $10; scenario rates are assumptions, not forecasts. This is a calculation, not tax or legal advice. The transfer is modeled in ${y} and the comparison ends in ${y+horizon}. Change assumptions and review the omitted costs before drawing conclusions.</p>`;
     document.getElementById('comparison').innerHTML=['sell','rent','live'].map(k=>{
       const a=d[k], cash=k==='sell'?`${money(a.firstYearCash)} portfolio change (not a distribution)`:money(a.firstYearCash);
       return tr([`<strong>${names[k]}</strong>`,money(a.initialNet),cash,`<strong>${money(a.terminal)}</strong>`,src(k==='sell'?'invest':k==='rent'?'rent':'boe','Rule / risk context')]);

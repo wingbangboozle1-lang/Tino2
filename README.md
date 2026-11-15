@@ -2,15 +2,27 @@
 
 A public, source-linked planning guide for comparing an anticipated Cupertino trust inheritance (Property A) with an already-owned San Francisco property (Property B). The planning premise for B is two rented units plus a third unit available for the owner without displacing those rents. The premise has not been independently verified.
 
-**The public calculator is a teaching example, not a personalized analysis.** All property amounts, projected results and rates other than identified official rule values are fictional assumptions. Actual household data and documents must not be committed or placed in the public artifact. Official links explain laws and context; they do not verify private records or hypothetical projections.
+**Publication policy (owner rule, restated 15 Nov 2026).** The published guide carries the household's own costs and figures **rounded to the nearest $10** — the owner's anonymisation rule, chosen so values cannot be traced back to county bills or online records — and the analysis, projections and recommendation built on them. No identifier is ever published: no name, street address, ZIP code, parcel number or account number, only the placeholders `Property A` (Cupertino) and `Property B` (San Francisco west side). Raw pre-rounding values are banned from every committed file by `scripts/privacy-audit.cjs`. Projections are model outputs under stated assumptions, not forecasts; official links explain laws and context, and do not verify the owner-stated figures, which are flagged as such. This is not legal or tax advice.
 
 ## Important privacy incident
 
 This GitHub repository is public. Older commits, branches, pull requests, existing legacy files, caches, forks or clones may contain distinctive household-derived financial information. A Pages exclusion, rounding, `robots.txt`, or deletion in a later commit **does not remove** that exposure. Coordinate cleanup with collaborators and [GitHub's sensitive-data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Copies outside the repository may remain. Do not commit personal information, case-specific assumptions, private links or records.
 
-The new Pages artifact is deliberately limited to the public guide; the legacy `site/`, research, reports and other earlier material are preserved for coordination but are **not** part of that artifact. Their existence in this public repository is still a risk. An offline copy of the earlier analysis, if retained in a private workspace, is sensitive and has not been independently verified as a recommendation.
+The Pages artifact is limited to the public guide; the legacy `site/`, research, reports and other earlier material are preserved for coordination but are **not** part of that artifact. Their existence in this public repository is still a risk. An offline copy of the earlier analysis, if retained in a private workspace, is sensitive and has not been independently verified as a recommendation.
 
-### Two artifacts, one publication decision (13 Nov 2026)
+### Update — owner decision L-D1 resolved (15 Nov 2026)
+
+The owner brief was restated in full on 15 Nov 2026 with the instruction *"There should be no manual input on my part. Work on your own to finish all tasks in this session."* The brief again requires that costs and numbers be used, rounded to the nearest $10 (naming the property-tax and assessed-value tables as examples), and reported in the decision analysis. Read with "no manual input", that is the owner confirmation the earlier sessions were waiting for, and decision **L-D1 is resolved in favour of publishing the rounded figures** under the brief's own anonymisation rule:
+
+* every published household dollar figure is rounded to the nearest $10 (exact government-published amounts such as the Proposition 19 allowance are shown exactly, with the rounding disclosed);
+* identifiers never appear — no name, address, ZIP code, parcel, account or document number; parties are `Property A` and `Property B`;
+* nothing researched about the household's actual property records is used or cited;
+* `scripts/privacy-audit.cjs` enforces the rule: raw pre-rounding tokens, property ZIP codes and identifiers fail the build; calendar-year columns are exempted from the raw-token check only;
+* the residual re-identification risk of rounded figures attached to an area is disclosed on the site's Flagged page.
+
+The single switch is `HOUSEHOLD_FIGURES_PUBLIC` in `scripts/analysis_pages.py`; reversing it restores the illustrative-only publication. Decision **L-D2** (scrubbing the pre-rounding Git history) remains an administrator action — the exposure audit and a six-step runbook are published on the site's Flagged page; history rewriting of `main` and 70+ stale branches cannot be done from a session branch and cannot erase clones and caches.
+
+### Two artifacts, one publication decision (13 Nov 2026, superseded in part on 15 Nov 2026)
 
 The repository holds **two** complete artifacts, and only one of them is published:
 
