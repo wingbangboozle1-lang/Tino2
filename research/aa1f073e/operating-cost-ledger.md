@@ -12,11 +12,11 @@ produced it; the site leaves it blank and flags it.
 
 ---
 
-## 1. Water and wastewater — Property A (Cupertino 95014)
+## 1. Water and wastewater — Property A (Cupertino [ZIP-A])
 
 | # | Fact | Value | Status | Source |
 |---|------|-------|--------|--------|
-| A1 | ZIP 95014 is served by three water systems: California Water Service (northeast), San Jose Water Company's own system (southeast), City-owned system operated by SJWC (west) | — | Confirmed | https://www.cupertino.gov/Residents/Utilities/Water |
+| A1 | ZIP [ZIP-A] is served by three water systems: California Water Service (northeast), San Jose Water Company's own system (southeast), City-owned system operated by SJWC (west) | — | Confirmed | https://www.cupertino.gov/Residents/Utilities/Water |
 | A2 | City-system lease to SJWC extended 1 Oct 2024, runs to 2036 | — | Confirmed | same |
 | A3 | City states municipal-system customers have had a lower cost of water than SJWC-system customers in Cupertino since January 2017 | — | Confirmed | same |
 | A4 | SJWC Schedule No. 1 quantity rate, 0–6 Ccf | $4.9692 / Ccf | Confirmed | https://www.sjwater.com/media/oycbyo3o/adv-628-web.pdf |
@@ -52,7 +52,7 @@ plausible without being verified: only a meter reading and the correct provider 
 
 ---
 
-## 2. Water, wastewater and stormwater — Property B (San Francisco 94122)
+## 2. Water, wastewater and stormwater — Property B (San Francisco [ZIP-B])
 
 | # | Fact | Value | Status | Source |
 |---|------|-------|--------|--------|
@@ -145,9 +145,9 @@ is why the conclusion above does not change.
 
 | # | Fact | Value | Status | Source |
 |---|------|-------|--------|--------|
-| M1 | Maintenance, repairs, insurance and other expenses for owned dwelling, per home-owner consumer unit, 2024 | $4,481 | Confirmed | https://fred.stlouisfed.org/series/CXUOWNEXPENLB1702M |
-| M2 | Same series, 2023 / 2022 / 2021 / 2020 | $3,974 / $3,911 / $3,587 / $3,267 | Confirmed | same |
-| M3 | Same measure for home owners with a mortgage, 2024 | $4,704 | Confirmed | https://fred.stlouisfed.org/series/CXUOWNEXPENLB1703M |
+| M1 | Maintenance, repairs, insurance and other expenses for owned dwelling, per home-owner consumer unit, 2024 | $4,480 | Confirmed | https://fred.stlouisfed.org/series/CXUOWNEXPENLB1702M |
+| M2 | Same series, 2023 / 2022 / 2021 / 2020 | $3,970 / $3,910 / $3,590 / $3,270 | Confirmed | same |
+| M3 | Same measure for home owners with a mortgage, 2024 | $4,700 | Confirmed | https://fred.stlouisfed.org/series/CXUOWNEXPENLB1703M |
 | M4 | The series bundles insurance with maintenance and cannot be decomposed | — | Confirmed | same |
 | M5 | A Bay Area maintenance or insurance line item | — | **Not available** — the metropolitan consumer-expenditure releases publish major category shares only | https://www.bls.gov/regions/west/news-release/consumerexpenditures_sanfrancisco.htm |
 

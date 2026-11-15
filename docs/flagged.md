@@ -19,8 +19,8 @@ Every table row on this site carries either (a) an official source link with a "
 - Reinvestment returns — not projected (no official source; uncertain).
 
 ## Insurance (ZIP-level figures are commercial quotes, not official)
-- California Department of Insurance publishes only statewide averages: HO-3 $1,655 (NAIC 2023 data); CDI 2025 data-call average $2,339.99 (all forms).
-- Cupertino / 95014 quotes ≈ $930–$1,190/yr; SF 94122 ≈ $1,240/yr; SF landlord estimate ≈ $2,240/yr — all from commercial quoting sites, unverified. Owner's $1,500/yr guesses are unverified.
+- California Department of Insurance publishes only statewide averages: HO-3 $1,660 (NAIC 2023 data); CDI 2025 data-call average $2,340 (all forms).
+- Cupertino / [ZIP-A] quotes ≈ $930–$1,190/yr; SF [ZIP-B] ≈ $1,240/yr; SF landlord estimate ≈ $2,240/yr — all from commercial quoting sites, unverified. Owner's $1,500/yr guesses are unverified.
 - Obtain binding quotes before budgeting.
 
 ## Missing / blank items (left blank per policy — no value inferred)

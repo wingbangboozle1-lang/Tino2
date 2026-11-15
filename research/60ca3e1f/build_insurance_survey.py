@@ -21,7 +21,7 @@ def url(location, cover, age=None, amount=None):
             f"{q(location)},{q(cover)},{q(age)},{amount},Y")
 
 CUP = "SANTA CLARA CUPERTINO"
-SUN = "SAN FRANCISCO SAN FRANCISCO-Sunset District"
+SUN = "SAN FRANCISCO SAN FRANCISCO-[DISTRICT-B]"
 NA = None
 
 # company: (premium with $2,500 deductible, premium with $5,000 deductible)

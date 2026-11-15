@@ -424,7 +424,7 @@
    ]
   },
   "sunset_40y_1000000": {
-   "location": "SAN FRANCISCO SAN FRANCISCO-Sunset District",
+   "location": "SAN FRANCISCO SAN FRANCISCO-[DISTRICT-B]",
    "home_age": "40 Years",
    "coverage": 1000000,
    "profiles": {
@@ -432,7 +432,7 @@
     "deductible_5000": 477
    },
    "companies_listed": 37,
-   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,HOMEOWNERS,40%20Years,1000000,Y",
+   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,40%20Years,1000000,Y",
    "deductible_2500": {
     "priced": 35,
     "lowest": 1328,
@@ -636,7 +636,7 @@
    ]
   },
   "sunset_70y_1000000": {
-   "location": "SAN FRANCISCO SAN FRANCISCO-Sunset District",
+   "location": "SAN FRANCISCO SAN FRANCISCO-[DISTRICT-B]",
    "home_age": "70 Years",
    "coverage": 1000000,
    "profiles": {
@@ -644,7 +644,7 @@
     "deductible_5000": 487
    },
    "companies_listed": 36,
-   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,HOMEOWNERS,70%20Years,1000000,Y",
+   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,70%20Years,1000000,Y",
    "deductible_2500": {
     "priced": 34,
     "lowest": 1413,
@@ -1021,10 +1021,10 @@
    ]
   },
   "sunset": {
-   "location": "SAN FRANCISCO SAN FRANCISCO-Sunset District",
+   "location": "SAN FRANCISCO SAN FRANCISCO-[DISTRICT-B]",
    "profile": 901,
    "companies_listed": 40,
-   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-Sunset%20District,EARTHQUAKE%20-%20Single%20Family,Y",
+   "url": "https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],EARTHQUAKE%20-%20Single%20Family,Y",
    "rate_per_1000": {
     "priced": 19,
     "lowest": 1.13,

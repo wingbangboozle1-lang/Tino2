@@ -182,8 +182,8 @@
     fairPlan: {
       years: [2022, 2023, 2024, 2025, 2026], src: "fairPlanZip",
       rows: [
-        { label: "ZIP 95014 · Property A", counts: [74, 51, 119, 213, 227] },
-        { label: "ZIP 94122 · Property B", counts: [15, 21, 81, 129, 154] },
+        { label: "ZIP [ZIP-A] · Property A", counts: [74, 51, 119, 213, 227] },
+        { label: "ZIP [ZIP-B] · Property B", counts: [15, 21, 81, 129, 154] },
         { label: "California", counts: [265909, 320572, 449832, 621234, 665673] }
       ]
     },

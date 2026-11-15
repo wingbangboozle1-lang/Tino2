@@ -1,0 +1,17 @@
+{
+ "note": "SHA-256 of each identifier string this repository was scrubbed of, so the gate can block it without publishing it. Rebuilding the list requires the local mapping in private/ (git-ignored), which only the owner holds.",
+ "algorithm": "sha256 of the literal, utf-8, no padding",
+ "hashes": [
+  "00f71ba632dad996fccbbd6545e8654d3f707fe4029ba044a15ec4ddf955249f",
+  "2478d903d7c875f05299efe5a271b802046c65fdbb33ab2d0a0085f5b73748ed",
+  "311827665423fe4eece5e6898d5be6c34cb32133e431efe5160e9245ae75e734",
+  "43086d953bcc428c4a8bf097446b87d9f577a80d4bd010a4313d575484cc9f21",
+  "c090ac3582d0199da10ea6f68366ed61f7cafe920d8a12e27c1b19164a64931d"
+ ],
+ "self_test": {
+  "literal": "42424",
+  "sha256": "98478276bbc82984cd3e8545817a22d44940d4f96dca02558cd22d7499932f30",
+  "note": "Synthetic token used by --self-test. It is not an identifier of anything."
+ },
+ "added": "2026-11-15 by session 22614eaa"
+}

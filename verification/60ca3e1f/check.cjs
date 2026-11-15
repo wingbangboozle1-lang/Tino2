@@ -150,7 +150,7 @@ ok(Math.abs(hpi - 0.0355) < 0.0001, `CBO national home-price index 2026–2036 =
 ok(Math.abs(cpi - 0.023) < 0.0001, `CBO CPI-U 2026–2036 = ${(cpi * 100).toFixed(2)}% a year`);
 ok(W.MODEL.BASE.appreciation === 0.035 && Math.abs(hpi - 0.035) < 0.001, "the model's 3.5% is within 0.1 point of that projection");
 // FAIR Plan: the file's own year-over-year percentages must agree with the counts that were typed in.
-const fair = { "ZIP 95014 · Property A": [155, -31, 133, 79, 7], "ZIP 94122 · Property B": [-12, 40, 286, 59, 19], "California": [12, 21, 40, 38, 7] };
+const fair = { "ZIP [ZIP-A] · Property A": [155, -31, 133, 79, 7], "ZIP [ZIP-B] · Property B": [-12, 40, 286, 59, 19], "California": [12, 21, 40, 38, 7] };
 for (const row of INS.fairPlan.rows) {
   const pub = fair[row.label]; let good = 0;
   for (let i = 1; i < row.counts.length; i += 1) if (Math.round((row.counts[i] / row.counts[i - 1] - 1) * 100) === pub[i]) good += 1;
