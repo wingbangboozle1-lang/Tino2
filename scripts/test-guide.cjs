@@ -25,9 +25,16 @@ const OFFICIAL_AMOUNTS=new Map([
  [1413,'CDI survey SF-Sunset 70y lowest (read 12 Nov 2026)'],
  [3191,'CDI survey SF-Sunset 70y median (read 12 Nov 2026)'],
  [10384,'CDI survey SF-Sunset 40y/70y highest (read 12 Nov 2026)'],
+ // f1a2647b: amounts re-read on 15 Nov 2026 and recorded in verification/f1a2647b/REPORT.md.
+ [65,'SFMTA Proposition H renter pass-through cap, per unit per year'],
+ [1044586,'BOE LTA 2025/009 Proposition 19 allowance, transfers 16 Feb 2025 to 15 Feb 2027'],
+ [1000000,'FTB 2025 Form 540 line 62 threshold, and the Proposition 19 base amount'],
+ [20,'Santa Clara County fee for a missing preliminary change-of-ownership report'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
-const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov']);
+const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov',
+ // f1a2647b: Santa Clara County Controller-Treasurer (the published tax-rate book, and the FY 2025-26 PDF it links).
+ 'controller.santaclaracounty.gov','files.santaclaracounty.gov']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}

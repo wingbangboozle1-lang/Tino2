@@ -13,9 +13,17 @@
     expenseInflation: 0.03, rentGrowth: 0.03, sfRentGrowth: 0.016,
     portfolioNet: 0.05, saleCost: 0.055, vacancy: 0.07, management: 0.085,
     maintenanceA: 0.0075, maintenanceB: 0.0125,
-    ordinaryTax: 0.30, capitalGainsTax: 0.361, primaryGainExclusion: 250000,
-    // capitalGainsTax = 20% federal top + 3.8% NIIT + 12.3% CA top (verified components;
-    // the CA 1% mental-health surcharge is excluded pending verification — see Flagged).
+    // capitalGainsTax = 20% federal top rate (IRS Topic 409) + 3.8% net investment income tax
+    // (Topic 559) + 12.3% California top rate (FTB 2025 schedules) + 1% California Behavioral
+    // Health Services Tax on taxable income above $1,000,000 (FTB 2025 Form 540 instructions,
+    // line 62). California has no lower rate for capital gains: all gains are ordinary income
+    // (FTB). This is a top marginal rate, so it is an upper bound, not an average.
+    ordinaryTax: 0.30, capitalGainsTax: 0.371, primaryGainExclusion: 250000,
+    // Imputed rent for the living paths: the housing cost avoided by occupying the house, or the
+    // rent given up by not letting it. Set to the same benchmark the letting path uses so that
+    // living and letting are compared like for like. A benchmark, not a quote. No tax is charged
+    // on it here: an owner-occupier does not receive the rent, so there is nothing to report.
+    imputedRentMonthly: 6390,
     aRentMonthly: 6390, bRentMonthly: 7150,      // A: HUD small-area FMR 4BR benchmark, not a quote. B: owner-stated, two units.
     aWaterMonthly: 125, aSolarMonthlyCredit: 15, // owner ranges $100–$150 and a $10–$20 credit, midpoints
     aInsuranceAnnual: 2690,                      // CDI survey median (40y home, $1M cover, $2,500 ded) — not a quote
@@ -25,6 +33,15 @@
     // Official 2025–Feb 2027 allowance and 2026/2027 basic exclusions;
     // later amounts are hypothetical indexation, not published IRS/BOE figures.
     prop19Amount: 1044586,
+    // BOE LTA 2025/009, quoting article XIII A section 2.1(c)(4): the allowance is adjusted every
+    // other 16 February, beginning 2023, by the change in the FHFA House Price Index for
+    // California for the prior calendar year. The 2024 change published there was 2.15 percent.
+    prop19HpiGrowth: 0.0215, prop19FirstIndexYear: 2025,
+    // SFMTA Proposition H on its official terms: first tax on the FY 2027–28 bill (calendar 2028),
+    // inflation adjustment starting FY 2028–29 (calendar 2029), ending 30 June 2042. The index
+    // SFMTA will use is not named on the page, so a 2 percent assumption is stated as such.
+    propHBase: 249, propHFirstYear: 2028, propHIndexFromYear: 2029, propHLastYear: 2042,
+    propHIndex: 0.02, propHRenterCap: 65,
     estateExclusion: 15000000, estateExclusion2027: 15480000, estateIndex: 0.02
   });
 
@@ -45,8 +62,17 @@
     return Math.max(0, Math.floor((year - 2025) / 2));
   }
   function modelAllowance(year, config = BASE) {
-    // Future biennial adjustments are unknown. This is an invented HPI-style path.
-    return config.prop19Amount * Math.pow(1 + config.appreciation, prop19Steps(year));
+    // Carried forward on the Board's published method: a biennial adjustment by the FHFA
+    // California house-price-index change. The 2024 change published in LTA 2025/009 (2.15%) is
+    // used as the forward basis; every carried-forward year is a projection, not a published figure.
+    return config.prop19Amount * Math.pow(1 + config.prop19HpiGrowth, prop19Steps(year));
+  }
+  // SFMTA Proposition H, official terms. Amount is the multifamily residential floor for a parcel
+  // up to 5,000 sq ft; parcel type and building area are not public facts, so it is a floor only.
+  function propHAnnual(year, config = BASE) {
+    if (year < config.propHFirstYear || year > config.propHLastYear) return 0;
+    const n = Math.max(0, year - config.propHIndexFromYear + 1);
+    return config.propHBase * Math.pow(1 + config.propHIndex, n);
   }
   function seriesFor(property, year, config = BASE) {
     if (!['A', 'B'].includes(property) || year < config.startYear) throw new Error('Invalid property or year');
@@ -88,9 +114,11 @@
     const maintenance = market * config.maintenanceA;
     const operatingCost = propertyTax + water + insurance + maintenance - solarCredit;
     if (option === 'live') {
+      const imputedRent = futureValue(config.imputedRentMonthly * 12, config.rentGrowth, n);
       return { year, market, factoredBase, assessed, propertyTax, water, solarCredit, insurance,
-        maintenance, grossRent: 0, vacancyCost: 0, managementCost: 0, noi: -operatingCost,
-        incomeTax: 0, afterTaxCash: -operatingCost };
+        maintenance, grossRent: 0, vacancyCost: 0, managementCost: 0, imputedRent,
+        noi: imputedRent - operatingCost,
+        incomeTax: 0, afterTaxCash: imputedRent - operatingCost };
     }
     const grossRent = futureValue(config.aRentMonthly * 12, config.rentGrowth, n);
     const vacancyCost = grossRent * config.vacancy;
@@ -146,8 +174,9 @@
     const insurance = futureValue(config.bInsuranceAnnual, config.expenseInflation, n);
     const maintenance = series.market * config.maintenanceB;
     const fee = futureValue(config.bFeeAnnual, config.expenseInflation, n);
-    const noi = grossRent - vacancyCost - managementCost - series.tax - water - electricity - insurance - maintenance - fee;
-    return { year, ...series, propertyTax: series.tax, grossRent, vacancyCost, managementCost, water, electricity, insurance, maintenance, fee, noi };
+    const propH = propHAnnual(year, config);
+    const noi = grossRent - vacancyCost - managementCost - series.tax - water - electricity - insurance - maintenance - fee - propH;
+    return { year, ...series, propertyTax: series.tax, grossRent, vacancyCost, managementCost, water, electricity, insurance, maintenance, fee, propH, noi };
   }
   function estateRow(year, config = BASE) {
     const a = seriesFor('A', year, config).market;
@@ -156,6 +185,6 @@
     // Only the fictional A is hypothesized as included; the heir's B is not automatically the donor's.
     return { year, a, b, combined: a, exclusion };
   }
-  window.MODEL = { BASE, round10, fmtMoney, futureValue, prop19Steps, modelAllowance,
+  window.MODEL = { BASE, round10, fmtMoney, futureValue, prop19Steps, modelAllowance, propHAnnual,
     seriesFor, inheritanceValues, annualA, decision, sfAnnual, estateRow };
 })();

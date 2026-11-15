@@ -42,7 +42,7 @@ def series_a(year,c):
 def transfer(year,c):
     market,assessed=series_a(year,c)
     steps=max(0,(year-2025)//2)
-    allowance=c['prop19Amount']*(1+c['appreciation'])**steps
+    allowance=c['prop19Amount']*(1+c['prop19HpiGrowth'])**steps   # BOE LTA 2025/009 biennial HPI method
     return market,assessed,allowance,min(market,max(assessed,market-allowance))
 
 def holding(year,option,c):
@@ -52,7 +52,9 @@ def holding(year,option,c):
     n=year-c['startYear']
     costs=assessed*c['aRate']+c['aWaterMonthly']*12*(1+c['expenseInflation'])**n
     costs+=c['aInsuranceAnnual']*(1+c['expenseInflation'])**n+value*c['maintenanceA']-c['aSolarMonthlyCredit']*12
-    if option=='live': return -costs
+    if option=='live':
+        # Imputed rent credited to the living path, on the same benchmark the letting path uses.
+        return c['imputedRentMonthly']*12*(1+c['rentGrowth'])**n - costs
     gross=c['aRentMonthly']*12*(1+c['rentGrowth'])**n
     noi=gross*(1-c['vacancy'])*(1-c['management'])-costs
     return noi-max(0,noi)*c['ordinaryTax']
@@ -86,7 +88,13 @@ for row in obj['decisions']:
     b_assessed=min(b_market,c['bAssessed']*(1+c['assessmentGrowth'])**n)
     gross=c['bRentMonthly']*12*(1+c['sfRentGrowth'])**n
     costs=(c['bWaterMonthly']*12+c['bElectricMonthly']*12+c['bInsuranceAnnual']+c['bFeeAnnual'])*(1+c['expenseInflation'])**n
-    noi=gross*(1-c['vacancy'])*(1-c['management'])-b_assessed*c['bRate']-costs-b_market*c['maintenanceB']
+    # SFMTA Proposition H on its official terms: floor of the FY 2027-28 schedule for a
+    # multifamily parcel up to 5,000 sq ft, indexed from FY 2028-29, ending after 30 June 2042.
+    if c['propHFirstYear'] <= y <= c['propHLastYear']:
+        propH=c['propHBase']*(1+c['propHIndex'])**max(0, y-c['propHIndexFromYear']+1)
+    else:
+        propH=0.0
+    noi=gross*(1-c['vacancy'])*(1-c['management'])-b_assessed*c['bRate']-costs-b_market*c['maintenanceB']-propH
     near(row['b']['noi'],noi,'B NOI')
     near(row['b']['assessed'],b_assessed,'B assessment')
 

@@ -171,6 +171,13 @@ WHATIF_SCEN = M.SCENARIOS
 WHATIF_PHASE = (24, 36)
 WHATIF_CASH = ((M.OFFICIAL['treasury_3m'], 'Treasury 3-month rate (4.32%)'), (0.02, 'Parked yield 2.00%'))
 WHATIF_MU = ((0.04, '4% a year'), (0.06, '6% a year'), (0.08, '8% a year'))
+# Imputed rent for the living paths: the housing cost avoided by occupying the house, or the rent
+# given up by not letting it. The middle option is the HUD small-area 4-bedroom benchmark the
+# letting path already uses (S19). All amounts are multiples of $10.
+WHATIF_RENT = ((0, 'Nothing credited (the treatment before 15 Nov 2026)'),
+               (5000, '$5,000 a month'),
+               (6390, '$6,390 a month — published HUD benchmark'),
+               (8000, '$8,000 a month'))
 
 
 def whatif_data():
@@ -180,9 +187,11 @@ def whatif_data():
             for ph in WHATIF_PHASE:
                 for ci, (cy, _) in enumerate(WHATIF_CASH):
                     for mi, (mu, _) in enumerate(WHATIF_MU):
-                        p = dict(ACTIVE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu)
-                        key = f'{s}|{h}|{ph}|{ci}|{mi}'
-                        out[key] = {path: r10(M.simulate(path, s, p, ACTIVE_A, h)['total']) for path in M.PATHS}
+                        for ri, (ir, _) in enumerate(WHATIF_RENT):
+                            p = dict(ACTIVE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu,
+                                     imputed_rent_mo=float(ir))
+                            key = f'{s}|{h}|{ph}|{ci}|{mi}|{ri}'
+                            out[key] = {path: r10(M.simulate(path, s, p, ACTIVE_A, h)['total']) for path in M.PATHS}
     return out
 
 
@@ -202,8 +211,13 @@ def whatif_body(ctx) -> str:
                 '<div class="control"><label for="wi-cash">Parked-cash yield</label><select id="wi-cash">'
                 + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_CASH)], 0) + '</select></div>'
                 '<div class="control"><label for="wi-mu">Equity return (assumption)</label><select id="wi-mu">'
-                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_MU)], 1) + '</select></div></div>')
-    default = data[f'base|25|24|0|1']
+                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_MU)], 1) + '</select></div>'
+                '<div class="control"><label for="wi-rent">Imputed rent for the living paths</label><select id="wi-rent">'
+                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_RENT)], 2) + '</select></div></div>'
+                '<p class="tiny">Imputed rent is the rent avoided by living in the house — or given up by not letting it. '
+                'It is credited only while the household occupies the home, and it is set to a published benchmark by default '
+                'so that living and letting are compared on the same basis.</p>')
+    default = data['base|25|24|0|1|2']
     rows = []
     for path in M.PATHS:
         rows.append((f'<span data-wi-label="{path}">{escape(M.PATH_LABEL[path])}</span>',
@@ -220,7 +234,7 @@ def whatif_body(ctx) -> str:
 WHATIF_JS = r"""
 (function(){
   var D = window.WHATIF_DATA; if (!D) return;
-  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu'];
+  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu','wi-rent'];
   var els = ids.map(function(i){ return document.getElementById(i); });
   if (els.some(function(e){ return !e; })) return;
   function fmt(v){ if (v === null || v === undefined) return '—'; var s = Math.abs(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (v < 0 ? '−$' : '$') + s; }
@@ -251,12 +265,12 @@ FLAGGED_ADDITIONS = [
     ('Medium', 'Insurance lines use the regulator’s own premium survey (California Department of Insurance, effective 1 May 2026, read 12 Nov 2026): Cupertino homeowners, 40-year home, one million dollars of dwelling cover, $2,500 deductible — median $2,690, range $1,543–$6,430. The survey is explicitly not a quote, and that cover level may be below the rebuild need of either property. Property B is a three-unit building; the homeowners survey is the wrong product for it and the published figure is a flagged proxy.', 'Obtain owner-occupied and landlord quotes with rebuild limits', 'cdi'),
     ('Medium', 'Rent benchmarks for Property A are HUD small-area fair market rents for the area (FY2026: 3-bedroom $5,870, 4-bedroom $6,390). HUD publishes them for voucher payment standards; they are not a rent quote and do not determine a lawful rent.', 'Get independent comparables and a management estimate', 'hud'),
     ('Medium', 'The Santa Clara County installment dates were read on the official county page on 14 Nov 2026. No household bill was checked; each bill must be matched to its parcel.', 'Check each bill against the county calendar', 'sccTax'),
-    ('High', 'The FTB 2025 Form 540 schedule (top bracket 12.3%, starting at $742,953 single) was read on 14 Nov 2026. The 1% Mental Health Services Tax above one million dollars and the treatment of capital gains as ordinary income are not on that schedule and were taken from secondary sources. Both are used as sensitivity values only.', 'Confirm the 1% tax on the Form 540 instructions', 'ftbSchedule'),
+    ('Medium', 'The FTB 2025 Form 540 schedule (top bracket 12.3%, starting at $742,953 single) was read on 14 Nov 2026. <strong>Closed 15 Nov 2026 (session f1a2647b):</strong> the 1% tax above one million dollars was read in the 2025 Form 540 instructions at line 62, where the Franchise Tax Board calls it the Behavioral Health Services Tax and computes it on taxable income over $1,000,000; and the treatment of capital gains as ordinary income was read on the Board’s own capital-gains page and in the 2025 Schedule CA (540) instructions. Both are now used as verified values, not secondary ones. The 12.3% rate itself is the top marginal rate: a filer’s effective California rate is lower.', 'None; re-read the instructions each year for the bracket thresholds and the name of the tax', 'ftbSchedule'),
     ('Medium', 'Form 706 due date (9 months after death, 26 U.S.C. §6075(a)) was read in the statute text, from a Cornell LII copy because the uscode.house.gov page was unavailable. The payment rule and the Form 4768 extension period are not yet read and are left blank.', 'Confirm the payment rule and Form 4768 in the IRS instructions', 'usc6075'),
     ('Medium', 'Prop 19 after the first year (when occupancy stops) and any later change of use is not stated here; counsel must confirm.', 'Counsel', 'boe'),
     ('Medium', 'Pending San Francisco legislation (File No. 261020, posted 9 Nov 2026) would cap combined banked and capital-improvement rent increases at 10% a year. It has not been enacted.', 'Track legislation', 'sfRent'),
     ('Medium', 'The stress shapes are stylised. The 2008 recovery length (66 months) and the 1929 home-price fall (30%) are assumptions. Equity returns are assumptions.', 'Owner review of assumptions', 'fed2008'),
-    ('Low', 'Property B’s Prop H amount depends on parcel type and building area, which are not public. The official floor ($249) is used as the minimum; the cap is $50,000.', 'Assessor-Recorder parcel data', 'sfMuni'),
+    ('Low', 'Property B’s Prop H amount depends on parcel type and building area, which are not public. The official floor ($249) is used as the minimum; the cap is $50,000. From 15 Nov 2026 the model charges the official terms — the floor from calendar 2028, inflation indexing from 2029 and the end after 30 June 2042 — so the floor is no longer held flat. The inflation index is not named on the SFMTA page, so 2% is stated as an assumption.', 'Assessor-Recorder parcel data; replace the 2% assumption when SFMTA names an index', 'sfMuni'),
 ]
 
 

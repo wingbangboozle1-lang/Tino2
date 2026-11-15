@@ -17,10 +17,27 @@ OFFICIAL = {
     'fed_exclusion_2026': 15_000_000,        # IRS, basic exclusion amount for 2026
     'fed_exclusion_2027': 15_480_000,        # IRS, 2027 (IR-2026-133)
     'prop19_allowance_exact': 1_044_586,     # BOE LTA 2025/009 (16 Feb 2025 - 15 Feb 2027)
+    # BOE LTA 2025/009 quoting article XIII A section 2.1(c)(4): the $1 million amount is adjusted
+    # every other 16 February, beginning 2023, by the percentage change in the House Price Index
+    # for California for the prior calendar year as determined by the Federal Housing Finance Agency.
+    # FHFA's 2024 California change, quoted in that letter, was 2.15 percent.
+    'prop19_hpi_2024': 0.0215,
+    'prop19_first_index_year': 2025,
     'prop13_cap': 0.02,                      # BOE: assessed value grows at most 2% a year
     'sf_rent_increase_26_27': 0.016,         # sf.gov Rent Board, 1 Mar 2026 - 28 Feb 2027
     'prop_h_floor': 249,                     # SFMTA Prop H FY 2027-28, multifamily up to 5,000 sq ft
     'prop_h_cap': 50_000,                    # SFMTA Prop H FY 2027-28, cap
+    # SFMTA Proposition H: first tax on FY 2027-28 bills, amounts rise with inflation starting
+    # FY 2028-29, and the tax runs 1 July 2027 through 30 June 2042.
+    'prop_h_first_year': 2028,               # calendar year of the first bill (FY 2027-28)
+    'prop_h_index_from_year': 2029,          # first inflation adjustment (FY 2028-29)
+    'prop_h_last_year': 2042,                # last calendar year of the tax (ends 30 June 2042)
+    'prop_h_renter_cap': 65,                 # SFMTA: renter pass-through capped at $65 a unit a year
+    'irs121_single': 250_000,                # IRS Topic 701: $250,000 / $500,000 home-sale exclusion
+    'irs121_joint': 500_000,
+    'ca_cgt_top': 0.123,                     # FTB 2025 rate schedules, top marginal rate
+    'ca_bhs_rate': 0.01,                     # FTB 2025 Form 540 instructions, line 62: 1% over $1,000,000
+    'dtt_rate': 0.0011,                      # Santa Clara County: 55c per $500 = $110 per $100,000
     'treasury_3m': 0.0432,                   # FRED DGS3MO, 12 Nov 2026
     'treasury_2y': 0.0486,                   # FRED DGS2, 12 Nov 2026
     'cpi_mean_35y': 0.0262,                  # FRED CPIAUCNS, 35-year mean (ledger, 330ce4c5)
@@ -67,7 +84,49 @@ DEFAULT_PARAMS = {
     'maint_a': 0.0075,                # ASSUMPTION: share of value per year
     'maint_b': 0.0125,                # ASSUMPTION: share of value per year
     'rent_mo': 0.0,                   # Property A monthly rent in inheritance-year dollars
+    # Imputed rent for the living paths: the housing cost avoided by living in the house, or the
+    # rent given up by not letting it. Set to the same benchmark the letting path uses, so that
+    # living and letting are compared on equal terms. It is a benchmark, not a quote (see S19).
+    'imputed_rent_mo': 6_390.0,
+    # IRC section 121 exclusion for a living-then-sell path, applied only where the owner-occupies
+    # the home. IRS Topic 701: up to $250,000 ($500,000 joint) after 24 months of ownership and use
+    # in the 5 years ending on the sale. Applied to the living-then-sell paths (S20).
+    'home_gain_exclusion': OFFICIAL['irs121_single'],
+    # Costs of selling that are priced separately from the negotiated sale cost (S26). The county
+    # documentary transfer tax is 55 cents per $500 of consideration. A transfer by reason of death
+    # is exempt from that tax (R&TC section 11930), so it is charged on a later sale only.
+    'transfer_tax_rate': OFFICIAL['dtt_rate'],
+    'recording_fee': 0.0,             # ASSUMPTION: no official Santa Clara fee schedule was read
+    'prop19_hpi': OFFICIAL['prop19_hpi_2024'],   # indexation basis for the allowance, carried forward
+    'prop_h_index': 0.02,             # ASSUMPTION: SFMTA states inflation indexing without naming an index
+    'ca_cgt': OFFICIAL['ca_cgt_top'] + OFFICIAL['ca_bhs_rate'],   # 12.3% top rate + 1% over $1m
 }
+
+
+def prop19_allowance(year: int, p: dict) -> float:
+    """Proposition 19 allowance carried forward on the Board's published method.
+
+    BOE LTA 2025/009: the amount is adjusted every other 16 February, beginning 2023, by the
+    percentage change in the FHFA House Price Index for California for the prior calendar year.
+    The 2024 change published in that letter is used here as the forward basis; future FHFA
+    changes are not published yet, so every carried-forward year is a projection, not a figure.
+    """
+    steps = max(0, (year - OFFICIAL['prop19_first_index_year']) // 2)
+    return OFFICIAL['prop19_allowance_exact'] * (1 + p.get('prop19_hpi', OFFICIAL['prop19_hpi_2024'])) ** steps
+
+
+def prop_h_annual(year: int, p: dict) -> float:
+    """SFMTA Proposition H parcel tax for one calendar year, on the official terms.
+
+    First tax: FY 2027-28 bill (calendar 2028). Amounts rise with inflation starting FY 2028-29
+    (calendar 2029). The tax ends 30 June 2042, so calendar 2042 is the last year charged.
+    The amount used is the multifamily floor for a parcel up to 5,000 sq ft; parcel type and
+    building area are not public facts, so this is a floor, not the amount for any real parcel.
+    """
+    if year < OFFICIAL['prop_h_first_year'] or year > OFFICIAL['prop_h_last_year']:
+        return 0.0
+    n = max(0, year - OFFICIAL['prop_h_index_from_year'] + 1)
+    return OFFICIAL['prop_h_floor'] * (1 + p.get('prop_h_index', 0.02)) ** n
 
 
 def _cpi_level(sc: dict, m: int) -> float:
@@ -171,6 +230,9 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
     H = horizon_years * 12
     fmv0 = fmv_at_inheritance(a, p)
     rent0 = p['rent_mo'] if rent_mo is None else rent_mo
+    # Imputed rent is the housing cost the living paths avoid (or the rent given up by not letting
+    # the house). It is credited only while the household occupies the home.
+    imputed0 = p.get('imputed_rent_mo', 0.0) if rent_mo is None else rent_mo
     cf = cost_factor(p)
     rate = a['tax_2025'] / a['assessed_2025']                        # owner's own implied effective rate
     maint = p['maint_a'] if a.get('label', 'A') == 'A' else p['maint_b']
@@ -208,7 +270,7 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
                 # otherwise the transfer is reassessed to market value. Formula mirrors
                 # guide/data/model.js inheritanceValues: min(market, max(factored, market - allowance)).
                 factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-                allowance = OFFICIAL['prop19_allowance_exact']
+                allowance = prop19_allowance(p['inherit_year'], p)
                 assessed = min(fmv, max(factored, fmv - allowance)) if living else fmv
             else:
                 assessed = min(assessed * (1 + OFFICIAL['prop13_cap']), fmv)   # Prop 13 cap and Prop 8 decline-in-value
@@ -219,17 +281,21 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
             solar = a.get('solar_credit_mo', 0.0) * 12 * cf * cpi_lvl
             mcost = maint * fmv
             rent = 0.0 if living else rent0 * 12 * cf * cpi_lvl * (1 - p['vacancy'])
-            avoided = rent0 * 12 * cf * cpi_lvl if living else 0.0
+            avoided = imputed0 * 12 * cf * cpi_lvl if living else 0.0
             annual = {'tax': tax, 'ins': ins, 'water': water, 'solar': solar, 'maint': mcost, 'rent': rent, 'avoided': avoided}
             tax_total += tax
             cost_total += ins + water + mcost
             rent_total += rent
             avoided_total += avoided
         if sell_m is not None and m == sell_m and house_held and path not in ('live', 'rent'):
-            net = fmv * (1 - p['sale_cost'])
+            # Costs of selling are negotiated costs plus the county documentary transfer tax
+            # (S26). A transfer by reason of death is exempt from that tax under R&TC section
+            # 11930, so it is charged here, on a later sale, and not on the inheritance itself.
+            net = fmv * (1 - p['sale_cost'] - p.get('transfer_tax_rate', 0.0)) - p.get('recording_fee', 0.0) * cf
             gain = max(0.0, net - fmv0)                       # basis is value at death (IRC 1014)
-            # Optional primary-residence gain exclusion (IRC 121: $250,000 single / $500,000 joint,
-            # IRS Topic 701). Default 0 keeps the public engine unchanged; the private run sets it.
+            # Primary-residence gain exclusion (IRC 121: $250,000 single / $500,000 joint, IRS
+            # Topic 701), applied to living-then-sell paths where the household occupies the home
+            # for at least 24 of the 5 years ending on the sale (S20).
             excl = p.get('home_gain_exclusion', 0.0) if path in ('mixed_live2_sell', 'mixed_live10_sell') else 0.0
             cgt = max(0.0, gain - excl) * (p['fed_cgt'] + p['ca_cgt'])
             sale_value = net - cgt
@@ -355,7 +421,9 @@ def prop_b_year(b: dict, p: dict, years: int) -> dict:
     elec = b['elec_mo'] * 12 * cf
     ins = b['insurance_yr'] * cf
     maint = p['maint_b'] * value
-    prop_h = OFFICIAL['prop_h_floor']   # floor of the official FY 2027-28 schedule; parcel type unverified
+    # Proposition H on the official terms: floor of the FY 2027-28 schedule for a multifamily
+    # parcel up to 5,000 sq ft, inflation-adjusted from FY 2028-29, ending after 30 June 2042.
+    prop_h = prop_h_annual(2026 + t, p)
     net = rent - tax - water - elec - ins - maint - prop_h
     return {'year_offset': t, 'value': value, 'assessed': assessed, 'tax': tax, 'rent': rent,
             'water': water, 'electricity': elec, 'insurance': ins, 'maintenance': maint,
@@ -395,7 +463,7 @@ def annual_table(a: dict, p: dict, years: int = 50) -> list[dict]:
             fmv_inh = fmv_at_inheritance(a, p)
             fmv = fmv_inh * sc['home'](12 * k)
             factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-            allowance = OFFICIAL['prop19_allowance_exact']
+            allowance = prop19_allowance(p['inherit_year'], p)
             assessed_live = min(fmv_inh, max(factored, fmv_inh - allowance)) if k == 0 else None
             if k == 0:
                 assessed = assessed_live
