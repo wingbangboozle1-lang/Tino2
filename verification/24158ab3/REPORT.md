@@ -69,7 +69,22 @@ estate, prior gifts) which have no public source and stay in the private questio
   missing), the same limitation session `fdf0ec80` recorded; it runs in CI on the pull
   request and on `main`.
 
-## 4. Irregularities logged for the owner
+## 4. Defect found and fixed on `main` after the merge (15 Nov 2026)
+
+After PR #107 merged, the verify run on the record push failed at "Verify generated pages and
+model arithmetic": `check-figures.py` reported a seven-figure dollar amount on a published page
+with no ledger record — `$1,000,000` on `guide/tax.html`. Root cause: PR #108 (session
+`cde37053`, "Add Form 540 BHST verification and Property A tax rate area") added the 1%
+Behavioral Health Services Tax paragraph (threshold $1,000,000, R&T §17043) to the generated
+tax page **without** adding a matching ledger record, and its own verify run
+(`43711681427`) failed on the same check before the PR was merged. The fix applied here: one
+new verified ledger record `CA-BHST-THRESHOLD` in `guide/figures/official-figures.json`,
+backed by the official California Legislative Information page for R&T §17043, re-opened and
+read on 15 Nov 2026 by this session (statute text quoted in the record). No generated page
+changed; no household figure involved. `check-figures` now passes with 33 records, and the
+full suite was re-run green on the fix.
+
+## 5. Irregularities logged for the owner
 
 1. **PR #104 handover.** The owning session recorded all tasks done but left the PR
    conflicting and the promised publish record unwritten; idle >60 minutes, so this session

@@ -380,6 +380,18 @@
    "note": "Read directly from the 2025 California Tax Rate Schedules PDF on 15 Nov 2026: Schedule X 12.30% at and over $742,953; Schedule Y 12.30% at and over $1,485,906; Schedule Z 12.30% at and over $1,010,417. These are published government thresholds, so the site shows them exactly instead of rounding them to $10; the $10 rule applies to household and model amounts."
   },
   {
+   "id": "CA-BHST-THRESHOLD",
+   "topic": "California income tax",
+   "claim": "The 1% Behavioral Health Services Tax (R&TC \u00a717043) applies to taxable income above $1,000,000, for any filing status; the threshold is not indexed",
+   "official_exact": "$1,000,000",
+   "display_rounded": "$1,000,000",
+   "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17043.",
+   "source_id": "rtc17043",
+   "verified": true,
+   "checked": "2026-11-15",
+   "note": "Re-opened and read on 15 Nov 2026 by session 24158ab3: \u00a717043(a) states 'an additional tax shall be imposed at the rate of 1 percent on that portion of a taxpayer's taxable income in excess of one million dollars ($1,000,000)'. The statute text on the official California Legislative Information page is the source; the $1,000,000 figure is the published statutory threshold, so it is shown exactly rather than rounded."
+  },
+  {
    "id": "CA-BHST-1M",
    "topic": "California income tax",
    "claim": "California Form 540 line 62 Behavioral Health Services Tax: 1% on California taxable income above $1,000,000, computed on the whole-dollar excess; added on top of the regular rate schedule",
