@@ -43,7 +43,7 @@ def cagr(a: float, b: float, years: float) -> float:
 
 
 G_20Y = cagr(OFFICIAL['hpi_sj_2006q3'], OFFICIAL['hpi_sj_2026q2'], 19.75)     # about 2.9%
-G_51Y = cagr(OFFICIAL['hpi_sj_1975q3'], OFFICIAL['hpi_sj_2026q2'], 50.75)     # about 6.7%
+G_51Y = cagr(OFFICIAL['hpi_sj_1975q3'], OFFICIAL['hpi_sj_2026q2'], 50.75)     # about 6.9%
 G_1970S = cagr(OFFICIAL['hpi_sj_1975q3'], OFFICIAL['hpi_sj_1981q1'], 5.5)     # about 19%
 HPI_DD_2008 = OFFICIAL['hpi_sj_2009q3'] / OFFICIAL['hpi_sj_2006q3'] - 1.0     # about -26.4%
 DOW_RATIO = OFFICIAL['dow_trough'] / OFFICIAL['dow_peak']                     # about 0.108
@@ -224,7 +224,10 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
         if sell_m is not None and m == sell_m and house_held and path not in ('live', 'rent'):
             net = fmv * (1 - p['sale_cost'])
             gain = max(0.0, net - fmv0)                       # basis is value at death (IRC 1014)
-            cgt = gain * (p['fed_cgt'] + p['ca_cgt'])
+            # Optional primary-residence gain exclusion (IRC 121: $250,000 single / $500,000 joint,
+            # IRS Topic 701). Default 0 keeps the public engine unchanged; the private run sets it.
+            excl = p.get('home_gain_exclusion', 0.0) if path in ('mixed_live2_sell', 'mixed_live10_sell') else 0.0
+            cgt = max(0.0, gain - excl) * (p['fed_cgt'] + p['ca_cgt'])
             sale_value = net - cgt
             house_held = False
             cash += sale_value
