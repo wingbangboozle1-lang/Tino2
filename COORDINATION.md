@@ -2245,13 +2245,13 @@ During follow-up work on a print sheet, glossary and grouped navigation, rebasin
 
 | # | Task | Status | Owner | File scope | Sources verified | Irregularities |
 |---|---|---|---|---|---|---|
-| M-1 | Coordination: read board, claim non-overlapping scope, push claim at once | in progress | 9a2a5cce | `COORDINATION.md` (this block) | N/A | — |
-| M-2 | Official-source research: Property A tax rate area (Santa Clara County, Cupertino 95014) and published ad valorem rate | unclaimed → in progress | 9a2a5cce | `verification/9a2a5cce/**` | — | — |
-| M-3 | Official-source research: CA Form 540 instructions — 1% tax above $1,000,000 and capital-gain treatment | unclaimed → in progress | 9a2a5cce | `verification/9a2a5cce/**` | — | — |
-| M-4 | Official-source research: Prop 19 allowance/claim periods, estate exclusion 2026/2027, CA top rate, Treasury yields, HUD rent benchmark for Property A/B | unclaimed → in progress | 9a2a5cce | `verification/9a2a5cce/**` | — | — |
-| M-5 | Five-year maintenance and capital plan for both buildings (owner inputs flagged, no inference) | unclaimed → in progress | 9a2a5cce | `guide/property.html`, `scripts/build-guide.py` | — | — |
-| M-6 | Distribution chart on projections + any missing comparison rows | unclaimed → in progress | 9a2a5cce | `guide/decision.html`, `scripts/build-guide.py` | — | — |
-| M-7 | Line-by-line re-verification of every official claim touched; full suite | unclaimed → in progress | 9a2a5cce | `verification/9a2a5cce/REPORT.md` | — | — |
-| M-8 | Tests, PR to `main`, merge without waiting, Pages deploy check, record result | pending | 9a2a5cce | this block | — | — |
+| M-1 | Coordination: read board, claim non-overlapping scope, push claim at once | done | 9a2a5cce | `COORDINATION.md` (this block) | N/A | — |
+| M-2 | Official-source research: Property A tax rate area (Santa Clara County, Cupertino 95014) and published ad valorem rate | done | 9a2a5cce | `verification/9a2a5cce/**` | SCC rate book FY2025-26, Controller rate-book page | — |
+| M-3 | Official-source research: CA Form 540 instructions — 1% tax above $1,000,000 and capital-gain treatment | done | 9a2a5cce | `verification/9a2a5cce/**` | FTB 2025 Form 540 instructions, rate schedules | — |
+| M-4 | Official-source research: Prop 19 allowance/claim periods, estate exclusion 2026/2027, CA top rate, Treasury yields, HUD rent benchmark for Property A/B | done | 9a2a5cce | `verification/9a2a5cce/**` | BOE LTA 2025/009, IR-2026-133, FTB schedules, HUD | Earlier sessions |
+| M-5 | Five-year maintenance and capital plan for both buildings (owner inputs flagged, no inference) | done | 9a2a5cce | `guide/property.html`, `scripts/build-guide.py` | Santa Clara County Assessor page | Owner-stated, flagged |
+| M-6 | Distribution chart on projections + any missing comparison rows | done | 9a2a5cce | `guide/decision.html`, `scripts/build-guide.py` | N/A | Static numbers deferred to what-if controls |
+| M-7 | Line-by-line re-verification of every official claim touched; full suite | done | 9a2a5cce | `verification/9a2a5cce/REPORT.md` | All sources in report | Full suite PASS |
+| M-8 | Tests, PR to `main`, merge without waiting, Pages deploy check, record result | in progress | 9a2a5cce | this block | — | — |
 
 **Rules this session follows.** No personal information in any committed file; parties and addresses appear only as placeholders (`Property A`, `Property B`, `[TRUSTEE]`, `[HEIR]`). No household figure is committed unrounded and none is repeated in this block except where already published on `main`. Every dollar figure added is rounded to the nearest $10 unless a government body publishes that exact amount. Every table row carries a link to an official `https://` source or is left blank and flagged unverified; nothing is inferred. `origin/main` is merged before every push; conflicts resolved keeping both sides. The platform fixes the branch name to `arena/9a2a5cce-tino2`.
