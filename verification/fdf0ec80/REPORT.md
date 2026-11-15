@@ -20,7 +20,7 @@ Base: `main` at `9ecdc55` (PR #98 merged). Scope: review of the current reposito
 
 1. **Published artifact:** no household ZIP code, value, tax-bill figure or rent figure appears in the 31 packaged files. The only hits for `7150` on the what-if page are inside numeric model outputs (for example `…7150`), not the rent figure.
 2. **Legacy files at the branch tip (Critical, newly flagged):** exact household figures and ZIP codes remain in files outside the Pages artifact, for example `cupertino.html`, `decision.html`, `flagged.html`, `docs/*`, `pages/*`, `dashboard/*`, `integration/ledger/official_amounts.txt`. GitHub displays them even though Pages does not. This session did not remove them, because other sessions' records depend on them; removal is logged as an owner decision.
-3. **Git history (existing item N02 / L-D2):** full history was fetched (`git fetch --unshallow`, 385 commits). Exact household tokens occur in these numbers of commits: tax-assessment value 5, second assessment value 5, stated value 3 (rounded form 6), Cupertino ZIP 47, San Francisco ZIP 38. Rewriting history is not performed here; it needs collaborator sign-off.
+3. **Git history (existing item N02 / L-D2):** full history was fetched (`git fetch --unshallow`, 385 commits). Exact household tokens occur in these numbers of commits: Cupertino tax-assessment values 5 commits each (two values), Cupertino stated value 6, San Francisco stated value 3, Cupertino ZIP 47, San Francisco ZIP 38. (Counts from `git log --all -S<token>`; token strings are not reproduced here.) Rewriting history is not performed here; it needs collaborator sign-off.
 
 ## Irregularities for review
 
