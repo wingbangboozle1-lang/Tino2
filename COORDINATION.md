@@ -2283,8 +2283,6 @@ Two follow-up fixes are in the branch pushed after that merge:
 
 **Observed, not touched:** open PR [#103](https://github.com/wingbangboozle1-lang/Tino2/pull/103) (session `dff8604e`, "Publish the household analysis rounded to $10 (L-D1 resolved…)") reverses the standing decision that household figures stay out of the published site. It is that session's and the owner's call; this session left its files alone. Compatibility note for whoever integrates: the whole-repository gate added here only requires that any published amount be a multiple of $10 (or a government-published figure), so rounded household figures would pass it — the gate blocks identifiers and precision, and does not adjudicate whether household data should be public. `test-guide.cjs` and `privacy-audit.cjs` would additionally need the household values removed from `site/data/model.js`-derived collision checks if that decision changes.
 
-<<<<<<< HEAD
-
 
 ## Session `24158ab3` — completion record, 2026-11-15
 
