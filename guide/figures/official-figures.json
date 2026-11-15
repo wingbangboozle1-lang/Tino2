@@ -371,8 +371,8 @@
    "id": "CA-RATE-SCHEDULE-2025",
    "topic": "California income tax",
    "claim": "California's top individual rate for 2025 is 12.30%, beginning above $742,953 of taxable income for single filers, $1,485,906 for married filing jointly, and $1,010,417 for head of household",
-   "official_exact": "$742,953 \u00b7 $1,485,906 \u00b7 $1,010,417",
-   "display_rounded": "$742,953 \u00b7 $1,485,906 \u00b7 $1,010,417",
+   "official_exact": "$742,953 · $1,485,906 · $1,010,417",
+   "display_rounded": "$742,953 · $1,485,906 · $1,010,417",
    "source_url": "https://www.ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf",
    "source_id": "ftbSchedule",
    "verified": true,
@@ -382,14 +382,14 @@
   {
    "id": "CA-BHST-THRESHOLD",
    "topic": "California income tax",
-   "claim": "The 1% Behavioral Health Services Tax (R&TC \u00a717043) applies to taxable income above $1,000,000, for any filing status; the threshold is not indexed",
+   "claim": "The 1% Behavioral Health Services Tax (R&TC §17043) applies to taxable income above $1,000,000, for any filing status; the threshold is not indexed",
    "official_exact": "$1,000,000",
    "display_rounded": "$1,000,000",
    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17043.",
    "source_id": "rtc17043",
    "verified": true,
    "checked": "2026-11-15",
-   "note": "Re-opened and read on 15 Nov 2026 by session 24158ab3: \u00a717043(a) states 'an additional tax shall be imposed at the rate of 1 percent on that portion of a taxpayer's taxable income in excess of one million dollars ($1,000,000)'. The statute text on the official California Legislative Information page is the source; the $1,000,000 figure is the published statutory threshold, so it is shown exactly rather than rounded."
+   "note": "Re-opened and read on 15 Nov 2026 by session 24158ab3: §17043(a) states 'an additional tax shall be imposed at the rate of 1 percent on that portion of a taxpayer's taxable income in excess of one million dollars ($1,000,000)'. The statute text on the official California Legislative Information page is the source; the $1,000,000 figure is the published statutory threshold, so it is shown exactly rather than rounded."
   },
   {
    "id": "CA-BHST-1M",
@@ -428,6 +428,42 @@
    "verified": true,
    "checked": "2026-11-15",
    "note": "SCC Controller-Treasurer Property Tax Rate Book page, read 15 Nov 2026. The FY2025-26 book states the 1% limit, voter-approved bond add-ons, 816 Tax Rate Areas, and January 1 lien date. The exact TRA rate for a specific parcel cannot be read from the published book without the parcel's TRA number; the bill's effective rate (including direct charges) is owner-stated and flagged."
+  },
+  {
+   "id": "PROP19-WINDOWS",
+   "topic": "Property tax",
+   "claim": "Enacted Proposition 19 value-cap allowance windows: $1,000,000 for 16 Feb 2021 – 15 Feb 2023; $1,022,600 for 16 Feb 2023 – 15 Feb 2025; $1,044,586 for 16 Feb 2025 – 15 Feb 2027",
+   "official_exact": "$1,000,000 / $1,022,600 / $1,044,586",
+   "display_rounded": "$1,000,000 / $1,022,600 / $1,044,586",
+   "source_url": "https://www.boe.ca.gov/proptaxes/pdf/lta25009.pdf",
+   "source_id": "allowance",
+   "verified": true,
+   "note": "BOE LTA 2025/009 enclosure table, re-read 15 Nov 2026. The letter states the adjustment mechanism (Cal. Const. art. XIII A section 2.1(c)(4)): every other February 16 the BOE adjusts the $1,000,000 amount to reflect the percentage change in the FHFA House Price Index for California for the prior calendar year; the 2024 change was 2.15%. The next adjustment occurs February 2027 and its amount is not yet published.",
+   "checked": "2026-11-15"
+  },
+  {
+   "id": "USC-1031-REAL-PROPERTY",
+   "topic": "Federal income tax",
+   "claim": "26 U.S.C. 1031 covers exchanges of real property held for productive use or investment for like-kind real property; 45-day identification and 180-day completion (or return due date)",
+   "official_exact": "text rule",
+   "display_rounded": "text rule",
+   "source_url": "https://www.law.cornell.edu/uscode/text/26/1031",
+   "source_id": "usc1031",
+   "verified": true,
+   "note": "Statutory text read 15 Nov 2026 on the Cornell LII copy: section 1031(a)(1) is limited to real property for real property; section 1031(a)(3) sets the 45-day identification and 180-day completion rules. Stocks, bonds and funds are not like-kind real property.",
+   "checked": "2026-11-15"
+  },
+  {
+   "id": "SCC-TRA-RATE-STRUCTURE",
+   "topic": "Property tax",
+   "claim": "Santa Clara County: over 3,200 tax rate areas; maximum basic ad valorem rate 1% of net taxable value, higher totals from voter-approved general obligation bonds; special assessments are flat direct charges not based on assessed value",
+   "official_exact": "text rule",
+   "display_rounded": "text rule",
+   "source_url": "https://asr.santaclaracounty.gov/faq/glossary",
+   "source_id": "asrGlossary",
+   "verified": true,
+   "note": "County Assessor glossary entries 'TRA', 'Tax Rates' and 'Special Assessments' read 15 Nov 2026. The parcels' own TRA numbers and exact rates are on each secured tax bill and are deliberately not published.",
+   "checked": "2026-11-15"
   }
  ],
  "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here."

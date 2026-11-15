@@ -41,9 +41,13 @@ def series_a(year,c):
 
 def transfer(year,c):
     market,assessed=series_a(year,c)
-    steps=max(0,(year-2025)//2)
-    allowance=c['prop19Amount']*(1+c['appreciation'])**steps
-    return market,assessed,allowance,min(market,max(assessed,market-allowance))
+    def allowance(y):
+        if y<2023: return 1000000
+        if y<2025: return 1022600
+        if y<=2026: return c['prop19Amount']
+        steps=max(0,(y-2025)//2)
+        return c['prop19Amount']*(1+c['prop19Index'])**steps
+    return market,assessed,allowance(year),min(market,max(assessed,market-allowance(year)))
 
 def holding(year,option,c):
     t=c['inheritYear']; market,_,_,live_base=transfer(t,c)
