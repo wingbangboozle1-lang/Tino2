@@ -2115,3 +2115,18 @@ During follow-up work on a print sheet, glossary and grouped navigation, rebasin
 **L-5 completion record (14 Nov 2026).** PR [#97](https://github.com/wingbangboozle1-lang/Tino2/pull/97) from `arena/12f68358-tino2` to `main` was **merged without waiting for approval** at 22:18:00 UTC as merge commit `47d2117`. Before merging, `Verify public Pages boundary` passed on the pull request (1m21s). After the merge, `pages build and deployment` for `47d2117` completed with **success**, and `Verify public Pages boundary` for `47d2117` completed with **success**. Live read-back: `https://wingbangboozle1-lang.github.io/Tino2/guide/whatif.html` and `…/guide/paths.html` both serve, with example values only and no household figure; the what-if controls were tested in a browser-equivalent harness before merge. The L-2 report is `verification/12f68358/REPORT.md`; the private analysis is `private/12f68358/household-analysis.md` (git-ignored, not committed).
 
 **Open items left for the owner (logged, not blocking).** L-D1 (publishing rounded household figures) and L-D2 (pre-rounding history scrub) remain owner decisions on the Flagged page. Unverified items listed in the L-2 report stay blank and flagged: Form 706 payment rule, Form 4768 period, Prop H billing date, California 1% Mental Health Services Tax, and homeowners insurance premiums. Open PR #88 (`83d6cb9b`) overlaps work already on `main` and is not touched by this session.
+
+## Session `fdf0ec80` (branch `arena/fdf0ec80-tino2`) — 15 Nov 2026
+
+**State read at claim.** `origin/main` = `9ecdc55` (PR #98 merged). No open PRs. The owner brief matches the scope already delivered by sessions `12f68358`, `b33f5f9e` and `00503c24`, all merged. This session does not repeat that work.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| R-1 | Re-run the full local suite on current `main` and read back the live site | done | fdf0ec80 | `verification/fdf0ec80/**` | All checks PASS except `test-browser.cjs`, which cannot run here (missing `libnss3`); CI runs it. |
+| R-2 | Privacy re-check of the public artifact, repository tip and full history | done | fdf0ec80 | this block, `verification/fdf0ec80/REPORT.md` | Artifact clean. Legacy files at the tip still hold exact household figures (new Critical row). History: 3–47 commits contain household tokens. |
+| R-3 | Add the new flagged item to the public Flagged page | done | fdf0ec80 | `scripts/build-guide.py` (one row), `guide/review.html` (regenerated) | Row says the legacy files are not served by Pages but are visible on GitHub; removal is an owner decision. |
+| R-4 | Remove legacy household figures from the tree, or rewrite history | **not performed** | — | — | Owner decisions (N01, N02). History rewrite is destructive to other branches and needs collaborator sign-off. |
+
+**Decision.** Exact household figures are not removed from the tip in this session. Deleting files that other records cite, without the owner's choice, would destroy coordination evidence. The new Critical flag makes the exposure visible instead. The owner should choose between removing those files from the tip now and a full history cleanup.
+
+**Merge.** PR from `arena/fdf0ec80-tino2` to `main`, merged once `Verify public Pages boundary` passes. The PR changes one flagged row, one generated page and records in this file and `verification/fdf0ec80/`.
