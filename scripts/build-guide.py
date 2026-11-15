@@ -113,7 +113,8 @@ CTX={'S':S,'table':table,'section':section,'source':source}
 import phased_model as PM
 
 def money(v):
-    return f"${PM.round10(v):,}"
+    value = PM.round10(v)
+    return (f"−${abs(value):,}" if value < 0 else f"${value:,}")
 
 def money_range(vals):
     lo, hi = min(vals), max(vals)
@@ -857,7 +858,7 @@ execsum = (PRINT_CSS + '<div class="brief-sheet">'
    ('Does Proposition 19 family-home relief apply?', 'It turns on the transferor’s residence, the transferee’s occupancy within one year, and a filed claim.', 'Without it the assessed base resets to market value, which is the single largest cost of holding the property.', source('boe')),
    ('Is the estate above the federal filing threshold?', 'That needs the whole gross estate, prior taxable gifts, deductions and elections, none of which is published here.', 'Estate tax and liquidity can force a sale whatever the arithmetic says.', source('estate27')),
  ]))
- + section('The numbers that carry the weight', table(['Figure', 'Value used on this site', 'Status of the number', 'Official source'], _es_rows)
+ + section('The numbers that carry the weight', table(['Figure', 'Value used on this site', 'Status of the number', 'Official source, or context for a model row'], _es_rows)
    + '<p class="tiny">Print this page with the browser print command; it is laid out to fit one sheet. Amounts are rounded to the nearest $10 except where a government body publishes the exact figure.</p>')
  + section('Deadlines the family controls', table(['When it falls', 'What is filed', 'Official source'], _es_deadlines))
  + section('What would change this summary', _li([
