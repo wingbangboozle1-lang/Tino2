@@ -10,7 +10,7 @@ six other sessions merged into it concurrently; every finding below is stated ag
 deleted (see D-I-3).
 **Role:** read-only independent auditor. This report is the only substantive file this session adds. No file owned by another session was edited; corrections that belong in someone else's file are logged as requests in `COORDINATION.md`.
 
-**Privacy statement.** No personal name, street address, parcel number, account number or contact detail appears in this report. Properties are "Property A" (Cupertino 95014) and "Property B" (San Francisco 94122). Household figures quoted here are already the $10-rounded values the site publishes; no exact household amount is reproduced.
+**Privacy statement.** No personal name, street address, parcel number, account number or contact detail appears in this report. Properties are "Property A" (Cupertino [ZIP-A]) and "Property B" (San Francisco [ZIP-B]). Household figures quoted here are already the $10-rounded values the site publishes; no exact household amount is reproduced.
 
 ---
 
@@ -67,10 +67,10 @@ result or another session's file). "Wording found" is quoted from the official p
 | 15 | Board of Supervisors File No. 261020 is **pending, not enacted**: would cap combined banked + capital-improvement increases at 10%/year for increases noticed or petitions filed on/after 15 Sep 2026 | **Match** | "**This legislation has not been enacted and is subject to change.**" | [SF Rent Board — Current Rates](https://www.sf.gov/reports--current-rates-including-rent-increase-relocation-sec-deposit) |
 | 16 | SF Rent Board fee $59.00 per dwelling unit for 2026-27, due 1 March; paid directly by owners since 2022 | **Match** | "For the 2026-2027 tax year, the fee is: **$59.00 per dwelling unit**"; "owners must pay this fee to the Rent Board directly as of 2022"; "Deadline: **March 1**" | [SF.gov — The Rent Board Fee](https://www.sf.gov/rent-board-fee) |
 | 17 | Cupertino water: quantity rate and service charge up about 2.8% from 1 Jan 2026, plus a Valley Water wholesale increase from 1 Jul 2026 | **Match** | "Year 2 of our 2025-27 GRC Filing shows an increase in the quantity rate and service charge of approximately 2.8%, effective January 1"; "Valley Water … is increasing its water rates effective July 1, 2026." | [San Jose Water — 2026 Rates](https://www.sjwater.com/2026Rates) |
-| 18 | HUD FY2026 Small Area FMR, ZIP 95014: 4-bedroom $6,390; 3-bedroom $5,870 | **Match** | "Efficiency $3,340 \| One-Bedroom $3,800 \| Two-Bedroom $4,440 \| Three-Bedroom $5,870 \| Four-Bedroom $6,390" | [HUD FY2026 SAFMR calculation, 95014](https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&year=2026) |
+| 18 | HUD FY2026 Small Area FMR, ZIP [ZIP-A]: 4-bedroom $6,390; 3-bedroom $5,870 | **Match** | "Efficiency $3,340 \| One-Bedroom $3,800 \| Two-Bedroom $4,440 \| Three-Bedroom $5,870 \| Four-Bedroom $6,390" | [HUD FY2026 SAFMR calculation, [ZIP-A]](https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-A]&year=2026) |
 
 **Not re-opened by this session** (status is the one given by the session that added it; no claim is made here):
-SFPUC proposed water/sewer rates, Santa Clara County tax-rate book components, HUD SAFMR for ZIP 94122,
+SFPUC proposed water/sewer rates, Santa Clara County tax-rate book components, HUD SAFMR for ZIP [ZIP-B],
 CDI statewide residential insurance experience, IRC §1014 / §121 / §1411 / Form 706 pages, and the
 California Secretary of State ballot-measure returns. Two of these were attempted and are recorded in §5.
 
@@ -245,10 +245,10 @@ the deadline or the vacancy rule either, and `bRentBoardFeeAnnual` is still 118,
 
 ### D-I-5 — MEDIUM — the rent-growth assumption runs above the latest official change in the same benchmark
 
-Property A's rent uses HUD's FY2026 SAFMR for ZIP 95014 and grows it at `rentGrowth = 3%` a year. The same
+Property A's rent uses HUD's FY2026 SAFMR for ZIP [ZIP-A] and grows it at `rentGrowth = 3%` a year. The same
 official page publishes the prior year, so the actual year-over-year change is visible:
 
-| SAFMR 95014 | FY2025 | FY2026 | Change |
+| SAFMR [ZIP-A] | FY2025 | FY2026 | Change |
 |---|---|---|---|
 | Efficiency | $3,410 | $3,340 | **−2.1%** |
 | 1-bedroom | $3,880 | $3,800 | **−2.1%** |
@@ -256,7 +256,7 @@ official page publishes the prior year, so the actual year-over-year change is v
 | 3-bedroom | $5,850 | $5,870 | +0.3% |
 | 4-bedroom | $6,370 | $6,390 | **+0.3%** |
 
-Source: [HUD FY2026 SAFMR calculation for 95014](https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&year=2026), opened 2026-11-11.
+Source: [HUD FY2026 SAFMR calculation for [ZIP-A]](https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-A]&year=2026), opened 2026-11-11.
 The 4-bedroom benchmark the model rents Property A at rose **0.3%** in the latest official year, and every
 smaller unit **fell**. The site already labels 3% as an assumption, so nothing is wrong — but the assumption
 is roughly ten times the latest official movement in its own benchmark, and the rent case is the one the site

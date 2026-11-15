@@ -1,6 +1,6 @@
 # Research: San Francisco Property Tax
 
-**Property:** San Francisco house, Outer Sunset, ZIP 94122, San Francisco County, CA  
+**Property:** San Francisco house, [DISTRICT-B], ZIP [ZIP-B], San Francisco County, CA  
 **Estimated market value (Nov 2026):** $1,800,000 (user-provided estimate)  
 **Use:** Owner lives in one unit; 2 of 3 units rented (≈ $7,150/month combined rental income, user-provided); 1 unit not rented  
 **Prepared by:** session-arena | **Sources verified:** yes (official sources linked below)

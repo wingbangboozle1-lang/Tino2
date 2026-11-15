@@ -48,7 +48,7 @@ assumed returns, not a forecast.
 | California State Controller, California Estate Tax | No California estate-tax return for deaths on or after 1 Jan 2005 | Yes — `caEstate` |
 | BOE, Proposition 19 page | Value limit = current taxable value plus $1,000,000 "as biennially adjusted"; homeowners' exemption within 1 year, exclusion claim within 3 years | Yes — `boeProp19` |
 | BOE News Release NR 25-02 (7 Mar 2025) | $1,044,586 for transfers 16 Feb 2025–15 Feb 2027 (+2.15% from $1,022,600), adjusted every other year from the FHFA California HPI | Yes — `boeProp19Amount`, `boeLta2025009`, model `prop19Amount` |
-| HUD FY2027 SAFMR lookup, ZIP 95014 | 3BR $5,440, 4BR $5,800 (effective 1 Oct 2026); FY2026 floor table shown on the same page | Yes — `hudA2027`, ledger CF-04 |
+| HUD FY2027 SAFMR lookup, ZIP [ZIP-A] | 3BR $5,440, 4BR $5,800 (effective 1 Oct 2026); FY2026 floor table shown on the same page | Yes — `hudA2027`, ledger CF-04 |
 | SF Rent Board, Current Rates | 1.6% allowable increase 1 Mar 2026–28 Feb 2027; File No. 261020 notice posted 9 Nov 2026 "has not been enacted" | Yes — `sfRent`, `sfRentRates` |
 
 Note on the HUD FY2027 URL: the 2026-style `.odn` ZIP address for 2027 returns 404.

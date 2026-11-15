@@ -1,6 +1,6 @@
 # Research: Cupertino (Santa Clara County) Property Tax
 
-**Property:** Cupertino house, ZIP 95014, Santa Clara County, CA  
+**Property:** Cupertino house, ZIP [ZIP-A], Santa Clara County, CA  
 **Estimated market value (Nov 2026):** $3,100,000 (user-provided estimate)  
 **Prepared by:** session-arena | **Status:** in progress → done | **Sources verified:** yes (official sources linked below)
 
@@ -13,7 +13,7 @@
 | Base property tax rate | 1% of assessed value (Proposition 13, Cal. Const. art. XIII A; Cal. Rev. & Tax. Code § 51) | California Legislative Information, RTC § 51 | Y |
 | Annual assessed-value increase cap | Maximum 2% per year absent change in ownership or new construction (inflation factor tied to CA CPI) | Santa Clara County Assessor's Annual Report 2025-26 | Y |
 | Reassessment trigger | Change in ownership or completion of new construction resets base year value to market value | Santa Clara County Assessor's Office | Y |
-| Composite tax rate (typical Tax Rate Area) | Base 1% + voter-approved bonds; most residential parcels fall between ~1.08% and 1.30%; SCC sample TRA totals $1.1488 per $100 of assessed value ($1,000,000 → $11,488 before homeowner's exemption) | Santa Clara County Assessment Information Booklet (files.santaclaracounty.gov); SCC Assessor annual report | Y |
+| Composite tax rate (typical Tax Rate Area) | Base 1% + voter-approved bonds; most residential parcels fall between ~1.08% and 1.30%; SCC sample TRA totals $1.1488 per $100 of assessed value ($1,000,000 → $11,490 before homeowner's exemption) | Santa Clara County Assessment Information Booklet (files.santaclaracounty.gov); SCC Assessor annual report | Y |
 | Homeowner's exemption | $7,000 reduction of assessed value for owner-occupied primary residence | SCC sample property tax bill (files.santaclaracounty.gov) | Y |
 | Supplemental tax | One-time supplemental bill triggered by change in ownership/new construction, prorated for remainder of fiscal year (July 1–June 30) | Santa Clara County property tax guides | Y |
 

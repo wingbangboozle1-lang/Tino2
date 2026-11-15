@@ -99,7 +99,7 @@ window.SUGGESTIONS = {
     {
       id: "S11", kind: "site", priority: "Medium", hours: 2, effort: "2 hours of work",
       title: "Choose FY2027 HUD baseline rebase & track scheduled official resets",
-      what: "HUD's FY2027 SAFMRs were verified 12 Nov 2026 (95014: $5,800 4BR / $5,440 3BR; 94122: $2,770 1BR / $3,410 2BR) and SF Measure H's multifamily rate was verified ($249/yr + $0.195/sq ft over 5,000 sq ft from July 2027). FY2027 options (`4BR_2027` / `3BR_2027`) are already selectable in Decision Lab; choose whether to rebase defaults to FY2027 alongside local comps, and track Prop 19 (every other Feb 16), HUD (Oct), and SF Rent Board (Mar / Dec 14).",
+      what: "HUD's FY2027 SAFMRs were verified 12 Nov 2026 ([ZIP-A]: $5,800 4BR / $5,440 3BR; [ZIP-B]: $2,770 1BR / $3,410 2BR) and SF Measure H's multifamily rate was verified ($249/yr + $0.195/sq ft over 5,000 sq ft from July 2027). FY2027 options (`4BR_2027` / `3BR_2027`) are already selectable in Decision Lab; choose whether to rebase defaults to FY2027 alongside local comps, and track Prop 19 (every other Feb 16), HUD (Oct), and SF Rent Board (Mar / Dec 14).",
       removes: "Silent drift between FY2026 baseline defaults and verified FY2027 benchmarks.",
       closes: ["Q14"],
       cost: "No charge", risk: "Rebasing shifts modeled dollars via one shared input; keep both FY2026 and FY2027 clearly documented.",
@@ -305,7 +305,7 @@ window.SUGGESTIONS = {
       ["A-02", "Confirm the house is still the parent's principal residence at death", "Q03 · S03", "boeLta2026026"],
       ["A-03", "Get the cost to rebuild and one written homeowners quote at that limit", "S02 · Q10", "cdiSurveyCup40_1000"],
       ["A-04", "Decide whether to carry earthquake cover, and price it", "S02 · Q20", "cdiSurveyEqCup"],
-      ["A-05", "Choose whether to rebase published defaults to verified FY2027 HUD benchmarks ($5,800 4BR / $5,440 3BR for 95014; already selectable in Decision Lab)", "S11 · Q14", "hudA2027"],
+      ["A-05", "Choose whether to rebase published defaults to verified FY2027 HUD benchmarks ($5,800 4BR / $5,440 3BR for [ZIP-A]; already selectable in Decision Lab)", "S11 · Q14", "hudA2027"],
       ["A-06", "Re-check the Proposition 19 amount when the Board of Equalization publishes it", "S11 · Q07", "boeLta2025009"],
       ["A-07", "Track pending law & Measure H ($249/yr + $0.195/sq ft verified; check Property B sq ft & Dec 11 certification)", "S27 · S11", "sfMeasureHTerms"],
       ["A-08", "List every asset, owner and beneficiary, then measure federal headroom", "S22 · Q16", "irsEstateTax"],

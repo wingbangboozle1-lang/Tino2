@@ -1,4 +1,4 @@
-# San Francisco House — Projection Model (94122, Outer Sunset)
+# San Francisco House — Projection Model ([ZIP-B], [DISTRICT-B])
 
 ## Inputs (owner-provided — UNVERIFIED unless noted)
 - Market value Nov 2026: $1,800,000 (owner estimate — unverified).

@@ -1,7 +1,7 @@
 # Executive Summary — Cupertino & San Francisco House Inheritance Decision
 
 ## Purpose
-Collect, organize, and analyze requirements for deciding what to do with two California homes expected to be inherited through a trust around 2040–2050: a Cupertino home (ZIP 95014) and a San Francisco Outer Sunset home (ZIP 94122). Options: live in, rent, or sell and reinvest (stocks, savings, etc.).
+Collect, organize, and analyze requirements for deciding what to do with two California homes expected to be inherited through a trust around 2040–2050: a Cupertino home (ZIP [ZIP-A]) and a San Francisco [DISTRICT-B] home (ZIP [ZIP-B]). Options: live in, rent, or sell and reinvest (stocks, savings, etc.).
 
 ## Privacy
 All personal information is anonymized. Placeholders used throughout: [OWNER], [TRUSTEE], [SUCCESSOR_TRUSTEE], [DECEDENT], [BENEFICIARY], [CUPERTINO_PROPERTY], [SF_PROPERTY], [INHERITANCE_ASSETS], [INHERITANCE_YEAR]. No personal information appears on the published website.
@@ -9,8 +9,8 @@ All personal information is anonymized. Placeholders used throughout: [OWNER], [
 ## Key properties (owner estimates — UNVERIFIED)
 | Property | Location | Est. value (Nov 2026) | Units | Rental income | Notes |
 |---|---|---|---|---|---|
-| Cupertino house | 95014, Santa Clara County | $3,100,000 | 1 | None (owner-occupied history) | Solar installed; assessment $550,500 (owner record, unverified) |
-| San Francisco house | 94122, San Francisco County | $1,800,000 | 3 | ≈ $7,150/mo (2 units) | Owner lives there; 1 unit vacant |
+| Cupertino house | [ZIP-A], Santa Clara County | $3,100,000 | 1 | None (owner-occupied history) | Solar installed; assessment $550,500 (owner record, unverified) |
+| San Francisco house | [ZIP-B], San Francisco County | $1,800,000 | 3 | ≈ $7,150/mo (2 units) | Owner lives there; 1 unit vacant |
 
 ## Key tax findings (VERIFIED against official sources)
 - Federal estate tax exclusion 2026: $15,000,000 per person ($30,000,000 married couple with portability); top rate 40% above; permanent under OBBBA (Public Law 119-21), indexed for inflation after 2026. (IRS Form 706 instructions / Rev. Proc. 2025-32)

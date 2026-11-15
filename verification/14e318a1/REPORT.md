@@ -24,7 +24,7 @@ Each published statement below was compared with an official source. Because thi
 | 2 | California requires no estate-tax return for deaths on or after Jan 1, 2005; no CA inheritance tax | California State Controller's Office, California Estate Tax | Match |
 | 3 | Prop 19 intergenerational exclusion amount $1,044,586 for Feb 16, 2025 – Feb 15, 2027; biennial FHFA California HPI adjustment; principal-residence only | CA Board of Equalization NR 25-02 and Proposition 19 guidance | Match |
 | 4 | San Francisco combined FY2026–27 ad valorem rate 1.18162182% ($1.18162182 per $100) | SF Board of Supervisors FY2026–27 tax-rate adoption minutes (Resolution 524-26) | Match |
-| 5 | HUD FY2026 SAFMR benchmarks: Property A ZIP 95014 4BR $6,390 / 3BR $5,870; Property B ZIP 94122 | HUD FY2026 Small Area Fair Market Rent calculation | Match |
+| 5 | HUD FY2026 SAFMR benchmarks: Property A ZIP [ZIP-A] 4BR $6,390 / 3BR $5,870; Property B ZIP [ZIP-B] | HUD FY2026 Small Area Fair Market Rent calculation | Match |
 | 6 | SF Rent Board allowable increase 1.6% for Mar 1, 2026 – Feb 28, 2027; $59/unit fee; AB 1482 max 8.8% Aug 2026–Jul 2027, sunsets Jan 1, 2030 | SF Rent Board current rates, Rent Board Fee, AB 1482 reports | Match |
 
 Not verified / flagged: exact CBO 2.3% CPI and 4.4% 10-year-yield figures (read from secondary summaries); SF 7% rent ceiling; insurance quotes; household inputs ($3,100,000 / $1,800,000 values, $7,150/mo rent, utility figures) are household planning inputs, not official appraisals.

@@ -1,6 +1,6 @@
 # Water & Electricity — Research Record
 
-## San Jose Water Company (serves Cupertino 95014) — official tariff documents (sjwater.com)
+## San Jose Water Company (serves Cupertino [ZIP-A]) — official tariff documents (sjwater.com)
 - Service charge (5/8 x 3/4-inch meter): $75.84/month (rates effective Jan 1, 2026, per AL 621A); proposed $78.64 (advice letter June 2026, pending CPUC).
 - Quantity rates per 100 cu.ft. (Ccf): Tier 1 (0–6 Ccf) $4.79; Tier 2 (6–12 Ccf) $7.15; Tier 3 (12+ Ccf) $13.66 (rates effective Jan 1, 2026).
 - Average residential bill (3/4-inch meter, 10 Ccf/month): ≈ $107.44 at 2024 rates; GRC 2025-27 projections: ≈ $120.62 (2025), ≈ $125.44 (2026), ≈ $131.12 (2027) if approved.

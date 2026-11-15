@@ -25,8 +25,8 @@ Base case reproduced: 2040→2050 sell $7,683,290 / rent $6,249,830 / live $5,13
 |---|---|---|---|
 | 2027 federal basic exclusion $15,480,000; 2026 $15,000,000 | IRS IR-2026-133 | "Estates of decedents who die during 2027 have a basic exclusion amount of $15,480,000, up from a total of $15,000,000 for estates of decedents who died in 2026." | ✓ |
 | Prop 19 amount $1,044,586 (16 Feb 2025–15 Feb 2027) | BOE NR 25-02 | "increased by 2.15 percent, from $1,022,600 to $1,044,586" | ✓ |
-| HUD FY2027 SAFMR 95014: 3BR $5,440, 4BR $5,800 (0BR $3,040, 1BR $3,440, 2BR $4,050) | HUD FY2027 zip-calc 95014 | Table matches all five bedroom sizes; FY2026 floor $5,760 (4BR) not binding | ✓ |
-| HUD FY2027 SAFMR 94122: 1BR $2,770, 2BR $3,410 (0BR $2,370, 3BR $4,460, 4BR $5,020) | HUD FY2027 zip-calc 94122 | Table matches all five bedroom sizes | ✓ |
+| HUD FY2027 SAFMR [ZIP-A]: 3BR $5,440, 4BR $5,800 (0BR $3,040, 1BR $3,440, 2BR $4,050) | HUD FY2027 zip-calc [ZIP-A] | Table matches all five bedroom sizes; FY2026 floor $5,760 (4BR) not binding | ✓ |
+| HUD FY2027 SAFMR [ZIP-B]: 1BR $2,770, 2BR $3,410 (0BR $2,370, 3BR $4,460, 4BR $5,020) | HUD FY2027 zip-calc [ZIP-B] | Table matches all five bedroom sizes | ✓ |
 | SF secured property tax rate FY2026-27 1.18162182% | SF Treasurer & Tax Collector | "The secured property tax rate for Fiscal Year 2026-27 is 1.18162182%." | ✓ |
 | SF Rent Board fee $59/unit, $29.50 guest, 50% recovery, due 1 Mar, exemption deadline 14 Dec 2026 | SF Rent Board | All amounts and dates match | ✓ |
 | No California estate tax for deaths on/after 1 Jan 2005 | CA State Controller | "For decedents that die on or after January 1, 2005, there is no longer a requirement to file a California Estate Tax Return." | ✓ |

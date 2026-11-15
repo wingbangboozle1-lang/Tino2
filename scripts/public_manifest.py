@@ -3,7 +3,7 @@ PUBLIC_FILES = {
     'index.html', 'robots.txt', 'assets/safe.css', 'assets/safe.js',
     'guide/figures/official-figures.json',
     *('guide/' + name + '.html' for name in (
-        'decision', 'stress', 'conditions', 'brief', 'property', 'tax', 'process',
+        'decision', 'stress', 'conditions', 'brief', 'property', 'tax', 'process', 'summary',
         'questions', 'suggestions', 'review', 'sources',
         'glossary', 'timeline', 'attorney-cpa', 'paths', 'whatif')),
     *('guide/data/' + name + '.js' for name in (

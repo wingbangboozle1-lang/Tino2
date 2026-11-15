@@ -1,6 +1,6 @@
 # Research: Water and Electricity Costs
 
-**Properties:** Cupertino CA 95014 (single-family, solar installed) | San Francisco CA 94122 (3-unit multi-family, 2 rented)  
+**Properties:** Cupertino CA [ZIP-A] (single-family, solar installed) | San Francisco CA [ZIP-B] (3-unit multi-family, 2 rented)  
 **Prepared by:** session-arena | **Sources verified:** yes (utility tariffs); user-provided estimates flagged
 
 ---

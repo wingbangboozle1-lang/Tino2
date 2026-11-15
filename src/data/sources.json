@@ -122,16 +122,16 @@
  {
   "id": "hud_a",
   "publisher": "HUD",
-  "title": "FY2026 Small Area Fair Market Rents, ZIP 95014",
-  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=95014&metro_code=METRO41940M41940&year=2026&hypo=0",
+  "title": "FY2026 Small Area Fair Market Rents, ZIP [ZIP-A]",
+  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-A]&metro_code=METRO41940M41940&year=2026&hypo=0",
   "access": "opened",
   "used_for": "3-bedroom and 4-bedroom benchmark rents"
  },
  {
   "id": "hud_b",
   "publisher": "HUD",
-  "title": "FY2026 Small Area Fair Market Rents, ZIP 94122",
-  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=94122&metro_code=METRO41860MM7360&year=2026&hypo=0",
+  "title": "FY2026 Small Area Fair Market Rents, ZIP [ZIP-B]",
+  "url": "https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2026_code/2026zip_code_calc.odn?zcta=[ZIP-B]&metro_code=METRO41860MM7360&year=2026&hypo=0",
   "access": "opened",
   "used_for": "2-bedroom benchmark rent"
  },
