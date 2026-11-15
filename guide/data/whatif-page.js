@@ -14,7 +14,7 @@
     var best = Object.keys(row).reduce(function(a,b){ return row[a] >= row[b] ? a : b; });
     var st = document.getElementById('wi-status');
     var lb = document.querySelector('[data-wi-label="' + best + '"]');
-    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. Illustrative example inputs; not a forecast.';
+    if (st) st.textContent = 'Highest total under these controls: ' + (lb ? lb.textContent : best) + '. '+PROVENANCE;
   }
   els.forEach(function(e){ e.addEventListener('change', refresh); });
   refresh();

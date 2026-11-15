@@ -203,9 +203,13 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
         living = m < living_until
         if house_held and (m % 12 == 0):
             if m == 0:
-                # Prop 19 if living (lesser of market or factored base plus allowance); otherwise reassessed to market.
+                # Prop 19 if living: excess of market over factored base above the allowance is
+                # added to the factored base (BOE rule as published on the guide's tax page);
+                # otherwise the transfer is reassessed to market value. Formula mirrors
+                # guide/data/model.js inheritanceValues: min(market, max(factored, market - allowance)).
                 factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-                assessed = min(fmv, factored + OFFICIAL['prop19_allowance_exact']) if living else fmv
+                allowance = OFFICIAL['prop19_allowance_exact']
+                assessed = min(fmv, max(factored, fmv - allowance)) if living else fmv
             else:
                 assessed = min(assessed * (1 + OFFICIAL['prop13_cap']), fmv)   # Prop 13 cap and Prop 8 decline-in-value
             cpi_lvl = lvl_m
@@ -388,7 +392,8 @@ def annual_table(a: dict, p: dict, years: int = 50) -> list[dict]:
             fmv_inh = fmv_at_inheritance(a, p)
             fmv = fmv_inh * sc['home'](12 * k)
             factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-            assessed_live = min(fmv_inh, factored + OFFICIAL['prop19_allowance_exact']) if k == 0 else None
+            allowance = OFFICIAL['prop19_allowance_exact']
+            assessed_live = min(fmv_inh, max(factored, fmv_inh - allowance)) if k == 0 else None
             if k == 0:
                 assessed = assessed_live
             else:

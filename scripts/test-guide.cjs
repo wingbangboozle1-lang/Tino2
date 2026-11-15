@@ -13,6 +13,18 @@ const OFFICIAL_AMOUNTS=new Map([
  [742953,'FTB 2025 Form 540 Schedule X top-bracket threshold, single (read 14 Nov 2026)'],
  [1485906,'FTB 2025 Form 540 Schedule Y top-bracket threshold, joint (read 14 Nov 2026)'],
  [1010417,'FTB 2025 Form 540 Schedule Z top-bracket threshold, head of household (read 14 Nov 2026)'],
+ // California Department of Insurance premium-comparison survey (effective 1 May 2026,
+ // read 12 Nov 2026), $1,000,000 dwelling cover, $2,500 deductible profiles. The survey
+ // publishes these amounts exactly; they are official survey outputs, not household figures.
+ [1543,'CDI survey Cupertino 40y lowest (read 12 Nov 2026)'],
+ [1598,'CDI survey Cupertino 70y lowest (read 12 Nov 2026)'],
+ [2741,'CDI survey Cupertino 70y median (read 12 Nov 2026)'],
+ [4968,'CDI survey Cupertino 70y highest (read 12 Nov 2026)'],
+ [1328,'CDI survey SF-Sunset 40y lowest (read 12 Nov 2026)'],
+ [3353,'CDI survey SF-Sunset 40y median (read 12 Nov 2026)'],
+ [1413,'CDI survey SF-Sunset 70y lowest (read 12 Nov 2026)'],
+ [3191,'CDI survey SF-Sunset 70y median (read 12 Nov 2026)'],
+ [10384,'CDI survey SF-Sunset 40y/70y highest (read 12 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
 const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu']);
