@@ -14,8 +14,11 @@
     portfolioNet: 0.05, saleCost: 0.055, vacancy: 0.07, management: 0.085,
     maintenanceA: 0.0075, maintenanceB: 0.0125,
     ordinaryTax: 0.30, capitalGainsTax: 0.361, primaryGainExclusion: 250000,
-    // capitalGainsTax = 20% federal top + 3.8% NIIT + 12.3% CA top (verified components;
-    // the CA 1% mental-health surcharge is excluded pending verification — see Flagged).
+// capitalGainsTax = 20% federal top + 3.8% NIIT + 12.3% CA top + 1% CA Behavioral Health Services
+// Tax on taxable income above $1,000,000 (R&TC §17043; FTB Form 540 line 62). CA components verified
+// from the official FTB 2025 Form 540 rate schedules; capital gains taxed as ordinary income, no
+// preferential rate. The 1% surcharge only applies above $1M and is not indexed.
+// See guide/tax.html for the source-linked row and the Flagged page for the CA flag status.
     aRentMonthly: 6390, bRentMonthly: 7150,      // A: HUD small-area FMR 4BR benchmark, not a quote. B: owner-stated, two units.
     aWaterMonthly: 125, aSolarMonthlyCredit: 15, // owner ranges $100–$150 and a $10–$20 credit, midpoints
     aInsuranceAnnual: 2690,                      // CDI survey median (40y home, $1M cover, $2,500 ded) — not a quote
