@@ -25,6 +25,8 @@ const OFFICIAL_AMOUNTS=new Map([
  [1413,'CDI survey SF-Sunset 70y lowest (read 12 Nov 2026)'],
  [3191,'CDI survey SF-Sunset 70y median (read 12 Nov 2026)'],
  [10384,'CDI survey SF-Sunset 40y/70y highest (read 12 Nov 2026)'],
+ // BOE LTA 2025/009 publishes the 2025-2027 window amount exactly (read 15 Nov 2026).
+ [1044586,'BOE LTA 2025/009 $1 million amount, 16 Feb 2025 - 15 Feb 2027 (read 15 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
 const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov']);
@@ -140,7 +142,7 @@ for(const file of pages){
   const table=[...d.querySelectorAll('table')].find(t=>[...t.querySelectorAll('thead th')].some(th=>th.textContent.trim()==='Answer already known from official sources'));
   check(Boolean(table),'Questions register table found');
   const rows=[...table.querySelectorAll('tbody tr')];
-  check(rows.length===20,'Questions register has 20 rows, found '+rows.length);
+  check(rows.length===21,'Questions register has 21 rows, found '+rows.length);
   for(const tr of rows){
    const cells=[...tr.querySelectorAll(':scope > td')];
    const rule=cells[2].textContent.trim();
@@ -152,6 +154,13 @@ for(const file of pages){
   check(ready.some(h=>h.includes('Can a decision reasonably be made yet')),'Decision-readiness section present');
   check(d.body.textContent.includes('Answer: not yet'),'Decision-readiness verdict present');
   check(d.querySelectorAll('a[href="suggestions.html"]').length>0,'Readiness verdict links to the suggestions register');
+ }
+ if(file==='guide/paths.html'){
+  const d=dom.window.document;
+  const svg=d.getElementById('distribution-chart');
+  check(Boolean(svg),'Distribution chart present on the paths page');
+  check(svg.querySelectorAll('g[data-path]').length===7,'Distribution chart has one bar per path');
+  check(svg.querySelectorAll('text.amt').length>=5,'Distribution chart axis labels are model-formatted amounts');
  }
  if(file==='guide/property.html'){
   const d=dom.window.document;

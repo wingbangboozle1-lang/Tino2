@@ -35,9 +35,20 @@
       ['Sale cost / portfolio return',`${pct(c.saleCost)} / ${pct(ret)} annual net proxy`,'Invented assumptions, not quotes or forecasts. No additional portfolio liquidation tax.',src('invest')],
       ['Income / capital-gain tax rates',`${pct(c.ordinaryTax)} / ${pct(c.capitalGainsTax)}`,'Flat combined scenario rates; no rental depreciation, recapture, loss benefit or taxpayer-specific brackets.',src('rent')],
       ['Primary-residence exclusion',`${money(c.primaryGainExclusion)} assumed at endpoint`,'Assumes the use and other requirements are met; real eligibility is not automatic.',src('residence')],
-      ['Prop 19 amount at transfer',money(d.transfer.allowance),'Official 2025–27 base, followed by hypothetical biennial growth. Assumes the transfer is after the February 16 adjustment; future allowances are unknown.',src('boe')]
+      ['Prop 19 amount at transfer',money(d.transfer.allowance),'Enacted windows through 15 Feb 2027 are published; later windows are carried forward at the statutory index basis (a projection, not a published BOE figure). Assumes the transfer is after the February 16 adjustment.',src('boe')]
     ];
     document.getElementById('assumptions').innerHTML=assumptions.map(tr).join('');
+    const sameYear=[
+      ['Basis at the transfer (date-of-death value)',money(d.transfer.market),'The inherited home takes its basis at fair market value on the date of death — the IRS general rule.',src('irs')],
+      ['Sale price modeled at the transfer date',money(d.transfer.market),'The sale closes in the same tax year as the inheritance, before any modeled growth.',src('irs')],
+      ['Selling costs at the modeled rate',money(d.transfer.market*c.saleCost),'A share of price; a negotiated assumption, not a statutory rate.',src('invest')],
+      ['Taxable gain in the same tax year',money(0),'Price minus basis is zero by construction in this model, so there is no gain for the government to tax in the sale year.',src('irs')],
+      ['Capital-gains tax at the modeled rate',money(0),'No gain, no tax, when basis equals the sale price. Each later year adds potential gain.',src('irs')],
+      ['Net proceeds available to invest',money(d.sell.initialNet),'What the sell path actually starts with, after sale costs.',src('invest')],
+      ['Value at the end of the selected horizon if invested',money(d.sell.terminal),'The sell row of the comparison below, on the selected horizon and return assumption.',src('invest')]
+    ];
+    const sameEl=document.getElementById('same-year-sale');
+    if(sameEl) sameEl.innerHTML=sameYear.map(tr).join('');
     const names={sell:'Sell and reinvest',rent:'Rent then sell',live:'Live then sell'};
     document.getElementById('winner').innerHTML=`<h3>On these inputs: ${names[d.winner]} leads.</h3><p>Household inputs are rounded to $10; scenario rates are assumptions, not forecasts. This is a calculation, not tax or legal advice. The transfer is modeled in ${y} and the comparison ends in ${y+horizon}. Change assumptions and review the omitted costs before drawing conclusions.</p>`;
     document.getElementById('comparison').innerHTML=['sell','rent','live'].map(k=>{

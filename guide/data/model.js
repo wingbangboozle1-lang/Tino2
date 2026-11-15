@@ -25,6 +25,11 @@
     // Official 2025–Feb 2027 allowance and 2026/2027 basic exclusions;
     // later amounts are hypothetical indexation, not published IRS/BOE figures.
     prop19Amount: 1044586,
+    // Projection basis for carrying the allowance forward: the statutory adjustment
+    // uses the FHFA California house-price change each other February 16 (BOE LTA
+    // 2025/009). 2.86% is the 20-year CAGR of the FHFA San Jose-area HPI series on
+    // FRED (2006 Q3–2026 Q2); it is a projection, not a published BOE figure.
+    prop19Index: 0.0286,
     estateExclusion: 15000000, estateExclusion2027: 15480000, estateIndex: 0.02
   });
 
@@ -45,8 +50,15 @@
     return Math.max(0, Math.floor((year - 2025) / 2));
   }
   function modelAllowance(year, config = BASE) {
-    // Future biennial adjustments are unknown. This is an invented HPI-style path.
-    return config.prop19Amount * Math.pow(1 + config.appreciation, prop19Steps(year));
+    // Enacted windows (BOE LTA 2025/009 enclosure, read 15 Nov 2026):
+    // $1,000,000 for 16 Feb 2021 – 15 Feb 2023; $1,022,600 for 16 Feb 2023 –
+    // 15 Feb 2025; $1,044,586 for 16 Feb 2025 – 15 Feb 2027. Later windows are
+    // carried forward at the statutory index basis (config.prop19Index): a
+    // projection of the biennial adjustment, not a published BOE figure.
+    if (year < 2023) return 1000000;
+    if (year < 2025) return 1022600;
+    if (year <= 2026) return config.prop19Amount;
+    return config.prop19Amount * Math.pow(1 + config.prop19Index, prop19Steps(year));
   }
   function seriesFor(property, year, config = BASE) {
     if (!['A', 'B'].includes(property) || year < config.startYear) throw new Error('Invalid property or year');

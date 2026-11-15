@@ -17,6 +17,7 @@ OFFICIAL = {
     'fed_exclusion_2026': 15_000_000,        # IRS, basic exclusion amount for 2026
     'fed_exclusion_2027': 15_480_000,        # IRS, 2027 (IR-2026-133)
     'prop19_allowance_exact': 1_044_586,     # BOE LTA 2025/009 (16 Feb 2025 - 15 Feb 2027)
+    'prop19_hpi_change_2024': 0.0215,        # FHFA California HPI change for 2024, per LTA 2025/009
     'prop13_cap': 0.02,                      # BOE: assessed value grows at most 2% a year
     'sf_rent_increase_26_27': 0.016,         # sf.gov Rent Board, 1 Mar 2026 - 28 Feb 2027
     'prop_h_floor': 249,                     # SFMTA Prop H FY 2027-28, multifamily up to 5,000 sq ft
@@ -67,7 +68,41 @@ DEFAULT_PARAMS = {
     'maint_a': 0.0075,                # ASSUMPTION: share of value per year
     'maint_b': 0.0125,                # ASSUMPTION: share of value per year
     'rent_mo': 0.0,                   # Property A monthly rent in inheritance-year dollars
+    'allowance_growth': G_20Y,        # projection basis for the statutory FHFA California HPI adjustment (see prop19_allowance)
 }
+
+# Enacted Proposition 19 value-cap allowance windows (BOE LTA 2025/009 enclosure,
+# read 15 Nov 2026; Cal. Const. art. XIII A §2.1(c), R&TC §63.2). Each window runs
+# from its start date until the next February 16 adjustment. The February 2027
+# adjustment had not been published when this was last re-read.
+PROP19_ENACTED = [(2021, 1_000_000), (2023, 1_022_600), (2025, 1_044_586)]
+
+
+def prop19_steps(year: int) -> int:
+    """February-16 adjustments after the window that began 16 Feb 2025."""
+    return max(0, (year - 2025) // 2)
+
+
+def prop19_allowance(year: int, p: dict | None = None) -> float:
+    """The $1 million amount for a transfer in `year`, enacted windows first.
+
+    Statutory mechanism (Cal. Const. art. XIII A §2.1(c)(4), quoted in BOE LTA
+    2025/009): beginning 16 Feb 2023 and every other February 16, the BOE adjusts
+    the $1,000,000 amount for inflation to reflect the percentage change in the
+    House Price Index for California for the prior calendar year, as determined by
+    the FHFA. Years inside an enacted window use the published amount exactly.
+    Years after 15 Feb 2027 are carried forward at `allowance_growth` per
+    adjustment — a labelled projection, not a published BOE figure.
+    """
+    for start, amount in reversed(PROP19_ENACTED):
+        if year >= start:
+            if start == 2025 and year <= 2026:
+                return float(amount)          # enacted through 15 Feb 2027
+            if start < 2025:
+                return float(amount)          # enacted, historical windows
+            break
+    g = (p or DEFAULT_PARAMS).get('allowance_growth', DEFAULT_PARAMS['allowance_growth'])
+    return OFFICIAL['prop19_allowance_exact'] * (1 + g) ** prop19_steps(year)
 
 
 def _cpi_level(sc: dict, m: int) -> float:
@@ -208,7 +243,7 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
                 # otherwise the transfer is reassessed to market value. Formula mirrors
                 # guide/data/model.js inheritanceValues: min(market, max(factored, market - allowance)).
                 factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-                allowance = OFFICIAL['prop19_allowance_exact']
+                allowance = prop19_allowance(p['inherit_year'], p)   # enacted window or carried forward
                 assessed = min(fmv, max(factored, fmv - allowance)) if living else fmv
             else:
                 assessed = min(assessed * (1 + OFFICIAL['prop13_cap']), fmv)   # Prop 13 cap and Prop 8 decline-in-value
@@ -395,7 +430,7 @@ def annual_table(a: dict, p: dict, years: int = 50) -> list[dict]:
             fmv_inh = fmv_at_inheritance(a, p)
             fmv = fmv_inh * sc['home'](12 * k)
             factored = a['assessed_2026'] * (1 + OFFICIAL['prop13_cap']) ** (p['inherit_year'] - p['valuation_year'])
-            allowance = OFFICIAL['prop19_allowance_exact']
+            allowance = prop19_allowance(p['inherit_year'], p)       # enacted window or carried forward
             assessed_live = min(fmv_inh, max(factored, fmv_inh - allowance)) if k == 0 else None
             if k == 0:
                 assessed = assessed_live
