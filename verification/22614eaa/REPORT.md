@@ -82,6 +82,7 @@ on the Flagged page.
    Actions token. Confirmed again here: `gh api -X PUT …/pages` is not available to this
    connection, so the exclusion list in `_config.yml` remains the live control and needs a
    repository administrator.
-4. **`_config.yml` exclusions are not a security boundary.** They decide what Jekyll serves; they
+4. **Published link text was double-escaped.** Four entries in the generator's source dictionary held a literal `&amp;amp;`, and `source()` escapes again, so the browser showed "CA Revenue &amp;amp; Taxation Code §480" (and the same on §2617, §2618, §11911) on the Timeline, Properties and Taxes pages, and the attorney sheet's tab title showed "Attorney &amp;amp; CPA briefing sheet". Fixed on 15 Nov 2026: the dictionary and the page title now carry a plain `&`, and `grep "amp;amp;"` over the published set returns nothing.
+5. **`_config.yml` exclusions are not a security boundary.** They decide what Jekyll serves; they
    do not hide a file from a public repository. This is why the tree scrub above is the fix that
    matters, and why the guide says so on its own privacy callout.

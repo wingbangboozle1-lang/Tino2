@@ -65,9 +65,9 @@ S={
  'fed1929':('Federal Reserve History · Stock Market Crash of 1929','https://www.federalreservehistory.org/essays/stock-market-crash-of-1929'),
  'fed2008':('Federal Reserve History · The Great Recession','https://www.federalreservehistory.org/essays/great-recession-of-200709'),
  'treasury':('U.S. Treasury · daily par yield curve, November 2026','https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202611'),
- 'rtc480':('CA Revenue &amp; Taxation Code §480','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=480.'),
- 'rtc2617':('CA Revenue &amp; Taxation Code §2617','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2617.'),
- 'rtc2618':('CA Revenue &amp; Taxation Code §2618','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2618.'),
+ 'rtc480':('CA Revenue & Taxation Code §480','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=480.'),
+ 'rtc2617':('CA Revenue & Taxation Code §2617','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2617.'),
+ 'rtc2618':('CA Revenue & Taxation Code §2618','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2618.'),
  'irs706about':('IRS · About Form 706','https://www.irs.gov/forms-pubs/about-form-706'),
  'irs706i':('IRS · Instructions for Form 706','https://www.irs.gov/instructions/i706'),
  'irs1041about':('IRS · About Form 1041','https://www.irs.gov/forms-pubs/about-form-1041'),
@@ -75,7 +75,7 @@ S={
  'irs701':('IRS · Topic 701, sale of your home','https://www.irs.gov/taxtopics/tc701'),
  'scc-recording':('Santa Clara County Clerk-Recorder · Recording real estate','https://clerkrecorder.santaclaracounty.gov/recording-documents/recording-real-estate'),
  'usc6072':('U.S. Code · 26 U.S.C. §6072 time for filing income tax returns (Cornell LII copy)','https://www.law.cornell.edu/uscode/text/26/6072'),
- 'rtc11911':('CA Revenue &amp; Taxation Code §11911','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=11911.'),
+ 'rtc11911':('CA Revenue & Taxation Code §11911','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=11911.'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -770,7 +770,7 @@ sheet=(
  ]))
  + '</div>'
 )
-page('attorney-cpa','Attorney &amp; CPA briefing sheet.','One printable page for counsel and the tax adviser. Placeholders replace every private fact; figures are rounded to $10 unless an official amount.',sheet)
+page('attorney-cpa','Attorney & CPA briefing sheet.','One printable page for counsel and the tax adviser. Placeholders replace every private fact; figures are rounded to $10 unless an official amount.',sheet)
 
 # ---- Executive summary: the whole guide on one page, printable (added 15 Nov 2026) ----
 _es_find = ('<p>Across every assumption set this site tests, <strong>selling the inherited residence and reinvesting the net '
