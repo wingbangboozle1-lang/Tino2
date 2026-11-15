@@ -32,13 +32,23 @@ regexes. No irregularity.)
 | Santa Clara County: a TRA is "a specific geographic area all of which is within the jurisdiction of the same combination of local agencies for the current fiscal year. There are over 3,200 TRAs … each one identified by a unique number" | County Assessor glossary, https://asr.santaclaracounty.gov/faq/glossary (TRA entry) | **MATCH** (quoted verbatim on the Properties page). |
 | Rate structure: maximum basic ad valorem rate 1% of net taxable value; totals may be higher from voter-approved general obligation bonds; special assessments are "Direct charges, or flat fees … not based upon the Assessor's valuation" | Same glossary (Tax Rates and Special Assessments entries) | **MATCH** (paraphrased with key phrases quoted). |
 
+**Located mid-review by a parallel session, then re-verified here.** The county's per-TRA rate
+compilation — which this review first flagged as having "no official URL located" — was published by
+session `cde37053` (PR #108) as the Controller-Treasurer's Property Tax Rate Book page. This session
+opened that official page and the FY 2025–26 compilation PDF directly on 15 Nov 2026 and confirmed:
+"Total number of Tax Rate Areas in Fiscal Year 2025-26 is 816"; "the tax rate is limited to 1% of the
+assessed value plus amounts required for the payment of principal and interest on voter approved bond
+indebtedness" (the book's own worked example: 0.25% of debt makes a 1.25% rate); "the first two digits
+of each tax rate area identify the area in which the property is located"; lien date January 1;
+installments due 1 Nov / 1 Feb, delinquent 10 Dec / 10 Apr. The guide now links the book.
+
 **Not cited, deliberately.** (a) A secondary search result quoted the Assessor FAQ as saying "using a
 rate of 1.2% will give a conservative estimate"; the FAQ was fetched and the passage was not located in
-the chunks read, so the guide does not state it. (b) The county's per-TRA rate compilation
-("Compilation of Tax Rates", named by secondary sources) has no official URL located in this review;
-the guide names it as the document read with the bill and leaves the link blank rather than citing a
-secondary site. (c) The parcels' own TRA numbers and exact rates stay blank and flagged (private-record
-question D08) — publishing a parcel lookup would defeat the anonymisation rule.
+the chunks read, so the guide does not state it. (b) The parcels' own TRA numbers and exact rates stay
+blank and flagged (private-record question D08) — publishing a parcel lookup would defeat the
+anonymisation rule. (c) Two official county pages give different TRA counts — the Assessor glossary's
+"over 3,200 TRAs" and the rate book's "816 for FY 2025–26"; both are printed with their sources and the
+difference is flagged on the Flagged page rather than reconciled by guesswork.
 
 ## 3. Gap closure — the seven checklist items and where they landed
 
@@ -90,3 +100,23 @@ shifts slightly under the larger allowance; no ranking flips.
 4. Owner decisions L-D1 (now resolved — rounded figures published) and L-D2 (pre-rounding history
    scrub) and the public-repo visibility item remain as published on the Flagged page; this session
    changed nothing there.
+5. **Parallel-session overlap, reconciled without discarding work.** While this branch was open, PRs
+   #106–#111 landed on `main` from sessions `22232d36`, `9a2a5cce`, `cde37053` and `24158ab3`.
+   `origin/main` was merged into this branch and each overlap resolved keeping both sides:
+   - PR #107 independently absorbed PR #104 (same three items as W-2 here; byte-identical intent, no
+     conflict — both sessions took over the same stale PR under the same rule).
+   - PR #108 verified the 1% California Behavioral Health Services Tax (R&TC §17043, FTB Form 540 line
+     62) and located the county rate book. That closes the "1% surcharge taken from secondary sources"
+     flagged item; the Flagged row and suggestion N03 were updated accordingly, and the model's flat
+     rate was left as that session published it.
+   - PR #108's five-year maintenance money table (yearly invented percentages of the rounded household
+     values) overlapped W-3(c). Both sections are kept: their money envelope (relabelled "invented
+     planning placeholders" — the owner never stated percentages; the previous "owner-stated" label was
+     unsupportable) and this session's item checklist with Decision/Date columns.
+   - PR #108's distribution skeleton on the decision page (labelled, empty tbody) overlapped W-3(d).
+     The skeleton is kept and its closing note now points at the rendered chart on the Paths page (the
+     previous note said the values were "rendered" on the What-if page, which does not render them).
+   - The figure ledger was merged by union: 36 records on `main` (incl. CA-BHST-1M,
+     CA-CAPITAL-GAINS-ORDINARY, SCC-RATE-BOOK) plus this session's 3 = 39.
+   - A duplicate `sccRateBook` source key and a double-escaped `&amp;` in the `rtc17043` source title
+     (the same rendering defect class that PR #104's takeover fixed) were corrected in the merge.
