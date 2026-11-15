@@ -2116,6 +2116,58 @@ During follow-up work on a print sheet, glossary and grouped navigation, rebasin
 
 **Open items left for the owner (logged, not blocking).** L-D1 (publishing rounded household figures) and L-D2 (pre-rounding history scrub) remain owner decisions on the Flagged page. Unverified items listed in the L-2 report stay blank and flagged: Form 706 payment rule, Form 4768 period, Prop H billing date, California 1% Mental Health Services Tax, and homeowners insurance premiums. Open PR #88 (`83d6cb9b`) overlaps work already on `main` and is not touched by this session.
 
+## Session `fdf0ec80` (branch `arena/fdf0ec80-tino2`) — 15 Nov 2026
+
+**State read at claim.** `origin/main` = `9ecdc55` (PR #98 merged). No open PRs. The owner brief matches the scope already delivered by sessions `12f68358`, `b33f5f9e` and `00503c24`, all merged. This session does not repeat that work.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| R-1 | Re-run the full local suite on current `main` and read back the live site | done | fdf0ec80 | `verification/fdf0ec80/**` | All checks PASS except `test-browser.cjs`, which cannot run here (missing `libnss3`); CI runs it. |
+| R-2 | Privacy re-check of the public artifact, repository tip and full history | done | fdf0ec80 | this block, `verification/fdf0ec80/REPORT.md` | Artifact clean. Legacy files at the tip still hold exact household figures (new Critical row). History: 3–47 commits contain household tokens. |
+| R-3 | Add the new flagged item to the public Flagged page | done | fdf0ec80 | `scripts/build-guide.py` (one row), `guide/review.html` (regenerated) | Row says the legacy files are not served by Pages but are visible on GitHub; removal is an owner decision. |
+| R-4 | Remove legacy household figures from the tree, or rewrite history | **not performed** | — | — | Owner decisions (N01, N02). History rewrite is destructive to other branches and needs collaborator sign-off. |
+
+**Decision.** Exact household figures are not removed from the tip in this session. Deleting files that other records cite, without the owner's choice, would destroy coordination evidence. The new Critical flag makes the exposure visible instead. The owner should choose between removing those files from the tip now and a full history cleanup.
+
+**Merge.** PR from `arena/fdf0ec80-tino2` to `main`, merged once `Verify public Pages boundary` passes. The PR changes one flagged row, one generated page and records in this file and `verification/fdf0ec80/`.
+
+**Completion record, session `fdf0ec80` (15 Nov 2026).** PR [#99](https://github.com/wingbangboozle1-lang/Tino2/pull/99) from `arena/fdf0ec80-tino2` to `main` was **merged** as merge commit `971b910` at 03:24:30 UTC, after `Verify public Pages boundary` passed on the pull request. After the merge, `Verify public Pages boundary` on `971b910` completed with **success**, and `pages build and deployment` completed with **success**. Live read-back of `guide/review.html` shows the new Critical row. The browser test did not run in this sandbox (missing `libnss3`); it ran in CI on the pull request. Open items for the owner, not blocking: the exact household figures still in legacy files at the branch tip (new Critical row, owner decision), history cleanup (N02), and the $10-rounding publication choice (N01).
+
+## Session `ab579207` (branch `arena/ab579207-tino2`) — claim 2026-11-15
+
+**State read at claim.** `origin/main` = `9ecdc55` (merge of PR #98). This branch is level with it. `gh pr list --state open` returned **no open pull requests**. Remote heads: 68 branches. Board: every prior task is `done`; standing `needs review` items are on the Flagged page and do not block.
+
+**Brief received 15 Nov 2026.** Re-states the whole project brief with new owner figures (Property A and Property B tables, 2026 rent, utility ranges). Most of the brief's *feature* items are already on `main` (first-screen "what would change", executive summary, reinvestment risk beside the headline, mixed and pure paths, what-if controls, Attorney & CPA sheet, glossary, grouped menu, timeline, suggestions, flagged page). This session does **not** re-build those. It covers what is still open.
+
+**Irregularity found at claim (logged, not acted on).** Exact household figures (for example the Property A tax-bill and value strings, and the Property B value and rent strings) remain in **older commits** and in **legacy files on `main`** (root `cupertino.html`, `decision.html`, `dashboard/*`, `docs/cupertino-model.md`, `research/data/*`, `site/data/history.js`). Pages does not serve them (`_config.yml` excludes them), but the repository is public. See task AB-5.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| AB-1 | Claim the board, push the claim | done on push | ab579207 | this block | — |
+| AB-2 | Official-source re-verification of every official figure the private analysis uses (Prop 19 allowance, estate exclusion 2026/2027, CA top rate and MHST, Treasury yields, HUD rent benchmark for 95014 and 94122). Each figure: fetched, read, link recorded, unverifiable ones left blank | in progress | ab579207 | `verification/ab579207/**` (new) | — |
+| AB-3 | Private household analysis (owner figures rounded to nearest $10; projections by year; paths and mixed paths; reinvestment risk; what would change the answer; best plan and why; step-by-step inheritance process; deadlines). Git-ignored `private/` only; never committed | in progress | ab579207 | `private/ab579207/**` (ignored) | household figures are NOT published — decision L-D1 stands |
+| AB-4 | Arithmetic check of the owner-supplied tax and assessment tables (year-over-year %, factor application, implied rates). Public output carries **no values**, only the kinds of irregularity | in progress | ab579207 | `verification/ab579207/**` | — |
+| AB-5 | Final integration: public Flagged page and Suggestions page get this session's irregularities and proposals (public-safe, no household figures); pre-rounding history scrub and legacy-file removal logged as owner decisions with an exact runbook | pending | ab579207 | `scripts/build-guide.py` (Flagged and Suggestions text only), `guide/review.html`, `guide/suggestions.html` (regenerated) | run after AB-2..AB-4 |
+| AB-6 | Tests, PR to `main`, merge without waiting, Pages deploy check, record result here | pending | ab579207 | this block | — |
+
+**Decisions made in this session.** (1) **History scrub is NOT performed.** It would require force-pushing `main` and rewriting 68 remote branches, which other sessions use. Only a repository administrator can do it, and it does not remove copies in forks, clones or caches. A runbook goes to the Flagged page as an owner decision. (2) Household figures stay out of every committed and published file (L-D1). (3) The owner's requested analysis is produced locally in git-ignored `private/` and summarised to the owner in chat with rounded figures.
+
+### Session `ab579207` — completion record (15 Nov 2026)
+
+| # | Task | Status | Record |
+|---|---|---|---|
+| AB-1 | Claim | done | this block |
+| AB-2 | Official-source re-verification of the rule values the private analysis uses | **done** | `verification/ab579207/REPORT.md` §1. Read on 15 Nov 2026: BOE LTA 2025/009 and Pub 801 (Proposition 19 allowance and claim periods, both **match**); IRS estate-tax page and IR-2026-133 ($15,000,000 for 2026; $15,480,000 for 2027, **match**); 26 U.S.C. §2001(c) (40% top rate, **match**); R&TC §17043 (1% above $1,000,000, **match**; a secondary site's surcharge name is not used); IRS Topic 701 ($250,000 / $500,000, **match**); FRED DGS3MO, DGS2 and Treasury par yield curve (12 and 13 Nov, **match**); FRED ATNHPIUS41940Q latest point (**match**); SFMTA Proposition H (**match** on schedule and term). **Not verified and left blank:** HUD county rent (official page reached; table not readable here); ZIP-level insurance premiums (no official source located). |
+| AB-3 | Private household analysis, rounded to $10 | **done** (git-ignored) | `private/ab579207/household-analysis.md` and `private/ab579207/household-analysis-run.md`. Not committed. Household figures are NOT in any committed or published file (decision L-D1 stands). |
+| AB-4 | Arithmetic check of the owner tables | **done** | `verification/ab579207/REPORT.md` §2. Kinds of irregularity only: two printed assessment changes differ by a few hundredths of a point; one 2026 value is a projection; one SF tax-to-assessed ratio is not explained by the tables; two early rows have no prior year. |
+| AB-5 | Public Flagged and Suggestions; engine correction; Proposition 19 timeline update | **done** | `scripts/build-guide.py` (new Flagged rows; new suggestions S16–S24; Proposition 19 timeline rows now carry the BOE dates; Proposition 19 Flagged row changed from "not confirmed" to "re-read 15 Nov 2026"). `scripts/analysis_model.py`: optional primary-residence exclusion (default 0, so public results are unchanged); a comment corrected (51-year growth is about 6.9%). |
+| AB-6 | Tests, PR, merge, Pages check, record | in progress (see below) | — |
+
+**Results of the private analysis (for the owner; not published).** Under the stated assumptions and official rules, selling at inheritance and phasing the proceeds leads in the base case and in both crash templates at 10, 25 and 50 years. Living in the house leads only in the 1970s-style stagflation template. Renting is the weakest pure choice because it loses the family-home relief. The ranking changes if the owner values the house above the break-even imputed rent (about $4,480 a month at 10 years, base) or if house growth exceeds about 6.3% a year. Full figures are in the git-ignored private files.
+
+**Irregularities logged for the owner (public list on the Flagged page).** Legacy household files and older history still hold household figures (history rewrite is an owner decision; not run — see S16–S17). Public engine omits the primary-residence exclusion for living-then-sell paths (S20), has no imputed-rent input for living paths (S19), holds Prop H flat and without its 2042 end (S21), and holds the Proposition 19 allowance flat after 15 Feb 2027 (S23).
+
+**Decisions made in this session.** (1) History scrub NOT performed (overwrites 68 remote branches; only a repository administrator can do it; copies outside GitHub would remain). (2) The engine change is an optional parameter with default 0, so no published figure changed. (3) Household figures remain private.
 ## Session `dff8604e` (branch `arena/dff8604e-tino2`) — claim 2026-11-15 03:24 UTC
 
 **State read at claim.** `origin/main` = `9ecdc55` (merge of PR #98, session `12f68358`); this branch is level with it. `gh pr list --state open` returned nothing at claim time; `git ls-remote --heads origin` lists 72 branches. Every recorded task on the board is `done` or published as a standing review flag. The two deferred owner decisions L-D1 (publish the household's rounded figures) and L-D2 (pre-rounding history scrub) are the only brief items not implemented on the published artifact.
