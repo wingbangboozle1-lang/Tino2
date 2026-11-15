@@ -40,7 +40,7 @@ Source links: https://www.irs.gov/newsroom/one-big-beautiful-bill-provisions-ind
 
 ## Privacy review of the published artifact
 
-- `git grep` over `index.html guide/ assets/` returns **no** ZIP code (95014 / 94122), no street address, no parcel number, no name.
+- `git grep` over `index.html guide/ assets/` returns **no** ZIP code ([ZIP-A] / [ZIP-B]), no street address, no parcel number, no name.
 - `node scripts/privacy-audit.cjs` confirms no raw pre-rounding household token, property ZIP code, or common identifier.
 - Parties appear only as placeholders: `Property A` (Cupertino) and `Property B` (San Francisco west side).
 - Every published household dollar figure is rounded to the nearest $10; exact government-published amounts (estate exclusion, Prop 19 allowance) are shown exactly with the source linked.
