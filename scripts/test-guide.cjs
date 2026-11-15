@@ -60,10 +60,11 @@ function inspect(dom,file){
  }
  // Published currency amounts are rounded to ten dollars. This is not an anonymization test.
  const text=doc.body.textContent;
- for(const match of text.matchAll(/\$\s*(\d{1,3}(?:,\d{3})+|\d+)(?![\d,])/g)){
+ for(const match of text.matchAll(/(?:[−-]\s?)?\$\s*(\d{1,3}(?:,\d{3})+|\d+)(?![\d,])/g)){
   const amount=Number(match[1].replace(/,/g,''));
   check(amount%10===0||OFFICIAL_AMOUNTS.has(amount),file+' non-$10 dollar amount: '+match[0]);
  }
+ check(!/\$\s*-\s*\d/.test(text),file+' negative amount written as dollar-minus instead of the site minus-dollar form');
  check(!/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i.test(text),file+' email in rendered text');
 }
 for(const file of pages){
