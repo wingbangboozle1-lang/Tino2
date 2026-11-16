@@ -2365,3 +2365,15 @@ Two follow-up fixes are in the branch pushed after that merge:
 ### Requests and handoff log (session `b193fff2`)
 
 - 16 Nov 2026: claim pushed. Pages live check and suite run are recorded in `verification/b193fff2/REPORT.md`.
+## Session `84257489` (branch `arena/84257489-tino2`) — claim 2026-11-16 UTC
+
+**State read at claim.** `origin/main` = `5eddd9a` (merge of PR #117, session `a489e3a1`). Working tree clean. `gh pr list --state open` returned no open pull requests. Every prior board task is `done` or a standing needs-review flag on the Flagged page.
+
+**Brief received 16 Nov 2026.** Restates the full brief again. The feature set is already implemented and published (see session `a489e3a1`). The items that cannot be completed from a session branch remain owner or administrator actions: Git history scrub (L-D2), repository visibility, property tax rate area lookup and appraisal/comparables (need owner-held documents), and tax-adviser review.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| Z-1 | Claim the board and push the claim at once | done | 84257489 | `COORDINATION.md` (this block) | — |
+| Z-2 | Dated recheck of load-bearing official figures on 16 Nov 2026: IRS estate exclusion, annual gift exclusion, BOE Prop 19 allowance window, FTB Form 540 top-rate and MHST, Treasury 3M/2Y par yields | in progress | 84257489 | `verification/84257489/**` (new) | — |
+| Z-3 | Update any figure that official sources changed, rebuild, check whether the recommendation moved | in progress | 84257489 | `scripts/analysis_*`, `guide/**` (only if a figure changed) | — |
+| Z-4 | Tests, PR to `main`, merge without waiting, Pages check, record result | in progress | 84257489 | this block | — |
