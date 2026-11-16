@@ -424,7 +424,7 @@ body+=section('Explore the guide',cards([
  ('06 / review','Flagged for review','See the public-repository exposure and other unresolved issues.','guide/review.html'),
  ]),'02 / navigate')
 body+='''<section class="section"><div class="callout review"><strong>Privacy boundary.</strong> The published guide uses synthetic examples only; it does not load or publish household records or household-derived values. That does not clean the public repository’s earlier commits, branches, pull requests, caches or copies. A repository administrator must handle visibility and any history remediation. <a href="guide/review.html">Read the incident and limitations →</a></div></section>'''
-page('overview','A clearer way to plan<br>for an inheritance.','A source-linked educational guide to comparing inheritance, housing and investment paths. All calculations use synthetic examples; no household records are loaded.',body,home=True)
+page('overview','A clearer way to plan for an inheritance.','A source-linked educational guide to comparing inheritance, housing and investment paths. All calculations use synthetic examples; no household records are loaded.',body,home=True)
 
 body=section('Separate the two ownership roles',table(['Placeholder','Role in the example','Private facts that must be verified','Official framework'],[
  ('Property A','Possible trust inheritance; not currently treated as owned by the prospective recipient.','Trust instrument, title, estate inclusion, date-of-death value, tax basis, occupancy and transfer date are not published.',source('trustbasis')),
@@ -972,19 +972,19 @@ _pre_rows = [
   'A written assessor determination (or counsel’s opinion on the claim) confirms the exclusion, and at least one full assessment year passes with the claim intact.',
   'Falsified at the first lien date after the qualifying transferee stops being eligible: the Board states the exclusion is then removed and the new base-year value enrolled. The claim itself must be timely — forms BOE-266 or BOE-261-G within one year — or relief begins only in the year the exemption claim is filed.',
   'If relief falls away the annual cost of the same home changes for decades, which is the largest single number in the live column.',
-  'rtc480', ['boe','lta26026']),
+  'lta26026', ['boe','rtc480']),
  ('LIVE','Choose living in [PROPERTY A]','T3 · rent break-even','No threshold at all: the break-even is a model output the household may set before or after a projection, provided it is written and dated first.',
-  'A verified fee or rent, in the rent the household would otherwise pay for equivalent housing, with three or more comparable leases on file; if that avoided rent clears the rent the property could earn, rent is preferred to living.',
+  'A verified avoided rent, in what the household would otherwise pay for equivalent housing, with three or more comparable leases on file. HUD small-area fair market rents are voucher payment standards, not market or lawful rents, so they are a floor check only.',
   'Reopens at every lease renewal and at any local-law change.',
   'Avoided rent is the value living earns and the model cannot see it; writing the comparison first prevents an unstated preference from being dressed as arithmetic. Where the break-even that crosses the rent line is not computed on the published site, no number is stated here.',
   'hud', ['invest']),
  ('RENT','Choose renting [PROPERTY A] out','T4 · rent floor','Set before the private model is run, from comparable leases only.',
-  'At least three usable comparables and a written break-even: the gross monthly rent at which the rental covers its own full costs, before financing and income tax, in today’s money.',
+  'At least three usable comparable leases and a written break-even: the gross monthly rent at which the rental covers its own full costs, before financing and income tax, in today’s money. A voucher benchmark is not a comparable lease.',
   'Reopens if two successive comparable quarters fall below the break-even.',
-  'A rent achieved in a good quarter is not a policy; the floor is what makes the choice falsifiable.',
+  'A rent achieved in a good quarter is not a policy; the floor is what makes the choice falsifiable, and only a lease can support it.',
   'hud', ['sfRent']),
  ('RENT','Choose renting [PROPERTY A] out','T5 · assessed value and tax','Set before the first projection.',
-  'The reconstructed or reassessed assessed value and the tax-rate-area method are agreed in writing before the projection, and the first real secured bill is checked against the projection.',
+  'The reconstructed or reassessed assessed value and the tax-rate-area method are agreed in writing before the projection, and the first real secured bill is checked against the projection. The county rate book is published one fiscal year at a time; use the book for the tax year being modelled.',
   'Reopens if the actual bill differs from the projection by a stated margin, or if decline-in-value relief applies.',
   'The property-tax line is large and parcel-specific; an unverified rate silently moves every year of the comparison.',
   'prop13', ['sccRateBook','prop13factor']),
@@ -1067,7 +1067,7 @@ body += section('Official rules this register relies on, re-read 16 Nov 2026', t
    'The exact enrolment date for a particular occupancy change; ask the assessor.',
    source('lta26026')),
   ('A missed family-home condition is not modelled here',
-   'The BOE’s conditions, read as a unit — transferor’s principal residence, transferee’s occupancy within one year, a timely claim, continued use — define eligibility. The guide models the arithmetic of the claims, not their legal availability.',
+   'Eligibility rests on all of the Board’s conditions being met: the transferor’s home, the transferee moving in within one year, a timely claim and continued use. The guide shows how the claim arithmetic works; it cannot tell you whether a particular family qualifies.',
    'Any fact-specific exception; that is a question for the assessor and counsel.',
    source('boe') + ' · ' + source('prop19')),
   ('The federal filing test uses the gross estate',
