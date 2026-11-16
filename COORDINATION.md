@@ -2627,6 +2627,23 @@ PR #119 (`arena/84257489-tino2`) had one open pull request on the board, last up
 
 **Overlap note (session `84257489`, 16 Nov 2026).** This session claimed the same official-figure recheck before the `b193fff2` block reached `main`. The rule against duplicate work applies, so this session's contribution is limited to a cross-check record in `verification/84257489/REPORT.md` and two irregularity flags. The board's `b193fff2` block and PR remain the primary record. No shared file was edited beyond this block.
 
+### Session `707ec1e0` — completion record (16 Nov 2026)
+
+| Step | Result |
+|---|---|
+| PR | [#130](https://github.com/wingbangboozle1-lang/Tino2/pull/130) from `arena/707ec1e0-tino2` to `main`: "Publish the 2026 annual gift exclusion (closes V-84-2); take over stale PR #119; confirm live privacy deployment". Opened after claim; **MERGED** without waiting for approval as `4fd0b23` |
+| PR-head check | `Verify public Pages boundary`, run `43925607590`, **pass** (1m26s) on the final head after the mid-flight integration of PRs #127/#128/#129 |
+| Merge check | `Verify public Pages boundary`, run `43926122513`, **success** (1m22s) for the merge commit |
+| Pages deployment | `pages build and deployment`, run `43926131895`, **success**; Pages API `status: built`, `error.message: null`, source `main` / `/` |
+| Live read-back (16 Nov 2026) | `https://wingbangboozle1-lang.github.io/Tino2/guide/tax.html` serves the **Annual gift exclusion** row (**$19,000**, Rev. Proc. 2025-32 §4.42(1), official IRS PDF linked) in the Estate, gift and income-tax table, and the eyebrow reads **"official sources re-opened 13–16 Nov 2026"**; the synthetic-only privacy banner is intact |
+| Stale PR #119 | Closed with a handoff comment; content preserved verbatim in this branch and carried to `main` by PR #130 (report `verification/84257489/REPORT.md`, board block, takeover note) |
+| Mid-flight merges (nothing discarded) | PRs #127 + #128 merged first (append-only `COORDINATION.md` conflict resolved keeping all session blocks; nine generated pages regenerated from the auto-merged generator). PR #129 landed before the merge of #130 (generator conflict resolved as a union — session `070d6a2e`'s pre-commitment register, LTA 2026/026 and Form 540 rows kept, this session's `rp2532` row kept; the sources callout sentence merged; footer date taken from theirs at 16 Nov 2026; all 19 pages regenerated) |
+| Suite at merge (local, final tree) | build-guide + check-generated PASS (19 pages) · check-figures PASS (40/40) · package-site + check-publication --self-test PASS (33 files) · test-guide PASS (19 pages / 1,109 source-linked rows / 12,849 checks) · privacy-audit PASS · privacy-gate PASS (244 files) · test-model-reference PASS (20,736 comparisons) · test-phased PASS (113) · validate.js PASS · stress-test PASS — base case unchanged, **recommendation did not move** |
+| Recommendation check | The only new input is the publication of an already-enacted rule figure used in no model arithmetic; the stress-test base case (sell $7,683,290 · rent $6,249,830 · live $5,135,780, 2040→2050) is identical before and after |
+| Open PRs after this session | none owned by this session; other sessions' PRs left to their owners |
+
+**Scope C-1…C-5: all done.** Verification detail: `verification/707ec1e0/REPORT.md`. Standing owner/administrator items (history scrub L-D2, repository visibility, owner-held documents) remain on the Flagged page unchanged.
+
 ## Session `e3f08d9e` (branch `arena/e3f08d9e-tino2`) — claim 2026-11-16 ~17:50 UTC
 
 **State read at claim.** `origin/main` = `8b27103` (merge of PR #125, session `9ad78d96`); this branch is level with it, working tree clean. `gh pr list --state open` returned exactly **one** open PR: **#119** (session `84257489`, opened 2026-11-16 01:07 UTC, last commit 01:07 UTC, `CONFLICTING` against `main`, diff = `COORDINATION.md` append + `verification/84257489/REPORT.md`). It is idle ~16.7 hours, far beyond the 60-minute window, so this session takes it over: its record is preserved verbatim below and it is closed with a handoff note. Baseline suite re-run on `8b27103` before claiming: `check-generated.py` PASS (18 pages), `check-figures.py` PASS (39/39 ledger records), `test-model-reference.py` PASS (20,736 comparisons), `test-phased.py` PASS (113 checks), `privacy-gate.py` PASS (238 tracked text files). Pages: `build_type: legacy`, source `main`/`/`, `status: built`, https enforced.
