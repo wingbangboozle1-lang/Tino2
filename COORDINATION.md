@@ -2344,3 +2344,24 @@ Two follow-up fixes are in the branch pushed after that merge:
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
 
 **Verification result.** The full local suite is green. The live Pages site serves the current privacy-safe guide. No new code change to shared files was required; this session's contribution is the coordination claim, the official-source verification record, and the irregularity flags.
+
+## Session `b193fff2` (branch `arena/b193fff2-tino2`) — claim 2026-11-16
+
+**State read at claim.** `origin/main` = `5eddd9a` (merge of PR #117, session `a489e3a1`). `gh pr list --state open` returns **no open pull requests**. `git ls-remote --heads origin` shows 81 branches; none is claimed by a live session (the most recent claims are closed by their merges). The published artifact is the privacy-reviewed guide (`index.html` + `guide/**` + `assets/safe.*`), live at https://wingbangboozle1-lang.github.io/Tino2/ (read back through the fetch tool on 16 Nov 2026: homepage serves the 13–15 Nov guide). Every board task is `done` or a standing `needs review` item on the Flagged page.
+
+**Scope this session.** Brief received 16 Nov 2026 is the same full brief as earlier sessions; its feature set is implemented and published. This session does the one recurring item the brief asks for and no earlier session has re-run on a new date: **periodic recheck of the official figures the guide relies on, as of 16 Nov 2026**, distinguishing enacted from proposed. Owner decisions L-D2 (pre-rounding history scrub) and repository visibility are **not** touched.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| B-1 | Claim the board, push the claim before editing anything | done on push | b193fff2 | this block | — |
+| B-2 | Re-open official primary pages and record the passage read for each load-bearing figure: IRS IR-2026-133 (2027 estate exclusion, gift exclusion), BOE LTA 2025/009 (Proposition 19 $1 million amount), U.S. Treasury daily par yield curve (3-month and 2-year, November 2026) | **done 16 Nov 2026** | b193fff2 | `verification/b193fff2/REPORT.md` (new) | 3 of 3 groups MATCH the published guide; no household figure involved |
+| B-3 | Run the local gates on the current `main` (build, generated pages, figure ledger, privacy gate) | **done 16 Nov 2026** | b193fff2 | none (read-only) | all PASS (see report) |
+| B-4 | Publish the recheck record; PR to `main`, merge without waiting, confirm Pages deploy | in progress | b193fff2 | this block + `verification/b193fff2/**` | — |
+
+**Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). Every official dollar figure cited here is quoted as published by the government body. No inferred value; nothing new is marked verified except what the primary page was read to say.
+
+**Irregularities found by this session.** None that change a published figure. One note for the next reader: the IRS newsroom slug for IR-2026-133 is the long form `…-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts`; a short slug returns HTTP 404. The published guide already uses the long form, so no link is broken.
+
+### Requests and handoff log (session `b193fff2`)
+
+- 16 Nov 2026: claim pushed. Pages live check and suite run are recorded in `verification/b193fff2/REPORT.md`.
