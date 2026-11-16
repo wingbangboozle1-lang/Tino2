@@ -2365,3 +2365,15 @@ Two follow-up fixes are in the branch pushed after that merge:
 ### Requests and handoff log (session `b193fff2`)
 
 - 16 Nov 2026: claim pushed. Pages live check and suite run are recorded in `verification/b193fff2/REPORT.md`.
+
+## Session `9ad78d96` (branch `arena/9ad78d96-tino2`) — claim 2026-11-16 01:05 UTC
+
+**State read at claim.** `HEAD` and `origin/main` are both `5eddd9a` (merge of PR #117); working tree clean; no open PRs reported by `gh pr list --state open`; no remote branch exists yet for this platform-fixed branch. Current published artifact and prior completed work are recorded in the `a489e3a1` and `24158ab3` blocks. All existing shared-site implementation tasks are marked done; I will not edit shared site or model files.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| R-1 | Claim a non-overlapping, verification-only scope on the platform-fixed branch | done | 9ad78d96 | this block | Claim is pushed before audit work |
+| R-2 | Independent repository/privacy and build-state review; re-run relevant local checks; report remaining decision blockers and irregularities without repeating household data | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | No edits to published files or model inputs |
+| R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | — |
+
+**Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
