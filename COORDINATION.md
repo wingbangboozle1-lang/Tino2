@@ -2365,3 +2365,16 @@ Two follow-up fixes are in the branch pushed after that merge:
 ### Requests and handoff log (session `b193fff2`)
 
 - 16 Nov 2026: claim pushed. Pages live check and suite run are recorded in `verification/b193fff2/REPORT.md`.
+## Session `9ad78d96` (branch `arena/9ad78d96-tino2`) — claim 2026-11-16 01:05 UTC
+
+**State read at claim.** `HEAD` and `origin/main` are both `5eddd9a` (merge of PR #117); working tree clean; no open PRs reported by `gh pr list --state open`; no remote branch exists yet for this platform-fixed branch. Current published artifact and prior completed work are recorded in the `a489e3a1` and `24158ab3` blocks. All existing shared-site implementation tasks are marked done; I will not edit shared site or model files.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| R-1 | Claim a non-overlapping, verification-only scope on the platform-fixed branch | done | 9ad78d96 | this block | Claim is pushed before audit work |
+| R-2 | Independent repository/privacy and build-state review; re-run relevant local checks; report remaining decision blockers and irregularities without repeating household data | done | 9ad78d96 | `verification/9ad78d96/**`, this block | Local suite passed; live homepage read back; current CI boundary verification and Pages deploy succeeded; high-priority history exposure remains unremediated |
+| R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | done | 9ad78d96 | `verification/9ad78d96/REPORT.md`, this block | Report records source links, no-go facts, privacy limits, mixed fictional/household label inconsistency; no new personal data or model/site edits |
+
+**Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
+
+**Rebase/handoff note (16 Nov 2026).** Before the second push, `origin/main` advanced from `5eddd9a` to `29a5d07` (PR #118, session `b193fff2`). Rebase exposed an append-only `COORDINATION.md` conflict between that new official-figure verification record and this session's claim. Both records were preserved in order; no source or task record was discarded. The combined branch was rechecked before pushing.
