@@ -38,10 +38,10 @@ jobs:
         run: |
           python3 scripts/package-site.py
           python3 scripts/check-publication.py --self-test
-      # The published artifact has its own $10 and source-link gates. This one covers the
-      # rest of the repository, because a public repository is searchable at HEAD: a ZIP
-      # code or an un-rounded household figure in the retained legacy tree is findable even
-      # though no page serves it. See scripts/privacy-gate.py.
+      # The repository-wide gate catches common identifiers and unrounded amounts in the
+      # working tree; it cannot prove anonymity or clean historical commits. The packaged
+      # public guide has a separate hashed-token audit that rejects known household inputs.
+      # See scripts/privacy-gate.py and scripts/privacy-audit.cjs.
       - name: Gate every tracked file for identifiers and un-rounded amounts
         run: |
           python3 scripts/privacy-gate.py --self-test
@@ -53,9 +53,9 @@ jobs:
           node scripts/test-guide.cjs
           node scripts/privacy-audit.cjs
           node scripts/test-browser.cjs
-      # The retained dashboard under site/ is not published, because it is built
-      # from the household's own figures. It is still verified on every push so
-      # that the work stays sound and can be republished on request.
+      # The retained legacy dashboard under site/ is excluded from publication and
+      # remains subject to the repository-history privacy incident. These checks are
+      # retained for compatibility; passing them does not make that material public-safe.
       - name: Verify the retained dashboard (repository only, never published)
         run: |
           node scripts/validate.js

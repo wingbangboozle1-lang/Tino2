@@ -2402,9 +2402,9 @@ Two follow-up fixes are in the branch pushed after that merge:
 
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
-| P-1 | Reassert privacy-first publication boundary; remove household-derived values and occupancy premises from the public Pages artifact; keep fictional examples only | in progress | 81b540a8 | `scripts/analysis_pages.py`, `scripts/build-guide.py`, `guide/**`, `index.html`, `scripts/privacy-audit.cjs`, `scripts/test-guide.cjs` | Public artifact only; no private facts or amounts to be recorded in this board |
-| P-2 | Update public README/workflow wording so rounded figures are not described as anonymous, document that Pages exclusion does not sanitize public Git history, and retain a clear admin-only history-cleanup flag | in progress | 81b540a8 | `README.md`, `.github/workflows/pages.yml`, `guide/review.html` (generated) | History rewrite cannot safely be performed from this shallow task branch; do not force-push other branches |
-| P-3 | Rebuild, run privacy and functional suites, record sources/checks and any irregularities | in progress | 81b540a8 | `verification/81b540a8/**`, this block | — |
+| P-1 | Reassert privacy-first publication boundary; remove household-derived values and occupancy premises from the public Pages artifact; keep fictional examples only | done | 81b540a8 | `scripts/analysis_pages.py`, `scripts/build-guide.py`, `guide/**`, `index.html`, `scripts/privacy-audit.cjs`, `scripts/test-guide.cjs` | Packaged artifact contains fictional model inputs only; see `verification/81b540a8/REPORT.md` |
+| P-2 | Update public README/workflow wording so rounded figures are not described as anonymous, document that Pages exclusion does not sanitize public Git history, and retain a clear admin-only history-cleanup flag | done | 81b540a8 | `README.md`, `.github/workflows/pages.yml`, `guide/review.html` (generated) | GitHub Docs read 16 Nov 2026. Historical cleanup remains an administrator action; no force-push performed |
+| P-3 | Rebuild, run privacy and functional suites, record sources/checks and any irregularities | done | 81b540a8 | `verification/81b540a8/**`, this block | Local suites pass except browser smoke test cannot start because `libnss3.so` is unavailable; details in report |
 | P-4 | Rebase this branch before each push; open PR to `main`; merge only after checks and current Pages deployment are confirmed; record outcome | in progress | 81b540a8 | this block | — |
 
-**Claimed now.** Scope above is claimed by session `81b540a8`; board claim is being pushed before resuming implementation. No household-derived value is included in this record.
+**Claimed and pushed before implementation resumed.** No household-derived value is included in this record.

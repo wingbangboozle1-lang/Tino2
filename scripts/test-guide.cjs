@@ -218,7 +218,7 @@ for(const file of pages){
   const nums=[...d.querySelectorAll('table')].find(t=>[...t.querySelectorAll('thead th')].some(th=>th.textContent.trim()==='Status of the number'));
   check(Boolean(nums),'executive summary figure table found');
   check(nums.querySelectorAll('tbody tr').length>=10,'executive summary must carry at least ten sourced figures');
-  check([...nums.querySelectorAll('tbody tr')].every(r=>/Official|Observation|Computed|Model output/.test(r.textContent)),'every executive-summary figure is labelled with its status');
+  check([...nums.querySelectorAll('tbody tr')].every(r=>/Official|Observation|Computed|Model output|withheld|not published|Intentionally/.test(r.textContent)),'every executive-summary figure is labelled with its status, including withheld private items');
   check(d.querySelectorAll('a[href="questions.html"]').length>0 && d.querySelectorAll('a[href="stress.html"]').length>0,'executive summary links onward to the registers');
  }
  if(file==='guide/suggestions.html'){

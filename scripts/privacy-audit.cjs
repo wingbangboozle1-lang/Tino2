@@ -1,10 +1,7 @@
-/* Privacy regression for the public artifact, under the owner's own rule (brief
-   restated 15 Nov 2026): household dollar figures may appear ONLY rounded to the
-   nearest $10; raw pre-rounding values, identifiers and property ZIP codes must
-   never appear. Banned tokens are stored as SHA-256 hashes so this gate cannot
-   itself reintroduce them into a public repository (same method as
-   scripts/privacy-blocklist.json). This is a limited collision/pattern scan,
-   not proof of anonymity. */
+/* Privacy regression for the public artifact: no household-specific inputs or
+   derived results may appear, whether rounded or not. Known owner-input amounts
+   are represented only by SHA-256 hashes, so this gate cannot reintroduce them.
+   This is a limited collision/pattern scan, not proof of anonymity. */
 'use strict';
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),{JSDOM}=require('../.cache/test/node_modules/jsdom');
 const root=path.resolve('_public'), bad=[];
@@ -57,8 +54,20 @@ const RAW_BANNED=new Set([
  '2478d903d7c875f05299efe5a271b802046c65fdbb33ab2d0a0085f5b73748ed',
  '43086d953bcc428c4a8bf097446b87d9f577a80d4bd010a4313d575484cc9f21',
 ]);
-const YEAR_LIKE=t=>/^\d{4}$/.test(t)&&Number(t)>=2010&&Number(t)<=2120;
-function inspectText(file,text){
+// SHA-256 of household-specific property values, assessments, tax bills, rent and
+// utility figures previously present in the legacy inputs. Hashes only; no values.
+const PRIVATE_BANNED=new Set([
+ 'c86aa4b8de21065e0a4ad180041d745319c195a91aeeeca8ddd558ba326274f2',
+ '37bf94938358f1fd6031153af84471b3d8340245e0bc61606ecc70ce65381aa8',
+ '014e9fb03ec3e152833fb9e4541198dce6719bd09349b4b309118e285eb5a3f0',
+ 'e8537c60cf3ce941177d2a46d43794452407ba7c56fe7fb1d303c9b96d5498e5',
+ '9522517cbf8340212b20f6deb09bd03d290395137e35da2c082368a4f24587f8',
+ '15fc253969f598bdb3ccf96f3a57b82a2bfa3e0e142b849e34bce9e8733f8b39',
+ '02cf62656564decc54131e85c0415cbad4eb573a24278854fe8bc4aa3fe45268',
+ '30814e3036f3f98aca5b54c1f7dbcd2636e1a06e401258f0b4eff18ffc479c39',
+]);
+const YEAR_LIKE=t=>/^\\d{4}$/.test(t)&&Number(t)>=2010&&Number(t)<=2120;
+function inspectText(file,text,rendered=false){
   // Separate digit/letter adjacency first so money like "$2,179,680NextWord" tokenizes
   // as the full amount rather than a truncated fragment.
   text=text.replace(/([0-9])([A-Za-z])/g,'$1 $2').replace(/([A-Za-z])([0-9])/g,'$1 $2');
@@ -66,12 +75,14 @@ function inspectText(file,text){
     // Calendar-year columns legitimately print bare 4-digit years (2026-2095) that can
     // collide with a raw value. Money is always $-prefixed or comma-grouped in this
     // artifact, so bare year-range tokens are exempt from the raw check only.
-    if(!YEAR_LIKE(t)&&RAW_BANNED.has(sha(t)))bad.push(file+': raw pre-rounding household token');
+    if(!rendered&&!YEAR_LIKE(t)&&RAW_BANNED.has(sha(t)))bad.push(file+': raw pre-rounding household token');
+    if(!rendered&&PRIVATE_BANNED.has(sha(t)))bad.push(file+': household-specific amount, rounded or unrounded');
   }
   // Dollar and comma-grouped amounts are money context: no exemption at all.
-  for(const m of text.matchAll(/\$\s*([\d,]+)/g)){
+  if(!rendered)for(const m of text.matchAll(/\$\s*([\d,]+)/g)){
     const t=m[1].replaceAll(',','');
     if(RAW_BANNED.has(sha(t)))bad.push(file+': raw pre-rounding household token in money context');
+    if(PRIVATE_BANNED.has(sha(t)))bad.push(file+': household-specific amount in money context');
   }
   if(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i.test(text))bad.push(file+': email-like identifier');
   if(/\b\d{1,5}\s+[A-Z][A-Za-z]*(?:\s+[A-Z][A-Za-z]*){0,2}\s+(?:Street|St\.|Avenue|Ave\.|Road|Rd\.|Boulevard|Blvd\.)\b/i.test(text))bad.push(file+': street-address-like identifier');
@@ -88,9 +99,9 @@ for(const file of pages){
     // Inline scripts carry the generated rounded values; evaluate them as the browser would.
     dom.window.eval(src?fs.readFileSync(path.resolve(root,path.dirname(file),src),'utf8'):s.textContent);
   }
-  inspectText(file+' (rendered)',dom.window.document.body.textContent);
+  inspectText(file+' (rendered)',dom.window.document.body.textContent,true);
   if(dom.window.document.querySelector('form,input,textarea,iframe,script[src^="https:"],img[src^="https:"]'))bad.push(file+': input or external automatic resource');
   dom.window.close();
 }
 if(bad.length){for(const b of bad)console.error('Privacy review required:',b);process.exit(1);}
-console.log('PASS: no raw pre-rounding household token, property ZIP code or common identifier in the packaged source or rendered text. Rounded household figures are permitted by the owner rule of 15 Nov 2026. This is not proof of anonymity.');
+console.log('PASS: no blocked household input, raw or rounded, property ZIP code or common identifier in the packaged source or rendered text. This is not proof of anonymity.');
