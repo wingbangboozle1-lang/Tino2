@@ -157,6 +157,41 @@ def distribution_svg(g) -> str:
     return ''.join(parts)
 
 
+def distribution_cells(path: str, g) -> list[str]:
+    """Best / worst / spread of the scenario band for one path at one horizon, per horizon cell."""
+    cells = []
+    for h in HORIZONS:
+        vals = {s: g['results'][(s, h, path)]['total'] for s in M.SCENARIOS}
+        best = max(vals, key=vals.get)
+        worst = min(vals, key=vals.get)
+        spread = vals[best] - vals[worst]
+        share = f'{spread / vals[best] * 100:.0f}% of the best' if vals[best] else '—'
+        cells.append(f'{money(vals[best])} / {money(vals[worst])} / {money(spread)} <span class="tiny">({share})</span>')
+    return cells
+
+
+def distribution_body(ctx) -> str:
+    """The comparison page's distribution of outcomes, computed from the same scenario grid."""
+    table, source = ctx['table'], ctx['source']
+    g = run_grid()
+    rows = []
+    for path in M.PATHS:
+        cells = [M.PATH_LABEL[path]] + distribution_cells(path, g)
+        vals25 = {s: g['results'][(s, 25, path)]['total'] for s in M.SCENARIOS}
+        best25 = max(vals25, key=vals25.get)
+        worst25 = min(vals25, key=vals25.get)
+        reading = (f'{M.SCENARIO_LABEL[best25]} gives this path its best 25-year outcome and '
+                   f'{M.SCENARIO_LABEL[worst25]} its worst. A path whose best and worst come from the same pair of '
+                   f'scenarios is exposed to that pair; one whose ranking changes hands is exposed to which scenario '
+                   f'arrives, not only to how much.')
+        cells.append(reading)
+        cells.append(source('invest', 'Model output on scenario assumptions · not a forecast'))
+        rows.append(tuple(cells))
+    return table(
+        ['Path', '10 years · best / worst / spread', '25 years · best / worst / spread',
+         '50 years · best / worst / spread', 'Which scenarios bound it', 'Source context'], rows)
+
+
 def paths_body(ctx) -> str:
     table, section, source = ctx['table'], ctx['section'], ctx['source']
     g = run_grid()
