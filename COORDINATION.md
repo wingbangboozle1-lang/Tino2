@@ -2428,6 +2428,20 @@ Two follow-up fixes are in the branch pushed after that merge:
 
 **Rebase/overlap log (16 Nov 2026).** `origin/main` advanced to `62a9dcf` (PR #121) after this branch’s privacy claim. The rebase produced an append-only conflict in `COORDINATION.md` with sessions `b193fff2`, `9ad78d96`, and `b42f92cf`, plus a generated `guide/brief.html` conflict. All remote session records were preserved. The upstream documented-investing-policy section from PR #121 was kept in `scripts/build-guide.py`; the public guide was rebuilt from the merged generator, so the privacy changes and that policy section both remain. Re-ran the full local suite after the rebase; results are in P-3 above.
 
+## Session `e72015ae` (branch `arena/e72015ae-tino2`) — claim 2026-11-16 17:50 UTC
+
+**State read at claim.** `origin/main` = `8b27103` (merge of PR #125, session `9ad78d96`); this branch is level with it; `git status` clean; local gates (`build-guide`, `check-generated`, `check-figures`, `test-model-reference`, `test-phased`, `package-site`, `check-publication --self-test`, `privacy-gate`) all pass before any change. The published guide is the synthetic-example guide. Household figures are not on `main` and are not committed here (decisions L-D1 and the 742b77cb privacy boundary stand).
+
+**Scope.** Close the official-source items the guide still leaves unverified, and set the Form 540 sensitivity from the official text. Nothing household-derived is committed. Single branch only: the session branch rule in the system brief overrides the per-task `session-<id>/<task>` naming in older notes.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| E-1 | Claim the board and push the claim before editing | done on push | e72015ae | this block | — |
+| E-2 | Read Form 540 (2025) for the 1% Behavioral Health Services Tax (line 62) and the capital-gain treatment; set the California sensitivity from the official schedules | done (2025 edition; 2026 Form 540 is 404 and flagged; engine still flat-rate) | e72015ae | `scripts/analysis_model.py`, `scripts/build-guide.py`, `scripts/analysis_pages.py` | `verification/e72015ae/REPORT.md` |
+| E-3 | Close the Form 706 payment-rule and Form 4768 extension rows from the IRS text | done (Form 1041 fiscal-year convention still blank and flagged) | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
+| E-4 | Close the Proposition H billing-date row from the SFMTA text | done (SFMTA dates labelled estimates; B's parcel type unconfirmed) | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
+| E-5 | Rebuild, run every local gate, privacy-gate, publish PR to `main`, merge, confirm Pages | in progress (gates pass on merged tree 16 Nov 2026; PR and Pages result recorded after merge) | e72015ae | this block + generated pages | — |
+
 ## Session `ddee2898` (branch `arena/ddee2898-tino2`) — final integration claim, 2026-11-16
 
 **State at claim.** `origin/main` = `8b27103` (merge of PR #125); this branch is level with it and the working tree is clean. `gh pr list --state open` returned no open pull requests at claim time. The published artifact is the privacy-reviewed synthetic guide (`index.html` + `guide/**` + `assets/safe.*`), served by GitHub Pages at https://wingbangboozle1-lang.github.io/Tino2/. All prior board tasks are `done` or standing review flags; P-4 (repository and Git-history remediation) is `needs review` and requires administrator action — it is not claimed from this branch.
