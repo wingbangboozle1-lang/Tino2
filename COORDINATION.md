@@ -2439,13 +2439,87 @@ Two follow-up fixes are in the branch pushed after that merge:
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
 | K-1 | Claim the board, push the claim at once | done | e3f08d9e | `COORDINATION.md` (this block) | this commit |
-| K-2 | Take over stale PR #119, preserve its record, close with a handoff note, and act on its two flags (IRS link rename, gift-exclusion figure) | in progress | e3f08d9e | PR #119, `scripts/build-guide.py`, `guide/figures/official-figures.json` | V-84-1, V-84-2 |
-| K-3 | Pull the official annual data for the real-history entry test (Treasury bill and 2-year yields, share-price index) from FRED; record the series, the dates and the exact values read | in progress | e3f08d9e | `research/data/fred_*_2026-11-16.csv` | FRED series pages |
-| K-4 | New model: park 24 / 36 months in the actual bill-yield path (and a 2-year-note variant), phase into equities over 12 months, for every entry year 1970–2015; compare with invest-now and with cash; report how often phasing wins and by how much | in progress | e3f08d9e | `scripts/phased_history.py` | no household figure is an input |
-| K-5 | Independent verification of the new model (reconstruction tranche by tranche) | pending | e3f08d9e | `scripts/test-phased-history.py` | |
-| K-6 | Publish the result as one new section on the Black swans page, with a real-1929/2008 read, the reinvestment finding beside the headline, and every row source-linked; $10 rule; anything not confirmable stays blank and flagged | pending | e3f08d9e | `scripts/build-guide.py`, `guide/stress.html` | |
-| K-7 | Administrator-facing Git-history exposure audit: count, per reachable commit, the blocked-identifier and rounding findings without printing any matched text; report shallowness honestly | pending | e3f08d9e | `scripts/privacy-history-audit.py` | supports L-D2 / P-4 |
-| K-8 | Re-verify every official claim this session publishes, line by line, dated 16 Nov 2026; record in `verification/e3f08d9e/REPORT.md` | pending | e3f08d9e | `verification/e3f08d9e/**` | |
-| K-9 | Full local suite; rebuild; confirm whether the recommendation moved; PR to `main`, merge without waiting, confirm Pages, record here | pending | e3f08d9e | this block | |
+| K-2 | Take over stale PR #119, preserve its record, close with a handoff note, and act on its two flags (IRS link rename, gift-exclusion figure) | done | e3f08d9e | PR #119, `scripts/build-guide.py`, `guide/figures/official-figures.json` | V-84-1, V-84-2 |
+| K-3 | Pull the official annual data for the real-history entry test (Treasury bill and 2-year yields, share-price index) from FRED; record the series, the dates and the exact values read | done | e3f08d9e | `research/data/fred_*_2026-11-16.csv` | FRED series pages |
+| K-4 | New model: park 24 / 36 months in the actual bill-yield path (and a 2-year-note variant), phase into equities over 12 months, for every entry year 1982–2016 (the window the published 3-month series allows); compare with invest-now and with cash; report how often phasing wins and by how much | done | e3f08d9e | `scripts/phased_history.py` | no household figure is an input |
+| K-5 | Independent verification of the new model (reconstruction tranche by tranche) | done | e3f08d9e | `scripts/test-phased-history.py` | |
+| K-6 | Publish the result as one new section on the Black swans page, with a real-1929/2008 read, the reinvestment finding beside the headline, and every row source-linked; $10 rule; anything not confirmable stays blank and flagged | done | e3f08d9e | `scripts/build-guide.py`, `guide/stress.html` | |
+| K-7 | Administrator-facing Git-history exposure audit: count, per reachable commit, the blocked-identifier and rounding findings without printing any matched text; report shallowness honestly | done | e3f08d9e | `scripts/privacy-history-audit.py` | supports L-D2 / P-4 |
+| K-8 | Re-verify every official claim this session publishes, line by line, dated 16 Nov 2026; record in `verification/e3f08d9e/REPORT.md` | done | e3f08d9e | `verification/e3f08d9e/**` | |
+| K-9 | Full local suite; rebuild; confirm whether the recommendation moved; PR to `main`, merge without waiting, confirm Pages, record here | done | e3f08d9e | this block | |
 
 **Rules this session follows.** No name, address, ZIP code, parcel, account or household dollar figure in any committed file; placeholders only (`Property A`, `Property B`, `[HEIR]`, `[TRUSTEE]`). Every published dollar figure is rounded to the nearest $10 unless a government body publishes the exact amount. Every table row carries an official `https://` source link or is blank and flagged; nothing inferred, never a forecast. `python3 scripts/privacy-gate.py` and `python3 scripts/privacy-history-audit.py` run before every push. `origin/main` is merged (rebase) before every push; conflicts keep both sides. No history rewrite, no force-push to `main`, no repository-visibility change — those are owner/administrator actions (L-D2, P-4). Branch name is fixed by the platform to `arena/e3f08d9e-tino2`.
+
+**Completion record — 2026-11-16 18:20 UTC (session `e3f08d9e`).** All nine claimed rows are done on
+this branch and pushed; the work is in the pull request opened from it. What landed:
+
+- **The recorded-history entry test is now part of the generator, not a scratch calculation.**
+  `scripts/build-guide.py` carries `RECORDED_SECTION_HTML` (section `04 / recorded history`), mounted
+  on `guide/stress.html` immediately after the template-based phased section and built directly from
+  `scripts/phased_history.py` at build time — no JSON artifact, no hand-written figure on the page.
+  Headline readings per $100,000 over ten years, entry years 1982–2016 (n = 35): park-24-then-phase
+  beat investing at once in **6 of 35** entries (1999, 2000, 2001, 2006, 2007, 2008), median
+  **−$42,860**, best **+$66,060**, worst **−$132,870**, and it improved the worst point in the first
+  three years in **11 of 35**; in the nine falling years it won twice (2001, 2008) at a median of
+  −$30,950; in the two December-to-December double-digit declines it won in 2008 (**+$41,030**,
+  worst point $100,000+ against invest-now $57,430) and lost in 2002 (**−$14,160**) — protection
+  bought in the wrong year. Beside the headline, as the brief demanded: assuming today's **4.32%**
+  persists through the 2008 parking window instead of the recorded 1.40%-then-0.15% path **adds
+  $17,610**, roughly a fifth of the median cost of waiting, while the 3-month-versus-2-year maturity
+  choice moved the outcome by at most **$11,620** and about **$2,700** at the median. A 36-month park
+  costs about a year more of the same trade (**−$61,620** median).
+- **Two engine corrections found by review, not by luck:** tranches are now sized from the balance at
+  the month the parking window closes (the first run credited interest only on residual cash, which
+  understated every park figure by $15k–$21k), and `summary()` uses a real `median()` (mean of the two
+  central values when n is even) instead of the upper-centre value. `scripts/test-phased-history.py`
+  (1,303 checks) freezes every published figure, including the flat-versus-recorded pair and the
+  dividend-sensitivity triple quoted on the flagged page; it is the thing to re-run after any engine
+  change.
+- **The bounds are printed with the result,** not left to inference: 1982–2016 only, because
+  `DGS3MO` begins 1 Sep 1981 and the price index ends 2025 — **a 1929-style entry is unreachable by
+  this test and the page says so**; a price-only index with one labelled 2.0-point dividend assumption
+  whose swing moves the median cost between −$22,740 and −$64,730; December sampling that reads 1987
+  as −5.1% in a year with a 26.8% Aug→Dec fall, so the deep-crash group is labelled "two cases, not a
+  rate"; annual-average yields applied monthly; CPI-deflated "real" rows labelled as this site's
+  approximation; no tax, cost, TIPS or change-of-mind; no forecast, no probability.
+- **Stale board items closed (K-2).** The 2027 IRS newsroom source and the annual gift exclusion.
+  IR-2026-133 (5 Nov 2026, citing Rev. Proc. 2026-35) was re-read and the Taxes page now states the
+  gift rule with its figures (**$19,000 for 2026 → $20,000 for 2027**; non-citizen spouse **$194,000 →
+  $201,000**), the Questions register carries the rule, four ledger records back it
+  (`FED-GIFT-EXCLUSION-*`, `FED-GIFT-SPOUSE-NONCITIZEN-*`; ledger now 43/43 verified), Rev. Proc.
+  2025-32 is a registered source, and the law-watch rows for H.R. 1301 and SB 284 were re-read on
+  Congress.gov and leginfo and re-dated 16 Nov 2026 with the actions actually shown. Hero, footer and
+  source-page dates now read 13–16 Nov 2026. Three new flagged rows, suggestions **S30–S33**, and two
+  assumption-range rows carry the new readings into the registers; `S29` also moved back into numeric
+  order in the table.
+- **K-7, the administrator item: `scripts/privacy-history-audit.py` plus
+  `docs/history-remediation-runbook.md`.** The script walks every reachable object, imports
+  `scripts/privacy-gate.py` so history and HEAD share one policy, and prints counts, rule names, paths
+  and blob ids — never a matched string. Proved non-vacuous in a throwaway repository (a pre-rounding
+  style finding in an amended historical blob was detected; the clean row was not). CI now runs its
+  `--self-test` as a blocking step and a separate non-blocking `history-audit` job prints the counts
+  with `fetch-depth: 0`. The runbook separates the three layers (published artifact / repository at
+  HEAD / history, refs, caches, forks, clones) and records the consequences GitHub documents: on
+  GitHub Free a Pages site is **automatically unpublished** when a repository becomes private, public
+  forks are **detached and stay public**, `refs/pull/*` cannot be force-pushed, Support can remove
+  cached views and PR references but may only "dereference", and one merge from a stale clone can
+  reintroduce purged objects. **Nothing here rewrites history or changes visibility: those stay owner
+  actions.** From this shallow clone (`git rev-list --all --count` = 2) the audit reports 239 unique
+  text blobs and 0 flagged, and says plainly that a clean report from a shallow clone is not a
+  statement about the remote history. L-D2 and P-4 remain **open** until an administrator runs it
+  against a mirror clone and decides.
+- **Recommendation unchanged.** No model input moved: `validate.js` (1,610 checks), `stress-test.js`,
+  `test-model-reference.py` (20,736 comparisons) and `test-phased.py` (113 checks) all pass exactly as
+  at the baseline, and the published guide remains synthetic-only. What is new is a priced timing
+  decision: waiting never guarantees anything, it wins on roughly a fifth of entry points, and the
+  drawdown protection pays mainly where the bill yield had already collapsed.
+- **Standing contradiction, still for the owner.** This brief asks for real rounded household figures
+  and a recommendation; `742b77cb`/`b2418dfa` made the published artifact synthetic-only with the real
+  dashboard retained but unserved under `site/**`. This session followed the synthetic-only rule for
+  everything it published and changed nothing about that decision.
+- Full suite green on the merged tree before push: build, `check-generated.py` (18 pages),
+  `check-figures.py` (43/43), `package-site.py` (32 files), `check-publication.py --self-test`,
+  `node test-guide.cjs` (18 pages, 1,086 source-linked rows, 12,668 checks), `privacy-audit.cjs`,
+  `privacy-gate.py` + `--self-test`, `privacy-history-audit.py --self-test`, `test-model-reference.py`,
+  `test-phased.py`, `test-phased-history.py` (1,303). Details and limits:
+  `verification/e3f08d9e/REPORT.md`.

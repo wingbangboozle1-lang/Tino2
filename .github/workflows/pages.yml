@@ -46,6 +46,11 @@ jobs:
         run: |
           python3 scripts/privacy-gate.py --self-test
           python3 scripts/privacy-gate.py
+      # The gate above reads HEAD only. This proves the same detectors also fire inside the audit
+      # that walks Git objects, so the two can never drift apart in policy. The inventory itself is
+      # a separate job, because a rewrite decision needs the whole history, not a shallow checkout.
+      - name: Verify the history audit applies the same detectors
+        run: python3 scripts/privacy-history-audit.py --self-test
       - name: Install isolated test dependencies (never published)
         run: npm install --prefix .cache/test --no-audit --no-fund --ignore-scripts jsdom@26.1.0 playwright-core@1.49.1 @sparticuz/chromium@131.0.1 axe-core@4.10.3
       - name: Verify rendered pages, sources, controls and privacy regressions
@@ -98,3 +103,25 @@ jobs:
       - name: Deploy reviewed guide
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # A separate, non-blocking job: it fetches the whole default branch and reports how many
+  # objects the working-tree rules would flag. Counts and paths only, never a matched string, so
+  # its own log is safe. It cannot reach other branches, pull-request refs, forks or clones, and a
+  # clean report here is not proof of an anonymous history — see
+  # docs/history-remediation-runbook.md for what to do with the answer.
+  history-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inventory flagged objects across the fetched history
+        continue-on-error: true
+        run: python3 scripts/privacy-history-audit.py
+      - name: Machine-readable counts for the ticket
+        if: always()
+        continue-on-error: true
+        run: python3 scripts/privacy-history-audit.py --json
