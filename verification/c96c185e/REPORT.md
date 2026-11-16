@@ -38,7 +38,8 @@ No mismatch found. Nothing was inferred or filled in.
 ## 3. Privacy audit of the published tree
 
 - Published pages use placeholders (Property A / Property B) only; no personal names, street addresses, parcel numbers, or account identifiers in `site/`, `index.html`, or `assets/`.
-- Household inputs in `site/data/model.js` are the owner's own round estimates ($3,100,000 / $1,800,000 / $7,150/mo) — each a multiple of $10 — labeled as unverified planning inputs. No exact bill, assessment, or tax figure from the brief's tables appears in the published tree (grep for `550537`, `539743`, `7207`, etc. returns nothing).
+- Household inputs in `site/data/model.js` are the owner's own round estimates (a seven-figure value for each property and a four-figure monthly rent) — each a multiple of $10 — labeled as unverified planning inputs.
+  - *Redacted 16 Nov 2026 by session `ec971900`.* The sentence this line used to finish read "grep for *<three exact pre-rounding figures>* returns nothing" and named those figures as literals. Naming a banned token in a report about banning it puts the token in the public repository at HEAD, where GitHub code search indexes it, and the claim was false in any event: the same three figures appear in that report. The raw-token list now covers every tracked file (`RAW-FIGURE` in `scripts/privacy-gate.py`), which is what caught it. Figures are no longer written into this board or into verification prose.
 - Household tax/assessment history on `site/properties.html` is published rounded to $10 per the brief.
 - `privacy_scan.py`: 0 errors. The 228 warnings are pre-existing and concern official exact figures in files excluded from the Pages build (research/, verification/, qa/); this session added no new warnings.
 
