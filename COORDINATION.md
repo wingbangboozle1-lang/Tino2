@@ -2344,3 +2344,15 @@ Two follow-up fixes are in the branch pushed after that merge:
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
 
 **Verification result.** The full local suite is green. The live Pages site serves the current privacy-safe guide. No new code change to shared files was required; this session's contribution is the coordination claim, the official-source verification record, and the irregularity flags.
+
+## Session `9ad78d96` (branch `arena/9ad78d96-tino2`) — claim 2026-11-16 01:05 UTC
+
+**State read at claim.** `HEAD` and `origin/main` are both `5eddd9a` (merge of PR #117); working tree clean; no open PRs reported by `gh pr list --state open`; no remote branch exists yet for this platform-fixed branch. Current published artifact and prior completed work are recorded in the `a489e3a1` and `24158ab3` blocks. All existing shared-site implementation tasks are marked done; I will not edit shared site or model files.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| R-1 | Claim a non-overlapping, verification-only scope on the platform-fixed branch | done | 9ad78d96 | this block | Claim is pushed before audit work |
+| R-2 | Independent repository/privacy and build-state review; re-run relevant local checks; report remaining decision blockers and irregularities without repeating household data | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | No edits to published files or model inputs |
+| R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | — |
+
+**Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
