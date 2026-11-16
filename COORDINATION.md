@@ -2437,7 +2437,22 @@ Two follow-up fixes are in the branch pushed after that merge:
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
 | E-1 | Claim the board and push the claim before editing | done on push | e72015ae | this block | — |
-| E-2 | Read Form 540 (2025) for the 1% Behavioral Health Services Tax (line 62) and the capital-gain treatment; set the California sensitivity from the official schedules | in progress | e72015ae | `scripts/analysis_model.py`, `scripts/build-guide.py`, `scripts/analysis_pages.py` | `verification/e72015ae/REPORT.md` |
-| E-3 | Close the Form 706 payment-rule and Form 4768 extension rows from the IRS text | in progress | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
-| E-4 | Close the Proposition H billing-date row from the SFMTA text | in progress | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
-| E-5 | Rebuild, run every local gate, privacy-gate, publish PR to `main`, merge, confirm Pages | pending | e72015ae | this block + generated pages | — |
+| E-2 | Read Form 540 (2025) for the 1% Behavioral Health Services Tax (line 62) and the capital-gain treatment; set the California sensitivity from the official schedules | done (2025 edition; 2026 Form 540 is 404 and flagged; engine still flat-rate) | e72015ae | `scripts/analysis_model.py`, `scripts/build-guide.py`, `scripts/analysis_pages.py` | `verification/e72015ae/REPORT.md` |
+| E-3 | Close the Form 706 payment-rule and Form 4768 extension rows from the IRS text | done (Form 1041 fiscal-year convention still blank and flagged) | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
+| E-4 | Close the Proposition H billing-date row from the SFMTA text | done (SFMTA dates labelled estimates; B's parcel type unconfirmed) | e72015ae | `scripts/build-guide.py`, `scripts/analysis_pages.py` | — |
+| E-5 | Rebuild, run every local gate, privacy-gate, publish PR to `main`, merge, confirm Pages | in progress (gates pass on merged tree 16 Nov 2026; PR and Pages result recorded after merge) | e72015ae | this block + generated pages | — |
+
+## Session `ddee2898` (branch `arena/ddee2898-tino2`) — final integration claim, 2026-11-16
+
+**State at claim.** `origin/main` = `8b27103` (merge of PR #125); this branch is level with it and the working tree is clean. `gh pr list --state open` returned no open pull requests at claim time. The published artifact is the privacy-reviewed synthetic guide (`index.html` + `guide/**` + `assets/safe.*`), served by GitHub Pages at https://wingbangboozle1-lang.github.io/Tino2/. All prior board tasks are `done` or standing review flags; P-4 (repository and Git-history remediation) is `needs review` and requires administrator action — it is not claimed from this branch.
+
+**Scope.** Final integration: rebuild the published guide from the current generator, run the full local verification suite, confirm the publication boundary and privacy gate are green, then PR this branch to `main`, merge without waiting, confirm the Pages build, and record the result. No household figures or identifiers are added; all published values remain synthetic or government-published. No other session's `verification/**` block or board block is touched.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| D-1 | Claim the board, push the claim at once | done | ddee2898 | `COORDINATION.md` (this block) | Commit 105087f pushed to arena/ddee2898-tino2 |
+| D-2 | Rebuild the guide (`python3 scripts/build-guide.py`) and confirm no regressions | done | ddee2898 | `scripts/build-guide.py`, generated `index.html` and `guide/**` | Build produced no diff; generated pages already current |
+| D-3 | Run the full local suite: check-generated, package-site, check-publication --self-test, test-guide, privacy-audit, privacy-gate, check-figures, test-model-reference, test-phased, validate.js | done | ddee2898 | this block | All PASS: 18 pages, 1053 source-linked rows, 12382 checks; validate.js 1610 checks / 178 official sources; privacy gate clean; 20736 model comparisons; 113 phased checks |
+| D-4 | PR from this branch to `main`, merge without waiting, confirm Pages build, record result | in progress | ddee2898 | this block | — |
+
+**Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged unverified; nothing is inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
