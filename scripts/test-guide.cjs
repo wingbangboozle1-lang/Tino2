@@ -29,7 +29,7 @@ const OFFICIAL_AMOUNTS=new Map([
  [1044586,'BOE LTA 2025/009 $1 million amount, 16 Feb 2025 - 15 Feb 2027 (read 15 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
-const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','controller.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov']);
+const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','controller.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov','www.congress.gov']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}
@@ -173,6 +173,28 @@ for(const file of pages){
    const cells=[...tr.querySelectorAll(':scope > td')];
    check(cells[3].textContent.includes('unverified'),'Proposition H amount for B must stay unverified');
   }
+ }
+ if(file==='guide/precommit.html'){
+  const d=dom.window.document;
+  const rows=[...d.querySelectorAll('tbody tr')];
+  // Nine pre-commitment conditions plus the eleven official-rule rows plus three rent-test rows.
+  const reg=rows.filter(r=>/^(LIVE|RENT|SELL|MIXED|ANY)$/.test(r.querySelector('td').textContent.trim()));
+  check(reg.length===13,'Pre-commitment register must carry 13 dated conditions, found '+reg.length);
+  for(const tag of ['LIVE','RENT','SELL','MIXED','ANY']) check(reg.some(r=>r.querySelector('td').textContent.trim()===tag),'Pre-commitment register missing path '+tag);
+  for(const tr of reg){
+   const cells=[...tr.querySelectorAll(':scope > td')];
+   check(cells[3].textContent.trim().length>10,'Every condition states when it must be written');
+   check(cells[5].textContent.trim().length>10,'Every condition states its falsifier');
+  }
+  // No threshold may be filled in publicly: the rent-test amounts must stay blank.
+  for(const tr of rows){
+   if(tr.textContent.includes('Break-even rent at which living and renting equal'))
+    check(/— to be computed privately/.test(tr.textContent),'Rent break-even must stay blank on the public page');
+  }
+  check(/eligibility for either exemption|shall not be allowed unless a claim/.test(d.body.textContent),'Claim-is-required rule quoted from the Board');
+  check([...d.querySelectorAll('a[href^="https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf"]')].length>0,'LTA 2026/026 linked');
+  // The whole point of the page: it comes before the figures, and says so.
+  check(/reverse-engineered/.test(d.body.textContent),'Pre-commitment rationale stated');
  }
  if(file==='guide/conditions.html'){
   const d=dom.window.document,C=dom.window.CONDITIONS,i=C.inflation,p13=C.prop13;
