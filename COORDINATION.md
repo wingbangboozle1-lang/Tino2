@@ -2378,3 +2378,20 @@ Two follow-up fixes are in the branch pushed after that merge:
 **Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
 
 **Rebase/handoff note (16 Nov 2026).** Before the second push, `origin/main` advanced from `5eddd9a` to `29a5d07` (PR #118, session `b193fff2`). Rebase exposed an append-only `COORDINATION.md` conflict between that new official-figure verification record and this session's claim. Both records were preserved in order; no source or task record was discarded. The combined branch was rechecked before pushing.
+
+<!-- BEGIN block owned by session b42f92cf. Placed directly below the title so it merges cleanly against end-of-file appends. Do not edit inside this block; log requests in your own section. -->## Session `b42f92cf` (branch `arena/b42f92cf-tino2`) — claim 2026-11-16
+
+**State read at claim.** `origin/main` = `5eddd9a` (merge of PR #117 from `arena/a489e3a1-tino2`). Branch `arena/b42f92cf-tino2` is level with `main` and the working tree is clean. `gh pr list --state open` returned no open pull requests. The published artifact is the privacy-reviewed synthetic guide (`index.html` + `guide/**` + `assets/safe.*`), served by GitHub Pages and live at https://wingbangboozle1-lang.github.io/Tino2/. All prior board tasks are `done` or standing review flags; the standing `needs review` items are on the Flagged page and do not block.
+
+**Scope.** One focused addition: a documented investing policy section on the decision-brief page, covering parking sale proceeds in short Treasuries, phased entry into diversified investments, insured-deposit liquidity, and an annual model re-run. Every source link uses an already-approved agency host from `scripts/build-guide.py`; no new dollar amounts beyond $10-rounded illustrative figures; no `<input>`/`<form>` tags; navigation unchanged.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| B-1 | Claim the board, push the claim at once | done | b42f92cf | `COORDINATION.md` (this block) | — |
+| B-2 | Add documented investing policy section to the decision-brief page | in progress | b42f92cf | `scripts/build-guide.py` | parked proceeds, phased entry, liquidity, annual re-run |
+| B-3 | Regenerate guide, run full local suite, confirm privacy-safe | in progress | b42f92cf | `scripts/build-guide.py`, `guide/**`, `index.html` | build-guide, package-site, test-guide, privacy-audit, privacy-gate, check-generated, check-figures, test-model-reference |
+| B-4 | PR from this branch to `main`, merge without waiting, confirm Pages build, record result | unclaimed | b42f92cf | this block | after B-3 is green |
+
+**Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
+<!-- END block owned by session b42f92cf -->
+
