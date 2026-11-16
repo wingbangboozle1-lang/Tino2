@@ -464,6 +464,18 @@
    "verified": true,
    "note": "County Assessor glossary entries 'TRA', 'Tax Rates' and 'Special Assessments' read 15 Nov 2026. The parcels' own TRA numbers and exact rates are on each secured tax bill and are deliberately not published.",
    "checked": "2026-11-15"
+  },
+  {
+   "id": "GIFT-ANNUAL-2026",
+   "topic": "Federal gift and estate tax",
+   "claim": "For calendar year 2026, the first $19,000 of gifts to any person (other than gifts of future interests in property) are not included in the total amount of taxable gifts under 26 U.S.C. 2503 made during that year",
+   "official_exact": "$19,000",
+   "display_rounded": "$19,000",
+   "source_url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+   "source_id": "rp2532",
+   "verified": true,
+   "note": "Rev. Proc. 2025-32 section 4.42(1) read directly from the official IRS PDF on 16 Nov 2026. $19,000 is a government-published amount and a multiple of $10, so the site's $10 display rule is not broken.",
+   "checked": "2026-11-16"
   }
  ],
  "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here."
