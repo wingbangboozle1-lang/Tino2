@@ -2778,4 +2778,8 @@ CI on `main` for `53f77de`: `Verify public Pages boundary` **success** (run 4393
 deployment` **success** (run 43930576249); Pages `status: built` for `53f77de` at 18:36 UTC, `public: true`,
 `https_enforced: true`, `build_type: legacy`. Both PR jobs (`verify`, `history-audit`) were green. Nothing else
 changed: the published guide is the `57fe5be` content, still 19 pages and synthetic-only, and the history
-question remains an open **owner/administrator** action per the runbook.
+question remains an open **owner/administrator** action per the runbook. A further record follows in the next
+pull request on this branch: two sentences on the published pages quoted this session's commit count
+("two commits are reachable here"), which merging `main` would have made stale for no reason, so they now state
+the durable property instead — the clone is shallow and measures only what was fetched — and the S16 row points at
+the CI inventory as the place the measured answer lives.
