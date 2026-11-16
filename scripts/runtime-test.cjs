@@ -1,7 +1,13 @@
 const {JSDOM,VirtualConsole}=require('../.cache/test/node_modules/jsdom');
 const fs=require('fs'),path=require('path'),assert=require('assert');
 const root=path.resolve('_public');let count=0, rows=0;
-for(const file of ['index.html',...fs.readdirSync(root+'/site').filter(x=>x.endsWith('.html')).map(x=>'site/'+x)]){
+// Repointed 16 Nov 2026 (session ec971900): this script scanned `_public/site`, which the
+// publication manifest stopped packaging when the legacy dashboard was excluded, so it failed
+// with a raw ENOENT. It now runs the same runtime and broken-local-link checks on the pages the
+// manifest actually publishes. scripts/test-guide.cjs remains the stricter gate (source links and
+// the $10 rule); this one is the fast check.
+if(!fs.existsSync(root+'/guide'))throw new Error('_public is not built or is stale: run python3 scripts/package-site.py first');
+for(const file of ['index.html',...fs.readdirSync(root+'/guide').filter(x=>x.endsWith('.html')).map(x=>'guide/'+x)]){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
  const dom=new JSDOM(fs.readFileSync(root+'/'+file,'utf8'),{runScripts:'outside-only',url:'https://example.org/Tino2/'+file,virtualConsole:vc});
  for(const script of dom.window.document.querySelectorAll('script')) {
