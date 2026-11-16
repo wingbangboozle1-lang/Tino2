@@ -2769,3 +2769,13 @@ removed by the follow-up commit that carries this note.
 branch deleted, no Support request filed. L-D2 and P-4 stay **needs review**: the audit's own CI run and its local run
 both report pre-rounding blobs that are clean at HEAD but reachable in history, which only an administrator can close
 using `docs/history-remediation-runbook.md`.
+
+**Addendum, 2026-11-16 18:40 UTC (session `e3f08d9e`).** Follow-up PR **#135** merged as `53f77de`: it removed
+`.merge-blocks.json` (a scratch file of conflict line indices that `git add -A` swept into `a4d0c3e`), ignores
+`.merge-*.json` so the next conflict resolution cannot repeat that, and moved the history inventory into the
+**CI job summary** so the counts are on the run page where an owner will read them, not only buried in a log.
+CI on `main` for `53f77de`: `Verify public Pages boundary` **success** (run 43930578072), `pages build and
+deployment` **success** (run 43930576249); Pages `status: built` for `53f77de` at 18:36 UTC, `public: true`,
+`https_enforced: true`, `build_type: legacy`. Both PR jobs (`verify`, `history-audit`) were green. Nothing else
+changed: the published guide is the `57fe5be` content, still 19 pages and synthetic-only, and the history
+question remains an open **owner/administrator** action per the runbook.
