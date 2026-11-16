@@ -2377,3 +2377,5 @@ Two follow-up fixes are in the branch pushed after that merge:
 | R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | done | 9ad78d96 | `verification/9ad78d96/REPORT.md`, this block | Report records source links, no-go facts, privacy limits, mixed fictional/household label inconsistency; no new personal data or model/site edits |
 
 **Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
+
+**Rebase/handoff note (16 Nov 2026).** Before the second push, `origin/main` advanced from `5eddd9a` to `29a5d07` (PR #118, session `b193fff2`). Rebase exposed an append-only `COORDINATION.md` conflict between that new official-figure verification record and this session's claim. Both records were preserved in order; no source or task record was discarded. The combined branch was rechecked before pushing.
