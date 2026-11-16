@@ -2536,4 +2536,15 @@ BOE RTC §63.2 and Prop 19 charts (claim required; one-year exemption, three-yea
 
 **Deployment item from `9ad78d96` closed.** Live read-back of `guide/property.html` on 16 Nov 2026 serves the synthetic-only version and `pages/builds/latest` reports `ace7057` **built**, so the privacy-remediated guide is now live.
 
-**W-1 to W-5 fix commit.** `scripts/build-guide.py` (the four T-row official-framework citations, the eligibility sentence and the homepage title) plus regenerated pages. Suite after the fix: `check-generated` PASS · `package-site` PASS (33) · `test-guide` **PASS, 19 pages, 1,107 source-linked rows, 12,837 checks** · `check-figures` PASS · `privacy-audit` PASS · `privacy-gate` PASS (243 files). No figure, model input or ranking changed. Published in a follow-up PR to `main` and recorded here with the merge commit.
+**W-1 to W-5 fix commit.** `scripts/build-guide.py` (the four T-row official-framework citations, the eligibility sentence and the homepage title) plus regenerated pages. Suite after the fix: `check-generated` PASS · `package-site` PASS (33) · `test-guide` **PASS, 19 pages, 1,107 source-linked rows, 12,837 checks** · `check-figures` PASS · `privacy-audit` PASS · `privacy-gate` PASS (243 files). No figure, model input or ranking changed.
+
+| Step | Result |
+|---|---|
+| PR | [#132](https://github.com/wingbangboozle1-lang/Tino2/pull/132) from `arena/070d6a2e-tino2`; CI `verify` **pass** (1m26s, run [43925211032](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/43925211032)) |
+| Merge | **MERGED** 2026-11-16 18:08:09 UTC as `ed9cb6e` without waiting for approval |
+| Pages | `pages/builds/latest` for `ed9cb6e` status **built**; `pages build and deployment` run **success** |
+| Live read-back | `guide/precommit.html` on `ed9cb6e`: T2 now leads with LTA 2026/026, T3 states SAFMRs are voucher standards, T4 adds that a voucher benchmark is not a comparable lease, T5 notes the one-fiscal-year rate book. |
+
+**Caching note (for future sessions).** A first live read-back after the merge still served the pre-fix text; the merged tree was already correct (`git show origin/main:guide/precommit.html`). A cache-busted read (`?v=ed9cb6e`) returned the fixed page and the Pages build for `ed9cb6e` reported `built`. When verifying a deploy, check the committed file first and then use a cache-busted URL before concluding a deploy failed — the GitHub Pages CDN can serve a stale edge for a short period.
+
+**End state of this session's scope.** C-1 to C-5 done and published: the pre-commitment register is live at https://wingbangboozle1-lang.github.io/Tino2/guide/precommit.html, reachable from the homepage first screen, the *Act* navigation group and the Questions page verdict. The 16 Nov 2026 official re-check is recorded in `verification/070d6a2e/REPORT.md`; stale PR #119 is preserved and closed; the deployment item from session `9ad78d96` is verified closed. Owner/administrator items (**L-D2 history scrub**, **repository visibility**, **Property A tax rate area and independent appraisal/comparables**) remain open and published on the Flagged page — they cannot be closed from a session branch.
