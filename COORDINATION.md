@@ -2373,7 +2373,7 @@ Two follow-up fixes are in the branch pushed after that merge:
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
 | R-1 | Claim a non-overlapping, verification-only scope on the platform-fixed branch | done | 9ad78d96 | this block | Claim is pushed before audit work |
-| R-2 | Independent repository/privacy and build-state review; re-run relevant local checks; report remaining decision blockers and irregularities without repeating household data | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | No edits to published files or model inputs |
-| R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | in progress | 9ad78d96 | `verification/9ad78d96/**`, this block | — |
+| R-2 | Independent repository/privacy and build-state review; re-run relevant local checks; report remaining decision blockers and irregularities without repeating household data | done | 9ad78d96 | `verification/9ad78d96/**`, this block | Local suite passed; live homepage read back; current CI boundary verification and Pages deploy succeeded; high-priority history exposure remains unremediated |
+| R-3 | Record results, official-source pointers, limitations and any outstanding owner/admin action | done | 9ad78d96 | `verification/9ad78d96/REPORT.md`, this block | Report records source links, no-go facts, privacy limits, mixed fictional/household label inconsistency; no new personal data or model/site edits |
 
 **Scope guard.** This session uses only the current branch `arena/9ad78d96-tino2` (platform-fixed). It will not rewrite Git history, change repository visibility, publish any new private details, or modify shared site/model files. Existing public-data/history exposure is a standing high-priority review item; do not treat its documented runbook as completed remediation.
