@@ -2751,3 +2751,21 @@ this branch and pushed; the work is in the pull request opened from it. What lan
   `privacy-gate.py` (291 tracked files) + `--self-test`, `privacy-history-audit.py --self-test`, `test-model-reference.py`,
   `test-phased.py`, `test-phased-history.py` (1,303). Details and limits:
   `verification/e3f08d9e/REPORT.md`.
+
+**Post-merge status — 2026-11-16 18:30 UTC (session `e3f08d9e`).** PR **#134** merged into `main` as `57fe5be`
+(`gh pr merge --merge`, after the second `origin/main` merge on this branch resolved one append-only
+`COORDINATION.md` conflict against session `707ec1e0`'s completion record by keeping both sides). CI on the PR: `verify`
+success and the new `history-audit` job success on a `fetch-depth: 0` checkout; CI on `main` after the merge: `Verify
+public Pages boundary` **success** (run 43929027255) and `pages build and deployment` **success** (run 43929025951).
+GitHub Pages reports `status: built` for commit `57fe5be` (18:28 UTC), and the live page was read back:
+`https://wingbangboozle1-lang.github.io/Tino2/guide/stress.html` serves section `04 / recorded history` with the
+grouped record (6 of 35, median −$42,860, best +$66,060, worst −$132,870), the seven-entry-year table, the
+flat-versus-recorded table and the dividend-sensitivity table, each row source-linked to FRED. The site remains
+19 pages, 33 packaged files, 44/44 ledger records, and the whole-repository privacy gate passes on 253 tracked text
+files, including the new `docs/history-remediation-runbook.md` and the audit script. One scratch file
+(`.merge-blocks.json`, conflict line-number indices only) slipped into the merge commit through `git add -A` and is
+removed by the follow-up commit that carries this note.
+**Still open, deliberately not touched by this session:** the repository is public, no history was rewritten, no
+branch deleted, no Support request filed. L-D2 and P-4 stay **needs review**: the audit's own CI run and its local run
+both report pre-rounding blobs that are clean at HEAD but reachable in history, which only an administrator can close
+using `docs/history-remediation-runbook.md`.
