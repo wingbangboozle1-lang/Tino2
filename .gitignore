@@ -5,3 +5,6 @@ __pycache__/
 
 # Household analysis outputs (never committed; see COORDINATION.md L-D1)
 private/
+# Merge-resolution scratch (conflict line-number indices, nothing else). Recorded so a
+# `git add -A` during a conflict cannot commit it; see session e3f08d9e's board note.
+.merge-*.json

@@ -120,7 +120,26 @@ jobs:
           python-version: '3.12'
       - name: Inventory flagged objects across the fetched history
         continue-on-error: true
-        run: python3 scripts/privacy-history-audit.py
+        env:
+          OUT: ${{ runner.temp }}/privacy-history-audit.txt
+        run: |
+          # The script prints counts, rule names, paths and blob ids — never a matched string — so
+          # the same text is safe in the run summary that the repository owner reads. Non-blocking:
+          # a finding here is a decision for an administrator, not a reason to fail someone else's
+          # merge (see docs/history-remediation-runbook.md).
+          python3 scripts/privacy-history-audit.py >"$OUT" || true
+          {
+            echo '### Git-history exposure inventory'
+            echo
+            echo 'Counts, rule names, paths and blob ids only. No matched text is printed by design,'
+            echo 'so this summary is safe to read and to paste into a ticket. A clean report is not'
+            echo 'proof of an anonymous history; see `docs/history-remediation-runbook.md`.'
+            echo
+            echo '```'
+            cat "$OUT"
+            echo '```'
+          } >>"$GITHUB_STEP_SUMMARY"
+          cat "$OUT"
       - name: Machine-readable counts for the ticket
         if: always()
         continue-on-error: true

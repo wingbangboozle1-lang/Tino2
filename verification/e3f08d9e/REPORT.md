@@ -212,7 +212,7 @@ kept **both** sides everywhere they differed:
   history audit enforcing three of four, it now reads that list through the same gate import and passes it into
   `scan_text`, so the object walk and the working tree still cannot drift apart.
 - Counts in this report are from the merged tree: 19 generated pages, 33 packaged files, 44 ledger records,
-  1,231 source-linked rows, 13,783 rendered checks, 291 tracked files in the whole-repository gate, 20,736 model
+  1,231 source-linked rows, 13,783 rendered checks, every tracked file in the whole-repository gate, 20,736 model
   comparisons, 200 phased-model checks, 1,303 recorded-history checks.
 
 ## Checks run, all on the merged tree
@@ -275,3 +275,26 @@ here (`libnss3.so` absent); CI covers it.
 - The site is an analysis of fictional examples plus published law. It is not an appraisal, a tax
   return, a legal opinion, an insurance quote or a personalised investment recommendation, and the
   recorded-history section in particular must not be read as an expected return for any household.
+
+## Post-merge and deployment status — 16 Nov 2026, 18:30 UTC
+
+- PR **#134** merged into `main` as `57fe5be` (`gh pr merge --merge`), after a second merge of `origin/main` on this
+  branch resolved one append-only `COORDINATION.md` conflict by keeping both session records.
+- CI on the merged branch: `verify` **success**, and the new `history-audit` job **success** on a `fetch-depth: 0`
+  checkout — so the object walk now runs against real fetched history on every push to `main` and every PR, printing
+  counts and paths only, non-blocking. After the merge: `Verify public Pages boundary` **success** (run
+  43929027255) and `pages build and deployment` **success** (run 43929025951).
+- GitHub Pages: `status: built` for commit `57fe5be` at 18:28 UTC, `public: true`, `https_enforced: true`, source
+  `main` / `/` (legacy build type; the `_config.yml` exclusions remain the control that keeps the retained analysis
+  tree off the site).
+- Live read-back of <https://wingbangboozle1-lang.github.io/Tino2/guide/stress.html> served section
+  `04 / recorded history` in full: the method and limits callout, the grouped record (6 of 35 · median −$42,860 ·
+  best +$66,060 · worst −$132,870 · worst point better in 11 of 35), the seven-entry-year table, the
+  flat-yield-versus-recorded table, the dividend-sensitivity table, the six readings and the "what this test does not
+  contain" paragraph — every row source-linked to the FRED series pages, and upstream's `03c` ladder section intact
+  immediately above it.
+- **Not done, on purpose:** the repository is still public; no Git history was rewritten, no branch deleted, no
+  GitHub Support request filed; no repository visibility change. L-D2 and P-4 remain **needs review**. The audit
+  finds pre-rounding blobs that are clean at HEAD and reachable in history, and both the local run and the CI run say
+  so without printing them; closing that is an administrator action taken from
+  `docs/history-remediation-runbook.md`, not something a session branch should do.
