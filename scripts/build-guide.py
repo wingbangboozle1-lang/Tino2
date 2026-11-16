@@ -26,6 +26,7 @@ S={
  'county':('Santa Clara County Assessor','https://asr.santaclaracounty.gov/tax-savings/transferring-your-assessed-value/parent-to-child-2'),
  'estate':('IRS · estate tax','https://www.irs.gov/businesses/small-businesses-self-employed/estate-tax'),
  'estate27':('IRS · 2027 adjustments','https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts'),
+ 'rp2532':('IRS · Rev. Proc. 2025-32','https://www.irs.gov/pub/irs-drop/rp-25-32.pdf'),
  'basis':('IRS · inherited basis','https://www.irs.gov/faqs/interest-dividends-other-types-of-income/gifts-inheritances/gifts-inheritances'),
  'trustbasis':('IRS · Rev. Rul. 2023-2','https://www.irs.gov/pub/irs-drop/rr-23-02.pdf'),
  'residence':('IRS · sale of home','https://www.irs.gov/taxtopics/tc701'),
@@ -75,8 +76,10 @@ S={
  'rtc2618':('CA Revenue & Taxation Code §2618','https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=2618.'),
  'irs706about':('IRS · About Form 706','https://www.irs.gov/forms-pubs/about-form-706'),
  'irs706i':('IRS · Instructions for Form 706','https://www.irs.gov/instructions/i706'),
+ 'i4768':('IRS · Instructions for Form 4768 (02/2020)','https://www.irs.gov/instructions/i4768'),
  'irs1041about':('IRS · About Form 1041','https://www.irs.gov/forms-pubs/about-form-1041'),
  'dca':('SEC Investor.gov · dollar-cost averaging','https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging'),
+ 'secCallable':('SEC Investor.gov · callable or redeemable bonds','https://www.investor.gov/introduction-investing/investing-basics/glossary/callable-or-redeemable-bonds'),
  'irs701':('IRS · Topic 701, sale of your home','https://www.irs.gov/taxtopics/tc701'),
  'scc-recording':('Santa Clara County Clerk-Recorder · Recording real estate','https://clerkrecorder.santaclaracounty.gov/recording-documents/recording-real-estate'),
  'usc6072':('U.S. Code · 26 U.S.C. §6072 time for filing income tax returns (Cornell LII copy)','https://www.law.cornell.edu/uscode/text/26/6072'),
@@ -84,6 +87,10 @@ S={
  'usc1031':('U.S. Code · 26 U.S.C. §1031 (Cornell LII copy)','https://www.law.cornell.edu/uscode/text/26/1031'),
  'asrGlossary':('Santa Clara County Assessor · glossary','https://asr.santaclaracounty.gov/faq/glossary'),
  'ftb540':('FTB · 2025 Instructions for Form 540','https://www.ftb.ca.gov/forms/2025/2025-540-instructions.html'),
+ # Added 16 Nov 2026 by session 070d6a2e; each page below was opened and read that day.
+ 'boe2026':('BOE · 2026 Letters to Assessors index','https://www.boe.ca.gov/proptaxes/2026.htm'),
+ 'lta26026':('BOE · LTA 2026/026, Proposition 19 exclusion Q&amp;A','https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf'),
+ 'cdiSurvey':('CA Department of Insurance · homeowners premium comparison','https://www.insurance.ca.gov/01-consumers/105-type/9-compare-prem/'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -98,7 +105,7 @@ PAGE_GROUPS=[
  ('Decide',[('overview','Overview','index.html'),('summary','Executive summary','guide/summary.html'),('decision','Compare','guide/decision.html'),('paths','Paths, mixed and pure','guide/paths.html'),('whatif','What-if controls','guide/whatif.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
  ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
  ('Evidence &amp; terms',[('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('glossary','Glossary','guide/glossary.html'),('sources','Sources','guide/sources.html')]),
- ('Act',[('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
+ ('Act',[('precommit','Pre-commitment','guide/precommit.html'),('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
 ]
 PAGES=[item for _,group in PAGE_GROUPS for item in group]
 def page(key,title,lead,body,scripts=(),home=False):
@@ -220,6 +227,162 @@ PHASED_SECTION_HTML = (
     '03 / entry risk')
 )
 
+# ---- 16 Nov 2026 (session ec971900): return-to-peak recovery shape, and an explicit 3-month/2-year ladder ----
+PARK_FOR_TEMPLATE = {'1929': 'crash-1929', '2008': 'crash-2008', 'none': 'flat'}
+MIXES = [(0.0, 'Rolled three-month bills only'),
+         (1.0, 'A two-year note held to maturity only'),
+         (0.5, 'Ladder: half a two-year note, half rolled three-month bills')]
+
+
+def _park_value(park_months: int, weight_2y: float, kind: str):
+    """Terminal value and realised annual yield of $100,000 parked for `park_months`."""
+    path = PM.ladder_path(park_months, weight_2y, kind, park_months)
+    factor = 1.0
+    for rate in path:
+        factor *= (1.0 + rate) ** (1 / 12)
+    return PM.round10(PM.PRINCIPAL * factor), factor ** (12.0 / park_months) - 1.0
+
+
+def park_mix_table():
+    rows = []
+    for weight, label in MIXES:
+        for park in (24, 36):
+            cells = [label, f'{park} months']
+            for kind in PM.PARK_PATHS:
+                value, annual = _park_value(park, weight, kind)
+                cells.append(f'{money(value)} <span class="tiny">({annual * 100:.2f}% a year)</span>')
+            cells.append(source('treasury', 'Treasury · observed 3-month and 2-year par yields')
+                         + ' · ' + source('treasuryBills', 'TreasuryDirect · bills')
+                         + ' · ' + source('treasuryNotes', 'TreasuryDirect · notes')
+                         + ' · every rate after the first quarter is an assumption, not an observation')
+            rows.append(tuple(cells))
+    return table(['How the parked proceeds are held', 'Wait before buying stocks',
+                  'Rates stay at the observed level', 'Rates fall, 1929-scenario path',
+                  'Rates fall, 2008-scenario path', 'Rates rise', 'Source'], rows)
+
+
+def _path_for(template: str, strategy: str):
+    """The monthly parking-yield path one strategy faces in one crash template.
+
+    A plan that never parks money, or that parks it and never buys equities, is held in rolled
+    bills: only a plan that waits and then deploys can afford a two-year leg without selling a
+    note before maturity.
+    """
+    kind = PARK_FOR_TEMPLATE[template]
+    spec = PM.STRATEGIES[strategy]
+    if spec['park'] == 0:
+        return PM.bill_path(kind, PM.HORIZON)
+    return PM.ladder_path(spec['park'], 0.5, kind, PM.HORIZON)
+
+
+def _peak_runs(template: str, strategy: str):
+    path = _path_for(template, strategy)
+    return [PM.simulate(template, strategy, PM.YIELDS['base'], rec, shape='peak', cash_path=path)
+            for rec in (REC_LO, REC_HI)]
+
+
+def _under_water(runs):
+    months = sorted({r['under_water_months'] for r in runs})
+    return f'{months[0]} months' if len(months) == 1 else f'{months[0]}–{months[1]} months'
+
+
+PEAK_ROWS = []
+for _k in ['sell_now_all', 'mixed_third', 'park_24', 'park_36', 'cash_only']:
+    _r29, _r08, _rn = _peak_runs('1929', _k), _peak_runs('2008', _k), _peak_runs('none', _k)
+    PEAK_ROWS.append((STRAT_LABEL[_k],
+                      money_range([x['worst_36'] for x in _r29]), _under_water(_r29),
+                      money_range([x['value_end'] for x in _r29]),
+                      money_range([x['worst_36'] for x in _r08]), _under_water(_r08),
+                      money_range([x['value_end'] for x in _r08]),
+                      money_range([x['value_end'] for x in _rn]),
+                      source('fed1929', 'Fed 1929 · pre-crash high regained Nov 1954') + ' · '
+                      + source('fed2008', 'Fed 2008') + ' · the 2008 regain month is an assumption'))
+
+SHAPE_ROWS = []
+for _t in ('1929', '2008'):
+    for _k in ('sell_now_all', 'mixed_third', 'park_24'):
+        _path = _path_for(_t, _k)
+        _trend = [PM.simulate(_t, _k, PM.YIELDS['base'], rec, shape='trend', cash_path=_path)
+                  for rec in (REC_LO, REC_HI)]
+        _peak_ = _peak_runs(_t, _k)
+        _tt = [x['value_end'] for x in _trend]
+        _pp = [x['value_end'] for x in _peak_]
+        SHAPE_ROWS.append((f'{_t} shape · {STRAT_LABEL[_k]}', money_range(_tt), money_range(_pp),
+                           money_range([b - a for a, b in zip(_tt, _pp)]),
+                           source('fed1929' if _t == '1929' else 'fed2008', 'Fed ' + _t)
+                           + ' · the shapes differ only in the assumed recovery, not in the decline'))
+
+PEAK_SECTION_HTML = section(
+    'Entry risk, second version: a recovery that returns to the prior peak, with the proceeds in a 3-month/2-year ladder',
+    '<div class="callout"><strong>Why a second version of the test.</strong> The table above lets the index grow '
+    'from its trough at the same 4% to 8% it grows at in the no-crash control. That is the reason its 2008 parked '
+    'rows equal the control, and it flatters a peak entry: it never has to live with the fact that the 1929 high '
+    'stood for a quarter of a century. The Federal Reserve states that the Dow peaked at 381.17 on 3 September 1929, '
+    'closed at 41.22 on 8 July 1932 — 89 percent below the peak — and "did not return to its pre-crash heights until '
+    'November 1954" (<a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1929" rel="noopener noreferrer">Fed 1929 ↗</a>), '
+    'which is 303 months after the peak. This version rebuilds the index so it reaches its prior peak at exactly that '
+    'month for 1929, then grows at the same 4% to 8%. For 2008 it uses 66 months, labelled an assumption: no official '
+    'page re-opened in this review states when the S&amp;P 500 regained its October 2007 level, and 66 months is the '
+    'figure the decision engine already carries.</div>'
+    '<p>The parked money is now a Treasury ladder rather than one flat rate. A three-month bill reprices every quarter, so what '
+    'proceeds earn over a 24- or 36-month wait is a path, not a number. TreasuryDirect sells bills "for terms ranging '
+    'from four weeks to 52 weeks" and notes for "a term of 2, 3, 5, 7, or 10 years" '
+    '(<a href="https://www.treasurydirect.gov/marketable-securities/treasury-bills/" rel="noopener noreferrer">bills ↗</a>, '
+    '<a href="https://www.treasurydirect.gov/marketable-securities/treasury-notes/" rel="noopener noreferrer">notes ↗</a>). '
+    'The yields used are the observed par yields on 13 Nov 2026: 4.32% for three months and 4.88% for two years '
+    '(<a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202611" rel="noopener noreferrer">Treasury ↗</a>). '
+    'Only a plan that waits before it buys can hold the note to maturity, so the note leg is priced only for the '
+    'parking plans; a plan that needs money earlier would have to sell the note at market, which is not modeled here.</p>'
+    + '<h3>What the parked money earns, per $100,000</h3>'
+    + '<p>Value at the day the phasing begins, on the same $100,000. The four columns are four assumed paths for the '
+    'bill rate after the first quarter: unchanged, the two fall-to-low-rates paths the decision engine uses inside its '
+    'crash scenarios, and a rise. Read the two middle columns as the reinvestment risk of the short bill, and the last '
+    'as the price of locking the note instead.</p>'
+    + park_mix_table()
+    + '<p class="tiny">Realised annual yield is the geometric rate the pot actually earned over the wait, not a quoted '
+    'coupon. The note-only row at 24 months is identical in all four columns by construction: a two-year note bought at '
+    'the observed 4.88% and held to maturity does not reprice inside the wait, which is exactly what a bill roll does. '
+    'At 36 months the note row moves again, because months 25 to 36 are spent in rolled bills after the note matures. '
+    'Federal income tax is due on Treasury interest and there is no state or local income tax on it '
+    '('
+    '<a href="https://www.treasurydirect.gov/marketable-securities/treasury-notes/" rel="noopener noreferrer">TreasuryDirect · taxes ↗</a>'
+    '); no tax, fee or inflation adjustment is applied to these amounts. Rates other than the first quarter are assumptions.</p>'
+    + '<h3>The five entry plans on the return-to-peak shape</h3>'
+    + '<p>Each plan parks its undeployed money in the ladder above, on the rate path that matches its crash. '
+    '"Months under water" counts the months in the ten-year window in which the portfolio is below the $100,000 put in '
+    '— the measure a 303-month regain makes visible and a terminal value hides. The 1929 column carries one number '
+    'rather than a range because the window ends 183 months before the recorded regain, so the post-regain growth rate '
+    'never applies inside it.</p>'
+    + table(['Plan', '1929 · worst point in the first 36 months', '1929 · months under water', '1929 · value after 10 years',
+             '2008 · worst point in the first 36 months', '2008 · months under water', '2008 · value after 10 years',
+             'No-crash control · value after 10 years', 'Source'], PEAK_ROWS)
+    + '<h3>How much the assumed recovery is worth</h3>'
+    + '<p>The same plan, the same decline, the same parking — and two ideas about what happens after the low. The gap is '
+    'a modelling assumption, not new information about the market, and on this horizon it is larger than most of the '
+    'differences the site reports between paths.</p>'
+    + table(['Plan and template', 'Year 10, trend shape', 'Year 10, return-to-peak shape', 'Difference', 'Source'], SHAPE_ROWS)
+    + '<div class="callout warning"><strong>What this version says that the first one could not.</strong> Under a '
+    'recovery that only reaches its starting level again after 25 years, the plan that invested everything at the peak '
+    'spent every one of the 120 months in the window below the amount put in, and finished the decade at about a fifth '
+    'of it. The parked plans never bought that top: parking 36 months was marked below the amount put in in no month at '
+    'all, and parking 24 months and phasing into a market still falling spent 21 months under water before it turned. '
+    'Both parked plans finished the decade above the peak entry in both crash shapes. In the 2008 shape the 24-month '
+    'wait beat the 36-month one, because that low arrives at month 17 and a longer wait buys the climb instead of the '
+    'bottom — the honest form of the finding, since the wait is priced against a shape nobody can know in advance. In '
+    'the no-crash control the ranking turns on where equity growth sits against the parked yield: at 4% growth a '
+    'two-year wait still ends slightly ahead, at 8% it ends about eighteen thousand behind per $100,000. That is the '
+    'whole trade on one row of a table: phasing is insurance against the entry date, paid for with the growth of a good '
+    'decade. No source reviewed here assigns a probability to either state.</div>'
+    + '<p class="tiny">Not modeled: individual bill maturities and auction discounts, the market value of a note sold '
+    'before maturity, income tax on the interest or on the gain, transaction costs, the timing of the trust transfer, '
+    'and any path between the peak and the low except a smooth geometric one. Reinvestment risk is the risk the SEC '
+    'describes for money that has to be put to work again later — "faced with reinvesting the money at a lower, less '
+    'attractive rate" '
+    '('
+    '<a href="https://www.investor.gov/introduction-investing/investing-basics/glossary/callable-or-redeemable-bonds" rel="noopener noreferrer">SEC Investor.gov ↗</a>'
+    ') — and the two middle columns of the parking table are that risk, priced.</p>',
+    '03c / ladder and shape')
+
 
 # ---- e3f08d9e: the same entry question, replayed on recorded official history ----
 import phased_history as RH
@@ -299,7 +462,7 @@ _rh_flat08 = RH.flat_park_compare(2008, 'park24', 0.0432)
 
 RECORDED_SECTION_HTML = section(
     'The same test on recorded history, with the yields a crash actually pays',
-    '<div class="callout"><strong>Why this section exists.</strong> The test above answers the entry question on two smooth templates and one <em>flat</em> Treasury yield. '
+    '<div class="callout"><strong>Why this section exists.</strong> The template tests above answer the entry question on two smooth shapes, with one observed yield applied flatly and a maturity ladder tried at three weights. '
     'This one replays the identical decision — park the net proceeds for 24 or 36 months in short Treasuries, then phase into stocks over 12 months — against '
     '<strong>recorded history</strong>: the actual December share-price index and the <em>actual</em> published 3-month and 2-year Treasury yields of each year. '
     'The reason it matters fits in one sentence: in a real crash the yield on parked money falls at the same time the index does, so waiting is not risk-free in either direction.</div>'
@@ -355,6 +518,7 @@ WWCA=section('What would change the answer',table(['If this turns out to be true
  ('The estate is above the 2026 federal filing threshold of $15,000,000','A federal return and a possible estate tax','Filing and tax depend on the whole gross estate, not just this home.',source('irs706i')),
  ('A crash comes right after a sale','Phasing in over 24 to 36 months, if the entry price matters more than early growth','Phasing changes the price paid for the proceeds; the test is on the Black swans page.',source('fed2008')),
  ('Parking yields fall after the sale','A smaller lead for selling; check the break-even return on What decides it','Proceeds held in short Treasuries earn what the market pays on the day they are reinvested.',source('treasury')),
+ ('The recovery after a crash takes years rather than quarters','A longer park-and-phase of the proceeds, and more weight on how many months sit under water than on the ending value','On the Federal Reserve’s record the 1929 high stood for 303 months; the Black swans page prices a peak entry and a parked entry against each other on that shape.',source('fed1929')),
  ]),'00 / first screen')
 body=WWCA+'''<section class="section"><div class="card highlight"><div class="eyebrow" style="color:#d1e8b1">Executive summary</div><h2>Do not choose a path until the private facts are verified.</h2><p>This public guide uses synthetic inputs only. Property A is a generic example of a possible trust inheritance; Property B is a generic example of an already-owned rental property. No household value, rent, bill, lease, location identifier or insurance record is loaded into the published model.</p><p><strong>What would change the answer?</strong> Trust authority and title, date-of-death value and tax basis, estate liquidity and prior gifts, eligibility and occupancy under Proposition 19, actual market rent, property-tax bills, insurance quotes, repair needs, transaction costs, tax treatment and the household’s value of living in the home.</p><p><strong>How to use the comparisons.</strong> The tables demonstrate how assumptions change pure and mixed paths. Their rankings are not recommendations. Keep each property’s ownership and tax treatment separate, use the private checklist to obtain verified inputs, and rerun the analysis locally before acting.</p><div class="actions"><a class="button secondary" href="guide/questions.html">See the decision questions</a><a class="button secondary" href="guide/decision.html">Explore the synthetic comparison</a></div></div></section>'''
 body+=section('What matters most',table(['Issue','What is known or needs verification','Official reference'],[
@@ -378,6 +542,7 @@ body+=section('Readiness scorecard',table(['Fact that decides the decision','Sta
  ('What is the achievable rent floor?','<span class="tag warn">Unverified</span>','Property manager, comparables','<a href="guide/questions.html">Register D10</a>',source('hud')),
  ])+'<p class="tiny">Zero of eight resolved. The rounded figures on the Properties page are owner-stated inputs; none of these document-level facts is verified. Each row links to the register entry that names the exact document, who holds it, and a typical lead time. The register has sixteen entries in total; these eight are the ones that can change the answer.</p>','04 / readiness')
 
+body+='''<div class="callout warning"><strong>Agree the conditions before the figures arrive.</strong> The <a href="guide/precommit.html">pre-commitment register</a> lists, for living, renting, selling and every mixed path, the condition the household writes down and dates <em>first</em>, the falsifier that would void it, and the official rule it rests on. Every threshold on that page is blank on purpose: a public site cannot choose for you, and choosing after seeing one projection is how a decision gets reverse-engineered.</div>'''
 body+=section('Explore the guide',cards([
  ('00 / summary','Executive summary','One page: the finding, the four facts that gate it, the figures behind it and the deadlines. Prints on a sheet.','guide/summary.html'),
  ('01 / compare','Live, rent or sell','See assumptions, same-endpoint results and yearly costs on synthetic examples.','guide/decision.html'),
@@ -386,11 +551,12 @@ body+=section('Explore the guide',cards([
  ('02b / evidence','Real conditions','The observed inflation and assessment record, the official projection horizon, and the scenario bands.','guide/conditions.html'),
  ('03 / rules','Tax &amp; inheritance','Separate federal estate tax, income-tax basis, reassessment and trustee steps.','guide/tax.html'),
  ('04 / readiness','Questions to resolve','A prioritized list of missing records, answers and discovery routes.','guide/questions.html'),
+ ('04b / pre-commit','Sign before you see the numbers','For each path, the condition to write down first, the falsifier that voids it and the official rule it rests on.','guide/precommit.html'),
  ('05 / improvements','Suggestions to review','Choose or defer ideas without applying them to the site or the analysis.','guide/suggestions.html'),
  ('06 / review','Flagged for review','See the public-repository exposure and other unresolved issues.','guide/review.html'),
  ]),'02 / navigate')
 body+='''<section class="section"><div class="callout review"><strong>Privacy boundary.</strong> The published guide uses synthetic examples only; it does not load or publish household records or household-derived values. That does not clean the public repository’s earlier commits, branches, pull requests, caches or copies. A repository administrator must handle visibility and any history remediation. <a href="guide/review.html">Read the incident and limitations →</a></div></section>'''
-page('overview','A clearer way to plan<br>for an inheritance.','A source-linked educational guide to comparing inheritance, housing and investment paths. All calculations use synthetic examples; no household records are loaded.',body,home=True)
+page('overview','A clearer way to plan for an inheritance.','A source-linked educational guide to comparing inheritance, housing and investment paths. All calculations use synthetic examples; no household records are loaded.',body,home=True)
 
 body=section('Separate the two ownership roles',table(['Placeholder','Role in the example','Private facts that must be verified','Official framework'],[
  ('Property A','Possible trust inheritance; not currently treated as owned by the prospective recipient.','Trust instrument, title, estate inclusion, date-of-death value, tax basis, occupancy and transfer date are not published.',source('trustbasis')),
@@ -436,8 +602,8 @@ body+=section('Proposition 19 allowance: enacted windows and how it is carried f
 ])+'<p>Because the transfer is expected decades from now, this site’s projections <strong>carry the allowance forward</strong> from the last enacted amount using the statutory mechanism: one adjustment per two years, indexed to house-price change. The projection basis is the 20-year growth of the FHFA house-price index for the area (about 2.9% a year), which is a labelled assumption, <em>not</em> a published BOE figure. When the BOE publishes each new Letter to Assessors, the enacted amount replaces the projection. The guide’s models use the carried-forward amount in the Proposition 19 formula, and the <a href="questions.html">Questions register</a> records the February 2027 letter as a document to obtain.</p>')
 body+=section('Estate, gift and income tax',table(['Item','Official current information','Case-specific amount','Reference'],[
  ('Federal basic exclusion','<strong>$15,000,000</strong> for deaths in 2026; <strong>$15,480,000</strong> in 2027. Prior taxable gifts and an available transferred spousal exclusion may change the available amount.','— unverified',source('estate27')),
- ('Annual gift exclusion, 2026 and 2027','The IRS states the annual exclusion for gifts is <strong>$19,000</strong> per recipient for calendar 2026, rising to <strong>$20,000</strong> for calendar 2027, and that the first that amount given to any one person is not included in the total of taxable gifts made during the year. Rev. Proc. 2025-32 sets the 2026 figures, including the $15,000,000 basic exclusion. Gifts above the annual exclusion are what reduce lifetime capacity, which is why prior gifts belong in the inventory.','— a household fact; the annual amounts are official',source('estate27')+' · '+source('rp2532')),
- ('Gifts to a spouse who is not a U.S. citizen','The IRS states a separate, much larger annual exclusion for gifts to a non-citizen spouse: $194,000 for calendar 2026 and $201,000 for calendar 2027.','— only relevant if it applies; confirm with counsel',source('estate27')),
+ ('Annual gift exclusion, 2026 and 2027','The IRS states the annual exclusion for gifts is <strong>$19,000</strong> per recipient for calendar 2026, rising to <strong>$20,000</strong> for calendar 2027, and that the first that amount given to any one person (other than a future interest) is not included in the total of taxable gifts made during the year — Rev. Proc. 2025-32 §4.42(1) states the 2026 rule, and the 2026 basic exclusion of $15,000,000 comes from the same document. Gifts above the annual exclusion draw on the combined lifetime gift and estate exclusion, and adjusted taxable gifts are added back into the estate filing test.','— prior gifts are a household fact; the annual amounts are official',source('estate27')+' · '+source('rp2532')),
+ ('Gifts to a spouse who is not a U.S. citizen','The IRS states a separate, much larger annual exclusion for gifts to a non-citizen spouse: $194,000 for calendar 2026 and $201,000 for calendar 2027. The larger figure is the point: the unlimited marital deduction does not extend to a spouse who is not a U.S. citizen.','— only relevant if it applies; confirm with counsel',source('estate27')),
  ('Filing threshold versus taxable estate','The filing threshold generally tests the gross estate plus adjusted taxable gifts and certain exemption amounts. Deductions are relevant to taxable estate and tax, not a simple subtraction from the gross filing test.','— unverified',source('estate')),
  ('California','The Controller says no California estate-tax return is required for deaths on or after 1 January 2005. Other taxes, and taxes of other jurisdictions if relevant, are separate.','— unverified',source('ftb')),
  ('California income tax on a large gain','California taxes capital gains as ordinary income, with no preferential rate. The 2025 Form 540 rate schedules top out at 12.3% above $742,953 of taxable income (single) or $1,485,906 (joint). A further 1% Behavioral Health Services Tax applies on Form 540 line 62 to taxable income above $1,000,000, for any filing status, and the $1,000,000 threshold is not indexed. The top combined state marginal rate is 13.3% on the part above $1,000,000.','— unverified',source('ftbSchedule')+' · '+source('rtc17043')),
@@ -452,6 +618,7 @@ body+=section('California income tax on a large gain',
         ('Capital gains treatment','Taxed as ordinary income under the graduated California rate schedule; no preferential long-term rate',source('ftb540')),
         ('Behavioral Health Services Tax','1% of California taxable income above $1,000,000, Form 540 line 62; renamed from Mental Health Services Tax for taxable years beginning on or after 1 January 2025',source('ftb540')),
         ('2025 top bracket threshold','12.30% begins above $742,953 (single), $1,485,906 (married filing jointly), $1,010,417 (head of household)',source('ftbSchedule')),
+        ('Sensitivity used in the decision engine','Base 12.30% on a gain (the 12.30% band); sensitivity band 9.30% (the 9.30% band) to 13.30% (the slice above $1,000,000 of taxable income). The engine applies one flat rate, so it does not compute stacked brackets for a specific return.','Set from the FTB 2025 rate schedules and line-62 rule, read 16 Nov 2026. Not a forecast of any household’s tax.'+source('ftbSchedule')+' · '+source('ftb540')),
         ('Combined top marginal rate on a gain over $1,000,000','12.30% + 1.00% = 13.3% on the part above $1,000,000 of taxable income','Computed from the published FTB schedule and line-62 rule; not a separate published rate'+source('ftb540'))
     ])
     + '<p class="tiny">The FTB rate-schedule thresholds are published government amounts and are shown exactly rather than rounded to $10; the $10 rule applies to household and model amounts. The combined rate is a computation from those published figures, not an independently published rate.</p>'
@@ -481,7 +648,7 @@ body=section('A practical sequence',table(['When','Step','Why / caution','Offici
  ('Within one year, if seeking family-home relief','An eligible transferee must move into the home within one year; timely file the homeowners’ or disabled veterans’ exemption to obtain exclusion from the transfer date.','Delayed exemption claims can have prospective effect; confirm current rules and special cases.',source('prop19')),
  ('Claim the exclusion','File BOE-19-P or applicable claim generally within three years and before transfer to a third party. A claim can also be timely within six months of the applicable supplemental or escape assessment notice.','A missed or late filing can affect when relief begins.',source('prop19')),
  ('Value and account','Arrange qualified date-of-death valuations; list includible assets, debts, prior gifts, distributions and liquidity.','Basis and estate filing tests differ; already-owned heir assets are not automatically the decedent’s.',source('estate')),
- ('By applicable federal deadline','Determine if Form 706 is required or desirable for portability; check Form 1041 and final income returns.','An extension to file is not automatically an extension to pay; get advice.',source('estate')),
+ ('By applicable federal deadline','Determine if Form 706 is required or desirable for portability; check Form 1041 and final income returns.','An extension to file is not automatically an extension to pay; get advice.',source('estate')+' · '+source('i4768')),
  ('Only after the review','Compare sale, rental and occupancy on equal time horizons and after documented costs and taxes; follow trust authority and local rental rules.','Avoid irreversible action solely on illustrative projections.',source('rental')),
  ]))
 page('process','From trust to decision, step by step.','A checklist for a future transfer, not a substitute for the trust instrument, county instructions or professional advice.',body)
@@ -491,7 +658,7 @@ questions=[
  ('1','What type of trust, what powers and which beneficiaries?','Rule known: a trustee must serve written notification on the beneficiaries and heirs of a deceased settlor within 60 days of specified events, including a revocable trust becoming irrevocable because of a settlor’s death. The trust instrument, not the statute, sets the powers and the distribution timetable.','— unverified','Obtain signed trust and amendments privately; ask counsel about distribution powers.', 'Affects allocation, timing, tax and contest risk.','notice'),
  ('1','Does A qualify for an income-tax basis adjustment?','Rule known: inherited property generally takes its basis in the fair market value at the decedent’s death. Where property is not includible in the decedent’s gross estate, no basis adjustment applies — the IRS so held for the irrevocable-trust fact pattern in Rev. Rul. 2023-2.','— unverified','Ask a tax lawyer to assess title, estate inclusion and trust facts.', 'An unadjusted basis can change the sale analysis materially.','trustbasis'),
  ('1','Was A the transferor’s principal residence and can an eligible recipient occupy it on time?','Rule known: for a parent–child family-home transfer the transferee must make the home their principal residence within one year and claim the homeowners’ or disabled veterans’ exemption within that year, or the exclusion starts in the year the claim is filed. Renting the home out does not satisfy the family-home condition.','— unverified','Document residence and relationship; ask the county assessor about special circumstances.', 'Determines eligibility for family-home reassessment relief.','prop19'),
- ('1','What is the complete gross estate, prior taxable gifts, debts and available spousal exclusion?','Rule known: a return is required only if the gross estate plus adjusted taxable gifts and specific gift tax exemption exceeds the filing threshold, which is $15,000,000 for a 2026 death and $15,480,000 for a 2027 death. Gifts at or below the annual exclusion ($19,000 per recipient for 2026, $20,000 for 2027) are not counted as taxable gifts at all. Deductions bear on the taxable estate, not on that filing test. California requires no estate-tax return for deaths on or after 1 January 2005.','— unverified','Prepare a confidential estate inventory with advisers; include all relevant interests.', 'Determines filing and estate tax; no actual headroom can be calculated yet.','estate'),
+ ('1','What is the complete gross estate, prior taxable gifts, debts and available spousal exclusion?','Rule known: a return is required only if the gross estate plus adjusted taxable gifts and specific gift tax exemption exceeds the filing threshold, which is $15,000,000 for a 2026 death and $15,480,000 for a 2027 death. Gifts at or below the annual exclusion ($19,000 per recipient for 2026 under Rev. Proc. 2025-32 §4.42(1), $20,000 for 2027) are not counted as taxable gifts at all. Deductions bear on the taxable estate, not on that filing test. California requires no estate-tax return for deaths on or after 1 January 2005.','— unverified','Prepare a confidential estate inventory with advisers; include all relevant interests.', 'Determines filing and estate tax; no actual headroom can be calculated yet.','estate'),
  ('1','What is the property’s date-of-death fair market value?','Rule known: the basis is generally the fair market value at the date of death, or at the alternate valuation date if the executor elects it on Form 706. A qualified appraisal is how that value is established and documented.','— unverified','Obtain a qualified appraisal at the relevant date; retain private documentation.', 'Sets the usual basis and affects reassessment and sale proceeds.','basis'),
  ('1','Are there co-beneficiaries, equalization duties, debts or liens?','Rule known: the trust instrument, the lien records and the probate rules decide who may take property free of claims and when. No statute published on this site answers that for a particular trust.','— unverified','Review trust, loans, liens and distribution terms privately.', 'Could constrain the ability or timing to keep or sell.','notice'),
  ('1','What are the actual assessed values and parcel-specific tax rates?','Rule known: Proposition 13 caps annual assessed-value growth at 2% and limits the property tax rate to 1% plus voter-approved debt; a change in ownership generally sets base year value to market value, subject to exclusions. Where market value falls below the factored base year value, decline-in-value relief applies.','— unverified','Read county bill and tax-rate-area details for each property.', 'A simple percentage misses direct charges and reassessment timing.','prop13'),
@@ -517,7 +684,7 @@ body+=section('Can a decision reasonably be made yet?','''<div class="grid three
  <div class="card"><div class="eyebrow">Priority 1 · gates the decision</div><h3>'''+str(priority_counts['1'])+''' open</h3><p class="muted">Each can change the ranking between sell, rent and live, or miss a filing deadline.</p></div>
  <div class="card"><div class="eyebrow">Priority 2 · changes the numbers</div><h3>'''+str(priority_counts['2'])+''' open</h3><p class="muted">Cost, depreciation and preference inputs that move the result without usually moving the ranking.</p></div>
  <div class="card"><div class="eyebrow">Priority 3 · recheck at the time</div><h3>'''+str(priority_counts['3'])+''' open</h3><p class="muted">Law, prices and conditions that cannot be known now and must be rechecked near the event.</p></div>
-</div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one.</div>''')
+</div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one. Before the private model is run, also complete the <a href="precommit.html">pre-commitment register</a>: it fixes in writing, and dates, the condition that would make each path the household’s choice, so the outcome cannot be reverse-engineered from one projection.</div>''')
 body+=section('Questions, answers and discovery',table(['Priority','Question','Answer already known from official sources','Household answer','How to discover privately','Decision impact','Official framework'],[(a,b,c,d,e,f,source(g)) for a,b,c,d,e,f,g in questions]))
 
 # ---------------------------------------------------------------- discovery register
@@ -644,7 +811,7 @@ suggestions=[
 ('S18','Critical','Keep all household-derived figures out of the public analysis','Current publication uses synthetic inputs only. Do not restore household values to the public model, even if rounded; use a private, access-controlled analysis instead.','Prevents a financial series from being linked back to a household.','github'),
 ('S19','High','Add an imputed-rent input for living paths','Living paths currently credit no rent avoided. Add an input for the rent the owner would otherwise pay, from comparable leases or an official benchmark, and show the break-even beside it.','Living beats selling only when avoided rent passes a break-even; without the input the comparison is one-sided.','hud'),
 ('S20','High','Switch on the primary-residence exclusion for living-then-sell paths','The engine now has an optional exclusion, default zero so published figures are unchanged. After owner review, set the default, regenerate the examples and re-run the reference test.','Living-then-sell paths are otherwise taxed on the full gain, which overstates tax.','irs701'),
-('S21','High','Model Prop H with its official terms','If Property B costs are shown over time, apply the FY 2027–28 schedule, the inflation adjustment from FY 2028–29 and the end after 30 June 2042, unless the measure is renewed.','A flat amount understates later years and ignores the sunset.','sfMuni'),
+('S21','High','Model Prop H with its official terms','If Property B costs are shown over time, apply the FY 2027–28 schedule, the inflation adjustment from FY 2028–29 and the end on 30 June 2042 that SFMTA publishes. The billing rule (added to the regular property-tax bill, same two installments, from fall 2027) is read.','A flat amount understates later years and ignores the sunset.','sfMuni'),
 ('S22','Medium','Replace maintenance-as-a-percentage with cost inputs','Maintenance is now a share of market value, which rises with the house and can overstate upkeep on a high-value home. Use contractor quotes and an age-based schedule.','Maintenance is a large line over long horizons; its driver should be a cost, not a price.','rental'),
 ('S23','Medium','Carry the Proposition 19 allowance forward','Use each BOE letter after 15 February 2027 rather than holding the current amount flat.','The allowance is re-set every other February; a flat figure is a modeling limit.','allowance'),
 ('S24','Medium','Check the San Francisco tax composition on the bill','Read the secured tax bill and separate the base 1% levy from bonds and direct assessments before modeling Property B.','A tax-to-assessed ratio above the base levy needs an explanation before it is used.','sfTax'),
@@ -653,10 +820,13 @@ suggestions=[
  ('S27','High','Diarise the two Proposition 19 claim windows','Put the one-year homeowners’ exemption claim and the three-year BOE-19-P claim in the calendar, with the county form and any supplemental-notice date.','A missed claim window changes the property tax for decades, and it is the deadline the family controls outright.','boe'),
  ('S28','Medium','Run the private model on ranges rather than points','Replace each single assumption with the low and high of the band the Real conditions page now publishes for it, and report both outcomes wherever a single number appears today.','A point estimate invites false precision about an event years away; a band states the uncertainty honestly.','cbo'),
  ('S29','Medium','Move the privacy check to the door, not only to CI','Run scripts/privacy-gate.py in a pre-commit or pre-receive hook so an identifier or an un-rounded amount never reaches a pushed branch.','CI catches the problem after the push, which is when a search index can already see it.','github'),
- ('S30','High','Write the parking yield as a range in the investing policy, not as today’s rate','The recorded test shows a flat current-rate assumption flatters a 24-month park by about $17,610 per $100,000 at the 2008 entry, because bill yields fell from 1.40% to 0.15% during that parking window. State the policy as a yield band with a reinvestment date, and re-check the published yields at each roll.','A policy written against a spot rate overstates what the parked money will earn exactly when a crash makes parking look attractive.','dgs3m'),
- ('S31','Medium','Choose the parking maturity once, in writing, and stop re-deciding it monthly','On the record, holding parked proceeds at the 2-year note yield rather than rolling 3-month bills changed the ten-year result by at most about $11,620 per $100,000 and by roughly $2,700 at the median, while the entry date moved the result by tens of thousands. Pick one ladder in the policy, note the trade-off, and do not treat it as a market call.','It removes an argument that does not matter from a decision that does, and it keeps the plan from drifting into a rate forecast.','treasuryNotes'),
- ('S32','Medium','Add the entry-year test to the annual re-run','The recommendation-level question is not only what the plan earns but when the money goes in. Each year, re-run the Black swans entry test on the current data extract and record whether the conclusion moved, alongside the property and tax inputs.','Entry timing is the part of the sell path a household controls, and its evidence base changes as history accumulates.','dgs2'),
- ('S33','Low','Decide in writing whether a loss at the worst point is acceptable','The recorded test prices waiting at a median of about −$42,860 per $100,000 over ten years in exchange for a shallower drawdown that only pays off in the minority of entries. Agree the trade-off before the proceeds arrive, so the choice is not made under the influence of whichever month the money lands in.','It is the criterion the phasing decision actually turns on, and it cannot be read off a projection.','invest'),
+ ('S30','High','Bucket the per-parcel assessment history, do not only round it','$10 rounding does not defeat an exact-string search when a figure already ends in a zero. Three retained legacy files still print one 2020 assessed value that is a multiple of $10, and a November 2026 verification report printed three raw pre-rounding figures inside the sentence that claimed none were present; the report is now redacted and the gate catches every tracked file. Decide whether a per-parcel series is published at a coarser bucket or not at all.','A year-by-year assessment series identifies a parcel even when each number ends in a zero, and the repository is public and searchable at HEAD.','github'),
+ ('S31','High','Write the parking leg into the policy as a ladder, not a rate','Adopt the form the Black swans page now tests: proceeds held in a 3-month/2-year Treasury ladder for 24 to 36 months and phased in over 12, with the note leg sized only for money that will not be needed before month 24.','Bills alone reinvest the whole pot at whatever the crash did to short rates; the tested table shows the gap on the same wait.','treasuryBills'),
+ ('S32','Medium','Replace the assumed 2008 regain month with an official series','The entry-risk test carries 66 months as a labelled assumption because no official page re-opened in this review states when the S&P 500 regained its October 2007 level. Find a primary series, record it in the figure ledger and rebuild.','One row of the Black swans page rests on an assumption where the 1929 row rests on the record; the difference should not be invisible.','fed2008'),
+ ('S33','High','Write the parking yield as a range in the investing policy, not as today’s rate','The recorded test shows a flat current-rate assumption flatters a 24-month park by about $17,610 per $100,000 at the 2008 entry, because bill yields fell from 1.40% to 0.15% during that parking window. State the policy as a yield band with a reinvestment date, and re-check the published yields at each roll.','A policy written against a spot rate overstates what the parked money will earn exactly when a crash makes parking look attractive.','dgs3m'),
+ ('S34','Medium','Choose the parking maturity once, in writing, and stop re-deciding it monthly','On the record, holding parked proceeds at the 2-year note yield rather than rolling 3-month bills changed the ten-year result by at most about $11,620 per $100,000 and by roughly $2,700 at the median, while the entry date moved the result by tens of thousands. Pick one ladder in the policy, note the trade-off, and do not treat it as a market call.','It removes an argument that does not matter from a decision that does, and it keeps the plan from drifting into a rate forecast.','treasuryNotes'),
+ ('S35','Medium','Add the entry-year test to the annual re-run','The recommendation-level question is not only what the plan earns but when the money goes in. Each year, re-run the Black swans entry test on the current data extract and record whether the conclusion moved, alongside the property and tax inputs.','Entry timing is the part of the sell path a household controls, and its evidence base changes as history accumulates.','dgs2'),
+ ('S36','Low','Decide in writing whether a loss at the worst point is acceptable','The recorded test prices waiting at a median of about −$42,860 per $100,000 over ten years in exchange for a shallower drawdown that only pays off in the minority of entries. Agree the trade-off before the proceeds arrive, so the choice is not made under the influence of whichever month the money lands in.','It is the criterion the phasing decision actually turns on, and it cannot be read off a projection.','invest'),
 ]
 options='<option value="">Not decided</option><option value="consider">Consider</option><option value="defer">Defer</option><option value="decline">Decline</option>'
 rows=[(i,priority,title,action,reason,source(src),f'<select data-suggestion="{i}" aria-label="Choice for {i}">{options}</select>','— record decision and date offline') for i,priority,title,action,reason,src in suggestions]
@@ -690,14 +860,14 @@ body=section('Unresolved items',table(['Priority','Issue','Current treatment','N
  ('Medium','Santa Clara County installment dates not read from the county site','The timeline uses the state dates in RTC §2617 and §2618. The county page was not re-read, and secondary sites were not used as the source.','Confirm the county’s stated due dates on its official page.',source('county')),
  ('Low','Federal exclusion ledger label conflict — resolved 15 Nov 2026','Both ledger labels are supported: the Form 706 instructions (07/2026) state the basic exclusion amount is $15,000,000 for 2026, and the IRS estate-tax FAQ states the 2026 filing threshold is $15,000,000. Re-read on 15 Nov 2026.','Keep both labels; re-check annually for inflation adjustments.',source('irs706i')),
  ('Medium','Form 706 basic exclusion table and California estate-tax status','Neither was verified in this review. The guide states the federal filing threshold only.','Read the Form 706 instructions table and an official California source before stating either.',source('estate')),
- ('Medium','Reinvestment risk: no verified definition','The term appears as a label on the Black swans page, but no official definition has been captured.','Find an official definition before adding it to the glossary.',source('dca')),
+ ('Low','Reinvestment risk: definition captured — closed 16 Nov 2026','The Glossary now defines the term from the SEC page on callable or redeemable bonds, which states the reinvest-at-a-lower-rate risk directly, and the Black swans page prices it on a four-column table of assumed rate paths. The guide does not claim the SEC page defines the term as a heading, and does not quote an official figure for it.','Keep the wording tied to that page. Do not attribute a bond-ladder definition to the SEC that the page does not make.',source('secCallable')),
  ('High','Repository visibility is the real privacy control','The repository is public on GitHub (the API reports private=false as of 15 Nov 2026). The published guide contains no household record, but the retained analysis tree is still indexed by code search at HEAD even though Pages excludes it.','Owner action: make the repository private, or delete the retained legacy tree from the default branch. Both are one click and both are reversible only in part.',source('github')),
  ('Medium','A verified ledger record can still be missing from the page','This review found the figure ledger already carrying a verified three-year Proposition 19 claim deadline while the Timeline still described the period as unconfirmed. The Timeline now publishes it and both carry the 15 Nov 2026 access date.','Process note for reviewers: scripts/check-figures.py guards amounts, not prose, so a page can lag the ledger. Re-read both when an item is closed.',source('prop19')),
  ('Low','County transfer tax published for the first time','The Santa Clara County Clerk-Recorder page states the documentary transfer tax at 55 cents for each $500 of real property value with statutory exemptions to be cited on the document; the Taxes page now shows it, and no amount is asserted for a transfer at death.','Have counsel or the CPA decide whether an exemption applies and cite it on the instrument before recording.',source('scc-recording')),
- ('Medium','The recorded-history entry test cannot reach 1929','The Black swans page now replays the parking decision on actual prices and actual Treasury yields, but the 3-month constant-maturity series begins on 1 September 1981, so the test covers entry years 1982 to 2016 only. A 1929-style entry is shown solely by the template above it.','If a longer bill-rate history is wanted for a real policy, identify an official or documented series, re-read it, and re-verify every figure derived from it before publishing anything. Do not extend the window by assumption.',source('dgs3m')),
+ ('Medium','The recorded-history entry test cannot reach 1929','The Black swans page now replays the parking decision twice — once on the template shapes with the 1929 return-to-peak month the Federal Reserve states, once on actual prices and actual Treasury yields — but the 3-month constant-maturity series begins on 1 September 1981, so the recorded half covers entry years 1982 to 2016 only. A 1929-style entry has no recorded bill-yield path to be replayed on at all.','Quote only the shape the recorded test can actually reach, and keep the 1929 reading attached to the template and to the Federal Reserve’s own peak and recovery months.',source('dgs3m')),
  ('Medium','Year-end sampling understates within-year swings','The recorded test reads December observations, so 1987 shows a −5.1% year even though the same series fell 26.8% between its August 1987 monthly value and December, and 2008 shows −43.7% against the 57% peak-to-trough fall the Federal Reserve reports.','Read the frequency result from the recorded test and the depth result from the template test; do not combine the two into one number.',source('fed2008')+' · '+source('spIndex')),
  ('Medium','Dividend treatment is an assumption in the recorded test',_rh_div_note,'Settle the total-return convention with the adviser who writes the investing policy, and test the break-even rather than a single rate.',source('spIndex')+' · '+source('invest')),
- ('Medium','Crash shapes are illustrative, not index history','The 1929 and 2008 paths on the Black swans page are smooth templates built from the Federal Reserve’s peak-to-trough declines. The post-trough growth rates are assumptions.','Compare the templates with official index history before relying on exact figures.',source('fed1929')),
+ ('Medium','Crash shapes are illustrative, not index history — narrowed 16 Nov 2026','The Black swans page now runs the entry-risk test twice: once with growth from the trough at an assumed 4% to 8%, and once with the 1929 index returned to its pre-crash level in November 1954, the month the Federal Reserve states. The path between the anchors is still a smooth geometric interpolation, and the 2008 regain month (66) is an assumption of this site, not a published figure.','If a dated official index series is adopted for the trough-to-peak leg, record it in the figure ledger and rebuild; until then keep both shapes labelled as shapes, not as history.',source('fed1929')+' · '+source('fed2008')),
  ('Medium','Early-crash path and cycle row are assumptions','The first-three-years path on the Black swans page and the 10-year cycle shape are assumptions. The CPI series shows annual rates, not a cycle.','Keep the path labelled as illustrative; do not cite CPI as evidence of a cycle.',source('cpiHistory')),
  ('Critical','Prior property-history material is not included in this guide','The public analysis now uses synthetic examples only. The repository itself may retain earlier property-derived material in files, commits and external copies. No household table is reproduced here.','Restrict repository access and have an administrator assess current files, refs, pull requests, caches and forks.',source('github')),
  ('High','Primary-residence exclusion is not in the public calculator','The public calculator taxes living-then-sell paths on the full gain. The engine now has an optional exclusion, default zero, so published figures are unchanged.','Owner decision on the default (S20).',source('irs701')),
@@ -716,9 +886,12 @@ body+=AP.review_block(CTX)
 page('review','Flagged for review.','Unknown facts, modeling limitations and the remaining public-history privacy incident are visible here; none should be mistaken for a verified value.',body)
 
 sources=[
- ('Property tax','BOE Proposition 19','Qualifying transfers, value cap and timing.','boe'),('Property tax','BOE fact sheet','Move-in, exemption and claim filing details.','prop19'),('Property tax','BOE LTA 2025/009','Exact 2025–2027 allowance and adjustment cadence.','allowance'),('Property tax','BOE LTA 2025/023','Prop 13 assessment and rate mechanics.','prop13'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),('Property tax','Santa Clara County Assessor · glossary','Tax rate area definition, the 1% maximum basic rate plus voter-approved bonds, and flat direct charges, read 15 November 2026.','asrGlossary'),('Property tax','Santa Clara County Controller-Treasurer · Compilation of Tax Rates FY 2025–26','The rate book itself: 816 tax rate areas for FY 2025–26, the 1% levy plus voter-approved debt example, and every TRA’s exact rate by number, read 15 November 2026.','sccRateBook'),
- ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability.','estate'),
- ('Federal tax','IRS · Rev. Proc. 2025-32','The published inflation-adjustment procedure carrying the basic exclusion and the GST exemption to $15,000,000 for 2026, re-read 16 November 2026.','rp2532'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','State estate tax-return requirements.','ftb'),
+ ('Property tax','BOE Proposition 19','Qualifying transfers, value cap and timing.','boe'),('Property tax','BOE fact sheet','Move-in, exemption and claim filing details.','prop19'),('Property tax','BOE LTA 2025/009','Exact 2025–2027 allowance and adjustment cadence.','allowance'),('Property tax','BOE LTA 2025/023','Prop 13 assessment and rate mechanics.','prop13'),
+ ('Property tax','BOE LTA 2026/026','Proposition 19 exclusion Q&amp;A: claim windows, the six-month supplemental-notice rule, prospective-only relief after the deadlines, and continual-use removal, read 16 November 2026.','lta26026'),
+ ('Property tax','BOE 2026 Letters to Assessors index','Confirms 2026/026 is the current published exclusion Q&amp;A and lists the 2026 letters, read 16 November 2026.','boe2026'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),('Property tax','Santa Clara County Assessor · glossary','Tax rate area definition, the 1% maximum basic rate plus voter-approved bonds, and flat direct charges, read 15 November 2026.','asrGlossary'),('Property tax','Santa Clara County Controller-Treasurer · Compilation of Tax Rates FY 2025–26','The rate book itself: 816 tax rate areas for FY 2025–26, the 1% levy plus voter-approved debt example, and every TRA’s exact rate by number, read 15 November 2026.','sccRateBook'),
+ ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability. Filing-threshold table re-read 16 November 2026 (2026: $15,000,000).','estate'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS Rev. Proc. 2025-32','The 2026 annual gift exclusion of $19,000 per recipient (§4.42(1)), read 16 November 2026.','rp2532'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','No California estate-tax return for deaths on or after 1 January 2005; inheritance tax only before 8 June 1982, re-read 16 November 2026.','ftb'),
+ ('Federal tax','IRS · Rev. Proc. 2025-32','The published inflation-adjustment procedure carrying the basic exclusion and the GST exemption to $15,000,000 for 2026 and stating the $19,000 annual gift exclusion, re-read 16 November 2026.','rp2532'),
+ ('California tax','FTB 2025 Instructions for Form 540','Line 62 Behavioral Health Services Tax worksheet (1% above $1,000,000 taxable income), read 16 November 2026.','ftb540'),
  ('Administration','Probate Code §16061.7','When trustee notification is required.','notice'),
  ('Administration','26 U.S.C. §6072 (Cornell LII copy)','The statutory due date for an estate or trust income-tax return, read 15 November 2026.','usc6072'),
  ('Local recording','Santa Clara County Clerk-Recorder · Recording real estate','Documentary transfer tax rate, exemption citation requirement, and the fee for a missing change-of-ownership report, read 15 November 2026.','scc-recording'),
@@ -729,7 +902,7 @@ sources=[
  ('Risk','CBO','2026–2036 economic baseline; not a 50-year property forecast.','cbo'),('Risk','BLS','Recorded 2022 CPI and electricity inflation.','bls'),('Risk','FHFA','House-price index data and methods.','hpi'),('Risk','USGS','Bay Area earthquake outlook 2014–2043.','usgs'),('Risk','SEC Investor.gov','Diversification and investing risks.','invest'),('Risk','FDIC','Deposit insurance categories and limits.','fdic'),('Investment','TreasuryDirect bills','Bill maturities, redemption and federal/state/local tax treatment.','treasuryBills'),('Investment','TreasuryDirect notes','2-year notes and marketable security terms.','treasuryNotes'),('Investment','TreasuryDirect pricing','Market-price variation with yield and interest rate.','treasuryPricing'),('Law watch','Congress.gov','Federal H.R. 1301 bill status.','hr1301'),('Law watch','California Legislature','SB 284 status and history.','sb284'),('Privacy','GitHub documentation','Removal, PR references and copies.','github'),
  ('Privacy','GitHub Docs · setting repository visibility','What GitHub states happens to a published Pages site and to public forks when a public repository becomes private, re-read 16 November 2026.','ghVisibility'),
 ]
-body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register was re-opened and the wording the guide attributes to it was checked on the date recorded for it: 13 or 14 November 2026 for the earlier rows, 15 November 2026 for the rows that review added or closed, and 16 November 2026 for the recorded-yield and share-price series behind the Black swans entry test, which also carry that date in the public figure ledger. Recheck the underlying documents and date-specific details before relying on them.</div>'
+body+='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register was re-opened and the wording the guide attributes to it was checked on the date recorded for it: 13 or 14 November 2026 for the earlier rows, 15 November 2026 for the rows that review added or closed, and 16 November 2026 for the rows added with the pre-commitment register, the Rev. Proc. 2025-32 row, the recorded-yield and share-price series behind the Black swans entry test, the estate, Form 540 and Proposition 19 pages, and the two GitHub privacy procedure pages, which also carry that date in the public figure ledger. Recheck the underlying documents and date-specific details before relying on them.</div>'
 sources+=AP.SOURCES_ADD
 body+=section('Source register',table(['Category','Agency or source','What it supports','Official link'],[(a,b,c,source(d)) for a,b,c,d in sources]))
 body+=section('How each official figure was checked',table(['Check','What it does','What it does not do','Official context'],[
@@ -766,7 +939,7 @@ body+=section('Limitations that can change the answer',table(['Omission or assum
  ('Insurance and utilities','Flat annual inflation is not an insurance quote or rate forecast. Solar credit is set to zero solely in this invented case.',source('cdi')),
  ('Housing choice','No value for occupying A or any income from changing B’s occupancy; the heir’s preferences are missing.',source('invest')),
  ]))
-body+=section('Distribution of outcomes across stress tests','<p>Each row shows the spread between the best and worst outcome for a path across the four stress tests at a given horizon. A wider spread means the path’s result depends more on which economic conditions arrive; a narrower spread means the path is more robust to conditions. Values are illustrative model outputs on the public example inputs, rounded to the nearest $10, not forecasts.</p><div class="table-wrap"><table><thead><tr><th scope="col">Path</th><th scope="col">Horizon 10 years</th><th scope="col">Horizon 25 years</th><th scope="col">Horizon 50 years</th><th scope="col">Reading</th></tr></thead><tbody id="distribution"></tbody></table></div><p class="tiny">Spreads are computed from the same scenario grid as the comparison table: baseline, 1929-style crash, 2008-style crash and 1970s-style stagflation. The stress page tests every year of a 50-year path under each shock. This section is a labelled skeleton; the full distribution across the four scenarios is drawn on the <a href="paths.html">Paths page</a> from the same scenario grid as the comparison above.</p>','Distribution')
+body+=section('Distribution of outcomes across stress tests','<p>Each cell opens the single number in the comparison above into the scenario band it came from: the best of the four stress tests, the worst, and the spread between them. A wide spread means the path is exposed to which economic conditions arrive; a narrow spread means the conditions change the answer less. All values are model outputs on the synthetic example inputs, rounded to the nearest $10. None of them is a forecast and no probability is attached to any scenario.</p>'+AP.distribution_body(CTX)+'<p class="tiny">Scenarios: baseline, a 1929-style crash, a 2008-style crash and 1970s-style stagflation, taken from the same grid as the comparison above and the chart on the <a href="paths.html">Paths page</a>. A horizon is years after the modelled transfer. The Black swans page tests every year of the 50-year path under each shock, and its ladder test prices the wait for proceeds that come from a sale.</p>','Distribution')
 page('decision','Compare the options, not just a number.','A transparent illustrative live-versus-rent-versus-sell comparison on synthetic inputs, with year-by-year example property and operating-cost tables.',body,['guide/data/model.js','guide/data/decision-page.js'])
 
 body='''<div class="callout warning"><strong>Not forecasts or probabilities.</strong> These fictional paths apply to a fictional 2045 transfer and end in 2095. They illustrate sensitivity and sequence risk; they do not predict returns, insurance losses or home values.</div>'''
@@ -787,10 +960,11 @@ body+=section('Five paths',table(['Path','Synthetic shocks','Context only'],[
 body+=section('Black-swan sale-proceeds path: phase into stocks','''<p><strong>Question:</strong> if a fictional heir sells at transfer, does holding net proceeds in a short U.S. Treasury ladder for 24 or 36 months, then moving into stocks over 12 months, reduce the damage from an early crash compared with investing immediately? Choose a waiting period and a flat annual Treasury-return proxy. The model runs the choice through all five paths; the early and late crash comparisons are highlighted.</p><div class="controls"><label for="phase-months">Treasury parking period<select id="phase-months"><option value="24">24 months</option><option value="36">36 months</option></select></label><label for="treasury-proxy">Illustrative annual Treasury return<select id="treasury-proxy"><option value="0.01">1% proxy</option><option value="0.03" selected>3% proxy</option><option value="0.05">5% proxy</option></select></label></div><div class="callout warning"><strong>Reinvestment and duration risk belong beside the headline.</strong> Treasury bills mature in 4–52 weeks (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-bills/" rel="noopener noreferrer">TreasuryDirect bills ↗</a>); Treasury notes include 2-year securities (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-notes/" rel="noopener noreferrer">TreasuryDirect notes ↗</a>). A ladder therefore returns principal at different dates, and maturing proceeds must be reinvested at then-available yields. The 1%, 3% and 5% rates here are invented flat sensitivities, not current yields or forecasts; the model does not simulate individual maturities, taxes, fees, changing rates, market-price losses on early sale, or inflation surprises. A fixed-income position can lose purchasing power, and its market value can fluctuate if sold before maturity (<a href="https://www.treasurydirect.gov/marketable-securities/understanding-pricing/" rel="noopener noreferrer">TreasuryDirect pricing ↗</a>). Treasury interest is federally taxable and generally exempt from state and local income taxes (<a href="https://www.treasurydirect.gov/marketable-securities/treasury-bills/" rel="noopener noreferrer">TreasuryDirect tax treatment ↗</a>); obtain tax advice for actual holdings.</div><p>The phase-in is an explicit simplifying assumption: after the selected wait, half of the portfolio earns that year’s scenario stock return and half earns the Treasury proxy for one year; it is fully in the stock proxy the following year. This is annual arithmetic, not a quarterly trading schedule. No probabilities are assigned. The stress path is not a historical replay of 1929 or 2008.</p><div class="table-wrap"><table><thead><tr><th scope="col">Path / selected plan</th><th scope="col">Immediate stock investment at endpoint · nominal / real</th><th scope="col">Treasury parking + phase-in · nominal / real</th><th scope="col">Phased minus immediate · nominal / real</th><th scope="col">Source context</th></tr></thead><tbody id="phase-summary"></tbody></table></div><h3>Crash windows: early-entry years 1–6 and late-entry years 45–50</h3><div class="table-wrap"><table><thead><tr><th scope="col">Path / year</th><th scope="col">Scenario stock return</th><th scope="col">Treasury proxy</th><th scope="col">Stock exposure in phase path</th><th scope="col">Immediate · nominal</th><th scope="col">Phased · nominal</th><th scope="col">Difference</th><th scope="col">Source context</th></tr></thead><tbody id="phase-years"></tbody></table></div>''')
 body+=section('Same-endpoint property strategies','''<p>The starting 2045 property value, rent, costs, sale fee and tax rates come from the <a href="decision.html">default fictional example</a>, not the comparison page’s current control selections. After 2045, rent grows 2.5% and vacancy is 5% except during listed shocks. Water and insurance follow each path’s inflation, plus the listed premium shocks; maintenance follows modeled home value. B is treated the same across choices and is not included. No estate-tax payment or financing is modeled.</p><p>Nominal amounts are rounded to $10. Real figures are divided by cumulative inflation and expressed in 2045 dollars. Living results omit the value of housing services; negative reserves assume externally funded costs.</p><div class="table-wrap"><table><thead><tr><th scope="col">Scenario</th><th scope="col">Sell · nominal / real</th><th scope="col">Rent · nominal / real</th><th scope="col">Live · nominal / real</th><th scope="col">Context only</th></tr></thead><tbody id="stress-results"></tbody></table></div>''')
 body+=PHASED_SECTION_HTML
+body+=PEAK_SECTION_HTML
 body+=RECORDED_SECTION_HTML
 
 body+=section('Audit every year','''<p>Expand a path to inspect all 50 annual rates and outputs. The model caps annual factor growth at 2% and uses the lesser of market value and factored base as a simplified decline-in-value proxy; actual lien dates, assessment appeals, new construction and supplemental bills are not modeled. The disaster repair is charged to both property-holding strategies. Each portfolio rate is a hypothetical net proxy with no separate liquidation tax. Income tax on positive rental cash is a flat scenario; depreciation and recapture are omitted.</p><div id="stress-years"></div>''')
-page('stress','A straight line is not a forecast.','Five variable 50-year scenarios put inflation, investment returns, housing cycles and an uninsured disaster into the same comparison.',body,['guide/data/model.js','guide/data/stress.js','guide/data/stress-page.js'])
+page('stress','A straight line is not a forecast.','Five variable 50-year scenarios put inflation, investment returns, housing cycles and an uninsured disaster into the same comparison. A second entry-risk test parks the proceeds in a 3-month/2-year Treasury ladder and runs it against a 1929 recovery shaped by the official record.',body,['guide/data/model.js','guide/data/stress.js','guide/data/stress-page.js'])
 
 # ---------------------------------------------------------------- real conditions
 body='<div class="callout warning"><strong>Observed history, stated as history.</strong> Every figure on this page is a published official statistic, or a statistic this site computed from a published series with the arithmetic shown. None of it is a forecast. The scenario bands further down are invented planning assumptions, clearly labelled, and they are not predictions.</div>'
@@ -857,8 +1031,8 @@ body+=section('Agree the rules in writing before the figures arrive','<div class
 body+=section('Documented investing policy for the sale proceeds','<p>The sale proceeds should not sit in one account or be moved all at once into stocks. A written policy, agreed before the money arrives, keeps the decision from being reverse-engineered from a single projection:</p>'+table([
     'Policy element','What it says','Why it matters','Official reference'
 ],[
- ('Parking the proceeds','Hold the net sale proceeds in short U.S. Treasury securities (bills or notes) while the trust, basis and Proposition 19 facts are confirmed. Do not leave them in an uninsured or non-interest-bearing account.','Short Treasury maturities return principal at known dates; maturing cash must be reinvested at then-available yields (reinvestment risk).',source('treasuryBills')+' · '+source('treasuryNotes')+' · '+source('treasuryPricing')),
- ('Phasing into stocks','Move into a diversified portfolio gradually rather than at one price. A phased entry softens a 1929- or 2008-style crash at the entry point; the cost is lower growth in a sustained rally.','Phasing changes the price paid for the proceeds; it is a choice about which risk to carry, not a forecast.',source('fed1929')+' · '+source('fed2008')),
+ ('Parking the proceeds','Hold the net sale proceeds in short U.S. Treasury securities while the trust, basis and Proposition 19 facts are confirmed — as the tested policy, a ladder: part in three-month bills, part in a two-year note held to maturity sized only for money not needed before month 24. Do not leave them in an uninsured or non-interest-bearing account.','Short Treasury maturities return principal at known dates; maturing cash must be reinvested at then-available yields (reinvestment risk), which the parking table on the Black swans page prices for a 24- and a 36-month wait.',source('treasuryBills')+' · '+source('treasuryNotes')+' · '+source('treasuryPricing')),
+ ('Phasing into stocks','Move into a diversified portfolio gradually rather than at one price. A phased entry softens a 1929- or 2008-style crash at the entry point; the cost is lower growth in a sustained rally. Read the cost beside the months under water, not only the terminal value: the 1929 record is a 303-month wait to regain a high, which a single ending number hides.','Phasing changes the price paid for the proceeds; it is a choice about which risk to carry, not a forecast. Both readings are on the Black swans page.',source('fed1929')+' · '+source('fed2008')),
  ('Diversification','Do not concentrate the proceeds back into a single home or a single holding. Spread across asset classes and keep the rentals and any inherited home as only part of the total portfolio.','Diversification can reduce certain risks but neither guarantees returns nor prevents loss.',source('invest')),
  ('Liquidity first','Keep enough in insured deposits or short Treasury bills to cover taxes, insurance, maintenance and any estate-liquidity need before committing the rest to markets.','Insured deposits are protected up to the statutory limit per institution per ownership category.',source('fdic')),
  ('Review annually','Re-run the model every year with updated inputs, costs and law changes. A policy set once is not a plan kept.','Changing growth, inflation, tax and rent figures can move the ranking.',source('cbo')),
@@ -908,9 +1082,13 @@ GLOSSARY=[
  ('Tax rate area (TRA)','A specific geographic area all of whose territory lies within the same combination of local agencies for the fiscal year. Santa Clara County has over 3,200 TRAs, each with a unique number and its own total rate.','The parcel’s TRA decides which voter-approved debt rates are added to the 1% base rate on the bill.',source('asrGlossary')),
  ('Residential rental property','IRS Publication 527 is titled Residential Rental Property; the guide does not restate its rules.','Relevant to Property B, which the planning premise treats as rented.',source('rental')),
  ('Treasury par yield (Constant Maturity)','The yield the U.S. Treasury publishes for a given maturity, derived from the daily par yield curve. Used here for the 3-month and 2-year rates.','The observed parking yields on 13 November 2026 come from this series.',source('treasury')),
+ ('Reinvestment risk','The risk that money which becomes available later has to be put to work at a lower rate than it was earning. The SEC states it for an investor whose bond is called early: they are "often faced with reinvesting the money at a lower, less attractive rate".','A ladder of three-month bills is exposed to this in exactly the way a two-year note held to maturity is not. The two middle columns of the parking table on the Black swans page are the risk, priced.',source('secCallable')),
+ ('Treasury ladder (bills plus a note)','Holding part of the cash in short bills that reprice every quarter and part in a longer note held to maturity, so some money is always coming back and part of the rate is always locked. TreasuryDirect sells bills for four to 52 weeks and notes for 2, 3, 5, 7 or 10 years.','The investing policy on What decides it and the parking table on the Black swans page both use a 3-month/2-year split.',source('treasuryBills')+' · '+source('treasuryNotes')),
+ ('Months under water','The count of months in which a portfolio is worth less than the amount put into it. A terminal value reports where you ended; this reports how long you had to wait to get there.','The entry-risk table on the Black swans page uses it, because the 1929 record is a 303-month wait to regain the high rather than a shallow dip.',source('fed1929')),
+ ('Return-to-peak recovery shape','A stress shape in which the index is returned to its pre-crash level at the month the record says that happened, and only then grows at an assumed rate — instead of growing away from the low at that rate all along.','It is the second version of the entry-risk test, and it is what turns 1929 from a decline into a duration.',source('fed1929')+' · '+source('fed2008')),
 ]
 
-body=section('Terms used in this guide',table(['Term','Plain meaning','Why it matters here','Official source'],[(a,b,c,d) for a,b,c,d in GLOSSARY])+'<p class="tiny">Each term links to an official page. Definitions are plain-language summaries of the page named in the source column, not legal advice. Reinvestment risk is used on the Black swans page as a label; no official definition has been captured yet, so it is not defined here. See Flagged for Review.</p>')
+body=section('Terms used in this guide',table(['Term','Plain meaning','Why it matters here','Official source'],[(a,b,c,d) for a,b,c,d in GLOSSARY])+'<p class="tiny">Each term links to an official page. Definitions are plain-language summaries of the page named in the source column, not legal advice. Reinvestment risk, the ladder, the under-water count and the two recovery shapes were added to this glossary on 16 November 2026 with the official pages they rest on.</p>')
 page('glossary','Plain words for the decision.','Terms that recur across the guide, each with the official page it comes from. Use them to read the Compare, Black swans and Trust steps pages.',body)
 
 # ---- Timeline: dated deadlines in order, each opened on an official page on 14 Nov 2026 ----
@@ -918,14 +1096,170 @@ body=section('When each deadline falls',table(['When (from the event)','Deadline
  ('Day 0 · date of death','Valuation date for the federal estate accounting and the date-of-death value used for basis.','Executor or trustee; qualified appraiser','Every later figure in the Trust steps depends on documenting this value.',source('estate')+' · '+source('basis')),
  ('Within 60 days following the triggering event','Trustee notification to beneficiaries and heirs (Probate Code §16061.7(f)), subject to the section’s exceptions.','Trustee','Runs on its own clock. Not every trust triggers it; the guide does not assume that it does.',source('notice')),
  ('Within 150 days after death','Change-in-ownership statement for real property transferred by reason of death, including through a trust (RTC §480(b)).','Trustee, or transferee, with the county recorder or assessor where the property lies','The relevant county filing depends on the property location and title; confirm the county and form with counsel.',source('rtc480')),
- ('Within 9 months after death','Form 706 due, if a return is required; the IRS states the due date as 9 months after the date of death.','Executor, with the CPA','Required only above the federal filing threshold ($15,000,000 for a 2026 death). Form 4768 gives an automatic 6-month extension of time to file.',source('irs706i')),
+ ('Within 9 months after death','Form 706 due, if a return is required. The estate and GST taxes are due within 9 months of the date of death. Form 4768, filed by that original due date, gives an automatic 6-month extension of time to file. A separate Form 4768 request under Part III extends the time to pay; an extension to file does not extend the time to pay.','Executor, with the CPA','Required only above the federal filing threshold ($15,000,000 for a 2026 death). Interest runs on estate tax not paid by the original due date, whether or not an extension is granted.',source('irs706i')+' · '+source('i4768')),
  ('Each year: 1 November, first installment','Property-tax first installment for the secured tax year. Delinquent after 5 p.m. on 10 December, with a 10 percent penalty.','Owner or trustee','Applies to the bill on either property. The bill amount is not in this guide because it is a private figure.',source('rtc2617')),
  ('Within 1 year after the transfer','File for the homeowners’ exemption on the family home received by a parent or child (BOE-266 or BOE-261-G) and occupy it as a principal residence. The Board’s comparison chart states the one-year period; Publication 801 states that a later claim starts the exclusion in the year it is filed.','Transferee, with the county assessor','Missing it does not void the transfer; it delays when the protected base year value begins, and the value limit applies from the start. Re-read 15 Nov 2026.',source('boe')+' · '+source('prop19')),
  ('Within 3 years after the transfer, or before a transfer to a third party','File Form BOE-19-P, the claim for the parent-to-child reassessment exclusion, with the county assessor. The Board states the same three-year period, and Publication 801 adds that a claim filed within six months after a supplemental or escape assessment notice is also timely.','Transferee, with the county assessor','A late claim can still grant relief but only from the year it is filed. Re-read 15 Nov 2026.',source('boe')+' · '+source('prop19')),
  ('15th day of the 4th month after the tax year closes','Form 1041, the income tax return of the estate or trust. 26 U.S.C. §6072(a) sets that date: 15 April for a return made on the basis of the calendar year, and the 15th day of the fourth month after the close of a fiscal year.','Fiduciary, with the CPA','An estate can choose a fiscal year that ends up to twelve months after death, which moves this date. The Form 1041 instructions were not re-read, so confirm the year-end convention with the CPA.',source('usc6072')),
  ('Each year: 1 February, second installment','Property-tax second installment. Delinquent after 5 p.m. on 10 April, with a 10 percent penalty.','Owner or trustee','Same bill as above; missing either date adds a penalty.',source('rtc2618')),
+ ('Fall 2027 · FY 2027–28 bill (San Francisco parcels only)','Proposition H parcel tax first appears on the regular property-tax bill and is paid in the same two installments. SFMTA states the tax runs from 1 July 2027 through 30 June 2042, with inflation adjustments from FY 2028–29.','Owner or trustee of a San Francisco parcel','Applies to Property B only if its parcel type and taxable building area fall within the schedule. The amount for Property B is not computed here.',source('sfMuni')),
 ]),'Dated steps')
+body+='<div class="callout warning"><strong>Not on this timeline yet.</strong> The fiscal-year convention a decedent’s estate may elect on Form 1041 has not been read from the governing official text in this review. It stays blank and is listed on the Flagged page rather than filled from a secondary site.</div>'
 body+='<div class="callout warning"><strong>Not on this timeline yet.</strong> The San Francisco parcel-tax billing date, the Form 4768 extension mechanics and the fiscal-year convention a decedent’s estate may elect on Form 1041 have not been read from the governing official text in this review. They stay blank and are listed on the Flagged page rather than filled from a secondary site.</div>'
+# ---- Pre-commitment register: written, dated conditions set before figures arrive (added 16 Nov 2026) ----
+def money0(v):
+    return '$' + f'{v:,.0f}'
+
+_pre_rows = [
+ ('LIVE','Choose living in [PROPERTY A]','T1 · an occupancy decision','Written and dated by the household before any branch of the private model is run.',
+  'A verified written opinion says the qualifying transferee can make the home their principal residence within the statutory year; the household sets, in writing and in advance, the number of years it intends to live there, and every assumption in the private model is fixed and dated on the same day.',
+  'In advance: the written occupancy intention and the claim calendar. Falsified if the year passes with no homeowners’ exemption claim filed and a supplemental assessment is enrolled.',
+  'Signing it before the figures exist is the only way the choice can be read forward from stated values rather than backward from a favourable projection.',
+  'boe', ['prop19','lta26026']),
+ ('LIVE','Choose living in [PROPERTY A]','T2 · family-home relief survives','Written and dated before the private model is run.',
+  'A written assessor determination (or counsel’s opinion on the claim) confirms the exclusion, and at least one full assessment year passes with the claim intact.',
+  'Falsified at the first lien date after the qualifying transferee stops being eligible: the Board states the exclusion is then removed and the new base-year value enrolled. The claim itself must be timely — forms BOE-266 or BOE-261-G within one year — or relief begins only in the year the exemption claim is filed.',
+  'If relief falls away the annual cost of the same home changes for decades, which is the largest single number in the live column.',
+  'lta26026', ['boe','rtc480']),
+ ('LIVE','Choose living in [PROPERTY A]','T3 · rent break-even','No threshold at all: the break-even is a model output the household may set before or after a projection, provided it is written and dated first.',
+  'A verified avoided rent, in what the household would otherwise pay for equivalent housing, with three or more comparable leases on file. HUD small-area fair market rents are voucher payment standards, not market or lawful rents, so they are a floor check only.',
+  'Reopens at every lease renewal and at any local-law change.',
+  'Avoided rent is the value living earns and the model cannot see it; writing the comparison first prevents an unstated preference from being dressed as arithmetic. Where the break-even that crosses the rent line is not computed on the published site, no number is stated here.',
+  'hud', ['invest']),
+ ('RENT','Choose renting [PROPERTY A] out','T4 · rent floor','Set before the private model is run, from comparable leases only.',
+  'At least three usable comparable leases and a written break-even: the gross monthly rent at which the rental covers its own full costs, before financing and income tax, in today’s money. A voucher benchmark is not a comparable lease.',
+  'Reopens if two successive comparable quarters fall below the break-even.',
+  'A rent achieved in a good quarter is not a policy; the floor is what makes the choice falsifiable, and only a lease can support it.',
+  'hud', ['sfRent']),
+ ('RENT','Choose renting [PROPERTY A] out','T5 · assessed value and tax','Set before the first projection.',
+  'The reconstructed or reassessed assessed value and the tax-rate-area method are agreed in writing before the projection, and the first real secured bill is checked against the projection. The county rate book is published one fiscal year at a time; use the book for the tax year being modelled.',
+  'Reopens if the actual bill differs from the projection by a stated margin, or if decline-in-value relief applies.',
+  'The property-tax line is large and parcel-specific; an unverified rate silently moves every year of the comparison.',
+  'prop13', ['sccRateBook','prop13factor']),
+ ('RENT','Choose renting [PROPERTY A] out','T6 · insurance quote','Set before the private model is run.',
+  'A binding quote for the correct product — owner-occupied or landlord form, with or without earthquake cover — with the deductible and exclusions in writing. A regulatory survey is not a quote.',
+  'Reopens at every renewal and after any loss or local hazard change.',
+  'A regulatory survey cannot price this parcel; the deductible, not the premium alone, decides whether a loss is a balance-sheet event.',
+  'cdi', ['cdieq','fairplan']),
+ ('RENT','Choose renting [PROPERTY A] out','T7 · leases and local rules verified','Set before trusting any rent figure.',
+  'The leases, occupancy, rent-control coverage and local rules for [PROPERTY B] are checked against primary documents, and the lawful rent for the household’s own use is settled in writing.',
+  'Reopens on enactment of any measure the Rent Board has noticed, and at each annual increase window.',
+  'B is already owned; its lawful rents and its rules set the baseline the A decision is measured against, and proposed rules are not law.',
+  'sfRent', ['sfMuni']),
+ ('SELL','Choose selling [PROPERTY A]','T8 · same-year sale, with basis and gain','Set before the private model is run.',
+  'A sale is modelled in the same tax year as the transfer, because inherited basis is generally fair market value at the date of death, so a same-year sale has little or no gain by construction; that line is written down before any multi-year projection.',
+  'Reopens if the transaction slips into a later tax year.',
+  'Fixing the basis and the gain first is what stops a long projection from being used to justify a sale whose tax was never computed.',
+  'basis', ['irs701']),
+ ('SELL','Choose selling [PROPERTY A]','T9 · like-kind exchange and transfer tax settled','In writing, before any listing.',
+  'The written record says whether a like-kind exchange is wanted and available — the statute reaches real property exchanged for like property, identified within 45 days and completed within 180 days, so proceeds reinvested in stocks cannot use it — and whether any documentary transfer tax exemption applies, which the county requires the instrument itself to cite.',
+  'Reopens if the buyer or the timing makes an exchange possible, or if the exemption is refused at recording.',
+  'An unstated preference here changes the whole tax treatment and the closing statement of the sale.',
+  'usc1031', ['scc-recording','rtc11911']),
+ ('SELL','Choose selling [PROPERTY A]','T10 · estate liquidity and portability','Answered privately by counsel and the CPA before any sale decision.',
+  'A written answer on whether a return is required (gross estate plus adjusted taxable gifts against the threshold), whether portability is wanted, and how any tax would be paid without a forced sale.',
+  'Reopens only if the estate changes materially before the transfer.',
+  'Estate tax and portability can force or forbid a sale regardless of the ranking.',
+  'estate', ['i706','usc6075']),
+ ('SELL','Choose selling [PROPERTY A]','T11 · investment policy in writing','Written and dated before the money arrives.',
+  'A short written policy states the allocation, the liquidity reserve, the deposit-insurance plan and the staged-entry rule; the private model’s return assumption is the policy’s expected return, not a hoped-for one.',
+  'Reopens annually and after any change in the household’s needs.',
+  'The return assumption does most of the work in every sell result; without a policy it is a guess dressed as a plan.',
+  'invest', ['fdic','treasuryBills']),
+ ('MIXED','Choose a mixed path','T12 · the written hybrid rule','Written and dated before the model is run.',
+  'The household writes its hybrid rule first — for example: live in the home for a stated number of years and then sell if a stated condition is met — and the year, and only then compares it with the pure paths on the same dates.',
+  'Reopens at the stated review date and at the trigger itself.',
+  'A mixed path chosen after the numbers is just the best-fitting line from one projection.',
+  'boe', ['irs701','basis']),
+ ('ANY','Choose any path','T13 · a falsifier per path, filed with the decision','Written before the first projection and reviewed at the review date.',
+  'Each path carries the observable event that would void it — a lost exemption claim, an unreachable rent floor, a tax year that slips, a return that misses policy.',
+  'Reviewed at the written review date and whenever a falsifier fires.',
+  'A choice that cannot be shown false is not a decision; it is a preference with a spreadsheet attached.',
+  'invest', []),
+]
+
+def _pre_rows_render():
+    out = []
+    for path, decision, test, when, rule, falsifier, why, src, extra in _pre_rows:
+        official = source(src) + (''.join(' · ' + source(k) for k in extra) if extra else '')
+        out.append((path, decision, test, when, rule, falsifier, why, official))
+    return out
+
+_rent_test = table(
+ ['Rent test, first full year after a living choice', 'Amount', 'What it is', 'Official context'],
+ [
+  ('Housing the household would otherwise rent', '— private comparable rent required', 'Avoided rent, verified from comparable leases; not published.', source('hud')),
+  ('[PROPERTY A] rent the property could earn instead', '— private comparables required', 'The other side of the same choice; not published.', source('hud')),
+  ('Break-even rent at which living and renting equal', '— to be computed privately', 'The crossing point, written down before any projection is run.', source('invest')),
+ ],
+) + '<p class="tiny">No threshold on this page is a recommendation and none carries a dollar figure. Each is a written, dated condition the household sets for itself before the numbers are computed, using the private comparables and adviser letters that the Questions register names. Where a crossing point is not computed on this page, the cell stays blank rather than being inferred.</p>'
+
+body = ('<div class="callout warning"><strong>Why this page exists.</strong> The brief asks that the household agree, in writing and in advance, on what would make it choose each path — so that the outcome cannot be reverse-engineered from one favourable projection. A model cannot do that for you, and this page does not pretend to. It sets out, for every path, the condition to write down first, the falsifier that would void it, and the official rule the condition rests on. Every threshold cell is deliberately blank: filling one in from this public site would be a recommendation.</div>'
+ '<div class="callout"><strong>Sign first, then compute.</strong> Write the register on paper or in a private file, date it, and only then run the private model on verified inputs. A condition written after the figures are visible is not a pre-commitment, and a mix chosen after the numbers is just the best-fitting line from one projection.</div>')
+
+body += section('The conditions, by path', table(
+ ['Path', 'The decision being pre-committed', 'Test', 'When it must be written', 'The condition to write down first', 'Falsifier that voids it', 'Why it must precede the figures', 'Official framework'],
+ _pre_rows_render()) )
+
+body += section('The rent test beside the living choice', _rent_test, 'threshold blank on purpose')
+
+body += section('Official rules this register relies on, re-read 16 Nov 2026', table(
+ ['What the rule says', 'Exact wording or effect as the agency publishes it', 'What it does not settle', 'Official source'],
+ [
+  ('The exclusion is claimed, not automatic',
+   '“The exclusions provided for in this section shall not be allowed unless a claim for the exclusion sought … is filed with the assessor.” The BOE asks for the claim within three years of the transfer or before a transfer to a third party, whichever is earlier, and the exemption claim within one year.',
+   'Whether this household’s facts qualify, and the day the paperwork is actually filed.',
+   source('boe') + ' · ' + source('lta26026')),
+  ('Continued use of the home is required to keep the exclusion',
+   'The BOE states the home must be continually used as the family home by an eligible transferee, and that if it becomes ineligible for the homeowners’ or disabled veterans’ exemption the exclusion is removed and the new base-year value enrolled as of the lien date following that date.',
+   'The exact enrolment date for a particular occupancy change; ask the assessor.',
+   source('lta26026')),
+  ('A missed family-home condition is not modelled here',
+   'Eligibility rests on all of the Board’s conditions being met: the transferor’s home, the transferee moving in within one year, a timely claim and continued use. The guide shows how the claim arithmetic works; it cannot tell you whether a particular family qualifies.',
+   'Any fact-specific exception; that is a question for the assessor and counsel.',
+   source('boe') + ' · ' + source('prop19')),
+  ('The federal filing test uses the gross estate',
+   'A return is required if the gross estate, increased by adjusted taxable gifts and the specific gift tax exemption, exceeds the filing threshold for the year of death — $15,000,000 for 2026 on the IRS table; the return is due nine months after death under 26 U.S.C. §6075(a).',
+   'This household’s gross estate, gifts and any portability election.',
+   source('estate') + ' · ' + source('usc6075')),
+  ('California has no estate or inheritance tax for a modern death',
+   'The State Controller states no California estate-tax return is required for deaths on or after 1 January 2005, and the inheritance tax is collected only for deaths before 8 June 1982.',
+   'Nothing about federal exposure, which is the exposure to test.',
+   source('ftb')),
+  ('Capital gain is taxed with the ordinary schedule, plus one surcharge',
+   'The FTB rate schedules top out at 12.30% above $742,953 (single) or $1,485,906 (joint) of taxable income; Form 540 line 62 adds a 1% Behavioral Health Services Tax on taxable income above $1,000,000. Read from the published schedule and the line-62 worksheet, not from a summary.',
+   'The household’s own bracket, deductions and other income.',
+   source('ftbSchedule') + ' · ' + source('ftb540')),
+  ('The home-sale exclusion has ownership and use tests',
+   'The IRS states up to $250,000 of gain ($500,000 on a joint return) may be excluded if the ownership and use tests are met — two of the last five years for each — and that the exclusion is not automatic.',
+   'Whether a particular living-then-sell timeline meets both tests.',
+   source('irs701')),
+  ('A like-kind exchange never reaches stock-market reinvestment',
+   '26 U.S.C. §1031 as amended applies to real property exchanged for real property, with 45-day identification and 180-day completion; securities are not like-kind real property.',
+   'Whether an exchange of this property for another is available or wanted.',
+   source('usc1031')),
+  ('A regulatory insurance survey is not a quote',
+   'The Department of Insurance states its premium surveys “are not premium quotes”, that it is a regulator and not an agent, and that the amount actually charged may differ.',
+   'This parcel’s premium, deductible, exclusions or insurability.',
+   source('cdi')),
+  ('A rent benchmark is not a lawful rent or a market quote',
+   'HUD describes small-area fair market rents as ZIP-code figures used to set voucher payment standards; the site uses them only as a floor check.',
+   'The achievable rent or any lease term.',
+   source('hud')),
+  ('A transfer tax exemption must be cited on the instrument',
+   'The Santa Clara County Clerk-Recorder states the documentary transfer tax is “due on all changes of ownership unless an applicable statutory tax exemption is cited”, computed at 55 cents per $500 of real property value, with a higher published rate of 165 cents per $500 for property inside San Jose, Palo Alto and Mountain View, and an additional $20 charge where a Preliminary Change of Ownership Report is missing at recording.',
+   'Whether an exemption applies to this transfer — the county page does not answer it for a particular deed.',
+   source('scc-recording') + ' · ' + source('rtc11911')),
+  ('A proposed measure is not law',
+   'The Rent Board’s 9 November 2026 notice states Board of Supervisors File 261020 “has not been enacted and is subject to change”.',
+   'Whether it will be enacted before the transfer.',
+   source('sfRent')),
+ ],
+) )
+
+body += section('How to use this register', '<p>Each row above is one line of a private file the household keeps and dates. Fill only the columns that are yours to fill: the condition, the falsifier, and the date. Leave every threshold that requires a number blank until the verified comparables, adviser letters and quotes listed in the Questions register are in hand. When a condition fires or fails, write the date and the reason next to it. When the review date arrives, re-check the official sources linked in each row before relying on any rule that has changed.</p><ul class="list"><li>Write the register before running any private projection, and keep the dated original.</li><li>Record every decision and its date next to the item, so a later reader knows what was chosen and why.</li><li>Never enter a private answer, address, rent, bill or account number on this site; keep the completed register offline.</li><li>Re-read the linked official page before acting; the rules and amounts above are dated 16 November 2026.</li></ul>', 'how to use it')
+page('precommit','Sign the decision before you see the numbers.','A written, dated pre-commitment register: for each path, the condition to agree on first, the falsifier that would void it, and the official rule it rests on. Every threshold is blank on purpose.',body)
+
 page('timeline','Deadlines in order.','The dated steps that can move the decision, from the date of death to the Proposition 19 claim deadlines. Each row links to the official rule.',body,['guide/data/model.js'] if False else [])
 
 # ---- Attorney & CPA one-page sheet: synthetic structure, placeholders only, prints on one page ----
@@ -935,7 +1269,7 @@ def _li(items):
     return '<ul>'+''.join('<li>'+x+'</li>' for x in items)+'</ul>'
 sheet=(
  PRINT_CSS+'<div class="brief-sheet">'
- '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 15 Nov 2026</strong></div>'
+ '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 16 Nov 2026</strong></div>'
  '<p class="tiny">For [ATTORNEY] and [CPA]. No household figures are included. Identifiers stay placeholders: [DECEDENT], [TRUSTEE], [PROPERTY A] and [PROPERTY B]. Educational, not legal or tax advice.</p>'
  + section('Facts to confirm privately',_li([
    'Date of death, and the date-of-death value of [PROPERTY A] from a qualified appraiser (see '+source('basis')+').',

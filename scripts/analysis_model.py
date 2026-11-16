@@ -36,6 +36,12 @@ OFFICIAL = {
     'hpi_sj_2026q2': 558.75,
     'niit': 0.038,                           # IRS topic 559
     'ltcg_top': 0.20,                        # IRS topic 409 (2025 thresholds)
+    # California, read 16 Nov 2026 from the FTB 2025 rate schedules (PDF) and the 2025 Form 540
+    # booklet, line 62. The FTB publishes no 2026 schedules yet (its tax-rate page, last updated
+    # 2 Jan 2026, lists 2025 as current), so 2025 is the latest official basis.
+    'ca_bracket_low': 0.093,                 # 9.30% band (single: $72,724 to $371,479 of taxable income)
+    'ca_bracket_top': 0.123,                 # 12.30% band: single above $742,953; joint above $1,485,906
+    'ca_bhst': 0.01,                         # Behavioral Health Services Tax, Form 540 line 62, on taxable income above $1,000,000
 }
 
 
@@ -62,7 +68,10 @@ DEFAULT_PARAMS = {
     'vacancy': 0.05,                  # ASSUMPTION
     'sale_cost': 0.06,                # ASSUMPTION: selling costs, negotiated
     'fed_cgt': OFFICIAL['ltcg_top'] + OFFICIAL['niit'],
-    'ca_cgt': 0.133,                  # UNVERIFIED in an official source (see flagged items)
+    # California taxes gains as ordinary income. Base = the 12.30% band a large gain reaches above
+    # $742,953 of taxable income (single). Sensitivity band: 9.30% (gain in the 9.30% band) to
+    # 13.30% (12.30% + 1% BHST on the slice of taxable income above $1,000,000). Official: FTB 2025 schedules.
+    'ca_cgt': OFFICIAL['ca_bracket_top'],
     'phase_months': 24,               # park proceeds 24 months (range 24 to 36 tested)
     'deploy_months': 12,              # then equal monthly tranches into equities
     'maint_a': 0.0075,                # ASSUMPTION: share of value per year

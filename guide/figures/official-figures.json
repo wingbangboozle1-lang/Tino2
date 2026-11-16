@@ -227,7 +227,7 @@
    "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1301",
    "source_id": "hr1301",
    "verified": true,
-   "note": "Re-read 16 Nov 2026 on Congress.gov: Rep. Randy Feenstra [R-IA-4], introduced 13 Feb 2025; House Ways and Means; latest action remains the 13 Feb 2025 referral; tracker status 'Introduced'; CBO cost estimate listed as zero. Repeal of the estate tax and the GST tax is a proposal at step 1 of 5.",
+   "note": "Re-read 16 Nov 2026 on Congress.gov (after a 15 Nov read): Rep. Randy Feenstra [R-IA-4], introduced 13 Feb 2025; House Ways and Means; the latest action on the page remains the 13 Feb 2025 referral; tracker status 'Introduced'; CBO cost estimates listed as zero. Repeal of the estate tax and the GST tax is a proposal at step 1 of 5, not law.",
    "checked": "2026-11-16"
   },
   {
@@ -239,7 +239,7 @@
    "source_url": "https://leginfo.legislature.ca.gov/faces/billStatusClient.xhtml?bill_id=202520260SB284",
    "source_id": "sb284",
    "verified": true,
-   "note": "Re-read 16 Nov 2026 on leginfo: status 'Active Bill - In Committee Process', House Location: Assembly, last amended 25 Jun 2025, latest history action 14 Jul 2025 'Set, final hearing. Held in committee and under submission.' Measure would amend R&T Code §63.2 and add §63.2.1.",
+   "note": "Re-read 16 Nov 2026 on leginfo (after a 15 Nov read): status 'Active Bill - In Committee Process'; House Location: Assembly; last amended 25 Jun 2025; latest history action 14 Jul 2025, 'Set, final hearing. Held in committee and under submission.' The measure would amend R&T Code §63.2 and add §63.2.1. Proposal, not law.",
    "checked": "2026-11-16"
   },
   {
@@ -466,6 +466,18 @@
    "checked": "2026-11-15"
   },
   {
+   "id": "GIFT-ANNUAL-2026",
+   "topic": "Federal gift and estate tax",
+   "claim": "For calendar year 2026, the first $19,000 of gifts to any person (other than gifts of future interests in property) are not included in the total amount of taxable gifts under 26 U.S.C. 2503 made during that year",
+   "official_exact": "$19,000",
+   "display_rounded": "$19,000",
+   "source_url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+   "source_id": "rp2532",
+   "verified": true,
+   "note": "Rev. Proc. 2025-32 section 4.42(1) read directly from the official IRS PDF on 16 Nov 2026. $19,000 is a government-published amount and a multiple of $10, so the site's $10 display rule is not broken.",
+   "checked": "2026-11-16"
+  },
+  {
    "id": "FED-GIFT-EXCLUSION-2026",
    "topic": "Federal gift tax",
    "claim": "Annual per-donee gift exclusion for calendar year 2026",
@@ -475,7 +487,7 @@
    "source_id": "estate27",
    "extra_source_url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
    "verified": true,
-   "note": "IR-2026-133 (Nov. 5, 2026) states the 2027 amount and that it is 'up from $19,000 for calendar year 2026'.",
+   "note": "Corroborates GIFT-ANNUAL-2026 from the other official document: IR-2026-133 (5 Nov 2026) states the 2027 amount and that it is 'up from $19,000 for calendar year 2026', while Rev. Proc. 2025-32 §4.42(1) states the 2026 rule itself. Two sources are kept because the page cites both.",
    "checked": "2026-11-16"
   },
   {
@@ -487,7 +499,7 @@
    "source_url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2027-taxpayers-continue-to-benefit-from-the-working-families-tax-cuts",
    "source_id": "estate27",
    "verified": true,
-   "note": "IR-2026-133, 'Estate Tax Exclusion' heading: 'For calendar year 2027, the first $20,000 of gifts to any person are not included in the total amount of taxable gifts made during the year - up from $19,000 for calendar year 2026.' Cites Rev. Proc. 2026-35.",
+   "note": "IR-2026-133, 'Estate Tax Exclusion' heading: 'For calendar year 2027, the first $20,000 of gifts to any person are not included in the total amount of taxable gifts made during the year - up from $19,000 for calendar year 2026.' The release cites Rev. Proc. 2026-35 for the 2027 adjustments.",
    "checked": "2026-11-16"
   },
   {
@@ -515,5 +527,5 @@
    "checked": "2026-11-16"
   }
  ],
- "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa; the four gift-exclusion records and the two legislative-status records were re-read on 16 Nov 2026 by session e3f08d9e, together with the two IRS pages behind them (IR-2026-133 and Rev. Proc. 2025-32). Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here."
+ "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here. Records re-read 16 Nov 2026 by session e3f08d9e: the four gift-exclusion records, H.R. 1301 and SB 284 (Congress.gov and leginfo), and the two IRS documents behind the gift figures (IR-2026-133 and Rev. Proc. 2025-32)."
 }

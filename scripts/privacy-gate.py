@@ -17,6 +17,12 @@ What it enforces
                           The published guide enforces the same rule on its own terms in test-guide.cjs.
   3. PATTERN              an e-mail address, phone number, SSN-shaped token, Santa Clara County parcel
                           number, San Francisco block/lot reference, or a street address.
+  4. RAW-FIGURE           a pre-rounding household figure, recognised by the SHA-256 list the published
+                          artifact audit uses (``RAW_BANNED`` in scripts/privacy-audit.cjs). That audit
+                          scans ``_public`` only, so before this rule the same token was invisible in a
+                          verification report, a research note or this board — where a rounded figure can
+                          be quoted raw by accident. This rule covers every tracked text file. Only hashes
+                          are compared, so neither this file nor the blocklist discloses what is blocked.
 
 Usage:  python3 scripts/privacy-gate.py [--self-test] [--json]
 Exit code 1 on any violation. Violations name the file, the line number and the rule — never the
@@ -48,6 +54,45 @@ STREET = re.compile(r'\b\d{1,5}\s+(?:[NSEW]\.?\s+)?[A-Z][a-z]+(?:\s+[A-Z][a-z]+)
                     r'Court|Ct|Place|Pl|Terrace|Circle|Way)\b')
 
 SAFE_EMAIL_DOMAINS = ('example.com', 'example.org', 'example.net', 'example.test', 'localhost')
+
+AUDIT = ROOT / 'scripts' / 'privacy-audit.cjs'
+NUMERIC = re.compile(r'\d[\d,]*')
+MONEY_CTX = re.compile(r'\$\s*([\d,]+)')
+YEAR_LIKE = re.compile(r'^\d{4}$')
+
+
+def raw_figure_hashes():
+    """The pre-rounding tokens the published-artifact audit blocks, reused here.
+
+    Read from ``scripts/privacy-audit.cjs`` rather than duplicated, so one list governs both the
+    ``_public`` artifact and the whole tracked tree. Only 64-hex digests are ever taken from it.
+    """
+    text = AUDIT.read_text(encoding='utf8')
+    block = re.search(r"const RAW_BANNED=new Set\(\[(.*?)\]\);", text, re.S)
+    if not block:
+        raise SystemExit('privacy-gate: RAW_BANNED set not found in scripts/privacy-audit.cjs')
+    hashes = set(re.findall(r"'([0-9a-f]{64})'", block.group(1)))
+    if not hashes:
+        raise SystemExit('privacy-gate: RAW_BANNED set is empty; refusing to scan without it')
+    return hashes
+
+
+def numeric_tokens(line):
+    """Digit strings in a line, split from adjacent letters so '$2,179,680NextWord' is one token.
+
+    A bare four-digit calendar year in a table column is not treated as a figure, exactly as the
+    artifact audit decides, because every money amount in this repository is '$'-prefixed or
+    comma-grouped. A '$'-prefixed amount is always tested, in either scanner.
+    """
+    spaced = re.sub(r'([0-9])([A-Za-z])', r'\1 \2', line)
+    spaced = re.sub(r'([A-Za-z])([0-9])', r'\1 \2', spaced)
+    for match in NUMERIC.finditer(spaced):
+        token = match.group(0).replace(',', '')
+        if YEAR_LIKE.match(token) and 2010 <= int(token) <= 2120:
+            continue
+        yield token
+    for match in MONEY_CTX.finditer(line):
+        yield match.group(1).replace(',', '')
 
 
 def load_scrubber():
@@ -87,12 +132,15 @@ def pattern_hits(line):
     return hits
 
 
-def scan_text(text, blocked, round_scope, path, allowed):
+def scan_text(text, blocked, round_scope, path, allowed, raw_banned=frozenset()):
     violations = []
     for number, line in enumerate(text.splitlines(), start=1):
         for token in candidates(line):
             if hashlib.sha256(token.encode('utf8')).hexdigest() in blocked:
                 violations.append((path, number, 'BLOCKED-IDENTIFIER'))
+        for token in numeric_tokens(line):
+            if hashlib.sha256(token.encode('utf8')).hexdigest() in raw_banned:
+                violations.append((path, number, 'RAW-FIGURE'))
         for rule in pattern_hits(line):
             violations.append((path, number, rule))
         if round_scope and path.startswith(round_scope):
@@ -122,14 +170,24 @@ def self_test():
         print('FAIL: the self-test hash does not match its literal; the blocklist file is inconsistent')
         return 1
     blocked = set(data.get('hashes', [])) | {digest}
-    hit = scan_text(f'illustrative locator {literal} in a table row', blocked, None, 'SELF-TEST', set())
-    miss = scan_text('illustrative row with no locator at all', blocked, None, 'SELF-TEST', set())
-    noise = scan_text('a row mentioning 42425 and $1,230', blocked, None, None, set())
-    if any(v[2] == 'BLOCKED-IDENTIFIER' for v in hit) and not miss and not noise:
-        print('PASS: the gate detects a registered identifier, stays silent on a clean row, and does '
-              'not flag an unregistered five-digit token.')
+    # A synthetic figure stands in for a pre-rounding household value, so the self-test proves the
+    # detector fires without naming any token it blocks — and without a banned example amount ever
+    # appearing in this file as one digit run (an earlier draft quoted one, and the gate flagged its
+    # own source). The real list is hashed, so nothing here discloses what the list contains.
+    synthetic = int('9876' '543')
+    raw = raw_figure_hashes() | {hashlib.sha256(str(synthetic).encode('utf8')).hexdigest()}
+    hit = scan_text(f'illustrative locator {literal} in a table row', blocked, None, 'SELF-TEST', set(), raw)
+    miss = scan_text('illustrative row with no locator at all', blocked, None, 'SELF-TEST', set(), raw)
+    noise = scan_text('a row mentioning 42425 and $1,230', blocked, None, None, set(), raw)
+    raw_hit = scan_text(f'the assessment was {synthetic:,} in 2020 and the bill ${synthetic:,}', blocked,
+                        None, 'SELF-TEST', set(), raw)
+    year_ok = scan_text('| 2020 | 2021 | 2022 |', blocked, None, 'SELF-TEST', set(), raw)
+    if (any(v[2] == 'BLOCKED-IDENTIFIER' for v in hit) and not miss and not noise
+            and any(v[2] == 'RAW-FIGURE' for v in raw_hit) and not year_ok):
+        print('PASS: the gate detects a registered identifier and a registered pre-rounding figure, '
+              'stays silent on a clean row, and does not flag a bare calendar year or an unregistered number.')
         return 0
-    print(f'FAIL: self-test hit={hit}, miss={miss}, noise={noise}')
+    print(f'FAIL: self-test hit={hit}, miss={miss}, noise={noise}, raw_hit={raw_hit}, year_ok={year_ok}')
     return 1
 
 
@@ -145,10 +203,11 @@ def main():
     allowed = scrubber.official_amounts()
     round_scope = scrubber.ROUND_SCOPE
     blocked, _data = blocked_hashes()
+    raw_banned = raw_figure_hashes()
     violations = []
     for name in tracked_text_files():
         text = (ROOT / name).read_text(encoding='utf8', errors='replace')
-        violations += scan_text(text, blocked, round_scope, name, allowed)
+        violations += scan_text(text, blocked, round_scope, name, allowed, raw_banned)
 
     violations = sorted(set(violations))
     if args.json:
@@ -160,7 +219,7 @@ def main():
               f'{len({v[0] for v in violations})} file(s). The matched text is not printed.', file=sys.stderr)
         return 1
     else:
-        print(f'PASS: {len(tracked_text_files())} tracked text files scanned — no blocked identifier, '
+        print(f'PASS: {len(tracked_text_files())} tracked text files scanned — no blocked identifier or pre-rounding figure, '
               'no un-rounded household-scale amount in the analysis artifacts, no contact or parcel pattern. '
               'This is a guard, not proof of anonymity.')
     return 0

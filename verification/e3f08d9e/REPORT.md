@@ -176,27 +176,58 @@ blob content, so its own output is safe to paste into a ticket. Default exit 0; 
   and PR references; Support may offer dereferencing, which keeps PR bodies and comments; one merge
   from a stale clone can reintroduce the purged objects, which is why the board forbids sessions
   from force-pushing at all.
-- **Honest limit.** This clone is shallow: `.git/shallow` is present and `git rev-list --all --count`
-  returns **2**. The audit run here reports `unique text blobs scanned: 239`, `flagged blobs: 0`,
-  and prints that a clean report from a shallow clone is a statement about what was fetched, not
-  about the remote history. **No claim is made that history is clean, and none is made that it is
+- **Honest limit, and the first real finding.** This clone is shallow: `.git/shallow` is present and
+  before the merge `git rev-list --all --count` returned **2**. The audit run then reported
+  `unique text blobs scanned: 239`, `flagged blobs: 0`, and printed that a clean report from a two-commit clone is a
+  statement about what was fetched, not about the remote history. After merging 30 commits of `main` — 33 reachable
+  commits, 401 unique text blobs — the same run reported **2 flagged blobs, `RAW-FIGURE×6`**, on an earlier
+  `COORDINATION.md` blob and an earlier `verification/c96c185e/REPORT.md` blob, both of which are clean at HEAD. That
+  is the exposure class L-D2 describes, measured rather than assumed, and it is why the audit labels every hit as
+  "still the blob at HEAD" or "history only": the first kind needs a file change, the second needs a rewrite. **No claim is made that history is clean, and none is made that it is
   dirty — it has not been measurable from here.** `scripts/privacy-gate.py` on the tracked tree still
   passes (238 files), and `scripts/privacy-audit.cjs` still passes on packaged source and rendered
   text. Both remain "a guard, not proof of anonymity".
 
+## Merge with `main`, and the duplicate work it revealed
+
+`origin/main` advanced 30 commits during this session (PRs #126–#132, seven other sessions). The branch was merged
+with `origin/main` and the result re-verified; the merge touched only what this session claimed, and the resolution
+kept **both** sides everywhere they differed:
+
+- **Both sides wrote a gift-exclusion row and both added ledger records.** Upstream had already published the 2026
+  $19,000 amount citing Rev. Proc. 2025-32 §4.42(1) (`GIFT-ANNUAL-2026`). This session's row adds the 2027 $20,000
+  figure and the non-citizen-spouse pair from IR-2026-133. The two rows on the Taxes page were merged into one row
+  that cites both documents, the non-citizen-spouse row was kept, and both ledger records were kept — 44 records,
+  unique ids, no duplicate claim. That is a real overlap in scope, not a mistake in either session: the board had
+  assigned the gift figure to nobody, and two sessions picked it up off the same stale-flag list. The coordination
+  board records it.
+- **Two sections on the same page, deliberately.** Upstream's `03c / ladder and shape` section adds a
+  return-to-peak 1929 shape and a 3-month/2-year ladder on the *template* model; this session's `04 / recorded
+  history` section replays the same decision on *recorded* yields and prices. They answer different questions and are
+  now ordered so each introduction names the other correctly. One of this session's flagged rows ("crash shapes are
+  illustrative") was superseded by upstream's amended version and the merge kept upstream's.
+- **This session's four suggestions renumbered to S33–S36** because upstream registered S30–S32 first; S16 and S25,
+  which the published callouts cite, are unchanged.
+- **The privacy gate grew a fourth rule mid-session** (`RAW-FIGURE`, upstream `8712a6e`). Rather than leave the
+  history audit enforcing three of four, it now reads that list through the same gate import and passes it into
+  `scan_text`, so the object walk and the working tree still cannot drift apart.
+- Counts in this report are from the merged tree: 19 generated pages, 33 packaged files, 44 ledger records,
+  1,231 source-linked rows, 13,783 rendered checks, 291 tracked files in the whole-repository gate, 20,736 model
+  comparisons, 200 phased-model checks, 1,303 recorded-history checks.
+
 ## Checks run, all on the merged tree
 
-`python3 scripts/build-guide.py` · `check-generated.py` PASS (18 generated public pages up to date) ·
-`check-figures.py` PASS (**43** ledger records, 43 verified, 0 explicitly unverified, every
-seven-figure published amount backed) · `package-site.py` PASS (32 reviewed guide files, legacy site
+`python3 scripts/build-guide.py` · `check-generated.py` PASS (19 generated public pages up to date) ·
+`check-figures.py` PASS (**44** ledger records, 44 verified, 0 explicitly unverified, every
+seven-figure published amount backed) · `package-site.py` PASS (33 reviewed guide files, legacy site
 excluded) · `check-publication.py --self-test` PASS (extra, missing, altered, symlinked and
 hard-linked files rejected) · (the `--directory _site --jekyll` variant of that check runs in CI,
 where Jekyll builds `_site`; it was not run locally) ·
-`node scripts/test-guide.cjs` PASS (18 rendered pages, **1,086** source-linked table rows, **12,668**
-checks) · `node scripts/privacy-audit.cjs` PASS · `python3 scripts/privacy-gate.py` PASS ·
+`node scripts/test-guide.cjs` PASS (19 rendered pages, **1,231** source-linked table rows, **13,783**
+checks) · `node scripts/privacy-audit.cjs` PASS · `python3 scripts/privacy-gate.py` PASS (291 tracked text files, now including the upstream RAW-FIGURE rule) ·
 `privacy-gate.py --self-test` PASS · `privacy-history-audit.py --self-test` PASS ·
 `test-model-reference.py` PASS (108 configurations, 250 stress years, 1,500 phased years, 20,736
-comparisons) · `test-phased.py` PASS (113 checks) · `test-phased-history.py` PASS (1,303 checks) ·
+comparisons) · `test-phased.py` PASS (200 checks) · `test-phased-history.py` PASS (1,303 checks) ·
 `node scripts/validate.js` PASS (1,610 checks, 19 pages, 178 official sources) ·
 `node scripts/stress-test.js` PASS · `python3 -c "import ast; ast.parse(...)"` on both new Python
 files and the generator.
@@ -225,10 +256,12 @@ here (`libnss3.so` absent); CI covers it.
    index and the bill yields is a fetch away; that would let the test read peak-to-trough rather than
    December-to-December. Deliberately not done here, because it changes every published figure and
    needs its own re-verification pass.
-4. **Low — `verification/**` is outside `ROUND_SCOPE`.** The gate's rounding rule deliberately covers
-   the analysis artifacts, not these reports; the $10 convention is honoured by hand here. If the
-   owner wants it enforced, that is a one-line change to `scripts/privacy-scrub.py`'s scope tuple,
-   which this session did not touch (it belongs to the privacy owner, not to this scope).
+4. **Low — `verification/**` is outside `ROUND_SCOPE`.** The gate's *rounding* rule deliberately covers the
+   analysis artifacts, not these reports, so the $10 convention is honoured here by hand. Upstream's new RAW-FIGURE
+   rule now does apply to every tracked file, and it is what caught the c96c185e report; but a *new* un-rounded
+   household amount written into a report outside `ROUND_SCOPE` is still not caught by the general rule. If the owner
+   wants the $10 rule everywhere, that is a one-line change to `scripts/privacy-scrub.py`'s scope tuple, which this
+   session did not touch — the file belongs to the privacy owner, not to this scope.
 
 ## Checks not claimed
 

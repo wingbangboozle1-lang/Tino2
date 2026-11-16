@@ -12,12 +12,17 @@ Why this exists
 What it does
   * lists the objects of every commit reachable in this clone (``git rev-list --objects`` over
     all refs and the local reflog);
-  * scans each unique text blob **once**, with the same three rule families the working-tree gate
+  * scans each unique text blob **once**, with the same four rule families the working-tree gate
     uses — blocked-identifier hashes, un-rounded household-scale amounts inside the analysis
-    scope, and contact / parcel / address patterns — by importing the gate itself, so one policy
-    governs both;
+    scope, contact / parcel / address patterns, and the RAW-FIGURE list of pre-rounding household
+    values — by importing the gate itself, so one policy governs both. RAW-FIGURE is the rule this
+    audit exists for: a figure that was rounded away at HEAD is still a raw string in an earlier
+    blob, and only a history walk can see it;
   * reports counts and file paths only. Matched text and blob content are never printed, so the
     audit can be pasted into a ticket or a commit message without becoming a second leak;
+  * labels each flagged blob as the one HEAD still carries or as history only, which is the
+    distinction that decides the remediation: a clean tree with a dirty blob needs a rewrite, while
+    a dirty blob at HEAD needs the file changed first;
   * states plainly when the clone is shallow or partial, because "no findings in these objects"
     is not a statement about the remote repository's history.
 
@@ -70,6 +75,10 @@ def main():
     allowed = scrubber.official_amounts()
     round_scope = scrubber.ROUND_SCOPE
     blocked, _blocklist = gate.blocked_hashes()
+    # Rule 4 of the gate: the SHA-256 set of pre-rounding household figures. Read through the gate
+    # so the list is defined in exactly one place, and optional only because a checkout predating
+    # that rule has no such function.
+    raw_banned = gate.raw_figure_hashes() if hasattr(gate, 'raw_figure_hashes') else frozenset()
 
     if args.self_test:
         # A synthetic string built from the blocklist’s own synthetic token, plus an un-rounded
@@ -80,9 +89,9 @@ def main():
         # The path sits inside the analysis scope on purpose: the rounding rule, like the gate’s,
         # applies only to the household-derived analysis artifacts, not to every file in the tree.
         dirty = gate.scan_text(f'a table row naming {literal} and a cost of $1,234',
-                               test_blocked, round_scope, 'docs/SELF-TEST.md', set())
+                               test_blocked, round_scope, 'docs/SELF-TEST.md', set(), raw_banned)
         clean = gate.scan_text('a table row with a cost of $1,230 and no locator at all',
-                               test_blocked, round_scope, 'docs/SELF-TEST.md', set())
+                               test_blocked, round_scope, 'docs/SELF-TEST.md', set(), raw_banned)
         rules = {v[2] for v in dirty}
         if 'BLOCKED-IDENTIFIER' in rules and 'ROUNDING' in rules and not clean:
             print('PASS: the history audit applies the same detectors as the working-tree gate — it '
@@ -117,6 +126,12 @@ def main():
         if sha not in want:
             want.add(sha)
             unique.append(sha)
+
+    head_sha = {}
+    for line in git('ls-tree','-r','HEAD','--format=%(objectname) %(path)').splitlines():
+        parts = line.split(' ', 1)
+        if len(parts) == 2:
+            head_sha[parts[1]] = parts[0]
 
     seen, flagged, scanned = {}, Counter(), 0
     if unique:
@@ -165,22 +180,27 @@ def main():
             if sha not in counted:
                 counted.add(sha)
                 scanned += 1
-                hits = gate.scan_text(text, blocked, round_scope, path, allowed)
+                hits = gate.scan_text(text, blocked, round_scope, path, allowed, raw_banned)
                 for _path, _line, rule in hits:
                     flagged[rule] += 1
                 if hits:
-                    seen[sha] = (path, sorted({r for _p, _l, r in hits}))
+                    at_head = head_sha.get(path) == sha
+                    seen[sha] = (path, sorted({r for _p, _l, r in hits}), at_head)
                 del body[sha]                   # keep the footprint flat on long histories
 
     flagged_blobs = {sha: v for sha, v in seen.items() if isinstance(v, tuple)}
+    at_head = [v[0] for v in flagged_blobs.values() if v[2]]
     report = {
         'clone_shallow_or_partial': shallow,
         'refs_reachable': len(refs),
         'commits_reachable': commits,
         'unique_text_blobs_scanned': scanned,
         'flagged_blobs': len(flagged_blobs),
+        'flagged_blobs_also_at_head': len(at_head),
+        'flagged_paths_at_head': sorted(set(at_head)),
         'findings_by_rule': dict(flagged),
         'blocked_hash_count': len(blocked),
+        'raw_figure_hash_count': len(raw_banned),
         'note': ('Counts only. Matched text is never printed. A clean report from a shallow or '
                  'partial clone is not a statement about the remote repository’s history.'),
     }
@@ -189,18 +209,21 @@ def main():
     else:
         print(f"refs reachable: {report['refs_reachable']}   commits reachable: {commits}   "
               f"clone shallow or partial: {str(shallow).lower()}")
-        print(f"unique text blobs scanned: {scanned}   flagged blobs: {len(flagged_blobs)}")
+        print(f"unique text blobs scanned: {scanned}   flagged blobs: {len(flagged_blobs)}   "
+              f"of which still the blob at HEAD: {len(at_head)}")
         if flagged:
             print('findings by rule: ' + ', '.join(f'{k}×{v}' for k, v in sorted(flagged.items())))
         else:
             print('findings by rule: none in these objects')
         if flagged_blobs:
             print(f'\nflagged paths (up to {args.max_paths}; the path is printed, the content never is):')
-            for i, (sha, (path, rules)) in enumerate(sorted(flagged_blobs.items(), key=lambda kv: str(kv[1]))):
+            for i, (sha, (path, rules, at_head)) in enumerate(sorted(flagged_blobs.items(), key=lambda kv: str(kv[1]))):
                 if i >= args.max_paths:
                     print(f'  … {len(flagged_blobs) - i} more')
                     break
-                print(f'  {path} · {", ".join(rules)} · blob {sha[:10]}')
+                where = ('**still the blob at HEAD**' if at_head else
+                         'history only — the same path is a different, and here a clean, blob at HEAD')
+                print(f'  {path} · {", ".join(rules)} · blob {sha[:10]} · {where}')
         if shallow or commits <= 2:
             print('\nLIMIT. This clone does not hold the repository’s full history '
                   f'({"shallow marker present" if shallow else "only " + str(commits) + " commit(s) reachable"}). '
