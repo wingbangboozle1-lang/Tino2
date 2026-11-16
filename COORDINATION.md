@@ -2388,10 +2388,12 @@ Two follow-up fixes are in the branch pushed after that merge:
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
 | B-1 | Claim the board, push the claim at once | done | b42f92cf | `COORDINATION.md` (this block) | — |
-| B-2 | Add documented investing policy section to the decision-brief page | in progress | b42f92cf | `scripts/build-guide.py` | parked proceeds, phased entry, liquidity, annual re-run |
-| B-3 | Regenerate guide, run full local suite, confirm privacy-safe | in progress | b42f92cf | `scripts/build-guide.py`, `guide/**`, `index.html` | build-guide, package-site, test-guide, privacy-audit, privacy-gate, check-generated, check-figures, test-model-reference |
-| B-4 | PR from this branch to `main`, merge without waiting, confirm Pages build, record result | unclaimed | b42f92cf | this block | after B-3 is green |
+| B-2 | Add documented investing policy section to the decision-brief page | done | b42f92cf | `scripts/build-guide.py` | parked proceeds, phased entry, liquidity, annual re-run |
+| B-3 | Regenerate guide, run full local suite, confirm privacy-safe | done | b42f92cf | `scripts/build-guide.py`, `guide/**`, `index.html` | build-guide, package-site, test-guide, privacy-audit, privacy-gate, check-generated, check-figures, test-model-reference |
+| B-4 | PR from this branch to `main`, merge without waiting, confirm Pages build, record result | done | b42f92cf | this block | PR #121 merged as `62a9dcf`; `Verify public Pages boundary` and `pages build and deployment` triggered on `main` at `62a9dcf`; runners queued at write time, local suite green |
 
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
+
+**Verification result.** The documented investing policy section was added to the decision-brief page; the full local suite passed (test-guide: 18 pages, 1119 source-linked rows, 12871 checks; privacy-audit; privacy-gate; check-generated; check-figures; test-model-reference; test-phased; check-publication). PR #121 merged as `62a9dcf` without waiting for approval. CI (`Verify public Pages boundary`, `pages build and deployment`) was triggered on `main` at `62a9dcf`; runners were queued at write time. GitHub Pages: https://wingbangboozle1-lang.github.io/Tino2/
 <!-- END block owned by session b42f92cf -->
 
