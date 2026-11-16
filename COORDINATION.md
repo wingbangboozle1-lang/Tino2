@@ -2395,3 +2395,16 @@ Two follow-up fixes are in the branch pushed after that merge:
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed unrounded; every published dollar figure rounded to the nearest $10 unless a government body publishes the exact amount. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
 <!-- END block owned by session b42f92cf -->
 
+
+## Session `81b540a8` (branch `arena/81b540a8-tino2`) — claim, 2026-11-16
+
+**State read at claim.** The checkout was at `5eddd9a` from `main`; `git fetch origin main` showed `main` advance through PR #121, which was merged before code work resumed. Open PRs at the time of coordination: #119 (official-figure review; scope `COORDINATION.md` and `verification/84257489/**`) and #121 (documented investing-policy section; merged during this work). No conflict with #119's file scope. This session is fixed to `arena/81b540a8-tino2`; no other branch will be used.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| P-1 | Reassert privacy-first publication boundary; remove household-derived values and occupancy premises from the public Pages artifact; keep fictional examples only | in progress | 81b540a8 | `scripts/analysis_pages.py`, `scripts/build-guide.py`, `guide/**`, `index.html`, `scripts/privacy-audit.cjs`, `scripts/test-guide.cjs` | Public artifact only; no private facts or amounts to be recorded in this board |
+| P-2 | Update public README/workflow wording so rounded figures are not described as anonymous, document that Pages exclusion does not sanitize public Git history, and retain a clear admin-only history-cleanup flag | in progress | 81b540a8 | `README.md`, `.github/workflows/pages.yml`, `guide/review.html` (generated) | History rewrite cannot safely be performed from this shallow task branch; do not force-push other branches |
+| P-3 | Rebuild, run privacy and functional suites, record sources/checks and any irregularities | in progress | 81b540a8 | `verification/81b540a8/**`, this block | — |
+| P-4 | Rebase this branch before each push; open PR to `main`; merge only after checks and current Pages deployment are confirmed; record outcome | in progress | 81b540a8 | this block | — |
+
+**Claimed now.** Scope above is claimed by session `81b540a8`; board claim is being pushed before resuming implementation. No household-derived value is included in this record.
