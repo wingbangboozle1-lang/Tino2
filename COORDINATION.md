@@ -2511,6 +2511,29 @@ BOE RTC §63.2 and Prop 19 charts (claim required; one-year exemption, three-yea
 
 **Irregularities (all logged in the report, none blocking).** I-1 stamp was one day behind the re-read date → fixed to 13–16 Nov 2026. I-2 the Form 706 amount table was not re-extracted today, so those amounts keep their existing ledger dates. I-3 the 13.3% top California rate remains a derivation from two published inputs. I-4 a HUD guidebook URL resolved to the HUD home page and was removed before use. I-5 standing owner/administrator items unchanged (L-D2 history scrub, repository visibility, Property A's tax rate area and independent appraisal/comparables).
 
-**C-5.** PR opened from `arena/070d6a2e-tino2`, merged without waiting, Pages deploy confirmed and live pages read back; the result is recorded below.
+**C-5 result — PUBLISHED.**
+
+| Step | Result |
+|---|---|
+| PR | [#129](https://github.com/wingbangboozle1-lang/Tino2/pull/129) from `arena/070d6a2e-tino2`, CI `verify` **pass** (1m24s, run [43924013677](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/43924013677)) |
+| Merge | **MERGED** 2026-11-16 18:04:11 UTC as `7a11f4c` without waiting for approval |
+| Pages | `pages/builds/latest` for `7a11f4c` status **built**; `pages build and deployment` run **success** |
+| Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/guide/precommit.html` renders the register (13 condition rows, LTA 2026/026 linked, stamp 13–16 Nov 2026). Homepage shows the new first-screen callout and the "Act → Pre-commitment" navigation item. |
+
+**Rebase/overlap log (16 Nov 2026).** `origin/main` moved twice while this session worked: to `ace7057` (PR #126) and then to `2740f40` (PRs #127 and #128). Rebase produced two append-only `COORDINATION.md` conflicts and eight generated-page conflicts. Resolution rule applied: **keep both sides' records and take upstream's generator as the base**. Concretely — the `e72015ae` and `787f3bce` board blocks are preserved above this one; upstream's verified Form 4768 wording in `scripts/build-guide.py` supersedes this session's older "not read" caveat on the Timeline; and the public guide was regenerated from the merged generator, so upstream's California 12.30% base / 9.30–13.30% band, the Form 706/4768 rows and this session's register both survive. Nothing from another session was discarded. After the rebase the full suite was re-run and all gates passed before the force-with-lease push to this session's own branch.
+
+**Issues found while reading the live text.** W-1 to W-5 were citation and markup defects inside this session's own page and its own homepage title; they were fixed in a follow-up commit and the full suite was re-run (details below the table). W-6 is informational and left alone because the link target is correct:
+
+| # | Where | Issue | Severity |
+|---|---|---|---|
+| W-1 | `guide/precommit.html` T2 "Official framework" column | The row cited **RTC §480** (change-in-ownership reporting, 150 days) as its first link for a test about the *continued-use* rule. | **Fixed** — `lta26026` now leads; §480 moved to context where it belongs |
+| W-2 | `guide/precommit.html` T3 and T4 | Both cited the **HUD SAFMR** page without saying that HUD defines SAFMRs as voucher payment standards, not market or lawful rents — the row contradicted the page's own rules table. | **Fixed** — both rows now say so expressly and T4 adds that a voucher benchmark is not a comparable lease |
+| W-3 | `guide/precommit.html` T5 | Cited the FY 2025–26 rate book with no note that the county publishes one fiscal year at a time. | **Fixed** — the row now says to use the book for the tax year being modelled |
+| W-4 | `guide/precommit.html` "Official rules" table, row 3 | "Read as a unit … the arithmetic of the claims, not their legal availability" was accurate but opaque. | **Fixed** — replaced with a plain sentence about eligibility
+| W-5 | Homepage hero | The `<h1>` carried a raw `<br>` that leaked a double space into the page title. | **Fixed** — title is now a single sentence |
+| W-6 | `guide/sources.html` | The BOE LTA 2025/023 row links through the `prop13` key labelled "BOE · Prop 13 explanation". The target is the same LTA 2025/023 PDF, so the link is correct; only the label is terse. | Info — left as is |
+
 
 **Deployment item from `9ad78d96` closed.** Live read-back of `guide/property.html` on 16 Nov 2026 serves the synthetic-only version and `pages/builds/latest` reports `ace7057` **built**, so the privacy-remediated guide is now live.
+
+**W-1 to W-5 fix commit.** `scripts/build-guide.py` (the four T-row official-framework citations, the eligibility sentence and the homepage title) plus regenerated pages. Suite after the fix: `check-generated` PASS · `package-site` PASS (33) · `test-guide` **PASS, 19 pages, 1,107 source-linked rows, 12,837 checks** · `check-figures` PASS · `privacy-audit` PASS · `privacy-gate` PASS (243 files). No figure, model input or ranking changed. Published in a follow-up PR to `main` and recorded here with the merge commit.
