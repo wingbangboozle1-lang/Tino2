@@ -1,37 +1,28 @@
-/* Household inputs as supplied by the owner, every dollar rounded to the nearest $10.
-   Owners are placeholders: Property A (Cupertino), Property B (San Francisco west side).
-   Scenario knobs (growth, returns, tax rates) are labelled assumptions, not forecasts.
-   Official sources explain rules and benchmarks; owner-stated figures are flagged. */
+/* Synthetic example inputs for public teaching scenarios only.
+   No household records or household-derived figures are used by this file.
+   Local-law references are linked separately; every non-official input is an
+   assumption, not an estimate, quote, forecast or personal recommendation. */
 (function () {
   const BASE = Object.freeze({
     startYear: 2026,
-    aValue: 3100000, aAssessed: 550540,          // owner-stated Nov 2026 value; 2026 factored base
-    bValue: 1800000, bAssessed: 114250,          // owner-stated Nov 2026 value; 2025 factored base (latest supplied)
-    aRate: 7210 / 539740,                        // implied from the 2025 bill ÷ assessed value; bill includes flat direct charges
-    bRate: 2440 / 114250,                        // implied from the 2025 bill ÷ assessed value; bill includes flat direct charges
+    aValue: 1240000, aAssessed: 398000,         // synthetic example only
+    bValue: 980000, bAssessed: 321000,          // synthetic example only
+    aRate: 5980 / 390200, bRate: 5120 / 321000, // invented example ratios, not parcel rates
     appreciation: 0.035, assessmentGrowth: 0.02,
     expenseInflation: 0.03, rentGrowth: 0.03, sfRentGrowth: 0.016,
     portfolioNet: 0.05, saleCost: 0.055, vacancy: 0.07, management: 0.085,
     maintenanceA: 0.0075, maintenanceB: 0.0125,
     ordinaryTax: 0.30, capitalGainsTax: 0.361, primaryGainExclusion: 250000,
-// capitalGainsTax = 20% federal top + 3.8% NIIT + 12.3% CA top + 1% CA Behavioral Health Services
-// Tax on taxable income above $1,000,000 (R&TC §17043; FTB Form 540 line 62). CA components verified
-// from the official FTB 2025 Form 540 rate schedules; capital gains taxed as ordinary income, no
-// preferential rate. The 1% surcharge only applies above $1M and is not indexed.
-// See guide/tax.html for the source-linked row and the Flagged page for the CA flag status.
-    aRentMonthly: 6390, bRentMonthly: 7150,      // A: HUD small-area FMR 4BR benchmark, not a quote. B: owner-stated, two units.
-    aWaterMonthly: 125, aSolarMonthlyCredit: 15, // owner ranges $100–$150 and a $10–$20 credit, midpoints
-    aInsuranceAnnual: 2690,                      // CDI survey median (40y home, $1M cover, $2,500 ded) — not a quote
-    bWaterMonthly: 365, bElectricMonthly: 50,    // owner ranges $330–$400 and $30–$70, midpoints
-    bInsuranceAnnual: 3353,                      // CDI SF-Sunset survey median — wrong product for a 3-unit building; flagged proxy
-    bFeeAnnual: 120,                             // invented placeholder; SF fees not verified
-    // Official 2025–Feb 2027 allowance and 2026/2027 basic exclusions;
-    // later amounts are hypothetical indexation, not published IRS/BOE figures.
+// Tax-rate simplifications are scenario assumptions and do not calculate a real taxpayer's liability.
+// The site links the official tax rules separately; actual tax depends on the facts and filing position.
+    aRentMonthly: 4400, bRentMonthly: 3600,    // synthetic example only; not a quote or market estimate
+    aWaterMonthly: 180, aSolarMonthlyCredit: 0,
+    aInsuranceAnnual: 2240,                      // synthetic example only; not an insurance quote
+    bWaterMonthly: 540, bElectricMonthly: 130,
+    bInsuranceAnnual: 4300,                      // synthetic example only; not an insurance quote
+    bFeeAnnual: 240,                             // invented placeholder
+    // Official enacted-law values shown on the tax page; later amounts are projections.
     prop19Amount: 1044586,
-    // Projection basis for carrying the allowance forward: the statutory adjustment
-    // uses the FHFA California house-price change each other February 16 (BOE LTA
-    // 2025/009). 2.86% is the 20-year CAGR of the FHFA San Jose-area HPI series on
-    // FRED (2006 Q3–2026 Q2); it is a projection, not a published BOE figure.
     prop19Index: 0.0286,
     estateExclusion: 15000000, estateExclusion2027: 15480000, estateIndex: 0.02
   });

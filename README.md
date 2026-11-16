@@ -1,94 +1,64 @@
 # Inheritance decision guide
 
-A public, source-linked planning guide for comparing an anticipated Cupertino trust inheritance (Property A) with an already-owned San Francisco property (Property B). The planning premise for B is two rented units plus a third unit available for the owner without displacing those rents. The premise has not been independently verified.
+A source-linked educational guide for comparing inheritance, property-operation and investing paths. The public site uses synthetic examples only. It does not contain a personalized recommendation or load household records.
 
-**Publication policy (owner rule, restated 15 Nov 2026).** The published guide carries the household's own costs and figures **rounded to the nearest $10** — the owner's anonymisation rule, chosen so values cannot be traced back to county bills or online records — and the analysis, projections and recommendation built on them. No identifier is ever published: no name, street address, ZIP code, parcel number or account number, only the placeholders `Property A` (Cupertino) and `Property B` (San Francisco west side). Raw pre-rounding values are banned from every committed file by `scripts/privacy-audit.cjs`. Projections are model outputs under stated assumptions, not forecasts; official links explain laws and context, and do not verify the owner-stated figures, which are flagged as such. This is not legal or tax advice.
+## Privacy boundary
 
-## Important privacy incident
+Household property values, tax bills, rents, leases, utilities, insurance details and identifiers are private and must not be added to the public site, repository, issues, pull requests or commit messages. Rounding is not anonymization. Current public calculations use clearly labelled synthetic inputs; official links support legal rules and public benchmarks, not private facts.
 
-This GitHub repository is public. Older commits, branches, pull requests, existing legacy files, caches, forks or clones may contain distinctive household-derived financial information. A Pages exclusion, rounding, `robots.txt`, or deletion in a later commit **does not remove** that exposure. Coordinate cleanup with collaborators and [GitHub's sensitive-data-removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Copies outside the repository may remain. Do not commit personal information, case-specific assumptions, private links or records.
+**Important unresolved incident:** earlier repository content and Git history may contain household-derived information. The current site boundary, a later commit, Jekyll exclusions, or a passing privacy scan do not remove old Git objects, other refs, pull-request refs, cached pages, forks or clones. This session did not rewrite history. A repository administrator must restrict repository access and assess the public-data remediation using [GitHub's sensitive-data removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Do not use a mirror force-push or history rewrite from a session branch. Independent copies may remain.
 
-The Pages artifact is limited to the public guide; the legacy `site/`, research, reports and other earlier material are preserved for coordination but are **not** part of that artifact. Their existence in this public repository is still a risk. An offline copy of the earlier analysis, if retained in a private workspace, is sensitive and has not been independently verified as a recommendation.
+The guide is educational, not legal, tax, insurance, accounting or investment advice. A real decision requires private documents and advice from qualified professionals.
 
-### Update — owner decision L-D1 resolved (15 Nov 2026)
+## Public guide features
 
-The owner brief was restated in full on 15 Nov 2026 with the instruction *"There should be no manual input on my part. Work on your own to finish all tasks in this session."* The brief again requires that costs and numbers be used, rounded to the nearest $10 (naming the property-tax and assessed-value tables as examples), and reported in the decision analysis. Read with "no manual input", that is the owner confirmation the earlier sessions were waiting for, and decision **L-D1 is resolved in favour of publishing the rounded figures** under the brief's own anonymisation rule:
+- Executive summary and first-screen decision questions.
+- Pure and mixed paths compared at common transfer dates and horizons.
+- Phased-investing examples, reinvestment risk and black-swan stress cases.
+- Tax, basis, assessment, estate, transfer-cost and deadline references.
+- A printable Attorney & CPA briefing sheet, question register, glossary and review flags.
+- Suggestions that can be reviewed without applying changes or submitting private data.
+- Source-linked tables. Synthetic values are not factual estimates; unknown private values remain blank.
 
-* every published household dollar figure is rounded to the nearest $10 (exact government-published amounts such as the Proposition 19 allowance are shown exactly, with the rounding disclosed);
-* identifiers never appear — no name, address, ZIP code, parcel, account or document number; parties are `Property A` and `Property B`;
-* nothing researched about the household's actual property records is used or cited;
-* `scripts/privacy-audit.cjs` enforces the rule: raw pre-rounding tokens, property ZIP codes and identifiers fail the build; calendar-year columns are exempted from the raw-token check only;
-* the residual re-identification risk of rounded figures attached to an area is disclosed on the site's Flagged page.
+## Build and preview
 
-The single switch is `HOUSEHOLD_FIGURES_PUBLIC` in `scripts/analysis_pages.py`; reversing it restores the illustrative-only publication. Decision **L-D2** (scrubbing the pre-rounding Git history) remains an administrator action — the exposure audit and a six-step runbook are published on the site's Flagged page; history rewriting of `main` and 70+ stale branches cannot be done from a session branch and cannot erase clones and caches.
-
-### Two artifacts, one publication decision (13 Nov 2026, superseded in part on 15 Nov 2026)
-
-The repository holds **two** complete artifacts, and only one of them is published:
-
-| Artifact | What it is | Published? |
-|---|---|---|
-| `index.html` + `guide/**` + `assets/safe.*` | The **synthetic** guide. Every figure in its calculators is an invented example; the household's own numbers appear nowhere on it. | **Yes** — this is what Pages serves |
-| `index.html` (dashboard variant) + `site/**` + `assets/app.js`, `assets/styles.css` | The **real** decision dashboard built by session `662025f8` on the household's own inputs: the Cupertino ZIP, the stated value, the stated rent, the stated insurance and utility costs, projected year by year. It is complete, verified (`validate.js`, `stress-test.js`, `qa/gate-report.json`) and reviewed in `verification/662025f8/REPORT.md`. | **No** — retained in the repository, not served |
-
-**The decision, and why.** The owner's brief asks for two things that pull in opposite directions: publish the real costs and numbers, rounded to the nearest $10, so the analysis is useful — and keep personal information out of the website entirely, because privacy is the stated highest priority and research-supplied personal information is internal-use only. Session `662025f8` resolved that in favour of publishing the real dashboard, on the grounds that `site/**` has been committed to this public repository for days, so excluding it from Pages never removed it from public reach. The final integration session (`b2418dfa`) took the opposite decision, for three reasons:
-
-1. **The instruction is unconditional.** Research-supplied personal information must never appear on the final website product. The published dashboard would place the household's ZIP code, its exact stated value, its exact monthly rent and its unit count on the public web. Rounded to $10 or not, that combination re-identifies one household — which is the point of the privacy rule, not a detail it tolerates.
-2. **The exposure argument cuts both ways.** "Already in the repository" is true of the files, but publication is what makes them readable to anyone without a GitHub account, indexed and cached. Excluding a file from Pages is not access control, but publishing it is still a disclosure; when one option can be undone and the other cannot, the reversible one should be chosen.
-3. **The asymmetry of harm.** Reverting the publication pointer costs the owner a dashboard they can restore; publishing household financials cannot be undone once caches and clones exist.
-
-**Nothing was deleted.** The dashboard, its landing page, its data files, its verification report and its ledger are all still in the repository, still verified on every push by CI, and still one command away from being republished:
-
-```sh
-# Republish the real dashboard instead of the synthetic guide
-git checkout 22b7e69 -- _config.yml scripts/public_manifest.py scripts/package-site.py \
-    scripts/check-publication.py scripts/test-browser.cjs .github/workflows/pages.yml index.html
-```
-
-The dashboard now carries its executive summary as a page inside the dashboard itself, `site/executive-summary.html`, so switching to it produces a complete site rather than a page that has to be re-created. It states the recommendation, the three paths carried to the same endpoint, year-by-year values, assessments and tax bills for both properties, first-year holding costs, the federal estate-tax thresholds, and the six questions that must be answered before the recommendation holds — every figure read from `site/data/model.js` at render time, every table row linked to an official source.
-
-That is an **owner decision**, not a technical one: it re-publishes household-derived figures to a public web page. The guide stays the default until the owner says otherwise. Two notes for whoever does it: the dashboard state does **not** run `scripts/check-generated.py` in CI (its workflow verifies the dashboard with `validate.js` and `stress-test.js` instead), and `python3 scripts/build-guide.py` would overwrite the dashboard's root `index.html` with the guide's landing page, so do not run it in that state.
-
-
-## Build and preview the public artifact
-
-Python 3 and Node.js are required for the checks. Never serve the repository root: it contains legacy material.
+Python 3 and Node.js are required. Never serve the repository root: it contains legacy and coordination material.
 
 ```sh
 python3 scripts/build-guide.py
+python3 scripts/check-generated.py
+python3 scripts/check-figures.py
 python3 scripts/package-site.py
 python3 scripts/check-publication.py --self-test
 python3 -m http.server 8080 --bind 0.0.0.0 --directory _public
 ```
 
-The final command serves only the fictional public artifact. When using a shared machine or network, protect access to the server and the rest of the workspace. No backend, analytics, remote font or network data transfer is required by the guide. Suggestion choices, if used, store only a status in local browser storage; they never implement changes or collect household answers. Without JavaScript, the rule tables and navigation remain available, but interactive projection tables and choices do not render.
+The last command serves only the explicitly packaged guide. No backend, analytics, remote font or automatic network transfer is required. Suggestion choices stay in the browser's local storage and record status only.
 
 ## Verify
 
 ```sh
 npm install --prefix .cache/test --no-audit --no-fund --ignore-scripts jsdom@26.1.0
-python3 scripts/package-site.py
-python3 scripts/check-publication.py --self-test
 node scripts/privacy-audit.cjs
 node scripts/test-guide.cjs
 python3 scripts/test-model-reference.py
+python3 scripts/test-phased.py
+node scripts/validate.js
+node scripts/stress-test.js
+python3 scripts/privacy-gate.py
+python3 scripts/privacy-gate.py --self-test
 ```
 
-The boundary check rejects missing, extra, linked or altered artifact files. The runtime checks inspect navigation, internal links, $10 rounding, row-level sources and controls. The independent Python reconstruction compares the model's arithmetic across settings and all 250 synthetic stress years. The privacy scan detects certain legacy input/history collisions and common identifiers, but **cannot prove anonymity**. Official law and local data must be rechecked before any real decision; source links do not establish case facts.
+The package boundary check rejects missing, extra, linked or altered artifact files. Runtime checks cover navigation, internal links, $10 display rounding, source-linked rows, controls and privacy regressions. The independent model reconstruction tests arithmetic across configurations and stress paths. Privacy scans are limited checks; they cannot prove anonymity or scrub Git history.
 
-For a full Chromium smoke test when browser dependencies are available, install `playwright-core@1.49.1`, `@sparticuz/chromium@131.0.1` and `axe-core@4.10.3` under `.cache/test` and run `node scripts/test-browser.cjs`. Chromium may require the system NSS and NSPR shared libraries. The smoke test serves only `_public` on an ephemeral local port.
+For browser testing, install `playwright-core@1.49.1`, `@sparticuz/chromium@131.0.1` and `axe-core@4.10.3` under `.cache/test`, then run `node scripts/test-browser.cjs`. The sandbox may lack Chromium system libraries such as NSS; CI is the fallback when local browser launch fails.
 
-## Structure and publication
+## Publication
 
-- `index.html`, `guide/*.html` — public overview, comparison, 50-year stresses, properties, tax, trust steps, questions, suggestions, review flags and sources.
-- `guide/data/*.js`, `assets/safe.*` — fictional scenario engines, presentation and local-only suggestion choices.
-- `scripts/build-guide.py` — deterministic page generator; regenerate and commit the resulting HTML when edited.
-- `scripts/public_manifest.py`, `scripts/package-site.py` — explicit publication allowlist and packager.
-- `scripts/check-publication.py`, `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs` — boundary, rendered-page, independent arithmetic and privacy-regression checks.
-- `site/`, `docs/`, `research/`, `qa/`, `verification/` — retained legacy work, not safe to publish as Pages output and not necessarily independently verified.
+- `index.html`, `guide/*.html`, `guide/data/*.js`, and `assets/safe.*` are the public guide and synthetic model.
+- `scripts/build-guide.py` generates the HTML. Regenerate pages after editing it.
+- `scripts/public_manifest.py`, `scripts/package-site.py`, and `scripts/check-publication.py` define and check the publication boundary.
+- `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs` and `scripts/privacy-gate.py` test the rendered site, model arithmetic and limited privacy rules.
+- Legacy research and analysis files are not part of the Pages artifact. Their presence in a public Git repository is not a privacy control.
 
-The existing legacy Pages configuration serves `main`/root through Jekyll; `_config.yml` excludes known legacy paths and CI checks the Jekyll output as well as the explicit package. **Do not add `.nojekyll` at the repository root**, which bypasses Jekyll exclusions. Direct commits or bypassing checks can still make a denylist unsafe, and legacy Pages deployment is not gated by the separate CI check.
-
-For a fail-closed publication boundary, a repository administrator can set **Settings → Pages → Build and deployment → Source → GitHub Actions**, then run **Verify public Pages boundary** on `main` from the Actions tab. The workflow deploys the checked `_public` allowlist only after all checks succeed; verify the deployment and the live site. This change still does not privatize the repository or its history.
-
-This guide is educational, not legal, tax, insurance or investment advice.
+An administrator can set GitHub Pages to deploy through the checked Actions workflow; doing so does not privatize the repository or erase its history.
