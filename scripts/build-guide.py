@@ -82,6 +82,10 @@ S={
  'usc1031':('U.S. Code · 26 U.S.C. §1031 (Cornell LII copy)','https://www.law.cornell.edu/uscode/text/26/1031'),
  'asrGlossary':('Santa Clara County Assessor · glossary','https://asr.santaclaracounty.gov/faq/glossary'),
  'ftb540':('FTB · 2025 Instructions for Form 540','https://www.ftb.ca.gov/forms/2025/2025-540-instructions.html'),
+ # Added 16 Nov 2026 by session 070d6a2e; each page below was opened and read that day.
+ 'boe2026':('BOE · 2026 Letters to Assessors index','https://www.boe.ca.gov/proptaxes/2026.htm'),
+ 'lta26026':('BOE · LTA 2026/026, Proposition 19 exclusion Q&amp;A','https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf'),
+ 'cdiSurvey':('CA Department of Insurance · homeowners premium comparison','https://www.insurance.ca.gov/01-consumers/105-type/9-compare-prem/'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -96,7 +100,7 @@ PAGE_GROUPS=[
  ('Decide',[('overview','Overview','index.html'),('summary','Executive summary','guide/summary.html'),('decision','Compare','guide/decision.html'),('paths','Paths, mixed and pure','guide/paths.html'),('whatif','What-if controls','guide/whatif.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
  ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
  ('Evidence &amp; terms',[('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('glossary','Glossary','guide/glossary.html'),('sources','Sources','guide/sources.html')]),
- ('Act',[('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
+ ('Act',[('precommit','Pre-commitment','guide/precommit.html'),('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
 ]
 PAGES=[item for _,group in PAGE_GROUPS for item in group]
 def page(key,title,lead,body,scripts=(),home=False):
@@ -104,8 +108,8 @@ def page(key,title,lead,body,scripts=(),home=False):
     base='' if home else '../'
     nav=''.join(f'<div class="navgroup" role="group" aria-label="{gname}"><span class="navlabel" aria-hidden="true">{gname}</span>'+''.join(f'<a href="{base}{path}"'+(' aria-current="page"' if id==key else '')+f'>{label}</a>' for id,label,path in items)+'</div>' for gname,items in PAGE_GROUPS)
     links=''.join(f'<script defer src="{base}{s}"></script>' for s in ['assets/safe.js',*scripts])
-    hero=f'''<section class="hero{' compact' if not home else ''}"><div class="container"><div class="eyebrow">Inheritance decision guide · official sources re-opened 13–15 Nov 2026</div><h1>{title}</h1><p class="lead">{lead}</p><div class="meta"><span class="pill">Private facts withheld</span><span class="pill">Official sources linked</span><span class="pill">Synthetic examples only</span></div></div></section>'''
-    html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><title>{escape(re.sub(r'<[^>]*>', ' ', title))} · Inheritance planning</title><link rel="stylesheet" href="{base}assets/safe.css">{links}</head><body><a class="skip" href="#main">Skip to content</a><header class="header"><div class="container topbar"><a class="brand" href="{base}index.html"><span class="brand-mark">H</span><span>Inheritance planning<small>PUBLIC GUIDE · FICTIONAL EXAMPLES</small></span></a><button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button><nav class="nav" id="navigation" aria-label="Main navigation">{nav}</nav></div></header><div class="notice"><div class="container"><strong>Public guide.</strong> Only synthetic example inputs are used. Household records and household-derived figures are not published. Model outputs are not forecasts or personal advice. <a href="{base}guide/review.html">Important privacy limits →</a></div></div><noscript><div class="no-js">Tables of rules are available without JavaScript. Projection tables and suggestion choices require JavaScript.</div></noscript><main id="main">{hero}<div class="container">{body}</div></main><footer class="footer"><div class="container footer-inner"><div><strong>Inheritance planning</strong><br>Educational scenarios, not legal, tax, insurance or investment advice.</div><div>Source review: 13 Nov 2026 · <a href="{base}guide/sources.html">Sources</a> · <a href="{base}guide/review.html">Flagged for review</a><br>Never upload personal records to this public repository.</div></div></footer></body></html>'''
+    hero=f'''<section class="hero{' compact' if not home else ''}"><div class="container"><div class="eyebrow">Inheritance decision guide · official sources re-opened 13–16 Nov 2026</div><h1>{title}</h1><p class="lead">{lead}</p><div class="meta"><span class="pill">Private facts withheld</span><span class="pill">Official sources linked</span><span class="pill">Synthetic examples only</span></div></div></section>'''
+    html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><title>{escape(re.sub(r'<[^>]*>', ' ', title))} · Inheritance planning</title><link rel="stylesheet" href="{base}assets/safe.css">{links}</head><body><a class="skip" href="#main">Skip to content</a><header class="header"><div class="container topbar"><a class="brand" href="{base}index.html"><span class="brand-mark">H</span><span>Inheritance planning<small>PUBLIC GUIDE · FICTIONAL EXAMPLES</small></span></a><button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button><nav class="nav" id="navigation" aria-label="Main navigation">{nav}</nav></div></header><div class="notice"><div class="container"><strong>Public guide.</strong> Only synthetic example inputs are used. Household records and household-derived figures are not published. Model outputs are not forecasts or personal advice. <a href="{base}guide/review.html">Important privacy limits →</a></div></div><noscript><div class="no-js">Tables of rules are available without JavaScript. Projection tables and suggestion choices require JavaScript.</div></noscript><main id="main">{hero}<div class="container">{body}</div></main><footer class="footer"><div class="container footer-inner"><div><strong>Inheritance planning</strong><br>Educational scenarios, not legal, tax, insurance or investment advice.</div><div>Source review: 16 Nov 2026 · <a href="{base}guide/sources.html">Sources</a> · <a href="{base}guide/review.html">Flagged for review</a><br>Never upload personal records to this public repository.</div></div></footer></body></html>'''
     target=ROOT/('index.html' if home else f'guide/{key}.html');target.write_text(html+'\n',encoding='utf8')
 
 def cards(items):
@@ -248,6 +252,7 @@ body+=section('Readiness scorecard',table(['Fact that decides the decision','Sta
  ('What is the achievable rent floor?','<span class="tag warn">Unverified</span>','Property manager, comparables','<a href="guide/questions.html">Register D10</a>',source('hud')),
  ])+'<p class="tiny">Zero of eight resolved. The rounded figures on the Properties page are owner-stated inputs; none of these document-level facts is verified. Each row links to the register entry that names the exact document, who holds it, and a typical lead time. The register has sixteen entries in total; these eight are the ones that can change the answer.</p>','04 / readiness')
 
+body+='''<div class="callout warning"><strong>Agree the conditions before the figures arrive.</strong> The <a href="guide/precommit.html">pre-commitment register</a> lists, for living, renting, selling and every mixed path, the condition the household writes down and dates <em>first</em>, the falsifier that would void it, and the official rule it rests on. Every threshold on that page is blank on purpose: a public site cannot choose for you, and choosing after seeing one projection is how a decision gets reverse-engineered.</div>'''
 body+=section('Explore the guide',cards([
  ('00 / summary','Executive summary','One page: the finding, the four facts that gate it, the figures behind it and the deadlines. Prints on a sheet.','guide/summary.html'),
  ('01 / compare','Live, rent or sell','See assumptions, same-endpoint results and yearly costs on synthetic examples.','guide/decision.html'),
@@ -256,6 +261,7 @@ body+=section('Explore the guide',cards([
  ('02b / evidence','Real conditions','The observed inflation and assessment record, the official projection horizon, and the scenario bands.','guide/conditions.html'),
  ('03 / rules','Tax &amp; inheritance','Separate federal estate tax, income-tax basis, reassessment and trustee steps.','guide/tax.html'),
  ('04 / readiness','Questions to resolve','A prioritized list of missing records, answers and discovery routes.','guide/questions.html'),
+ ('04b / pre-commit','Sign before you see the numbers','For each path, the condition to write down first, the falsifier that voids it and the official rule it rests on.','guide/precommit.html'),
  ('05 / improvements','Suggestions to review','Choose or defer ideas without applying them to the site or the analysis.','guide/suggestions.html'),
  ('06 / review','Flagged for review','See the public-repository exposure and other unresolved issues.','guide/review.html'),
  ]),'02 / navigate')
@@ -386,7 +392,7 @@ body+=section('Can a decision reasonably be made yet?','''<div class="grid three
  <div class="card"><div class="eyebrow">Priority 1 · gates the decision</div><h3>'''+str(priority_counts['1'])+''' open</h3><p class="muted">Each can change the ranking between sell, rent and live, or miss a filing deadline.</p></div>
  <div class="card"><div class="eyebrow">Priority 2 · changes the numbers</div><h3>'''+str(priority_counts['2'])+''' open</h3><p class="muted">Cost, depreciation and preference inputs that move the result without usually moving the ranking.</p></div>
  <div class="card"><div class="eyebrow">Priority 3 · recheck at the time</div><h3>'''+str(priority_counts['3'])+''' open</h3><p class="muted">Law, prices and conditions that cannot be known now and must be rechecked near the event.</p></div>
-</div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one.</div>''')
+</div><p class="tiny">Register totals: '''+str(len(questions))+''' questions — '''+str(priority_counts['1'])+''' / '''+str(priority_counts['2'])+''' / '''+str(priority_counts['3'])+''' by priority — with the household answer still blank on all '''+str(open_household)+''', and a rule-level answer settled from an official source on all '''+str(rule_settled)+'''. Every question below states the rule that is settled today; what is missing is the household’s own facts.</p><div class="callout warning"><strong>Answer: not yet.</strong> A live, rent or sell decision cannot reasonably be made today, because every Priority 1 item is still open and each one is a fact that only the household’s own records and advisers can supply. What is settled is the rule set, which is what makes a private comparison possible at all. Close the Priority 1 items first — the <a href="suggestions.html">suggestions register</a> lists the route for each one. Before the private model is run, also complete the <a href="precommit.html">pre-commitment register</a>: it fixes in writing, and dates, the condition that would make each path the household’s choice, so the outcome cannot be reverse-engineered from one projection.</div>''')
 body+=section('Questions, answers and discovery',table(['Priority','Question','Answer already known from official sources','Household answer','How to discover privately','Decision impact','Official framework'],[(a,b,c,d,e,f,source(g)) for a,b,c,d,e,f,g in questions]))
 
 # ---------------------------------------------------------------- discovery register
@@ -577,8 +583,11 @@ body+=AP.review_block(CTX)
 page('review','Flagged for review.','Unknown facts, modeling limitations and the remaining public-history privacy incident are visible here; none should be mistaken for a verified value.',body)
 
 sources=[
- ('Property tax','BOE Proposition 19','Qualifying transfers, value cap and timing.','boe'),('Property tax','BOE fact sheet','Move-in, exemption and claim filing details.','prop19'),('Property tax','BOE LTA 2025/009','Exact 2025–2027 allowance and adjustment cadence.','allowance'),('Property tax','BOE LTA 2025/023','Prop 13 assessment and rate mechanics.','prop13'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),('Property tax','Santa Clara County Assessor · glossary','Tax rate area definition, the 1% maximum basic rate plus voter-approved bonds, and flat direct charges, read 15 November 2026.','asrGlossary'),('Property tax','Santa Clara County Controller-Treasurer · Compilation of Tax Rates FY 2025–26','The rate book itself: 816 tax rate areas for FY 2025–26, the 1% levy plus voter-approved debt example, and every TRA’s exact rate by number, read 15 November 2026.','sccRateBook'),
- ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability.','estate'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','State estate tax-return requirements.','ftb'),
+ ('Property tax','BOE Proposition 19','Qualifying transfers, value cap and timing.','boe'),('Property tax','BOE fact sheet','Move-in, exemption and claim filing details.','prop19'),('Property tax','BOE LTA 2025/009','Exact 2025–2027 allowance and adjustment cadence.','allowance'),('Property tax','BOE LTA 2025/023','Prop 13 assessment and rate mechanics.','prop13'),
+ ('Property tax','BOE LTA 2026/026','Proposition 19 exclusion Q&amp;A: claim windows, the six-month supplemental-notice rule, prospective-only relief after the deadlines, and continual-use removal, read 16 November 2026.','lta26026'),
+ ('Property tax','BOE 2026 Letters to Assessors index','Confirms 2026/026 is the current published exclusion Q&amp;A and lists the 2026 letters, read 16 November 2026.','boe2026'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),('Property tax','Santa Clara County Assessor · glossary','Tax rate area definition, the 1% maximum basic rate plus voter-approved bonds, and flat direct charges, read 15 November 2026.','asrGlossary'),('Property tax','Santa Clara County Controller-Treasurer · Compilation of Tax Rates FY 2025–26','The rate book itself: 816 tax rate areas for FY 2025–26, the 1% levy plus voter-approved debt example, and every TRA’s exact rate by number, read 15 November 2026.','sccRateBook'),
+ ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability. Filing-threshold table re-read 16 November 2026 (2026: $15,000,000).','estate'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','No California estate-tax return for deaths on or after 1 January 2005; inheritance tax only before 8 June 1982, re-read 16 November 2026.','ftb'),
+ ('California tax','FTB 2025 Instructions for Form 540','Line 62 Behavioral Health Services Tax worksheet (1% above $1,000,000 taxable income), read 16 November 2026.','ftb540'),
  ('Administration','Probate Code §16061.7','When trustee notification is required.','notice'),
  ('Administration','26 U.S.C. §6072 (Cornell LII copy)','The statutory due date for an estate or trust income-tax return, read 15 November 2026.','usc6072'),
  ('Local recording','Santa Clara County Clerk-Recorder · Recording real estate','Documentary transfer tax rate, exemption citation requirement, and the fee for a missing change-of-ownership report, read 15 November 2026.','scc-recording'),
@@ -586,7 +595,7 @@ sources=[
  ('Observed series','BLS CPI-U via FRED (CPIAUCNS)','Annual-average inflation record used on the real-conditions page.','cpiHistory'),('Observed series','Freddie Mac PMMS','Observed 30-year fixed mortgage benchmark.','pmms'),('Observed series','BOE LTA 2026/002','2026-27 Prop 13 inflation factor and the 51-year factor history.','prop13factor'),
  ('Risk','CBO','2026–2036 economic baseline; not a 50-year property forecast.','cbo'),('Risk','BLS','Recorded 2022 CPI and electricity inflation.','bls'),('Risk','FHFA','House-price index data and methods.','hpi'),('Risk','USGS','Bay Area earthquake outlook 2014–2043.','usgs'),('Risk','SEC Investor.gov','Diversification and investing risks.','invest'),('Risk','FDIC','Deposit insurance categories and limits.','fdic'),('Investment','TreasuryDirect bills','Bill maturities, redemption and federal/state/local tax treatment.','treasuryBills'),('Investment','TreasuryDirect notes','2-year notes and marketable security terms.','treasuryNotes'),('Investment','TreasuryDirect pricing','Market-price variation with yield and interest rate.','treasuryPricing'),('Law watch','Congress.gov','Federal H.R. 1301 bill status.','hr1301'),('Law watch','California Legislature','SB 284 status and history.','sb284'),('Privacy','GitHub documentation','Removal, PR references and copies.','github'),
 ]
-body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register was re-opened and the wording the guide attributes to it was checked on the date recorded for it: 13 or 14 November 2026 for the earlier rows, and 15 November 2026 for the rows this review added or closed, which also carry that date in the public figure ledger. Recheck the underlying documents and date-specific details before relying on them.</div>'
+body='<div class="callout">Sources explain law, official benchmarks or decision context. They do not verify a household’s private records or this site’s fictional assumptions. Every link in the register was re-opened and the wording the guide attributes to it was checked on the date recorded for it: 13 or 14 November 2026 for the earlier rows, 15 November 2026 for the rows that review added or closed, and 16 November 2026 for the rows added with the pre-commitment register and for the estate, Form 540 and Proposition 19 pages re-read that day. Recheck the underlying documents and date-specific details before relying on them.</div>'
 sources+=AP.SOURCES_ADD
 body+=section('Source register',table(['Category','Agency or source','What it supports','Official link'],[(a,b,c,source(d)) for a,b,c,d in sources]))
 body+=section('How each official figure was checked',table(['Check','What it does','What it does not do','Official context'],[
@@ -594,7 +603,7 @@ body+=section('How each official figure was checked',table(['Check','What it doe
  ('Build gate','The build fails if a seven-figure amount appears on a published page without a ledger record, or if a ledger record is marked verified without an official https source.','It cannot detect a value that was verified once and has since changed at the agency.',source('prop19')),
  ('Rounding disclosure','Where a published amount is rounded to the nearest $10, the page says so and the ledger keeps the exact official value so a reader can match it.','Rounding does not anonymize: a multi-year series can be matched even after rounding.',source('prop13')),
  ('Deliberately unverified','An item that could not be confirmed at an official source is left blank on the page and recorded as unverified in the ledger.','It stays open until someone opens the official document and records it.',source('github')),
- ]))+'<p class="tiny">Last full re-read of official sources: 13–15 November 2026, with per-row dates in the figure ledger. The guide states a review date rather than promising currency. Laws, exemption amounts and local rates change.</p>'
+ ]))+'<p class="tiny">Last full re-read of official sources: 13–16 November 2026, with per-row dates in the figure ledger. The guide states a review date rather than promising currency. Laws, exemption amounts and local rates change.</p>'
 body+=section('What is deliberately left blank',table(['Blank item','Why it is blank','Where to find the real value privately','Official context'],[
  ('Market value of either property','No appraisal has been published to this site, and publishing one would breach the privacy rule.','Independent appraisal and comparable sales, kept offline.',source('basis')),
  ('Actual property-tax bill and assessed value','Private and parcel-specific; not published here.','The county secured tax bill for each parcel, reviewed offline.',source('prop13')),
@@ -782,6 +791,161 @@ body=section('When each deadline falls',table(['When (from the event)','Deadline
  ('Fall 2027 · FY 2027–28 bill (San Francisco parcels only)','Proposition H parcel tax first appears on the regular property-tax bill and is paid in the same two installments. SFMTA states the tax runs from 1 July 2027 through 30 June 2042, with inflation adjustments from FY 2028–29.','Owner or trustee of a San Francisco parcel','Applies to Property B only if its parcel type and taxable building area fall within the schedule. The amount for Property B is not computed here.',source('sfMuni')),
 ]),'Dated steps')
 body+='<div class="callout warning"><strong>Not on this timeline yet.</strong> The fiscal-year convention a decedent’s estate may elect on Form 1041 has not been read from the governing official text in this review. It stays blank and is listed on the Flagged page rather than filled from a secondary site.</div>'
+body+='<div class="callout warning"><strong>Not on this timeline yet.</strong> The San Francisco parcel-tax billing date, the Form 4768 extension mechanics and the fiscal-year convention a decedent’s estate may elect on Form 1041 have not been read from the governing official text in this review. They stay blank and are listed on the Flagged page rather than filled from a secondary site.</div>'
+# ---- Pre-commitment register: written, dated conditions set before figures arrive (added 16 Nov 2026) ----
+def money0(v):
+    return '$' + f'{v:,.0f}'
+
+_pre_rows = [
+ ('LIVE','Choose living in [PROPERTY A]','T1 · an occupancy decision','Written and dated by the household before any branch of the private model is run.',
+  'A verified written opinion says the qualifying transferee can make the home their principal residence within the statutory year; the household sets, in writing and in advance, the number of years it intends to live there, and every assumption in the private model is fixed and dated on the same day.',
+  'In advance: the written occupancy intention and the claim calendar. Falsified if the year passes with no homeowners’ exemption claim filed and a supplemental assessment is enrolled.',
+  'Signing it before the figures exist is the only way the choice can be read forward from stated values rather than backward from a favourable projection.',
+  'boe', ['prop19','lta26026']),
+ ('LIVE','Choose living in [PROPERTY A]','T2 · family-home relief survives','Written and dated before the private model is run.',
+  'A written assessor determination (or counsel’s opinion on the claim) confirms the exclusion, and at least one full assessment year passes with the claim intact.',
+  'Falsified at the first lien date after the qualifying transferee stops being eligible: the Board states the exclusion is then removed and the new base-year value enrolled. The claim itself must be timely — forms BOE-266 or BOE-261-G within one year — or relief begins only in the year the exemption claim is filed.',
+  'If relief falls away the annual cost of the same home changes for decades, which is the largest single number in the live column.',
+  'rtc480', ['boe','lta26026']),
+ ('LIVE','Choose living in [PROPERTY A]','T3 · rent break-even','No threshold at all: the break-even is a model output the household may set before or after a projection, provided it is written and dated first.',
+  'A verified fee or rent, in the rent the household would otherwise pay for equivalent housing, with three or more comparable leases on file; if that avoided rent clears the rent the property could earn, rent is preferred to living.',
+  'Reopens at every lease renewal and at any local-law change.',
+  'Avoided rent is the value living earns and the model cannot see it; writing the comparison first prevents an unstated preference from being dressed as arithmetic. Where the break-even that crosses the rent line is not computed on the published site, no number is stated here.',
+  'hud', ['invest']),
+ ('RENT','Choose renting [PROPERTY A] out','T4 · rent floor','Set before the private model is run, from comparable leases only.',
+  'At least three usable comparables and a written break-even: the gross monthly rent at which the rental covers its own full costs, before financing and income tax, in today’s money.',
+  'Reopens if two successive comparable quarters fall below the break-even.',
+  'A rent achieved in a good quarter is not a policy; the floor is what makes the choice falsifiable.',
+  'hud', ['sfRent']),
+ ('RENT','Choose renting [PROPERTY A] out','T5 · assessed value and tax','Set before the first projection.',
+  'The reconstructed or reassessed assessed value and the tax-rate-area method are agreed in writing before the projection, and the first real secured bill is checked against the projection.',
+  'Reopens if the actual bill differs from the projection by a stated margin, or if decline-in-value relief applies.',
+  'The property-tax line is large and parcel-specific; an unverified rate silently moves every year of the comparison.',
+  'prop13', ['sccRateBook','prop13factor']),
+ ('RENT','Choose renting [PROPERTY A] out','T6 · insurance quote','Set before the private model is run.',
+  'A binding quote for the correct product — owner-occupied or landlord form, with or without earthquake cover — with the deductible and exclusions in writing. A regulatory survey is not a quote.',
+  'Reopens at every renewal and after any loss or local hazard change.',
+  'A regulatory survey cannot price this parcel; the deductible, not the premium alone, decides whether a loss is a balance-sheet event.',
+  'cdi', ['cdieq','fairplan']),
+ ('RENT','Choose renting [PROPERTY A] out','T7 · leases and local rules verified','Set before trusting any rent figure.',
+  'The leases, occupancy, rent-control coverage and local rules for [PROPERTY B] are checked against primary documents, and the lawful rent for the household’s own use is settled in writing.',
+  'Reopens on enactment of any measure the Rent Board has noticed, and at each annual increase window.',
+  'B is already owned; its lawful rents and its rules set the baseline the A decision is measured against, and proposed rules are not law.',
+  'sfRent', ['sfMuni']),
+ ('SELL','Choose selling [PROPERTY A]','T8 · same-year sale, with basis and gain','Set before the private model is run.',
+  'A sale is modelled in the same tax year as the transfer, because inherited basis is generally fair market value at the date of death, so a same-year sale has little or no gain by construction; that line is written down before any multi-year projection.',
+  'Reopens if the transaction slips into a later tax year.',
+  'Fixing the basis and the gain first is what stops a long projection from being used to justify a sale whose tax was never computed.',
+  'basis', ['irs701']),
+ ('SELL','Choose selling [PROPERTY A]','T9 · like-kind exchange and transfer tax settled','In writing, before any listing.',
+  'The written record says whether a like-kind exchange is wanted and available — the statute reaches real property exchanged for like property, identified within 45 days and completed within 180 days, so proceeds reinvested in stocks cannot use it — and whether any documentary transfer tax exemption applies, which the county requires the instrument itself to cite.',
+  'Reopens if the buyer or the timing makes an exchange possible, or if the exemption is refused at recording.',
+  'An unstated preference here changes the whole tax treatment and the closing statement of the sale.',
+  'usc1031', ['scc-recording','rtc11911']),
+ ('SELL','Choose selling [PROPERTY A]','T10 · estate liquidity and portability','Answered privately by counsel and the CPA before any sale decision.',
+  'A written answer on whether a return is required (gross estate plus adjusted taxable gifts against the threshold), whether portability is wanted, and how any tax would be paid without a forced sale.',
+  'Reopens only if the estate changes materially before the transfer.',
+  'Estate tax and portability can force or forbid a sale regardless of the ranking.',
+  'estate', ['i706','usc6075']),
+ ('SELL','Choose selling [PROPERTY A]','T11 · investment policy in writing','Written and dated before the money arrives.',
+  'A short written policy states the allocation, the liquidity reserve, the deposit-insurance plan and the staged-entry rule; the private model’s return assumption is the policy’s expected return, not a hoped-for one.',
+  'Reopens annually and after any change in the household’s needs.',
+  'The return assumption does most of the work in every sell result; without a policy it is a guess dressed as a plan.',
+  'invest', ['fdic','treasuryBills']),
+ ('MIXED','Choose a mixed path','T12 · the written hybrid rule','Written and dated before the model is run.',
+  'The household writes its hybrid rule first — for example: live in the home for a stated number of years and then sell if a stated condition is met — and the year, and only then compares it with the pure paths on the same dates.',
+  'Reopens at the stated review date and at the trigger itself.',
+  'A mixed path chosen after the numbers is just the best-fitting line from one projection.',
+  'boe', ['irs701','basis']),
+ ('ANY','Choose any path','T13 · a falsifier per path, filed with the decision','Written before the first projection and reviewed at the review date.',
+  'Each path carries the observable event that would void it — a lost exemption claim, an unreachable rent floor, a tax year that slips, a return that misses policy.',
+  'Reviewed at the written review date and whenever a falsifier fires.',
+  'A choice that cannot be shown false is not a decision; it is a preference with a spreadsheet attached.',
+  'invest', []),
+]
+
+def _pre_rows_render():
+    out = []
+    for path, decision, test, when, rule, falsifier, why, src, extra in _pre_rows:
+        official = source(src) + (''.join(' · ' + source(k) for k in extra) if extra else '')
+        out.append((path, decision, test, when, rule, falsifier, why, official))
+    return out
+
+_rent_test = table(
+ ['Rent test, first full year after a living choice', 'Amount', 'What it is', 'Official context'],
+ [
+  ('Housing the household would otherwise rent', '— private comparable rent required', 'Avoided rent, verified from comparable leases; not published.', source('hud')),
+  ('[PROPERTY A] rent the property could earn instead', '— private comparables required', 'The other side of the same choice; not published.', source('hud')),
+  ('Break-even rent at which living and renting equal', '— to be computed privately', 'The crossing point, written down before any projection is run.', source('invest')),
+ ],
+) + '<p class="tiny">No threshold on this page is a recommendation and none carries a dollar figure. Each is a written, dated condition the household sets for itself before the numbers are computed, using the private comparables and adviser letters that the Questions register names. Where a crossing point is not computed on this page, the cell stays blank rather than being inferred.</p>'
+
+body = ('<div class="callout warning"><strong>Why this page exists.</strong> The brief asks that the household agree, in writing and in advance, on what would make it choose each path — so that the outcome cannot be reverse-engineered from one favourable projection. A model cannot do that for you, and this page does not pretend to. It sets out, for every path, the condition to write down first, the falsifier that would void it, and the official rule the condition rests on. Every threshold cell is deliberately blank: filling one in from this public site would be a recommendation.</div>'
+ '<div class="callout"><strong>Sign first, then compute.</strong> Write the register on paper or in a private file, date it, and only then run the private model on verified inputs. A condition written after the figures are visible is not a pre-commitment, and a mix chosen after the numbers is just the best-fitting line from one projection.</div>')
+
+body += section('The conditions, by path', table(
+ ['Path', 'The decision being pre-committed', 'Test', 'When it must be written', 'The condition to write down first', 'Falsifier that voids it', 'Why it must precede the figures', 'Official framework'],
+ _pre_rows_render()) )
+
+body += section('The rent test beside the living choice', _rent_test, 'threshold blank on purpose')
+
+body += section('Official rules this register relies on, re-read 16 Nov 2026', table(
+ ['What the rule says', 'Exact wording or effect as the agency publishes it', 'What it does not settle', 'Official source'],
+ [
+  ('The exclusion is claimed, not automatic',
+   '“The exclusions provided for in this section shall not be allowed unless a claim for the exclusion sought … is filed with the assessor.” The BOE asks for the claim within three years of the transfer or before a transfer to a third party, whichever is earlier, and the exemption claim within one year.',
+   'Whether this household’s facts qualify, and the day the paperwork is actually filed.',
+   source('boe') + ' · ' + source('lta26026')),
+  ('Continued use of the home is required to keep the exclusion',
+   'The BOE states the home must be continually used as the family home by an eligible transferee, and that if it becomes ineligible for the homeowners’ or disabled veterans’ exemption the exclusion is removed and the new base-year value enrolled as of the lien date following that date.',
+   'The exact enrolment date for a particular occupancy change; ask the assessor.',
+   source('lta26026')),
+  ('A missed family-home condition is not modelled here',
+   'The BOE’s conditions, read as a unit — transferor’s principal residence, transferee’s occupancy within one year, a timely claim, continued use — define eligibility. The guide models the arithmetic of the claims, not their legal availability.',
+   'Any fact-specific exception; that is a question for the assessor and counsel.',
+   source('boe') + ' · ' + source('prop19')),
+  ('The federal filing test uses the gross estate',
+   'A return is required if the gross estate, increased by adjusted taxable gifts and the specific gift tax exemption, exceeds the filing threshold for the year of death — $15,000,000 for 2026 on the IRS table; the return is due nine months after death under 26 U.S.C. §6075(a).',
+   'This household’s gross estate, gifts and any portability election.',
+   source('estate') + ' · ' + source('usc6075')),
+  ('California has no estate or inheritance tax for a modern death',
+   'The State Controller states no California estate-tax return is required for deaths on or after 1 January 2005, and the inheritance tax is collected only for deaths before 8 June 1982.',
+   'Nothing about federal exposure, which is the exposure to test.',
+   source('ftb')),
+  ('Capital gain is taxed with the ordinary schedule, plus one surcharge',
+   'The FTB rate schedules top out at 12.30% above $742,953 (single) or $1,485,906 (joint) of taxable income; Form 540 line 62 adds a 1% Behavioral Health Services Tax on taxable income above $1,000,000. Read from the published schedule and the line-62 worksheet, not from a summary.',
+   'The household’s own bracket, deductions and other income.',
+   source('ftbSchedule') + ' · ' + source('ftb540')),
+  ('The home-sale exclusion has ownership and use tests',
+   'The IRS states up to $250,000 of gain ($500,000 on a joint return) may be excluded if the ownership and use tests are met — two of the last five years for each — and that the exclusion is not automatic.',
+   'Whether a particular living-then-sell timeline meets both tests.',
+   source('irs701')),
+  ('A like-kind exchange never reaches stock-market reinvestment',
+   '26 U.S.C. §1031 as amended applies to real property exchanged for real property, with 45-day identification and 180-day completion; securities are not like-kind real property.',
+   'Whether an exchange of this property for another is available or wanted.',
+   source('usc1031')),
+  ('A regulatory insurance survey is not a quote',
+   'The Department of Insurance states its premium surveys “are not premium quotes”, that it is a regulator and not an agent, and that the amount actually charged may differ.',
+   'This parcel’s premium, deductible, exclusions or insurability.',
+   source('cdi')),
+  ('A rent benchmark is not a lawful rent or a market quote',
+   'HUD describes small-area fair market rents as ZIP-code figures used to set voucher payment standards; the site uses them only as a floor check.',
+   'The achievable rent or any lease term.',
+   source('hud')),
+  ('A transfer tax exemption must be cited on the instrument',
+   'The Santa Clara County Clerk-Recorder states the documentary transfer tax is “due on all changes of ownership unless an applicable statutory tax exemption is cited”, computed at 55 cents per $500 of real property value, with a higher published rate of 165 cents per $500 for property inside San Jose, Palo Alto and Mountain View, and an additional $20 charge where a Preliminary Change of Ownership Report is missing at recording.',
+   'Whether an exemption applies to this transfer — the county page does not answer it for a particular deed.',
+   source('scc-recording') + ' · ' + source('rtc11911')),
+  ('A proposed measure is not law',
+   'The Rent Board’s 9 November 2026 notice states Board of Supervisors File 261020 “has not been enacted and is subject to change”.',
+   'Whether it will be enacted before the transfer.',
+   source('sfRent')),
+ ],
+) )
+
+body += section('How to use this register', '<p>Each row above is one line of a private file the household keeps and dates. Fill only the columns that are yours to fill: the condition, the falsifier, and the date. Leave every threshold that requires a number blank until the verified comparables, adviser letters and quotes listed in the Questions register are in hand. When a condition fires or fails, write the date and the reason next to it. When the review date arrives, re-check the official sources linked in each row before relying on any rule that has changed.</p><ul class="list"><li>Write the register before running any private projection, and keep the dated original.</li><li>Record every decision and its date next to the item, so a later reader knows what was chosen and why.</li><li>Never enter a private answer, address, rent, bill or account number on this site; keep the completed register offline.</li><li>Re-read the linked official page before acting; the rules and amounts above are dated 16 November 2026.</li></ul>', 'how to use it')
+page('precommit','Sign the decision before you see the numbers.','A written, dated pre-commitment register: for each path, the condition to agree on first, the falsifier that would void it, and the official rule it rests on. Every threshold is blank on purpose.',body)
+
 page('timeline','Deadlines in order.','The dated steps that can move the decision, from the date of death to the Proposition 19 claim deadlines. Each row links to the official rule.',body,['guide/data/model.js'] if False else [])
 
 # ---- Attorney & CPA one-page sheet: synthetic structure, placeholders only, prints on one page ----
@@ -791,7 +955,7 @@ def _li(items):
     return '<ul>'+''.join('<li>'+x+'</li>' for x in items)+'</ul>'
 sheet=(
  PRINT_CSS+'<div class="brief-sheet">'
- '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 15 Nov 2026</strong></div>'
+ '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 16 Nov 2026</strong></div>'
  '<p class="tiny">For [ATTORNEY] and [CPA]. No household figures are included. Identifiers stay placeholders: [DECEDENT], [TRUSTEE], [PROPERTY A] and [PROPERTY B]. Educational, not legal or tax advice.</p>'
  + section('Facts to confirm privately',_li([
    'Date of death, and the date-of-death value of [PROPERTY A] from a qualified appraiser (see '+source('basis')+').',
