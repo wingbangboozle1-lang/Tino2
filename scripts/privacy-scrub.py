@@ -46,25 +46,46 @@ def tracked_files():
             yield name
 
 
+def repo_text(name):
+    """Read a tracked text file from the working tree, or from HEAD when there is none.
+
+    The history audit is documented to run against ``git clone --mirror``, and a mirror
+    clone is bare: it has no working tree. Reading the allowlist only from the filesystem
+    therefore returned an empty set there, which made the audit report officially published
+    amounts as rounding violations and listed clean HEAD blobs as still flagged — a false
+    picture for the administrator deciding whether to rewrite history. Reading the same
+    path out of the object database makes the instrument measure the same thing in a bare
+    mirror as in a checkout.
+    """
+    path = ROOT / name
+    if path.exists():
+        return path.read_text(encoding="utf8")
+    try:
+        proc = subprocess.run(["git", "show", f"HEAD:{name}"], cwd=ROOT,
+                              capture_output=True, text=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    return proc.stdout or None
+
+
 def official_amounts():
     """Dollar amounts a government body publishes may stay exact; they are not household data."""
     allowed = set()
     for name in ("integration/ledger/official_amounts.txt", "integration/ledger/facts.jsonl"):
-        path = ROOT / name
-        if path.exists():
-            for m in re.finditer(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d{4,})(?![\d,]*\d)",
-                                 path.read_text(encoding="utf8")):
+        text = repo_text(name)
+        if text:
+            for m in re.finditer(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d{4,})(?![\d,]*\d)", text):
                 allowed.add(int(m.group(1).replace(",", "")))
-    ledger = ROOT / "guide" / "figures" / "official-figures.json"
-    if ledger.exists():
-        for fig in json.loads(ledger.read_text(encoding="utf8")).get("figures", []):
+    ledger_text = repo_text("guide/figures/official-figures.json")
+    if ledger_text:
+        for fig in json.loads(ledger_text).get("figures", []):
             for field in ("official_exact", "display_rounded", "claim", "note"):
                 for m in re.finditer(r"\$\s?([\d,]+)", str(fig.get(field, ""))):
                     allowed.add(int(m.group(1).replace(",", "")))
-    gate = ROOT / "scripts" / "test-guide.cjs"
-    if gate.exists():                      # the published allowlist of official amounts
+    gate_text = repo_text("scripts/test-guide.cjs")
+    if gate_text:                          # the published allowlist of official amounts
         block = re.search(r"const OFFICIAL_AMOUNTS=new Map\(\[(.*?)\n\]\);",
-                          gate.read_text(encoding="utf8"), re.S)
+                          gate_text, re.S)
         if block:
             for m in re.finditer(r"\[(\d+),", block.group(1)):
                 allowed.add(int(m.group(1)))

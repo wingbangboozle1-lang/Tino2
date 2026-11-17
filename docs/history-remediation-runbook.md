@@ -27,7 +27,7 @@ numbers" decision got made earlier in this project's history.
 From a **full** clone (a shallow clone cannot answer the question — it has nothing to look at):
 
 ```sh
-git clone https://github.com/<owner>/<repo>.git        # not --depth; a mirror clone is better
+git clone https://github.com/<owner>/<repo>.git        # not --depth
 cd <repo>
 python3 scripts/privacy-history-audit.py               # counts + flagged paths, never matched text
 python3 scripts/privacy-history-audit.py --json         # for a ticket
@@ -45,6 +45,37 @@ to include every ref:
 ```sh
 git clone --mirror https://github.com/<owner>/<repo>.git
 ```
+
+> **Corrected 17 Nov 2026 — read this before you use the numbers below.** An earlier version of
+> this runbook recommended `git clone --mirror` and nothing else. A mirror clone is **bare**, so
+> the audit could not read its allowlist of officially published amounts (`integration/ledger/*`,
+> `guide/figures/official-figures.json`, `scripts/test-guide.cjs`) from the filesystem and
+> resolved them as empty. That inflated the findings and made the audit list **nine paths as
+> "still the blob at HEAD" that are clean at HEAD**. `scripts/privacy-scrub.py` now resolves each
+> allowlist input from the working tree **or from the object store**, the audit prints where each
+> input came from and warns loudly if one is missing, and `scripts/test-history-audit.py` fails if
+> a checkout and a bare mirror of the same repository ever disagree. A mirror clone is now safe
+> to use. If you want the old behaviour back for any reason, run the audit in a clone **with a
+> checkout**; the numbers below are identical either way.
+
+**The measured position on 17 Nov 2026** (full mirror clone of the remote: 236 refs, 602 commits,
+1,860 unique text blobs, not shallow; allowlist resolved from the object store, 174 officially
+published amounts):
+
+| Measure | Value |
+| --- | --- |
+| Unique text blobs scanned | 1,860 |
+| Flagged blobs | **545** |
+| Flagged blobs that are still the blob at HEAD | **0** |
+| Findings by rule | RAW-FIGURE × 5,539 · BLOCKED-IDENTIFIER × 4,865 · ROUNDING × 252 |
+| Blocked identifier hashes / pre-rounding figure hashes | 5 / 42 |
+
+So the exposure is real but confined to **history**: the working tree at HEAD is clean under the
+full policy, and the material that a reader could still reach sits in earlier commits — the
+retained analysis tree, earlier revisions of `COORDINATION.md`, and verification reports that
+quoted raw figures before the $10 rule was applied. The paths carrying the most flagged blobs
+were `COORDINATION.md` (289), `site/data/sources.js` (24), `index.html` (16),
+`verification/d9c69069/REPORT.md` (14), `qa/ledger.json` (13) and `site/data/ledger.js` (13).
 
 Expected result today: a non-empty list, because the pre-rounding figures are in history. Zero
 findings in a shallow clone means "not inspected", not "clean" — the tool says so.

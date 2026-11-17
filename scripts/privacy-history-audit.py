@@ -80,6 +80,18 @@ def main():
     # that rule has no such function.
     raw_banned = gate.raw_figure_hashes() if hasattr(gate, 'raw_figure_hashes') else frozenset()
 
+    # The allowlist of officially published amounts decides how many findings the ROUNDING rule
+    # produces. If it cannot be read, the audit does not measure less — it measures something else,
+    # and says so. Record where each input came from, so a bare-mirror run cannot be mistaken for
+    # a checkout run (see docs/history-remediation-runbook.md §2).
+    allowlist_inputs = {}
+    for name in ("integration/ledger/official_amounts.txt", "integration/ledger/facts.jsonl",
+                 "guide/figures/official-figures.json", "scripts/test-guide.cjs"):
+        on_disk = (ROOT / name).exists()
+        readable = scrubber.repo_text(name) is not None if hasattr(scrubber, 'repo_text') else on_disk
+        allowlist_inputs[name] = 'working tree' if on_disk else ('git object store' if readable else 'MISSING')
+    allowlist_missing = [n for n, where in allowlist_inputs.items() if where == 'MISSING']
+
     if args.self_test:
         # A synthetic string built from the blocklist’s own synthetic token, plus an un-rounded
         # amount. Nothing here is a household value, and none of it identifies anything.
@@ -201,6 +213,9 @@ def main():
         'findings_by_rule': dict(flagged),
         'blocked_hash_count': len(blocked),
         'raw_figure_hash_count': len(raw_banned),
+        'official_amount_allowlist_size': len(allowed),
+        'official_amount_allowlist_sources': allowlist_inputs,
+        'official_amount_allowlist_missing': allowlist_missing,
         'note': ('Counts only. Matched text is never printed. A clean report from a shallow or '
                  'partial clone is not a statement about the remote repository’s history.'),
     }
@@ -215,6 +230,13 @@ def main():
             print('findings by rule: ' + ', '.join(f'{k}×{v}' for k, v in sorted(flagged.items())))
         else:
             print('findings by rule: none in these objects')
+        print(f"official-amount allowlist: {len(allowed)} amount(s) from "
+              + ', '.join(f'{n.split("/")[-1]}={where}' for n, where in allowlist_inputs.items()))
+        if allowlist_missing:
+            print('WARNING: the allowlist could not be read from ' + ', '.join(allowlist_missing) +
+                  '. Every officially published amount would be reported as a rounding violation. '
+                  'Run the audit in a clone with a checkout, or from the object store, before acting '
+                  'on this report.')
         if flagged_blobs:
             print(f'\nflagged paths (up to {args.max_paths}; the path is printed, the content never is):')
             for i, (sha, (path, rules, at_head)) in enumerate(sorted(flagged_blobs.items(), key=lambda kv: str(kv[1]))):

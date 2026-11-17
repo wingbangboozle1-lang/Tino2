@@ -45,17 +45,25 @@
       const noi=rent*(1-r.vacancy)*(1-c.management)-tax-costs;
       const cash=noi-Math.max(0,noi)*c.ordinaryTax;
       portfolio*=1+r.portfolio;
+      // The rent an owner avoids by occupying the home. It follows the same modelled rent path
+      // as the renting option, scaled by the ratio of the chosen imputed rent to the modelled
+      // rent, so setting the imputed rent to zero removes the credit entirely.
+      const liveAvoided=rent*(MODEL.imputedRent(c)/c.aRentMonthly);
       // Start-of-year reserve earns return; year-end operating cash follows.
       reserve=reserve*(1+r.portfolio)+cash;
-      liveReserve=liveReserve*(1+r.portfolio)-costs-liveAssessed*c.aRate;
+      liveReserve=liveReserve*(1+r.portfolio)-costs-liveAssessed*c.aRate+liveAvoided;
       const realized=market*(1-c.saleCost);
+      // Endpoint convention, shared with the published monthly engine and with model.js: a
+      // path still holding the house at the endpoint is worth the house at its market value
+      // plus the cash it accumulated. No sale is assumed and no gain tax is charged on a
+      // sale that is not modelled.
       const rentalNet=realized-Math.max(0,realized-transfer.market)*c.capitalGainsTax;
       // The illustrative residence exclusion is not available before two years of use.
       const liveExclusion=t>=2?c.primaryGainExclusion:0;
       const liveNet=realized-Math.max(0,realized-transfer.market-liveExclusion)*c.capitalGainsTax;
       rows.push({year:2045+t,...r,market,factoredBase,liveFactoredBase,assessed,liveAssessed,tax,liveTax:liveAssessed*c.aRate,insurance,water,maintenance,cash,priceIndex,
-        sell:portfolio,rent:rentalNet+reserve,live:liveNet+liveReserve,
-        realSell:portfolio/priceIndex,realRent:(rentalNet+reserve)/priceIndex,realLive:(liveNet+liveReserve)/priceIndex});
+        sell:portfolio,rent:market+reserve,live:market+liveReserve,
+        realSell:portfolio/priceIndex,realRent:(market+reserve)/priceIndex,realLive:(market+liveReserve)/priceIndex});
     }
     return rows;
   }
