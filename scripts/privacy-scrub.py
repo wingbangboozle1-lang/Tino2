@@ -47,7 +47,7 @@ def tracked_files():
 
 
 def repo_text(name):
-    """Read a tracked text file from the working tree, or from HEAD when there is none.
+    """Read a tracked text file from the working tree, or from Git when there is none.
 
     The history audit is documented to run against ``git clone --mirror``, and a mirror
     clone is bare: it has no working tree. Reading the allowlist only from the filesystem
@@ -56,6 +56,12 @@ def repo_text(name):
     picture for the administrator deciding whether to rewrite history. Reading the same
     path out of the object database makes the instrument measure the same thing in a bare
     mirror as in a checkout.
+
+    The order is working tree, then HEAD, then the most recent commit that still contains
+    the path. The last step matters because the retained analysis tree was deleted from the
+    default branch on 17 Nov 2026: without it, deleting a policy file would silently shrink
+    the allowlist and make the audit report officially published amounts as rounding
+    violations — the same false picture in a new place.
     """
     path = ROOT / name
     if path.exists():
@@ -63,15 +69,30 @@ def repo_text(name):
     try:
         proc = subprocess.run(["git", "show", f"HEAD:{name}"], cwd=ROOT,
                               capture_output=True, text=True, check=True)
+        if proc.stdout:
+            return proc.stdout
     except (subprocess.CalledProcessError, FileNotFoundError):
-        return None
-    return proc.stdout or None
+        pass
+    # The path is not at HEAD. Look for the most recent commit that still has it.
+    try:
+        rev = subprocess.run(
+            ["git", "rev-list", "--all", "--max-count=1", "--", name],
+            cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+        if rev:
+            proc = subprocess.run(["git", "show", f"{rev}:{name}"], cwd=ROOT,
+                                  capture_output=True, text=True, check=True)
+            if proc.stdout:
+                return proc.stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    return None
 
 
 def official_amounts():
     """Dollar amounts a government body publishes may stay exact; they are not household data."""
     allowed = set()
-    for name in ("integration/ledger/official_amounts.txt", "integration/ledger/facts.jsonl"):
+    for name in ("scripts/official-amounts.txt", "integration/ledger/official_amounts.txt",
+                 "integration/ledger/facts.jsonl"):
         text = repo_text(name)
         if text:
             for m in re.finditer(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d{4,})(?![\d,]*\d)", text):

@@ -2,33 +2,15 @@
 # GitHub itself remains public; exclusions are NOT repository access controls.
 # Disable the default theme so no unreviewed generated theme assets are published.
 theme: null
+# The retained analysis tree was deleted from the default branch on 17 Nov 2026 because it
+# was built from the household's own figures. What remains outside guide/ is tooling and
+# policy: it is excluded from the site, but it is still in the repository, so it is still
+# covered by scripts/privacy-gate.py.
 exclude:
   - COORDINATION.md
   - README.md
   - docs
-  - research
-  - src
-  - dashboard
-  - integration
   - scripts
-  - qa
-  - verification
-  - css
-  - site
-  - pages
-  - research-portal.html
-  - cupertino.html
-  - decision.html
-  - flagged.html
-  - inheritance.html
-  - san-francisco.html
-  - sources.html
-  - taxes.html
-  - assets/app.js
-  - assets/styles.css
-  - assets/style.css
-  - assets/style.css-alternate.css
-  - assets/app-old.js
   - _public
   - _site
   - .cache
