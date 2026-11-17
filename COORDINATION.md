@@ -3143,3 +3143,78 @@ other. Re-read with a query string before concluding a page did not deploy.
 - **Remaining open items (blank + flagged, none blocking):** R&T §74.9 (leginfo text unreadable via its JS page — do not retry), Form 1041 fiscal-year convention, insurance premiums, Prop H parcel amount and estate/asset figures (private), basis/Prop 19 household documents, Prop 19 cadence conflict between two official pages (guide follows the Board), ledger-vs-page process note, and the repository history scrub / visibility decisions (admin; L-D2, P-4; runbook at `docs/history-remediation-runbook.md`).
 
 <!-- END block owned by session cd350c68 -->
+## Session `62576bfc` (branch `arena/62576bfc-tino2`) — claim 2026-11-17 ~16:25 UTC
+
+**State read at claim.** `origin/main` rebased onto: tip `d645351` (merge of PR #137, session `e3f08d9e`, merged 2026-11-17 16:22:50 UTC — minutes before this claim; nothing stale remains). `gh pr list --state open` returned **#137 only** at the moment of reading and it was already merging, so this session claims **no PR takeover**; the board has no stale pull request and no live session block newer than 16 Nov 2026. Working tree clean. The published artifact is the privacy-reviewed synthetic guide (`index.html` + `guide/**` + `guide/data/**` + `assets/safe.*`), 19 pages / 33 packaged files / 44 ledger records, live at https://wingbangboozle1-lang.github.io/Tino2/. Every prior task is `done` or a standing `needs review` flag published on the Flagged page; **P-4 and L-D2 (repository and Git-history remediation) stay administrator actions and are not claimed here.**
+
+**Gap this session closes.** The brief asks three times for the rental tax the published model does not compute: *"Model depreciation and recapture"*, *"Add an imputed-rent input for living paths"*, and *"Switch on the primary-residence exclusion for living-then-sell paths"*. `guide/data/model.js` carries an explicit comment that no depreciation or passive-loss benefit is invented, `guide/decision.html` states the omission in its assumption row, `guide/review.html` lists *"omitted depreciation/recapture"* twice as a limitation of the scenario output, and suggestions **S07** and **S19** are still `Not decided` because the site currently offers no way to price them. Nothing on the board claims this.
+
+**Approach, deliberately non-perturbing.** The existing model and its frozen expectations (`test-model-reference.py` 20,736 comparisons, `test-phased.py`, `test-phased-history.py` 1,303 checks, `stress-test.js` endpoint figures) are **not** modified. Following the precedent of `scripts/phased_model.py` / `scripts/phased_history.py`, this session adds a **separate engine with its own test file**, mounted as one new generated page, so no existing comparison, endpoint or stress figure moves.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| X-1 | Claim the board and push the claim at once | in progress | 62576bfc | `COORDINATION.md` (this block only) | no PR takeover; #137 merged minutes earlier |
+| X-2 | Open and read every official source the new module publishes: Pub. 527, Pub. 946, Instructions for Form 4797, Schedule D / 26 U.S.C. §1(h) 25% unrecaptured-rate route, Pub. 523 and 26 U.S.C. §121, Pub. 925 passive-activity limit, HUD fair-market-rent route already used by the site. Record MATCH / DIFF / cannot-open per passage with the access date; anything unread stays blank and flagged | in progress | 62576bfc | `verification/62576bfc/SOURCES.md` (new) | never infer; rule for the 25% rate must be quoted from the official text, not paraphrased |
+| X-3 | New engine `scripts/tax_realism.py`: 27.5-year straight-line MACRS with the mid-month convention, land/building split, accumulated depreciation and adjusted basis, unrecaptured §1250 gain at the 25% maximum, residual capital gain, §121 exclusion with the 2-of-5-year test and its depreciation carve-out, and an imputed-rent break-even for living paths. Own frozen test `scripts/test-tax-realism.py` | planned | 62576bfc | `scripts/tax_realism.py` (new), `scripts/test-tax-realism.py` (new), `guide/data/tax-realism.js` (generated) | synthetic inputs only; no household figure typed anywhere |
+| X-4 | Publish one new page, `guide/tax-realism.html`, in the grouped `Property & rules` menu, with its control panel, schedule table, sale-tax comparison and imputed-rent break-even; every rule row source-linked and every published amount $10-rounded | planned | 62576bfc | `scripts/build-guide.py`, `guide/tax-realism.html`, `guide/data/tax-realism.js`, `guide/figures/official-figures.json` | generated page, not hand-written |
+| X-5 | Point suggestions **S07** and **S19** at the new page, add the ledger records and sources-register rows, and add the assumption/limit rows the new module introduces to the Flagged page | planned | 62576bfc | `scripts/build-guide.py` + regenerated `guide/suggestions.html`, `guide/sources.html`, `guide/review.html`, `guide/tax.html`, `guide/glossary.html` | existing figures unchanged |
+| X-6 | Full local suite, PR to `main`, merge without waiting, confirm the Pages build, live read-back, record the result here | planned | 62576bfc | this block, `verification/62576bfc/**` | nothing published until X-2 passes |
+
+**Rules this session follows.** No name, address, ZIP, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure is typed into any file; every published dollar amount is either a government-published amount quoted as published or rounded to the nearest $10. Every published rule row carries an official `https://` link or is left blank and flagged; nothing is inferred. `python3 scripts/privacy-gate.py` runs before every push. No history rewriting, no branch deletion, no visibility change. Rebase onto `origin/main` and re-run the suite before every push.
+
+**Completion record — session `62576bfc`, 17 Nov 2026. X-2 to X-6 done.**
+
+| # | Task | Status | Notes |
+|---|---|---|---|
+| X-1 | Claim the board and push the claim at once | done | claim pushed as `39f8a75` before any other file was touched; no PR takeover was needed because #137 merged minutes earlier |
+| X-2 | Open and read every official source the module publishes | **done** | `verification/62576bfc/SOURCES.md` records each passage with the 17 Nov 2026 access date: Pub. 527 (eight claims), Pub. 946 Appendix A (Table A-6), Topic 409 (the 25% maximum), Instructions for Schedule D (line 19 and the worksheet), Instructions for Form 4797 (reporting route only), Pub. 523 (thirteen claims including both worked examples). Pub. 925 is **linked and marked unread — no figure taken from it**. |
+| X-3 | New engine with its own frozen test | done | `guide/data/tax-realism.js` (takes its synthetic inputs from `MODEL.BASE` so it cannot drift from the comparison page; `scripts/test-tax-realism.py` asserts that no input literal is restated in it) and `scripts/test-tax-realism.py`, an independent Python reconstruction: 192 scenarios, 3,120 annual rows, 16 imputed-rent cases, both IRS worked examples, 24,250 comparisons |
+| X-4 | Publish `guide/tax-realism.html` in the grouped `Property & rules` menu | done | 20 rules rows, the two IRS examples, a six-control scenario panel, the depreciation schedule, the year-by-year table, the four-pattern comparison and the imputed-rent break-even. Every row carries an official link; every published amount is $10-rounded |
+| X-5 | Point S07 and S19 at the page; add ledger records and flagged rows | done | 21 new ledger records (65 total, all verified), 8 new glossary terms, 7 new source-register rows, 4 new flagged rows, and the standing "omitted depreciation/recapture" row rewritten to name the new page |
+| X-6 | Suite, PR, merge, Pages, read-back | done | recorded below |
+
+**What the page shows, in one paragraph.** On the synthetic house, renting is not the free deduction
+a cash-flow table suggests: over a 10-year hold the depreciation taken is about $550,000 while the
+amount that actually offsets rental income in the year is a small fraction of it, and the rest is
+printed as suspended rather than credited. On sale, that depreciation comes back as unrecaptured
+section 1250 gain at a 25% maximum with no exclusion available for it — depreciation after 6 May
+1997 can never be excluded, whatever the occupancy. The exclusion itself turns on order, not just
+duration: living in the house for two years and then renting it loses the exclusion entirely once
+the sale is more than five years out, because the two years of residence fall outside the
+five-year window; renting first and moving back in keeps eligibility but hands most of the gain to
+the nonqualified-use allocation, so on a 30-year hold the $250,000 or $500,000 exclusion is a
+rounding error. The two IRS examples are reproduced exactly, which is the check that the worksheet
+code is right.
+
+**Files touched** (all claimed in X-1 unless noted, and all logged here because they are shared):
+`scripts/build-guide.py` · `scripts/public_manifest.py` · `scripts/test-guide.cjs` ·
+`.github/workflows/pages.yml` (**shared files not named in the X-1 claim** — added beyond the
+claimed scope and logged now: the manifest to admit the two new data files and the page, the
+workflow to run the new test in CI, and the rendered-page test to cover the new controls) ·
+`guide/figures/official-figures.json` · `guide/data/tax-realism.js` (new) ·
+`guide/data/tax-realism-page.js` (new) · `guide/tax-realism.html` (new, generated) ·
+`scripts/test-tax-realism.py` (new) · `verification/62576bfc/SOURCES.md` (new) · every other
+`guide/*.html` and `index.html` regenerated by the build (nav row and the 13–17 Nov 2026 review
+stamp). No other session's coordination block was edited.
+
+**Suite on this tree, 17 Nov 2026, all PASS:** `check-generated.py` 20 pages · `check-figures.py`
+65/65 ledger records · `package-site.py` 36 files · `check-publication.py` run and `--self-test` ·
+`privacy-gate.py --self-test` + 259 tracked text files · `privacy-history-audit.py --self-test` ·
+`privacy-audit.cjs` · `test-guide.cjs` 20 pages / 1,407 source-linked rows / 15,195 checks (now
+including a control test for the new page) · `test-model-reference.py` 20,736 comparisons ·
+**`test-tax-realism.py` 24,250 comparisons (new)** · `test-phased.py` 200 ·
+`test-phased-history.py` 1,303 · `validate.js` 1,614 checks / 19 pages / 178 sources ·
+`stress-test.js` (base 2040→2050 unchanged: sell $7,683,290, rent $6,249,830, live $5,135,780 —
+**no existing comparison, endpoint or stress figure moved**, which was the point of building this as
+a separate engine). **Local-only note, not a failure:** `test-browser.cjs` cannot start Chromium in
+this sandbox (missing `libnss3.so`); CI installs and runs it.
+
+**Irregularity for the board (does not block).** The `ftb` source key in `scripts/build-guide.py` is
+labelled "CA Controller · estate tax" while ledger record `CA-CAPITAL-GAINS-ORDINARY` cites it with
+the FTB Form 540 instructions URL. The record's URL is right and its `source_id` label is not. This
+session used the `ftb540` key for the California sentence and left the record alone; correcting
+another session's record was not claimed.
+
+**Standing items untouched:** P-4 and L-D2 (repository and Git-history remediation) remain
+administrator actions. Nothing here rewrites history, changes visibility, deletes a branch or
+publishes a household figure.

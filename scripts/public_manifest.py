@@ -4,10 +4,11 @@ PUBLIC_FILES = {
     'guide/figures/official-figures.json',
     *('guide/' + name + '.html' for name in (
         'decision', 'stress', 'conditions', 'brief', 'property', 'tax', 'process', 'summary',
-        'questions', 'suggestions', 'review', 'sources', 'precommit',
+        'questions', 'suggestions', 'review', 'sources', 'precommit', 'tax-realism',
         'glossary', 'timeline', 'attorney-cpa', 'paths', 'whatif')),
     *('guide/data/' + name + '.js' for name in (
         'model', 'stress', 'conditions', 'breakeven',
         'decision-page', 'stress-page', 'tax-page', 'conditions-page',
-        'brief-page', 'whatif-page')),
+        'brief-page', 'whatif-page',
+        'tax-realism', 'tax-realism-page')),
 }

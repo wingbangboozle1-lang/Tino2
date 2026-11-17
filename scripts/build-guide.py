@@ -93,6 +93,16 @@ S={
  'boe2026':('BOE · 2026 Letters to Assessors index','https://www.boe.ca.gov/proptaxes/2026.htm'),
  'lta26026':('BOE · LTA 2026/026, Proposition 19 exclusion Q&amp;A','https://www.boe.ca.gov/proptaxes/pdf/lta26026.pdf'),
  'cdiSurvey':('CA Department of Insurance · homeowners premium comparison','https://www.insurance.ca.gov/01-consumers/105-type/9-compare-prem/'),
+ # Added 17 Nov 2026 by session 62576bfc for the depreciation and recapture page. Each was
+ # opened and read that day; the wording quoted on the page is recorded in
+ # verification/62576bfc/SOURCES.md.
+ 'p527':('IRS · Publication 527, Residential Rental Property (2025)','https://www.irs.gov/publications/p527'),
+ 'p946':('IRS · Publication 946, How To Depreciate Property (2025)','https://www.irs.gov/publications/p946'),
+ 'p523':('IRS · Publication 523, Selling Your Home (2025)','https://www.irs.gov/publications/p523'),
+ 'p544':('IRS · Publication 544, Sales and Other Dispositions of Assets','https://www.irs.gov/publications/p544'),
+ 'i1040sd':('IRS · Instructions for Schedule D (Form 1040) (2025)','https://www.irs.gov/instructions/i1040sd'),
+ 'i4797':('IRS · Instructions for Form 4797 (2025)','https://www.irs.gov/instructions/i4797'),
+ 'p925':('IRS · Publication 925, Passive Activity and At-Risk Rules','https://www.irs.gov/publications/p925'),
 }
 def source(key,label=None):
     title,url=S[key]
@@ -105,7 +115,7 @@ def section(title,body,eyebrow=''):
     return f'<section class="section"><div class="section-head"><div>{f"<div class=eyebrow>{eyebrow}</div>" if eyebrow else ""}<h2>{title}</h2></div></div>{body}</section>'
 PAGE_GROUPS=[
  ('Decide',[('overview','Overview','index.html'),('summary','Executive summary','guide/summary.html'),('decision','Compare','guide/decision.html'),('paths','Paths, mixed and pure','guide/paths.html'),('whatif','What-if controls','guide/whatif.html'),('brief','What decides it','guide/brief.html'),('stress','Black swans','guide/stress.html')]),
- ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
+ ('Property &amp; rules',[('property','Properties','guide/property.html'),('tax','Taxes','guide/tax.html'),('tax-realism','Depreciation &amp; recapture','guide/tax-realism.html'),('process','Trust steps','guide/process.html'),('timeline','Timeline','guide/timeline.html')]),
  ('Evidence &amp; terms',[('conditions','Real conditions','guide/conditions.html'),('questions','Questions','guide/questions.html'),('glossary','Glossary','guide/glossary.html'),('sources','Sources','guide/sources.html')]),
  ('Act',[('precommit','Pre-commitment','guide/precommit.html'),('attorney-cpa','Attorney &amp; CPA sheet','guide/attorney-cpa.html'),('suggestions','Suggestions','guide/suggestions.html'),('review','Flagged','guide/review.html')]),
 ]
@@ -840,7 +850,7 @@ suggestions=[
  ('S04','High','Obtain independent property and rental estimates','Use qualified appraisals and rent comparables, not public inputs or HUD alone.','Changes values and expected rental income.','hud'),
  ('S05','High','Get insurance and earthquake quotes','Compare coverage limits, occupancy, exclusions and deductibles for each use.','Replaces an unverified premium and makes tail exposure visible.','cdi'),
  ('S06','High','Validate Proposition 19 eligibility','Confirm transferor residence, recipient relationship, move-in timing and claim deadlines.','Determines if a partial assessment exclusion applies.','prop19'),
- ('S07','High','Model depreciation and recapture','Use private land/building allocation and adviser-prepared tax assumptions.','Rental after-tax results may change materially.','rental'),
+ ('S07','High','Model depreciation and recapture','A public page now prices the mechanics on synthetic inputs: 27.5-year straight-line MACRS with the mid-month convention, the land and building split, unrecaptured section 1250 gain at 25%, the home-sale exclusion with its nonqualified-use allocation, and a rent-avoided input. What it cannot supply is the household’s own land and building split, which is an appraisal, and the taxpayer’s own passive-activity position.','Rental after-tax results may change materially, and the page shows how much of the deduction is suspended rather than used.','p527'),
  ('S08','High','Verify B’s leases and local rules','Review covered status, notices, actual collection and expenses.','Preserves existing rental context without assuming permitted increases.','sfRent'),
  ('S09','Medium','Use actual utility and solar terms','Match water provider, annual true-up and interconnection tariff.','Improves operating-cost estimates and reveals tariff changes.','solar'),
  ('S10','Medium','Create a documented investing policy','Compare insured deposits, Treasuries and diversified investments for risk and liquidity.','Makes portfolio return and downside assumptions explicit.','invest'),
@@ -892,7 +902,11 @@ body=section('Unresolved items',table(['Priority','Issue','Current treatment','N
  ('High','Insurance and solar','No actual binding premiums, deductible, coverage, tariff or annual true-up are established.','Obtain coverage quotes and utility records privately.',source('cdi')),
  ('High','SF Proposition H and other direct charges','SFMTA publishes the FY 2027–28 schedule and states the measure was approved on 3 November 2026; the election office still labels its own results preliminary. The amount for B is not computable from public information, and the measure is not included in the synthetic B operating table.','Confirm the parcel type and taxable building area privately, check certification after the election deadline, and model the tax before relying on any long-run B figure.',source('sfMuni')+' · '+source('sfElection')),
  ('High','Basis and Proposition 19 eligibility','No trust document, title or eligibility finding was verified.','Obtain written advice from counsel and the assessor.',source('trustbasis')),
- ('High','Scenario output is not a personalized recommendation','Invented model data, flat tax assumptions and omitted depreciation/recapture, financing, estate tax and personal housing value can alter results.','Run a taxpayer-specific comparison privately before acting.',source('rental')),
+ ('High','Scenario output is not a personalized recommendation','Invented model data and flat tax assumptions can alter results. The main comparison still omits depreciation and recapture, financing, estate tax and personal housing value; the Depreciation &amp; recapture page prices the first two separately on synthetic inputs and is not wired into the comparison figures.','Run a taxpayer-specific comparison privately before acting.',source('p527')),
+ ('Medium','The rent-path tax illustration ignores the passive-activity rules','The Depreciation &amp; recapture page credits depreciation only against rental income in the same year and prints the suspended remainder, but it does not model the rental real-estate allowance, its phase-out by income, or the year a suspended loss may be released. On the synthetic example most of the deduction is suspended, so the timing matters more than the arithmetic shown.','Ask the CPA for the taxpayer’s own passive-activity position before treating the shield as usable.',source('p925')),
+ ('Medium','The recapture arithmetic is federal only','The new page charges 25% on unrecaptured section 1250 gain and the selected federal rate on the rest. It does not add California tax, which the guide records as treating capital gains as ordinary income, nor the 3.8% net investment income tax that can apply to the same gain.','Have the same sale run with the state and NIIT layers before comparing paths.',source('ftb')+' · '+source('niit559')),
+ ('Medium','The building and land split is a selected input, not an appraisal','The page lets a reader choose a building share, and the IRS allows an assessed-value ratio where the values are uncertain. A real depreciation schedule depends on an appraisal and on the date the property was placed in service, neither of which is published here.','Obtain a written allocation with the appraisal; it decides every depreciation figure on the page.',source('p527')),
+ ('Low','Basis in the illustration is the assumed date-of-death value with no adjustments','No alternate-valuation election, no capital improvements, no casualty or energy-credit adjustments and no prior-gift or trust-inclusion question is modeled. Where a trust is not includible in the estate, the IRS has held that no basis adjustment applies, which would change every gain on the page.','Confirm the basis position with counsel before relying on any recapture figure.',source('trustbasis')),
  ('Medium','Older research contained imprecise estate filing language','The filing test uses gross estate and adjusted taxable gifts, while deductions concern taxable estate and tax.','Use the IRS filing test and a professional, not a simplified headroom subtraction.',source('estate')),
  ('Medium','Future laws, exemption amounts and returns','Future values are assumptions; proposals are not law.','Recheck official law and prices near the decision date.',source('estate27')),
  ('Medium','Local provider and quote availability','The exact water provider and insurance product cannot be determined from a generic area. An owner-occupied multiunit property may have more than one policy option.','Verify address privately and ask insurers for product eligibility.',source('water')),
@@ -934,7 +948,14 @@ sources=[
  ('Property tax','BOE LTA 2026/026','Proposition 19 exclusion Q&amp;A: claim windows, the six-month supplemental-notice rule, prospective-only relief after the deadlines, and continual-use removal, read 16 November 2026.','lta26026'),
  ('Property tax','BOE 2026 Letters to Assessors index','Confirms 2026/026 is the current published exclusion Q&amp;A and lists the 2026 letters, read 16 November 2026.','boe2026'),('Property tax','Santa Clara County Assessor','Local parent-child claim guidance.','county'),('Property tax','Santa Clara County Assessor · glossary','Tax rate area definition, the 1% maximum basic rate plus voter-approved bonds, and flat direct charges, read 15 November 2026.','asrGlossary'),('Property tax','Santa Clara County Controller-Treasurer · Compilation of Tax Rates FY 2025–26','The rate book itself: 816 tax rate areas for FY 2025–26, the 1% levy plus voter-approved debt example, and every TRA’s exact rate by number, read 15 November 2026.','sccRateBook'),
  ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability. Filing test and the 2026 amount re-read 17 November 2026 in the Form 706 instructions (2026: $15,000,000).','estate'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS Rev. Proc. 2025-32','The 2026 annual gift exclusion of $19,000 per recipient (§4.42(1)), read 16 November 2026.','rp2532'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','No California estate-tax return for deaths on or after 1 January 2005; inheritance tax only before 8 June 1982, re-read 17 November 2026.','ftb'),
- ('Federal tax','IRS · Rev. Proc. 2025-32','The published inflation-adjustment procedure carrying the basic exclusion and the GST exemption to $15,000,000 for 2026 and stating the $19,000 annual gift exclusion, re-read 16 November 2026.','rp2532'),
+ ('Federal tax','IRS estate tax','Gross estate, filing threshold and portability. Filing-threshold table re-read 16 November 2026 (2026: $15,000,000).','estate'),('Federal tax','26 U.S.C. §1031 (Cornell LII copy)','Like-kind exchanges: real property only since the 2017 act; 45-day identification and 180-day completion, read 15 November 2026.','usc1031'),('Federal tax','IRS 2027 adjustments','2026 and 2027 exclusion amounts.','estate27'),('Federal tax','IRS Rev. Proc. 2025-32','The 2026 annual gift exclusion of $19,000 per recipient (§4.42(1)), read 16 November 2026.','rp2532'),('Federal tax','IRS inherited property','General inherited basis rule.','basis'),('Federal tax','IRS Rev. Rul. 2023-2','Specific trust and estate-inclusion basis example.','trustbasis'),('Federal tax','IRS home sales','Ownership/use requirements and possible exclusion.','residence'),('Federal tax','IRS rental property','Rental income, depreciation and sale rules.','rental'),
+ ('Federal tax','IRS Publication 527','Depreciation of residential rental property: the 27.5-year recovery period, straight line, the mid-month convention, land not depreciable, when property is placed in service, and the basis rule on conversion to rental use, read 17 November 2026.','p527'),
+ ('Federal tax','IRS Publication 946','MACRS percentage tables; Appendix A, Table A-6 is the 27.5-year mid-month straight-line table, read 17 November 2026.','p946'),
+ ('Federal tax','IRS Publication 523','Sale of a main home: the $250,000 and $500,000 exclusion, the ownership, residence and look-back tests, the depreciation carve-out for periods after 6 May 1997, nonqualified-use allocation, and two worked examples, read 17 November 2026.','p523'),
+ ('Federal tax','IRS Topic 409','Capital-gain rates, including the maximum 25% rate on unrecaptured section 1250 gain, read 17 November 2026.','cg409'),
+ ('Federal tax','IRS Instructions for Schedule D (Form 1040)','Line 19 and the Unrecaptured Section 1250 Gain Worksheet, read 17 November 2026.','i1040sd'),
+ ('Federal tax','IRS Instructions for Form 4797','Where depreciation recapture on the sale of rental real property is reported, read 17 November 2026.','i4797'),
+ ('Federal tax','IRS Publication 925','Passive activity and at-risk rules that can suspend a rental loss, linked as a limitation only; no figure from it is published.','p925'),('Federal tax','IRS retirement beneficiaries','Inherited account distributions and rules.','ira'),('California tax','State Controller','No California estate-tax return for deaths on or after 1 January 2005; inheritance tax only before 8 June 1982, re-read 16 November 2026.','ftb'), ('Federal tax','IRS · Rev. Proc. 2025-32','The published inflation-adjustment procedure carrying the basic exclusion and the GST exemption to $15,000,000 for 2026 and stating the $19,000 annual gift exclusion, re-read 16 November 2026.','rp2532'),
  ('California tax','FTB 2025 Instructions for Form 540','Line 62 Behavioral Health Services Tax worksheet (1% above $1,000,000 taxable income), re-read 17 November 2026.','ftb540'),
  ('Administration','Probate Code §16061.7','When trustee notification is required.','notice'),
  ('Administration','26 U.S.C. §6072 (Cornell LII copy)','The statutory due date for an estate or trust income-tax return, read 15 November 2026.','usc6072'),
@@ -1172,6 +1193,14 @@ GLOSSARY=[
  ('Reassessment','Setting a new taxable value for property. The BOE guidance states that a family home that stops being the owner\u2019s principal residence receives a new taxable value.','The step that can move the property-tax line sharply after the transfer.',source('boe')),
  ('Tax rate area (TRA)','A specific geographic area all of whose territory lies within the same combination of local agencies for the fiscal year. Santa Clara County has over 3,200 TRAs, each with a unique number and its own total rate.','The parcel’s TRA decides which voter-approved debt rates are added to the 1% base rate on the bill.',source('asrGlossary')),
  ('Residential rental property','IRS Publication 527 is titled Residential Rental Property; the guide does not restate its rules.','Relevant to Property B, which the planning premise treats as rented.',source('rental')),
+ ('Depreciation (MACRS)','A yearly deduction that recovers the cost of a building used to produce income. For residential rental property the IRS requires the straight line method over 27.5 years, and only the building is depreciated: land generally does not wear out or get used up, so it cannot be depreciated.','Turns part of a rental loss into a deduction now, and raises the taxable gain on a later sale.',source('p527')),
+ ('Mid-month convention','The rule that fixes the first and last year of depreciation: property placed in service or disposed of during any month is treated as placed in service, or disposed of, at the midpoint of that month.','A property rented from January and sold in December of a later year takes 11.5 months of a full year in each of those two years, not a whole year.',source('p527')),
+ ('Placed in service','The moment depreciation starts. Property is placed in service in a rental activity when it is ready and available for its specific use, even if it is not yet rented.','The date conversions happen matters: living in a property first and then renting it starts depreciation at the change of use.',source('p527')),
+ ('Adjusted basis','The starting basis reduced by depreciation allowed or allowable, whether or not it was claimed, and increased by capital improvements.','It is the figure subtracted from the sale proceeds, so depreciation taken over the years is repaid through a larger gain.',source('p527')),
+ ('Unrecaptured section 1250 gain','The part of the gain on a sale of depreciated real property that comes from the depreciation taken. The IRS states that this portion is taxed at a maximum 25% rate, above the 0%, 15% or 20% rates that apply to most capital gain.','It is why a rental is not simply taxed at long-term capital-gain rates: the depreciation comes back at its own rate.',source('cg409')+' · '+source('i1040sd')),
+ ('Nonqualified use','A period after 2008 in which neither the owner nor the owner’s spouse used the property as a main home. Gain is allocated to that period and cannot be excluded, but the period after the last date the home was a main home inside the five-year window before the sale is not counted.','The order matters as much as the length: renting after living there is treated differently from renting before moving in.',source('p523')),
+ ('Home-sale exclusion (§121)','Up to $250,000 of gain on the sale of a main home is excluded from income, or $500,000 for a married couple filing jointly, where the owner owned and used the home as a residence for at least 24 months of the previous five years and has not used the exclusion in the last two years. Depreciation for periods after 6 May 1997 cannot be excluded.','It is the largest single tax benefit available on the living paths, and it is lost entirely by an owner who does not live in the home inside the five-year window.',source('p523')),
+ ('Imputed rent','The rent a household does not have to pay because it lives in a home it owns. It is real value and never appears in a cash-flow table.','Crediting it is what makes a living path comparable with a renting path; the Depreciation &amp; recapture page lets a reader switch it on and shows the break-even.',source('p527')),
  ('Treasury par yield (Constant Maturity)','The yield the U.S. Treasury publishes for a given maturity, derived from the daily par yield curve. Used here for the 3-month and 2-year rates.','The observed parking yields on 13 November 2026 come from this series.',source('treasury')),
  ('Reinvestment risk','The risk that money which becomes available later has to be put to work at a lower rate than it was earning. The SEC states it for an investor whose bond is called early: they are "often faced with reinvesting the money at a lower, less attractive rate".','A ladder of three-month bills is exposed to this in exactly the way a two-year note held to maturity is not. The two middle columns of the parking table on the Black swans page are the risk, priced.',source('secCallable')),
  ('Treasury ladder (bills plus a note)','Holding part of the cash in short bills that reprice every quarter and part in a longer note held to maturity, so some money is always coming back and part of the rate is always locked. TreasuryDirect sells bills for four to 52 weeks and notes for 2, 3, 5, 7 or 10 years.','The investing policy on What decides it and the parking table on the Black swans page both use a 3-month/2-year split.',source('treasuryBills')+' · '+source('treasuryNotes')),
@@ -1477,3 +1506,128 @@ execsum = (PRINT_CSS + '<div class="brief-sheet">'
  + '</div>')
 page('summary', 'Executive summary, on one page.',
      'A privacy-safe decision framework: official rules, unknown private facts, deadlines and the conditions that could change a path.', execsum)
+
+# ---- Depreciation, recapture and the home-sale exclusion (added 17 Nov 2026, session 62576bfc) ----
+# Every rule below was read at the official page on 17 November 2026 and is quoted in
+# verification/62576bfc/SOURCES.md. The arithmetic is a separate engine
+# (guide/data/tax-realism.js) with its own independent reconstruction test
+# (scripts/test-tax-realism.py); it reproduces both worked examples the IRS prints.
+_DEP_RULES = [
+ ('Recovery period','Residential rental property (buildings or structures) and structural components such as furnaces, waterpipes, venting, etc. takes a 27.5-year recovery period under the general depreciation system, against 30 years under the alternative system.','p527'),
+ ('Method and convention','You must use the straight line method and a mid-month convention for residential rental property. In the first year that you claim depreciation for residential rental property, you can claim depreciation only for the number of months the property is in use.','p527'),
+ ('What the mid-month convention does','A mid-month convention is used for all residential rental property and nonresidential real property. Under this convention, you treat all property placed in service, or disposed of, during any month as placed in service, or disposed of, at the midpoint of that month.','p527'),
+ ('The percentage tables','Appendix A of Publication 946 carries them: Table A-6 is for residential rental property using the mid-month convention and straight line depreciation over 27.5 years, and lists the percentages for years 1 through 29 by month placed in service.','p946'),
+ ('Land is never depreciated','You can’t depreciate the cost of land because land generally doesn’t wear out, become obsolete, or get used up. The costs of clearing, grading, planting and landscaping are usually part of the cost of land.','p527'),
+ ('Splitting land from building','You must divide the cost between the land and the buildings to figure the basis for depreciation of the buildings. The part allocated to each is the ratio of its fair market value to the value of the whole property; where you are not certain of those values, you may divide the cost based on their assessed values for real estate tax purposes.','p527'),
+ ('When depreciation starts','You begin to depreciate your rental property when you place it in service for the production of income. You place property in service in a rental activity when it is ready and available for a specific use in that activity, even if you are not using it.','p527'),
+ ('Moving from living there to letting it','If you used the property for personal purposes before changing it to rental use, its basis for depreciation is the lesser of its adjusted basis or its fair market value when you change it to rental use.','p527'),
+ ('Depreciation comes back on the sale','Depreciation reduces your basis for figuring gain or loss on a later sale or exchange, and you must stop depreciating when the total of your yearly deductions equals your cost or other basis, including depreciation you were allowed to claim even if you did not claim it.','p527'),
+ ('Recapture rate','The portion of any unrecaptured section 1250 gain from selling section 1250 real property is taxed at a maximum 25% rate. That sits above the 0%, 15% and 20% rates that apply to most net capital gain.','cg409'),
+ ('Where it is worked out','Schedule D, line 19, is completed using the Unrecaptured Section 1250 Gain Worksheet where section 1250 property — generally, real property that you depreciated — held more than one year was sold or disposed of.','i1040sd'),
+ ('Where it is reported','The sale of depreciable business or rental property is reported on Form 4797, whose net long-term gain then flows to Schedule D.','i4797'),
+ ('Home-sale exclusion, the amount','You may exclude the first $250,000 of gain from the sale of your home from your income and avoid paying taxes on it. The exclusion is increased to $500,000 for a married couple filing jointly.','p523'),
+ ('Home-sale exclusion, ownership','If you owned the home for at least 24 months (2 years) out of the last 5 years leading up to the date of sale, you meet the ownership requirement. For a married couple filing jointly, only one spouse has to meet it.','p523'),
+ ('Home-sale exclusion, residence','If you owned the home and used it as your residence for at least 24 months of the previous 5 years, you meet the residence requirement. The 24 months can fall anywhere within the 5-year period and need not be a single block of time; unlike the ownership test, each spouse must meet it individually.','p523'),
+ ('One main home at a time','The exclusion applies only to the sale of a home that is your principal residence, and an individual has only one main home at a time. Where someone owns or lives in more than one home, a facts-and-circumstances test decides which one it is.','p523'),
+ ('Look-back','You may take the exclusion only once during a 2-year period.','p523'),
+ ('Depreciation is never excluded','You cannot exclude the part of your gain equal to any depreciation allowed or allowable as a deduction for periods after May 6, 1997. It is unrecaptured section 1250 gain and is taxed at its own rate.','p523'),
+ ('Nonqualified use','Gain from the sale or exchange of your main home isn’t excludable from income if it is allocable to periods of nonqualified use. Nonqualified use means any period after 2008 when neither you nor your spouse (or former spouse) used the property as your main home, with certain exceptions.','p523'),
+ ('The exception that saves the ordinary case','A period of nonqualified use does not include any portion of the 5-year period ending on the date of the sale after the last date the property was used as a main home. Renting the house out after moving away therefore does not, by itself, create nonqualified use.','p523'),
+ ('Passive-activity limits','A rental loss is not automatically usable in the year it arises. The passive activity and at-risk rules decide when it can be deducted. This page shows the suspended amount rather than crediting it.','p925'),
+]
+_WORKED = [
+ ('Finley — rented first, then lived there (the IRS example)','Bought 1 January 2020 for $400,000 and rented it for two years, claiming $20,000 of depreciation. Converted to a main home on 1 January 2022, moved out on 1 January 2024, sold on 1 January 2025 for $700,000.',
+  '$320,000','$20,000','$120,000','$180,000','$0','p523'),
+ ('Taylor — lived there first, then rented it (the IRS example)','Bought 1 January 2020 for $400,000 as a main home, moved out on 1 January 2023 and rented it immediately. Sold on 1 December 2024 for $600,000, having deducted $27,000 of depreciation.',
+  '$227,000','$27,000','$0','$200,000','$0','p523'),
+]
+def _tr_controls():
+  _opts = lambda pairs: ''.join(f'<option value="{v}"{sel}>{l}</option>' for v,l,sel in pairs)
+  return ('<div class="grid four" style="margin-bottom:1rem">'
+    '<div class="control"><label for="tr-pattern">How the home is used before the sale</label><select id="tr-pattern">'
+    + _opts([('rent_all','Rented out the whole time',''),('live_all','Lived in the whole time',''),
+             ('live_then_rent','Lived in for two years, then rented',''),('rent_then_live','Rented out, then lived in for the last two years',' selected')]) + '</select></div>'
+    '<div class="control"><label for="tr-years">Years owned before the sale</label><select id="tr-years">'
+    + _opts([('5','5 years',''),('10','10 years',' selected'),('20','20 years',''),('30','30 years','')]) + '</select></div>'
+    '<div class="control"><label for="tr-share">Building share of the value (land is not depreciable)</label><select id="tr-share">'
+    + _opts([('0.7','70% building, 30% land',''),('0.8','80% building, 20% land',' selected'),('0.9','90% building, 10% land','')]) + '</select></div>'
+    '<div class="control"><label for="tr-filing">Home-sale exclusion filing status</label><select id="tr-filing">'
+    + _opts([('single','Single · $250,000',' selected'),('joint','Married filing jointly · $500,000','')]) + '</select></div>'
+    '</div><div class="grid four" style="margin-bottom:1rem">'
+    '<div class="control"><label for="tr-rate">Federal capital-gain rate on the rest of the gain</label><select id="tr-rate">'
+    + _opts([('0.15','15%',''),('0.2','20%',' selected')]) + '</select></div></div>')
+body = ('<div class="callout warning"><strong>Why this page exists.</strong> The comparison model on this site deliberately '
+ 'omits depreciation and recapture, because both depend on facts no public page can know: the split between land and '
+ 'building, the date the property was placed in service, and the taxpayer’s own passive-activity position. That omission '
+ 'is not neutral — it flatters the renting paths, which get the deduction and not the bill. This page prices both, on the '
+ 'same synthetic house the comparison page uses, from the rules the IRS publishes. It does not change any figure elsewhere '
+ 'on the site, and it is not wired into the comparison.</div>')
+body += section('The rules, as the official text states them',
+ table(['Rule','What the official source says','Official source'],[(a,b,source(c)) for a,b,c in _DEP_RULES])
+ + '<p class="tiny">Quoted from the IRS publications named in each row, read 17 November 2026. Nothing here is a household '
+ 'figure, and nothing is inferred: where a rule depends on a fact this site does not hold, the page says so.</p>')
+body += section('Check the arithmetic against the examples the IRS prints',
+ '<p>Publication 523 contains two fully worked examples. Their facts and every number below are the IRS’s own; this site '
+ 'runs them through the same worksheet code it uses for the synthetic example further down, so the page and the '
+ 'publication agree before any scenario is shown.</p>'
+ + table(['Example and its facts','Total gain','Depreciation recaptured at 25%','Gain allocated to nonqualified use','Gain excluded under §121','Capital gain left to tax','Official source'],
+   [(f'<strong>{a}</strong><br><span class="muted">{b}</span>',c,d,e,f,g,source(h)) for a,b,c,d,e,f,g,h in _WORKED])
+ + '<div class="callout"><strong>The one sentence worth reading twice.</strong> Finley rented first and lived there later: '
+ 'two of five years were nonqualified use, so 40% of the gain was carved out of the exclusion and only $180,000 of a '
+ '$320,000 gain was excluded. Taylor lived there first and rented later: the rental period fell after the last qualified '
+ 'use, so nothing was carved out and the whole of the remaining gain was excluded — but the depreciation still came back '
+ 'at 25%. Same house value, same two years of renting, different order, and the exclusion differs by $160,000.</div>')
+body += section('Run it on the synthetic example',
+ '<div id="tr-readout" class="callout"></div>'
+ + _tr_controls()
+ + '<div class="table-wrap"><table><thead><tr><th scope="col">Line in the sale</th><th scope="col">Amount</th>'
+   '<th scope="col">What it is, and the rule behind it</th><th scope="col">Official source</th></tr></thead><tbody id="tr-summary"></tbody></table></div>'
+ + '<h3>The depreciation schedule</h3>'
+ + '<div class="table-wrap"><table><thead><tr><th scope="col">Year</th><th scope="col">Deduction</th><th scope="col">Cumulative</th>'
+   '<th scope="col">Adjusted basis</th><th scope="col">Why that amount</th><th scope="col">Official source</th></tr></thead><tbody id="tr-schedule"></tbody></table></div>'
+ + '<h3>Year by year: income, depreciation and tax</h3>'
+ + '<div class="table-wrap"><table><thead><tr><th scope="col">Year</th><th scope="col">Use</th><th scope="col">Net operating income, or housing cost</th>'
+   '<th scope="col">Depreciation</th><th scope="col">Taxable rental income</th><th scope="col">Tax</th><th scope="col">After-tax cash</th>'
+   '<th scope="col">Note</th><th scope="col">Official source</th></tr></thead><tbody id="tr-annual"></tbody></table></div>'
+ + '<p class="tiny">Depreciation is shown against rental income in the same year only. The amount that a rental loss cannot '
+ 'absorb is printed on the summary table rather than credited, because the passive-activity rules decide when it can be '
+ 'used and this site does not model them.</p>')
+body += section('The same sale under each occupancy pattern',
+ '<p>Everything below is one run of the model per row: same house, same horizon, same building share, same rates. Only the '
+ 'order and length of occupancy change.</p>'
+ + '<div class="table-wrap"><table><thead><tr><th scope="col">Pattern</th><th scope="col">§121 eligible</th>'
+   '<th scope="col">Nonqualified-use factor</th><th scope="col">Depreciation taken</th><th scope="col">Recapture tax at 25%</th>'
+   '<th scope="col">Exclusion used</th><th scope="col">Capital gain left to tax</th><th scope="col">Federal tax on the sale</th>'
+   '<th scope="col">What the pattern does</th><th scope="col">Official source</th></tr></thead><tbody id="tr-patterns"></tbody></table></div>'
+ + '<div class="callout warning"><strong>Two traps this table makes visible.</strong> First, renting for long enough after '
+ 'moving out pushes the two years of residence outside the five-year window before the sale, and the exclusion is lost '
+ 'entirely — the two years of living there earn nothing. Second, renting first and moving back in keeps the exclusion but '
+ 'hands most of the gain to the nonqualified-use allocation, so on a long hold the $250,000 or $500,000 exclusion is a '
+ 'rounding error against the gain.</div>')
+body += section('Imputed rent: crediting the living path',
+ '<p>A household that lives in the house pays no rent, and that saving is real money that never appears in a cash-flow '
+ 'table. It is a preference, not a cash flow, so this site credits it only when asked. The What-if controls expose the '
+ 'same credit as an input on the comparison itself; this page keeps a second input because it also prints the break-even, '
+ 'which is the number that ends the argument. Choose a monthly rent avoided and the table shows what the renting path '
+ 'earns over the same years, what the living path would have to save to match it, and the break-even monthly figure.</p>'
+ + '<div class="grid four" style="margin-bottom:1rem"><div class="control"><label for="tr-rent">Monthly rent the household would otherwise pay</label><select id="tr-rent">'
+ + ''.join(f'<option value="{v}"{s}>{l}</option>' for v,l,s in [('0','$0 — credit nothing',''),('2500','$2,500 a month',''),('5000','$5,000 a month',' selected'),('7500','$7,500 a month','')])
+ + '</select></div></div>'
+ + '<div class="table-wrap"><table><thead><tr><th scope="col">Years owned</th><th scope="col">The renting path is ahead by</th>'
+   '<th scope="col">Break-even rent avoided</th><th scope="col">Cumulative rent credited at the chosen rent</th>'
+   '<th scope="col">Gap</th><th scope="col">What the figure means</th><th scope="col">Official context</th></tr></thead><tbody id="tr-imputed"></tbody></table></div>'
+ + '<p class="tiny">The comparison adds undiscounted after-tax cash flows to after-tax sale proceeds, so it ignores the '
+ 'time value of money: a dollar saved in year one counts the same as a dollar in the final year. Rent avoided grows at the '
+ 'synthetic example’s rent-growth rate. The rent figure is an input the household supplies privately, not a market estimate '
+ 'from this site.</p>')
+body += section('What this page leaves out', table(['Limitation','What it means here','What to do instead','Official context'],[
+ ('Passive-activity rules','The depreciation shield is credited only against rental income in the same year; the allowance, its phase-out by income, and the year a suspended loss is released are not modeled. On this synthetic example most of the deduction is suspended.','Have the CPA compute the taxpayer’s own position.',source('p925')),
+ ('Federal only','California taxes capital gains as ordinary income and the 3.8% net investment income tax can apply. Neither is in the arithmetic.','Add both layers before comparing paths.',source('ftb540')+' · '+source('niit559')),
+ ('Basis assumptions','Basis is the assumed date-of-death value, with no alternate-valuation election, improvements, casualty or credit adjustments, and no trust-inclusion question.','Confirm the basis position with counsel.',source('trustbasis')),
+ ('Land and building split','The building share is a chosen input. The IRS allows an assessed-value ratio where values are uncertain, but a real schedule needs an appraisal.','Obtain a written allocation with the appraisal.',source('p527')),
+ ('No cost segregation, bonus or section 179','The page uses straight-line MACRS over 27.5 years for the whole building. Separate asset classes, bonus depreciation and expensing elections are not modeled.','Ask whether any part of the property qualifies for faster treatment.',source('p946')),
+ ('Not wired into the comparison','The Compare, Paths and Black swans pages still omit depreciation and recapture. This page is an overlay, not a correction of their figures.','Read the two side by side, and run a private model that combines them.',source('p527')),
+ ('The calculator’s own exclusion switch is still off','The public calculator taxes living-then-sell paths on the full gain: its primary-residence exclusion is an optional input that defaults to zero, and changing that default is an owner decision recorded on the Suggestions page (S20). This page applies the exclusion as a scenario, not as the site’s default.','Decide the default with the adviser, then regenerate the examples.',source('irs701')),
+ ('Installment sales, exchanges and financing','A sale on instalments, a like-kind exchange and any borrowing are all outside this page.','Test them separately with the adviser.',source('usc1031')),
+])+'<p class="tiny">Every figure on this page is a synthetic example computed from the rules above. It is not an estimate of any household’s tax, and it is not advice.</p>')
+page('tax-realism','Depreciation, recapture and the home-sale exclusion.','The rental tax the comparison model leaves out, priced from the IRS rules on the same synthetic house, with the two worked examples the IRS publishes as a check on the arithmetic.',body,['guide/data/model.js','guide/data/tax-realism.js','guide/data/tax-realism-page.js'])
