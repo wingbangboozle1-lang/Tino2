@@ -49,6 +49,10 @@ def transfer(year,c):
         return c['prop19Amount']*(1+c['prop19Index'])**steps
     return market,assessed,allowance(year),min(market,max(assessed,market-allowance(year)))
 
+def imputed_rent(c):
+    # null means "use the modelled rent", the same default as the monthly Python engine.
+    return c['aRentMonthly'] if c.get('imputedRentMonthly') is None else c['imputedRentMonthly']
+
 def holding(year,option,c):
     t=c['inheritYear']; market,_,_,live_base=transfer(t,c)
     value,_=series_a(year,c)
@@ -56,7 +60,11 @@ def holding(year,option,c):
     n=year-c['startYear']
     costs=assessed*c['aRate']+c['aWaterMonthly']*12*(1+c['expenseInflation'])**n
     costs+=c['aInsuranceAnnual']*(1+c['expenseInflation'])**n+value*c['maintenanceA']-c['aSolarMonthlyCredit']*12
-    if option=='live': return -costs
+    if option=='live':
+        # The rent an owner avoids by occupying the home, at the same growth rate as the rent
+        # it replaces. Credited by both engines, so the comparison is like for like.
+        avoided=imputed_rent(c)*12*(1+c['rentGrowth'])**n
+        return -costs+avoided
     gross=c['aRentMonthly']*12*(1+c['rentGrowth'])**n
     noi=gross*(1-c['vacancy'])*(1-c['management'])-costs
     return noi-max(0,noi)*c['ordinaryTax']
@@ -77,14 +85,17 @@ for row in obj['decisions']:
         for t in range(1,h+1):
             flow=holding(y+t,option,c)
             near(result[option]['yearly'][t-1]['afterTaxCash'],flow,f'{option} annual flow')
-            cash=cash*(1+ret)+flow
+            cash=cash*(1+c['cashYield'])+flow
         final_market,_=series_a(y+h,c)
         realized=final_market*(1-c['saleCost'])
         gain=max(0,realized-market)
         exclusion=min(c['primaryGainExclusion'],gain) if option=='live' and h>=2 else 0
         tax=max(0,gain-exclusion)*c['capitalGainsTax']
         near(result[option]['capitalGainsTax'],tax,f'{option} gain tax')
-        near(result[option]['terminal'],realized-tax+cash,f'{option} endpoint')
+        # Endpoint convention shared with the monthly engine: a path still holding the house
+        # is worth the house at market value plus the cash it accumulated. No hypothetical
+        # sale is assumed, so no gain tax is charged on a sale that is not modelled.
+        near(result[option]['terminal'],final_market+cash,f'{option} endpoint')
     n=y-c['startYear']
     b_market=c['bValue']*(1+g)**n
     b_assessed=min(b_market,c['bAssessed']*(1+c['assessmentGrowth'])**n)
@@ -123,10 +134,14 @@ for key,rows in obj['paths'].items():
         noi=rent*(1-vacancy)*(1-c['management'])-tax-costs
         cash=noi-max(0,noi)*c['ordinaryTax']
         sell*=1+portfolio; reserve=reserve*(1+portfolio)+cash
-        live_reserve=live_reserve*(1+portfolio)-costs-live_assessed*c['aRate']
+        # The living path is credited the rent an owner avoids, on the same rent path the
+        # renting option uses, scaled by the ratio of the chosen imputed rent to the modelled
+        # rent. It is not taxed: it is a housing service, not income.
+        live_avoided=rent*(imputed_rent(c)/c['aRentMonthly'])
+        live_reserve=live_reserve*(1+portfolio)-costs-live_assessed*c['aRate']+live_avoided
         realized=market*(1-c['saleCost'])
-        rent_end=realized-max(0,realized-inherited)*c['capitalGainsTax']+reserve
-        live_end=realized-max(0,realized-inherited-(c['primaryGainExclusion'] if t>=2 else 0))*c['capitalGainsTax']+live_reserve
+        rent_end=market+reserve
+        live_end=market+live_reserve
         for name,value in [('market',market),('factoredBase',fbase),('assessed',assessed),('liveAssessed',live_assessed),
                            ('priceIndex',index),('cash',cash),('sell',sell),('rent',rent_end),('live',live_end),
                            ('realSell',sell/index),('realRent',rent_end/index),('realLive',live_end/index)]:

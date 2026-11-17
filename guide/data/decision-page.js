@@ -28,7 +28,8 @@
       ['Both · home growth / assessment growth',`${pct(growth)} / ${pct(c.assessmentGrowth)}`,'Scenario rates; the 2% cap is not a guaranteed actual increase. Assessment is capped at modeled market value.',src('tax')],
       ['Property A · synthetic effective tax-rate assumption',pct(c.aRate),'Invented example ratio, not a parcel rate or tax-bill calculation.',src('tax')],
       ['Property B · synthetic effective tax-rate assumption',pct(c.bRate,4),'Invented example ratio, not a parcel rate or tax-bill calculation.',src('sfTax')],
-      ['Property A · synthetic rent / vacancy / management',`${money(c.aRentMonthly)} per month / ${pct(c.vacancy)} / ${pct(c.management)}`,'Rent is a fabricated model input, not a HUD benchmark, quote or lawful-rent determination. Vacancy applies to gross rent; management applies after vacancy.',src('rent')],
+      ['Property A · synthetic rent / vacancy / management',`${money(c.aRentMonthly)} per month / ${pct(c.vacancy)} / ${pct(c.management)}`,'Rent is a fabricated model input, not a HUD benchmark, quote or lawful-rent determination. Vacancy applies to gross rent. No property-management cost is charged on the rental path, because the published reference model charges none — a known omission, published on the Flagged page.',src('rent')],
+      ['Rent the living path avoids',`${money(d.imputedRentMonthly)} per month`,'The living path is credited the rent an owner does not pay while occupying the home, at the same growth rate as the rent it replaces. It is an assumption you can change, not a valuation of the home to you.',src('rent')],
       ['Property A · synthetic water / insurance / maintenance',`${money(c.aWaterMonthly)} monthly / ${money(c.aInsuranceAnnual)} yearly / ${pct(c.maintenanceA)} of market value yearly`,'Invented costs, not household bills, a tariff result, a survey match or an insurance quote. Water and insurance grow at a scenario rate.',src('water','Utility context')+' · '+src('insurance','Insurance context')],
       ['Property B · synthetic rent / water / electricity / insurance',`${money(c.bRentMonthly)} monthly / ${money(c.bWaterMonthly)} monthly / ${money(c.bElectricMonthly)} monthly / ${money(c.bInsuranceAnnual)} yearly`,'All values are fabricated model inputs, not a rent roll, lease, bill, quote or description of real unit occupancy.',src('sf','Rent-rule context')+' · '+src('sfWater','Utility context')],
       ['B · maintenance / reserves / annual fee',`${pct(c.maintenanceB)} of value / ${pct(c.vacancy)} vacancy / ${pct(c.management)} management / ${money(c.bFeeAnnual)} yearly`,'Maintenance rates are assumptions. The annual fee is an unverified placeholder. Utilities grow 3%. Vacancy applies to gross rent, management after vacancy.',src('rent')],
@@ -49,7 +50,7 @@
     ];
     const sameEl=document.getElementById('same-year-sale');
     if(sameEl) sameEl.innerHTML=sameYear.map(tr).join('');
-    const names={sell:'Sell and reinvest',rent:'Rent then sell',live:'Live then sell'};
+    const names={sell:'Sell and reinvest',rent:'Rent it out',live:'Live in it'};
     document.getElementById('winner').innerHTML=`<h3>On these inputs: ${names[d.winner]} leads.</h3><p>Synthetic example inputs are used; scenario rates are assumptions, not forecasts. This is a calculation, not tax or legal advice. The transfer is modeled in ${y} and the comparison ends in ${y+horizon}. Change assumptions and review the omitted costs before drawing conclusions.</p>`;
     document.getElementById('comparison').innerHTML=['sell','rent','live'].map(k=>{
       const a=d[k], cash=k==='sell'?`${money(a.firstYearCash)} portfolio change (not a distribution)`:money(a.firstYearCash);

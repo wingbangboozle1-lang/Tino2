@@ -225,12 +225,15 @@ for(const file of pages){
   const g=0.035, low=B.evaluate(g,0,24), mid=B.evaluate(g,0.05,24);
   check(['sell','rent','live'].includes(low.winner) && ['sell','rent','live'].includes(mid.winner),'Boundary winners are valid labels');
   check(low.winner!=='sell','A zero portfolio return must not favour selling on these inputs');
-  check(mid.winner==='sell','The middle case favours selling on these inputs');
+  check(low.winner==='live','A zero portfolio return favours living on these inputs');
+  check(mid.winner==='live','The middle case favours living on these inputs');
   let sawSell=false, monotone=true;
   for(const r of B.RETURNS){const w=B.evaluate(g,r,24).winner; if(w==='sell')sawSell=true; else if(sawSell)monotone=false;}
   check(monotone,'Selling becomes dominant at higher returns and never reverts');
   const be=B.sellBreakeven(g,24);
   check(be.threshold!==null && B.evaluate(g,be.threshold,24).winner==='sell','Break-even point actually leads with selling');
+  check(be.threshold>0.04 && be.threshold<0.08,'The break-even portfolio return sits in a plausible band');
+  check(B.evaluate(g,be.threshold-0.01,24).winner==='live','Just below the break-even, living still leads');
  }
  if(file==='guide/summary.html'){
   const d=dom.window.document;

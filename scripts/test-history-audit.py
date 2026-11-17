@@ -60,7 +60,7 @@ def make_fixture(tmp):
         "const OFFICIAL_AMOUNTS=new Map([\n  [1000, 'x'],\n]);\n", encoding="utf8")
     shutil.copy(ROOT / "scripts" / "privacy-scrub.py", repo / "scripts" / "privacy-scrub.py")
     run(["git", "init", "-q", "-b", "main"], repo)
-    run(["git", "config", "user.email", "test@example.invalid"], repo)
+    run(["git", "config", "user.email", "test@example.com"], repo)
     run(["git", "config", "user.name", "Test"], repo)
     run(["git", "add", "-A"], repo)
     run(["git", "commit", "-q", "-m", "fixture"], repo)
@@ -103,7 +103,7 @@ def main():
         empty = tmp / "empty"
         (empty / "scripts").mkdir(parents=True)
         run(["git", "init", "-q", "-b", "main"], empty)
-        run(["git", "config", "user.email", "test@example.invalid"], empty)
+        run(["git", "config", "user.email", "test@example.com"], empty)
         run(["git", "config", "user.name", "Test"], empty)
         run(["git", "commit", "-q", "--allow-empty", "-m", "empty"], empty)
         scrubber = load(ROOT / "scripts" / "privacy-scrub.py", "scrubber_probe")

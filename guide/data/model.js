@@ -8,14 +8,30 @@
     aValue: 1240000, aAssessed: 398000,         // synthetic example only
     bValue: 980000, bAssessed: 321000,          // synthetic example only
     aRate: 5980 / 390200, bRate: 5120 / 321000, // invented example ratios, not parcel rates
-    appreciation: 0.035, assessmentGrowth: 0.02,
-    expenseInflation: 0.03, rentGrowth: 0.03, sfRentGrowth: 0.016,
-    portfolioNet: 0.05, saleCost: 0.055, vacancy: 0.07, management: 0.085,
+    // The scenario below is the one the published monthly engine runs, so the interactive
+    // calculator and the published tables answer the same question on the same assumptions.
+    // appreciation 4.9%: the published FHFA midpoint band the monthly engine uses;
+    // portfolioNet 6%: the monthly engine's stated nominal equity assumption;
+    // expenseInflation and rentGrowth 2.62%: the published 35-year mean CPI-U change;
+    // vacancy 5%, saleCost 6%: the monthly engine's assumptions; management 0%: the monthly
+    // engine charges no property-management cost on the rental path — a known omission of
+    // the reference model, published on the Flagged page rather than hidden in one engine.
+    appreciation: 0.049, assessmentGrowth: 0.02,
+    expenseInflation: 0.0262, rentGrowth: 0.0262, sfRentGrowth: 0.016,
+    portfolioNet: 0.06, saleCost: 0.06, vacancy: 0.05, management: 0,
+    // Operating cash accumulated by a holding path is held at the 3-month Treasury par
+    // yield the published monthly engine uses, not at the equity return. Same convention,
+    // so the two calculators do not drift apart over a 50-year horizon.
+    cashYield: 0.0432,
     maintenanceA: 0.0075, maintenanceB: 0.0125,
     ordinaryTax: 0.30, capitalGainsTax: 0.361, primaryGainExclusion: 250000,
 // Tax-rate simplifications are scenario assumptions and do not calculate a real taxpayer's liability.
 // The site links the official tax rules separately; actual tax depends on the facts and filing position.
     aRentMonthly: 4400, bRentMonthly: 3600,    // synthetic example only; not a quote or market estimate
+    // The rent an owner avoids by occupying the home. null = use the modelled rent above,
+    // which is the same default the Python engine uses. Set it to 0 to model the home as
+    // having no housing value to the occupant. It is an assumption, not a valuation.
+    imputedRentMonthly: null,
     aWaterMonthly: 180, aSolarMonthlyCredit: 0,
     aInsuranceAnnual: 2240,                      // synthetic example only; not an insurance quote
     bWaterMonthly: 540, bElectricMonthly: 130,
@@ -77,6 +93,10 @@
       primarySavings: (current.market - primaryAssessed) * config.aRate
     };
   }
+  function imputedRent(config = BASE) {
+    // null means "use the modelled rent", the same default as the Python engine.
+    return config.imputedRentMonthly == null ? config.aRentMonthly : config.imputedRentMonthly;
+  }
   function annualA(year, option, config = BASE) {
     if (!['live', 'rent'].includes(option)) throw new Error('Invalid holding option');
     const transferYear = config.inheritYear || year;
@@ -94,9 +114,14 @@
     const maintenance = market * config.maintenanceA;
     const operatingCost = propertyTax + water + insurance + maintenance - solarCredit;
     if (option === 'live') {
+      // The rent an owner does not pay while occupying the home. It is credited at the same
+      // growth rate as the rent it replaces, and it is not taxed: it is a housing service,
+      // not income. Without this credit the living path is compared against a rent path on
+      // unequal terms, which is why the two engines on this site must use the same rule.
+      const avoidedRent = futureValue(imputedRent(config) * 12, config.rentGrowth, n);
       return { year, market, factoredBase, assessed, propertyTax, water, solarCredit, insurance,
         maintenance, grossRent: 0, vacancyCost: 0, managementCost: 0, noi: -operatingCost,
-        incomeTax: 0, afterTaxCash: -operatingCost };
+        avoidedRent, incomeTax: 0, afterTaxCash: -operatingCost + avoidedRent };
     }
     const grossRent = futureValue(config.aRentMonthly * 12, config.rentGrowth, n);
     const vacancyCost = grossRent * config.vacancy;
@@ -111,6 +136,7 @@
   function decision(config = BASE, horizon = 10) {
     if (!Number.isInteger(horizon) || horizon < 1 || !Number.isInteger(config.inheritYear)) throw new Error('Invalid horizon or transfer year');
     const transferYear = config.inheritYear;
+    const cashRate = config.cashYield == null ? ret : config.cashYield;
     const inherited = inheritanceValues(transferYear, config);
     // For the assumed FMV basis, immediate net sale proceeds produce no positive taxable gain.
     const initial = inherited.market * (1 - config.saleCost);
@@ -124,21 +150,28 @@
       const yearly = [];
       for (let t = 1; t <= horizon; t += 1) {
         const row = annualA(transferYear + t, option, config);
-        cashReserve = cashReserve * (1 + ret) + row.afterTaxCash;
+        cashReserve = cashReserve * (1 + cashRate) + row.afterTaxCash;
         yearly.push(row);
       }
       const finalMarket = seriesFor('A', transferYear + horizon, config).market;
+      // Endpoint convention, shared with the published monthly engine: a path that is still
+      // holding the house at the endpoint is worth the house at its market value plus the
+      // cash it accumulated. No sale is assumed and no gain tax is charged on a sale that
+      // is not modelled, so both calculators answer the same question the same way.
       const realized = finalMarket * (1 - config.saleCost);
       const gain = Math.max(0, realized - inherited.market);
       // A conditional illustration, not a determination of actual home-sale eligibility.
       const exclusion = option === 'live' && horizon >= 2 ? Math.min(config.primaryGainExclusion, gain) : 0;
       const capitalGainsTax = Math.max(0, gain - exclusion) * config.capitalGainsTax;
       const finalSale = realized - capitalGainsTax;
+      const avoidedRentTotal = yearly.reduce((sum, row) => sum + (row.avoidedRent || 0), 0);
       result[option] = { initialNet: 0, firstYearCash: yearly[0].afterTaxCash,
-        terminal: finalSale + cashReserve, cashReserve, finalSale, finalMarket,
-        capitalGainsTax, gainExclusion: exclusion, yearly };
+        terminal: finalMarket + cashReserve, cashReserve, finalSale, finalMarket,
+        endpointHouse: finalMarket, endpointCash: cashReserve,
+        capitalGainsTax, gainExclusion: exclusion, avoidedRentTotal, yearly };
     }
     result.transfer = inherited;
+    result.imputedRentMonthly = imputedRent(config);
     result.winner = ['sell', 'rent', 'live'].sort((a, b) => result[b].terminal - result[a].terminal)[0];
     return result;
   }
@@ -163,5 +196,5 @@
     return { year, a, b, combined: a, exclusion };
   }
   window.MODEL = { BASE, round10, fmtMoney, futureValue, prop19Steps, modelAllowance,
-    seriesFor, inheritanceValues, annualA, decision, sfAnnual, estateRow };
+    seriesFor, inheritanceValues, annualA, decision, sfAnnual, estateRow, imputedRent };
 })();

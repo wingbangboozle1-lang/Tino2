@@ -34,6 +34,9 @@ jobs:
           python3 scripts/check-generated.py
           python3 scripts/check-figures.py
           python3 scripts/test-model-reference.py
+          # The browser calculator and the published monthly engine must answer the same
+          # question the same way. This gate fails if they ever drift apart again.
+          python3 scripts/test-engine-agreement.py
           # Guards the living-path imputed-rent disclosure added 17 Nov 2026: fails if the
           # engine stops crediting it or any page starts claiming again that it does not.
           python3 scripts/test-imputed-rent.py
@@ -49,6 +52,8 @@ jobs:
         run: |
           python3 scripts/privacy-gate.py --self-test
           python3 scripts/privacy-gate.py
+          # The history audit must measure the same thing in a checkout and in a bare mirror.
+          python3 scripts/test-history-audit.py
       # The gate above reads HEAD only. This proves the same detectors also fire inside the audit
       # that walks Git objects, so the two can never drift apart in policy. The inventory itself is
       # a separate job, because a rewrite decision needs the whole history, not a shallow checkout.
