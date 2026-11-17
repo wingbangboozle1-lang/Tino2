@@ -239,6 +239,10 @@ WHATIF_SCEN = M.SCENARIOS
 WHATIF_PHASE = (24, 36)
 WHATIF_CASH = ((M.OFFICIAL['treasury_3m'], 'Treasury 3-month rate (4.32%)'), (0.02, 'Parked yield 2.00%'))
 WHATIF_MU = ((0.04, '4% a year'), (0.06, '6% a year'), (0.08, '8% a year'))
+# The living paths are credited the rent they do not pay. These two settings make that
+# assumption visible and switchable: the modelled rent (the default the published figures use)
+# or nothing at all. Both are precomputed; nothing is entered or stored.
+WHATIF_IMPUTED = ((1, 'Modelled rent (the default assumption)'), (0, 'No value for living there'))
 
 
 def whatif_data():
@@ -248,9 +252,12 @@ def whatif_data():
             for ph in WHATIF_PHASE:
                 for ci, (cy, _) in enumerate(WHATIF_CASH):
                     for mi, (mu, _) in enumerate(WHATIF_MU):
-                        p = dict(ACTIVE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu)
-                        key = f'{s}|{h}|{ph}|{ci}|{mi}'
-                        out[key] = {path: r10(M.simulate(path, s, p, ACTIVE_A, h)['total']) for path in M.PATHS}
+                        for ii, (imp, _) in enumerate(WHATIF_IMPUTED):
+                            p = dict(ACTIVE_PARAMS, phase_months=ph, cash_yield=cy, mu_equity=mu)
+                            if not imp:
+                                p['imputed_rent_mo'] = 0.0
+                            key = f'{s}|{h}|{ph}|{ci}|{mi}|{ii}'
+                            out[key] = {path: r10(M.simulate(path, s, p, ACTIVE_A, h)['total']) for path in M.PATHS}
     return out
 
 
@@ -270,14 +277,21 @@ def whatif_body(ctx) -> str:
                 '<div class="control"><label for="wi-cash">Parked-cash yield</label><select id="wi-cash">'
                 + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_CASH)], 0) + '</select></div>'
                 '<div class="control"><label for="wi-mu">Equity return (assumption)</label><select id="wi-mu">'
-                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_MU)], 1) + '</select></div></div>')
-    default = data[f'base|25|24|0|1']
+                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_MU)], 1) + '</select></div>'
+                '<div class="control"><label for="wi-imputed">Rent the living paths avoid</label><select id="wi-imputed">'
+                + opts([(i, lbl) for i, (_, lbl) in enumerate(WHATIF_IMPUTED)], 0) + '</select></div></div>')
+    default = data[f'base|25|24|0|1|0']
     rows = []
     for path in M.PATHS:
         rows.append((f'<span data-wi-label="{path}">{escape(M.PATH_LABEL[path])}</span>',
                      f'<span data-wi-path="{path}">{money(default[path])}</span>', source(PATH_SOURCE[path])))
     body = ('<div class="callout warning"><strong>What-if controls.</strong> Change a control and the table updates from precomputed runs of the same model. '
-            'There is no data entry here, and no personal figures are stored or sent.</div>')
+            'There is no data entry here, and no personal figures are stored or sent.</div>'
+            '<p><strong>The living paths are paid a rent they do not pay.</strong> Every living path in this guide is credited the rent the owner '
+            'avoids by occupying the home — the <em>Rent the living paths avoid</em> control above. It is an assumption, not a market rent: without it, '
+            'living in the house consumes money and never earns any. Setting it to <em>no value</em> shows the same model with that assumption removed, '
+            'which is the honest lower bound for the living choice and the reason the living path can lead at short horizons. It is not a substitute for '
+            'the owner\u2019s own view of what living there is worth.</p>')
     body += controls
     body += section('Total wealth 25 years after inheritance (synthetic example inputs)', table(
         ['Path', 'Total wealth (example)', 'Official reference'], rows) + '<p id="wi-status" class="tiny" aria-live="polite"></p>')
@@ -288,7 +302,7 @@ def whatif_body(ctx) -> str:
 WHATIF_JS = r"""
 (function(){
   var D = window.WHATIF_DATA; if (!D) return;
-  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu'];
+  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu','wi-imputed'];
   var els = ids.map(function(i){ return document.getElementById(i); });
   if (els.some(function(e){ return !e; })) return;
   function fmt(v){ if (v === null || v === undefined) return '—'; var s = Math.abs(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (v < 0 ? '−$' : '$') + s; }

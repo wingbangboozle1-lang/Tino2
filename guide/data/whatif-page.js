@@ -1,6 +1,6 @@
 (function(){
   var D = window.WHATIF_DATA; if (!D) return;
-  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu'];
+  var ids = ['wi-scenario','wi-horizon','wi-phase','wi-cash','wi-mu','wi-imputed'];
   var els = ids.map(function(i){ return document.getElementById(i); });
   if (els.some(function(e){ return !e; })) return;
   function fmt(v){ if (v === null || v === undefined) return '—'; var s = Math.abs(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (v < 0 ? '−$' : '$') + s; }
