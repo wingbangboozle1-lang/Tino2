@@ -2876,3 +2876,37 @@ carries an official `https://` source link or is left blank and flagged; nothing
 `python3 scripts/privacy-gate.py` runs before every push. `origin/main` is merged (rebase) before every push;
 conflicts keep both sides. No history rewrite, no force-push to `main`, no repository-visibility change. The
 branch name is fixed by the platform to `arena/0a54f210-tino2`.
+## Session `8b52218a` (branch `arena/8b52218a-tino2`) — claim 2026-11-17
+
+**State read at claim.** `origin/main` = `dcf2b34` (merge of PR #138, session `b4b8c8e8`); this branch is level with it and the working tree is clean. Open pull request: **#137** (`arena/e3f08d9e-tino2`, coordination-only, last commit 16 Nov 2026 18:39 UTC — idle far beyond the 60-minute window; not taken over here, it is not in this session's scope). Baseline gates re-run before claiming: `check-generated.py` PASS (19 pages), `check-figures.py` PASS (44/44), `privacy-gate.py` PASS (254 tracked text files).
+
+**Scope.** Three items from the brief that the published guide does not yet deliver. None is held by another live session.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| A-1 | Claim the board and push the claim at once | done | 8b52218a | `COORDINATION.md` (this block) | — |
+| A-2 | **done** (see completion record) · Private household projection: a git-ignored runner that feeds household inputs, rounded to the nearest $10, through the existing decision engine and writes the outputs (value, assessed value, property tax, insurance, water, electricity, path comparison) to `private/`. Nothing household-specific is committed | unclaimed | — | `scripts/private_run.py` (new, no personal data), `private/**` (git-ignored) | — |
+| A-3 | **withdrawn — already delivered.** A 25-year range chart per path (`distribution_svg`, `#distribution-chart`) already ships on `guide/paths.html`; no change made | withdrawn | — | none | — |
+| A-4 | Suite, PR to `main`, merge without waiting, confirm Pages, live read-back, record here | in progress | 8b52218a | this block | PR and Pages result recorded below after merge |
+
+**Rules this session follows.** No name, address, ZIP code, parcel number, account number, rent, bill or utility figure in any committed file. Household inputs live only in `private/inputs.json` (git-ignored) and are rounded to the nearest $10 before use. The public guide stays synthetic-only. The Property A tax rate area, rent comparables, insurance quotes and the independent appraisal require private documents or licensed sources that this session cannot reach from the sandbox; they are left as blanks and flagged, not estimated. History rewriting is not performed (owner decision L-D2).
+
+### Session `8b52218a` — completion record (17 Nov 2026)
+
+**A-2 result.** `scripts/private_run.py` runs the existing decision engine (`scripts/analysis_model.py`, unchanged) on `private/inputs.json`, which is git-ignored. It rounds every dollar input to the nearest $10, runs low / mid / high cases for each range input, and writes `private/run-summary.md` plus two annual CSVs. It refuses to run without inputs, and a missing input (for example the Property A market rent) is reported as a floor or "not computed", never estimated. `--self-test` checks the rounding, ranges and missing-input handling without household data. Nothing household-specific is committed; `git check-ignore` confirms `private/inputs.json` is ignored.
+
+**What the private run shows (mid case, 25 years, baseline; rounded, owner-supplied inputs, not verified):** living in the house and selling-then-phasing tie only if the equity return falls to about 3.0% a year (the mid case assumes 6.0%); living and selling tie at about 6.7% a year of post-inheritance home-price growth (the mid case assumes 4.9%). The ranking therefore rests on two labelled ASSUMPTIONS in `analysis_model.py`, not on official data. The private output is for the owner only and is not published.
+
+**A-3.** Withdrawn: the public Paths page already carries the distribution chart the brief asks for.
+
+**Verification on this tree.** `privacy-gate.py` PASS (254 tracked text files, no blocked identifier or un-rounded household amount); `check-generated.py` PASS (19 pages); `package-site.py` PASS (33 files); `check-publication.py` and `--self-test` PASS; `private_run.py --self-test` PASS. The published site was not changed, so `test-guide.cjs` and the browser test were not re-run for this change.
+
+**Irregularities and items NOT done (flagged, not estimated):**
+- **I-A1 (model review):** in the mid case the phased-into-stocks path has its best 25-year outcome in the 1929-style crash scenario, above the baseline. This is a consequence of the scenario shape and buying at depressed prices; it must be reviewed before anyone quotes the ranking from it.
+- **I-A2:** Property A's value is the owner's estimate for Nov 2026, not an appraisal. An independent written valuation at the date of death is still required.
+- **I-A3:** no market rent for Property A was supplied; the rent paths are therefore floors.
+- **I-A4:** the Property A insurance figure (~$1,500) is the owner's guess; the official CDI survey is not a quote. Insurance quotes are still required.
+- **I-A5:** Property A's tax rate area and its published rate were not looked up. That needs the county record for the specific parcel, which requires private documents this session does not hold.
+- **I-A6:** rent comparables, Proposition 19 eligibility (occupancy and claim), depreciation and recapture, the five-year maintenance plan, the estate liquidity plan, and the like-kind-exchange decision were not modelled or verified in this session. They need private documents and a qualified adviser.
+- **I-A7 (standing):** the repository is public and its history still holds pre-rounding blobs; this session did not rewrite history (owner decision L-D2; see `docs/history-remediation-runbook.md`).
+- **I-A8:** the brief asks for line-by-line verification of every row. This session did not re-open the source pages; the engine constants are those verified and dated by earlier sessions (`verification/070d6a2e/REPORT.md`).
