@@ -2921,3 +2921,20 @@ branch name is fixed by the platform to `arena/0a54f210-tino2`.
 - **I-A6:** rent comparables, Proposition 19 eligibility (occupancy and claim), depreciation and recapture, the five-year maintenance plan, the estate liquidity plan, and the like-kind-exchange decision were not modelled or verified in this session. They need private documents and a qualified adviser.
 - **I-A7 (standing):** the repository is public and its history still holds pre-rounding blobs; this session did not rewrite history (owner decision L-D2; see `docs/history-remediation-runbook.md`).
 - **I-A8:** the brief asks for line-by-line verification of every row. This session did not re-open the source pages; the engine constants are those verified and dated by earlier sessions (`verification/070d6a2e/REPORT.md`).
+
+## Session `b4ef632b` (branch `arena/b4ef632b-tino2`) — claim 2026-11-17
+
+**State read at claim.** `origin/main` = `dcf2b34` (merge of PR #138, session `b4b8c8e8`). This branch was based on that commit; `origin/main` subsequently advanced (through PR #140 as `b503957`, then to `2ad6468`), merging PR #137 as `d645351` via session `0a54f210` and recording its own verification. This branch was rebased onto the current `main`; both session blocks are kept verbatim.
+
+**Why this scope.** The brief requires periodic rechecking of official federal, state and local authorities and distinguishing enacted changes from proposals, and re-running the model with updated inputs. The last published source review is stamped 13–16 Nov 2026. This session re-opened the load-bearing official pages as of 17 Nov 2026, confirmed no enacted figure changed, ran the full local suite, and publishes a dated verification record. Nothing household-derived is added; all published values remain synthetic or government-published.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| U-1 | Claim the board, push the claim at once | done | b4ef632b | `COORDINATION.md` (this block) | — |
+| U-2 | Stale PR #137 | **superseded** | b4ef632b | PR #137 only | PR #137 was merged by session `0a54f210` as `d645351` (recorded in their block above); nothing unique remained to land. No work discarded. |
+| U-3 | Periodic official-source recheck as of 17 Nov 2026 | done | b4ef632b | `verification/b4ef632b/REPORT.md` (new) | IRS IR-2026-133, BOE LTA 2025/009, FTB Form 540 line 62 BHST, Santa Clara Clerk-Recorder transfer tax, U.S. Treasury Nov 2026 par yields re-opened; no enacted figure changed; Treasury spot-yield examples drifted slightly (labelled examples only). |
+| U-4 | Re-run the full local suite | done | b4ef632b | local checks only | All PASS: check-generated 19 pages, check-figures 44/44, package-site 33 files, check-publication --self-test, privacy-gate 255 files + self-test, privacy-audit, test-guide 1,231 source-linked rows / 13,783 checks, test-model-reference 20,736 comparisons, test-phased 200, validate.js 1,613 checks / 178 sources, stress-test.js. |
+| U-5 | Figure change handling | n/a | b4ef632b | — | No load-bearing figure changed; no generator or page change required; recommendation did not move. |
+| U-6 | PR this branch to `main`, merge without waiting, confirm the Pages build and deployment, live read-back, record PR link and merge result here | in progress | b4ef632b | this block | PR #141 opened; rebased onto current `main`; do not merge a broken build. |
+
+**Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). No household figure committed; every published dollar figure is either an exact government amount quoted as published or rounded to the nearest $10. Every published table row carries an official `https://` source link or is left blank and flagged; nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). If `origin/main` moves, rebase and re-run the suite.
