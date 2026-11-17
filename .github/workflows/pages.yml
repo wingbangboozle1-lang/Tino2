@@ -66,13 +66,11 @@ jobs:
           node scripts/test-guide.cjs
           node scripts/privacy-audit.cjs
           node scripts/test-browser.cjs
-      # The retained dashboard under site/ is not published, because it is built
-      # from the household's own figures. It is still verified on every push so
-      # that the work stays sound and can be republished on request.
-      - name: Verify the retained dashboard (repository only, never published)
-        run: |
-          node scripts/validate.js
-          node scripts/stress-test.js
+      # The retained dashboard under site/ was deleted from the default branch on
+      # 17 Nov 2026: it was built from the household's own figures, and a public repository
+      # is searchable at HEAD. Its validator went with it. The published guide has its own
+      # gates above (test-model-reference, test-engine-agreement, test-imputed-rent,
+      # test-guide.cjs, runtime-test.cjs).
       # Continue checking the existing branch/root Jekyll output as a safety
       # fallback, even when the configured Pages source uses Actions.
       - name: Build the legacy GitHub Pages Jekyll output

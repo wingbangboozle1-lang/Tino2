@@ -1,10 +1,11 @@
 # Privacy remediation runbook — repository history and access
 
 **Internal document. It is not published to the site** (`_config.yml` excludes `docs/`).
-Written 16 Nov 2026 by session `e3f08d9e` for the repository **administrator/owner**. It answers
-the standing owner item "scrub pre-rounding Git history / keep the repo privacy-first"
-(board rows L-D2 and P-4), which a session branch cannot complete: no session rewrites shared
-refs, and no session changes repository visibility.
+Written 16 Nov 2026 by session `e3f08d9e` for the repository **administrator/owner**, and
+updated 17 Nov 2026 by session `6f33482e`, which executed the remediation this document
+describes. It answers the standing owner item "scrub pre-rounding Git history / keep the repo
+privacy-first" (board rows L-D2 and P-4). See §7 for what was done, what was measured, and the
+one step only GitHub Support can finish.
 
 Nothing in this file is a personal identifier or a household amount. It describes what to run and
 what to expect.

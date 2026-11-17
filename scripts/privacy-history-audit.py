@@ -85,8 +85,9 @@ def main():
     # and says so. Record where each input came from, so a bare-mirror run cannot be mistaken for
     # a checkout run (see docs/history-remediation-runbook.md §2).
     allowlist_inputs = {}
-    for name in ("integration/ledger/official_amounts.txt", "integration/ledger/facts.jsonl",
-                 "guide/figures/official-figures.json", "scripts/test-guide.cjs"):
+    for name in ("scripts/official-amounts.txt", "integration/ledger/official_amounts.txt",
+                 "integration/ledger/facts.jsonl", "guide/figures/official-figures.json",
+                 "scripts/test-guide.cjs"):
         on_disk = (ROOT / name).exists()
         readable = scrubber.repo_text(name) is not None if hasattr(scrubber, 'repo_text') else on_disk
         allowlist_inputs[name] = 'working tree' if on_disk else ('git object store' if readable else 'MISSING')

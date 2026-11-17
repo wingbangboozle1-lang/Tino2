@@ -60,7 +60,7 @@ def closed_form(entry, strategy, dividends=H.DIVIDENDS, override=None):
 
 
 # ---------------------------------------------------------------- data lineage anchors
-# Read from the official FRED endpoints on 16 Nov 2026; see research/data/*_README_2026-11-16.md.
+# Read from the official FRED endpoints on 16 Nov 2026; see scripts/data/*_README_2026-11-16.md.
 ok(abs(H.PRICE[2007] - 91.882580) < 1e-9, 'share-price index, December 2007 (FRED monthly)')
 ok(abs(H.PRICE[2008] - 51.736620) < 1e-9, 'share-price index, December 2008 (FRED monthly)')
 ok(abs(H.PRICE[2009] - 67.164700) < 1e-9, 'share-price index, December 2009 (FRED monthly)')

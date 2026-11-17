@@ -1,5 +1,7 @@
-# Official published government/regulator dollar amounts verified in qa/ledger.json.
-# Contains ZERO household data; used by integration/tools/privacy_scan.py alongside facts.jsonl.
+# Official published government/regulator dollar amounts, verified against the issuing body.
+# Contains ZERO household data. This is the policy allowlist used by scripts/privacy-scrub.py
+# so that an amount a government publishes may stay exact while every other amount in the
+# household-derived scope is rounded to the nearest $10.
 1167  # INS-04 (https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SANTA%20CLARA%20CUPERTINO,HOMEOWNERS,40%20Years,1000000,Y)
 1328  # INS-06 (https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,70%20Years,1000000,Y)
 1413  # INS-06 (https://interactive.web.insurance.ca.gov/apex_extprd/f?p=111:21::SUBMIT:NO::P21_LOCATION,P21_TYPE,P21_HOME_AGE,P21_INSURANCE_AMOUNT,P21_SUBMIT:SAN%20FRANCISCO%20SAN%20FRANCISCO-[DISTRICT-B],HOMEOWNERS,70%20Years,1000000,Y)

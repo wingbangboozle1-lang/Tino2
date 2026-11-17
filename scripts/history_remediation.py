@@ -96,6 +96,18 @@ def load_policy():
 NUMERIC = re.compile(r'\d[\d,]*')
 YEAR_LIKE = re.compile(r'^\d{4}$')
 
+# The gate's pattern rules, and the neutral placeholder each one leaves behind. The rewrite
+# applies the same rules the gate applies, so a blob the gate flags in history is a blob the
+# rewrite can clean; otherwise a rewrite could not reach zero findings.
+PATTERN_PLACEHOLDERS = (
+    ('email', '[EMAIL]'),
+    ('ssn', '[ID]'),
+    ('phone', '[PHONE]'),
+    ('apn', '[PARCEL]'),
+    ('blocklot', '[BLOCK]'),
+    ('street', '[STREET]'),
+)
+
 
 def _in_round_scope(path: str, round_scope) -> bool:
     return any(path == scope or path.startswith(scope.rstrip('/') + '/') for scope in round_scope)
@@ -138,6 +150,18 @@ def _spans(text: str, policy):
     blocked = policy['blocked']
     raw_banned = policy['raw_banned']
     out = []
+    for name, placeholder in PATTERN_PLACEHOLDERS:
+        pattern = getattr(gate, {'email': 'EMAIL', 'ssn': 'SSN', 'phone': 'PHONE',
+                                'apn': 'APN_SCC', 'blocklot': 'BLOCKLOT_SF',
+                                'street': 'STREET'}[name])
+        for match in pattern.finditer(text):
+            if name == 'email':
+                domain = match.group(0).split('@')[-1].lower()
+                safe = any(domain.endswith(suffix) for suffix in ('.gov', '.mil')) \
+                    or domain in gate.SAFE_EMAIL_DOMAINS
+                if safe:
+                    continue          # an official contact address is published on purpose
+            out.append((match.start(), match.end(), placeholder))
     for match in NUMERIC.finditer(text):
         raw = match.group(0)
         token = raw.replace(',', '')

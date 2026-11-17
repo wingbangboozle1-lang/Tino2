@@ -60,7 +60,7 @@ def make_fixture(tmp):
         "const OFFICIAL_AMOUNTS=new Map([\n  [1000, 'x'],\n]);\n", encoding="utf8")
     shutil.copy(ROOT / "scripts" / "privacy-scrub.py", repo / "scripts" / "privacy-scrub.py")
     run(["git", "init", "-q", "-b", "main"], repo)
-    run(["git", "config", "user.email", "test@example.com"], repo)
+    run(["git", "config", "user.email", "test-user@invalid"], repo)
     run(["git", "config", "user.name", "Test"], repo)
     run(["git", "add", "-A"], repo)
     run(["git", "commit", "-q", "-m", "fixture"], repo)
@@ -103,7 +103,7 @@ def main():
         empty = tmp / "empty"
         (empty / "scripts").mkdir(parents=True)
         run(["git", "init", "-q", "-b", "main"], empty)
-        run(["git", "config", "user.email", "test@example.com"], empty)
+        run(["git", "config", "user.email", "test-user@invalid"], empty)
         run(["git", "config", "user.name", "Test"], empty)
         run(["git", "commit", "-q", "--allow-empty", "-m", "empty"], empty)
         scrubber = load(ROOT / "scripts" / "privacy-scrub.py", "scrubber_probe")
@@ -111,13 +111,14 @@ def main():
         if scrubber.repo_text("guide/figures/official-figures.json") is not None:
             failures.append("repo_text() returned content for a path that does not exist")
         else:
-            missing = [n for n in ("integration/ledger/official_amounts.txt",
+            missing = [n for n in ("scripts/official-amounts.txt",
+                                   "integration/ledger/official_amounts.txt",
                                    "integration/ledger/facts.jsonl",
                                    "guide/figures/official-figures.json",
                                    "scripts/test-guide.cjs")
                        if scrubber.repo_text(n) is None]
-            if len(missing) != 4:
-                failures.append(f"repo_text() resolved {4 - len(missing)} of 4 absent inputs; "
+            if len(missing) != 5:
+                failures.append(f"repo_text() resolved {5 - len(missing)} of 5 absent inputs; "
                                 "expected every absent input to be reported as absent")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

@@ -8,7 +8,7 @@ the test window. It exists because a flat parking yield hides the one thing a re
 parked money — the bill yield collapses at the same time the index does, so the money that waits
 earns least exactly when waiting looks best.
 
-Inputs are two data extracts transcribed from FRED (research/data/fred_*_2026-11-16.csv), with
+Inputs are two data extracts transcribed from FRED (scripts/data/fred_*_2026-11-16.csv), with
 the provenance and cross-checks recorded in the README files beside them. No household figure is
 an input here, and no output is a household amount: everything is per $100,000 of illustrative
 proceeds.
@@ -29,8 +29,8 @@ import csv
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EQUITY_CSV = ROOT / 'research' / 'data' / 'fred_equity_annual_2026-11-16.csv'
-YIELD_CSV = ROOT / 'research' / 'data' / 'fred_treasury_annual_2026-11-16.csv'
+EQUITY_CSV = ROOT / 'scripts' / 'data' / 'fred_equity_annual_2026-11-16.csv'
+YIELD_CSV = ROOT / 'scripts' / 'data' / 'fred_treasury_annual_2026-11-16.csv'
 
 PRINCIPAL = 100_000  # invented illustration, per $100,000 of net proceeds
 HORIZON = 120        # months from the start of the entry year
