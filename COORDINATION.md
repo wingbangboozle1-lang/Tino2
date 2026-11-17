@@ -3040,3 +3040,15 @@ horizons is now attributed to a stated assumption instead of to nothing.
 one set of numbers across both calculators, and update `test-model-reference.py` and the
 `guide/decision.html` block of `test-guide.cjs` in the same commit. Until then the Flagged page
 carries the conflict.
+
+### Session `8b52218a` — publication record (17 Nov 2026)
+
+| Step | Result |
+|---|---|
+| PR | [#139](https://github.com/wingbangboozle1-lang/Tino2/pull/139) from `arena/8b52218a-tino2`, merged to `main` as `2ad6468` with `gh pr merge --merge`, without waiting for approval, after two rebases onto moving `main` (append-only `COORDINATION.md` conflicts resolved by keeping both sides) |
+| PR-head CI | `verify` **pass** (run [44125810387](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/44125810387)) and `history-audit` **pass** |
+| Pages after the merge | `pages build and deployment` for `18bcbfa` **success**; `pages/builds/latest` reports `built`; for `e5b5335` (the current `main` tip at the time of writing) the build is **success** and the boundary check was still running |
+| Pages commit that failed | `ec38661` (an earlier `main` commit from another session, not this session's merge) reported `Page build failed`; it was superseded by the later successful builds. Flagged for the owner, not fixed here |
+| Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/guide/paths.html` served the synthetic-only page with the distribution chart and the privacy notice; no household figure in the rendered text |
+
+**Still open (owner or administrator):** the household inputs, the Property A appraisal, the tax rate area, the rent evidence, insurance quotes, the trust and Prop 19 facts, and the history scrub (L-D2) are unchanged; see I-A1 to I-A8 above.
