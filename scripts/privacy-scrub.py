@@ -33,7 +33,12 @@ TEXT_EXT = {".md", ".html", ".htm", ".txt", ".css", ".js", ".json", ".jsonl",
 # Identifiers, by contrast, are masked in every tracked file without exception.
 ROUND_SCOPE = ("docs", "research", "pages", "dashboard", "site", "qa", "src", "integration",
                "cupertino.html", "decision.html", "flagged.html", "inheritance.html",
-               "san-francisco.html", "research-portal.html", "sources.html", "taxes.html")
+               "san-francisco.html", "research-portal.html", "sources.html", "taxes.html",
+               # The coordination board is not published, but it is in a public repository and
+               # it records model outputs and session figures. The same $10 rule applies to it:
+               # an amount a government publishes may stay exact, every other dollar figure
+               # is rounded.
+               "COORDINATION.md")
 
 MONEY = re.compile(r"\$\s?(\d{1,3}(?:,\d{3})+|\d{4,})(?:\.\d{1,2})?")
 
