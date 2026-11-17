@@ -3060,3 +3060,32 @@ carries the conflict.
 | Live read-back | `https://wingbangboozle1-lang.github.io/Tino2/guide/paths.html` served the synthetic-only page with the distribution chart and the privacy notice; no household figure in the rendered text |
 
 **Still open (owner or administrator):** the household inputs, the Property A appraisal, the tax rate area, the rent evidence, insurance quotes, the trust and Prop 19 facts, and the history scrub (L-D2) are unchanged; see I-A1 to I-A8 above.
+
+**Publication record — 2026-11-17 ~16:35 UTC (session `353a4b80`).** PR
+[#144](https://github.com/wingbangboozle1-lang/Tino2/pull/144) merged to `main` as **`e5b5335`**
+after all checks passed on the head (PR-head runs: `Verify public Pages boundary` SUCCESS, the
+Pages-deploy job SKIPPED because it only runs on `main`). Post-merge on `e5b5335`:
+`pages build and deployment` run [44127224614](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/44127224614)
+**success**; `Verify public Pages boundary` run [44127226232](https://github.com/wingbangboozle1-lang/Tino2/actions/runs/44127226232)
+**success**. Two further merges landed on `main` afterwards (`deb6402`, PR #145, and PR #146);
+the guide pages this session changed are byte-identical between `e5b5335` and the later tips
+(`guide/**` untouched by those PRs), and a later Pages build on `deb6402`
+(run 44127501369) also succeeded.
+
+**Live read-back, with the cache-buster `?cachebust=353a4b80`.** Two plain reads of
+`guide/review.html` were served an older cached copy from the CDN, which is why the check was
+repeated with a query string. The current deployed page carries:
+`guide/decision.html` — the disclosure *"The living paths are credited the rent an owner does not
+pay … about $5,019,630 at 25 years, roughly 43% of the live path's total … the credit decides
+which path leads at 10 years"*, and the review stamp *"official sources re-opened 13–17 Nov
+2026"*; `guide/whatif.html` — the new *"Rent the living paths avoid"* control (modelled rent /
+no value) with the seven-path table and the status line *"Highest total under these controls:
+Sell at inheritance, invest all at once"*; `guide/review.html` — the corrected item *"Living paths
+carry an imputed rent — corrected 17 Nov 2026"* and the new **Critical** item *"The site's two
+calculators give different headline answers — flagged 17 Nov 2026"*. The stale sentence *"Living
+paths do not value housing services"* is gone from the deployed page.
+
+**Note for the next reader on caching.** The earlier plain reads still showed the pre-merge text,
+which is consistent with GitHub Pages' CDN retaining an older object rather than with a failed
+deploy; `git show origin/main:guide/review.html` and the cache-busted live read agree with each
+other. Re-read with a query string before concluding a page did not deploy.
