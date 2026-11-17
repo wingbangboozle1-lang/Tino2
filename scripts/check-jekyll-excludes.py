@@ -14,6 +14,7 @@ merge. It is a gate on the manifest, not a proof of anonymity: a file listed in 
 manifest is published whether or not it should be.
 """
 from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -62,6 +63,32 @@ def audit():
            [f for f in sorted(expected) if not (ROOT / f).is_file()]
 
 
+def workflow_markers():
+    """Markers or rebase residue inside the workflow files.
+
+    A resolved conflict can leave '<<<<<<< HEAD' or a stray '> some-subject' line inside
+    .github/workflows. Nothing in the local suite reads those files, so the only symptom
+    is a CI run that fails in zero seconds with 'a workflow file issue' and no job log --
+    no branch, no step and no file named. Reading them here turns that into a local failure
+    that names the file.
+    """
+    problems = []
+    for path in sorted((ROOT / '.github' / 'workflows').glob('*.y*ml')):
+        marker = residue = False
+        for line in path.read_text(encoding='utf8').splitlines():
+            if line.startswith(('<<<<<<< ', '>>>>>>> ')) or line == '=======':
+                marker = True
+            # Git writes '>>>>>>> <sha> (subject)'. Stripping the marker can leave the
+            # '<sha> (subject)' tail behind as a dangling line inside a run block.
+            elif re.match(r'^\s+[0-9a-f]{7,40} \([^)]*\)$', line):
+                residue = True
+        if marker:
+            problems.append(f'{path.name} contains a merge-conflict marker')
+        if residue:
+            problems.append(f'{path.name} contains rebase-conflict residue')
+    return sorted(set(problems))
+
+
 if __name__ == '__main__':
     if '--self-test' in sys.argv:
         saved = (ROOT / '_config.yml').read_text(encoding='utf8')
@@ -76,10 +103,24 @@ if __name__ == '__main__':
         extra, missing = audit()
         assert not extra and not missing, (extra, missing)
         print('PASS: the real configuration publishes nothing outside the manifest.')
+        probe = ROOT / '.github' / 'workflows' / 'self-test-only.yml'
+        try:
+            probe.write_text('name: probe\n', encoding='utf8')
+            probe.write_text('          # x\n>>>>>>> 0123456 (some subject)\n'
+                             '          0123456 (some subject)\n', encoding='utf8')
+            found = workflow_markers()
+            assert any('marker' in f for f in found), found
+            assert any('residue' in f for f in found), found
+            print('PASS: a leaked conflict marker and its residue are reported, by file name.')
+        finally:
+            probe.unlink(missing_ok=True)
+        assert not workflow_markers(), workflow_markers()
+        print('PASS: the real workflow files carry no marker or residue.')
     else:
         extra, missing = audit()
         problems = ['Jekyll would publish an unreviewed file: ' + f for f in extra]
         problems += ['Manifest lists a missing file: ' + f for f in missing]
+        problems += workflow_markers()
         # A file the manifest lists is reviewed; a file Jekyll serves is not.
         for problem in problems:
             print('::error title=Publication boundary::' + problem)
