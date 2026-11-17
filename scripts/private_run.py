@@ -122,8 +122,8 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 
 def self_test() -> int:
     """Checks that need no household inputs: rounding, ranges and the missing-input refusal."""
-    assert r10(550537) == 550540 and r10(7207) == 7210 and r10(15) == 20 and r10(14.9) == 10
-    assert r10(-1234.5) == -1230 and money(None) == 'not computed' and money(-7205) == '−$7,210'
+    assert r10(12345) == 12350 and r10(15) == 20 and r10(14.9) == 10
+    assert r10(-1234.5) == -1230 and money(None) == 'not computed' and money(-4444) == '−$4,440'
     assert cases(None) is None and cases(5) == (5.0, 5.0, 5.0) and cases([100, 150]) == (100.0, 125.0, 150.0)
     a, b, p = build({'property_a': {'fmv_now': 1000, 'water_mo': [100, 150]}}, 0)
     assert a['water_mo'] == 100 and p['rent_mo'] == 0.0            # missing rent = floor, not an estimate
