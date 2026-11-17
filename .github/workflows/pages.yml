@@ -40,9 +40,14 @@ jobs:
           # Guards the living-path imputed-rent disclosure added 17 Nov 2026: fails if the
           # engine stops crediting it or any page starts claiming again that it does not.
           python3 scripts/test-imputed-rent.py
+          python3 scripts/test-tax-realism.py
       - name: Package and audit the reviewed public guide
         run: |
           python3 scripts/package-site.py
+          # The Actions artifact is built from the manifest; the legacy Jekyll fallback is not.
+          # This fails here, with the file named, instead of at the CI-only boundary step.
+          python3 scripts/check-jekyll-excludes.py --self-test
+          python3 scripts/check-jekyll-excludes.py
           python3 scripts/check-publication.py --self-test
       # The published artifact has its own $10 and source-link gates. This one covers the
       # rest of the repository, because a public repository is searchable at HEAD: a ZIP

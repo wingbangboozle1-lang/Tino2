@@ -29,6 +29,7 @@ python3 scripts/build-guide.py
 python3 scripts/check-generated.py
 python3 scripts/check-figures.py
 python3 scripts/package-site.py
+python3 scripts/check-jekyll-excludes.py
 python3 scripts/check-publication.py --self-test
 python3 -m http.server 8080 --bind 0.0.0.0 --directory _public
 ```
@@ -60,7 +61,7 @@ For browser testing, install `playwright-core@1.49.1`, `@sparticuz/chromium@131.
 
 - `index.html`, `guide/*.html`, `guide/data/*.js`, and `assets/safe.*` are the public guide and synthetic model.
 - `scripts/build-guide.py` generates the HTML. Regenerate pages after editing it.
-- `scripts/public_manifest.py`, `scripts/package-site.py`, and `scripts/check-publication.py` define and check the publication boundary.
+- `scripts/public_manifest.py`, `scripts/package-site.py`, `scripts/check-jekyll-excludes.py` and `scripts/check-publication.py` define and check the publication boundary.
 - `scripts/test-guide.cjs`, `scripts/test-model-reference.py`, `scripts/privacy-audit.cjs` and `scripts/privacy-gate.py` test the rendered site, model arithmetic and limited privacy rules.
 - Legacy research and analysis files are not part of the Pages artifact. Their presence in a public Git repository is not a privacy control.
 

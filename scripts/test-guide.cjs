@@ -244,6 +244,23 @@ for(const file of pages){
   check(be.threshold>0.04 && be.threshold<0.08,'The break-even portfolio return sits in a plausible band');
   check(B.evaluate(g,be.threshold-0.01,24).winner==='live','Just below the break-even, living still leads');
  }
+ if(file==='guide/tax-realism.html'){
+  const d=dom.window.document,T=dom.window.TAXREALISM;
+  check(d.querySelectorAll('#tr-patterns tr').length===T.PATTERNS.length,'Every occupancy pattern renders');
+  check(d.querySelectorAll('#tr-imputed tr').length===T.YEARS.length,'Every horizon renders in the imputed-rent table');
+  check(/\$180,000/.test(d.body.textContent),'The IRS Finley example prints the exclusion the IRS prints');
+  const before=d.getElementById('tr-summary').textContent;
+  d.getElementById('tr-pattern').value='live_all';d.getElementById('tr-pattern').dispatchEvent(new dom.window.Event('change'));
+  check(d.getElementById('tr-summary').textContent!==before,'Changing the occupancy pattern must change the sale summary');
+  check(/No rental years/.test(d.getElementById('tr-schedule').textContent),'A pattern with no rental years takes no depreciation');
+  d.getElementById('tr-years').value='30';d.getElementById('tr-years').dispatchEvent(new dom.window.Event('change'));
+  check(d.querySelectorAll('#tr-annual tr').length===30,'The annual table covers every year owned');
+  const rent=d.getElementById('tr-rent');
+  const imputedBefore=d.getElementById('tr-imputed').textContent;
+  rent.value='0';rent.dispatchEvent(new dom.window.Event('change'));
+  check(d.getElementById('tr-imputed').textContent!==imputedBefore,'Changing the rent avoided must change the imputed-rent table');
+  inspect(dom,file+' (changed controls)');
+ }
  if(file==='guide/summary.html'){
   const d=dom.window.document;
   const h2=[...d.querySelectorAll('h2')].map(x=>x.textContent.trim());
