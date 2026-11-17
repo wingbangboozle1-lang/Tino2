@@ -3218,3 +3218,59 @@ another session's record was not claimed.
 **Standing items untouched:** P-4 and L-D2 (repository and Git-history remediation) remain
 administrator actions. Nothing here rewrites history, changes visibility, deletes a branch or
 publishes a household figure.
+
+**Addendum to the block above — merge is done, and two things went wrong on the way there.**
+
+**Result (17 Nov 2026).** PR **#151** merged into `main`. Verify and Pages deployment both
+succeeded on the merge commit; the page was read back live at
+`/guide/tax-realism.html` and the per-session report was confirmed **not** published
+(`/verification/62576bfc/SOURCES.md` returns 404). The suite on the merged tree: 20
+generated pages, **74** ledger records (73 verified, 1 explicitly unverified), 36
+packaged files, `test-guide.cjs` 1,413 source-linked rows / 15,251 checks,
+`test-tax-realism.py` 24,250 comparisons, `test-model-reference.py` 20,736,
+`test-engine-agreement.py` 42, `test-imputed-rent.py` 43, `test-phased.py` 200,
+`test-phased-history.py` 1,303, and the four privacy gates.
+
+**Two defects worth recording, because both were invisible locally.**
+
+1. **`main` was red before this session merged anything** — and not because of this
+   work. `b68aa15` (PR #154, session `cd350c68`) left the Jekyll boundary step failing.
+   Cause: when the retained analysis tree was deleted in PR #150, `_config.yml` was
+   rewritten with a much shorter `exclude:` list that no longer names `verification/`.
+   Every report committed under that directory is therefore *served by the root Jekyll
+   build* while being absent from the reviewed manifest. Nothing in the suite reads
+   either input, so the only symptom is a CI step that fails with no job log to read.
+   **Fix:** `verification` is back in the exclude list. **Anyone who adds a top-level
+   directory to this repository must add it there too, or it is published.**
+2. **A leaked rebase marker reached `.github/workflows/pages.yml`** on this branch. The
+   pull request then failed in zero seconds with *"This run likely failed because of a
+   workflow file issue"* and no job output, and no local script noticed, because nothing
+   local reads the workflow file. **Fix:** `scripts/check-jekyll-excludes.py` (new) now
+   reads the workflow files for conflict markers and for the `> <sha> (subject)` residue
+   that stripping a marker leaves behind, and reports the file name. It also reproduces
+   the exclusion decision locally, which is defect 1's gate. Both detectors have
+   `--self-test` cases, the script runs in CI, and it is listed in the README suite.
+
+**Shared files touched beyond the X-1 claim,** logged here because they are shared:
+`_config.yml` (one entry — the fix above), `.github/workflows/pages.yml` (one new test
+invocation, one new gate), `scripts/public_manifest.py` (the new page and its two data
+files), `scripts/test-guide.cjs` (a control test for the new page), `README.md` (the
+suite list). `scripts/validate.js` was edited and then **dropped**: `main` deleted it in
+PR #150 along with the retained dashboard, so that guard was re-implemented inside
+`scripts/check-jekyll-excludes.py` instead.
+
+**Two rebase conflicts, both in generated or append-only files,** resolved by keeping
+both sides: `COORDINATION.md` (two sessions appending at the same time) and
+`guide/figures/official-figures.json` (main's 53 records plus this session's 21, merged
+by id — 74 total, no duplicates). Generated HTML was resolved by rebuilding from the
+merged generator, never by hand.
+
+**Still open from this session, none blocking:**
+- Ledger record `CA-CAPITAL-GAINS-ORDINARY` has `source_id: ftb` (labelled *"CA
+  Controller · estate tax"*) while its `source_url` is the FTB Form 540 instructions.
+  The URL is right, the label is not. Another session's record; left alone.
+- Pub. 925 is cited as a limitation only — **no figure is published from it**, because it
+  was linked without being read. The $25,000 allowance and its MAGI phase-out remain
+  unread, so the site still says nothing about when a suspended rental loss can be used.
+- The public calculator's own exclusion switch still defaults to zero (suggestion S20);
+  this page applies the exclusion as a scenario, not as the site's default.
