@@ -44,3 +44,71 @@
 1485906  # CA-04 (https://www.ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf)
 8334249009  # INS-01 (https://www.insurance.ca.gov/01-consumers/200-wrr/WildfireRiskInfoRpt.cfm)
 14217212455  # INS-01 (https://www.insurance.ca.gov/01-consumers/200-wrr/WildfireRiskInfoRpt.cfm)
+
+# --- amounts published by a government body, carried over from the deleted ledger ---
+# Each is an official figure: the estate-tax exclusions, the Prop 19 allowance, the
+# published rent-benchmark and insurance figures, the city rate tables. None is a
+# household value. The ledger they came from was deleted from the default branch on
+# 17 Nov 2026; the allowlist stays here so the policy does not depend on a deleted file.
+
+1014
+1250
+1976
+1982
+2005
+2010
+2011
+2014
+2016
+2017
+2018
+2021
+2023
+2024
+2026
+3400
+4768
+5000
+7000
+11456
+12100
+12800
+16500
+19000
+20000
+22912
+25600
+27157
+42861
+51050
+52025
+54314
+59498
+75197
+85722
+102100
+104050
+118996
+150394
+200000
+218250
+250000
+264550
+384109
+416650
+460927
+500000
+529100
+563200
+633600
+768213
+768218
+793650
+921854
+1536426
+5490000
+11180000
+13610000
+13990000
+15000000
+15480000
