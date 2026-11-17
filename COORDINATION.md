@@ -2946,9 +2946,9 @@ branch name is fixed by the platform to `arena/0a54f210-tino2`.
 
 | # | Task | Status | Owner | File scope | Notes |
 |---|---|---|---|---|---|
-| U-1 | Claim the board and push the claim at once | in progress | cf95995b | `COORDINATION.md` (this block) | this commit |
-| U-2 | Re-open primary official pages on 17 Nov 2026; record MATCH / changed; enacted vs proposed | in progress | cf95995b | `verification/cf95995b/REPORT.md` (new) | IRS IR-2026-133, BOE LTA 2025/009, Treasury Nov 2026 par curve, FTB 2025 Form 540 booklet all re-opened |
-| U-3 | Run local gates on current tree | planned | cf95995b | none (read-only) | confirm green baseline before publish |
-| U-4 | PR to `main`, merge without waiting, confirm Pages build + deployment, live read-back, record result here | planned | cf95995b | this block + `verification/cf95995b/**` | — |
+| U-1 | Claim the board and push the claim at once | done | cf95995b | `COORDINATION.md` (this block) | pushed as 8c6f5cd |
+| U-2 | Re-open primary official pages on 17 Nov 2026; record MATCH / changed; enacted vs proposed | done | cf95995b | `verification/cf95995b/REPORT.md` (new) | IRS IR-2026-133, BOE LTA 2025/009, Treasury Nov 2026 par curve, FTB 2025 Form 540 booklet all re-opened; Treasury yields changed 4.32/4.88 (13 Nov) -> 4.34/4.83 (16 Nov market observation) |
+| U-3 | Run local gates on current tree | done | cf95995b | none (read-only) | all PASS: check-generated 19 pages, check-figures 44/44, package-site 33 files, check-publication --self-test, privacy-gate 254 files, privacy-audit, test-guide 19 pages/1,231 rows/13,783 checks, test-model-reference 20,736 comparisons |
+| U-4 | PR to `main`, merge without waiting, confirm Pages build + deployment, live read-back, record result here | in progress | cf95995b | this block + `verification/cf95995b/**` | PR opened below |
 
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). Every published dollar figure is either an exact government-published amount or rounded to the nearest $10. Every published table row carries an official `https://` source link or is left blank and flagged — nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). `origin/main` is merged (rebase) before every push; conflicts resolved keeping both sides. Branch name fixed to `arena/cf95995b-tino2`.
