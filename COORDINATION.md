@@ -2982,9 +2982,61 @@ That is **false for the engine that produces the site's seven-path comparison**.
 | # | Task | Status | Owner | File scope |
 |---|---|---|---|---|
 | C-1 | Read the board, detect stale/duplicate open PRs, claim this non-overlapping scope, push the claim at once | done | 353a4b80 | `COORDINATION.md` (this block) |
-| C-2 | Re-open the official sources this session relies on and re-date the review stamp (17 Nov 2026) | in progress | 353a4b80 | `scripts/build-guide.py`, `guide/sources.html` |
-| C-3 | Make the imputed-rent treatment explicit, labelled and adjustable; repair the four published statements | in progress | 353a4b80 | `scripts/analysis_model.py`, `scripts/analysis_pages.py`, `scripts/build-guide.py`, regenerated pages |
-| C-4 | Freeze the finding in a test so the engine and its disclosure cannot drift apart again | in progress | 353a4b80 | `scripts/test-imputed-rent.py` (new) |
-| C-5 | Full local suite, rebuild, confirm whether the recommendation moved, PR to `main`, merge without waiting, confirm Pages deploys, live read-back, record here | unclaimed | 353a4b80 | this block |
+| C-2 | Re-open the official sources this session relies on and re-date the review stamp (17 Nov 2026) | done | 353a4b80 | `scripts/build-guide.py`, `guide/sources.html` |
+| C-3 | Make the imputed-rent treatment explicit, labelled and adjustable; repair the four published statements | done | 353a4b80 | `scripts/analysis_model.py`, `scripts/analysis_pages.py`, `scripts/build-guide.py`, regenerated pages |
+| C-4 | Freeze the finding in a test so the engine and its disclosure cannot drift apart again | done (43 checks, wired into CI) | 353a4b80 | `scripts/test-imputed-rent.py` (new) |
+| C-5 | Full local suite, rebuild, confirm whether the recommendation moved, PR to `main`, merge without waiting, confirm Pages deploys, live read-back, record here | done | 353a4b80 | this block |
 
 **Rules this session follows.** No name, address, ZIP code, parcel, account or household dollar figure in any committed file; placeholders only (`Property A`, `Property B`). Every published dollar figure is rounded to the nearest $10 unless a government body publishes the exact amount. Every table row carries an official `https://` source link or is blank and flagged; nothing inferred, no forecast. `python3 scripts/privacy-gate.py` runs before every push. No history rewrite, no force-push to `main`, no repository-visibility change — those remain owner/administrator actions (L-D2, P-4). Branch name is fixed by the platform to `arena/353a4b80-tino2`.
+
+**Completion record — 2026-11-17 (session `353a4b80`).** Rebased onto `2ad6468` (main including PR #139). Nothing of another session's work was discarded in the two conflicts (both in end-of-file `COORDINATION.md` appends and in regenerated `guide/*.html`; both sides kept, pages regenerated from the generator). What landed:
+
+- **The defect (C-3).** `simulate()` had always credited the living paths the rent an owner
+  avoids, taking it silently from `rent_mo`, while four published pages said the model placed
+  no value on living there. On the guide's own synthetic inputs that credit is **$5,019,630 at
+  25 years, about 43% of the live path's total**, and at **10 years it decides which path
+  leads** (living with it, selling without it). It is now a named input
+  (`imputed_rent_mo`, default `None` = use the modelled rent), reported back by `simulate()`,
+  switched on the What-if page as *"Rent the living paths avoid"* across 288 precomputed
+  combinations, and disclosed in the model's own figures on
+  `guide/decision.html`, `guide/brief.html`, `guide/questions.html` and the Flagged page.
+  **No published figure moved:** all 84 scenario × horizon × path totals were compared before
+  and after the change and every one was identical; `test-model-reference.py` (20,736
+  comparisons) and the `stress-test.js` base case are unchanged.
+- **The regression gate (C-4).** `scripts/test-imputed-rent.py` (43 checks) pins both settings,
+  fails if any of the four stale statements returns, checks the What-if data against the model,
+  and checks the disclosure quotes the model's own figure. Added to `pages.yml` in the same run
+  as `test-model-reference.py`.
+- **The official re-check (C-2).** IRS IR-2026-133, the BOE Proposition 19 page, BOE LTA
+  2025/009 and line 62 of the FTB 2025 Form 540 instructions were opened live on 17 Nov 2026
+  and the passages the guide depends on read again; all MATCH. The review stamp now reads
+  13–17 Nov 2026. The three affected ledger records carry `checked: 2026-11-17`.
+  Evidence in `verification/353a4b80/REPORT.md`.
+- **Left undone, deliberately — a new standing flag (highest priority for the next session).**
+  The site's two engines give **opposite recommendations at 10 years** and different dollar
+  figures at every horizon, because only the Python engine credits the imputed rent. Aligning
+  them changes published seven-figure outputs frozen by shared gates this session does not own
+  (`test-model-reference.py`, `test-guide.cjs`), so it is logged as a request rather than done
+  here. It is published on the Flagged page as a Critical item so a reader is not left with a
+  silent contradiction.
+
+**Suite on this tree (17 Nov 2026, after rebasing onto `2ad6468`).** All PASS:
+`check-generated.py` 19 pages · `check-figures.py` 45 records (44 verified, 1 intentionally
+unverified model-output record) · `package-site.py` 33 files · `check-publication.py` self-test
++ run · `privacy-gate.py` self-test + 257 tracked files · `test-imputed-rent.py` **43 checks
+(new)** · `test-model-reference.py` 20,736 comparisons · `test-phased.py` 200 · `test-phased-history.py`
+1,303 · `privacy-audit.cjs` · `test-guide.cjs` 19 pages / 1,233 source-linked rows / 13,813
+checks · `runtime-test.cjs` 19 pages / 1,095 rows · `validate.js` 1,613 checks / 178 sources ·
+`stress-test.js` (base case 2040→2050 unchanged: sell $7,683,290 · rent $6,249,830 · live
+$5,135,780). `test-browser.cjs` still cannot start Chromium in this sandbox (missing
+`libnss3.so`, unchanged from the baseline); CI runs it.
+
+**Did the recommendation move?** Not in the published tables — every figure is identical to the
+base commit. What moved is what the site *says* about them: the living path's lead at short
+horizons is now attributed to a stated assumption instead of to nothing.
+
+**Request for the next session (not claimed here).** Give `guide/data/model.js` the same
+`imputedRentMonthly` input as `analysis_model.py`, choose one convention deliberately, republish
+one set of numbers across both calculators, and update `test-model-reference.py` and the
+`guide/decision.html` block of `test-guide.cjs` in the same commit. Until then the Flagged page
+carries the conflict.
