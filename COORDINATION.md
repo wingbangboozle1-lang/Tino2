@@ -2804,3 +2804,75 @@ pull request on this branch: two sentences on the published pages quoted this se
 ("two commits are reachable here"), which merging `main` would have made stale for no reason, so they now state
 the durable property instead — the clone is shallow and measures only what was fetched — and the S16 row points at
 the CI inventory as the place the measured answer lives.
+
+## Session `0a54f210` (branch `arena/0a54f210-tino2`) — claim 2026-11-17
+
+**State read at claim.** `origin/main` = `dcf2b34` (merge of PR #138, session `b4b8c8e8`); this branch was
+rebased onto it with a clean tree and no local changes. One pull request was open: **PR #137**
+(`arena/e3f08d9e-tino2`, "Record the second merge, the CI job summary and the final Pages state"), opened
+2026-11-16 18:39 UTC, last commit 18:43 UTC — idle more than 21 hours, far beyond the 60-minute handoff window.
+It is documentation-only (`COORDINATION.md` addendum, `docs/history-remediation-runbook.md`, regenerated
+`guide/{review,sources,suggestions}.html`, one additive row in `scripts/build-guide.py`, and the
+`verification/e3f08d9e/REPORT.md` record), its CI was green (`verify` pass, `history-audit` pass, `deploy`
+skipping), and `mergeable: MERGEABLE`. GitHub Pages already reported `status: built`, `public: true`.
+
+**Takeover under the handoff rule (row O-1).** PR #137 is session `e3f08d9e`'s final documentation record for
+its completed K-1…K-9 task; the owning session stopped committing more than the handoff window ago. Under the
+board's rule ("If a session crashes or its claim is more than 60 minutes old with no commits, any other session
+may take over the task and note the handoff in the log") this session took it over and landed it rather than
+duplicating the work. No file was re-derived or rewritten: the PR's own commits were merged as-is.
+
+| # | Task | Status | Owner | Files touched | Notes |
+|---|---|---|---|---|---|
+| O-1 | Take over the stale documentation PR #137, re-verify the tree, merge without waiting, confirm Pages, record here | **done** | 0a54f210 | `COORDINATION.md` (this block) | see below |
+| O-2 | Final-integration verification: rebase onto the new `main`, run the full suite, confirm the site builds with no broken links | **done** | 0a54f210 | none (verification only) | suite recorded below |
+| O-3 | Live read-back of the published guide; record the result and the remaining owner items | **done** | 0a54f210 | this block | L-D2 / P-4 unchanged |
+
+**What was done.** `gh pr merge 137 --merge` merged PR #137 into `main` as `d645351` (2026-11-17 16:22:50 UTC).
+This branch was then rebased onto `d645351` (clean, fast-forward — PR #137 added no content the branch had to
+resolve against). The full local suite was re-run on this rebased tree before any push, so the merge and the
+verification describe the same content.
+
+**Suite on this tree (2026-11-17, after rebasing onto `d645351` = main including PR #137).** All local
+CI-parity checks PASS: `.nojekyll` absent · `build-guide.py` rebuild · `check-generated.py` PASS 19 pages ·
+`check-figures.py` PASS 44/44 ledger records (0 explicitly unverified; every seven-figure published amount
+backed) · `package-site.py` PASS 33 reviewed files (legacy excluded) · `check-publication.py --self-test` and
+run PASS (33 reviewed files + build marker) · `privacy-gate.py --self-test` + PASS 254 tracked text files ·
+`privacy-history-audit.py --self-test` PASS · `privacy-audit.cjs` PASS (no hashed household-input token,
+property locator or common identifier in the packaged source or rendered text) · `test-guide.cjs` PASS 19
+pages / 1,231 source-linked rows / 13,783 checks · `test-model-reference.py` PASS 20,736 comparisons ·
+`test-phased.py` PASS 200 · `test-phased-history.py` PASS 1,303 · `validate.js` PASS 1,613 checks / 19 pages /
+178 sources · `stress-test.js` PASS (base 2040→2050: sell $7,683,290, rent $6,249,830, live $5,135,780) ·
+`src/check_links.py` 10 pages / 374 rows / 48 external links, **0 broken internal links** (the site builds with
+no broken links). **Local-only notes, not failures:** `test-browser.cjs` cannot start Chromium in this sandbox
+(missing `libnss3.so`; CI installs and runs it); external links cannot be machine-checked from the sandbox; the
+Jekyll fallback build is CI-only. jsdom was installed under `.cache/test` (git-ignored) to run the JS suites.
+
+**Merge, Pages and live read-back (2026-11-17).** PR #137 merged to `main` as `d645351`; after the merge the
+repository had **zero open pull requests**. GitHub Pages reports `status: built`, `public: true`,
+`https_enforced: true`, `build_type: legacy` for `main`. Live read-back of the published site confirmed the
+homepage serves the privacy banner, the first-screen "What would change the answer" register, the reinvestment
+table beside the headline, and the "official sources re-opened 13–16 Nov 2026" line; `guide/stress.html` serves
+the black-swan phased-investing section with reinvestment/duration risk beside the headline and source-linked
+rows. Nothing household-derived is published. The published guide remains 19 pages and synthetic-only.
+
+**Recommendation unchanged.** No model input moved: the suite reproduces the same base case and the same
+phased-history readings. The only change from this session is the landing of the documentation record and the
+board entry above.
+
+**Still open, deliberately not touched (owner/administrator actions, not session tasks).** The repository is
+public, no history was rewritten, no branch deleted, no Support request filed. **L-D2 and P-4** (the public
+history/public-data exposure and the remediation decision) remain **needs review**: `scripts/privacy-history-
+audit.py` and `docs/history-remediation-runbook.md` measure the exposure and state the options, but only an
+administrator can run the audit against a mirror clone and decide on restricting access or removing the
+reachable objects. The "standing contradiction" (the brief asks for real rounded household figures and a
+recommendation; the published artifact is synthetic-only by the privacy-first rule, with the real dashboard
+retained but unserved) also remains an owner decision.
+
+**Rules this session follows.** No name, address, ZIP code, parcel, account or household dollar figure in any
+committed file; placeholders only (`Property A`, `Property B`, `[HEIR]`, `[TRUSTEE]`). Every published dollar
+figure is an official government amount quoted as published or rounded to the nearest $10. Every table row
+carries an official `https://` source link or is left blank and flagged; nothing inferred, never a forecast.
+`python3 scripts/privacy-gate.py` runs before every push. `origin/main` is merged (rebase) before every push;
+conflicts keep both sides. No history rewrite, no force-push to `main`, no repository-visibility change. The
+branch name is fixed by the platform to `arena/0a54f210-tino2`.
