@@ -10,7 +10,7 @@
   "Do not add a record without a source_url that was actually opened and read."
  ],
  "schema_version": 1,
- "checked": "2026-11-16",
+ "checked": "2026-11-17",
  "figures": [
   {
    "id": "FED-EXCLUSION-2026",
@@ -525,7 +525,19 @@
    "verified": true,
    "note": "IR-2026-133 (Nov. 5, 2026), annual exclusion for gifts to a non-citizen spouse, 2027.",
    "checked": "2026-11-16"
+  },
+  {
+   "id": "MODEL-IMPUTED-RENT-25Y",
+   "topic": "Model declaration (not an official figure)",
+   "claim": "Rent the living paths are credited at 25 years on the synthetic example inputs, and its share of the live path's total. This is a MODEL OUTPUT, not an official amount: it is recorded here so the published disclosure can be checked against the engine, and it is deliberately not marked verified against a government source.",
+   "official_exact": "none — model output",
+   "display_rounded": "$5,019,630",
+   "source_url": "",
+   "source_id": "",
+   "verified": false,
+   "note": "Derived by scripts/test-imputed-rent.py from analysis_model.simulate(..., imputed_rent_mo=0) versus the default. The guide's prose treats it as an assumption, never as a verified figure. Do not add a source_url to this record.",
+   "checked": "2026-11-17"
   }
  ],
- "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Earlier records were read 2026-11-12 to 2026-11-14 by the sessions named in COORDINATION.md and were not re-opened again unless listed here. Records re-read 16 Nov 2026 by session e3f08d9e: the four gift-exclusion records, H.R. 1301 and SB 284 (Congress.gov and leginfo), and the two IRS documents behind the gift figures (IR-2026-133 and Rev. Proc. 2025-32)."
+ "checked_note": "Records marked checked 2026-11-15 were re-opened on that date by session 22614eaa. Records marked 2026-11-16 were re-read by session e3f08d9e and b4b8c8e8. On 17 Nov 2026 session 353a4b80 re-opened the IRS 2027 inflation-adjustment release (IR-2026-133, 5 Nov 2026), the Board of Equalization Proposition 19 page and the FTB 2025 Form 540 instructions; the three records those pages carry were confirmed unchanged and their checked date is 2026-11-17. No other record was re-opened that day."
 }

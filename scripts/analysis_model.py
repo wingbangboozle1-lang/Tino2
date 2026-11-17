@@ -77,6 +77,10 @@ DEFAULT_PARAMS = {
     'maint_a': 0.0075,                # ASSUMPTION: share of value per year
     'maint_b': 0.0125,                # ASSUMPTION: share of value per year
     'rent_mo': 0.0,                   # Property A monthly rent in inheritance-year dollars
+    # The living path is credited the rent it does not pay. It is a separate input from the rent
+    # the house could earn: None means "use rent_mo" (the behaviour every published figure was
+    # built on), and a caller can set 0 to show a live path with no housing value at all.
+    'imputed_rent_mo': None,
     'allowance_growth': G_20Y,        # projection basis for the statutory FHFA California HPI adjustment (see prop19_allowance)
 }
 
@@ -210,11 +214,22 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
 
     Terminal wealth = liquid (cash + equities) + house (if still owned, at market).
     Nothing here is a forecast; it is a stylised comparison under stated assumptions.
+
+    The living paths are credited the rent the owner does not pay
+    (`p['imputed_rent_mo']`, defaulting to the modelled rent). That credit is an
+    assumption and it is reported back as `avoided_rent`; set it to 0 to see the
+    living paths with no value placed on occupying the home.
     """
     sc = scenario(scen_name, p)
     H = horizon_years * 12
     fmv0 = fmv_at_inheritance(a, p)
     rent0 = p['rent_mo'] if rent_mo is None else rent_mo
+    # Rent avoided while living in the property. This is an ASSUMPTION, not a market rent: it is
+    # the value of the housing the owner consumes, and it is the only reason the living path can
+    # beat selling. It is carried separately from rent0 so that either can be changed alone.
+    imp0 = p.get('imputed_rent_mo')
+    if imp0 is None:
+        imp0 = rent0
     cf = cost_factor(p)
     rate = a['tax_2025'] / a['assessed_2025']                        # owner's own implied effective rate
     maint = p['maint_a'] if a.get('label', 'A') == 'A' else p['maint_b']
@@ -263,7 +278,7 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
             solar = a.get('solar_credit_mo', 0.0) * 12 * cf * cpi_lvl
             mcost = maint * fmv
             rent = 0.0 if living else rent0 * 12 * cf * cpi_lvl * (1 - p['vacancy'])
-            avoided = rent0 * 12 * cf * cpi_lvl if living else 0.0
+            avoided = imp0 * 12 * cf * cpi_lvl if living else 0.0
             annual = {'tax': tax, 'ins': ins, 'water': water, 'solar': solar, 'maint': mcost, 'rent': rent, 'avoided': avoided}
             tax_total += tax
             cost_total += ins + water + mcost
@@ -306,7 +321,7 @@ def simulate(path: str, scen_name: str, p: dict, a: dict, horizon_years: int, *,
         'total': total, 'real_total': total / lvl, 'liquid': liquid, 'house': house_val,
         'sale_value': sale_value, 'cgt': cgt, 'fmv0': fmv0,
         'property_tax_paid': tax_total, 'holding_costs': cost_total,
-        'rent_income': rent_total, 'avoided_rent': avoided_total,
+        'rent_income': rent_total, 'avoided_rent': avoided_total, 'imputed_rent_mo': imp0,
         'cpi_level': lvl,
     }
 
