@@ -27,9 +27,18 @@ const OFFICIAL_AMOUNTS=new Map([
  [10384,'CDI survey SF-Sunset 40y/70y highest (read 12 Nov 2026)'],
  // BOE LTA 2025/009 publishes the 2025-2027 window amount exactly (read 15 Nov 2026).
  [1044586,'BOE LTA 2025/009 $1 million amount, 16 Feb 2025 - 15 Feb 2027 (read 15 Nov 2026)'],
+ // Official fee-schedule and transfer-tax amounts published by the county and city recorders (read 17 Nov 2026).
+ [2,'SF transfer tax $2.50 per $500 tier; SCC AB1466 fee $2 (read 17 Nov 2026)'],
+ [3,'SF transfer tax $3.40 and $3.75 per $500 tiers; $3.00 additional page (read 17 Nov 2026)'],
+ [11,'SF transfer tax $11.25 per $500 tier (read 17 Nov 2026)'],
+ [14,'SF recording fee $14.00 first page (read 17 Nov 2026)'],
+ [27,'SF transfer tax $27.50 per $500 tier (read 17 Nov 2026)'],
+ [102,'Santa Clara recording fee $102.00 first page (read 17 Nov 2026)'],
+ [225,'SB2 per-parcel fee cap of $225 per transaction (read 17 Nov 2026)'],
+ [75,'SB2 per-parcel fee of $75 (read 17 Nov 2026)'],
 ]);
 // b33f5f9e: Federal Reserve history (crash shapes) and Treasury par yields (parking rates) added; both are official government publishers.
-const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','controller.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov','www.congress.gov']);
+const hosts=new Set(['www.federalreservehistory.org','home.treasury.gov','www.boe.ca.gov','boe.ca.gov','asr.santaclaracounty.gov','controller.santaclaracounty.gov','www.irs.gov','www.sco.ca.gov','leginfo.legislature.ca.gov','www.sf.gov','sftreasurer.org','www.sfpuc.gov','www.sfmta.com','www.sfelections.org','www.cupertino.gov','www.pge.com','www.insurance.ca.gov','www.huduser.gov','www.fdic.gov','www.investor.gov','www.cbo.gov','www.bls.gov','fred.stlouisfed.org','pubs.usgs.gov','www.congress.gov','docs.github.com','www.census.gov','www.freddiemac.com','www.cfpnet.com','www.sjwater.com','www.treasurydirect.gov','www.ftb.ca.gov','www.santaclaracountyca.org','www.law.cornell.edu','clerkrecorder.santaclaracounty.gov','dtac.santaclaracounty.gov','www.congress.gov']);
 let rows=0, checks=0;
 const seenTitles=new Set(), seenH1s=new Set();
 function check(ok,msg){checks++;assert(ok,msg);}
