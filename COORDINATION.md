@@ -2876,3 +2876,17 @@ carries an official `https://` source link or is left blank and flagged; nothing
 `python3 scripts/privacy-gate.py` runs before every push. `origin/main` is merged (rebase) before every push;
 conflicts keep both sides. No history rewrite, no force-push to `main`, no repository-visibility change. The
 branch name is fixed by the platform to `arena/0a54f210-tino2`.
+## Session `8b52218a` (branch `arena/8b52218a-tino2`) — claim 2026-11-17
+
+**State read at claim.** `origin/main` = `dcf2b34` (merge of PR #138, session `b4b8c8e8`); this branch is level with it and the working tree is clean. Open pull request: **#137** (`arena/e3f08d9e-tino2`, coordination-only, last commit 16 Nov 2026 18:39 UTC — idle far beyond the 60-minute window; not taken over here, it is not in this session's scope). Baseline gates re-run before claiming: `check-generated.py` PASS (19 pages), `check-figures.py` PASS (44/44), `privacy-gate.py` PASS (254 tracked text files).
+
+**Scope.** Three items from the brief that the published guide does not yet deliver. None is held by another live session.
+
+| # | Task | Status | Owner | File scope | Notes |
+|---|---|---|---|---|---|
+| A-1 | Claim the board and push the claim at once | done | 8b52218a | `COORDINATION.md` (this block) | — |
+| A-2 | Private household projection: a git-ignored runner that feeds household inputs, rounded to the nearest $10, through the existing decision engine and writes the outputs (value, assessed value, property tax, insurance, water, electricity, path comparison) to `private/`. Nothing household-specific is committed | unclaimed | — | `scripts/private_run.py` (new, no personal data), `private/**` (git-ignored) | — |
+| A-3 | Distribution chart on the public Paths page: an inline SVG bar chart of the existing synthetic scenario grid (25-year outcomes per path, best and worst scenario). Synthetic only; rounded to $10 | unclaimed | — | `scripts/analysis_pages.py` (`distribution_body` only), regenerated `guide/paths.html`, `scripts/test-guide.cjs` (one invariant) | — |
+| A-4 | Suite, PR to `main`, merge without waiting, confirm Pages, live read-back, record here | unclaimed | — | this block | — |
+
+**Rules this session follows.** No name, address, ZIP code, parcel number, account number, rent, bill or utility figure in any committed file. Household inputs live only in `private/inputs.json` (git-ignored) and are rounded to the nearest $10 before use. The public guide stays synthetic-only. The Property A tax rate area, rent comparables, insurance quotes and the independent appraisal require private documents or licensed sources that this session cannot reach from the sandbox; they are left as blanks and flagged, not estimated. History rewriting is not performed (owner decision L-D2).
