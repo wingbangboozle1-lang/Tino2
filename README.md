@@ -41,10 +41,13 @@ The last command serves only the explicitly packaged guide. No backend, analytic
 npm install --prefix .cache/test --no-audit --no-fund --ignore-scripts jsdom@26.1.0
 node scripts/privacy-audit.cjs
 node scripts/test-guide.cjs
+node scripts/runtime-test.cjs
 python3 scripts/test-model-reference.py
 python3 scripts/test-phased.py
-node scripts/validate.js
-node scripts/stress-test.js
+python3 scripts/test-phased-history.py
+python3 scripts/test-engine-agreement.py
+python3 scripts/test-imputed-rent.py
+python3 scripts/test-history-audit.py
 python3 scripts/privacy-gate.py
 python3 scripts/privacy-gate.py --self-test
 ```
