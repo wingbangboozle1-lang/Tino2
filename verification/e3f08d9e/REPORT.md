@@ -298,3 +298,17 @@ here (`libnss3.so` absent); CI covers it.
   finds pre-rounding blobs that are clean at HEAD and reachable in history, and both the local run and the CI run say
   so without printing them; closing that is an administrator action taken from
   `docs/history-remediation-runbook.md`, not something a session branch should do.
+
+## Second merge and final deployment state — 16 Nov 2026, 18:40 UTC
+
+Follow-up PR **#135** merged as `53f77de`. It removed `.merge-blocks.json` — a scratch file of conflict line
+indices that a mid-merge `git add -A` had swept into `a4d0c3e`, containing no content beyond line numbers, and now
+`.gitignore` excludes `.merge-*.json` — and it moved the history inventory into the **CI job summary**, where the
+counts sit on the run page instead of only in a log. Both CI jobs were green on that run (`verify`, `history-audit`),
+`Verify public Pages boundary` succeeded on `main` (run 43930578072), `pages build and deployment` succeeded (run
+43930576249), and Pages reports `built` for `53f77de`. The published guide is otherwise unchanged from `57fe5be`:
+19 pages, synthetic inputs only, `docs/` and the retained analysis tree excluded from the site by `_config.yml`.
+
+**Open, unchanged, and not this session's to close:** repository visibility, history rewrite, branch deletion, and
+the GitHub Support request. The audit reports pre-rounding blobs that are clean at HEAD and still reachable in
+history; `docs/history-remediation-runbook.md` is the procedure, and Suggestions S16 and S25 are the decision.

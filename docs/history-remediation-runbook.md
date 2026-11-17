@@ -59,10 +59,12 @@ but stays reachable from a branch is still seen, which is exactly the failure mo
 gate cannot cover.
 
 The same script now runs in `.github/workflows/pages.yml`: the verify job runs `--self-test` (a
-blocking proof that the audit and the gate share one policy), and a separate non-blocking
-`history-audit` job fetches the full history of every ref Actions checks out (`fetch-depth: 0`, which is all branches and tags on the default remote, and still not `refs/pull/*`) and
-prints counts for both human logs and `--json`. CI measures; it does not block a merge on a
-history finding, because the remediation itself is the owner's decision (Suggestions S16/S25).
+blocking proof that the audit and the gate share one policy), and a separate **non-blocking**
+`history-audit` job fetches the full history of every ref Actions checks out (`fetch-depth: 0`, which is all
+branches and tags on the default remote, and still not `refs/pull/*`) and writes its report into the **run
+summary** as well as the log — counts, rule names, paths and blob ids, no matched text — with `--json` alongside
+for a ticket. CI measures; it does not block a merge on a history finding, because the remediation itself is the
+owner's decision (Suggestions S16 and S25). Both jobs were green on the run that introduced them (16 Nov 2026).
 
 ## 3. Options, with the consequence that is usually discovered afterwards
 
