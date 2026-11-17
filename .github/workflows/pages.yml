@@ -34,6 +34,9 @@ jobs:
           python3 scripts/check-generated.py
           python3 scripts/check-figures.py
           python3 scripts/test-model-reference.py
+          # Guards the living-path imputed-rent disclosure added 17 Nov 2026: fails if the
+          # engine stops crediting it or any page starts claiming again that it does not.
+          python3 scripts/test-imputed-rent.py
       - name: Package and audit the reviewed public guide
         run: |
           python3 scripts/package-site.py

@@ -87,6 +87,19 @@ for path in ("sell_lump", "sell_phased", "rent"):
 check(without_credit["total"] < sell["total"],
       "on these synthetic inputs the live path without a credit should not beat selling outright")
 
+# The credit must decide at least one published horizon, and the page must say which. If the
+# model ever becomes insensitive to it, the prose below would be overstating its importance.
+for h in (10, 25, 50):
+    w = AP.M.simulate("live", "base", P, A, h)["total"]
+    n = AP.M.simulate("live", "base", dict(P, imputed_rent_mo=0.0), A, h)["total"]
+    other = {q: AP.M.simulate(q, "base", P, A, h)["total"] for q in ("sell_lump", "rent")}
+    led_with = w > max(other.values())
+    led_without = n > max(other.values())
+    if h == 10:
+        check(led_with and not led_without,
+              "at 10 years the living path should lead only because of the imputed rent; "
+              f"with credit lead={led_with}, without={led_without}")
+
 # ---------------------------------------------------------------- 2. the pages say what the engine does
 IMPUTED_HTML = {name: (ROOT / "guide" / name).read_text(encoding="utf8")
                 for name in ("decision.html", "whatif.html", "questions.html", "brief.html")}
@@ -136,6 +149,8 @@ check("explicit, adjustable assumption" in decision_flat,
       "the comparison page no longer labels the credit as an assumption")
 check(round(gap / with_credit["total"] * 100).__str__() + "%" in decision_flat,
       "the comparison page no longer states the credit's share of the live total")
+check("the credit decides which path leads at 10 years" in decision_flat,
+      "the comparison page no longer states that the credit decides the 10-year ranking")
 
 for name in ("questions.html", "brief.html"):
     flat = re.sub(r"<[^>]+>", " ", IMPUTED_HTML[name])

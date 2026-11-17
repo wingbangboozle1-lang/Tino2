@@ -140,17 +140,29 @@ def _imputed_block():
     gap = with_credit['total'] - no_credit['total']
     share = gap / with_credit['total']
     flips = (no_credit['total'] > sell['total']) != (with_credit['total'] > sell['total'])
+    # Does the credit decide which path leads at any published horizon?
+    flip_horizons = []
+    for h in (10, 25, 50):
+        w = AP.M.simulate('live', 'base', P, A, h)['total']
+        n = AP.M.simulate('live', 'base', dict(P, imputed_rent_mo=0.0), A, h)['total']
+        best_other = max(AP.M.simulate(q, 'base', P, A, h)['total'] for q in ('sell_lump', 'rent'))
+        if (w > best_other) != (n > best_other):
+            flip_horizons.append(h)
     note = (
         'The living paths <em>are</em> credited the rent an owner does not pay while occupying the home \u2014 '
         'an explicit, adjustable assumption, not a market rent. On the default synthetic inputs that credit is worth '
         f'about ${PM.round10(gap):,} at 25 years, roughly {round(share * 100)}% of the live path\u2019s total. '
         'The <a href="whatif.html">What-if controls</a> run the same model with the credit set to zero.'
     )
-    if flips:
-        note += (' On these inputs, removing it changes which path leads at 25 years, so the assumption is '
-                 'decision-relevant rather than incidental.')
+    if flip_horizons:
+        horizons = ', '.join(f'{h} years' for h in flip_horizons)
+        note += (' On these inputs the credit decides which path leads at ' + horizons + ': remove it and a '
+                 'selling path leads instead. That makes it a first-order assumption, not a rounding detail, '
+                 'and it is why the owner\u2019s own figure for occupying the home has to be agreed in writing '
+                 'before the comparison is used.')
     return {'note': note, 'gap': gap, 'share': share, 'with_credit': with_credit['total'],
-            'no_credit': no_credit['total'], 'flips': flips, 'rent_avoided': with_credit['avoided_rent']}
+            'no_credit': no_credit['total'], 'flips': flips, 'flip_horizons': flip_horizons,
+            'rent_avoided': with_credit['avoided_rent']}
 
 IMPUTED = _imputed_block()
 IMPUTED_NOTE = IMPUTED['note']
@@ -905,7 +917,7 @@ body=section('Unresolved items',table(['Priority','Issue','Current treatment','N
  ('Medium','Yield observations are date-specific','Treasury yields change daily. The guide cites dated official observations and does not treat them as guaranteed future rates.','Recheck the official series before using an actual investment policy.',source('treasury')+' · '+source('dgs2')),
  ('Medium','Estate exclusion after 2027 is a projection','The engine indexes the 2027 basic exclusion with inflation for later deaths. That is an assumption, not law.','Recheck the IRS figure for the year of death.',source('estate27')),
  ('Medium','Property operating costs are private and unverified','The public model uses synthetic placeholders. Actual maintenance, insurance, water, electricity and rents require private records, inspections and quotes; none is inferred here.','Obtain private bills, insurance quotes and contractor estimates; do not publish them.',source('cdi')+' · '+source('water')),
- ('Low','Model conventions','The sale year includes one year of holding costs; break-evens are in inheritance-year dollars; house growth uses the midpoint of two official FHFA series; the equity return is an assumption with no official forecast.','Read the assumptions before reusing any figure.',source('hpi')),
+ ('Critical','The site\u2019s two calculators give different headline answers — flagged 17 Nov 2026','The guide ships two independent models on the same synthetic inputs. The workbook behind the <a href="paths.html">Paths</a> and <a href="decision.html">Compare</a> distribution tables credits the living paths the rent an owner avoids; the browser calculator behind the Compare and <a href="whatif.html">What-if</a> tables does not. At a 10-year horizon that difference changes which path leads: the workbook makes living lead, the browser makes selling lead. At 25 and 50 years both say selling leads, and the two sets of dollar figures differ. Neither engine is wrong about the law — nobody is taxed on rent they do not pay — but the two cannot both be the answer, and a reader moving between pages can be told two different things.','Resolve before the ranking is used for any decision. The proposed fix, logged on the coordination board, is to give the browser engine the same named imputed-rent input and republish one number for both, which changes published figures and therefore needs the shared gates updated deliberately rather than silently.',source('hud')+' · '+source('invest')), ('Low','Model conventions','The sale year includes one year of holding costs; break-evens are in inheritance-year dollars; house growth uses the midpoint of two official FHFA series; the equity return is an assumption with no official forecast.','Read the assumptions before reusing any figure.',source('hpi')),
  ]))
 body+='<div class="callout review"><strong>History remediation is not complete, and a session branch cannot complete it.</strong> No later commit, no Pages exclusion and no passing scan removes an earlier Git object. This clone is shallow (its <code>.git</code> carries a shallow marker, so only part of the history was fetched), and a partial clone measures only what it holds. The instrument now lives in the repository: <code>python3 scripts/privacy-history-audit.py</code> inventories every reachable object under the same rules as the working-tree gate and prints counts and paths only, never a matched string; run it from a <code>git clone --mirror</code> of the repository for an answer that means something. The written runbook, with the consequence of each option, is <code>docs/history-remediation-runbook.md</code> in this repository, which is not published on this site. GitHub’s own procedure is the authority: '+source('github','sensitive-data removal')+' — rewrite with git-filter-repo 2.47 or newer, read the affected <code>refs/pull/*/head</code> entries, force-push, then ask GitHub Support to remove cached views and pull-request references, because <code>refs/pull/*</code> is read-only and cannot be pushed. Rewriting also discards work other sessions built on the old history, so it is an owner decision made with a freeze, not a cleanup step in a task list. Clones and forks held by other people are outside every one of those steps.</div>'
 body+='<div class="callout review"><strong>Read the trade-off before changing visibility.</strong> GitHub states that on GitHub Free for personal accounts and organizations, any published GitHub Pages site is automatically unpublished when a repository becomes private; that a custom domain’s DNS records should be removed or updated <em>before</em> the change, to avoid a domain-takeover risk; and that public forks are detached into a new network and are <em>not</em> made private — '+source('ghVisibility','GitHub Docs on setting repository visibility')+'. This guide is generated from the repository by one build command, so republishing it elsewhere is a rebuild rather than a reconstruction, which is what makes the private-repository option cheaper for a household than it looks. Making the repository private, or removing the retained analysis tree from the default branch, are the two owner decisions on the Suggestions page (S16 and S25); neither is performed by any session.</div>'
