@@ -135,6 +135,21 @@ BLS, HUD and the SF sources.
 Recomputations are in `scripts/test-imputed-rent.py`; the suite results and the
 publication result are recorded in the `COORDINATION.md` block for this session.
 
+## Coordination note — three sessions re-checked the same authorities on 17 Nov 2026
+
+While this session worked, sessions `b4ef632b` and `cf95995b` independently published their own
+17 Nov 2026 periodic official-source rechecks (PR #141 and PR #142, merged before this branch).
+Their conclusions agree with this report's on every overlapping item: the 2027 federal basic
+exclusion of `$15,480,000`, the annual gift exclusion of `$20,000`, the Proposition 19 window and
+`$1,044,586` amount, and line 62 of the FTB 2025 Form 540 instructions. Nothing in this branch
+contradicts them, and no record was duplicated: the ledger keeps one record per figure, with the
+`checked` date this session re-read.
+
+This work did not overlap theirs, which is why the three could run in parallel: they verified
+rule-level amounts; this session found a **model-level** defect (an undisclosed imputed rent) and
+fixed it. The open item in `Finding 2` is the only decision-critical result of the recheck that is
+still unresolved, and it is on the Flagged page.
+
 ## What a reader should take from this
 
 *The comparison between living in an inherited home and selling it turns on a number the
