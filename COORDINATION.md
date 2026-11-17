@@ -2848,13 +2848,24 @@ no broken links). **Local-only notes, not failures:** `test-browser.cjs` cannot 
 (missing `libnss3.so`; CI installs and runs it); external links cannot be machine-checked from the sandbox; the
 Jekyll fallback build is CI-only. jsdom was installed under `.cache/test` (git-ignored) to run the JS suites.
 
-**Merge, Pages and live read-back (2026-11-17).** PR #137 merged to `main` as `d645351`; after the merge the
-repository had **zero open pull requests**. GitHub Pages reports `status: built`, `public: true`,
-`https_enforced: true`, `build_type: legacy` for `main`. Live read-back of the published site confirmed the
-homepage serves the privacy banner, the first-screen "What would change the answer" register, the reinvestment
-table beside the headline, and the "official sources re-opened 13–16 Nov 2026" line; `guide/stress.html` serves
-the black-swan phased-investing section with reinvestment/duration risk beside the headline and source-linked
-rows. Nothing household-derived is published. The published guide remains 19 pages and synthetic-only.
+**Merge, Pages and live read-back (2026-11-17).** PR #137 merged to `main` as `d645351`. This session's board
+record was then pushed and landed as **PR #140** (`arena/0a54f210-tino2` → `main`), merged without waiting as
+`b503957` (2026-11-17 16:26:10 UTC). After the #137 merge the repository had zero open pull requests; after
+#140 it returned to a clean merged state. CI on `main` for the post-#140 merge (runs created 16:26:13 UTC)
+returned **`Verify public Pages boundary` success** and **`pages build and deployment` success**. GitHub Pages
+reports `status: built`, `public: true`, `https_enforced: true`, `build_type: legacy` for `main`. Live read-back
+of the published site confirmed the homepage serves the privacy banner, the first-screen "What would change the
+answer" register, the reinvestment table beside the headline, and the "official sources re-opened 13–16 Nov 2026"
+line; `guide/stress.html` serves the black-swan phased-investing section with reinvestment/duration risk beside
+the headline and source-linked rows; `guide/review.html` serves the Flagged-for-Review register. Nothing
+household-derived is published. The published guide remains 19 pages and synthetic-only.
+
+**Concurrent session note (race, logged not resolved here).** While this session worked, session `8b52218a`
+opened **PR #139** ("Add git-ignored private projection runner", adding `scripts/private_run.py` reading a
+git-ignored `private/inputs.json`). It was created 2026-11-17 16:24 UTC and is an **active** session, not stale,
+so this session did not take it over. Its branch is now **CONFLICTING** only because this session's #140 merge
+moved `main` and both sessions appended to the append-only `COORDINATION.md`; the conflict is the documented
+board race and is for PR #139's owner to rebase. Nothing of PR #139's work is discarded or duplicated here.
 
 **Recommendation unchanged.** No model input moved: the suite reproduces the same base case and the same
 phased-history readings. The only change from this session is the landing of the documentation record and the
