@@ -237,7 +237,7 @@ def paths_body(ctx) -> str:
 # ---------------------------------------------------------------- what-if controls (precomputed, no data entry)
 WHATIF_SCEN = M.SCENARIOS
 WHATIF_PHASE = (24, 36)
-WHATIF_CASH = ((M.OFFICIAL['treasury_3m'], 'Treasury 3-month rate (4.32%)'), (0.02, 'Parked yield 2.00%'))
+WHATIF_CASH = ((M.OFFICIAL['treasury_3m'], 'Treasury 3-month rate (4.32%, 13 Nov 2026)'), (0.02, 'Parked yield 2.00%'))
 WHATIF_MU = ((0.04, '4% a year'), (0.06, '6% a year'), (0.08, '8% a year'))
 # The living paths are credited the rent they do not pay. These two settings make that
 # assumption visible and switchable: the modelled rent (the default the published figures use)

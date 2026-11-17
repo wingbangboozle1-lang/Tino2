@@ -254,7 +254,7 @@ PHASED_SECTION_HTML = (
     '<div class="callout warning"><strong>An entry-risk test, not a forecast.</strong> Phasing changes the price paid for the proceeds. It does not predict when a crash starts. The table compares starting at a market peak with waiting, using two crash shapes from the official record and a no-crash control.</div>'
     '<p><strong>A second view, on observed rates.</strong> The section above uses synthetic Treasury rates. This one uses the observed 3-month and 2-year Treasury yields on 13 Nov 2026 and the official 1929 and 2008 declines. The two are different tests and are not directly comparable.</p>'
     '<p>Two official declines anchor the crash shapes. The Federal Reserve reports an 89 percent decline in stock prices from the 1929 peak to the trough (<a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1929" rel="noopener noreferrer">Fed 1929 ↗</a>). It also reports that the S&amp;P 500 fell 57 percent from its October 2007 peak to its March 2009 trough (<a href="https://www.federalreservehistory.org/essays/great-recession-of-200709" rel="noopener noreferrer">Fed 2008 ↗</a>). The 1929 template takes 34 months to reach its low and the 2008 template takes 17. Between peak and trough the path is a smooth geometric decline, not the actual index history. After the low, both shapes and the no-crash control grow at 4% or 8% a year. Those growth rates are assumptions, shown as a range.</p>'
-    '<p>The proceeds are <strong>per $100,000 and invented</strong>. Parked money earns the observed 3-month Treasury rate of 4.32%. Stocks are bought in 12 equal monthly tranches when the phasing begins. The <strong>mixed path</strong> puts one-third in at once and holds the rest for 24 months, then phases it in. The pure choices bracket it.</p>'
+    '<p>The proceeds are <strong>per $100,000 and invented</strong>. Parked money earns the observed 3-month Treasury rate of 4.32% (the 13 Nov 2026 reading). Stocks are bought in 12 equal monthly tranches when the phasing begins. The <strong>mixed path</strong> puts one-third in at once and holds the rest for 24 months, then phases it in. The pure choices bracket it.</p>'
     '<h3>Crash entries: worst point, month 36, and year 10</h3>'
     + table(['Strategy', '1929 · worst point, first 36 months', '1929 · month 36', '1929 · year 10', '2008 · worst point, first 36 months', '2008 · month 36', '2008 · year 10', 'Source'], _phase_rows)
     + '<p class="tiny">Ranges show post-trough growth of 4% (lower value) to 8% (higher value). The worst point is the lowest portfolio value in months 0 to 36, marked to market.</p>'
@@ -1362,7 +1362,7 @@ def _li(items):
     return '<ul>'+''.join('<li>'+x+'</li>' for x in items)+'</ul>'
 sheet=(
  PRINT_CSS+'<div class="brief-sheet">'
- '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 16 Nov 2026</strong></div>'
+ '<div class="print-head"><strong>Attorney &amp; CPA briefing sheet · Inheritance decision guide · reviewed 13–17 Nov 2026</strong></div>'
  '<p class="tiny">For [ATTORNEY] and [CPA]. No household figures are included. Identifiers stay placeholders: [DECEDENT], [TRUSTEE], [PROPERTY A] and [PROPERTY B]. Educational, not legal or tax advice.</p>'
  + section('Facts to confirm privately',_li([
    'Date of death, and the date-of-death value of [PROPERTY A] from a qualified appraiser (see '+source('basis')+').',
@@ -1446,7 +1446,7 @@ _es_deadlines = [
  ('Each 1 November and 1 February', 'Secured property-tax installments; delinquent after 5 p.m. on 10 December and 10 April with a 10 percent penalty', source('rtc2617') + ' · ' + source('rtc2618')),
 ]
 execsum = (PRINT_CSS + '<div class="brief-sheet">'
- '<div class="print-head"><strong>Executive summary · Inheritance decision guide · official sources re-opened 16 Nov 2026</strong></div>'
+ '<div class="print-head"><strong>Executive summary · Inheritance decision guide · official sources re-opened 13–17 Nov 2026</strong></div>'
  + section('Read this first', _es_find)
  + section('The four facts that decide it', table(['Fact to establish', 'Why it is not settled here', 'What it changes', 'Official framework'], [
    ('Does the trust permit a sale of the residence?', 'The trust instrument is not a public record and is not in any official source on this site.', 'If the trustee must or must not sell, no comparison on this site applies.', source('notice')),
