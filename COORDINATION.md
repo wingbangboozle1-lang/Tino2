@@ -2952,3 +2952,39 @@ branch name is fixed by the platform to `arena/0a54f210-tino2`.
 | U-4 | PR to `main`, merge without waiting, confirm Pages build + deployment, live read-back, record result here | in progress | cf95995b | this block + `verification/cf95995b/**` | PR opened below |
 
 **Rules this session follows.** No name, address, ZIP code, parcel or account number in any committed file; placeholders only (`Property A`, `Property B`). Every published dollar figure is either an exact government-published amount or rounded to the nearest $10. Every published table row carries an official `https://` source link or is left blank and flagged — nothing inferred. `python3 scripts/privacy-gate.py` runs before every push. History rewriting is not performed (owner decision L-D2). `origin/main` is merged (rebase) before every push; conflicts resolved keeping both sides. Branch name fixed to `arena/cf95995b-tino2`.
+<!-- BEGIN block owned by session 353a4b80. Appended at end of file. Do not edit inside this block; log requests in your own section. -->
+## Session `353a4b80` (branch `arena/353a4b80-tino2`) — claim 2026-11-17
+
+**State read at claim.** `origin/main` = `dcf2b34` (merge of PR #138, session `b4b8c8e8`); this branch is level with it and the working tree is clean. Open pull requests: **#137 only** (`arena/e3f08d9e-tino2`, opened 2026-11-16 18:39:51 UTC, `MERGEABLE`, 7 files, title "Record the second merge, the CI job summary and the final Pages state" — a bookkeeping append by the session whose work PR #138 already merged; idle about 22 hours, beyond the 60-minute handoff window, but **its content is redundant with `e3f08d9e`'s completion record already on `main`**, so this session does not take it over and does not close it; leaving it to its owner or the next integrator). Baseline suite re-run by this session on `dcf2b34` before claiming: `check-generated.py` PASS (19 pages), `check-figures.py` PASS (44 records), `package-site.py` PASS (33 files), `privacy-gate.py` PASS (254 files).
+
+**Why this scope — a defect found by line-by-line review, not a new feature.** The published guide tells the reader, in four places, that living in the home is **not** valued by the model:
+
+- `guide/decision.html`: *"No estate-tax allocation or value of housing services is included."*
+- `guide/questions.html` Q2: *"the financial ranking on the comparison page deliberately omits the value of housing services"*.
+- `guide/brief.html`: *"the model credits no value for living there"*.
+- `guide/suggestions.html` S19: *"Living paths currently credit no rent avoided."*
+
+That is **false for the engine that produces the site's seven-path comparison**. `analysis_model.simulate()` computes `avoided = rent0 * 12 * cf * cpi_lvl if living else 0.0` and adds it to the living path's annual cash flow (lines 266 and 292), where `rent0` is `p['rent_mo']` — the same input that the rent path receives as gross rent. On the synthetic example inputs that single line moves the "Live in it" path at 25 years from **$6,600,130** (no avoided rent) to **$11,619,761** — an **imputed rent worth about $5.0 million**, or roughly 43% of the live path's published terminal wealth — and it is what makes the live path lead at the 10-year horizon. So the flagship comparison already contains an imputed-rent assumption, undeclared, unlabelled and unreported, while the page states the opposite; and because the assumption is silent, it cannot be inspected or changed, which is exactly what the brief's standing item *"Add an imputed-rent input for living paths"* asks for. The JavaScript engine on the same site (`guide/data/model.js` → `annualA`) does the opposite and credits no avoided rent, so the two engines disagree about the same question on the same site.
+
+**Scope claimed (files this session owns).**
+
+| File | Change |
+|---|---|
+| `scripts/analysis_model.py` | Add an explicit `imputed_rent_mo` parameter to `DEFAULT_PARAMS` (default: the modelled rent, so **no published terminal figure changes**), use it for the living path's avoided rent instead of borrowing `rent_mo`, and document the treatment in the docstring. |
+| `scripts/analysis_pages.py` | Add the imputed-rent control to the what-if page (`imputed rent for the living paths`: none / modelled rent) as precomputed runs; correct the limitations text on the comparison page. |
+| `scripts/build-guide.py` | Correct the four statements above so they describe what the engine does; add the review entry and the figure-ledger record; move S19 to done with its evidence; update the review stamp to 17 Nov 2026 after today's re-reads. |
+| `guide/*.html`, `guide/figures/official-figures.json` | Regenerated only, never hand-edited. |
+| `scripts/test-imputed-rent.py` (new) | Freeze the finding: the live path with no imputed rent, with the modelled rent, and the unchanged figures of every other path; fail if the declaration and the engine drift apart again. |
+| `verification/353a4b80/REPORT.md` (new), this block | Record, with sources and dates. |
+
+**Not touched:** `guide/data/model.js` (the JS engine's separate treatment is recorded as a flag below, not changed — its numbers are frozen by `test-model-reference.py`, a shared gate this session does not own), `site/**`, `docs/**`, any other session's `verification/**`, `scripts/test-model-reference.py`, `scripts/test-guide.cjs`, `scripts/privacy-gate.py`, `scripts/privacy-audit.cjs`, `scripts/stress-test.js`, `scripts/validate.js`.
+
+| # | Task | Status | Owner | File scope |
+|---|---|---|---|---|
+| C-1 | Read the board, detect stale/duplicate open PRs, claim this non-overlapping scope, push the claim at once | done | 353a4b80 | `COORDINATION.md` (this block) |
+| C-2 | Re-open the official sources this session relies on and re-date the review stamp (17 Nov 2026) | in progress | 353a4b80 | `scripts/build-guide.py`, `guide/sources.html` |
+| C-3 | Make the imputed-rent treatment explicit, labelled and adjustable; repair the four published statements | in progress | 353a4b80 | `scripts/analysis_model.py`, `scripts/analysis_pages.py`, `scripts/build-guide.py`, regenerated pages |
+| C-4 | Freeze the finding in a test so the engine and its disclosure cannot drift apart again | in progress | 353a4b80 | `scripts/test-imputed-rent.py` (new) |
+| C-5 | Full local suite, rebuild, confirm whether the recommendation moved, PR to `main`, merge without waiting, confirm Pages deploys, live read-back, record here | unclaimed | 353a4b80 | this block |
+
+**Rules this session follows.** No name, address, ZIP code, parcel, account or household dollar figure in any committed file; placeholders only (`Property A`, `Property B`). Every published dollar figure is rounded to the nearest $10 unless a government body publishes the exact amount. Every table row carries an official `https://` source link or is blank and flagged; nothing inferred, no forecast. `python3 scripts/privacy-gate.py` runs before every push. No history rewrite, no force-push to `main`, no repository-visibility change — those remain owner/administrator actions (L-D2, P-4). Branch name is fixed by the platform to `arena/353a4b80-tino2`.
